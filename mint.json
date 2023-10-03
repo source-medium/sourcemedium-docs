@@ -1,0 +1,74 @@
+{
+  "name": "Source Medium",
+  "logo": {
+    "light": "/logo/light.png",
+    "dark": "/logo/dark.png"
+  },
+  "favicon": "/favicon.png",
+  "colors": {
+    "primary": "#A084FC",
+    "light": "#BAA6FC",
+    "dark": "#A084FC"
+  },
+  "topbarCtaButton": {
+    "name": "Request a Demo",
+    "url": "https://www.sourcemedium.com/book-demo-web"
+  },
+  "topbarLinks": [
+    {
+      "name": "Supported Integrations",
+      "url": "https://help.sourcemedium.com/integration-docs"
+    }
+  ],
+  "anchors": [
+    {
+      "name": "Blog",
+      "icon": "newspaper",
+      "url": "https://www.sourcemedium.com/blog"
+    },
+    {
+        "name": "Help Center",
+        "icon": "question",
+        "url": "https://www.sourcemedium.com/blog"
+    }
+  ],
+  "tabs": [
+    {
+        "name": "FAQ",
+        "url": "faq"
+    }
+],
+  "navigation": [
+    {
+      "group": "Introduction",
+      "pages": ["start"]
+    },
+    {
+      "group": "Getting Started",
+      "pages": [
+        "getting-started/why-source-medium", 
+        "getting-started/single-source-of-truth",
+        "getting-started/getting-started-checklist",
+        {
+          "group": "Cold Start Guide",
+          "pages": [
+            "getting-started/cold-start/cold-start-guide-home"
+          ]
+        }
+      ]
+    },
+    {
+      "group": "FAQ",
+      "pages": [
+        "faq/data-clarification",
+        "faq/configuration-sheet",
+        "faq/account-management"
+      ]
+    }
+  ],
+  "footerSocials":
+    {
+        "twitter": "https://twitter.com/sourcemediumhq",
+        "linkedin": "https://www.linkedin.com/company/sourcemedium/"
+    }
+}
