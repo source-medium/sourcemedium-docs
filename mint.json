@@ -34,12 +34,8 @@
   ],
   "tabs": [
     {
-        "name": "FAQ",
-        "url": "faq"
-    },
-    {
-      "name": "Supported Integrations",
-      "url": "available-integrations"
+      "name": "Data Integrations & Inputs",
+      "url": "data-inputs"
     },
     {
       "name": "Metrics & Dimensions",
@@ -48,12 +44,9 @@
 ],
   "navigation": [
     {
-      "group": "Introduction",
-      "pages": ["start"]
-    },
-    {
       "group": "Getting Started",
       "pages": [
+        "start",
         "getting-started/why-source-medium", 
         "getting-started/single-source-of-truth",
         "getting-started/getting-started-checklist",
@@ -66,19 +59,148 @@
       ]
     },
     {
-      "group": "FAQ",
+      "group": "Getting To Know Your Dashboard",
       "pages": [
-        "faq/data-clarification",
-        "faq/configuration-sheet",
-        "faq/account-management"
+        "report-docs/looker-dashboard-overview",
+        {
+          "group": "Dashboard Pages",
+          "pages": [
+            "report-docs/report-pages/executive-summary"
+          ]
+        }
       ]
     },
     {
-      "group": "Supported Integrations",
+      "group": "Getting To Know The Data",
       "pages": [
-        "faq/data-clarification",
-        "faq/configuration-sheet",
-        "faq/account-management"
+        "data-docs/data-freshness",
+        "data-docs/data-architecture",
+        "insights-and-strategy/data-hygeine/importance-of-good-data-hygeine"
+      ]
+    },
+    {
+      "group": "Insights & Strategy",
+      "pages": [
+        "insights-and-strategy/insights-overview",
+        {
+          "group": "Common Analyses",
+          "pages": [
+            {
+              "group": "Product Performance",
+              "pages": [
+                "insights-and-strategy/common-analyses/top-selling-products"
+              ]
+            },
+            {
+              "group": "Cohort Analyses",
+              "pages": [
+                "insights-and-strategy/common-analyses/customer-retention",
+                "insights-and-strategy/common-analyses/revenue-retention",
+                "insights-and-strategy/common-analyses/cohort-ltv",
+                "insights-and-strategy/common-analyses/cohort-lto"
+              ]
+            },
+            {
+              "group": "Subscription Program",
+              "pages": [
+                "insights-and-strategy/common-analyses/top-converting-products",
+                "insights-and-strategy/common-analyses/subscription-program-retention"
+              ]
+            },
+            {
+              "group": "Marketing Performance",
+              "pages": [
+                "insights-and-strategy/common-analyses/roas"              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "group": "FAQs",
+      "pages": [
+        {
+          "group": "Data FAQs",
+          "pages": [
+            "faq/data-faqs/data-faqs-home"
+          ]
+        },
+        {
+          "group": "Dashboard Functionality FAQs",
+          "pages": [
+            "faq/dashboard-functionality-faqs/dashboard-functionality-faqs-home"
+          ]
+        },
+        {
+          "group": "Configuration Sheet FAQs",
+          "pages": [
+            "faq/configuration-sheet-faqs/configuration-sheet-faqs-home"
+          ]
+        },
+        {
+          "group": "Account Management FAQs",
+          "pages": [
+            "faq/account-management-faqs/account-management-faqs-home"
+          ]
+        }
+      ]
+    },
+    {
+      "group": "Data Integrations & Inputs",
+      "pages": [
+        "data-inputs/data-inputs-overview",
+        {
+          "group": "Supported Integrations",
+          "pages": [
+            "data-inputs/supported-integrations/all-available-integrations",
+            {
+              "group": "Ecommerce & Subscription",
+              "pages": [
+                "data-inputs/supported-integrations/shopify-integration",
+                "data-inputs/supported-integrations/amazon-sc-integration",
+                "data-inputs/supported-integrations/chargebee-integration",
+                "data-inputs/supported-integrations/stripe-integration",
+                "data-inputs/supported-integrations/recharge-integration"
+              ]
+            },
+            {
+              "group": "Marketing",
+              "pages": [
+                "data-inputs/supported-integrations/meta-integration",
+                "data-inputs/supported-integrations/google-ads-integration"
+              ]
+            },
+            {
+              "group": "Email & SMS",
+              "pages": [
+                "data-inputs/supported-integrations/klaviyo-integration",
+                "data-inputs/supported-integrations/mailchimp-integration",
+                "data-inputs/supported-integrations/hubspot-integration"
+              ]
+            }
+          ]
+        },
+        {
+          "group": "Configuration Sheet",
+          "pages": [
+            "data-inputs/configuration-sheet/configuration-sheet-overview",
+            "data-inputs/configuration-sheet/costs/costs-overview",
+            "data-inputs/configuration-sheet/channel-mapping-tab",
+            "data-inputs/configuration-sheet/sales-tab",
+            "data-inputs/configuration-sheet/targets-tab",
+            {
+              "group": "Costs",
+              "pages": [
+                "data-inputs/configuration-sheet/costs/costs-overview",
+                "data-inputs/configuration-sheet/costs/marketing-costs",
+                "data-inputs/configuration-sheet/costs/product-costs",
+                "data-inputs/configuration-sheet/costs/fulfillment-costs",
+                "data-inputs/configuration-sheet/costs/shipping-costs",
+                "data-inputs/configuration-sheet/costs/merchant-processing-fees"
+              ]
+            }
+          ]
+        }
       ]
     }
   ],
