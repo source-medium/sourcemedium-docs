@@ -36,7 +36,15 @@
     {
         "name": "FAQ",
         "url": "faq"
-    }
+    },
+    {
+      "name": "Supported Integrations",
+      "url": "available-integrations"
+    },
+    {
+      "name": "Metrics & Dimensions",
+      "url": "https://airtable.com/appDL2NQzZOtufpl5/shriuBU2tZWDF2MJH"
+  }
 ],
   "navigation": [
     {
