@@ -1,0 +1,355 @@
+{
+  "$schema": "https://mintlify.com/schema.json",
+  "name": "Source Medium Documentation",
+  "logo": {
+    "dark": "/logo/sm_logo.svg",
+    "light": "/logo/sm_logo.svg"
+  },
+  "favicon": "/logo/sm_square_logo.webp",
+  "colors": {
+    "primary": "#9563FF",
+    "light": "#AE87FF",
+    "dark": "#0D001D",
+    "background": {
+      "dark": "#090014"
+    },
+    "anchors": {
+      "from": "#FF7F57",
+      "to": "#9563FF"
+    }
+  },
+  "topbarLinks": [
+    {
+      "name": "Support",
+      "url": "mailto:hi@mintlify.com"
+    }
+  ],
+  "topbarCtaButton": {
+    "name": "Dashboard",
+    "url": "https://dashboard.mintlify.com"
+  },
+  "tabs": [
+    {
+      "name": "Metric & Dimension Reference",
+      "url": "https://airtable.com/apptitEI5nyySjQPN/shrod5jpppJiiMlWl"
+    },
+    {
+      "name": "Integrations",
+      "url": "data-inputs"
+    },
+    {
+      "name": "Insights & Strategy",
+      "url": "insights-and-strategy"
+    }
+  ],
+  "primaryTab": {
+    "name": "Documentation"
+  },
+  "anchors": [
+    {
+      "name": "Documentation",
+      "icon": "book-open-cover",
+      "url": "https://mintlify.com/docs"
+    },
+    {
+      "name": "Community",
+      "icon": "slack",
+      "url": "https://mintlify.com/community"
+    },
+    {
+      "name": "Blog",
+      "icon": "newspaper",
+      "url": "https://mintlify.com/blog"
+    }
+  ],
+  "navigation": [
+    {
+      "group": "Getting Started",
+      "pages": [
+        "getting-started/intro-to-sm",
+        "getting-started/why-source-medium",
+        "getting-started/getting-started-checklist",
+        {
+          "group": "Cold Start Guide",
+          "pages": [
+            "getting-started/cold-start/cold-start-guide-home"
+          ]
+        }
+      ]
+    },
+    {
+      "group": "Getting To Know Your Dashboard",
+      "pages": [
+        "report-docs/looker-dashboard-overview",
+        {
+          "group": "Dashboard Pages",
+          "pages": [
+            "report-docs/report-pages/executive-summary"
+          ]
+        }
+      ]
+    },
+    {
+      "group": "Getting To Know The Data",
+      "pages": [
+        "data-docs/data-freshness",
+        "data-docs/data-architecture",
+        {
+          "group": "Data Inputs",
+          "pages": [
+            {
+              "group": "Sales",
+              "pages": [
+                "data-docs/raw-data-source-overviews/amazon-sc-overview",
+                "data-docs/raw-data-source-overviews/chargebee-overview",
+                "data-docs/raw-data-source-overviews/shopify-overview",
+                "data-docs/raw-data-source-overviews/stripe-overview"
+              ]
+            },
+            {
+              "group": "Subscription",
+              "pages": [
+                "data-docs/raw-data-source-overviews/google-ads-overview"
+              ]
+            },
+            {
+              "group": "Marketing",
+              "pages": [
+                "data-docs/raw-data-source-overviews/facebook-ads-overview",
+                "data-docs/raw-data-source-overviews/google-ads-overview"
+              ]
+            },
+            {
+              "group": "Email & SMS",
+              "pages": [
+                "data-docs/raw-data-source-overviews/klaviyo-overview",
+                "data-docs/raw-data-source-overviews/hubspot-overview",
+                "data-docs/raw-data-source-overviews/mailchimp-overview"
+              ]
+            },
+            {
+              "group": "Analytics",
+              "pages": [
+                "data-docs/raw-data-source-overviews/ga4-overview"
+              ]
+            },
+            {
+              "group": "Configuration Sheet",
+              "pages": [
+                "data-docs/raw-data-source-overviews/configuration-sheet/configuration-sheet-overview",
+                "data-docs/raw-data-source-overviews/configuration-sheet/channel-mapping-tab",
+                "data-docs/raw-data-source-overviews/configuration-sheet/targets-tab",
+                "data-docs/raw-data-source-overviews/configuration-sheet/sales-tab",
+                {
+                  "group": "Costs",
+                  "pages": [
+                    "data-docs/raw-data-source-overviews/configuration-sheet/costs/marketing-costs",
+                    {
+                      "group": "COGS",
+                      "pages": [
+                        "data-docs/raw-data-source-overviews/configuration-sheet/costs/cogs-overview",
+                        "data-docs/raw-data-source-overviews/configuration-sheet/costs/product-costs",
+                        "data-docs/raw-data-source-overviews/configuration-sheet/costs/shipping-costs",
+                        "data-docs/raw-data-source-overviews/configuration-sheet/costs/fulfilllment-costs",
+                        "data-docs/raw-data-source-overviews/configuration-sheet/costs/merchant-processing-fees"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "group": "Data Tables",
+          "pages": [
+            {
+              "group": "Looker Studio Tables (Data Sources)",
+              "pages": [
+                "data-docs/tables/executive_summary_looker",
+                "data-docs/tables/customer_details_looker",
+                "data-docs/tables/order_details_looker"
+              ]
+            },
+            {
+              "group": "Direct Data Access Tables (BigQuery, Snowflake etc.)",
+              "pages": [
+                "data-docs/tables/executive_summary_dda",
+                "data-docs/tables/customer_details_dda",
+                "data-docs/tables/order_details_dda"
+              ]
+            }
+          ]
+        },
+        {
+          "group": "Tables, Metrics & Dimensions",
+          "pages": [
+            {
+              "group": "Data Tables",
+              "pages": [
+                {
+                  "group": "Looker Studio",
+                  "pages": [
+                    "data-docs/tables/looker/executive_summary",
+                    "data-docs/tables/looker/order_details",
+                    "data-docs/tables/looker/customer_details"
+                  ]
+                },
+                {
+                  "group": "BigQuery",
+                  "pages": [
+                    "data-docs/tables/bigquery/executive_summary",
+                    "data-docs/tables/bigquery/order_details",
+                    "data-docs/tables/bigquery/customer_details"
+                ]
+                }
+              ]
+            },
+            "data-docs/metrics",
+            "data-docs/dimensions"
+          ]
+        }
+      ]
+    },
+    {
+      "group": "Insights & Strategy",
+      "pages": [
+        "insights-and-strategy/insights-overview",
+        {
+          "group": "Common Analyses",
+          "pages": [
+            {
+              "group": "Product Performance",
+              "pages": [
+                "insights-and-strategy/common-analyses/product-performance/top-selling-products"
+              ]
+            },
+            {
+              "group": "Cohort Analyses",
+              "pages": [
+                "insights-and-strategy/common-analyses/cohort-analyses/customer-retention",
+                "insights-and-strategy/common-analyses/cohort-analyses/revenue-retention",
+                "insights-and-strategy/common-analyses/cohort-analyses/cohort-ltv",
+                "insights-and-strategy/common-analyses/cohort-analyses/cohort-lto"
+              ]
+            },
+            {
+              "group": "Subscription Program",
+              "pages": [
+                "insights-and-strategy/common-analyses/subscription-program-analyses/top-converting-products",
+                "insights/common-analyses/subscription-program-analyses/subscription-program-retention"
+              ]
+            },
+            {
+              "group": "Marketing Performance",
+              "pages": [
+                "insights-and-strategy/common-analyses/marketing-performance/roas",
+                "insights-and-strategy/common-analyses/subscription-program-analyses/subscription-program-retention"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "group": "Data Hygeine",
+      "pages": [
+        "insights-and-strategy/data-hygeine/importance-of-good-data-hygeine"
+      ]
+    },
+    {
+      "group": "Data Inputs",
+      "pages": [
+        {
+          "group": "Available Integrations - connect your data",
+          "pages": [
+            "data-inputs/available-integrations/all-available-integrations",
+            {
+              "group": "Sales & Subscription",
+              "pages": [
+                "data-inputs/available-integrations/shopify-integration",
+                "data-inputs/available-integrations/stripe-integration",
+                "data-inputs/available-integrations/chargebee-integration",
+                "data-inputs/available-integrations/amazon-sc-integration"
+              ]
+            },
+            {
+              "group": "Marketing",
+              "pages": [
+                "data-inputs/available-integrations/google-ads-integration",
+                "data-inputs/available-integrations/facebook-ads-integration"
+              ]
+            },
+            {
+              "group": "Email & SMS",
+              "pages": [
+                "data-inputs/available-integrations/klaviyo-integration",
+                "data-inputs/available-integrations/mailchimp-integration"
+              ]
+            }
+          ]
+        },
+        {
+          "group": "Configuration Sheet - enrich your data",
+          "pages": [
+            "data-inputs/configuration-sheet/configuration-sheet-overview",
+            {
+              "group": "Costs",
+              "pages": [
+                "data-inputs/configuration-sheet/costs/cogs-overview",
+                "data-inputs/configuration-sheet/costs/marketing-costs",
+                "data-inputs/configuration-sheet/costs/product-costs",
+                "data-inputs/configuration-sheet/costs/shipping-costs",
+                "data-inputs/configuration-sheet/costs/fulfillment-costs", 
+                "data-inputs/configuration-sheet/costs/merchant-processing-fees"
+              ]
+            },
+            "data-inputs/configuration-sheet/channel-mapping-tab",
+            "data-inputs/configuration-sheet/sales-tab",
+            "data-inputs/configuration-sheet/targets-tab"
+          ]
+        },
+        {
+          "group": "Premium Integrations",
+          "pages": [
+            "data-inputs/available-integrations/hubspot-integration"
+          ]
+        }
+      ]
+    },
+    {
+      "group": "FAQs",
+      "pages": [
+        {
+          "group": "Data Clarification",
+          "pages": [
+            "internal/placeholder-page"
+          ]
+        },
+        {
+          "group": "Insights & Strategy FAQs",
+          "pages": [
+            "internal/placeholder-page"
+          ]
+        },
+        {
+          "group": "Account Management",
+          "pages": [
+            "internal/placeholder-page"
+          ]
+        }
+      ]
+    },
+    {
+      "group": "Internal",
+      "pages": [
+        "internal/styling-scratch-pad"
+      ]
+    }
+  ],
+  "footerSocials": {
+    "twitter": "https://twitter.com/mintlify",
+    "github": "https://github.com/mintlify",
+    "linkedin": "https://www.linkedin.com/company/sourcemedium/"
+  }
+}

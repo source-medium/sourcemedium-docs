@@ -1,0 +1,31 @@
+---
+title: 'Styling Scratch Pad'
+description: 'An internal page to test out styling as it renders for the user'
+icon: 'star'
+---
+
+### `Accordions` & `AccordionGroups`
+#### Accordion
+
+ <Accordion title="Title of accordian" description="some sub-text" icon="expand">
+    Inner content
+    </Accordion>
+
+
+### `Snippets` & `Snippets` w/ `Tooltips`
+Using a tooltip as a snippet seems to work fine:
+```markdown
+<Snippet file="tooltip-CPA.mdx"/>
+```
+<Snippet file="tooltip-CPA.mdx"/>
+
+However, wrapping that snippet in an `<Info>` element does not allow tooltip to expand:
+```markdown
+<Info><Snippet file="tooltip-CPA.mdx"/></Info>
+```
+<Info><Snippet file="tooltip-CPA.mdx"/></Info>
+
+Calling a  snippet inline breaks page, issue acknowledged by Mintlify
+```markdown
+Cost per acquisition, or <Snippet file="tooltip-CPA.mdx" /> is a representation of how much it costs (in terms of marketing dollars) to acquire a new customer
+```
