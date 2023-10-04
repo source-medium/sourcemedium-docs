@@ -72,6 +72,14 @@
         "faq/configuration-sheet",
         "faq/account-management"
       ]
+    },
+    {
+      "group": "Supported Integrations",
+      "pages": [
+        "faq/data-clarification",
+        "faq/configuration-sheet",
+        "faq/account-management"
+      ]
     }
   ],
   "footerSocials":
