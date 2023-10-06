@@ -50,12 +50,7 @@
         "getting-started/why-source-medium", 
         "getting-started/single-source-of-truth",
         "getting-started/getting-started-checklist",
-        {
-          "group": "Cold Start Guide",
-          "pages": [
-            "getting-started/cold-start/cold-start-guide-home"
-          ]
-        }
+        "getting-started/cold-start/cold-start-guide-home"
       ]
     },
     {
