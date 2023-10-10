@@ -54,26 +54,6 @@
       ]
     },
     {
-      "group": "Getting To Know Your Dashboard",
-      "pages": [
-        "report-docs/looker-dashboard-overview",
-        {
-          "group": "Dashboard Pages",
-          "pages": [
-            "report-docs/report-pages/executive-summary"
-          ]
-        }
-      ]
-    },
-    {
-      "group": "Getting To Know The Data",
-      "pages": [
-        "data-docs/data-freshness",
-        "data-docs/data-architecture",
-        "insights-and-strategy/data-hygeine/importance-of-good-data-hygeine"
-      ]
-    },
-    {
       "group": "Insights & Strategy",
       "pages": [
         "insights-and-strategy/insights-overview",
@@ -109,6 +89,26 @@
             }
           ]
         }
+      ]
+    },
+    {
+      "group": "Getting To Know Your Dashboard",
+      "pages": [
+        "report-docs/looker-dashboard-overview",
+        {
+          "group": "Dashboard Pages",
+          "pages": [
+            "report-docs/report-pages/executive-summary"
+          ]
+        }
+      ]
+    },
+    {
+      "group": "Getting To Know The Data",
+      "pages": [
+        "data-docs/data-freshness",
+        "data-docs/data-architecture",
+        "insights-and-strategy/data-hygeine/importance-of-good-data-hygeine"
       ]
     },
     {
