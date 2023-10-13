@@ -213,6 +213,12 @@
           ]
         }
       ]
+    },
+    {
+      "group": "Internal",
+      "pages": [
+        "internal/setup"
+      ]
     }
   ],
   "footerSocials":
