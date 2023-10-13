@@ -47,35 +47,11 @@
       "group": "Getting Started",
       "pages": [
         "start",
+        "getting-started/intro-to-sm",
         "getting-started/why-source-medium", 
         "getting-started/single-source-of-truth",
         "getting-started/getting-started-checklist",
-        {
-          "group": "Cold Start Guide",
-          "pages": [
-            "getting-started/cold-start/cold-start-guide-home"
-          ]
-        }
-      ]
-    },
-    {
-      "group": "Getting To Know Your Dashboard",
-      "pages": [
-        "report-docs/looker-dashboard-overview",
-        {
-          "group": "Dashboard Pages",
-          "pages": [
-            "report-docs/report-pages/executive-summary"
-          ]
-        }
-      ]
-    },
-    {
-      "group": "Getting To Know The Data",
-      "pages": [
-        "data-docs/data-freshness",
-        "data-docs/data-architecture",
-        "insights-and-strategy/data-hygeine/importance-of-good-data-hygeine"
+        "getting-started/cold-start/cold-start-guide-home"
       ]
     },
     {
@@ -114,6 +90,41 @@
             }
           ]
         }
+      ]
+    },
+    {
+      "group": "Getting To Know Your Dashboard",
+      "pages": [
+        "getting-started/cold-start/navigating-your-dashboard",
+        {
+          "group": "Dashboard Pages (Modules)",
+          "pages": [
+            "report-docs/report-pages/executive-summary-module",
+            "report-docs/report-pages/yoy-performance-module",
+            "report-docs/report-pages/marketing-overview-module",
+            "report-docs/report-pages/google-ads-module",
+            "report-docs/report-pages/meta-ads-module",
+            "report-docs/report-pages/influencers-deep-dive-module",
+            "report-docs/report-pages/post-purchase-survey-module",
+            "report-docs/report-pages/emails-general-module",
+            "report-docs/report-pages/emails-conversions-module",
+            "report-docs/report-pages/ltv-retention-module",
+            "report-docs/report-pages/new-customer-analysis-module",
+            "report-docs/report-pages/last-order-analysis-module",
+            "report-docs/report-pages/orders-deep-dive-module",
+            "report-docs/report-pages/product-performance-module",
+            "report-docs/report-pages/subscription-overview-module",
+            "report-docs/report-pages/subscription-product-performance-module"
+          ]
+        }
+      ]
+    },
+    {
+      "group": "Getting To Know The Data",
+      "pages": [
+        "data-docs/data-freshness",
+        "data-docs/data-architecture",
+        "insights-and-strategy/data-hygeine/importance-of-good-data-hygeine"
       ]
     },
     {
@@ -201,6 +212,12 @@
             }
           ]
         }
+      ]
+    },
+    {
+      "group": "Internal",
+      "pages": [
+        "internal/setup"
       ]
     }
   ],
