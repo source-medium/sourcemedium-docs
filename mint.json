@@ -95,7 +95,7 @@
     {
       "group": "Getting To Know Your Dashboard",
       "pages": [
-        "getting-started/cold-start/navigating-your-dashboard",
+        "report-docs/navigating-your-dashboard",
         {
           "group": "Dashboard Pages (Modules)",
           "pages": [
