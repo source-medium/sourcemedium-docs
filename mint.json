@@ -86,8 +86,15 @@
             {
               "group": "Marketing Performance",
               "pages": [
-                "insights-and-strategy/common-analyses/roas"              ]
+                "insights-and-strategy/common-analyses/roas"
+              ]
             }
+          ]
+        },
+        {
+          "group": "Case Studies",
+          "pages": [
+            "insights-and-strategy/case-studies/case-studies-placeholder"
           ]
         }
       ]
