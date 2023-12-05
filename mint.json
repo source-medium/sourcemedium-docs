@@ -197,6 +197,12 @@
                 "data-inputs/supported-integrations/mailchimp-integration",
                 "data-inputs/supported-integrations/hubspot-integration"
               ]
+            },
+            {
+              "group": "Site & Analytics",
+              "pages": [
+                "data-inputs/supported-integrations/ga4-integration"
+              ]
             }
           ]
         },
