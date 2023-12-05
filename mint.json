@@ -176,9 +176,12 @@
               "pages": [
                 "data-inputs/supported-integrations/shopify-integration",
                 "data-inputs/supported-integrations/amazon-sc-integration",
+                "data-inputs/supported-integrations/amazon-vc-integration",
                 "data-inputs/supported-integrations/chargebee-integration",
                 "data-inputs/supported-integrations/stripe-integration",
-                "data-inputs/supported-integrations/recharge-integration"
+                "data-inputs/supported-integrations/recharge-integration",
+                "data-inputs/supported-integrations/stay-ai-integration",
+                "data-inputs/supported-integrations/loop-integration"
               ]
             },
             {
