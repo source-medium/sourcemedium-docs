@@ -51,8 +51,7 @@
         "getting-started/why-source-medium", 
         "getting-started/single-source-of-truth",
         "getting-started/getting-started-checklist",
-        "getting-started/cold-start/cold-start-guide-home",
-        "internal/shareasale-integration-directions"
+        "getting-started/cold-start/cold-start-guide-home"
       ]
     },
     {
@@ -186,7 +185,8 @@
               "group": "Marketing",
               "pages": [
                 "data-inputs/supported-integrations/meta-integration",
-                "data-inputs/supported-integrations/google-ads-integration"
+                "data-inputs/supported-integrations/google-ads-integration",
+                "data-inputs/supported-integrations/shareasale-integration"
               ]
             },
             {
