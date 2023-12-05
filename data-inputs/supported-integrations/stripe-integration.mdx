@@ -4,4 +4,47 @@ description: ''
 icon: 'plug'
 ---
 
-blah blah blah
+## Follow this integration guide to connect your Stripe data to Source Medium.
+
+### Requirements
+
+- **Administrator or Developer access** for **Stripe** to be able to create API keys
+
+### Steps
+
+1. Generate a Restrictive API Token
+    1. See [Restrictive API token documentation](https://stripe.com/docs/keys#limiting-access-with-restricted-api-keys) on the Stripe website for further instructions 
+2. Navigate to [Developers > API keys](https://dashboard.stripe.com/apikeys) ****to create a restricted API key 
+    
+    ![](/images/article-imgs/stripe-integration/Untitled.png)
+    
+3. Click **+ Create restricted key**
+    
+    ![](/images/article-imgs/stripe-integration/Untitled1.png)
+    
+4. Name the token **Source Medium Integrations** and grant **Read** access to the following resources and click **Create key**
+    
+    ![](/images/article-imgs/stripe-integration/Untitled2.png)
+    
+    1. All core resources 
+    2. All Billing resources
+    3. All Orders resources
+    4. All Reporting resources
+    5. All webhook resources
+    
+    ![](/images/article-imgs/stripe-integration/Untitled3.png)
+    
+5. Share the generated API key with **[integrations@sourcemedium.com](mailto:integrations@sourcemedium.com)**
+6. Grant Source Medium read-only access for data validation & debugging
+    1. Visit the **Team** page under **Settings**
+        
+        ![](/images/article-imgs/stripe-integration/Untitled4.png)
+        
+
+        b. Click **New member**
+
+![](/images/article-imgs/stripe-integration/Untitled5.png)
+
+       c. Invite **[integrations@sourcemedium.com](mailto:integrations@sourcemedium.com)** as a **View only** user
+
+![](/images/article-imgs/stripe-integration/Untitled6.png)
