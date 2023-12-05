@@ -13,13 +13,3 @@ Platform Category: eCommerce / Retail
 
 **©** [Source Medium 2023](https://www.sourcemedium.com/)
 
-## Follow this integration guide to connect your Stay AI data to Source Medium.
-
-### Requirements
-
-- Customer of Stay AI (Retextion) to manage your subscription business
-
-### Steps
-
-1. Connect the Stay AI app to your Shopify store, and that’s it! 
-    1. We automatically pull the data directly from Stay AI into Source Medium
