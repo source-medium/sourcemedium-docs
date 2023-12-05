@@ -186,6 +186,7 @@
               "pages": [
                 "data-inputs/supported-integrations/meta-integration",
                 "data-inputs/supported-integrations/google-ads-integration",
+                "data-inputs/supported-integrations/tiktok-integration",
                 "data-inputs/supported-integrations/shareasale-integration"
               ]
             },
