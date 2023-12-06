@@ -32,15 +32,26 @@
         "url": "https://www.sourcemedium.com/blog"
     }
   ],
+  "primaryTab": {
+    "name": "Help Center"
+  },
   "tabs": [
+    {
+      "name": "Metrics & Dimensions",
+      "url": "https://airtable.com/appDL2NQzZOtufpl5/shriuBU2tZWDF2MJH"
+    },
     {
       "name": "Data Integrations & Inputs",
       "url": "data-inputs"
     },
     {
-      "name": "Metrics & Dimensions",
-      "url": "https://airtable.com/appDL2NQzZOtufpl5/shriuBU2tZWDF2MJH"
-  }
+      "name": "Source Medium University",
+      "url": "data-inputs"
+    },
+    {
+      "name": "Advanced Analyses & Case Studies",
+      "url": "data-inputs"
+    }
 ],
   "navigation": [
     {
