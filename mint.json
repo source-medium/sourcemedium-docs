@@ -183,6 +183,12 @@
           "pages": [
             "data-inputs/supported-integrations/all-available-integrations",
             {
+              "group": "Proprietary Partner Integrations",
+              "pages": [
+                
+              ]
+            },
+            {
               "group": "Ecommerce & Subscription",
               "pages": [
                 "data-inputs/supported-integrations/shopify-integration",
