@@ -46,103 +46,18 @@
     },
     {
       "name": "Source Medium University",
-      "url": "data-inputs"
+      "url": "source-medium-university"
     },
     {
       "name": "Advanced Analyses & Case Studies",
-      "url": "data-inputs"
+      "url": "advanced-insights-and-strategy"
     }
 ],
   "navigation": [
     {
-      "group": "Getting Started",
+      "group": "Help Center Home",
       "pages": [
-        "start",
-        "getting-started/intro-to-sm",
-        "getting-started/why-source-medium", 
-        "getting-started/single-source-of-truth",
-        "getting-started/getting-started-checklist",
-        "getting-started/cold-start/cold-start-guide-home"
-      ]
-    },
-    {
-      "group": "Insights & Strategy",
-      "pages": [
-        "insights-and-strategy/insights-overview",
-        {
-          "group": "Common Analyses",
-          "pages": [
-            {
-              "group": "Product Performance",
-              "pages": [
-                "insights-and-strategy/common-analyses/top-selling-products"
-              ]
-            },
-            {
-              "group": "Cohort Analyses",
-              "pages": [
-                "insights-and-strategy/common-analyses/customer-retention",
-                "insights-and-strategy/common-analyses/revenue-retention",
-                "insights-and-strategy/common-analyses/cohort-ltv",
-                "insights-and-strategy/common-analyses/cohort-lto"
-              ]
-            },
-            {
-              "group": "Subscription Program",
-              "pages": [
-                "insights-and-strategy/common-analyses/top-converting-products",
-                "insights-and-strategy/common-analyses/subscription-program-retention"
-              ]
-            },
-            {
-              "group": "Marketing Performance",
-              "pages": [
-                "insights-and-strategy/common-analyses/roas"
-              ]
-            }
-          ]
-        },
-        {
-          "group": "Case Studies",
-          "pages": [
-            "insights-and-strategy/case-studies/case-studies-placeholder"
-          ]
-        }
-      ]
-    },
-    {
-      "group": "Getting To Know Your Dashboard",
-      "pages": [
-        "report-docs/navigating-your-dashboard",
-        {
-          "group": "Dashboard Pages (Modules)",
-          "pages": [
-            "report-docs/report-pages/executive-summary-module",
-            "report-docs/report-pages/yoy-performance-module",
-            "report-docs/report-pages/marketing-overview-module",
-            "report-docs/report-pages/google-ads-module",
-            "report-docs/report-pages/meta-ads-module",
-            "report-docs/report-pages/influencers-deep-dive-module",
-            "report-docs/report-pages/post-purchase-survey-module",
-            "report-docs/report-pages/emails-general-module",
-            "report-docs/report-pages/emails-conversions-module",
-            "report-docs/report-pages/ltv-retention-module",
-            "report-docs/report-pages/new-customer-analysis-module",
-            "report-docs/report-pages/last-order-analysis-module",
-            "report-docs/report-pages/orders-deep-dive-module",
-            "report-docs/report-pages/product-performance-module",
-            "report-docs/report-pages/subscription-overview-module",
-            "report-docs/report-pages/subscription-product-performance-module"
-          ]
-        }
-      ]
-    },
-    {
-      "group": "Getting To Know The Data",
-      "pages": [
-        "data-docs/data-freshness",
-        "data-docs/data-architecture",
-        "insights-and-strategy/data-hygeine/importance-of-good-data-hygeine"
+        "help-center/start"
       ]
     },
     {
@@ -151,25 +66,25 @@
         {
           "group": "Data FAQs",
           "pages": [
-            "faq/data-faqs/data-faqs-home"
+            "help-center/faq/data-faqs/data-faqs-home"
           ]
         },
         {
           "group": "Dashboard Functionality FAQs",
           "pages": [
-            "faq/dashboard-functionality-faqs/dashboard-functionality-faqs-home"
+            "help-center/faq/dashboard-functionality-faqs/dashboard-functionality-faqs-home"
           ]
         },
         {
           "group": "Configuration Sheet FAQs",
           "pages": [
-            "faq/configuration-sheet-faqs/configuration-sheet-faqs-home"
+            "help-center/faq/configuration-sheet-faqs/configuration-sheet-faqs-home"
           ]
         },
         {
           "group": "Account Management FAQs",
           "pages": [
-            "faq/account-management-faqs/account-management-faqs-home"
+            "help-center/faq/account-management-faqs/account-management-faqs-home"
           ]
         }
       ]
@@ -185,7 +100,10 @@
             {
               "group": "Proprietary Partner Integrations",
               "pages": [
-                
+                "data-inputs/supported-integrations/fermat-integration",
+                "data-inputs/supported-integrations/global-e-integration",
+                "data-inputs/supported-integrations/blotout-integration",
+                "data-inputs/supported-integrations/elevar-integration"
               ]
             },
             {
@@ -257,9 +175,98 @@
       ]
     },
     {
-      "group": "Internal",
+      "group": "Source Medium University",
       "pages": [
-        "internal/setup"
+        "source-medium-university/getting-started/why-source-medium", 
+        {
+          "group": "Getting Started",
+          "pages": [
+            "source-medium-university/getting-started/intro-to-sm",
+            "source-medium-university/getting-started/single-source-of-truth",
+            "source-medium-university/getting-started/getting-started-checklist",
+            "source-medium-university/getting-started/cold-start/cold-start-guide-home"
+          ]
+        },
+        {
+          "group": "Getting To Know The Data",
+          "pages": [
+            "source-medium-university/data-docs/data-freshness",
+            "source-medium-university/data-docs/data-architecture",
+            "source-medium-university/data-docs/data-hygeine/importance-of-good-data-hygeine"
+          ]
+        },
+        {
+          "group": "Getting To Know Your Dashboard",
+          "pages": [
+            "source-medium-university/report-docs/navigating-your-dashboard",
+            {
+              "group": "Dashboard Pages (Modules)",
+              "pages": [
+                "source-medium-university/report-docs/report-pages/executive-summary-module",
+                "source-medium-university/report-docs/report-pages/yoy-performance-module",
+                "source-medium-university/report-docs/report-pages/marketing-overview-module",
+                "source-medium-university/report-docs/report-pages/google-ads-module",
+                "source-medium-university/report-docs/report-pages/meta-ads-module",
+                "source-medium-university/report-docs/report-pages/influencers-deep-dive-module",
+                "source-medium-university/report-docs/report-pages/post-purchase-survey-module",
+                "source-medium-university/report-docs/report-pages/emails-general-module",
+                "source-medium-university/report-docs/report-pages/emails-conversions-module",
+                "source-medium-university/report-docs/report-pages/ltv-retention-module",
+                "source-medium-university/report-docs/report-pages/new-customer-analysis-module",
+                "source-medium-university/report-docs/report-pages/last-order-analysis-module",
+                "source-medium-university/report-docs/report-pages/orders-deep-dive-module",
+                "source-medium-university/report-docs/report-pages/product-performance-module",
+                "source-medium-university/report-docs/report-pages/subscription-overview-module",
+                "source-medium-university/report-docs/report-pages/subscription-product-performance-module"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "group": "Advanced Analyses & Case Studies",
+      "pages": [
+        "advanced-insights-and-strategy/insights-overview",
+        {
+          "group": "Common Analyses",
+          "pages": [
+            {
+              "group": "Product Performance",
+              "pages": [
+                "advanced-insights-and-strategy/common-analyses/top-selling-products"
+              ]
+            },
+            {
+              "group": "Cohort Analyses",
+              "pages": [
+                "advanced-insights-and-strategy/common-analyses/customer-retention",
+                "advanced-insights-and-strategy/common-analyses/revenue-retention",
+                "advanced-insights-and-strategy/common-analyses/cohort-ltv",
+                "advanced-insights-and-strategy/common-analyses/cohort-lto"
+              ]
+            },
+            {
+              "group": "Subscription Program",
+              "pages": [
+                "advanced-insights-and-strategy/common-analyses/top-converting-products",
+                "advanced-insights-and-strategy/common-analyses/subscription-program-retention"
+              ]
+            },
+            {
+              "group": "Marketing Performance",
+              "pages": [
+                "advanced-insights-and-strategy/common-analyses/roas"
+              ]
+            }
+          ]
+        },
+        {
+          "group": "Case Studies",
+          "pages": [
+            "advanced-insights-and-strategy/case-studies/case-studies-placeholder"
+          ]
+        }
       ]
     }
   ],
