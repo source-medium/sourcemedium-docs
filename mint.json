@@ -103,7 +103,13 @@
                 "data-inputs/supported-integrations/fermat-integration",
                 "data-inputs/supported-integrations/global-e-integration",
                 "data-inputs/supported-integrations/blotout-integration",
-                "data-inputs/supported-integrations/elevar-integration"
+                "data-inputs/supported-integrations/elevar-integration",
+                "data-inputs/supported-integrations/littledata-integration",
+                "data-inputs/supported-integrations/blotout-integration",
+                "data-inputs/supported-integrations/fairing-integration",
+                "data-inputs/supported-integrations/gorgias-integration",
+                "data-inputs/supported-integrations/tapcart-integration",
+                "data-inputs/supported-integrations/tatari-integration"
               ]
             },
             {
@@ -131,7 +137,14 @@
                 "data-inputs/supported-integrations/shareasale-integration",
                 "data-inputs/supported-integrations/awin-integration",
                 "data-inputs/supported-integrations/amazon-ads-integration",
-                "data-inputs/supported-integrations/amazon-dsp-integration"
+                "data-inputs/supported-integrations/amazon-dsp-integration",
+                "data-inputs/supported-integrations/criteo-integration",
+                "data-inputs/supported-integrations/impact-integration",
+                "data-inputs/supported-integrations/outbrain-integration",
+                "data-inputs/supported-integrations/taboola-integration",
+                "data-inputs/supported-integrations/pepperjam-integration",
+                "data-inputs/supported-integrations/tatari-integration",
+                "data-inputs/supported-integrations/twitter-integration"
               ]
             },
             {
@@ -146,7 +159,13 @@
             {
               "group": "Site Analytics & Attribution",
               "pages": [
-                "data-inputs/supported-integrations/ga4-integration"
+                "data-inputs/supported-integrations/ga4-integration",
+                "data-inputs/supported-integrations/ga-universal-integration",
+                "data-inputs/supported-integrations/google-search-console-integration",
+                "data-inputs/supported-integrations/elevar-integration",
+                "data-inputs/supported-integrations/littledata-integration",
+                "data-inputs/supported-integrations/fairing-integration",
+                "data-inputs/supported-integrations/knocommerce-integration"
               ]
             }
           ]
