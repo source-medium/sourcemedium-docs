@@ -196,12 +196,18 @@
               ]
             },
             {
-              "group": "Marketing",
+              "group": "Marketing & Advertising",
               "pages": [
                 "data-inputs/supported-integrations/meta-integration",
+                "data-inputs/supported-integrations/bing-integration",
                 "data-inputs/supported-integrations/google-ads-integration",
                 "data-inputs/supported-integrations/tiktok-integration",
-                "data-inputs/supported-integrations/shareasale-integration"
+                "data-inputs/supported-integrations/pinterest-integration",
+                "data-inputs/supported-integrations/snapchat-integration",
+                "data-inputs/supported-integrations/shareasale-integration",
+                "data-inputs/supported-integrations/awin-integration",
+                "data-inputs/supported-integrations/amazon-ads-integration",
+                "data-inputs/supported-integrations/amazon-dsp-integration"
               ]
             },
             {
@@ -209,11 +215,12 @@
               "pages": [
                 "data-inputs/supported-integrations/klaviyo-integration",
                 "data-inputs/supported-integrations/mailchimp-integration",
-                "data-inputs/supported-integrations/hubspot-integration"
+                "data-inputs/supported-integrations/hubspot-integration",
+                "data-inputs/supported-integrations/autopilot-integration"
               ]
             },
             {
-              "group": "Site & Analytics",
+              "group": "Site Analytics & Attribution",
               "pages": [
                 "data-inputs/supported-integrations/ga4-integration"
               ]
