@@ -213,7 +213,7 @@
           "group": "Understanding The Data",
           "pages": [
             "source-medium-university/data-docs/data-freshness",
-            "source-medium-university/data-docs/data-hygeine/how-your-data-gets-from-point-a-to-b",
+            "source-medium-university/data-docs/how-your-data-gets-from-point-a-to-b",
             "source-medium-university/data-docs/data-architecture",
             "source-medium-university/data-docs/data-hygeine/importance-of-good-data-hygeine"
           ]
