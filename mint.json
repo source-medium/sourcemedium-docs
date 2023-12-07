@@ -64,7 +64,7 @@
       "group": "FAQs",
       "pages": [
         {
-          "group": "Data FAQs",
+          "group": "Data Clarification FAQs",
           "pages": [
             "help-center/faq/data-faqs/data-faqs-home"
           ]
@@ -239,6 +239,39 @@
             "source-medium-university/report-docs/report-pages/subscription-overview-module",
             "source-medium-university/report-docs/report-pages/subscription-product-performance-module"
               ]
+        },
+        {
+          "group": "Common Analyses",
+          "pages": [
+            {
+              "group": "Product Performance",
+              "pages": [
+                "source-medium-university/common-analyses/top-selling-products"
+              ]
+            },
+            {
+              "group": "Cohort Analyses",
+              "pages": [
+                "source-medium-university/common-analyses/customer-retention",
+                "source-medium-university/common-analyses/revenue-retention",
+                "source-medium-university/common-analyses/cohort-ltv",
+                "source-medium-university/common-analyses/cohort-lto"
+              ]
+            },
+            {
+              "group": "Subscription Program",
+              "pages": [
+                "source-medium-university/common-analyses/top-converting-products",
+                "source-medium-university/common-analyses/subscription-program-retention"
+              ]
+            },
+            {
+              "group": "Marketing Performance",
+              "pages": [
+                "source-medium-university/common-analyses/roas"
+              ]
+            }
+          ]
         }
       ]
     },
@@ -246,39 +279,6 @@
       "group": "Advanced Analyses & Case Studies",
       "pages": [
         "advanced-insights-and-strategy/insights-overview",
-        {
-          "group": "Common Analyses",
-          "pages": [
-            {
-              "group": "Product Performance",
-              "pages": [
-                "advanced-insights-and-strategy/common-analyses/top-selling-products"
-              ]
-            },
-            {
-              "group": "Cohort Analyses",
-              "pages": [
-                "advanced-insights-and-strategy/common-analyses/customer-retention",
-                "advanced-insights-and-strategy/common-analyses/revenue-retention",
-                "advanced-insights-and-strategy/common-analyses/cohort-ltv",
-                "advanced-insights-and-strategy/common-analyses/cohort-lto"
-              ]
-            },
-            {
-              "group": "Subscription Program",
-              "pages": [
-                "advanced-insights-and-strategy/common-analyses/top-converting-products",
-                "advanced-insights-and-strategy/common-analyses/subscription-program-retention"
-              ]
-            },
-            {
-              "group": "Marketing Performance",
-              "pages": [
-                "advanced-insights-and-strategy/common-analyses/roas"
-              ]
-            }
-          ]
-        },
         {
           "group": "Case Studies",
           "pages": [
