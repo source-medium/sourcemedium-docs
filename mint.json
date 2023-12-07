@@ -92,26 +92,10 @@
     {
       "group": "Data Integrations & Inputs",
       "pages": [
-        "data-inputs/data-inputs-overview",
+        "data-inputs/supported-integrations/all-available-integrations",
         {
-          "group": "Supported Integrations",
+          "group": "Platform Integration Instructions",
           "pages": [
-            "data-inputs/supported-integrations/all-available-integrations",
-            {
-              "group": "Proprietary Partner Integrations",
-              "pages": [
-                "data-inputs/supported-integrations/fermat-integration",
-                "data-inputs/supported-integrations/global-e-integration",
-                "data-inputs/supported-integrations/blotout-integration",
-                "data-inputs/supported-integrations/elevar-integration",
-                "data-inputs/supported-integrations/littledata-integration",
-                "data-inputs/supported-integrations/blotout-integration",
-                "data-inputs/supported-integrations/fairing-integration",
-                "data-inputs/supported-integrations/gorgias-integration",
-                "data-inputs/supported-integrations/tapcart-integration",
-                "data-inputs/supported-integrations/tatari-integration"
-              ]
-            },
             {
               "group": "Ecommerce & Subscription",
               "pages": [
@@ -148,15 +132,6 @@
               ]
             },
             {
-              "group": "Email & SMS",
-              "pages": [
-                "data-inputs/supported-integrations/klaviyo-integration",
-                "data-inputs/supported-integrations/mailchimp-integration",
-                "data-inputs/supported-integrations/hubspot-integration",
-                "data-inputs/supported-integrations/autopilot-integration"
-              ]
-            },
-            {
               "group": "Site Analytics & Attribution",
               "pages": [
                 "data-inputs/supported-integrations/ga4-integration",
@@ -167,11 +142,35 @@
                 "data-inputs/supported-integrations/fairing-integration",
                 "data-inputs/supported-integrations/knocommerce-integration"
               ]
+            },
+            {
+              "group": "Email & SMS",
+              "pages": [
+                "data-inputs/supported-integrations/klaviyo-integration",
+                "data-inputs/supported-integrations/mailchimp-integration",
+                "data-inputs/supported-integrations/hubspot-integration",
+                "data-inputs/supported-integrations/autopilot-integration"
+              ]
+            },
+            {
+              "group": "Proprietary Partner Integrations",
+              "pages": [
+                "data-inputs/supported-integrations/fermat-integration",
+                "data-inputs/supported-integrations/global-e-integration",
+                "data-inputs/supported-integrations/blotout-integration",
+                "data-inputs/supported-integrations/elevar-integration",
+                "data-inputs/supported-integrations/littledata-integration",
+                "data-inputs/supported-integrations/blotout-integration",
+                "data-inputs/supported-integrations/fairing-integration",
+                "data-inputs/supported-integrations/gorgias-integration",
+                "data-inputs/supported-integrations/tapcart-integration",
+                "data-inputs/supported-integrations/tatari-integration"
+              ]
             }
           ]
         },
         {
-          "group": "Configuration Sheet",
+          "group": "Configuration Sheet Tutorials",
           "pages": [
             "data-inputs/configuration-sheet/configuration-sheet-overview",
             "data-inputs/configuration-sheet/costs/costs-overview",
@@ -200,14 +199,19 @@
         {
           "group": "Getting Started",
           "pages": [
-            "source-medium-university/getting-started/intro-to-sm",
-            "source-medium-university/getting-started/single-source-of-truth",
+            {
+              "group": "About Source Medium",
+              "pages": [
+                "source-medium-university/getting-started/intro-to-sm",
+                "source-medium-university/getting-started/single-source-of-truth"
+              ]
+            },
             "source-medium-university/getting-started/getting-started-checklist",
             "source-medium-university/getting-started/cold-start/cold-start-guide-home"
           ]
         },
         {
-          "group": "Getting To Know The Data",
+          "group": "Understanding The Data",
           "pages": [
             "source-medium-university/data-docs/data-freshness",
             "source-medium-university/data-docs/data-architecture",
@@ -215,31 +219,26 @@
           ]
         },
         {
-          "group": "Getting To Know Your Dashboard",
+          "group": "Using Your Dashboard",
           "pages": [
             "source-medium-university/report-docs/navigating-your-dashboard",
-            {
-              "group": "Dashboard Pages (Modules)",
-              "pages": [
-                "source-medium-university/report-docs/report-pages/executive-summary-module",
-                "source-medium-university/report-docs/report-pages/yoy-performance-module",
-                "source-medium-university/report-docs/report-pages/marketing-overview-module",
-                "source-medium-university/report-docs/report-pages/google-ads-module",
-                "source-medium-university/report-docs/report-pages/meta-ads-module",
-                "source-medium-university/report-docs/report-pages/influencers-deep-dive-module",
-                "source-medium-university/report-docs/report-pages/post-purchase-survey-module",
-                "source-medium-university/report-docs/report-pages/emails-general-module",
-                "source-medium-university/report-docs/report-pages/emails-conversions-module",
-                "source-medium-university/report-docs/report-pages/ltv-retention-module",
-                "source-medium-university/report-docs/report-pages/new-customer-analysis-module",
-                "source-medium-university/report-docs/report-pages/last-order-analysis-module",
-                "source-medium-university/report-docs/report-pages/orders-deep-dive-module",
-                "source-medium-university/report-docs/report-pages/product-performance-module",
-                "source-medium-university/report-docs/report-pages/subscription-overview-module",
-                "source-medium-university/report-docs/report-pages/subscription-product-performance-module"
+            "source-medium-university/report-docs/report-pages/executive-summary-module",
+            "source-medium-university/report-docs/report-pages/yoy-performance-module",
+            "source-medium-university/report-docs/report-pages/marketing-overview-module",
+            "source-medium-university/report-docs/report-pages/google-ads-module",
+            "source-medium-university/report-docs/report-pages/meta-ads-module",
+            "source-medium-university/report-docs/report-pages/influencers-deep-dive-module",
+            "source-medium-university/report-docs/report-pages/post-purchase-survey-module",
+            "source-medium-university/report-docs/report-pages/emails-general-module",
+            "source-medium-university/report-docs/report-pages/emails-conversions-module",
+            "source-medium-university/report-docs/report-pages/ltv-retention-module",
+            "source-medium-university/report-docs/report-pages/new-customer-analysis-module",
+            "source-medium-university/report-docs/report-pages/last-order-analysis-module",
+            "source-medium-university/report-docs/report-pages/orders-deep-dive-module",
+            "source-medium-university/report-docs/report-pages/product-performance-module",
+            "source-medium-university/report-docs/report-pages/subscription-overview-module",
+            "source-medium-university/report-docs/report-pages/subscription-product-performance-module"
               ]
-            }
-          ]
         }
       ]
     },
