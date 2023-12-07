@@ -1,7 +1,51 @@
 ---
-title: 'ReCharge'
+sidebarTitle: 'ReCharge'
 description: ''
 icon: 'plug'
 ---
 
-blah blah blah
+## Follow this integration guide to connect your ReCharge data to Source Medium.
+
+### Requirements
+
+- Access to your **Shopify storefront** and **ReCharge app** to be able to copy and share your ReCharge API keys
+
+### **Steps**
+
+1. Access your ReCharge account through your Shopify storefront
+    1. Log into your **Shopify account**, select **Apps,** and then click on your ReCharge app
+        
+        ![](/images/article-imgs/recharge-integration/Untitled.png)
+        
+    2. Once in the ReCharge app, navigate to the **Apps** section in the side navigation bar and click on API Tokens
+        
+        ![](/images/article-imgs/recharge-integration/Untitled1.png)
+        
+2. Once on the API Token Page
+    1. Click the “Create an Admin API token” on the top right of the API token page
+        
+        ![](/images/article-imgs/recharge-integration/Untitled2.png)
+        
+    2. In the **Details** section, enter Source Medium Integrations as the **Nickname** and **[integrations@sourcemedium.com](mailto:integrations@sourcemedium.com)** as the **Contact email**
+    
+    ![](/images/article-imgs/recharge-integration/Untitled3.png)
+    
+    1. In the **Permission** section, select the following permissions for **Read Access:**
+        
+        ![](/images/article-imgs/recharge-integration/Untitled4.png)
+        
+3. When all permissions are selected, click **Create an API token** to obtain your API key ****
+    
+    ![](/images/article-imgs/recharge-integration/Untitled5.png)
+    
+4. Provide Source Medium with your token **Name** and **API key** on your onboarding form or email the information to **[integrations@sourcemedium.com](mailto:integrations@sourcemedium.com)** 
+
+### Additional information
+
+Common troubleshooting steps in case your API key does not correctly load
+
+- If the "API tokens..." link is not present
+    - The API tokens must be enabled manually by ReCharge. Learn how to enable the keys in ReCharge’s [**documentation**](https://support.rechargepayments.com/hc/en-us/articles/360008829993)
+- If you've reached ReCharge’s hard limit on the number of API tokens
+    - Share one of your existing API keys with similar permission scopes
+- Check [here](https://www.notion.so/Why-doesn-t-ReCharge-subscription-data-match-Source-Medium-Reports-2e4127049cbe406babe7a56ac717dec3?pvs=21) for additional reasons why your ReCharge data might not match Source Medium reports
