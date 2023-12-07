@@ -195,16 +195,16 @@
     {
       "group": "Source Medium University",
       "pages": [
-        "source-medium-university/getting-started/why-source-medium", 
+        {
+          "group": "About Source Medium",
+          "pages": [
+            "source-medium-university/getting-started/intro-to-sm",
+            "source-medium-university/getting-started/why-source-medium"
+          ]
+        },
         {
           "group": "Getting Started",
           "pages": [
-            {
-              "group": "About Source Medium",
-              "pages": [
-                "source-medium-university/getting-started/intro-to-sm"
-              ]
-            },
             "source-medium-university/getting-started/getting-started-checklist",
             "source-medium-university/getting-started/cold-start/cold-start-guide-home"
           ]
