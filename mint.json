@@ -38,7 +38,7 @@
   "tabs": [
     {
       "name": "Metrics & Dimensions",
-      "url": "https://airtable.com/appDL2NQzZOtufpl5/shriuBU2tZWDF2MJH"
+      "url": "metrics-and-dimensions"
     },
     {
       "name": "Data Integrations & Inputs",
@@ -87,6 +87,12 @@
             "help-center/faq/account-management-faqs/account-management-faqs-home"
           ]
         }
+      ]
+    },
+    {
+      "group": "Metrics & Dimensions",
+      "pages": [
+        "metrics-and-dimensions/airtable-embed-test"
       ]
     },
     {
@@ -213,7 +219,7 @@
           "group": "Understanding The Data",
           "pages": [
             "source-medium-university/data-docs/data-freshness",
-            "source-medium-university/data-docs/data-hygeine/how-your-data-gets-from-point-a-to-b",
+            "source-medium-university/getting-started/cold-start/how-your-data-gets-from-point-a-to-b",
             "source-medium-university/data-docs/data-architecture",
             "source-medium-university/data-docs/data-hygeine/importance-of-good-data-hygeine"
           ]
