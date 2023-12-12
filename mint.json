@@ -62,6 +62,19 @@
       ]
     },
     {
+      "group": "Data Transformation & Cleaning",
+      "pages": [
+        "help-center/transformation-and-cleaning/data-architecture",
+        "help-center/transformation-and-cleaning/data-freshness",
+        {
+          "group": "By Platform",
+          "pages": [
+            "help-center/transformation-and-cleaning/platforms/platform-transformation-template"
+          ]
+        }
+      ]
+    },
+    {
       "group": "FAQs",
       "pages": [
         {
@@ -222,9 +235,9 @@
         {
           "group": "Understanding The Data",
           "pages": [
-            "source-medium-university/data-docs/data-freshness",
+            "help-center/transformation-and-cleaning/data-freshness",
             "source-medium-university/getting-started/cold-start/how-your-data-gets-from-point-a-to-b",
-            "source-medium-university/data-docs/data-architecture",
+            "help-center/transformation-and-cleaning/data-architecture",
             "source-medium-university/data-docs/data-hygeine/importance-of-good-data-hygeine"
           ]
         },
