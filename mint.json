@@ -57,7 +57,8 @@
     {
       "group": "Help Center Home",
       "pages": [
-        "help-center/start"
+        "help-center/start",
+        "help-center/loom-vid-embed-test"
       ]
     },
     {
@@ -212,7 +213,9 @@
           "group": "Getting Started",
           "pages": [
             "source-medium-university/getting-started/getting-started-checklist",
-            "source-medium-university/getting-started/cold-start/cold-start-guide-home"
+            "source-medium-university/getting-started/cold-start/cold-start-guide-home",
+            "source-medium-university/getting-started/level-1-data-checklist",
+            "source-medium-university/getting-started/level-2-data-checklist"
           ]
         },
         {
