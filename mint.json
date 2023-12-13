@@ -78,6 +78,14 @@
             "help-center/platforms/recharge/recharge-transformation"
           ]
         },
+        {
+          "group": "Google Analytics",
+          "pages": [
+            "help-center/platforms/ga4/ga4-data-availability",
+            "help-center/platforms/ga4/ga4-transformation",
+            "help-center/platforms/ga4/proper-google-analytics-setup"
+          ]
+        },
         "help-center/platforms/platform-transformation-template",
         "help-center/platforms/platform-data-availability-template"
       ]
