@@ -258,10 +258,10 @@
           "group": "Getting Started",
           "pages": [
             "source-medium-university/getting-started/getting-started-checklist",
-            "source-medium-university/getting-started/cold-start/cold-start-guide-home",
             "source-medium-university/getting-started/level-1-data-checklist",
             "source-medium-university/getting-started/level-2-data-checklist",
-            "source-medium-university/getting-started/level-3-data-checklist"
+            "source-medium-university/getting-started/level-3-data-checklist",
+            "source-medium-university/getting-started/cold-start/cold-start-guide-home"
           ]
         },
         {
@@ -276,25 +276,29 @@
         {
           "group": "Using Your Dashboard",
           "pages": [
-            "source-medium-university/report-docs/report-pages/module-overview-template",
-            "source-medium-university/report-docs/navigating-your-dashboard",
-            "source-medium-university/report-docs/report-pages/executive-summary-module",
-            "source-medium-university/report-docs/report-pages/yoy-performance-module",
-            "source-medium-university/report-docs/report-pages/marketing-overview-module",
-            "source-medium-university/report-docs/report-pages/google-ads-module",
-            "source-medium-university/report-docs/report-pages/meta-ads-module",
-            "source-medium-university/report-docs/report-pages/influencers-deep-dive-module",
-            "source-medium-university/report-docs/report-pages/post-purchase-survey-module",
-            "source-medium-university/report-docs/report-pages/emails-general-module",
-            "source-medium-university/report-docs/report-pages/emails-conversions-module",
-            "source-medium-university/report-docs/report-pages/ltv-retention-module",
-            "source-medium-university/report-docs/report-pages/new-customer-analysis-module",
-            "source-medium-university/report-docs/report-pages/last-order-analysis-module",
-            "source-medium-university/report-docs/report-pages/orders-deep-dive-module",
-            "source-medium-university/report-docs/report-pages/product-performance-module",
-            "source-medium-university/report-docs/report-pages/subscription-overview-module",
-            "source-medium-university/report-docs/report-pages/subscription-product-performance-module"
-              ]
+            "source-medium-university/report-docs/core-dashboard-features",
+            {
+              "group": "Module Overviews",
+              "pages": [
+                "source-medium-university/report-docs/report-pages/module-overview-template",
+                "source-medium-university/report-docs/report-pages/executive-summary-module",
+                "source-medium-university/report-docs/report-pages/yoy-performance-module",
+                "source-medium-university/report-docs/report-pages/marketing-overview-module",
+                "source-medium-university/report-docs/report-pages/google-ads-module",
+                "source-medium-university/report-docs/report-pages/meta-ads-module",
+                "source-medium-university/report-docs/report-pages/influencers-deep-dive-module",
+                "source-medium-university/report-docs/report-pages/post-purchase-survey-module",
+                "source-medium-university/report-docs/report-pages/emails-general-module",
+                "source-medium-university/report-docs/report-pages/emails-conversions-module",
+                "source-medium-university/report-docs/report-pages/ltv-retention-module",
+                "source-medium-university/report-docs/report-pages/new-customer-analysis-module",
+                "source-medium-university/report-docs/report-pages/last-order-analysis-module",
+                "source-medium-university/report-docs/report-pages/orders-deep-dive-module",
+                "source-medium-university/report-docs/report-pages/product-performance-module",
+                "source-medium-university/report-docs/report-pages/subscription-overview-module",
+                "source-medium-university/report-docs/report-pages/subscription-product-performance-module"]
+            }
+          ]
         },
         {
           "group": "Common Analyses",
