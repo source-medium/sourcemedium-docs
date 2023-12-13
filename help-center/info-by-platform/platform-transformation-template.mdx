@@ -8,11 +8,14 @@ icon: 'soap'
 ### What raw `{Platform}` data does Source Medium use?
 - overview of raw data
 
-### What does cleaning & transformation look like for `{Platform}` data in Source Medium?
-- do we remove or filter anything automatically
-        - e.g. we don't report on gift card revenue from Shopify
+### How does Source Medium clean & transform `{Platform}` data before reporting it?
+- high-level of aggregations and different types of data we transform/use from this platform
     - do we enrich this data with any other data or alter it in any way before reporting it in dashboards (before it reaches the final tables)
         - e.g. Shopify orders receive UTM enrichment from GA, Littledata, Elevar etc
+- any freshness notes
+    - e.g. for Amazon, data is fresh to the previous 48-72 hrs
+- do we remove or filter anything automatically
+        - e.g. we don't report on gift card revenue from Shopify
 
 ### [Optional section] How is `{Platform}` data integrated with other data in Source Medium?
 - is this data blended with any other data before reaching final production tables (the dashboard)?

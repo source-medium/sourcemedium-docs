@@ -137,7 +137,7 @@
       ]
     },
     {
-      "group": "Data Integrations & Inputs",
+      "group": "Platform Integrations",
       "pages": [
         "data-inputs/supported-integrations/all-available-integrations",
         {
@@ -215,7 +215,12 @@
               ]
             }
           ]
-        },
+        }
+      ]
+    },
+    {
+      "group":"Data Enrichment Tools",
+      "pages": [
         {
           "group": "Configuration Sheet Tutorials",
           "pages": [
