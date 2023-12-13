@@ -1,5 +1,10 @@
 {
   "name": "Source Medium",
+  "__analytics__": {
+    "ga4": {
+        "measurementId": "G-XXXXXXX"
+    }
+  },
   "logo": {
     "light": "/logo/light.png",
     "dark": "/logo/dark.png"
@@ -57,8 +62,7 @@
     {
       "group": "Help Center Home",
       "pages": [
-        "help-center/start",
-        "help-center/loom-vid-embed-test"
+        "help-center/start"
       ]
     },
     {
@@ -93,8 +97,8 @@
     {
       "group": "Data Transformation & Cleaning",
       "pages": [
-        "help-center/transformation-and-cleaning/data-architecture",
-        "help-center/transformation-and-cleaning/data-freshness"
+        "help-center/data-architecture",
+        "help-center/data-freshness"
       ]
     },
     {
@@ -258,9 +262,9 @@
         {
           "group": "Understanding The Data",
           "pages": [
-            "help-center/transformation-and-cleaning/data-freshness",
+            "help-center/data-freshness",
             "source-medium-university/getting-started/cold-start/how-your-data-gets-from-point-a-to-b",
-            "help-center/transformation-and-cleaning/data-architecture",
+            "help-center/data-architecture",
             "source-medium-university/data-docs/data-hygeine/importance-of-good-data-hygeine"
           ]
         },
@@ -331,6 +335,12 @@
             "advanced-insights-and-strategy/case-studies/case-studies-placeholder"
           ]
         }
+      ]
+    },
+    {
+      "group": "Internal",
+      "pages": [
+        "help-center/loom-vid-embed-test"
       ]
     }
   ],
