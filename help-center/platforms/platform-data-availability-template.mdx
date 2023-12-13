@@ -1,0 +1,40 @@
+---
+title: 'Platform Data Availability Info Template {put the platform name here}'
+description: '{put something here}'
+icon: 'database'
+---
+
+- data availability
+    - where is this data available in SM
+        - specific table / module locations where this data lives
+            - maybe accordion section for table locations (e.g. "for DDA/MDW customers, data will be surfaced to the following tables")
+        - is this data used to enhance any other data?
+            - e.g. GA4, Elevar, Littledata all used in UTM enrichment of orders
+            - e.g. Global E enhances order level stuff
+            - e.g. subscription data enhances order-level stuff, tags available on orders & customers
+    - what data is available from the platform
+        - maybe link out to metric & dimension documentation for given data source
+        - + what default filters are we asserting
+            - e.g. most marketing platforms we take attribution window set in account settings, for FB we take purely 7d Click
+
+
+### What `{Platform}` data is available in Source Medium?
+**Overview**
+
+
+**Source Medium metrics & dimensions**
+
+
+**Default filtering & exclusions**
+
+
+### Where is `{Platform}` data surfaced in Source Medium?
+**Transformed `{Platform}` data is surfaced to the following modules by default**
+- `[Module Name]({link out ot specific module overview in SMU})`
+    - high-level of what data is available (don't need to go into all specific fields, but can call out exampels e.g. GA4 data used in Orders Deep Dive `source/medium`)
+- etc.
+
+<Accordion title="For DDA/MDW customers, data will be surfaced to the following tables..."> 
+- `[executive_summary]({link out to specific table docs})`
+- etc.
+</Accordion>

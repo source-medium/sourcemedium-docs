@@ -67,11 +67,19 @@
         {
           "group": "Shopify",
           "pages": [
-            "help-center/platforms/shopify/shopify-overview",
+            "help-center/platforms/shopify/shopify-data-availability",
             "help-center/platforms/shopify/shopify-transformation"
           ]
         },
-        "help-center/platforms/platform-transformation-template"
+        {
+          "group": "ReCharge",
+          "pages": [
+            "help-center/platforms/recharge/recharge-data-availability",
+            "help-center/platforms/recharge/recharge-transformation"
+          ]
+        },
+        "help-center/platforms/platform-transformation-template",
+        "help-center/platforms/platform-data-availability-template"
       ]
     },
     {
