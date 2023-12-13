@@ -62,16 +62,23 @@
       ]
     },
     {
+      "group": "Info By Platform",
+      "pages": [
+        {
+          "group": "Shopify",
+          "pages": [
+            "help-center/platforms/shopify/shopify-overview",
+            "help-center/platforms/shopify/shopify-transformation"
+          ]
+        },
+        "help-center/platforms/platform-transformation-template"
+      ]
+    },
+    {
       "group": "Data Transformation & Cleaning",
       "pages": [
         "help-center/transformation-and-cleaning/data-architecture",
-        "help-center/transformation-and-cleaning/data-freshness",
-        {
-          "group": "By Platform",
-          "pages": [
-            "help-center/transformation-and-cleaning/platforms/platform-transformation-template"
-          ]
-        }
+        "help-center/transformation-and-cleaning/data-freshness"
       ]
     },
     {
