@@ -71,27 +71,27 @@
         {
           "group": "Shopify",
           "pages": [
-            "help-center/platforms/shopify/shopify-data-availability",
-            "help-center/platforms/shopify/shopify-transformation"
+            "help-center/info-by-platform/shopify/shopify-data-availability",
+            "help-center/info-by-platform/shopify/shopify-transformation"
           ]
         },
         {
           "group": "ReCharge",
           "pages": [
-            "help-center/platforms/recharge/recharge-data-availability",
-            "help-center/platforms/recharge/recharge-transformation"
+            "help-center/info-by-platform/recharge/recharge-data-availability",
+            "help-center/info-by-platform/recharge/recharge-transformation"
           ]
         },
         {
           "group": "Google Analytics",
           "pages": [
-            "help-center/platforms/ga4/ga4-data-availability",
-            "help-center/platforms/ga4/ga4-transformation",
-            "help-center/platforms/ga4/proper-google-analytics-setup"
+            "help-center/info-by-platform/ga4/ga4-data-availability",
+            "help-center/info-by-platform/ga4/ga4-transformation",
+            "help-center/info-by-platform/ga4/proper-google-analytics-setup"
           ]
         },
-        "help-center/platforms/platform-transformation-template",
-        "help-center/platforms/platform-data-availability-template"
+        "help-center/info-by-platform/platform-transformation-template",
+        "help-center/info-by-platform/platform-data-availability-template"
       ]
     },
     {
@@ -271,6 +271,7 @@
         {
           "group": "Using Your Dashboard",
           "pages": [
+            "source-medium-university/report-docs/report-pages/module-overview-template",
             "source-medium-university/report-docs/navigating-your-dashboard",
             "source-medium-university/report-docs/report-pages/executive-summary-module",
             "source-medium-university/report-docs/report-pages/yoy-performance-module",
@@ -340,7 +341,8 @@
     {
       "group": "Internal",
       "pages": [
-        "help-center/loom-vid-embed-test"
+        "help-center/loom-vid-embed-test",
+        "internal/exec-summ-walk-thru-test"
       ]
     }
   ],
