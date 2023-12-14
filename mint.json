@@ -71,27 +71,23 @@
         {
           "group": "Shopify",
           "pages": [
-            "help-center/info-by-platform/shopify/shopify-data-availability",
-            "help-center/info-by-platform/shopify/shopify-transformation"
+            "help-center/info-by-platform/shopify/shopify-platform-overview"
           ]
         },
         {
           "group": "ReCharge",
           "pages": [
-            "help-center/info-by-platform/recharge/recharge-data-availability",
-            "help-center/info-by-platform/recharge/recharge-transformation"
+            "help-center/info-by-platform/recharge/recharge-platform-overview"
           ]
         },
         {
           "group": "Google Analytics",
           "pages": [
-            "help-center/info-by-platform/ga4/ga4-data-availability",
-            "help-center/info-by-platform/ga4/ga4-transformation",
+            "help-center/info-by-platform/ga4/ga4-platform-overview",
             "help-center/info-by-platform/ga4/proper-google-analytics-setup"
           ]
         },
-        "help-center/info-by-platform/platform-transformation-template",
-        "help-center/info-by-platform/platform-data-availability-template"
+        "help-center/info-by-platform/platform-overview-template"
       ]
     },
     {
