@@ -66,6 +66,13 @@
       ]
     },
     {
+      "group": "Data Transformation & Cleaning",
+      "pages": [
+        "help-center/data-architecture",
+        "help-center/data-freshness"
+      ]
+    },
+    {
       "group": "Info By Platform",
       "pages": [
         {
@@ -88,13 +95,6 @@
           ]
         },
         "help-center/info-by-platform/platform-overview-template"
-      ]
-    },
-    {
-      "group": "Data Transformation & Cleaning",
-      "pages": [
-        "help-center/data-architecture",
-        "help-center/data-freshness"
       ]
     },
     {
@@ -137,79 +137,74 @@
       "pages": [
         "data-inputs/supported-integrations/all-available-integrations",
         {
-          "group": "Platform Integration Instructions",
+          "group": "Ecommerce & Subscription",
           "pages": [
-            {
-              "group": "Ecommerce & Subscription",
-              "pages": [
-                "data-inputs/supported-integrations/shopify-integration",
-                "data-inputs/supported-integrations/amazon-sc-integration",
-                "data-inputs/supported-integrations/amazon-vc-integration",
-                "data-inputs/supported-integrations/chargebee-integration",
-                "data-inputs/supported-integrations/stripe-integration",
-                "data-inputs/supported-integrations/recharge-integration",
-                "data-inputs/supported-integrations/stay-ai-integration",
-                "data-inputs/supported-integrations/loop-integration"
-              ]
-            },
-            {
-              "group": "Marketing & Advertising",
-              "pages": [
-                "data-inputs/supported-integrations/meta-integration",
-                "data-inputs/supported-integrations/bing-integration",
-                "data-inputs/supported-integrations/google-ads-integration",
-                "data-inputs/supported-integrations/tiktok-integration",
-                "data-inputs/supported-integrations/pinterest-integration",
-                "data-inputs/supported-integrations/snapchat-integration",
-                "data-inputs/supported-integrations/shareasale-integration",
-                "data-inputs/supported-integrations/awin-integration",
-                "data-inputs/supported-integrations/amazon-ads-integration",
-                "data-inputs/supported-integrations/amazon-dsp-integration",
-                "data-inputs/supported-integrations/criteo-integration",
-                "data-inputs/supported-integrations/impact-integration",
-                "data-inputs/supported-integrations/outbrain-integration",
-                "data-inputs/supported-integrations/taboola-integration",
-                "data-inputs/supported-integrations/pepperjam-integration",
-                "data-inputs/supported-integrations/tatari-integration",
-                "data-inputs/supported-integrations/twitter-integration"
-              ]
-            },
-            {
-              "group": "Site Analytics & Attribution",
-              "pages": [
-                "data-inputs/supported-integrations/ga4-integration",
-                "data-inputs/supported-integrations/ga-universal-integration",
-                "data-inputs/supported-integrations/google-search-console-integration",
-                "data-inputs/supported-integrations/elevar-integration",
-                "data-inputs/supported-integrations/littledata-integration",
-                "data-inputs/supported-integrations/fairing-integration",
-                "data-inputs/supported-integrations/knocommerce-integration"
-              ]
-            },
-            {
-              "group": "Email & SMS",
-              "pages": [
-                "data-inputs/supported-integrations/klaviyo-integration",
-                "data-inputs/supported-integrations/mailchimp-integration",
-                "data-inputs/supported-integrations/hubspot-integration",
-                "data-inputs/supported-integrations/autopilot-integration"
-              ]
-            },
-            {
-              "group": "Proprietary Partner Integrations",
-              "pages": [
-                "data-inputs/supported-integrations/fermat-integration",
-                "data-inputs/supported-integrations/global-e-integration",
-                "data-inputs/supported-integrations/blotout-integration",
-                "data-inputs/supported-integrations/elevar-integration",
-                "data-inputs/supported-integrations/littledata-integration",
-                "data-inputs/supported-integrations/blotout-integration",
-                "data-inputs/supported-integrations/fairing-integration",
-                "data-inputs/supported-integrations/gorgias-integration",
-                "data-inputs/supported-integrations/tapcart-integration",
-                "data-inputs/supported-integrations/tatari-integration"
-              ]
-            }
+            "data-inputs/supported-integrations/shopify-integration",
+            "data-inputs/supported-integrations/amazon-sc-integration",
+            "data-inputs/supported-integrations/amazon-vc-integration",
+            "data-inputs/supported-integrations/chargebee-integration",
+            "data-inputs/supported-integrations/stripe-integration",
+            "data-inputs/supported-integrations/recharge-integration",
+            "data-inputs/supported-integrations/stay-ai-integration",
+            "data-inputs/supported-integrations/loop-integration"
+            ]
+        },
+        {
+          "group": "Marketing & Advertising",
+          "pages": [
+            "data-inputs/supported-integrations/meta-integration",
+            "data-inputs/supported-integrations/bing-integration",
+            "data-inputs/supported-integrations/google-ads-integration",
+            "data-inputs/supported-integrations/tiktok-integration",
+            "data-inputs/supported-integrations/pinterest-integration",
+            "data-inputs/supported-integrations/snapchat-integration",
+            "data-inputs/supported-integrations/shareasale-integration",
+            "data-inputs/supported-integrations/awin-integration",
+            "data-inputs/supported-integrations/amazon-ads-integration",
+            "data-inputs/supported-integrations/amazon-dsp-integration",
+            "data-inputs/supported-integrations/criteo-integration",
+            "data-inputs/supported-integrations/impact-integration",
+            "data-inputs/supported-integrations/outbrain-integration",
+            "data-inputs/supported-integrations/taboola-integration",
+            "data-inputs/supported-integrations/pepperjam-integration",
+            "data-inputs/supported-integrations/tatari-integration",
+            "data-inputs/supported-integrations/twitter-integration"
+          ]
+        },
+        {
+          "group": "Site Analytics & Attribution",
+          "pages": [
+            "data-inputs/supported-integrations/ga4-integration",
+            "data-inputs/supported-integrations/ga-universal-integration",
+            "data-inputs/supported-integrations/google-search-console-integration",
+            "data-inputs/supported-integrations/elevar-integration",
+            "data-inputs/supported-integrations/littledata-integration",
+            "data-inputs/supported-integrations/fairing-integration",
+            "data-inputs/supported-integrations/knocommerce-integration"
+          ]
+        },
+        {
+          "group": "Email & SMS",
+          "pages": [
+            "data-inputs/supported-integrations/klaviyo-integration",
+            "data-inputs/supported-integrations/mailchimp-integration",
+            "data-inputs/supported-integrations/hubspot-integration",
+            "data-inputs/supported-integrations/autopilot-integration"
+          ]
+        },
+        {
+          "group": "Proprietary Partner Integrations",
+          "pages": [
+            "data-inputs/supported-integrations/fermat-integration",
+            "data-inputs/supported-integrations/global-e-integration",
+            "data-inputs/supported-integrations/blotout-integration",
+            "data-inputs/supported-integrations/elevar-integration",
+            "data-inputs/supported-integrations/littledata-integration",
+            "data-inputs/supported-integrations/blotout-integration",
+            "data-inputs/supported-integrations/fairing-integration",
+            "data-inputs/supported-integrations/gorgias-integration",
+            "data-inputs/supported-integrations/tapcart-integration",
+            "data-inputs/supported-integrations/tatari-integration"
           ]
         }
       ]

@@ -1,13 +1,9 @@
 ---
 title: Platform Overview - {Platform}
-sidebarTitle: '{Platform} Overview'
+sidebarTitle: '{Platform} Overview [Template]'
 description: What data is available from Source Medium's Platform integration?
 icon: database
 ---
-
-**Why integrate `{Platform}`?** put a 1-2 sentence value-add here.
-- e.g. integrating your marketing data is imperative to understanding your global ad spend, which is crucial for understanding CPA, ROAS, and of course profitability
-- e.g. integrating Google Analytics and other attribution-providing platforms (including PPS) is critical to building a holistic & multi-lensed picture of where $ is coming from, which channels are most profitable etc.
 
 ### What `{Platform}` data is available in Source Medium?
 
@@ -20,25 +16,16 @@ Provide a high-level overview -- 2-4 sentences about the data we report on from 
 Embed / link out to metric & dimension docs
 </Accordion>
 
-<Accordion title="Default filtering & exclusions">
-1-3 sentences, only if relevant
-- e.g. using attr. window set in platform settings for most marketing plats, using strictly 7d click attr. window for FB Ads
-- e.g. excluding gift card revenue (deferred revenue) for Shopify
-</Accordion>
-
-<Accordion title="Data Enrichment - How is `{Platform}` data blended with data from other platforms in Source Medium?">
-[optional section]
+<Accordion title="Data Enrichment - How is `{Platform}` data blended with data from other platforms in Source Medium? [optional]">
 1-4 high-level sentences summarizing how this data enriches other data points (e.g. GA4/Elevar etc enriches orders data) and/or is enriched by other data (Shopify orders are enriched by lots of things: ga4, channel mapping, costs, subscription metadata) in our ecosystem.
 </Accordion>
 
-<Accordion title="Additional reporting capabilities & use-cases">
-[optional section]
+<Accordion title="Additional reporting capabilities & use-cases [optional]">
 - are there optional use cases you can enable with this data that don't come ootb
     - e.g. using discount codes from Shopify orders to populate the Influnecers Deep Dive module
 </Accordion>
 
-<Accordion title="What additional configuration options are available for `{Platform}` data?">
-[optional section]
+<Accordion title="Additional configuration options [optional]">
 - are there any confiugrable ways that customers can transform this data
     - either by request (e.g. exclude $0 orders, campaign naming conventions)
     - or self-serve (e.g. channel mapping, influencers deep dive, various costs for ecomm data)
@@ -56,21 +43,23 @@ Embed / link out to metric & dimension docs
 </Accordion>
 
 
-### Data cleaning & transformation notes
-- high-level of aggregations and different types of data we transform/use from this platform
-    - do we enrich this data with any other data or alter it in any way before reporting it in dashboards (before it reaches the final tables)
-        - e.g. Shopify orders receive UTM enrichment from GA, Littledata, Elevar etc
-- any freshness notes
-    - e.g. for Amazon, data is fresh to the previous 48-72 hrs
-- do we remove or filter anything automatically
-        - e.g. we don't report on gift card revenue from Shopify
+### Additional information
+**Data Freshness:**
+Source Medium attempts to ingest data from the `{Platform}` API every X hours, and fully transformed data should be available within data tables & dashboards within X hrs.
 
-**Data Freshness**
+**Default filtering & exclusions `[optional]`**
 
-**Default Filtering & Exclusions**
+- e.g. using attr. window set in platform settings for most marketing plats, using strictly 7d click attr. window for FB Ads, e.g. excluding gift card revenue (deferred revenue) for Shopify
 
-**Known Reporting Differences**
-- vs platform native reporting
-- vs other modules / tables in SM
+**Other data clarifications: data nuances & good-to-knows**
+<AccordionGroup>
+    <Accordion title="Clarification 1">
+    </Accordion>
+    <Accordion title="Clarification 2">
+    </Accordion>
+    <Accordion title="Known reporting differences [optional]">
+        - vs platform native reporting
+        - vs other modules / tables in SM
+    </Accordion>
+</AccordionGroup>
 
-**Known Discrepancies & Justification**
