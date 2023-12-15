@@ -1,0 +1,34 @@
+---
+title: 'Do you have a proper Google Analytics setup?'
+description: 'Tips & tricks for improving your analytics set up in Google Analytics'
+---
+Google Analytics has some common failure points that can cause data sources to diverge.  Let's explore a couple of these below:
+    - Subscription Checkout Issues
+        - Subscription services like ReCharge often do not correctly attribute orders. This can happen for a number of reasons, and the solutions 
+        generally depend on the subscription service.
+    - Adblockers
+        - The data that GA provides is generally only as good as the tracking, and most, if not all tracking tech (pixels, cookies, tag, etc.) can 
+        be circumvented by customers.
+    - Faulty Tracking
+        - There's no absolute right or wrong approach for setting up UTMs, but most companies make some sort of mistake when setting up tracking. 
+        The best practices we have identified are covered in this [starter doc](https://www.notion.so/How-can-I-improve-my-last-click-UTM-attribution-0a6796ff8de54b1498aeb7643cbfa0bd?pvs=21) and this [template](https://docs.google.com/spreadsheets/d/14hx6hlce6zTwfMIcuKLUIuOYl5uWVlcyCr9FIL0GQJk/edit#gid=0).
+    - Factors not visible to Source Medium
+        - Tracking is complex, and many other factors that are not visible to Source Medium can come into play. It is generally reasonable to expect 
+        10-20% discrepancies between Shopify (source of truth) and GA.
+
+To ensure that your Google Analytics setup is proper, make sure that you have correctly installed the tracking code on your website and that you have set 
+up your goals and filters correctly. Additionally, you should regularly review your traffic sources to identify any potential issues with direct or none 
+traffic.
+
+If you are experiencing issues with direct or none traffic, consider implementing UTM tracking parameters to more accurately track the sources of your 
+website traffic. However, keep in mind that UTMs can break due to a variety of reasons, including ad blockers, misconfiguration of GA, and ReCharge 
+checkout issues.
+
+It is also important to note that Google Analytics may not be able to distinguish between new and returning customers, as it does not have a total history 
+of your new versus repeat customers. To address this, Source Medium has ingested historic data for your business to match a customer against those that 
+have been ingested to determine if that customer is new or returning.
+
+Finally, keep in mind that the data provided by GA is only as good as the tracking technology being used, which can be circumvented by customers using ad 
+blockers or faulty tracking. For this reason, we use Shopify as our source of truth and use GA data to enrich that Shopify data.
+
+<Info>Some of the best practices we have identified are outlined in this [starter doc](https://help.sourcemedium.com/articles/how-can-i-improve-my-last-click-utm-attribution) and this [template](https://docs.google.com/spreadsheets/d/14hx6hlce6zTwfMIcuKLUIuOYl5uWVlcyCr9FIL0GQJk/edit#gid=0).</Info>
