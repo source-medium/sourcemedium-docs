@@ -281,7 +281,8 @@
               "pages": [
                 "data-inputs/platform-integration-instructions/ga4-integration",
                 "data-inputs/platform-overviews/ga4-platform-overview",
-                "data-inputs/platform-supporting-resources/ga4/proper-google-analytics-setup"
+                "data-inputs/platform-supporting-resources/ga4/google-analytics-common-failures",
+                "data-inputs/platform-supporting-resources/ga4/improving-last-click-attribution"
               ]
             },
             {
