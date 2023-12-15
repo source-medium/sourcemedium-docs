@@ -1,5 +1,10 @@
 {
   "name": "Source Medium",
+  "__analytics__": {
+    "ga4": {
+        "measurementId": "G-XXXXXXX"
+    }
+  },
   "logo": {
     "light": "/logo/light.png",
     "dark": "/logo/dark.png"
@@ -61,6 +66,13 @@
       ]
     },
     {
+      "group": "Data Transformation & Cleaning",
+      "pages": [
+        "help-center/data-architecture",
+        "help-center/data-freshness"
+      ]
+    },
+    {
       "group": "FAQs",
       "pages": [
         {
@@ -96,104 +108,346 @@
       ]
     },
     {
-      "group": "Data Integrations & Inputs",
+      "group": "Integrations",
       "pages": [
-        "data-inputs/supported-integrations/all-available-integrations",
+        "data-inputs/platform-integration-instructions/all-available-integrations",
         {
-          "group": "Platform Integration Instructions",
+          "group": "Ecommerce & Subscription",
           "pages": [
             {
-              "group": "Ecommerce & Subscription",
+              "group": "Shopify",
               "pages": [
-                "data-inputs/supported-integrations/shopify-integration",
-                "data-inputs/supported-integrations/amazon-sc-integration",
-                "data-inputs/supported-integrations/amazon-vc-integration",
-                "data-inputs/supported-integrations/chargebee-integration",
-                "data-inputs/supported-integrations/stripe-integration",
-                "data-inputs/supported-integrations/recharge-integration",
-                "data-inputs/supported-integrations/stay-ai-integration",
-                "data-inputs/supported-integrations/loop-integration"
+                "data-inputs/platform-integration-instructions/shopify-integration",
+                "data-inputs/platform-overviews/shopify-platform-overview"
               ]
             },
             {
-              "group": "Marketing & Advertising",
+              "group": "Amazon Seller Central",
               "pages": [
-                "data-inputs/supported-integrations/meta-integration",
-                "data-inputs/supported-integrations/bing-integration",
-                "data-inputs/supported-integrations/google-ads-integration",
-                "data-inputs/supported-integrations/tiktok-integration",
-                "data-inputs/supported-integrations/pinterest-integration",
-                "data-inputs/supported-integrations/snapchat-integration",
-                "data-inputs/supported-integrations/shareasale-integration",
-                "data-inputs/supported-integrations/awin-integration",
-                "data-inputs/supported-integrations/amazon-ads-integration",
-                "data-inputs/supported-integrations/amazon-dsp-integration",
-                "data-inputs/supported-integrations/criteo-integration",
-                "data-inputs/supported-integrations/impact-integration",
-                "data-inputs/supported-integrations/outbrain-integration",
-                "data-inputs/supported-integrations/taboola-integration",
-                "data-inputs/supported-integrations/pepperjam-integration",
-                "data-inputs/supported-integrations/tatari-integration",
-                "data-inputs/supported-integrations/twitter-integration"
+                "data-inputs/platform-integration-instructions/amazon-sc-integration"
               ]
             },
             {
-              "group": "Site Analytics & Attribution",
+              "group": "Amazon Vendor Central",
               "pages": [
-                "data-inputs/supported-integrations/ga4-integration",
-                "data-inputs/supported-integrations/ga-universal-integration",
-                "data-inputs/supported-integrations/google-search-console-integration",
-                "data-inputs/supported-integrations/elevar-integration",
-                "data-inputs/supported-integrations/littledata-integration",
-                "data-inputs/supported-integrations/fairing-integration",
-                "data-inputs/supported-integrations/knocommerce-integration"
+                "data-inputs/platform-integration-instructions/amazon-vc-integration"
               ]
             },
             {
-              "group": "Email & SMS",
+              "group": "Chargebee",
               "pages": [
-                "data-inputs/supported-integrations/klaviyo-integration",
-                "data-inputs/supported-integrations/mailchimp-integration",
-                "data-inputs/supported-integrations/hubspot-integration",
-                "data-inputs/supported-integrations/autopilot-integration"
+                "data-inputs/platform-integration-instructions/chargebee-integration"
               ]
             },
             {
-              "group": "Proprietary Partner Integrations",
+              "group": "Stripe",
               "pages": [
-                "data-inputs/supported-integrations/fermat-integration",
-                "data-inputs/supported-integrations/global-e-integration",
-                "data-inputs/supported-integrations/blotout-integration",
-                "data-inputs/supported-integrations/elevar-integration",
-                "data-inputs/supported-integrations/littledata-integration",
-                "data-inputs/supported-integrations/blotout-integration",
-                "data-inputs/supported-integrations/fairing-integration",
-                "data-inputs/supported-integrations/gorgias-integration",
-                "data-inputs/supported-integrations/tapcart-integration",
-                "data-inputs/supported-integrations/tatari-integration"
+                "data-inputs/platform-integration-instructions/stripe-integration"
+              ]
+            },
+            {
+              "group": "ReCharge",
+              "pages": [
+                "data-inputs/platform-integration-instructions/recharge-integration",
+                "data-inputs/platform-overviews/recharge-platform-overview"
+              ]
+            },
+            {
+              "group": "Stay AI",
+              "pages": [
+                "data-inputs/platform-integration-instructions/stay-ai-integration"
+              ]
+            },
+            {
+              "group": "Loop",
+              "pages": [
+                "data-inputs/platform-integration-instructions/loop-integration"
               ]
             }
           ]
         },
         {
-          "group": "Configuration Sheet Tutorials",
+          "group": "Marketing & Advertising",
           "pages": [
-            "data-inputs/configuration-sheet/configuration-sheet-overview",
-            "data-inputs/configuration-sheet/costs/costs-overview",
-            "data-inputs/configuration-sheet/channel-mapping-tab",
-            "data-inputs/configuration-sheet/sales-tab",
-            "data-inputs/configuration-sheet/targets-tab",
             {
-              "group": "Costs",
+              "group": "Facebook Ads (Meta)",
               "pages": [
-                "data-inputs/configuration-sheet/costs/costs-overview",
-                "data-inputs/configuration-sheet/costs/marketing-costs",
-                "data-inputs/configuration-sheet/costs/product-costs",
-                "data-inputs/configuration-sheet/costs/fulfillment-costs",
-                "data-inputs/configuration-sheet/costs/shipping-costs",
-                "data-inputs/configuration-sheet/costs/merchant-processing-fees"
+                "data-inputs/platform-integration-instructions/meta-integration"
+              ]
+            },
+            {
+              "group": "Google Ads",
+              "pages": [
+                "data-inputs/platform-integration-instructions/google-ads-integration"
+              ]
+            },
+            {
+              "group": "Bing Ads",
+              "pages": [
+                "data-inputs/platform-integration-instructions/bing-integration"
+              ]
+            },
+            {
+              "group": "TikTok Ads",
+              "pages": [
+                "data-inputs/platform-integration-instructions/tiktok-integration"
+              ]
+            },
+            {
+              "group": "Twitter Ads",
+              "pages": [
+                "data-inputs/platform-integration-instructions/twitter-integration"
+              ]
+            },
+            {
+              "group": "Pinterest Ads",
+              "pages": [
+                "data-inputs/platform-integration-instructions/pinterest-integration"
+              ]
+            },
+            {
+              "group": "Snapchat Ads",
+              "pages": [
+                "data-inputs/platform-integration-instructions/snapchat-integration"
+              ]
+            },
+            {
+              "group": "Amazon Ads",
+              "pages": [
+                "data-inputs/platform-integration-instructions/amazon-ads-integration"
+              ]
+            },
+            {
+              "group": "Amazon DSP",
+              "pages": [
+                "data-inputs/platform-integration-instructions/amazon-dsp-integration"
+              ]
+            },
+            {
+              "group": "ShareASale",
+              "pages": [
+                "data-inputs/platform-integration-instructions/shareasale-integration"
+              ]
+            },
+            {
+              "group": "Awin",
+              "pages": [
+                "data-inputs/platform-integration-instructions/awin-integration"
+              ]
+            },
+            {
+              "group": "Criteo",
+              "pages": [
+                "data-inputs/platform-integration-instructions/criteo-integration"
+              ]
+            },
+            {
+              "group": "Impact Radius",
+              "pages": [
+                "data-inputs/platform-integration-instructions/impact-integration"
+              ]
+            },
+            {
+              "group": "Pepperjam",
+              "pages": [
+                "data-inputs/platform-integration-instructions/pepperjam-integration"
+              ]
+            },
+            {
+              "group": "Outbrain",
+              "pages": [
+                "data-inputs/platform-integration-instructions/outbrain-integration"
+              ]
+            },
+            {
+              "group": "Taboola",
+              "pages": [
+                "data-inputs/platform-integration-instructions/taboola-integration"
+              ]
+            },
+            {
+              "group": "Tatari",
+              "pages": [
+                "data-inputs/platform-integration-instructions/tatari-integration"
               ]
             }
+          ]
+        },
+        {
+          "group": "Site Analytics & Attribution",
+          "pages": [
+            {
+              "group": "Google Analytics - 4 (GA4)",
+              "pages": [
+                "data-inputs/platform-integration-instructions/ga4-integration",
+                "data-inputs/platform-overviews/ga4-platform-overview",
+                "data-inputs/platform-supporting-resources/ga4/proper-google-analytics-setup"
+              ]
+            },
+            {
+              "group": "(Legacy) Google Analytics - Universal",
+              "pages": [
+                "data-inputs/platform-integration-instructions/ga-universal-integration"
+              ]
+            },
+            {
+              "group": "Google Search Console",
+              "pages": [
+                "data-inputs/platform-integration-instructions/google-search-console-integration"
+              ]
+            },
+            {
+              "group": "Elevar",
+              "pages": [
+                "data-inputs/platform-integration-instructions/elevar-integration"
+              ]
+            },
+            {
+              "group": "Littledata",
+              "pages": [
+                "data-inputs/platform-integration-instructions/littledata-integration"
+              ]
+            },
+            {
+              "group": "Fairing",
+              "pages": [
+                "data-inputs/platform-integration-instructions/fairing-integration"
+              ]
+            },
+            {
+              "group": "KnoCommerce",
+              "pages": [
+                "data-inputs/platform-integration-instructions/knocommerce-integration"
+              ]
+            }
+          ]
+        },
+        {
+          "group": "Email & SMS",
+          "pages": [
+            {
+              "group": "(Premium) Klaviyo",
+              "pages": [
+                "data-inputs/platform-integration-instructions/klaviyo-integration"
+              ]
+            },
+            {
+              "group": "(Premium) Mailchimp",
+              "pages": [
+                "data-inputs/platform-integration-instructions/mailchimp-integration"
+              ]
+            },
+            {
+              "group": "(Premium) HubSpot",
+              "pages": [
+                "data-inputs/platform-integration-instructions/hubspot-integration"
+              ]
+            },
+            {
+              "group": "(Premium) Autopilot",
+              "pages": [
+                "data-inputs/platform-integration-instructions/autopilot-integration"
+              ]
+            }
+          ]
+        },
+        {
+          "group": "Proprietary Partner Integrations",
+          "pages": [
+            {
+              "group": "Elevar",
+              "pages": [
+                "data-inputs/platform-integration-instructions/elevar-integration"
+              ]
+            },
+            {
+              "group": "Littledata",
+              "pages": [
+                "data-inputs/platform-integration-instructions/littledata-integration"
+              ]
+            },
+            {
+              "group": "FERMÀT",
+              "pages": [
+                "data-inputs/platform-integration-instructions/fermat-integration"
+              ]
+            },
+            {
+              "group": "Global-E",
+              "pages": [
+                "data-inputs/platform-integration-instructions/global-e-integration"
+              ]
+            },
+            {
+              "group": "Fairing",
+              "pages": [
+                "data-inputs/platform-integration-instructions/fairing-integration"
+              ]
+            },
+            {
+              "group": "Blotout",
+              "pages": [
+                "data-inputs/platform-integration-instructions/blotout-integration"
+              ]
+            },
+            {
+              "group": "(Beta) Gorgias",
+              "pages": [
+                "data-inputs/platform-integration-instructions/gorgias-integration"
+              ]
+            },
+            {
+              "group": "Tapcart",
+              "pages": [
+                "data-inputs/platform-integration-instructions/tapcart-integration"
+              ]
+            },
+            {
+              "group": "Tatari",
+              "pages": [
+                "data-inputs/platform-integration-instructions/tatari-integration"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "group":"Proprietary Data Enrichment Tools",
+      "pages": [
+        "data-inputs/configuration-sheet/configuration-sheet-overview",
+        {
+          "group": "Setting KPI Targets",
+          "pages": [
+            "data-inputs/configuration-sheet/targets-tab"
+          ]
+        },
+        {
+          "group": "Channel Mapping",
+          "pages": [
+            "data-inputs/configuration-sheet/channel-mapping-tab"
+          ]
+        },
+        {
+          "group": "Custom Marketing Costs",
+          "pages": [
+            "data-inputs/configuration-sheet/costs/marketing-costs"
+          ]
+        },
+        {
+          "group": "Custom Sales",
+          "pages": [
+            "data-inputs/configuration-sheet/sales-tab"
+          ]
+        },
+        {
+          "group": "COGS",
+          "pages": [
+            "data-inputs/configuration-sheet/costs/costs-overview",
+            "data-inputs/configuration-sheet/costs/product-costs",
+            "data-inputs/configuration-sheet/costs/fulfillment-costs",
+            "data-inputs/configuration-sheet/costs/shipping-costs",
+            "data-inputs/configuration-sheet/costs/merchant-processing-fees"
           ]
         }
       ]
@@ -212,39 +466,47 @@
           "group": "Getting Started",
           "pages": [
             "source-medium-university/getting-started/getting-started-checklist",
+            "source-medium-university/getting-started/level-1-data-checklist",
+            "source-medium-university/getting-started/level-2-data-checklist",
+            "source-medium-university/getting-started/level-3-data-checklist",
             "source-medium-university/getting-started/cold-start/cold-start-guide-home"
           ]
         },
         {
           "group": "Understanding The Data",
           "pages": [
-            "source-medium-university/data-docs/data-freshness",
+            "help-center/data-freshness",
             "source-medium-university/getting-started/cold-start/how-your-data-gets-from-point-a-to-b",
-            "source-medium-university/data-docs/data-architecture",
+            "help-center/data-architecture",
             "source-medium-university/data-docs/data-hygeine/importance-of-good-data-hygeine"
           ]
         },
         {
           "group": "Using Your Dashboard",
           "pages": [
-            "source-medium-university/report-docs/navigating-your-dashboard",
-            "source-medium-university/report-docs/report-pages/executive-summary-module",
-            "source-medium-university/report-docs/report-pages/yoy-performance-module",
-            "source-medium-university/report-docs/report-pages/marketing-overview-module",
-            "source-medium-university/report-docs/report-pages/google-ads-module",
-            "source-medium-university/report-docs/report-pages/meta-ads-module",
-            "source-medium-university/report-docs/report-pages/influencers-deep-dive-module",
-            "source-medium-university/report-docs/report-pages/post-purchase-survey-module",
-            "source-medium-university/report-docs/report-pages/emails-general-module",
-            "source-medium-university/report-docs/report-pages/emails-conversions-module",
-            "source-medium-university/report-docs/report-pages/ltv-retention-module",
-            "source-medium-university/report-docs/report-pages/new-customer-analysis-module",
-            "source-medium-university/report-docs/report-pages/last-order-analysis-module",
-            "source-medium-university/report-docs/report-pages/orders-deep-dive-module",
-            "source-medium-university/report-docs/report-pages/product-performance-module",
-            "source-medium-university/report-docs/report-pages/subscription-overview-module",
-            "source-medium-university/report-docs/report-pages/subscription-product-performance-module"
-              ]
+            "source-medium-university/report-docs/core-dashboard-features",
+            {
+              "group": "Module Overviews",
+              "pages": [
+                "source-medium-university/report-docs/report-pages/module-overview-template",
+                "source-medium-university/report-docs/report-pages/executive-summary-module",
+                "source-medium-university/report-docs/report-pages/yoy-performance-module",
+                "source-medium-university/report-docs/report-pages/marketing-overview-module",
+                "source-medium-university/report-docs/report-pages/google-ads-module",
+                "source-medium-university/report-docs/report-pages/meta-ads-module",
+                "source-medium-university/report-docs/report-pages/influencers-deep-dive-module",
+                "source-medium-university/report-docs/report-pages/post-purchase-survey-module",
+                "source-medium-university/report-docs/report-pages/emails-general-module",
+                "source-medium-university/report-docs/report-pages/emails-conversions-module",
+                "source-medium-university/report-docs/report-pages/ltv-retention-module",
+                "source-medium-university/report-docs/report-pages/new-customer-analysis-module",
+                "source-medium-university/report-docs/report-pages/last-order-analysis-module",
+                "source-medium-university/report-docs/report-pages/orders-deep-dive-module",
+                "source-medium-university/report-docs/report-pages/product-performance-module",
+                "source-medium-university/report-docs/report-pages/subscription-overview-module",
+                "source-medium-university/report-docs/report-pages/subscription-product-performance-module"]
+            }
+          ]
         },
         {
           "group": "Common Analyses",
@@ -291,6 +553,13 @@
             "advanced-insights-and-strategy/case-studies/case-studies-placeholder"
           ]
         }
+      ]
+    },
+    {
+      "group": "Internal",
+      "pages": [
+        "help-center/loom-vid-embed-test",
+        "internal/exec-summ-walk-thru-test"
       ]
     }
   ],

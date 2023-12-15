@@ -1,0 +1,82 @@
+---
+title: 'GA4 - Platform Overview'
+sidebarTitle: 'Platform Overview'
+description: 'Information on data availability, ingestion, cleaning & transformation, data enrichment and additional use-cases & capabilities'
+icon: 'database'
+---
+
+### What GA4 data is available in SourceMedium?
+
+While SourcMedium mainly uses GA4 data for enriched attribution of orders & customer acquisition (see Data Enrichment section), we also ingest data related 
+to your site traffic -- which we pair against real order volume (as-reported by your sales platform) to build an accurate CVR picture.
+
+Keep in mind that the data provided by GA is only as good as the tracking technology being used, which can be circumvented by customers using ad 
+blockers or faulty tracking. For this reason, we use Shopify as our source of truth and use GA data to enrich that Shopify data.
+
+<Accordion title="Available data points">
+    Embed / link out to metric & dimension docs
+</Accordion>
+
+<Accordion title="Data Enrichment - How is GA4 data blended with data from other platforms in SourceMedium?">
+    When integrating data, it's important to decide on a "most trustworthy" data source to use as a foundation (also called "source of truth" data). 
+    At SourceMedium we use Shopify data as our source of truth for all sales data, as Shopify data is robust and represents real financial transactions 
+    (meaning we won't be missing records of sales). 
+    
+    When we integrate Google Analytics data with Shopify data, we trust Shopify more than Google Analytics when it comes to the last-click attribution of 
+    that order (where that order came from based on UTM parameters) - meaning if the two sources disagree, we will report what Shopify says.  This 
+    hierarchy of trust is called our “Attribution Waterfall.” In short, when we report this integrated data, we are showing Shopify data which has been 
+    enriched and expanded by Google Analytics.
+    
+    This enrichment can fill in gaps in both data sources — SourceMedium can regularly provide attribution for 10-30% more orders than Google Analytics 
+    or Shopify on their own.
+</Accordion>
+
+### Where is GA4 data surfaced in SourceMedium?
+<Accordion title="Transformed GA4 data is surfaced to the following report modules by default">
+    - [Executive Summary](/source-medium-university/report-docs/report-pages/executive-summary-module)
+        - Site traffic (`sessions`) and `CVR`
+    - [Traffic Deep Dive](/source-medium-university/report-docs/report-pages/traffic-deep-dive-module)
+        - Traffic, engagement, and ecommerce performance by channel, device, and more
+        - Most data available in GA4 native reporting is available to surface here
+            - Visit our [Template Gallery](https://lookerstudio.google.com/reporting/2853e13c-3071-44dd-8e24-8f9d6f68381c/page/p_hbjrx5v6wc), or reach out to the Customer Solutions team via Slack or email for more info!
+    - [Orders Deep Dive](/source-medium-university/report-docs/report-pages/orders-deep-dive-module)
+        - GA4-enriched last-click attribution of orders data
+    - [Product Performance](/source-medium-university/report-docs/report-pages/product-performance-module)
+        - GA4-enriched last-click attribution for line-item sales data
+    - [New Customer Analysis](/source-medium-university/report-docs/report-pages/new-customer-analysis-module)
+        - GA4-enriched customer acquisition last-click attribution
+    - [Customers - Last Order Analysis](/source-medium-university/report-docs/report-pages/last-order-analysis-module)
+        - Latest order & 1st to last order GA4-enriched attribution comparison
+</Accordion>
+
+<Accordion title="For DDA/MDW customers, data will be surfaced to the following tables..."> 
+    - `[order_details]({link out to specific table docs})`
+    - `[product_performance]({link out to specific table docs})`
+    - `[customer_details]({link out to specific table docs})`
+    - `[executive_summary]({link out to specific table docs})`
+</Accordion>
+
+
+### Additional information
+**Data Freshness:**
+SourceMedium attempts to ingest data from the GA4 API every 6 hours, and fully transformed data should be available within data tables & 
+dashboards by the next day.
+
+**Other data clarifications: data nuances & good-to-knows**
+<AccordionGroup>
+    <Accordion title="What do “Direct / None” & “None / None “ Source / Mediums mean?">
+        - `(Direct) / (none)` means either customers visited your website directly (manually typing in the URL or hitting a bookmark) or something forced UTM tracking to break.
+        - `(None) / (none)` traffic refers to visitors whose UTM source and medium values are both `null` and therefore cannot be identified by Google Analytics.
+        If you're seeing one these `source / medium` values as a large bucket of your attribution, usually it means something can be improved!  You can read up 
+        on how to improve your UTM tracking in Google Analytics [here](/data-inputs/platform-supporting-resources/ga4/proper-google-analytics-setup).
+    </Accordion>
+    <Accordion title="New vs returning customers">
+        It is important to note that Google Analytics may not be able to distinguish between new and returning customers, as it does not have a total history 
+        of your new versus repeat customers. To address this, SourceMedium has ingested historic data for your business to match a customer against those that 
+        have been ingested to determine if that customer is new or returning.
+    </Accordion>
+    <Accordion title="Known reporting differences">
+        Given SourceMedium stitches your GA4 data with your sales data to build the most accurate picture of attribution, often times there are reporting differences 
+        between SourceMedium order & customer attribution and native GA4 & Shopify reporting.
+    </Accordion>
+</AccordionGroup>
