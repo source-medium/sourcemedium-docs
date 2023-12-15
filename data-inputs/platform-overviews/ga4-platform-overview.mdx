@@ -64,13 +64,13 @@ dashboards by the next day.
 
 **Other data clarifications: data nuances & good-to-knows**
 <AccordionGroup>
-    <Accordion title="What do “Direct / None” & “None / None “ Source / Mediums mean?">
+    <Accordion title="What do “Direct / None” & “None / None“ Source / Mediums mean?">
         - `(Direct) / (none)` means either customers visited your website directly (manually typing in the URL or hitting a bookmark) or something forced UTM tracking to break.
         - `(None) / (none)` traffic refers to visitors whose UTM source and medium values are both `null` and therefore cannot be identified by Google Analytics.
         If you're seeing one these `source / medium` values as a large bucket of your attribution, usually it means something can be improved!  You can read up 
         on how to improve your UTM tracking in Google Analytics [here](/data-inputs/platform-supporting-resources/ga4/proper-google-analytics-setup).
     </Accordion>
-    <Accordion title="New vs returning customers">
+    <Accordion title="New vs returning customer accuracy">
         It is important to note that Google Analytics may not be able to distinguish between new and returning customers, as it does not have a total history 
         of your new versus repeat customers. To address this, SourceMedium has ingested historic data for your business to match a customer against those that 
         have been ingested to determine if that customer is new or returning.

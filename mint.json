@@ -73,6 +73,39 @@
       ]
     },
     {
+      "group": "Common Analyses & Use Cases",
+      "pages": [
+        {
+          "group": "Product Performance",
+          "pages": [
+            "help-center/common-analyses/top-selling-products"
+          ]
+        },
+        {
+          "group": "Cohort Analyses",
+          "pages": [
+            "help-center/common-analyses/customer-retention",
+            "help-center/common-analyses/revenue-retention",
+            "help-center/common-analyses/cohort-ltv",
+            "help-center/common-analyses/cohort-lto"
+          ]
+        },
+        {
+          "group": "Subscription Program",
+          "pages": [
+            "help-center/common-analyses/top-converting-products",
+            "help-center/common-analyses/subscription-program-retention"
+          ]
+        },
+        {
+          "group": "Marketing Performance",
+          "pages": [
+            "help-center/common-analyses/roas"
+          ]
+        }
+      ]
+    },
+    {
       "group": "FAQs",
       "pages": [
         {
@@ -418,7 +451,7 @@
       "pages": [
         "data-inputs/configuration-sheet/configuration-sheet-overview",
         {
-          "group": "Setting KPI Targets",
+          "group": "Setting Metric Targets",
           "pages": [
             "data-inputs/configuration-sheet/targets-tab"
           ]
@@ -506,39 +539,6 @@
                 "source-medium-university/report-docs/report-pages/product-performance-module",
                 "source-medium-university/report-docs/report-pages/subscription-overview-module",
                 "source-medium-university/report-docs/report-pages/subscription-product-performance-module"]
-            }
-          ]
-        },
-        {
-          "group": "Common Analyses",
-          "pages": [
-            {
-              "group": "Product Performance",
-              "pages": [
-                "source-medium-university/common-analyses/top-selling-products"
-              ]
-            },
-            {
-              "group": "Cohort Analyses",
-              "pages": [
-                "source-medium-university/common-analyses/customer-retention",
-                "source-medium-university/common-analyses/revenue-retention",
-                "source-medium-university/common-analyses/cohort-ltv",
-                "source-medium-university/common-analyses/cohort-lto"
-              ]
-            },
-            {
-              "group": "Subscription Program",
-              "pages": [
-                "source-medium-university/common-analyses/top-converting-products",
-                "source-medium-university/common-analyses/subscription-program-retention"
-              ]
-            },
-            {
-              "group": "Marketing Performance",
-              "pages": [
-                "source-medium-university/common-analyses/roas"
-              ]
             }
           ]
         }
