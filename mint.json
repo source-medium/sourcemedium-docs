@@ -73,31 +73,6 @@
       ]
     },
     {
-      "group": "Info By Platform",
-      "pages": [
-        {
-          "group": "Shopify",
-          "pages": [
-            "help-center/info-by-platform/shopify/shopify-platform-overview"
-          ]
-        },
-        {
-          "group": "ReCharge",
-          "pages": [
-            "help-center/info-by-platform/recharge/recharge-platform-overview"
-          ]
-        },
-        {
-          "group": "Google Analytics",
-          "pages": [
-            "help-center/info-by-platform/ga4/ga4-platform-overview",
-            "help-center/info-by-platform/ga4/proper-google-analytics-setup"
-          ]
-        },
-        "help-center/info-by-platform/platform-overview-template"
-      ]
-    },
-    {
       "group": "FAQs",
       "pages": [
         {
@@ -135,56 +110,58 @@
     {
       "group": "Integrations",
       "pages": [
-        "data-inputs/supported-integrations/all-available-integrations",
+        "data-inputs/platform-integration-instructions/all-available-integrations",
         {
           "group": "Ecommerce & Subscription",
           "pages": [
             {
               "group": "Shopify",
               "pages": [
-                "data-inputs/supported-integrations/shopify-integration"
+                "data-inputs/platform-integration-instructions/shopify-integration",
+                "data-inputs/platform-overviews/shopify-platform-overview"
               ]
             },
             {
               "group": "Amazon Seller Central",
               "pages": [
-                "data-inputs/supported-integrations/amazon-sc-integration"
+                "data-inputs/platform-integration-instructions/amazon-sc-integration"
               ]
             },
             {
               "group": "Amazon Vendor Central",
               "pages": [
-                "data-inputs/supported-integrations/amazon-vc-integration"
+                "data-inputs/platform-integration-instructions/amazon-vc-integration"
               ]
             },
             {
               "group": "Chargebee",
               "pages": [
-                "data-inputs/supported-integrations/chargebee-integration"
+                "data-inputs/platform-integration-instructions/chargebee-integration"
               ]
             },
             {
               "group": "Stripe",
               "pages": [
-                "data-inputs/supported-integrations/stripe-integration"
+                "data-inputs/platform-integration-instructions/stripe-integration"
               ]
             },
             {
               "group": "ReCharge",
               "pages": [
-                "data-inputs/supported-integrations/recharge-integration"
+                "data-inputs/platform-integration-instructions/recharge-integration",
+                "data-inputs/platform-overviews/recharge-platform-overview"
               ]
             },
             {
               "group": "Stay AI",
               "pages": [
-                "data-inputs/supported-integrations/stay-ai-integration"
+                "data-inputs/platform-integration-instructions/stay-ai-integration"
               ]
             },
             {
               "group": "Loop",
               "pages": [
-                "data-inputs/supported-integrations/loop-integration"
+                "data-inputs/platform-integration-instructions/loop-integration"
               ]
             }
           ]
@@ -195,103 +172,103 @@
             {
               "group": "Facebook Ads (Meta)",
               "pages": [
-                "data-inputs/supported-integrations/meta-integration"
+                "data-inputs/platform-integration-instructions/meta-integration"
               ]
             },
             {
               "group": "Google Ads",
               "pages": [
-                "data-inputs/supported-integrations/google-ads-integration"
+                "data-inputs/platform-integration-instructions/google-ads-integration"
               ]
             },
             {
               "group": "Bing Ads",
               "pages": [
-                "data-inputs/supported-integrations/bing-integration"
+                "data-inputs/platform-integration-instructions/bing-integration"
               ]
             },
             {
               "group": "TikTok Ads",
               "pages": [
-                "data-inputs/supported-integrations/tiktok-integration"
+                "data-inputs/platform-integration-instructions/tiktok-integration"
               ]
             },
             {
               "group": "Twitter Ads",
               "pages": [
-                "data-inputs/supported-integrations/twitter-integration"
+                "data-inputs/platform-integration-instructions/twitter-integration"
               ]
             },
             {
               "group": "Pinterest Ads",
               "pages": [
-                "data-inputs/supported-integrations/shopify-integration"
+                "data-inputs/platform-integration-instructions/pinterest-integration"
               ]
             },
             {
               "group": "Snapchat Ads",
               "pages": [
-                "data-inputs/supported-integrations/snpachat-integration"
-              ]
-            },
-            {
-              "group": "ShareASale",
-              "pages": [
-                "data-inputs/supported-integrations/shareasale-integration"
-              ]
-            },
-            {
-              "group": "Awin",
-              "pages": [
-                "data-inputs/supported-integrations/awin-integration"
-              ]
-            },
-            {
-              "group": "Criteo",
-              "pages": [
-                "data-inputs/supported-integrations/criteo-integration"
+                "data-inputs/platform-integration-instructions/snapchat-integration"
               ]
             },
             {
               "group": "Amazon Ads",
               "pages": [
-                "data-inputs/supported-integrations/amazon-ads-integration"
+                "data-inputs/platform-integration-instructions/amazon-ads-integration"
               ]
             },
             {
               "group": "Amazon DSP",
               "pages": [
-                "data-inputs/supported-integrations/amazon-dsp-integration"
+                "data-inputs/platform-integration-instructions/amazon-dsp-integration"
               ]
             },
             {
-              "group": "Impact radius",
+              "group": "ShareASale",
               "pages": [
-                "data-inputs/supported-integrations/impact-integration"
+                "data-inputs/platform-integration-instructions/shareasale-integration"
               ]
             },
             {
-              "group": "Outbrain",
+              "group": "Awin",
               "pages": [
-                "data-inputs/supported-integrations/outbrain-integration"
+                "data-inputs/platform-integration-instructions/awin-integration"
               ]
             },
             {
-              "group": "Taboola",
+              "group": "Criteo",
               "pages": [
-                "data-inputs/supported-integrations/taboola-integration"
+                "data-inputs/platform-integration-instructions/criteo-integration"
+              ]
+            },
+            {
+              "group": "Impact Radius",
+              "pages": [
+                "data-inputs/platform-integration-instructions/impact-integration"
               ]
             },
             {
               "group": "Pepperjam",
               "pages": [
-                "data-inputs/supported-integrations/pepperjam-integration"
+                "data-inputs/platform-integration-instructions/pepperjam-integration"
+              ]
+            },
+            {
+              "group": "Outbrain",
+              "pages": [
+                "data-inputs/platform-integration-instructions/outbrain-integration"
+              ]
+            },
+            {
+              "group": "Taboola",
+              "pages": [
+                "data-inputs/platform-integration-instructions/taboola-integration"
               ]
             },
             {
               "group": "Tatari",
               "pages": [
-                "data-inputs/supported-integrations/tatari-integration"
+                "data-inputs/platform-integration-instructions/tatari-integration"
               ]
             }
           ]
@@ -302,43 +279,45 @@
             {
               "group": "Google Analytics - 4 (GA4)",
               "pages": [
-                "data-inputs/supported-integrations/ga4-integration"
+                "data-inputs/platform-integration-instructions/ga4-integration",
+                "data-inputs/platform-overviews/ga4-platform-overview",
+                "data-inputs/platform-supporting-resources/ga4/proper-google-analytics-setup"
               ]
             },
             {
               "group": "(Legacy) Google Analytics - Universal",
               "pages": [
-                "data-inputs/supported-integrations/ga-unviersal-integration"
+                "data-inputs/platform-integration-instructions/ga-universal-integration"
               ]
             },
             {
               "group": "Google Search Console",
               "pages": [
-                "data-inputs/supported-integrations/google-search-console-integration"
+                "data-inputs/platform-integration-instructions/google-search-console-integration"
               ]
             },
             {
               "group": "Elevar",
               "pages": [
-                "data-inputs/supported-integrations/elevar-integration"
+                "data-inputs/platform-integration-instructions/elevar-integration"
               ]
             },
             {
               "group": "Littledata",
               "pages": [
-                "data-inputs/supported-integrations/littledata-integration"
+                "data-inputs/platform-integration-instructions/littledata-integration"
               ]
             },
             {
               "group": "Fairing",
               "pages": [
-                "data-inputs/supported-integrations/fairing-integration"
+                "data-inputs/platform-integration-instructions/fairing-integration"
               ]
             },
             {
               "group": "KnoCommerce",
               "pages": [
-                "data-inputs/supported-integrations/knocommerce-integration"
+                "data-inputs/platform-integration-instructions/knocommerce-integration"
               ]
             }
           ]
@@ -349,25 +328,25 @@
             {
               "group": "(Premium) Klaviyo",
               "pages": [
-                "data-inputs/supported-integrations/klaviyo-integration"
+                "data-inputs/platform-integration-instructions/klaviyo-integration"
               ]
             },
             {
               "group": "(Premium) Mailchimp",
               "pages": [
-                "data-inputs/supported-integrations/mailchimp-integration"
+                "data-inputs/platform-integration-instructions/mailchimp-integration"
               ]
             },
             {
               "group": "(Premium) HubSpot",
               "pages": [
-                "data-inputs/supported-integrations/hubspot-integration"
+                "data-inputs/platform-integration-instructions/hubspot-integration"
               ]
             },
             {
               "group": "(Premium) Autopilot",
               "pages": [
-                "data-inputs/supported-integrations/autopilot-integration"
+                "data-inputs/platform-integration-instructions/autopilot-integration"
               ]
             }
           ]
@@ -378,55 +357,55 @@
             {
               "group": "Elevar",
               "pages": [
-                "data-inputs/supported-integrations/elevar-integration"
+                "data-inputs/platform-integration-instructions/elevar-integration"
               ]
             },
             {
               "group": "Littledata",
               "pages": [
-                "data-inputs/supported-integrations/littledata-integration"
+                "data-inputs/platform-integration-instructions/littledata-integration"
               ]
             },
             {
               "group": "FERMÀT",
               "pages": [
-                "data-inputs/supported-integrations/fermat-integration"
+                "data-inputs/platform-integration-instructions/fermat-integration"
               ]
             },
             {
               "group": "Global-E",
               "pages": [
-                "data-inputs/supported-integrations/global-e-integration"
+                "data-inputs/platform-integration-instructions/global-e-integration"
               ]
             },
             {
               "group": "Fairing",
               "pages": [
-                "data-inputs/supported-integrations/fairing-integration"
+                "data-inputs/platform-integration-instructions/fairing-integration"
               ]
             },
             {
               "group": "Blotout",
               "pages": [
-                "data-inputs/supported-integrations/blotout-integration"
+                "data-inputs/platform-integration-instructions/blotout-integration"
               ]
             },
             {
               "group": "(Beta) Gorgias",
               "pages": [
-                "data-inputs/supported-integrations/gorgias-integration"
+                "data-inputs/platform-integration-instructions/gorgias-integration"
               ]
             },
             {
               "group": "Tapcart",
               "pages": [
-                "data-inputs/supported-integrations/tapcart-integration"
+                "data-inputs/platform-integration-instructions/tapcart-integration"
               ]
             },
             {
               "group": "Tatari",
               "pages": [
-                "data-inputs/supported-integrations/tatari-integration"
+                "data-inputs/platform-integration-instructions/tatari-integration"
               ]
             }
           ]
