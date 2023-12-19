@@ -1,0 +1,52 @@
+---
+title: "What is the Exclude $0 Order feature?"
+icon: 'question-mark'
+---
+
+Source Medium's Exclude \$0 Orders feature removes any order with a `Total Revenue` of \$0 - and associated order components such as shipping, tax, revenue, etc. - from reporting on your Executive Summary, YoY performance, and Retention / LTV modules.  These orders are not removed from any of the deep dive pages (e.g. Orders Deep Dive, Customer & Product modules etc).
+
+<Accordion title="Quick Note: Gross, Net and Total Revenue definitions">
+    - Gross Revenue = `line item price` X `quantity`
+    - Net Revenue = `Gross Revenue` - `discounts` - `refunds`
+    - Total Revenue = `Net Revenue` + `shipping` + `taxes`
+</Accordion>
+<Accordion title="A practical example (click to expand me)"> 
+    
+    Your business generates \$1000 in Gross Revenue in the month of May, from 10 orders of \$100 (Gross Revenue) each. These orders all have shipping amounts paid of \$5 and taxes paid of \$10 - resulting in a Total Revenue of \$115 for each order, and Cumulative Revenue of \$1150 for the month of May. 
+    
+    Now, 2 of these orders receive a \$10 discount due to a shipping delay, and then 1 of these orders eventually gets refunded for the full value (the remaining \$90 plus the \$15 shipping and tax) at the request of the customer - leading to a total discount amount of \$20, and refunded amount of \$105.
+    
+    Let's also assume that you've spent \$500 on marketing in the moth of May.
+    
+    | Metrics | Exclude \$0 Order Turned Off | Exclude \$0 Order Turned On |
+    | --- | --- | --- |
+    | Spend | \$500 | \$500 |
+    | Orders | 10 | 9 |
+    | Gross Revenue | \$1,000 | \$900 |
+    | Net Revenue | \$1,000 - \$20 (discount) - \$105 (refund) = \$875 | \$900 - \$10 (discount) = \$890 |
+    | Total Revenue | \$885 + \$45 (non-refunded shipping) + \$90 (non-refunded tax) = \$1,020 | \$890 + \$45 (shipping) + \$90 (tax) = \$1,025 |
+    | AOV (Net Rev / Orders) | \$875/10 =  \$87.50 | \$890/10 =  \$89 |
+    | CPO (Spend / Orders) | \$500/10 = \$50 | \$500/9 = \$55.56 |
+    | ROAS (Net Rev / Spend) |  \$875 / \$500 = 1.75 | \$890 / \$500 = 1.78 |
+</Accordion>
+
+## Why turn on the Exclude \$0 feature -  the benefits & implications
+
+There are many scenarios in which an order could come out to a Total Revenue of \$0, such as: 
+
+- fully refunded orders
+- fully discounted orders
+- free promo / gift orders
+
+These orders aren't necessarily useful - and in some situations should be removed from the picture - to ensure the most accurate analyses. Consider the [example in the section above](https://www.notion.so/Exclude-0-Orders-feature-what-s-it-for-cb55795a3e694a2bb019181502f8f6e7?pvs=21) - having a fully refunded order inflated ROAS vs removing that order from the equation, due to  lower net revenue with that order included. CPO was similarly impacted, but to a more extreme degree - CPO was \$50 with the refunded order included, compared to having it excluded with a CPO of \$56.  
+
+Depending on which view of macro-level KPIs you consider to be “pure” (from the above example), should inform whether or not you should enable the Exclude \$0 Orders feature.
+
+- Our view
+    
+    In our view, it's usually a good idea to exclude these orders so metrics like AOV, Cost Per Order/Acquisition, ROAS etc. are more accurate. Since your marketing spend for the period wasn't really effective in generating a successful order / revenue, our opinion is that marketing spend should only be measured against the effective/successful orders when looking at overall business health (Executive Summary) - e.g. ROAS should not use revenue from fully refunded orders, CPA should not reflect you paying money for a fully refunded order, that spend should be spread over the remaining successful orders. *The* *Shopify sales report does not do this, which is why we focus on data cleaning and accuracy.*
+    
+
+### Additional information and related articles
+
+- [Why isn't my revenue in the Executive Summary matching with Shopify's Sales Report?](https://www.notion.so/Why-don-t-the-Executive-Summary-and-Shopify-s-Sales-Report-match-32bcf5812cde45c893b02ddfcb63815e?pvs=21)
