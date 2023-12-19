@@ -54,7 +54,7 @@
       "url": "source-medium-university"
     },
     {
-      "name": "Advanced Analyses & Case Studies",
+      "name": "Customer Stories & Case Studies",
       "url": "advanced-insights-and-strategy"
     }
 ],
@@ -545,15 +545,9 @@
       ]
     },
     {
-      "group": "Advanced Analyses & Case Studies",
+      "group": "Case Studies",
       "pages": [
-        "advanced-insights-and-strategy/insights-overview",
-        {
-          "group": "Case Studies",
-          "pages": [
-            "advanced-insights-and-strategy/case-studies/case-studies-placeholder"
-          ]
-        }
+        "advanced-insights-and-strategy/case-studies/case-studies-placeholder"
       ]
     },
     {
