@@ -109,6 +109,12 @@
       "group": "FAQs",
       "pages": [
         {
+          "group": "Imported FAQs",
+          "pages": [
+            "help-center/faq/faq-imports/what-is-exclude-$0-feature"
+          ]
+        },
+        {
           "group": "Data Clarification FAQs",
           "pages": [
             "help-center/faq/data-faqs/data-faqs-home"
