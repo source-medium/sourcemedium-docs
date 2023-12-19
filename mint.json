@@ -54,7 +54,7 @@
       "url": "source-medium-university"
     },
     {
-      "name": "Advanced Analyses & Case Studies",
+      "name": "Customer Stories & Case Studies",
       "url": "advanced-insights-and-strategy"
     }
 ],
@@ -70,6 +70,39 @@
       "pages": [
         "help-center/data-architecture",
         "help-center/data-freshness"
+      ]
+    },
+    {
+      "group": "Common Analyses & Use Cases",
+      "pages": [
+        {
+          "group": "Product Performance",
+          "pages": [
+            "help-center/common-analyses/top-selling-products"
+          ]
+        },
+        {
+          "group": "Cohort Analyses",
+          "pages": [
+            "help-center/common-analyses/customer-retention",
+            "help-center/common-analyses/revenue-retention",
+            "help-center/common-analyses/cohort-ltv",
+            "help-center/common-analyses/cohort-lto"
+          ]
+        },
+        {
+          "group": "Subscription Program",
+          "pages": [
+            "help-center/common-analyses/top-converting-products",
+            "help-center/common-analyses/subscription-program-retention"
+          ]
+        },
+        {
+          "group": "Marketing Performance",
+          "pages": [
+            "help-center/common-analyses/roas"
+          ]
+        }
       ]
     },
     {
@@ -281,7 +314,8 @@
               "pages": [
                 "data-inputs/platform-integration-instructions/ga4-integration",
                 "data-inputs/platform-overviews/ga4-platform-overview",
-                "data-inputs/platform-supporting-resources/ga4/proper-google-analytics-setup"
+                "data-inputs/platform-supporting-resources/ga4/google-analytics-common-failures",
+                "data-inputs/platform-supporting-resources/ga4/improving-last-click-attribution"
               ]
             },
             {
@@ -417,7 +451,7 @@
       "pages": [
         "data-inputs/configuration-sheet/configuration-sheet-overview",
         {
-          "group": "Setting KPI Targets",
+          "group": "Setting Metric Targets",
           "pages": [
             "data-inputs/configuration-sheet/targets-tab"
           ]
@@ -507,52 +541,13 @@
                 "source-medium-university/report-docs/report-pages/subscription-product-performance-module"]
             }
           ]
-        },
-        {
-          "group": "Common Analyses",
-          "pages": [
-            {
-              "group": "Product Performance",
-              "pages": [
-                "source-medium-university/common-analyses/top-selling-products"
-              ]
-            },
-            {
-              "group": "Cohort Analyses",
-              "pages": [
-                "source-medium-university/common-analyses/customer-retention",
-                "source-medium-university/common-analyses/revenue-retention",
-                "source-medium-university/common-analyses/cohort-ltv",
-                "source-medium-university/common-analyses/cohort-lto"
-              ]
-            },
-            {
-              "group": "Subscription Program",
-              "pages": [
-                "source-medium-university/common-analyses/top-converting-products",
-                "source-medium-university/common-analyses/subscription-program-retention"
-              ]
-            },
-            {
-              "group": "Marketing Performance",
-              "pages": [
-                "source-medium-university/common-analyses/roas"
-              ]
-            }
-          ]
         }
       ]
     },
     {
-      "group": "Advanced Analyses & Case Studies",
+      "group": "Case Studies",
       "pages": [
-        "advanced-insights-and-strategy/insights-overview",
-        {
-          "group": "Case Studies",
-          "pages": [
-            "advanced-insights-and-strategy/case-studies/case-studies-placeholder"
-          ]
-        }
+        "advanced-insights-and-strategy/case-studies/case-studies-placeholder"
       ]
     },
     {
