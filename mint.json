@@ -111,7 +111,8 @@
         {
           "group": "Imported FAQs",
           "pages": [
-            "help-center/faq/faq-imports/what-is-exclude-$0-feature"
+            "help-center/faq/faq-imports/what-is-exclude-$0-feature",
+            "help-center/faq/faq-imports/moving-slack-bot-to-another-channel"
           ]
         },
         {
