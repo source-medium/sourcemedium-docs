@@ -1,0 +1,42 @@
+---
+title: "Why don't New Customers + Repeat Customers = Customers?"
+icon: 'question-mark'
+---
+### Executive Summary ###
+
+Source Medium counts new and repeat customers irrespective of each other.  If a customer placed their acquisition order within the date aggregation (day/week/month etc.), they are counted as a new customer.  If a customer places a repeat order within the date, they are counted as a repeat customer.  If a customer places both their acquisition order and a repeat order within the date aggregation, they will be counted as 1 new customer and 1 repeat customer.
+
+This definition can result in `New Customers + Repeat Customers` being higher than the `Customers` figure when customers place their acquisition and repeat order within the date aggregation.
+<Accordion title="Example">
+In May we acquire 100 new customers, and 100 repeat customers -- who acquired in April or earlier -- come back to make another purchase.  
+Assuming none of the customers who were acquired in May place a second order within that month, we'll have the following counts for the month: 
+    
+    • `Customers`: 200
+
+    • `New Customers`: 100 
+
+    • `Repeat Customers`: 100 for May.  
+
+However, let's say 25 of those customers who were acquired in May place a second order before the end of the month.  
+Those customers will now be counted towards `Repeat Customers` as well as `New Customers`, resulting in the following counts for the month:
+    
+    • `Customers`: 200
+
+    • `New Customers`: 100
+
+    • `Repeat Customers`: 125
+</Accordion>
+**Additional Note:** First-time orders which include only gift cards are not counted as new customers by Shopify, but will be counted as new customers by Source Medium.
+
+| Module | Uniqueness | Examples |
+| --- | --- | --- |
+| Executive Summary | Daily | If a customer buys 3 times in 1 day, the customer gets counted once as a New Customer and once as a Repeat Customer for the day. 
+If a customer buys 3 times over 3 days, the customer gets counted once as New Customer on the first day and once as a Repeat Customer on each subsequent repeat purchase date. 
+If a customer buys 3 times over 3 days, and the date gets rolled up to a week view, the customer gets counted once as New Customer and twice as a Repeat Customer.
+A customer can only be counted once as a New Customer, ever. |
+| Repurchase Analysis | Monthly | If a customer buys once in July and twice in August, the customer is counted once as a New Customer in July and once as a Repeat Customer in August.
+If a customer buys 3 orders in July, the customer is counted once as a New Customer and once as a Repeat Customer.  |
+| Last Order Analysis | Absolute | If a customer buys once in July and twice in August, the customer is counted once in August on the date of the third purchase and categorized as Repeat Purchaser.
+If a customer buys 3 times in July, the customer is counted once on the date of the third purchase and categorized as Repeat Purchaser. |
+
+---
