@@ -1,0 +1,81 @@
+---
+title: "How does Stripe metadata work?"
+icon: 'question-mark'
+---
+
+
+## Stripe Charge Metadata Guide
+
+### Context
+
+Due to the flexibility of the Stripe platform, we're able to match the depth of our reporting with Stripe data with additional metadata provided by the merchant dev team. Our technology pulls in on a best-effort basis from Stripe primitives like `invoices`, `charges`, `plans`, `subscriptions`, and `products`. 
+
+However, not every merchant utilizes these primitives in the same way. In order to have the best experience with our platform, the merchant can choose to enrich their Stripe data with their own backend data in order the customize how the data shows up within SourceMedium.
+
+## How it works
+
+SourceMedium uses `charges` as the foundational building blocks for generating reports from Stripe. `Charges` don't initially contain context around the transaction, so in order to provide rich insights we have a metadata format customers can use to pass us order and product-level data through their charges. 
+If the merchant chooses to enrich their `charge` object with their own data, it will override the Stripe data on a line items level. 
+
+A caveat here is that incorrect metadata in Stripe could produce incorrect reporting, therefore quality assurance is key to having correct Stripe reporting in SourceMedium.
+
+## Charges Metadata
+
+The following data should be provided via the metadata in each charge in JSON format:
+
+<Accordion title = "Example of complete metadata (in JSON form) for a given charge with refunds">
+
+```sql
+{
+  "order_id": "order-id-123", # as order_id_secondary
+  "subscription_id": "subscription-id-123", # if applicable
+  "order_type": "onetime|first_sub_order|recurring_sub_order|trial", # required
+  "line_items": [
+		{
+		  "line_item_id": "order-line-id-123", # required
+			"sku": "SKU123", # required
+			"product_title": "Awesome Product", # optional
+			"variant_title": "2 Pack", # optional
+			"price": 12, # required
+			"quantity": 2, # required
+			"gross_revenue": 24, # 12 * 2
+			"net_revenue": 20, # gross - discounts - refunds 
+			"total_discounts": 4 # required
+		}
+  ], # required
+  "refund_line_items": [ # ONLY relevant if there's a refund on this charge.
+    "line_item_id": "order-line-id-123", # required
+    "subtotal": "{{ REFUNDED AMOUNT }}" # required
+  ],
+	"discount_code": "WELCOME15", 
+	"shipping_city": "{{CITY}}", 
+	"shipping_state": "{{STATE}}", 
+	"shipping_country": "{{COUNTRY}}",
+	"shipping_zip": "{{ZIP}}", 
+  "zero_party_attribution": "YouTube - Ads - {{ Account Name }}", 
+	"utm_source": "{{ utm_source }}", 
+	"utm_medium": "{{ utm_medium }}", 
+	"utm_campaign": "{{ utm_campaign }}", 
+	"utm_term": "{{ utm_term }}", 
+	"utm_content": "{{ utm_content }}", 
+	"tags": "tag1, tag2, tag3"
+}
+```
+</Accordion>
+
+# IMPORTANT
+
+`Charge` metadata will not be incorporated IF the following conditions occur:
+
+- Mal-formatted JSON object. [JSON format documentation](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/JSON#:~:text=JavaScript%20Object%20Notation%20(JSON)%20is,page%2C%20or%20vice%20versa).).
+- Incomplete or inaccurate line item data
+    - Anything marked as `required` in the example JSON above.
+    - IF the sum of line item amounts is drastically different from the actual `charge` amount.
+        - eg. `charge` is \$100, but the metadata contains line items with a combined revenue amount of \$200.
+
+## Modules Enabled by This Data
+
+- Orders Deep Dive
+- Product Performance
+- Retention/LTV
+- Product Affinity
