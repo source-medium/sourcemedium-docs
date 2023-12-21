@@ -112,7 +112,30 @@
           "group": "Imported FAQs",
           "pages": [
             "help-center/faq/faq-imports/what-is-exclude-$0-feature",
-            "help-center/faq/faq-imports/moving-slack-bot-to-another-channel"
+            "help-center/faq/faq-imports/moving-slack-bot-to-another-channel",
+            "help-center/faq/faq-imports/why-would-external-reports-not-match-the-sourcemedium-dashboard",
+            "help-center/faq/faq-imports/why-has-my-amazon-data-stopped-showing-up-in-my-dashboard",
+            "help-center/faq/faq-imports/why-isnt-the-executive-summary-report-attributing-my-gift-card-revenue",
+            "help-center/faq/faq-imports/why-dont-the-executive-summary-and-shopifys-sales-report-match",
+            "help-center/faq/faq-imports/why-dont-new-customers-plus-repeat-customers-equal-customers",
+            "help-center/faq/faq-imports/why-does-my-ltv-look-off-in-my-multi-store-report",
+            "help-center/faq/faq-imports/what-metrics-can-i-include-in-my-daily-slack-bot-report",
+            "help-center/faq/faq-imports/what-is-reported-as-a-conversion-within-the-marketing-overview",
+            "help-center/faq/faq-imports/what-attribution-windows-does-sourcemedoum-report-on-for-marketing-platforms",
+            "help-center/faq/faq-imports/best-practices-in-setting-up-a-post-purchase-hdyhau-survey",
+            "help-center/faq/faq-imports/how-does-editing-an-order-after-the-order-date-affect-reporting",
+            "help-center/faq/faq-imports/what-data-secutiy-practices-are-in-place-at-sourcemedium",
+            "help-center/faq/faq-imports/are-you-utilizing-customer-and-order-tagging-for-deeper-enrichment-of-your-data",
+            "help-center/faq/faq-imports/how-can-i-improve-my-last-click-attribution",
+            "help-center/faq/faq-imports/how-does-stripe-metadata-work",
+            "help-center/faq/faq-imports/what-to-know-about connecting-google-analytics-to-sourcemedium",
+            "help-center/faq/faq-imports/how-do-i-add-historic-product-costs-from-shopify-into-my-dashboard",
+            "help-center/faq/faq-imports/how-do-i-enter-non-integrated-sales-data-sales-tab",
+            "help-center/faq/faq-imports/how-do-i-override-product-costs-from-shopify-into-my-dashboard",
+            "help-center/faq/faq-imports/how-do-i-surface-fulfillment-costs-within-my-dashboard",
+            "help-center/faq/faq-imports/how-do-i-surface-merchant-processing-fees-within-my-dashboard",
+            "help-center/faq/faq-imports/how-do-i-surface-operating-expenses-within-my-dashboard",
+            "help-center/faq/faq-imports/how-do-i-surface-product-costs-from-platforms-outside-of-shopify-into-my-dashboard"
           ]
         },
         {

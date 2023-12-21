@@ -1,0 +1,56 @@
+---
+title: "What is reported as a “conversion” within the Marketing Overview?"
+sidebarTitle: "Marketing Overview conversion definition"
+icon: 'question-mark'
+---
+
+## Conversion definitions by marketing platform — how we report conversions within SourceMedium
+
+### Background
+
+For almost every marketing platform, there are many different ways to configure conversion tracking and many different standard actions that can be tracked as conversions. While Source Medium encourages you to track conversions on all levels that you find actionable, we have a more opinionated view on what should be considered a conversion within the reporting context of paid marketing.  
+
+Within the **Marketing Overview** dashboard, the only action SourceMedium considers a conversion is when a platform reports a purchase of goods from your business.  We find it is important to only include the conversions that are meant to report purchases on your site, and therefore drive revenue. This action can be called many different things depending on the platform (e.g. purchase vs. sale vs. payment etc.) and can be configured in many different ways — e.g. Bing reports “Goals” which can then be configured to track different actions as conversions.
+
+### Platform Definitions
+
+Below are our platform-specific definitions for what is counted as a Conversion within SourceMedium's Marketing Overview dashboard
+<AccordionGroup>
+<Accordion title= "Google Ads">
+    - `Conversions` WHERE `Conversion Category` CONTAINS **"purchase"** OR **"sale"** OR **"subscription"** OR **"subscribe"**
+</Accordion>
+<Accordion title= "Facebook Ads">
+    - `Conversions` WHERE `Conversion Category` = "**omni_purchase**”
+        - Using 7d click attribution window
+</Accordion>
+<Accordion title= "Bing Ads">
+    - `Conversions` WHERE `Goal` CONTAINS **"purchase"** OR **"sale"** OR **"subscription"** OR **"convert"** OR **"conversion"** OR **"ShopifyCheckoutComplete"**
+</Accordion>
+<Accordion title= "TikTok Ads">
+    - Using `Total Complete Payments` from TikTok as `Conversions` in SourceMedium
+</Accordion>
+<Accordion title= "Snapchat Ads">
+    - Using `Purchases Total` from Snapchat as `Conversions` in SourceMedium
+        - \# of attributed "PURCHASE" conversion events
+</Accordion>
+<Accordion title= "Amazon Ads">
+    - Using `attributed_conversions14d` from Amazon Ads as `Conversions` in SourceMedium
+</Accordion>
+<Accordion title= "Pinterest">
+    - Using `Conversions (Checkout)` from Pinterest as `Conversions` in SourceMedium      
+        - The sum of Click-through conversions (Checkout), Engagement conversions (Checkout) and View-through conversions (Checkout)
+</Accordion>
+<Accordion title= "Impact">
+    - Using `Actions` for `Performance by Partner` from Impact as `Conversions` in SourceMedium
+</Accordion>
+<Accordion title= "ShareASale">
+    - Using `Sales` from ShareASale as `Conversions` in SourceMedium
+</Accordion>
+<Accordion title= "Klaviyo">
+    - Using `Placed Order` from Klaviyo as `Conversions` in SourceMedium
+</Accordion>
+</AccordionGroup>
+
+
+---
+

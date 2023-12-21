@@ -1,0 +1,30 @@
+---
+title: "How does editing an order after the order date affect reporting?"
+sidebarTitle: "Does editing post-order date affect reporting?"
+icon: 'question-mark'
+---
+SourceMedium Executive Summary reports on the discrete order date, with any subsequent modifications to the order reflecting back on the original order date.
+
+Shopify reports on the event date, with any subsequent modifications to the order reflecting on the date of the event/modification date, this is referred to as Transaction Based reporting.
+
+Due to the difference in reporting, gross revenue in the SourceMedium Executive Summary may not align perfectly with the respective Shopify sales report.
+
+<Accordion title="As an example of an order journey">
+
+A customer places an order of \$100 on November 10th from Store XYZ. The same customer adds \$50 worth to the original order on November 11th. The following tables will summarize how the data will be presented to the store.
+
+**Shopify Report:**
+
+| date | Gross Revenue |
+| --- | --- |
+| Nov 10, 2022 | \$100.00 |
+| Nov 11, 2022 | \$50.00 |
+
+**Source Medium Report:**
+
+| date | Gross Revenue |
+| --- | --- |
+| Nov 10, 2022 | \$150.00 |
+| Nov 11, 2022 | - |
+
+</Accordion>

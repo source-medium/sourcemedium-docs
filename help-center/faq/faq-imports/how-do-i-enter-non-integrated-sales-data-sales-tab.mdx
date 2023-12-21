@@ -1,0 +1,38 @@
+---
+title: "How do I enter non-integrated sales data through my Configuration Sheet (Sales tab)?"
+sidebarTitle: "Entering non-intergrated sales data"
+icon: 'question-mark'
+---
+### Background
+
+Even if SourceMedium doesn't currently support one of your sales platforms — e.g. wholesale or retail data — you can still account for this sales performance and include it within SM!  Use the following guide to find out how.
+
+### **Steps**
+
+1. First, ensure that you have accurate records of the sales data in question
+    - Typically a direct export from the platform is the best solution
+2. Open your SourceMedium Configuration Sheet and navigate to the Sales tab
+3. The structure of this sheet is fairly straightforward
+    1. `channel`
+        - This is where you select the sales channel to attribute the following performance to
+        - Options are: Online DTC, Retail, Wholesale, Amazon, Draft Orders, Exchanged, Partners / Affiliates, & Excluded
+            - Most likely you will be using either the Retail, Wholesale, or potentially Online DTC channels
+    2. `sub_channel`
+        - This is the sub-channel you wish to attribute these sales to
+        - This value is NOT relevant for reporting purposes, as sub-channel is not surfaced in the Executive Summary data.  
+            - Purely for internal tracking & organization of costs within the Sales tab
+    3. `date_start`
+        - This is the date to start attributing the following values on.  E.g. if you set a `date_start`= 9/1/22 and enter $1000 in `gross revenue`, $1000 will start being attributed to 9/1/22
+        - If a date_end value is entered, the metric value will be evenly amortized across all dates in the range of `date_start` through `date_end` (inclusive of both dates)
+            - e.g. if `date_start` is 9/1/22 and `date_end` is 9/10/22, a `gross revenue` value of $1000 would be amortized evenly at $100 on 9/1/22 - 9/10/22
+        - If `date_end` is left blank, the full metric value(s) will be attributed to `date_start`
+            - e.g. if `date_start` is 9/1/22 and no `date_end` value is present, a `gross revenue` value of $1000 would be attributed in full to 9/1/22
+    4. `date_end`
+    5. Metric-specific columns - `gross_revenue`, `net_revenue`, `orders`, `primary_product_units` (only relevant for brands with a flagship product), `discounts`, `refunds`
+        - This is where you enter the exact value(s) for any combination of metrics you're wanting to report
+        - These are currently the only metrics supported by the Sales tab
+            - Reach out to the SM team if you have a need that isn't covered by these metric options, we'll do our best to come up with an alternate solution, or we'll add it to our R&D queue 
+4. Enter data into the sheet using the the schema explained above.  
+5. If you're using the Sales Tab for the very first time, you'll just need to reach out to the SM team to enable the feature.  After the feature has been enabled by the SM team, data and updates will be picked up and routed to your report automatically every hour
+
+---
