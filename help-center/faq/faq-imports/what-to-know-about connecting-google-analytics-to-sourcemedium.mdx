@@ -1,0 +1,53 @@
+---
+title: "What to know about connecting Google Analytics to SourceMedium"
+sidebarTitle: "Connecting Google Analytics to SourceMedium"
+icon: 'question-mark'
+---
+Google Analytics is a powerful system for understanding user behavior. When you connect SourceMedium to Google Analytics, SourceMedium will stream and integrate your 'GA' data into your dashboard and other data sources. The integration of this data can be fairly involved, so let's break it down to just the main things that give the maximum amount of clarity.
+
+### How Google Analytics data is Integrated - the “Attribution Waterfall”
+
+When integrating data, it's important to decide on a most trustworthy data source to use as a foundation. At SourceMedium we use Shopify data as our Source of Truth, as Shopify data is robust and represents real financial transactions. When we integrate Google Analytics data with Shopify data, we trust Shopify more than Google Analytics - this hierarchy of trust is called our “Attribution Waterfall.” In short, when we report this integrated data, we are showing Shopify data which has been enriched and expanded by Google Analytics.
+
+This enrichment can fill in gaps in both data sources — SourceMedium can regularly provide attribution for 10-30% more orders than Google Analytics on its own.
+
+### Why doesn't Shopify/SourceMedium match Google Analytics?
+
+Google Analytics has some common failure points that can cause data sources to diverge:
+
+- Subscription Checkout Issues
+    
+    Subscription services like ReCharge often do not correctly attribute orders. This can happen for a number of reasons, and the solutions generally depend on the subscription service.
+    
+- Adblockers
+    
+    The data that GA provides is generally only as good as the tracking, and most, if not all tracking tech (pixels, cookies, tag, etc.) can be circumvented by customers.
+    
+- Faulty Tracking
+    
+    There's no absolute right or wrong approach for setting up UTMs, but most companies make some sort of mistake when setting up tracking. The best practices we have identified are covered in this [starter doc](https://www.notion.so/How-can-I-improve-my-last-click-UTM-attribution-0a6796ff8de54b1498aeb7643cbfa0bd?pvs=21) and this [template](https://docs.google.com/spreadsheets/d/14hx6hlce6zTwfMIcuKLUIuOYl5uWVlcyCr9FIL0GQJk/edit#gid=0).
+    
+- Factors not visible to SourceMedium
+    
+    Tracking is complex, and many other factors that are not visible to SourceMedium can come into play. It is generally reasonable to expect 10-20% discrepancies between Shopify (source of truth) and GA.
+    
+
+### What do “Direct / None” & “None / None “ Source / Mediums mean?
+
+`(Direct) / (none)` is the bucket we put things in when we don't have access to attribution data. It means either people visited your website directly (manually typing in the URL) or something outlined above dropped attribution. 
+
+`(None) / (none)` traffic refers to visitors whose UTM source and medium values are both `null` and therefore cannot be identified by Google Analytics.
+
+If you're seeing one these source / mediums as your largest attribution category, usually it means something can be improved! 
+
+### How to Improve Your UTM Tracking
+
+To ensure that your Google Analytics setup is proper, make sure that you have correctly installed the tracking code on your website and that you have set up your goals and filters correctly. Additionally, you should regularly review your traffic sources to identify any potential issues with direct or none traffic.
+
+If you are experiencing issues with direct or none traffic, consider implementing UTM tracking parameters to more accurately track the sources of your website traffic. However, keep in mind that UTMs can break due to a variety of reasons, including ad blockers, misconfiguration of GA, and ReCharge checkout issues.
+
+It is also important to note that Google Analytics may not be able to distinguish between new and returning customers, as it does not have a total history of your new versus repeat customers. To address this, SourceMedium has ingested historic data for your business to match a customer against those that have been ingested to determine if that customer is new or returning.
+
+Finally, keep in mind that the data provided by GA is only as good as the tracking technology being used, which can be circumvented by customers using ad blockers or faulty tracking. For this reason, we use Shopify as our source of truth and use GA data to enrich that Shopify data.
+
+**Some of the best practices we have identified are outlined in this [starter doc](https://help.sourcemedium.com/articles/how-can-i-improve-my-last-click-utm-attribution) and this [template](https://docs.google.com/spreadsheets/d/14hx6hlce6zTwfMIcuKLUIuOYl5uWVlcyCr9FIL0GQJk/edit#gid=0).**

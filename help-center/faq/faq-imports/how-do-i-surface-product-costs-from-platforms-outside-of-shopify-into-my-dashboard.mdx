@@ -1,0 +1,61 @@
+---
+title: "How do I surface Product Costs from Platforms outside of Shopify into my dashboard?"
+sidebarTitle: "Surfacing Non-Shopify Product Costs"
+icon: 'question-mark'
+---
+### Requirements
+
+Inserted **product costs** on the **Financial Cost - Product COGS** tab on the configuration sheet
+
+### Background
+
+Keeping track of `product costs` is crucial for your business. It is a significant expense that directly affects your profitability on an customer, order and product level and is included as part our COGS (Cost of Goods Sold) and Gross Profit metrics.
+
+### Steps
+
+1. Input your **Non-Shopify Product Costs** within your **Configuration Sheet**
+    1. Go to the **Financial Cost - Product COGS** Tab 
+    2. Enter the below: 
+        - category = Financial
+        - channel (Amazon, Retail, Wholesale, etc)
+            1. If you have already imputed your Product Costs in Shopify, then you do not need to enter any costs for your Online DTC channel unless you want to enter historical Shopify Product costs (See how to do that [HERE](https://www.notion.so/How-do-I-add-historical-Product-Costs-from-Shopify-into-my-dashboard-42737f70658f41308f57253d779b2d53?pvs=21)).
+            2. Amazon SKUs and Shopify SKUs can be the same but they are usually different. Please add any Amazon SKUs, whether it is the same or different to the config sheet and set the channel to Amazon.
+        - expense_channel = Product COGS
+        - product cost - *This is your cost per product*
+        - date_start
+        - date_end <br /> 
+        
+    *Note: date_start and date_end can be used to capture changes in product costs over time. You will be able to change these date fields historically and in the future in case of updates to product costs and our data model will update accordingly.*
+        
+        *It is imperative to make sure you include a* `date_end` *, as the row will not be included if there is not an* `date_end` *included.*
+        
+    
+    Here is a [VIDEO](https://www.loom.com/share/514ded8bbd124e449bdb25185b01bf92) that goes through the steps. 
+    
+2. Please let the SourceMedium team know that you've inputted the product costs and we will enable costs to be picked up automatically moving forward. *Historical data can be inputted into this sheet to update the costs of prior products as well.*
+
+### How and where these costs surface in the dashboard?
+
+#### Tables where these costs are currently available:
+<AccordionGroup>
+<Accordion title= "Executive Summary">
+-Called **`Product Gross Profit`** (Net Revenue - Product Cost)
+</ Accordion>
+<Accordion title="LTV & Retention">
+- Called **`Product Gross Profit`**
+- Called **`LTV - Adj`** (Cumulative Product Gross Profit / Cohort Size)
+</Accordion>
+<Accordion title="Product Performance">
+- Called `Product Cost`
+- Called `Product Gross Profit`
+</Accordion>
+<Accordion title="Product Cost and Product Gross Profit are also available on">      
+- YoY Performance
+- Orders Deep Dive
+</Accordion>
+</AccordionGroup>
+### FAQs:
+
+### What happens if no date_end date is provided?
+    
+    It is imperative to make sure you include a date_end date as the order/row will not be included if it does not have a date_end date.

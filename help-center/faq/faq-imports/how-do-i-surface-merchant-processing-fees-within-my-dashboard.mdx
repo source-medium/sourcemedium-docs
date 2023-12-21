@@ -1,0 +1,69 @@
+---
+title: "How do I surface Merchant Processing Fees within my dashboard?"
+sidebarTitle: "Surfacing Merchant Processing Fees"
+icon: 'question-mark'
+---
+### Requirements
+
+Inserted **merchant processing fees** on the **Financial Cost - Merchant Processing Fees** tab on the configuration sheet
+
+### Background
+
+Keeping track of **`merchant processing fees`** is crucial in your business. It is a significant expense that directly affects your profitability on an customer, order and product level and is included as part our COGS (Cost of Goods Sold) and Gross Profit metrics.
+
+### Steps
+
+1. Input your **Merchant Processing Fees** within your **Configuration Sheet**
+    1. Go to the **Financial Cost - Merchant Processing Fees** Tab 
+    2. Enter the below: 
+        - category = Financial
+        - channel 
+        - expense_channel = Merchant Processing Fees
+        - region - *If the region you want to add is not a part of the drop down, please let the team know and we will add it.*
+        - payment processor
+        - fixed cost/order - *This is your fixed merchant processing fees per order*
+        - variable cost/order - *This number (usually a percent) is multiplied by the total_revenue of the order and rounded to 2 decimal places.* 
+            - **The variable cost/order + fixed cost per order will give you the total merchant processing fee for the order**
+        - date_start
+        - date_end <br />
+    
+    *Note: Date_start and date_end can be used to capture changes in fulfillment costs over time. You will be able to change these date fields historically and in the future in case of updates to fulfillment costs and our data model will update accordingly.* 
+    
+    *It is imperative to make sure you include a date_end date as the order/row will not be included if it does not have a date_end date.*
+      
+    Here's a [VIDEO](https://www.loom.com/share/7531fc6f4316432abef53a249a8fe4fa) on how to enter the costs. 
+    
+2. Please let the SourceMedium team know that you've inputted the merchant processing fee rates by vendor we will enable costs to be picked up automatically moving forward. *Historical data can be inputted into this sheet to update the costs of prior orders as well.*
+
+### How and where will it surface in the dashboard?
+
+#### What tables are these costs currently available:
+<AccordionGroup>
+<Accordion title="Executive Summary">
+- Called `merchant processing fees`
+</ Accordion>
+<Accordion title="LTV & Retention">
+- Called `allocated merchant processing fees / cumulative allocated merchant processing fees`
+</ Accordion>
+<Accordion title="Orders">
+- Called `merchant processing fees`
+     - *Merchant Processing fees are at the orders level so each order will contain the merchant processing fee as the fixed cost and/or variable cost you enter on the configuration sheet*
+        - *`payment processor` is available in the Orders data*
+</ Accordion>
+<Accordion title="Product Performance">
+- Called `allocated merchant processing fees`
+    - *If the merchant processing fee per order is a fixed $.30 and 5% variable and there were 5 products in an order, it will show up divided amongst the 5 products*
+</ Accordion>
+</ AccordionGroup>
+
+We will continue to QA this alongside your team so please let us know of any questions, clarifications, or complications!
+
+### FAQs:
+
+#### What happens if no date_end date is provided?
+    
+It is imperative to make sure you include a date_end date as the order/row will not be included if it does not have a date_end date.
+    
+#### What of my vendor is not available as part of the preselected dropdown?
+    
+If you do not see your vendor listed in the preselected dropdown, reach out to the CSA Team and they will be able to get your vendor added to the dropdown.

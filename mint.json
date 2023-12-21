@@ -127,7 +127,15 @@
             "help-center/faq/faq-imports/what-data-secutiy-practices-are-in-place-at-sourcemedium",
             "help-center/faq/faq-imports/are-you-utilizing-customer-and-order-tagging-for-deeper-enrichment-of-your-data",
             "help-center/faq/faq-imports/how-can-i-improve-my-last-click-attribution",
-            "help-center/faq/faq-imports/how-does-stripe-metadata-work"
+            "help-center/faq/faq-imports/how-does-stripe-metadata-work",
+            "help-center/faq/faq-imports/what-to-know-about connecting-google-analytics-to-sourcemedium",
+            "help-center/faq/faq-imports/how-do-i-add-historic-product-costs-from-shopify-into-my-dashboard",
+            "help-center/faq/faq-imports/how-do-i-enter-non-integrated-sales-data-sales-tab",
+            "help-center/faq/faq-imports/how-do-i-override-product-costs-from-shopify-into-my-dashboard",
+            "help-center/faq/faq-imports/how-do-i-surface-fulfillment-costs-within-my-dashboard",
+            "help-center/faq/faq-imports/how-do-i-surface-merchant-processing-fees-within-my-dashboard",
+            "help-center/faq/faq-imports/how-do-i-surface-operating-expenses-within-my-dashboard",
+            "help-center/faq/faq-imports/how-do-i-surface-product-costs-from-platforms-outside-of-shopify-into-my-dashboard"
           ]
         },
         {
