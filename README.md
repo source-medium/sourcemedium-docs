@@ -1,2 +1,2 @@
 # sourcemedium-docs
-Documentation for the Source Medium platform &amp; underlying infrastructure
+Documentation for the SourceMedium platform &amp; underlying infrastructure

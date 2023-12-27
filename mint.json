@@ -1,5 +1,5 @@
 {
-  "name": "Source Medium",
+  "name": "SourceMedium",
   "__analytics__": {
     "ga4": {
         "measurementId": "G-XXXXXXX"
@@ -50,12 +50,12 @@
       "url": "data-inputs"
     },
     {
-      "name": "Source Medium University",
+      "name": "SourceMedium Bootcamp",
       "url": "source-medium-university"
     },
     {
       "name": "Customer Stories & Case Studies",
-      "url": "advanced-insights-and-strategy"
+      "url": "https://www.sourcemedium.com/case-study"
     }
 ],
   "navigation": [
@@ -200,8 +200,7 @@
             {
               "group": "Shopify",
               "pages": [
-                "data-inputs/platform-integration-instructions/shopify-integration",
-                "data-inputs/platform-overviews/shopify-platform-overview"
+                "data-inputs/platform-integration-instructions/shopify-integration"
               ]
             },
             {
@@ -537,10 +536,10 @@
       ]
     },
     {
-      "group": "Source Medium University",
+      "group": "SourceMedium Bootcamp",
       "pages": [
         {
-          "group": "About Source Medium",
+          "group": "About SourceMedium",
           "pages": [
             "source-medium-university/getting-started/intro-to-sm",
             "source-medium-university/getting-started/why-source-medium"
