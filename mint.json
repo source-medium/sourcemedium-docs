@@ -43,7 +43,7 @@
   "tabs": [
     {
       "name": "Metrics & Dimensions",
-      "url": "metrics-and-dimensions"
+      "url": "https://airtable.com/appDL2NQzZOtufpl5/shriuBU2tZWDF2MJH/tblGNgK3rEziVojnH/viwGkJF0DcplUEAxY"
     },
     {
       "name": "Data Integrations & Inputs",
@@ -81,46 +81,6 @@
           "group": "Attribution",
           "pages": [
             "help-center/core-concepts/attribution/attribution-in-sourcemedium"
-          ]
-        }
-      ]
-    },
-    {
-      "group": "Common Analyses & Use Cases",
-      "pages": [
-        {
-          "group": "Product Performance",
-          "pages": [
-            "help-center/common-analyses/top-selling-products"
-          ]
-        },
-        {
-          "group": "Cohort Analyses",
-          "pages": [
-            "help-center/common-analyses/customer-retention",
-            "help-center/common-analyses/revenue-retention",
-            "help-center/common-analyses/cohort-ltv",
-            "help-center/common-analyses/cohort-lto"
-          ]
-        },
-        {
-          "group": "Subscription Program",
-          "pages": [
-            "help-center/common-analyses/top-converting-products",
-            "help-center/common-analyses/subscription-program-retention"
-          ]
-        },
-        {
-          "group": "Marketing Performance",
-          "pages": [
-            "help-center/common-analyses/roas"
-          ]
-        },
-        {
-          "group": "Profit & Loss",
-          "pages": [
-            "help-center/common-analyses/understanding-your-contribution-margin",
-            "help-center/common-analyses/understanding-your-gross-profit"
           ]
         }
       ]
@@ -185,12 +145,6 @@
       ]
     },
     {
-      "group": "Metrics & Dimensions",
-      "pages": [
-        "metrics-and-dimensions/airtable-embed-test"
-      ]
-    },
-    {
       "group": "Integrations",
       "pages": [
         "data-inputs/platform-integration-instructions/all-available-integrations",
@@ -230,8 +184,7 @@
             {
               "group": "ReCharge",
               "pages": [
-                "data-inputs/platform-integration-instructions/recharge-integration",
-                "data-inputs/platform-overviews/recharge-platform-overview"
+                "data-inputs/platform-integration-instructions/recharge-integration"
               ]
             },
             {
@@ -362,7 +315,6 @@
               "group": "Google Analytics - 4 (GA4)",
               "pages": [
                 "data-inputs/platform-integration-instructions/ga4-integration",
-                "data-inputs/platform-overviews/ga4-platform-overview",
                 "data-inputs/platform-supporting-resources/ga4/google-analytics-common-failures",
                 "data-inputs/platform-supporting-resources/ga4/improving-last-click-attribution"
               ]
@@ -589,19 +541,6 @@
             }
           ]
         }
-      ]
-    },
-    {
-      "group": "Case Studies",
-      "pages": [
-        "advanced-insights-and-strategy/case-studies/case-studies-placeholder"
-      ]
-    },
-    {
-      "group": "Internal",
-      "pages": [
-        "help-center/loom-vid-embed-test",
-        "internal/exec-summ-walk-thru-test"
       ]
     }
   ],
