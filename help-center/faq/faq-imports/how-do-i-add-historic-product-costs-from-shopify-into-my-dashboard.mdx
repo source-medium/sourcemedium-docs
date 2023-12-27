@@ -1,0 +1,60 @@
+---
+title: "How do I add historic Product Costs from Shopify into my dashboard"
+sidebarTitle: "Adding historic Product Costs"
+icon: 'question-mark'
+---
+## In this article we discuss Historical Product Costs for Shopify
+
+### Requirements
+
+- Inserted **product costs** on the **Financial Cost - Product COGS** tab on the configuration sheet
+
+### Background
+
+Keeping track of `product costs` is crucial for your business. It is a significant expense that directly affects your profitability on an customer, order and product level and is included as part our COGS (Cost of Goods Sold) and Gross Profit metrics.
+
+### Steps
+
+1. Input your **Historic Product Costs** within your **Configuration Sheet**
+    - Go to the **Financial Cost - Product COGS** Tab 
+    - Enter the below: 
+        - category = Financial
+        - channel = Online DTC 
+        - expense_channel = Product COGS
+        - SKU
+        - product cost - *This is your cost per product* 
+        - date_start
+        - date_end <br />
+    
+    *Note: date_start and date_end can be used to capture changes in product costs over time. You will be able to change these date fields historically and in the future in case of updates to product costs and our data model will update accordingly. 
+        It is imperative to make sure you include a date_end date as the row will not be included if there is not date_end included.*
+        
+    
+    Here's a [VIDEO](https://www.loom.com/share/99d5e76bd7dc4ce597639799ce100f97) on how to enter the costs.
+    
+2. Please let the SourceMedium team know that you've input the historic product costs and we will enable costs to be picked up automatically and backfilled into the historical data. 
+#### How and where these costs surface in the dashboard?
+
+Tables where these costs are currently available:
+
+- **Executive Summary**
+    - called **`Product Gross Profit`** (Net Revenue - Product Cost)
+- **LTV & Retention**
+    - called **`Product Gross Proft`**
+    - called **`LTV - Adj`** (Cumulative Gross Profit / Cohort Size)
+- Product Performance
+    - called `Product Cost`
+    - called `Product Gross Profit`
+        
+        
+
+`Product Cost` and `Product Gross Profit` are also available on
+
+- YoY Performance
+- Orders Deep Dive
+
+### FAQs:
+
+- What happens if no date_end date is provided?
+    
+    It is imperative to make sure you include a date_end date as the order/row will not be included if it does not have a date_end date.

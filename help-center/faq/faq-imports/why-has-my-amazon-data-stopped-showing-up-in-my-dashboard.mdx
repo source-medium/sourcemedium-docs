@@ -1,0 +1,28 @@
+---
+title: "Why has my Amazon data stopped showing up in my dashboard?"
+sidebarTitle: "Why Amazon data stopped appearing?"
+icon: 'question-mark'
+---
+### Requirements
+
+This is only applicable if you already have an Amazon Seller Central integration with SourceMedium
+
+### Background
+
+If all other data is still flowing in your dashboard, then this is most likely due to SourceMedium's MWS token expiring in your Amazon Seller Central account.
+
+**Note:** If only the most recent day of data is missing, this is likely due to Amazon's recent API changes which limit data freshness. Waiting a day for the data to ingest should resolve the issue. If it does not, then proceed with the steps below.
+
+### **Steps**
+
+1. **Updating Seller Central**
+    1. In your Seller Central account, go to **Settings >**  **User Permissions** page > [**Manage your Apps**](https://sellercentral.amazon.com/apps/manage) section. Find "SourceMedium" and enable access, Amazon will create a new MWS Auth token. 
+    2. You will need to give us this new MWS Auth token before we can successfully reactivate data collection for your Seller account.
+        1. **Share the new token with us at** [integrations@sourcemedium.com](mailto:integrations@sourcemedium.com)
+2. **Preventing Expirations**
+    1. When access is lost, we can not collect data for you. Unfortunately, loss of access will lead to gaps in data that can not be backfilled. 
+    2. There are two steps you can take to avoid expired authorization:
+        1. First, take note of Amazon communications about access renewals. Amazon provides a "Developer Access Renewal" service that reminds you to review developers that have access to your seller account periodically. Check your emails and notifications from Amazon on a regular basis. 
+        2. Second, in your Seller Central account, under **Settings >**  **User Permissions** page > [**Manage your Apps**](https://sellercentral.amazon.com/apps/manage) section, you will see a list of developers and apps listed. Click "renew" for "SourceMedium" if Amazon says the access is expiring soon.
+
+---

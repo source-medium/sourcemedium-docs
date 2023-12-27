@@ -1,0 +1,59 @@
+---
+title: "How do I override Product Costs from Shopify into my dashboard?"
+sidebarTitle: "Overriding Product Costs"
+icon: 'question-mark'
+---
+### Requirements
+
+Inserted **product costs** on the **Financial Cost - Product COGS** tab on the configuration sheet
+
+### Background
+
+Keeping track of `product costs` is crucial for your business. It is a significant expense that directly affects your profitability on an customer, order and product level and is included as part our COGS (Cost of Goods Sold) and Gross Profit metrics.
+
+### Steps
+
+1. Input your **Override Shopify Product Costs** within your **Configuration Sheet**
+    1. Go to the **Financial Cost - Product COGS** Tab 
+    2. Enter the below: 
+        - category = Financial
+        - channel = Online DTC 
+        - expense_channel = Product COGS
+        - SKU
+        - product cost - *This is your cost per product* 
+        - date_start
+        - date_end <br /> 
+    
+    *Note: date_start and date_end can be used to capture changes in product costs over time. You will be able to change these date fields historically and in the future in case of updates to product costs and our data model will update accordingly. 
+        It is imperative to make sure you include a date_end date as the row will not be included if there is not date_end included.*
+        
+    
+    Here is a [VIDEO](https://www.loom.com/share/20399f84346c43b88a1b82f690b480d8) on how to enter the costs.
+    
+2. Please let the SourceMedium team know that you've inputted the product costs and we will enable costs to be picked up automatically moving forward. *Historical data can be inputted into this sheet to update the costs of prior products as well.*
+
+### How and where these costs surface in the dashboard?
+
+#### Tables where these costs are currently available:
+<AccordionGroup>
+<Accordion title="Executive Summary">
+-Called **`Product Gross Profit`** (Net Revenue - Product Cost) <br />
+</Accordion>
+<Accordion title="LTV & Retention">
+- Called **`Product Gross Proft`**
+- Called **`LTV - Adj`** (Cumulative Product Gross Profit / Cohort Size) <br />
+</Accordion>
+<Accordion title="Product Performance">
+- Called `Product Cost`
+Called `Product Gross Profit`
+</Accordion>
+<Accordion title="Product Cost and Product Gross Profit are also available on">        
+- YoY Performance
+- Orders Deep Dive
+</Accordion>
+</AccordionGroup>
+### FAQs:
+
+#### What happens if no date_end date is provided?
+    
+    It is imperative to make sure you include a date_end date as the order/row will not be included if it does not have a date_end date.
