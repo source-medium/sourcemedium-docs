@@ -1,5 +1,5 @@
 {
-  "name": "Source Medium",
+  "name": "SourceMedium",
   "__analytics__": {
     "ga4": {
         "measurementId": "G-XXXXXXX"
@@ -50,12 +50,12 @@
       "url": "data-inputs"
     },
     {
-      "name": "Source Medium University",
+      "name": "SourceMedium Bootcamp",
       "url": "source-medium-university"
     },
     {
       "name": "Customer Stories & Case Studies",
-      "url": "advanced-insights-and-strategy"
+      "url": "https://www.sourcemedium.com/case-study"
     }
 ],
   "navigation": [
@@ -66,10 +66,23 @@
       ]
     },
     {
-      "group": "Data Transformation & Cleaning",
-      "pages": [
-        "help-center/data-architecture",
-        "help-center/data-freshness"
+      "group": "Core Concepts",
+      "pages": 
+      [
+        {
+          "group": "Data Transformation & Cleaning",
+          "pages": [
+            "help-center/core-concepts/data-transformation/transformation-vs-cleaning",
+            "help-center/core-concepts/data-transformation/data-architecture",
+            "help-center/core-concepts/data-transformation/data-freshness"
+          ]
+        },
+        {
+          "group": "Attribution",
+          "pages": [
+            "help-center/core-concepts/attribution/attribution-in-sourcemedium"
+          ]
+        }
       ]
     },
     {
@@ -101,6 +114,13 @@
           "group": "Marketing Performance",
           "pages": [
             "help-center/common-analyses/roas"
+          ]
+        },
+        {
+          "group": "Profit & Loss",
+          "pages": [
+            "help-center/common-analyses/understanding-your-contribution-margin",
+            "help-center/common-analyses/understanding-your-gross-profit"
           ]
         }
       ]
@@ -202,8 +222,7 @@
             {
               "group": "Shopify",
               "pages": [
-                "data-inputs/platform-integration-instructions/shopify-integration",
-                "data-inputs/platform-overviews/shopify-platform-overview"
+                "data-inputs/platform-integration-instructions/shopify-integration"
               ]
             },
             {
@@ -213,7 +232,7 @@
               ]
             },
             {
-              "group": "Amazon Vendor Central",
+              "group": "(Beta) Amazon Vendor Central",
               "pages": [
                 "data-inputs/platform-integration-instructions/amazon-vc-integration"
               ]
@@ -383,13 +402,13 @@
               ]
             },
             {
-              "group": "Elevar",
+              "group": "(Beta) Elevar",
               "pages": [
                 "data-inputs/platform-integration-instructions/elevar-integration"
               ]
             },
             {
-              "group": "Littledata",
+              "group": "(Beta) Littledata",
               "pages": [
                 "data-inputs/platform-integration-instructions/littledata-integration"
               ]
@@ -441,13 +460,13 @@
           "group": "Proprietary Partner Integrations",
           "pages": [
             {
-              "group": "Elevar",
+              "group": "(Beta) Elevar",
               "pages": [
                 "data-inputs/platform-integration-instructions/elevar-integration"
               ]
             },
             {
-              "group": "Littledata",
+              "group": "(Beta) Littledata",
               "pages": [
                 "data-inputs/platform-integration-instructions/littledata-integration"
               ]
@@ -471,7 +490,7 @@
               ]
             },
             {
-              "group": "Blotout",
+              "group": "(Beta) Blotout",
               "pages": [
                 "data-inputs/platform-integration-instructions/blotout-integration"
               ]
@@ -483,7 +502,7 @@
               ]
             },
             {
-              "group": "Tapcart",
+              "group": "(Beta) Tapcart",
               "pages": [
                 "data-inputs/platform-integration-instructions/tapcart-integration"
               ]
@@ -539,10 +558,10 @@
       ]
     },
     {
-      "group": "Source Medium University",
+      "group": "SourceMedium Bootcamp",
       "pages": [
         {
-          "group": "About Source Medium",
+          "group": "About SourceMedium",
           "pages": [
             "source-medium-university/getting-started/intro-to-sm",
             "source-medium-university/getting-started/why-source-medium"
@@ -561,9 +580,7 @@
         {
           "group": "Understanding The Data",
           "pages": [
-            "help-center/data-freshness",
             "source-medium-university/getting-started/cold-start/how-your-data-gets-from-point-a-to-b",
-            "help-center/data-architecture",
             "source-medium-university/data-docs/data-hygeine/importance-of-good-data-hygeine"
           ]
         },
