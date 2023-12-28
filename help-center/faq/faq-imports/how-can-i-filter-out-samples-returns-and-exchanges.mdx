@@ -1,0 +1,35 @@
+---
+title: "How can I filter out samples, returns, and exchanges?"
+sidebarTitle: "How can I filter out samples, returns, and exchanges?"
+icon: 'question-mark'
+---
+### Requirements
+
+Samples, returns, and exchanges/reshipments can be identified by order tags, discounts codes, or skus. 
+
+### Background
+
+Samples, returns, and exchanges/reshipments if not segmented properly can impact your core metrics and analysis. These orders typically have a $0 impact from a transaction standpoint, but may influence your Average Order Value (AOV), Cost Per Order (CPO), and other top-line metrics. A customer who receives a sample or an exchange should also not be counted in your retention/lifetime value analyses. 
+
+SourceMedium allows you to sort out these orders into separate `channels` and `sub-channels`, which isolates these orders and provides a cleaner view of your most important KPIs. 
+
+### **Steps**
+
+1. Isolate the discount codes, order tags, or other unique identifier(s) for your samples, returns, exchange/reshipments, or other orders that you'd like to separate from your core metrics 
+    - Tip: Use the `Orders Deep Dive` to isolate $0 orders
+        
+        ![](/images/article-imgs/how-can-i-filter-out-samples-returns-and-exchanges/Untitled.png)
+        
+        *All of these $0 discount codes should be separated for cleaner data* 
+        
+2. Create a separate orders `channel` using your Configuration sheet
+    - Follow the [How can I create channels and sub-channels FAQ](https://help.sourcemedium.com/articles/channel-mapping-using-your-source-medium-configurations-sheet) for detailed instructions
+        
+        ![](/images/article-imgs/how-can-i-filter-out-samples-returns-and-exchanges/Untitled1.png)
+        
+        *Orders with a discount code that contains 'damaged' will be moved to the Exchanged channel*
+        
+3. Once the rule(s) have been set in your Configuration sheet, our data model will pick up these new changes after the next data run which occurs each hour
+    - Any rule(s) set up within the Configuration sheet will work for historical and go forward orders that conform to the rule(s) set in place 
+
+---

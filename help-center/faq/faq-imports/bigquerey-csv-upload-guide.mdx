@@ -1,0 +1,26 @@
+---
+title: "How do I upload a CSV file to my BigQuery instance?"
+sidebarTitle: "BigQuery CSV Upload Guide"
+icon: 'question-mark'
+---
+## Steps
+
+1. From the BigQuery SQL Workspace, find and click the blue “+ ADD” button above your data explorer
+    
+    ![](/images/article-imgs/bigquerey-csv-upload-guide/Screen_Shot_2023-05-23_at_3.18.41_PM.png)
+    
+2. In the pane that opens select the location of the file you wish to upload. For a CSV file from your local machine, select “Local file”
+    
+    ![](/images/article-imgs/bigquerey-csv-upload-guide/Screen_Shot_2023-05-23_at_3.22.54_PM.png)
+    
+3. In the upload form, select the file you wish to upload
+    
+    ![](/images/article-imgs/bigquerey-csv-upload-guide/Screen_Shot_2023-05-23_at_3.25.55_PM.png)
+    
+4. Select “CSV” as the File format
+5. Specify the project, dataset, and table names where would like it to appear in your BQ instance
+6. You can manually specify the schema or select “Auto detect” to allow BigQuery to use the column names as they appear in the CSV
+7. Once you've done the above, click the “CREATE TABLE” button
+8. You can now search for your table and query it's contents from your data explorer
+    
+    ![](/images/article-imgs/bigquerey-csv-upload-guide/Screen_Shot_2023-05-23_at_3.33.08_PM.png)

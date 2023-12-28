@@ -1,0 +1,104 @@
+---
+title: "Amazon Sales Performance in SourceMedium"
+sidebarTitle: "Amazon Sales Performance in SourceMedium"
+icon: 'question-mark'
+---
+Understanding your sales data is one of the main applications of SourceMedium. This document will walk through the fundamentals, some key use-cases, and then briefly explain some limitations of Amazon data.
+
+## Fundamentals
+
+### Connecting SourceMedium to Amazon Data
+
+To access Amazon data in the first place, you'll need to allow SourceMedium to connect and ingest your data. 
+
+[More information about connecting SourceMedium and Amazon can be found here](https://www.notion.so/Amazon-Seller-Central-Connect-to-Source-Medium-f591f3f98d6b448691598f864049c175?pvs=21).
+
+### Where can I find Amazon Sales Data in SourceMedium?
+
+Once SourceMedium and Amazon are fully connected, you'll see Amazon as an option in the “Channel” dropdown at the top of the pages in your dashboard.
+    
+    ![](/images/article-imgs/amazon-sales-performance-in-sourcemedium/Untitled.png)
+    
+
+Sales data shows up all over the SourceMedium dashboard, but the main pages to be aware of are the **Executive Summary**, **Year over Year Performance**, **LTV & Retention**, **Orders Deep Dive**, and **Product Performance**.
+
+### How do I analyze Amazon Sales Data in SourceMedium?
+
+#### Starting with the Executive Summary
+    
+    As always, make sure to check your channel and date filter to make sure you are looking at Amazon data from your desired period. On this page you find a collection of core metrics about your sales and customers.
+    
+    The first chart will show net and gross revenue by day. You can change this to by week, month, quarter, or year using the drill-up and drill-down buttons on the top right of the chart.
+    
+    ![](/images/article-imgs/amazon-sales-performance-in-sourcemedium/Untitled1.png)
+    
+    Other key charts are net revenue by orders and net revenue by spend:
+    
+    ![](/images/article-imgs/amazon-sales-performance-in-sourcemedium/Untitled2.png)
+    
+    ![](/images/article-imgs/amazon-sales-performance-in-sourcemedium/Untitled3.png)
+    
+    There's lots more here for you to explore on your own time, but let's move on!
+    
+#### Understanding Sales Trends with Year over Year Performance
+    
+    Analyze trends over time to identify seasonal patterns. The Year over Year page is an excellent place to understand these sales trends. Some key charts:
+    
+    ![](/images/article-imgs/amazon-sales-performance-in-sourcemedium/Untitled4.png)
+    
+    ![](/images/article-imgs/amazon-sales-performance-in-sourcemedium/Untitled5.png)
+    
+#### Creating KPIs and Automatic Reporting
+    
+    Checking in on KPIs like Net Revenue or ARPC is the simplest way to get a sense of the health of your business and the efficiency of your operations. You may want to identify sales KPIs for Amazon and have us create scorecards, or synchronize your team through automated weekly emails, for example.
+    
+#### Understanding Lifetime Value of Amazon Cohorts
+    
+    Our LTV & Retention dashboard is an immensely powerful way to understand the lifecycle of your customers, from their first purchase on. This can help you optimize your customer experience by seeing where customers become dedicated fans or drop off. To use this view with your Amazon data, just select Amazon as a channel:
+    
+    ![](/images/article-imgs/amazon-sales-performance-in-sourcemedium/Untitled6.png)
+    
+    ![](/images/article-imgs/amazon-sales-performance-in-sourcemedium/Untitled7.png)
+    
+#### Order Latency and Purchasing Trends
+    
+    Orders Deep Dive is the place to go for understanding order latency. Coupling the order-level filters on this page with this chart can give insights into how different segments experience different order latency curves:
+    
+    ![](/images/article-imgs/amazon-sales-performance-in-sourcemedium/Untitled8.png)
+    
+    Additionally leveraging the order latency filter on the top of the page can tailor every chart on Orders Deep Dive to illustrate order information across different order latencies, which can be very powerful!
+    
+    ![](/images/article-imgs/amazon-sales-performance-in-sourcemedium/Untitled9.png)
+    
+#### Asking and answering Analytical Questions
+    
+    Often when looking at high-level summaries, we'll start to think about the underlying business dynamics and functions. In SourceMedium, it's easy to hop from high-level Executive or YoY summaries into the deep-dives and granular analytics to understand why your business is performing the it is. This is something that gets easier with familiarity, but a good way to learn is to ask us analytical questions in Slack!
+    
+
+### Amazon Data Limitations
+
+Amazon does not share all of their data, so as you navigate you're likely to see a few tables or graphs which are not populated. This is expected! We do our best with the limitations of Amazon's data availability. 
+
+#### Some Notable Callouts
+**Data History**
+        
+        Amazon offers limited historic data, with different limitations for different domains. The shortest history is amazon ads, only offering a 60 day history from the time of your ingestion. Most amazon data has 12-18 month history. Going forward from ingestion, SourceMedium will begin to store your historic data, allowing your data history to expand.
+        
+**Geographic Limitations**
+        
+        We can only report on orders shipped to US customers.
+        
+**Subscription Data**
+        
+        Amazon currently offers no subscription-level data, so any information we do have about subscriptions or subscribers is very limited.
+        
+**PII or Customer Data**
+        
+        Amazon offers no PII (Personally Identifying Information) such as customer email addresses, Customer IDs, or anything that could be used to identify individual customers. Amazon also don't share any discount codes used by customers.
+        
+**Acquisition Data**
+        
+        Amazon doesn't offer any source/medium information or acquisition campaign information. This means you won't have CAC (Customer Acquisition Cost), although you will see CPA (as spend / new customers)
+        
+
+For a full list of Amazon data availability, consult [this airtable](https://airtable.com/apptitEI5nyySjQPN/tblkfb5z544UzFuZT/viwRQeASMv6JHro1M?blocks=hide).
