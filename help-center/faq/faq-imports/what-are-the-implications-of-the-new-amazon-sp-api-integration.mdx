@@ -1,0 +1,90 @@
+---
+title: "What are the implications of the new (BETA) Amazon SP-API integration?"
+sidebarTitle: "Implications of the Amazon SP-API Integration"
+icon: 'question-mark'
+---
+![Amazon-seller-central.png](/images/article-imgs/what-are-the-implications-of-the-new-amazon-sp-api-integration/Amazon-seller-central.png)
+
+### Background
+
+Amazon deprecated their MWS reporting API and transitioned to SP (Selling Partner) APIs in July 2022. We are supporting a free BETA integration for this new connection with current Pro Plan customers, with plans to incorporate Amazon sales as part of the pricing model by the beginning of Q1 2023.
+
+### What is the benefit of integrating Amazon data into the dashboard?
+
+- Increase your omni-channel awareness by blending Amazon sales into your Executive Summary
+- Determine and compare Amazon acquisition performance (when [Amazon Ads](https://help.sourcemedium.com/articles/connect-amazon-ads-data-to-source-medium-dashboards) also integrated)
+
+### What Amazon data will surface in the dashboard?
+<AccordionGroup>
+
+<Accordion title="Metrics:">
+- `Orders`
+- `Gross Revenue` (called 'Ordered Product Sales' in Amazon Business Reports)
+    - This feeds into `Net Revenue` and `Total Revenue` in the dashboard
+- `Discounts`
+- `Refunds`
+- `Shipping`
+- `Gross Quantity`
+    - This feeds into `Net Quantity`  and `Cart Size`
+</ Accordion>
+<Accordion title="Dimensions:">
+- `Date`
+- `Product Titles`
+- `SKUs`
+</ Accordion>
+</ AccordionGroup>
+
+
+
+### Where will this surface in the dashboard?
+
+- Executive Summary
+- YoY Performance
+- Orders Deep Dive
+- Product Performance
+
+*(Note: Make sure to select `Amazon` in the channel selector)*
+
+![](/images/article-imgs/what-are-the-implications-of-the-new-amazon-sp-api-integration/Untitled.png)
+
+### What features are currently under development?
+
+- `New / Repeat Customers`
+- `Order Sequence / Index`
+- `LTV/Retention` *(Note: this will be limited to customers who purchase exclusively on Amazon)*
+
+### Is customer-level data available?
+
+
+- Amazon does not provide any PII at the customer-level at the moment
+- Any charts using the following dimensions / metrics will not be compatible with Amazon data
+    - `CPA` (however, if your Amazon Ads account is integrated in the dashboard then `CPO` will be available)
+    - `Acquisition Channels` (including `Source / Medium`)
+    - `Discount Codes`
+
+### Is subscription-level data available?
+
+This is not available from Amazon via API at this time
+
+### How fresh is the data?
+
+Amazon applies API rate limits, so data will generally be fresh up to the previous 48 hours
+
+### What historical data is available?
+
+Data ingestion will go back to 1 year before the date that SourceMedium received Seller Central permissions and the API connectors were created
+    - This requires additional requests to the APIs, and due to rate limits, may take up to 14 days to complete
+    - We are working on solution(s) to include historical data that goes further back than 1 year, although this data may be limited in some instances
+
+<br />
+Our team is committed to perfecting and improving this integration constantly, and we'll push out updates to you as they happen.
+
+If have any questions or feedback about this beta integration, let us know using [**this form**](https://form.jotform.com/223005113695145).
+
+---
+
+### **Additional information and related articles**
+
+- [Amazon (SP) integration instructions](https://help.sourcemedium.com/articles/connect-amazon-seller-central-data-to-source-medium)
+- [Amazon Ads integration instructions](https://help.sourcemedium.com/articles/connect-amazon-ads-data-to-source-medium-dashboards)
+- [Amazon [BETA] Integration Feedback Form](https://form.jotform.com/223005113695145)

@@ -43,7 +43,7 @@
   "tabs": [
     {
       "name": "Metrics & Dimensions",
-      "url": "metrics-and-dimensions"
+      "url": "https://airtable.com/appDL2NQzZOtufpl5/shriuBU2tZWDF2MJH/tblGNgK3rEziVojnH/viwGkJF0DcplUEAxY"
     },
     {
       "name": "Data Integrations & Inputs",
@@ -86,46 +86,6 @@
       ]
     },
     {
-      "group": "Common Analyses & Use Cases",
-      "pages": [
-        {
-          "group": "Product Performance",
-          "pages": [
-            "help-center/common-analyses/top-selling-products"
-          ]
-        },
-        {
-          "group": "Cohort Analyses",
-          "pages": [
-            "help-center/common-analyses/customer-retention",
-            "help-center/common-analyses/revenue-retention",
-            "help-center/common-analyses/cohort-ltv",
-            "help-center/common-analyses/cohort-lto"
-          ]
-        },
-        {
-          "group": "Subscription Program",
-          "pages": [
-            "help-center/common-analyses/top-converting-products",
-            "help-center/common-analyses/subscription-program-retention"
-          ]
-        },
-        {
-          "group": "Marketing Performance",
-          "pages": [
-            "help-center/common-analyses/roas"
-          ]
-        },
-        {
-          "group": "Profit & Loss",
-          "pages": [
-            "help-center/common-analyses/understanding-your-contribution-margin",
-            "help-center/common-analyses/understanding-your-gross-profit"
-          ]
-        }
-      ]
-    },
-    {
       "group": "FAQs",
       "pages": [
         {
@@ -155,7 +115,29 @@
             "help-center/faq/faq-imports/how-do-i-surface-fulfillment-costs-within-my-dashboard",
             "help-center/faq/faq-imports/how-do-i-surface-merchant-processing-fees-within-my-dashboard",
             "help-center/faq/faq-imports/how-do-i-surface-operating-expenses-within-my-dashboard",
-            "help-center/faq/faq-imports/how-do-i-surface-product-costs-from-platforms-outside-of-shopify-into-my-dashboard"
+            "help-center/faq/faq-imports/how-do-i-surface-product-costs-from-platforms-outside-of-shopify-into-my-dashboard",
+            "help-center/faq/faq-imports/how-do-i-surface-shipping-costs-within-my-dashboard",
+            "help-center/faq/faq-imports/what-impact-does-global-e-have-in-source-medium",
+            "help-center/faq/faq-imports/what-is-last-click-attribuion",
+            "help-center/faq/faq-imports/what-is-the-process-for-requesting-and-scoping-custom-work",
+            "help-center/faq/faq-imports/where-can-i-find-my-amazon-marketing-data",
+            "help-center/faq/faq-imports/where-can-i-find-my-amazon-ltv",
+            "help-center/faq/faq-imports/how-can-i-filter-out-samples-returns-and-exchanges",
+            "help-center/faq/faq-imports/how-do-i-set-up-a-google-group",
+            "help-center/faq/faq-imports/how-do-i-invite-users-to-my-dashboard",
+            "help-center/faq/faq-imports/how-do-i-surface-product-costs",
+            "help-center/faq/faq-imports/how-can-i-create-order-channels-and subchannels",
+            "help-center/faq/faq-imports/how-do-i-give-dashboard-access-to-a-teammate",
+            "help-center/faq/faq-imports/can-i-set-targets-in-my-dashboard",
+            "help-center/faq/faq-imports/how-do-i-tag-orders-with-post-purchase-survey-results-from-fairing-enquire",
+            "help-center/faq/faq-imports/how-do-i-setup-post-purchase-survery-order-tagging-for-knocommerce",
+            "help-center/faq/faq-imports/what-are-the-implications-of-the-new-amazon-sp-api-integration",
+            "help-center/faq/faq-imports/where-can-i-find-my-amazon-product-performance",
+            "help-center/faq/faq-imports/how-do-i-include-marketing-spend-through-the-cost-tab-of-the-configuration-sheet",
+            "help-center/faq/faq-imports/amazon-sales-performance-in-sourcemedium",
+            "help-center/faq/faq-imports/how-can-i-track-influencer-spend-and-performance",
+            "help-center/faq/faq-imports/bigquerey-csv-upload-guide",
+            "help-center/faq/faq-imports/amazon-omnichannel-overview"
           ]
         },
         {
@@ -182,12 +164,6 @@
             "help-center/faq/account-management-faqs/account-management-faqs-home"
           ]
         }
-      ]
-    },
-    {
-      "group": "Metrics & Dimensions",
-      "pages": [
-        "metrics-and-dimensions/airtable-embed-test"
       ]
     },
     {
@@ -230,8 +206,7 @@
             {
               "group": "ReCharge",
               "pages": [
-                "data-inputs/platform-integration-instructions/recharge-integration",
-                "data-inputs/platform-overviews/recharge-platform-overview"
+                "data-inputs/platform-integration-instructions/recharge-integration"
               ]
             },
             {
@@ -362,7 +337,6 @@
               "group": "Google Analytics - 4 (GA4)",
               "pages": [
                 "data-inputs/platform-integration-instructions/ga4-integration",
-                "data-inputs/platform-overviews/ga4-platform-overview",
                 "data-inputs/platform-supporting-resources/ga4/google-analytics-common-failures",
                 "data-inputs/platform-supporting-resources/ga4/improving-last-click-attribution"
               ]
@@ -589,19 +563,6 @@
             }
           ]
         }
-      ]
-    },
-    {
-      "group": "Case Studies",
-      "pages": [
-        "advanced-insights-and-strategy/case-studies/case-studies-placeholder"
-      ]
-    },
-    {
-      "group": "Internal",
-      "pages": [
-        "help-center/loom-vid-embed-test",
-        "internal/exec-summ-walk-thru-test"
       ]
     }
   ],
