@@ -1,0 +1,43 @@
+{
+    "_comment": "this file exists to help maintain structure & content of sections that we don't want to have published on the help site yet.",
+        "analyses & use cases section": {
+            "group": "Common Analyses & Use Cases",
+            "pages": [
+              {
+                "group": "Product Performance",
+                "pages": [
+                  "help-center/common-analyses/top-selling-products"
+                ]
+              },
+              {
+                "group": "Cohort Analyses",
+                "pages": [
+                  "help-center/common-analyses/customer-retention",
+                  "help-center/common-analyses/revenue-retention",
+                  "help-center/common-analyses/cohort-ltv",
+                  "help-center/common-analyses/cohort-lto"
+                ]
+              },
+              {
+                "group": "Subscription Program",
+                "pages": [
+                  "help-center/common-analyses/top-converting-products",
+                  "help-center/common-analyses/subscription-program-retention"
+                ]
+              },
+              {
+                "group": "Marketing Performance",
+                "pages": [
+                  "help-center/common-analyses/roas"
+                ]
+              },
+              {
+                "group": "Profit & Loss",
+                "pages": [
+                  "help-center/common-analyses/understanding-your-contribution-margin",
+                  "help-center/common-analyses/understanding-your-gross-profit"
+                ]
+              }
+            ]
+        }
+}
