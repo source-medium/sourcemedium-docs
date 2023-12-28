@@ -121,10 +121,7 @@
           "group": "Configuration Sheet FAQs",
           "pages": [
             "help-center/faq/configuration-sheet-faqs/configuration-sheet-faqs-home",
-            "help-center/faq/configuration-sheet-faqs/how-can-i-track-influencer-spend-and-performance",
-            "help-center/faq/configuration-sheet-faqs/how-do-i-surface-product-costs-from-platforms-outside-of-shopify-into-my-dashboard",
-            "help-center/faq/configuration-sheet-faqs/how-do-i-override-product-costs-from-shopify-into-my-dashboard",
-            "help-center/faq/configuration-sheet-faqs/how-do-i-add-historic-product-costs-from-shopify-into-my-dashboard"
+            "help-center/faq/configuration-sheet-faqs/configuration-sheet-load-frequency"
           ]
         },
         {
@@ -473,7 +470,9 @@
         {
           "group": "Custom Marketing Costs",
           "pages": [
-            "data-inputs/configuration-sheet/how-do-i-include-marketing-spend-through-the-cost-tab-of-the-configuration-sheet"
+            "data-inputs/configuration-sheet/how-do-i-include-marketing-spend-through-the-cost-tab-of-the-configuration-sheet",
+            "data-inputs/configuration-sheet/how-can-i-track-influencer-spend-and-performance"
+
           ]
         },
         {
@@ -486,6 +485,9 @@
           "group": "COGS",
           "pages": [
             "data-inputs/configuration-sheet/costs/how-do-i-surface-product-costs",
+            "data-inputs/configuration-sheet/costs/how-do-i-surface-product-costs-from-platforms-outside-of-shopify-into-my-dashboard",
+            "data-inputs/configuration-sheet/costs/how-do-i-override-product-costs-from-shopify-into-my-dashboard",
+            "data-inputs/configuration-sheet/costs/how-do-i-add-historic-product-costs-from-shopify-into-my-dashboard",
             "data-inputs/configuration-sheet/costs/how-do-i-surface-fulfillment-costs-within-my-dashboard",
             "data-inputs/configuration-sheet/costs/how-do-i-surface-shipping-costs-within-my-dashboard",
             "data-inputs/configuration-sheet/costs/how-do-i-surface-merchant-processing-fees-within-my-dashboard",
