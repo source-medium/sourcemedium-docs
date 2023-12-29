@@ -514,13 +514,7 @@
             "source-medium-university/getting-started/level-1-data-checklist",
             "source-medium-university/getting-started/level-2-data-checklist",
             "source-medium-university/getting-started/level-3-data-checklist",
-            "source-medium-university/getting-started/cold-start/cold-start-guide-home"
-          ]
-        },
-        {
-          "group": "Understanding The Data",
-          "pages": [
-            "source-medium-university/getting-started/cold-start/how-your-data-gets-from-point-a-to-b",
+            "source-medium-university/getting-started/cold-start/cold-start-guide-home",
             "source-medium-university/data-docs/data-hygeine/importance-of-good-data-hygeine"
           ]
         },
