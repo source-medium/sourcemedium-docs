@@ -103,7 +103,6 @@
         {
           "group": "Dashboard Functionality",
           "pages": [
-            "help-center/faq/dashboard-functionality-faqs/how-can-i-filter-out-samples-returns-and-exchanges",
             "help-center/faq/dashboard-functionality-faqs/why-does-my-ltv-look-off-in-my-multi-store-report",
             "help-center/faq/dashboard-functionality-faqs/what-is-exclude-$0-feature",
             "help-center/faq/dashboard-functionality-faqs/what-are-the-implications-of-the-new-amazon-sp-api-integration",
@@ -118,7 +117,8 @@
         {
           "group": "Configuration Sheet",
           "pages": [
-            "help-center/faq/configuration-sheet-faqs/configuration-sheet-load-frequency"
+            "help-center/faq/configuration-sheet-faqs/configuration-sheet-load-frequency",
+            "help-center/faq/configuration-sheet-faqs/how-can-i-filter-out-samples-returns-and-exchanges"
           ]
         },
         {
@@ -460,7 +460,7 @@
         {
           "group": "Channel Mapping",
           "pages": [
-            "data-inputs/configuration-sheet/how-can-i-create-order-channels-and subchannels"
+            "data-inputs/configuration-sheet/how-can-i-create-order-channels-and-subchannels"
           ]
         },
         {
@@ -499,7 +499,8 @@
         {
           "group": "About SourceMedium",
           "pages": [
-            "source-medium-university/getting-started/intro-to-sm"
+            "source-medium-university/getting-started/intro-to-sm",
+            "source-medium-university/getting-started/how-to-work-with-the-sourcemedium-team"
           ]
         },
         {
@@ -538,6 +539,13 @@
                 "source-medium-university/report-docs/report-pages/subscription-overview-module",
                 "source-medium-university/report-docs/report-pages/subscription-product-performance-module"]
             }
+          ]
+        },
+        {
+          "group": "Thinking Analytically",
+          "pages": [
+            "source-medium-university/getting-started/thinking-analytically/how-analytical-questions-are-key",
+            "source-medium-university/getting-started/thinking-analytically/common-analytical-questions"
           ]
         }
       ]
