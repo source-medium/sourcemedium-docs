@@ -3,3 +3,13 @@ title: 'Data Freshness'
 description: 'How fresh is my data?'
 icon: 'clock'
 ---
+
+Most data in your SourceMedium Dashboard or Managed Warehouse is **fresh to the previous day** -- meaning, when looking at your dashboard or querying your 
+warehouse, you will have access to all of yesterday's data & prior.  
+
+Changes made to your Configuration Sheet are picked up by our data model & pushed to your dashboard and/or warehouse every 30 minutes.
+
+<Accordion title="Data that will not always be fresh to the previous day:">
+- Amazon Seller & Vendor Central, and Amazon Ads (& DSP) data
+    - Due to Amazon API rate limits, data can take anywhere from 24-72 hours to make it to your dashboard / warehouse
+</Accordion>

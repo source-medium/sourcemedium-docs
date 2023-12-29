@@ -9,6 +9,10 @@
     "light": "/logo/light.png",
     "dark": "/logo/dark.png"
   },
+  "modeToggle": {
+    "default": "light",
+    "isHidden": true
+  },  
   "favicon": "/favicon.png",
   "colors": {
     "primary": "#A084FC",
@@ -21,8 +25,8 @@
   },
   "topbarLinks": [
     {
-      "name": "Supported Integrations",
-      "url": "https://help.sourcemedium.com/integration-docs"
+      "name": "Customer Case Studies",
+      "url": "https://www.sourcemedium.com/case-study"
     }
   ],
   "anchors": [
@@ -52,10 +56,6 @@
     {
       "name": "SourceMedium Bootcamp",
       "url": "source-medium-university"
-    },
-    {
-      "name": "Customer Stories & Case Studies",
-      "url": "https://www.sourcemedium.com/case-study"
     }
 ],
   "navigation": [
@@ -89,9 +89,8 @@
       "group": "FAQs",
       "pages": [
         {
-          "group": "Data Clarification FAQs",
+          "group": "Data Clarification & Discrepancies",
           "pages": [
-            "help-center/faq/data-faqs/data-faqs-home",
             "help-center/faq/data-faqs/why-would-external-reports-not-match-the-sourcemedium-dashboard",
             "help-center/faq/data-faqs/why-dont-the-executive-summary-and-shopifys-sales-report-match",
             "help-center/faq/data-faqs/why-isnt-the-executive-summary-report-attributing-my-gift-card-revenue",
@@ -102,9 +101,8 @@
           ]
         },
         {
-          "group": "Dashboard Functionality FAQs",
+          "group": "Dashboard Functionality",
           "pages": [
-            "help-center/faq/dashboard-functionality-faqs/dashboard-functionality-faqs-home",
             "help-center/faq/dashboard-functionality-faqs/how-can-i-filter-out-samples-returns-and-exchanges",
             "help-center/faq/dashboard-functionality-faqs/why-does-my-ltv-look-off-in-my-multi-store-report",
             "help-center/faq/dashboard-functionality-faqs/what-is-exclude-$0-feature",
@@ -118,16 +116,14 @@
           ]
         },
         {
-          "group": "Configuration Sheet FAQs",
+          "group": "Configuration Sheet",
           "pages": [
-            "help-center/faq/configuration-sheet-faqs/configuration-sheet-faqs-home",
             "help-center/faq/configuration-sheet-faqs/configuration-sheet-load-frequency"
           ]
         },
         {
-          "group": "Account Management FAQs",
+          "group": "Account Management",
           "pages": [
-            "help-center/faq/account-management-faqs/account-management-faqs-home",
             "help-center/faq/account-management-faqs/what-is-the-process-for-requesting-and-scoping-custom-work",
             "help-center/faq/account-management-faqs/how-do-i-set-up-a-google-group",
             "help-center/faq/account-management-faqs/how-do-i-invite-users-to-my-dashboard",
@@ -503,8 +499,7 @@
         {
           "group": "About SourceMedium",
           "pages": [
-            "source-medium-university/getting-started/intro-to-sm",
-            "source-medium-university/getting-started/why-source-medium"
+            "source-medium-university/getting-started/intro-to-sm"
           ]
         },
         {
@@ -514,13 +509,7 @@
             "source-medium-university/getting-started/level-1-data-checklist",
             "source-medium-university/getting-started/level-2-data-checklist",
             "source-medium-university/getting-started/level-3-data-checklist",
-            "source-medium-university/getting-started/cold-start/cold-start-guide-home"
-          ]
-        },
-        {
-          "group": "Understanding The Data",
-          "pages": [
-            "source-medium-university/getting-started/cold-start/how-your-data-gets-from-point-a-to-b",
+            "source-medium-university/getting-started/cold-start/cold-start-guide-home",
             "source-medium-university/data-docs/data-hygeine/importance-of-good-data-hygeine"
           ]
         },
