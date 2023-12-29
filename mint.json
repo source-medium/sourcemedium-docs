@@ -9,6 +9,10 @@
     "light": "/logo/light.png",
     "dark": "/logo/dark.png"
   },
+  "modeToggle": {
+    "default": "light",
+    "isHidden": true
+  },  
   "favicon": "/favicon.png",
   "colors": {
     "primary": "#A084FC",
