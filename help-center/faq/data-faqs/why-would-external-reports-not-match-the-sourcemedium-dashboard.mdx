@@ -1,5 +1,6 @@
 ---
 title: "Why would external reports not match the SourceMedium dashboard?"
+sidebarTitle: "External reports don't match SourceMedium - commmon causes"
 icon: 'question-mark'
 ---
 *Note: Most modules in your SourceMedium dashboard allow for a change in time granularity (daily, weekly, monthly, quarterly) and can be altered at your request. We do not provide custom time calculations at this time (i.e. fiscal, rolling weeks, etc).*
@@ -8,8 +9,15 @@ If your data doesn't match or seems inaccurate against external sources, such as
 <AccordionGroup>
 <Accordion title="Shopify Reports">
 If you have requested to `exclude $0 net revenue orders` then your gross revenue, total revenue, discounts, and refunds will not match Shopify numbers
-        
+
+Also, ensure you're selecting all Shopify-related Channels in your dashboard 
+- some orders may be moved to other Channels due to Channel Mapping rules your team has in place
+- some orders are automatically moved to other Channels based on metadata attached to orders 
+    - e.g. Wholesale, Draft Orders etc
+
 *Non-U.S. store specific*: If your store settings are set `taxes included` then revenue may be off. You can work with our dev team to align this correctly in our data model
+
+*Additional information on matching the Shopify Sales Report can be found [here.](/help-center/faq/data-faqs/why-dont-the-executive-summary-and-shopifys-sales-report-match)*
 </Accordion>
 <Accordion title="Facebook Reports">
 Check using a 7-day attribution window. This is the default for all SourceMedium customers.
@@ -17,7 +25,7 @@ Check using a 7-day attribution window. This is the default for all SourceMedium
 <Accordion title="Google Ads Reports">
 Check using the attribution window set in your account and only count *purchase* conversions and revenue. This is the default for all SourceMedium customers.
 </Accordion>
-<Accordion title="Minor discrepancies with recent days (eg past 7 days)">
+<Accordion title="Minor discrepancies with recent marketing data (eg past 7 days)">
 Often caused by Facebook or Google dynamically taking credit for purchases happening within the day using the attribution window set in the account. These numbers are reconciled daily at 1:00 AM PST, when data is ingested to SourceMedium.
 </Accordion>
 </AccordionGroup>
