@@ -89,79 +89,61 @@
       "group": "FAQs",
       "pages": [
         {
-          "group": "Imported FAQs",
-          "pages": [
-            "help-center/faq/faq-imports/what-is-exclude-$0-feature",
-            "help-center/faq/faq-imports/moving-slack-bot-to-another-channel",
-            "help-center/faq/faq-imports/why-would-external-reports-not-match-the-sourcemedium-dashboard",
-            "help-center/faq/faq-imports/why-has-my-amazon-data-stopped-showing-up-in-my-dashboard",
-            "help-center/faq/faq-imports/why-isnt-the-executive-summary-report-attributing-my-gift-card-revenue",
-            "help-center/faq/faq-imports/why-dont-the-executive-summary-and-shopifys-sales-report-match",
-            "help-center/faq/faq-imports/why-dont-new-customers-plus-repeat-customers-equal-customers",
-            "help-center/faq/faq-imports/why-does-my-ltv-look-off-in-my-multi-store-report",
-            "help-center/faq/faq-imports/what-metrics-can-i-include-in-my-daily-slack-bot-report",
-            "help-center/faq/faq-imports/what-is-reported-as-a-conversion-within-the-marketing-overview",
-            "help-center/faq/faq-imports/what-attribution-windows-does-sourcemedoum-report-on-for-marketing-platforms",
-            "help-center/faq/faq-imports/best-practices-in-setting-up-a-post-purchase-hdyhau-survey",
-            "help-center/faq/faq-imports/how-does-editing-an-order-after-the-order-date-affect-reporting",
-            "help-center/faq/faq-imports/what-data-secutiy-practices-are-in-place-at-sourcemedium",
-            "help-center/faq/faq-imports/are-you-utilizing-customer-and-order-tagging-for-deeper-enrichment-of-your-data",
-            "help-center/faq/faq-imports/how-can-i-improve-my-last-click-attribution",
-            "help-center/faq/faq-imports/how-does-stripe-metadata-work",
-            "help-center/faq/faq-imports/what-to-know-about connecting-google-analytics-to-sourcemedium",
-            "help-center/faq/faq-imports/how-do-i-add-historic-product-costs-from-shopify-into-my-dashboard",
-            "help-center/faq/faq-imports/how-do-i-enter-non-integrated-sales-data-sales-tab",
-            "help-center/faq/faq-imports/how-do-i-override-product-costs-from-shopify-into-my-dashboard",
-            "help-center/faq/faq-imports/how-do-i-surface-fulfillment-costs-within-my-dashboard",
-            "help-center/faq/faq-imports/how-do-i-surface-merchant-processing-fees-within-my-dashboard",
-            "help-center/faq/faq-imports/how-do-i-surface-operating-expenses-within-my-dashboard",
-            "help-center/faq/faq-imports/how-do-i-surface-product-costs-from-platforms-outside-of-shopify-into-my-dashboard",
-            "help-center/faq/faq-imports/how-do-i-surface-shipping-costs-within-my-dashboard",
-            "help-center/faq/faq-imports/what-impact-does-global-e-have-in-source-medium",
-            "help-center/faq/faq-imports/what-is-last-click-attribuion",
-            "help-center/faq/faq-imports/what-is-the-process-for-requesting-and-scoping-custom-work",
-            "help-center/faq/faq-imports/where-can-i-find-my-amazon-marketing-data",
-            "help-center/faq/faq-imports/where-can-i-find-my-amazon-ltv",
-            "help-center/faq/faq-imports/how-can-i-filter-out-samples-returns-and-exchanges",
-            "help-center/faq/faq-imports/how-do-i-set-up-a-google-group",
-            "help-center/faq/faq-imports/how-do-i-invite-users-to-my-dashboard",
-            "help-center/faq/faq-imports/how-do-i-surface-product-costs",
-            "help-center/faq/faq-imports/how-can-i-create-order-channels-and subchannels",
-            "help-center/faq/faq-imports/how-do-i-give-dashboard-access-to-a-teammate",
-            "help-center/faq/faq-imports/can-i-set-targets-in-my-dashboard",
-            "help-center/faq/faq-imports/how-do-i-tag-orders-with-post-purchase-survey-results-from-fairing-enquire",
-            "help-center/faq/faq-imports/how-do-i-setup-post-purchase-survery-order-tagging-for-knocommerce",
-            "help-center/faq/faq-imports/what-are-the-implications-of-the-new-amazon-sp-api-integration",
-            "help-center/faq/faq-imports/where-can-i-find-my-amazon-product-performance",
-            "help-center/faq/faq-imports/how-do-i-include-marketing-spend-through-the-cost-tab-of-the-configuration-sheet",
-            "help-center/faq/faq-imports/amazon-sales-performance-in-sourcemedium",
-            "help-center/faq/faq-imports/how-can-i-track-influencer-spend-and-performance",
-            "help-center/faq/faq-imports/bigquerey-csv-upload-guide",
-            "help-center/faq/faq-imports/amazon-omnichannel-overview"
-          ]
-        },
-        {
           "group": "Data Clarification FAQs",
           "pages": [
-            "help-center/faq/data-faqs/data-faqs-home"
+            "help-center/faq/data-faqs/data-faqs-home",
+            "help-center/faq/data-faqs/why-would-external-reports-not-match-the-sourcemedium-dashboard",
+            "help-center/faq/data-faqs/why-dont-the-executive-summary-and-shopifys-sales-report-match",
+            "help-center/faq/data-faqs/why-isnt-the-executive-summary-report-attributing-my-gift-card-revenue",
+            "help-center/faq/data-faqs/why-dont-new-customers-plus-repeat-customers-equal-customers",
+            "help-center/faq/data-faqs/what-is-reported-as-a-conversion-within-the-marketing-overview",
+            "help-center/faq/data-faqs/what-attribution-windows-does-sourcemedoum-report-on-for-marketing-platforms",
+            "help-center/faq/data-faqs/how-does-stripe-metadata-work"
           ]
         },
         {
           "group": "Dashboard Functionality FAQs",
           "pages": [
-            "help-center/faq/dashboard-functionality-faqs/dashboard-functionality-faqs-home"
+            "help-center/faq/dashboard-functionality-faqs/dashboard-functionality-faqs-home",
+            "help-center/faq/dashboard-functionality-faqs/how-can-i-filter-out-samples-returns-and-exchanges",
+            "help-center/faq/dashboard-functionality-faqs/why-does-my-ltv-look-off-in-my-multi-store-report",
+            "help-center/faq/dashboard-functionality-faqs/what-is-exclude-$0-feature",
+            "help-center/faq/dashboard-functionality-faqs/what-are-the-implications-of-the-new-amazon-sp-api-integration",
+            "help-center/faq/dashboard-functionality-faqs/amazon-omnichannel-overview",
+            "help-center/faq/dashboard-functionality-faqs/amazon-sales-performance-in-sourcemedium",
+            "help-center/faq/dashboard-functionality-faqs/where-can-i-find-my-amazon-marketing-data",
+            "help-center/faq/dashboard-functionality-faqs/where-can-i-find-my-amazon-ltv",
+            "help-center/faq/dashboard-functionality-faqs/where-can-i-find-my-amazon-product-performance",
+            "help-center/faq/dashboard-functionality-faqs/how-does-editing-an-order-after-the-order-date-affect-reporting"
           ]
         },
         {
           "group": "Configuration Sheet FAQs",
           "pages": [
-            "help-center/faq/configuration-sheet-faqs/configuration-sheet-faqs-home"
+            "help-center/faq/configuration-sheet-faqs/configuration-sheet-faqs-home",
+            "help-center/faq/configuration-sheet-faqs/configuration-sheet-load-frequency"
           ]
         },
         {
           "group": "Account Management FAQs",
           "pages": [
-            "help-center/faq/account-management-faqs/account-management-faqs-home"
+            "help-center/faq/account-management-faqs/account-management-faqs-home",
+            "help-center/faq/account-management-faqs/what-is-the-process-for-requesting-and-scoping-custom-work",
+            "help-center/faq/account-management-faqs/how-do-i-set-up-a-google-group",
+            "help-center/faq/account-management-faqs/how-do-i-invite-users-to-my-dashboard",
+            "help-center/faq/account-management-faqs/bigquerey-csv-upload-guide",
+            "help-center/faq/account-management-faqs/moving-slack-bot-to-another-channel",
+            "help-center/faq/account-management-faqs/what-metrics-can-i-include-in-my-daily-slack-bot-report",
+            "help-center/faq/account-management-faqs/why-has-my-amazon-data-stopped-showing-up-in-my-dashboard",
+            "help-center/faq/account-management-faqs/best-practices-in-setting-up-a-post-purchase-hdyhau-survey",
+            "help-center/faq/account-management-faqs/what-data-secutiy-practices-are-in-place-at-sourcemedium",
+            "help-center/faq/account-management-faqs/are-you-utilizing-customer-and-order-tagging-for-deeper-enrichment-of-your-data",
+            "help-center/faq/account-management-faqs/how-can-i-improve-my-last-click-attribution",
+            "help-center/faq/account-management-faqs/what-to-know-about connecting-google-analytics-to-sourcemedium",
+            "help-center/faq/account-management-faqs/what-impact-does-global-e-have-in-source-medium",
+            "help-center/faq/account-management-faqs/what-is-last-click-attribuion",
+            "help-center/faq/account-management-faqs/how-do-i-tag-orders-with-post-purchase-survey-results-from-fairing-enquire",
+            "help-center/faq/account-management-faqs/how-do-i-setup-post-purchase-survery-order-tagging-for-knocommerce"
           ]
         }
       ]
@@ -476,35 +458,41 @@
         {
           "group": "Setting Metric Targets",
           "pages": [
-            "data-inputs/configuration-sheet/targets-tab"
+            "data-inputs/configuration-sheet/can-i-set-targets-in-my-dashboard"
           ]
         },
         {
           "group": "Channel Mapping",
           "pages": [
-            "data-inputs/configuration-sheet/channel-mapping-tab"
+            "data-inputs/configuration-sheet/how-can-i-create-order-channels-and subchannels"
           ]
         },
         {
           "group": "Custom Marketing Costs",
           "pages": [
-            "data-inputs/configuration-sheet/costs/marketing-costs"
+            "data-inputs/configuration-sheet/how-do-i-include-marketing-spend-through-the-cost-tab-of-the-configuration-sheet",
+            "data-inputs/configuration-sheet/how-can-i-track-influencer-spend-and-performance"
+
           ]
         },
         {
           "group": "Custom Sales",
           "pages": [
-            "data-inputs/configuration-sheet/sales-tab"
+            "data-inputs/configuration-sheet/how-do-i-enter-non-integrated-sales-data-sales-tab"
           ]
         },
         {
           "group": "COGS",
           "pages": [
-            "data-inputs/configuration-sheet/costs/costs-overview",
-            "data-inputs/configuration-sheet/costs/product-costs",
-            "data-inputs/configuration-sheet/costs/fulfillment-costs",
-            "data-inputs/configuration-sheet/costs/shipping-costs",
-            "data-inputs/configuration-sheet/costs/merchant-processing-fees"
+            "data-inputs/configuration-sheet/costs/how-do-i-surface-product-costs",
+            "data-inputs/configuration-sheet/costs/how-do-i-surface-product-costs-from-platforms-outside-of-shopify-into-my-dashboard",
+            "data-inputs/configuration-sheet/costs/how-do-i-override-product-costs-from-shopify-into-my-dashboard",
+            "data-inputs/configuration-sheet/costs/how-do-i-add-historic-product-costs-from-shopify-into-my-dashboard",
+            "data-inputs/configuration-sheet/costs/how-do-i-surface-fulfillment-costs-within-my-dashboard",
+            "data-inputs/configuration-sheet/costs/how-do-i-surface-shipping-costs-within-my-dashboard",
+            "data-inputs/configuration-sheet/costs/how-do-i-surface-merchant-processing-fees-within-my-dashboard",
+            "data-inputs/configuration-sheet/costs/how-do-i-surface-operating-expenses-within-my-dashboard"
+
           ]
         }
       ]

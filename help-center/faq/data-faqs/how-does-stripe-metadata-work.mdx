@@ -27,7 +27,7 @@ The following data should be provided via the metadata in each charge in JSON fo
 
 ```sql
 {
-  "order_id": "order-id-123", # as order_id_secondary
+"order_id": "order-id-123", # as order_id_secondary
   "subscription_id": "subscription-id-123", # if applicable
   "order_type": "onetime|first_sub_order|recurring_sub_order|trial", # required
   "line_items": [
@@ -46,7 +46,7 @@ The following data should be provided via the metadata in each charge in JSON fo
   "refund_line_items": [ # ONLY relevant if there's a refund on this charge.
     "line_item_id": "order-line-id-123", # required
     "subtotal": "{{ REFUNDED AMOUNT }}" # required
-  ],
+  	],
 	"discount_code": "WELCOME15", 
 	"shipping_city": "{{CITY}}", 
 	"shipping_state": "{{STATE}}", 
@@ -61,9 +61,10 @@ The following data should be provided via the metadata in each charge in JSON fo
 	"tags": "tag1, tag2, tag3"
 }
 ```
+
 </Accordion>
 
-# IMPORTANT
+## Important
 
 `Charge` metadata will not be incorporated IF the following conditions occur:
 
