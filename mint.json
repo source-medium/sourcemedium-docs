@@ -93,7 +93,7 @@
       "group": "FAQs",
       "pages": [
         {
-          "group": "Data Clarification FAQs",
+          "group": "Data Clarification & Discrepancies",
           "pages": [
             "help-center/faq/data-faqs/why-would-external-reports-not-match-the-sourcemedium-dashboard",
             "help-center/faq/data-faqs/why-dont-the-executive-summary-and-shopifys-sales-report-match",
@@ -105,7 +105,7 @@
           ]
         },
         {
-          "group": "Dashboard Functionality FAQs",
+          "group": "Dashboard Functionality",
           "pages": [
             "help-center/faq/dashboard-functionality-faqs/how-can-i-filter-out-samples-returns-and-exchanges",
             "help-center/faq/dashboard-functionality-faqs/why-does-my-ltv-look-off-in-my-multi-store-report",
@@ -120,13 +120,13 @@
           ]
         },
         {
-          "group": "Configuration Sheet FAQs",
+          "group": "Configuration Sheet",
           "pages": [
             "help-center/faq/configuration-sheet-faqs/configuration-sheet-load-frequency"
           ]
         },
         {
-          "group": "Account Management FAQs",
+          "group": "Account Management",
           "pages": [
             "help-center/faq/account-management-faqs/what-is-the-process-for-requesting-and-scoping-custom-work",
             "help-center/faq/account-management-faqs/how-do-i-set-up-a-google-group",
