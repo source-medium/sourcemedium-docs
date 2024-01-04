@@ -27,18 +27,10 @@
     {
       "name": "Customer Case Studies",
       "url": "https://www.sourcemedium.com/case-study"
-    }
-  ],
-  "anchors": [
-    {
-      "name": "Blog",
-      "icon": "newspaper",
-      "url": "https://www.sourcemedium.com/blog"
     },
     {
-        "name": "Help Center",
-        "icon": "question",
-        "url": "https://www.sourcemedium.com/blog"
+      "name": "Blog",
+      "url": "https://www.sourcemedium.com/blog"
     }
   ],
   "primaryTab": {
@@ -75,12 +67,6 @@
             "help-center/core-concepts/data-transformation/transformation-vs-cleaning",
             "help-center/core-concepts/data-transformation/data-architecture",
             "help-center/core-concepts/data-transformation/data-freshness"
-          ]
-        },
-        {
-          "group": "Attribution",
-          "pages": [
-            "help-center/core-concepts/attribution/attribution-in-sourcemedium"
           ]
         }
       ]
