@@ -27,18 +27,10 @@
     {
       "name": "Customer Case Studies",
       "url": "https://www.sourcemedium.com/case-study"
-    }
-  ],
-  "anchors": [
-    {
-      "name": "Blog",
-      "icon": "newspaper",
-      "url": "https://www.sourcemedium.com/blog"
     },
     {
-        "name": "Help Center",
-        "icon": "question",
-        "url": "https://www.sourcemedium.com/blog"
+      "name": "Blog",
+      "url": "https://www.sourcemedium.com/blog"
     }
   ],
   "primaryTab": {
