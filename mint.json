@@ -38,12 +38,12 @@
   },
   "tabs": [
     {
-      "name": "Metrics & Dimensions",
-      "url": "https://airtable.com/appDL2NQzZOtufpl5/shriuBU2tZWDF2MJH/tblGNgK3rEziVojnH/viwGkJF0DcplUEAxY"
-    },
-    {
       "name": "Data Integrations & Inputs",
       "url": "data-inputs"
+    },
+    {
+      "name": "Metrics & Dimensions",
+      "url": "https://airtable.com/appDL2NQzZOtufpl5/shriuBU2tZWDF2MJH/tblGNgK3rEziVojnH/viwGkJF0DcplUEAxY"
     },
     {
       "name": "SourceMedium Bootcamp",
