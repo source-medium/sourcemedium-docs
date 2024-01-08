@@ -3,3 +3,43 @@ title: "The Subscription Overview Module"
 sidebarTitle: "Subscription Overview"
 icon: 'repeat'
 ---
+<iframe width="640" height="360" src="https://www.loom.com/embed/22c8ed01dbd340e1bc7bdd8f2377b846?sid=6e3ab66b-9334-4519-90d1-3546d7367d42" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+
+#### What is the Subscriptions Overview module and what data can be found there?
+The Subscriptions Overview module is a specialized to evaluate the health of your subscription program. Subscriptions may include multiple products within this module.
+#### Common Questions & Insights That Can Be Answered Here:
+<AccordionGroup>
+<Accordion title="What is the breakdown of total, new, and cancelled subscription revenue (MRR)?">
+Video to be recorded. Until then, feel free to message us on Slack or [email](mailto:help@sourcemedium.com)!
+</Accordion>
+<Accordion title="How has the health of our subscription program changed over time?">
+Video to be recorded. Until then, feel free to message us on Slack or [email](mailto:help@sourcemedium.com)!
+</Accordion>
+<Accordion title="What are the top cancellation reasons?">
+Video to be recorded. Until then, feel free to message us on Slack or [email](mailto:help@sourcemedium.com)!
+</Accordion>
+</AccordionGroup>
+#### Potential Reporting Differences & Discrepancies
+<AccordionGroup>
+<Accordion title="What do 'subscription/recurring' and 'subscription/first_order' Source/Medium values mean?">
+If your UTMs are not set-up correctly, then any subscription order going through ReCharge checkout will have a source_medium value of `None / None`(effectively erasing any last-click attribution). 
+![](/images/article-imgs/subscription-overview-module/Untitled.png)
+Our product automatically changes these orders' `Source/Medium` values from `None / None` to `subscription/recurring` or `subscription/first_order` to maintain visibility into this issue.
+
+Your total Order count for `subscription / first_order`, `subscription / recurring` `Source/Medium` values are not necessarily representing the total number of first time and recurring subscription orders were placed.  Remember, these values are only used when we do not see other `Source/Medium` values attached to the order.
+
+**To truly filter for all of your first time and recurring subscription orders**, we recommend using the `Subscription Order Sequence` filter, which uses order-level metadata to deduce which orders are subscription, and of those, which orders were first-time vs. recurring.
+
+</Accordion>
+<Accordion title="How are ReCharge subscription metrics calculated in SourceMedium reports?">
+
+`New Subscribers` and `Cancelled Subscribers` are calculated based on subscription `created at` dates and `cancelled at` dates (from ReCharge) respectively. We consider a new subscriber someone who has no previous active subscriptions and now is subscribed, while a cancelled subscriber is anyone who was previously subscribed and now has a `cancelled_at` (date) value on their subscription (this value would be null if they were not cancelled).
+
+Total `Active Subscribers`, `Churned Subscribers`, and `Active Subscriptions` are snapshots taken of your ReCharge raw data that is collected each night around midnight. When this value is aggregated (weekly, monthly etc.) we show the median. There are also some nuances in reporting subscription metrics from ReCharge due to the fact that ReCharge reports exclusively in EST, so this can cause discrepancies for stores that are not EST-based.
+</Accordion>
+
+<Accordion title="Why won't SourceMedium numbers match those of ReCharge?">
+
+ReCharge does not share definitions for their dashboard's metrics with SourceMedium, thus creating a black box effect when dealing with ReCharge data. We calculate subscriber metrics in-house (aside from Subscribers Active, Subscribers Churned, and Subscriptions Active) based on the same exact ReCharge raw data used to power their built-in analytics, so we're confident in what we're reporting and its underlying logic, but there may be slight differences vs. ReCharge.
+</Accordion>
+</AccordionGroup>
