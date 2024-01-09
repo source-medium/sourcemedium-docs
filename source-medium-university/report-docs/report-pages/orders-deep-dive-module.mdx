@@ -3,3 +3,51 @@ title: "The Orders Deep Dive Module"
 sidebarTitle: "Orders Deep Dive"
 icon: 'dollar-sign'
 ---
+<iframe width="640" height="360" src="https://www.loom.com/embed/5664010ae8f442c0987f235cbc273d74?sid=d1ac5173-bdfd-4e44-84bb-2eb70d0f6fd3" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+
+#### What is the Orders Deep dive module and what data can be found there?
+    - The Orders Deep dive deeply inspect orders from your store(s) and subscription platform. Orders are surfaced if their process date is within the dates selected in the date range filter as well as complies with other user set filters.
+    - Data is segmented by Channel and is defaulted to be Online DTC. Financial status is defaulted to show orders that are partially refunded and paid.
+    - Source/Medium reports on Last-Click Attribution within the Orders Deep Dive.
+    
+    **SourceMedium uses a waterfall of logic for attribution. Our logic is as follows:**
+    ```
+    1. Shopify UTM Values
+    2. GA UTMs if it doesn't exist in Shopify
+    3. Referring domain if it isn't in GA
+    4. Dependent on being a Subscription or Non-Subscription:
+        a. Subscription
+            i. New sub (subscription/first_order)
+        b. Non-Subscription
+            i. (none)/(none)
+    ```
+#### Common Questions & Insights That Can Be Answered Here:
+
+<AccordionGroup>
+<Accordion title="What is the most common amount of spend for first time customers? How about repeating?">
+<iframe width="640" height="360" src="https://www.loom.com/embed/e5dd55b0650e471da6c88a15a22190e6?sid=26531c82-07c1-473f-9f59-e1bc0e2ffac1" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+</Accordion>
+<Accordion title ="What channel is driving the most subscription customers?">
+<iframe width="640" height="360" src="https://www.loom.com/embed/bc5f1a228b4546f9b37199d9e30d473a?sid=68698cc6-161c-4d54-a701-c4f6f33ef525" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+</Accordion>
+<Accordion title="What is the most common latency between orders for X kind of customers?">
+<iframe width="640" height="360" src="https://www.loom.com/embed/04cd2cdeb1bb49148b7bcaa168ced759?sid=9b11657f-a2b9-40c5-bd08-13ad588dfc09" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+</Accordion>
+<Accordion title="What's the order split between first and repeat orders? Subscription and non-subscription orders?">
+Video to be recorded. Until then, feel free to message us on Slack or [email](mailto:help@sourcemedium.com)!
+</Accordion>
+</AccordionGroup>
+
+#### Potential Reporting Differences & Discrepancies
+SourceMedium reports on Last-Click Attribution within the Orders Deep Dive and follows the Waterfall Logic below:
+
+        ```
+        1. Shopify UTM Values
+        2. GA UTMs if it doesn't exist in Shopify
+        3. Referring domain if it isn't in GA
+        4. Dependent on being a Subscription or Non-Subscription:
+            a. Subscription
+                i. New sub (subscription/first_order)
+            b. Non-Subscription
+                i. (none)/(none)
+        ```

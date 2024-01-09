@@ -3,3 +3,27 @@ title: "The LTV & Retention Module"
 sidebarTitle: "LTV & Retention"
 icon: 'recycle'
 ---
+<iframe width="640" height="360" src="https://www.loom.com/embed/edaf2cb932e749fdafffd58cdad8dd7c?sid=e3c9fa0b-4f44-4ec8-a5a1-be6c9f7bccde" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+
+#### What is the LTV & Retention module and what data can be found there?
+    - This report uses cohorts to bucket customers based on the month a customer placed their very first order. Inclusion in a cohort and applied filters are based on a customer's acquisition order. For example, when filtering using a discount code a customer will be included in a cohort for the month in which they first used that specific discount code.
+    - The ***Slice filter*** is based on Subscription, One-time, or All Product sales.  
+        - *e.g. filtering to Subscription will not show any One-Time revenue, even if a given customer has purchased both one-time and subscription products in different orders or the same order.*
+#### Common Questions & Insights That Can Be Answered Here:
+<AccordionGroup>
+<Accordion title="What sources bring in highest LTV customers?">
+    <iframe width="640" height="360" src="https://www.loom.com/embed/9cfa46ff322a464ab999e944267450a0?sid=37cde52a-753c-436c-9683-4de5e223082a" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+</Accordion>
+<Accordion title="What is the LTV of Amazon customers?">
+    <iframe width="640" height="360" src="https://www.loom.com/embed/b0533855ac5144aab08ec13feb60203e?sid=04a7381a-8b7f-49b3-9784-bbcec85ad8aa" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+</Accordion>
+
+<Accordion title="How much more valuable are my subscription customers than non-subscription customers?">
+    <iframe width="640" height="360" src="https://www.loom.com/embed/1c663f044de544c48316915fc1be21ca?sid=f2aceb9e-8900-442e-a624-6a369aec36ac" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+</Accordion>
+</AccordionGroup>
+#### Potential Reporting Differences & Discrepancies
+    - Defaulted to **Net Revenue**
+    - Filters (order type, sub-channel, etc.) apply to customers' **acquisition order**
+    - Cohorts based on `order_process` date when the order is at least partially paid
+    - If we do not have a direct integration with a subscription platform, we rely on tags to determine subscription vs. non-subscription order type
