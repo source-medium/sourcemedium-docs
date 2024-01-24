@@ -50,6 +50,9 @@
       "url": "source-medium-university"
     }
 ],
+"feedback": {
+	"thumbsRating": true
+},
   "navigation": [
     {
       "group": "Help Center Home",
