@@ -437,7 +437,7 @@
     {
       "group":"Proprietary Data Enrichment Tools",
       "pages": [
-        "data-inputs/configuration-sheet/configuration-sheet-overview",
+        "data-inputs/configuration-sheet/config-sheet-overview",
         {
           "group": "Setting Metric Targets",
           "pages": [
