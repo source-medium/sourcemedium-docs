@@ -1,0 +1,293 @@
+{
+    "name": "SourceMedium",
+    "analytics": {
+        "ga4": {
+            "measurementId": "G-LKSGE9NY1B"
+        }
+    },
+    "logo": {
+        "light": "/logo/light.png",
+        "dark": "/logo/dark.png"
+    },
+    "modeToggle": {
+        "default": "light",
+        "isHidden": true
+    },  
+    "favicon": "/favicon.png",
+    "colors": {
+        "primary": "#A084FC",
+        "light": "#BAA6FC",
+        "dark": "#A084FC"
+    },
+    "topbarCtaButton": {
+        "name": "Request a Demo",
+        "url": "https://www.sourcemedium.com/book-demo-web"
+    },
+    "topbarLinks": [
+        {
+            "name": "Customer Case Studies",
+            "url": "https://www.sourcemedium.com/case-study"
+        },
+        {
+            "name": "Blog",
+            "url": "https://www.sourcemedium.com/blog"
+        }
+    ],
+    "primaryTab": {
+        "name": "Help Center"
+    },
+    "tabs": [
+        {
+            "name": "Data Integrations & Inputs",
+            "url": "data-inputs"
+        },
+        {
+            "name": "Metrics & Dimensions",
+            "url": "https://airtable.com/appDL2NQzZOtufpl5/shriuBU2tZWDF2MJH/tblGNgK3rEziVojnH/viwGkJF0DcplUEAxY"
+        },
+        {
+            "name": "SourceMedium Bootcamp",
+            "url": "source-medium-university"
+        }
+    ],
+    "feedback": {
+        "thumbsRating": true
+    },
+    "navigation": [
+        {
+            "group": "Onboarding",
+            "pages": [
+                "what is SM",
+                "working with SM",
+                {
+                    "group": "Onboarding Materials",
+                    "pages": [
+
+                    ]
+                },
+                "creating & managing access groups"
+            ]
+        },
+        {
+            "group": "Integrations & Data Enrichment Tools",
+            "pages": [
+                {
+                    "group": "Integrations",
+                    "pages": [
+                        {
+                            "group": "Proprietary Partner Integrations",
+                            "pages": [
+                                {
+                                    "group": "Elevar",
+                                    "pages": [
+                                        "elevar integration instructions"
+                                    ]
+                                },
+                                {
+                                    "group": "FERMÁT",
+                                    "pages": [
+                                        "FERMÁT integration instructions"
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "group": "Ecommerce",
+                            "pages": [
+                                {
+                                    "group": "Shopify",
+                                    "pages": [
+                                        "shopify integration instructions",
+                                        "gift card revenue nuance"
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "group": "Subscription",
+                            "pages": [
+                                {
+                                    "group": "ReCharge",
+                                    "pages": [
+                                        "recharge integration instructions",
+                                        "prepaid subscription nuance"
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "group": "Marketing & Advertising",
+                            "pages": [
+                                {
+                                    "group": "Meta",
+                                    "pages": [
+                                        "meta integration instructions",
+                                        "7d click attribution window"
+                                    ]
+                                },
+                                {
+                                    "group": "Google Ads",
+                                    "pages": [
+                                        "google ads integration instructions"
+                                    ]
+                                },
+                                {
+                                    "group": "Impact Radius",
+                                    "pages": [
+                                        "impact integration instructions"
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "group": "Site Analytics & Attribution",
+                            "pages": [
+                                {
+                                    "group": "Google Analytics 4",
+                                    "pages": [
+                                        "ga4 integration instructions"
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "group": "Email & SMS",
+                            "pages": [
+                                {
+                                    "group": "Klaviyo",
+                                    "pages": [
+                                        "Klaviyo integration instructions"
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "group": "Proprietary Data Enrichment Tools",
+                    "pages": [
+                        "configuration sheet overview",
+                        {
+                            "group": "Setting Targets",
+                            "pages": [
+
+                            ]
+                        },
+                        {
+                            "group": "channel mapping",
+                            "pages": [
+                                
+                            ]
+                        },
+                        {
+                            "group": "Custom Marketing Costs",
+                            "pages": [
+                                
+                            ]
+                        },
+                        {
+                            "group": "Custom Sales",
+                            "pages": [
+                                
+                            ]
+                        },
+                        {
+                            "group": "COGS",
+                            "pages": [
+                                
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "group": "Data Transformation",
+            "pages": [
+                "SM data modeling philosophy",
+                "SM data cleaning decisions",
+                {
+                    "group": "Data Enrichment Methods",
+                    "pages": [
+                        "Attribution waterfall",
+                        "Channel mapping",
+                        "Unifying subscription data",
+                        "financials - cogs/product costs, targets"
+                    ]
+                },
+                {
+                    "group": "Known source data issues",
+                    "pages": [
+                        {
+                            "group": "ReCharge",
+                            "pages": [
+
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "group": "Data Activation",
+            "pages": [
+                {
+                    "group": "Managed Warehouse",
+                    "pages": [
+                        "Building on top of SM",
+                        "Naming Conventions",
+                        {
+                            "group": "Available schemas",
+                            "pages": [
+
+                            ]
+                        },
+                        "Query Building",
+                        "Important Join Keys & Join Recipes",
+                        {
+                            "group": "dashboard building & BI tool education",
+                            "pages": [
+
+                            ]
+                        },
+                        "How to use BigQuery"
+                    ]
+                },
+                {
+                    "group": "Managed BI",
+                    "pages": [
+                        {
+                            "group": "Dashboard Education",
+                            "pages": [
+
+                            ]
+                        },
+                        {
+                            "group": "Template Gallery",
+                            "pages": [
+                                
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "group": "Metric & dimension definitions",
+                    "pages": [
+
+                    ]
+                },
+                {
+                    "group": "Common Analyses",
+                    "pages": [
+                        
+                    ]
+                }
+            ]
+        }
+    ],
+    "footerSocials":
+        {
+            "twitter": "https://twitter.com/sourcemediumhq",
+            "linkedin": "https://www.linkedin.com/company/sourcemedium/"
+        }
+}
