@@ -53,6 +53,12 @@
 "feedback": {
 	"thumbsRating": true
 },
+"redirects": [
+  {
+    "source": "/integrations",
+    "destination": "/data-inputs/platform-integration-instructions/all-available-integrations"
+  }
+],
   "navigation": [
     {
       "group": "Help Center Home",
