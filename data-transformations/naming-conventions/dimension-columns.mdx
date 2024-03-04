@@ -1,0 +1,30 @@
+---
+title: 'Dimension Columns'
+description: ''
+icon: ''
+---
+
+### Overview
+
+A dimension will always consist of an `entity` (e.g. order, customer) and a `dimension`, which is a 
+qualifier that specifies a certain attribute of the `entity`. Like with metrics, the `entity` and `dimension` 
+combination is the majority of what you’re looking for when locating a dimension or typing a dimension in a query. 
+As such, `entity` and `dimension` will always appear next to each other.
+
+### Dimension column name formula
+`{{ modifier }}_{{ entity }}_{{ dimension }}`
+
+### Examples
+
+- `order_index`, where `order` is the `entity` and `index` is the `dimension` that specifies the attribute of the order
+- `product_variant_title`, where `product_variant` is the `entity` and `title` is the `dimension` that 
+specifies the attribute of the product variant
+
+In some cases, dimension columns will have modifiers. As with metrics, modifiers will fall before the `entity`.
+
+### Examples with modifiers
+
+- `primary_order_payment_gateway`, where `order` is the `entity`, `payment_gateway` is the `dimension`, and `primary` 
+modifies this `entity_dimension` combination
+- `most_recent_refund_date`, where `refund` is the `entity`, `date` is the `dimension`, and `most_recent` 
+modifies this `entity_dimension` combination

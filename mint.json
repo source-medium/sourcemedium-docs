@@ -42,8 +42,8 @@
       "url": "data-inputs"
     },
     {
-      "name": "Metrics & Dimensions",
-      "url": "https://airtable.com/appDL2NQzZOtufpl5/shriuBU2tZWDF2MJH/tblGNgK3rEziVojnH/viwGkJF0DcplUEAxY"
+      "name": "Data Transformations",
+      "url": "data-transformations"
     },
     {
       "name": "SourceMedium Bootcamp",
@@ -484,6 +484,26 @@
 
           ]
         }
+      ]
+    },
+    {
+      "group": "Transformations",
+      "pages": [
+        "data-transformations/philosophy",
+        "data-transformations/data-cleaning-rules",
+        "data-transformations/enrichment-methods"
+      ]
+    },
+    {
+      "group": "Naming Conventions",
+      "pages": [
+        "data-transformations/naming-conventions/key-concepts",
+        "data-transformations/naming-conventions/metric-columns",
+        "data-transformations/naming-conventions/dimension-columns",
+        "data-transformations/naming-conventions/numerical-columns",
+        "data-transformations/naming-conventions/sourcemedium-proprietary-columns",
+        "data-transformations/naming-conventions/boolean-columns",
+        "data-transformations/naming-conventions/time-columns"
       ]
     },
     {
