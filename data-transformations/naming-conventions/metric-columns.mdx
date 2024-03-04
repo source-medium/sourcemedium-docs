@@ -9,7 +9,8 @@ icon: ''
 A metric will always consist of an `entity` (e.g. order, customer), `dimension`, and in some cases, a `modifier`. 
 To make column names more human readable, our naming conventions will always keep the `entity` and the `metric` next to each other, 
 as the combination of the two represents the majority of what you’re looking for when locating a metric or typing a metric in a query. 
-From there, any relevant entity modifiers will appear before the metric, as this context is critical for understanding the metric’s meaning.
+From there, any relevant entity modifiers will appear before the metric, as this context is critical for understanding the meaning of the 
+`entity_metric` combination.
 
 ### Metric column name formula
 `{{ modifier }}_{{ entity }}_{{ metric }}`
