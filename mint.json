@@ -548,29 +548,18 @@
       "group": "Managed Data Warehouse",
       "pages": [
         "data-activation/managed-data-warehouse/overview",
-        "data-activation/managed-data-warehouse/modeling",
         "data-activation/managed-data-warehouse/bi-tools",
+        "data-activation/managed-data-warehouse/modeling",
         {
           "group": "SourceMedium Templates",
           "pages": [
+            "data-activation/template-resources/looker-studio-template-copy-instructions",
             {
-              "group": "SourceMedium Data Sources",
+              "group": "Template Directories",
               "pages": [
                 "data-activation/template-resources/sm-data-source-template-directory",
-                "data-activation/template-resources/copying-sm-data-source-templates"
-              ]
-            },
-            {
-              "group": "SourceMedium Reports",
-              "pages": [
                 "data-activation/template-resources/sm-report-template-directory",
-                "data-activation/template-resources/copying-sm-report-templates"
-              ]
-            },
-            {
-              "group": "SourceMedium SQL Recipes",
-              "pages": [
-                
+                "data-activation/template-resources/sm-sql-recipe-directory"
               ]
             }
           ]
