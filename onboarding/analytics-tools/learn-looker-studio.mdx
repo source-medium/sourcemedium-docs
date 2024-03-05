@@ -1,0 +1,328 @@
+---
+title: "Learn Looker Studio"
+description: ""
+---
+
+Google provides a very useful high-level overview and quick-start guide for Looker Studio [HERE](https://support.google.com/looker-studio/answer/9171315?hl=en#zippy=).  We recommend familiarizing yourself with this doc, if you have time.
+
+If you're more of a visual learner, this 20 minute crash course will get you up and running 
+
+However, we know people are busy, so below we've aggregated what we feel is the most important information you need to get from 0 → 60 with SourceMedium in Looker Studio.
+
+<Accordion title="Glossary">
+
+- [Report](https://support.google.com/looker-studio/answer/6309867?sjid=14391589404630611402-NC#zippy=%2Cin-this-article)
+    - A Looker Studio asset that contains a collection of **components** whose purpose is to present to viewers information and insights derived from your data.
+- [Data Source](https://support.google.com/looker-studio/answer/6268208?ref_topic=6370331&sjid=14391589404630611402-NC#zippy=%2Cin-this-article)
+    - **Connectors** connect Looker Studio to your underlying data. Connecting to your data creates a *data source* in Looker Studio.
+    - **Data sources** represent a particular instance of a connector: for example, a connection to a specific BigQuery table or query, a Google Analytics property, or a Google Sheet. Data sources let you configure the fields and options provided by the connector used to create that connection instance. In addition, the data source gives you a secure way to share information and insights with report viewers who may not be able to directly access the underlying data.
+- [Components](https://support.google.com/looker-studio/answer/6291062?ref_topic=12141289&sjid=14391589404630611402-NC#zippy=%2Cin-this-article)
+    - A widget that you add to a report to display your data, such as **charts**, **tables**, and interactive **date range controls** and **filter controls**. Data components get their information from a **data source**.
+    - You can also annotate your report with **text**, **shape**, **image**, and [embedded content](https://support.google.com/looker-studio/answer/9132022) components.
+- [Field](https://support.google.com/looker-studio/answer/7625527?sjid=14391589404630611402-NC#zippy=%2Cin-this-article)
+    - A column of data.  Looker Studio uses two basic types of fields:
+        - **Dimensions** are things that you want to measure, or that serve as ways to categorize your data.
+        - **Metrics** are numbers that measure the things that are contained in dimensions.
+- View Mode / Edit Mode
+    - **Edit mode** allows you to edit the structure of a report and change, add, or remove data sources, and to use interactive controls.
+        - People who can edit a report or data source are referred to as **editors**.
+    - **View mode** lets you see all the data that you are authorized to see, and to use interactive controls. View mode does not allow you to modify the report structure.
+        - People who can only view a report or data source are referred to as **viewers**.
+- [Credentials](https://support.google.com/looker-studio/answer/6371135)
+    - The mechanism by which a data source determines who can see the data it provides.
+</Accordion>
+
+- [Navigating the Looker Studio interface](https://support.google.com/looker-studio/answer/6378181?hl=en&ref_topic=12398462&sjid=14409909033535274115-NC#zippy=%2Creports-home-legend)
+
+## Creating & Editing Data Sources
+
+<AccordionGroup>
+    <Accordion title="Copying from SourceMedium Template data sources">
+        Follow this guide to learn how to create duplicates of SM template Looker Studio data sources for use in your own BI.
+    </Accordion>
+    <Accordion title="Creating new data sources">
+        You can create new data sources directly from your report, or from your Looker Studio home page.
+
+        <Accordion title="Create new data source from your dashboard (must be in Edit mode)">
+            ![Screenshot 2024-03-04 at 9.07.22 AM.png](/images/article-imgs/learn-looker-studio/Screenshot_2024-03-04_at_9.07.22_AM.png)
+        </Accordion>
+        <Accordion title="Create new data source from Looker Studio home page">
+            ![Screenshot 2024-03-04 at 9.05.39 AM.png](/images/article-imgs/learn-looker-studio/Screenshot_2024-03-04_at_9.05.39_AM.png)
+        </Accordion>
+
+        The steps for configuring your new data source will be the same, regardless of where you initiate the creation process.
+
+        The majority of your data source creation needs will be enabled via data coming from your BigQuery warehouse — using the Looker Studio BigQuery connection.  You can provision data sources directly based on tables in your BQ (create a new data source out of an entire table like `obt_orders`), or write your own queries to derive new tables based on tables within your warehouse.  We'll cover both methods below:
+
+        Prerequisite: you must be logged into a Google account that has access to the underlying data you wish to work with within BigQuery
+
+        1. Both methods start with you selecting the BigQuery connector
+            - Screenshot
+                
+                ![Screenshot 2024-03-04 at 9.09.15 AM.png](/images/article-imgs/learn-looker-studio/Screenshot_2024-03-04_at_9.09.15_AM.png)
+                
+        2. Select data
+            - **Existing table from BQ**
+                1. Under My Projects, select your SM managed warehouse (or other warehouse, no limits).  
+                2. Then select a corresponding Dataset and Table.  
+                3. Finally, press Add to create the data source
+                4. For additional information on the Datasets & Tables available from SM and their utilities, visit here.
+                - Screenshot
+                    
+                    ![Screenshot 2024-03-04 at 9.11.30 AM.png](/images/article-imgs/learn-looker-studio/Screenshot_2024-03-04_at_9.11.30_AM.png)
+                    
+            - **Custom SQL Query**
+                1. Select Custom Query from the left menu, then select your SM-managed warehouse under Projects
+                2. You can now write your query to pull data into the Custom Query box
+                3. When done, press Add to create the data source
+                - Screenshot
+                    
+                    ![Screenshot 2024-03-04 at 9.18.39 AM.png](/images/article-imgs/learn-looker-studio/Screenshot_2024-03-04_at_9.18.39_AM.png)
+                    
+            - Data sources access underlying data from your warehouse using Data Credentials — essentially, users of the data source will have access to all data the Data Credentials account has access to
+                - By default, the account used to create the data source will automatically be assigned as the Data Credentials for that source
+                - You can change the Data Credentials for a data source at any time
+                    - We recommend creating a service account to use as the Data Credential for all of your brand's managed data sources
+                        - Documentation can be found [here](https://support.google.com/looker-studio/answer/10835295?sjid=1005066725261683010-NC#zippy=%2Cin-this-article)
+                - [Additional documentation on data credentials](https://support.google.com/looker-studio/answer/6371135?hl=en#zippy=%2Cin-this-article%2Cservice-account-credentials)
+        3. Rename your new data source, add access for team members, and start getting your hands dirty!
+            1. For more information on data source naming & best practices, check here
+            2. For more information on team access, check here
+    </Accordion>
+    <Accordion title="Data source hygiene & best practices">
+        - Data Source Naming
+            - We highly recommend having the Data Source name explain the underlying table / data it's referenceing
+                - e.g. if you were to provision your own copy of our [DEMO] Orders OBT table, we'd recommend naming it `Orders OBT`, `Orders`, `[MyBrand] Orders OBT` etc
+        - Field Naming & Field Descriptions
+            - When creating a new data source from BigQuery, you'll notice computer-friendly field names containing words separated by underscores.  These are the field names as they exist in your warehouse (you can look up field definitions using this field name in our Metric & Dimension documentation)
+            - We encourage you to rename fields in whatever format is easiest for your team to understand!
+                - If you do decide to rename fields, we very strongly encourage you to copy the original field name into the Description field, as is this is the only reference you'll have to the original field name (in case of needing to look up definitions etc.)
+            - For calculated fields, we recommend including the definition in the Description field
+                - Data Source Viewers don't have access to examine underlying logic for calculated fields, so it's good for all-team visibility to have that logic defined in the field Description.
+            - If you've made personal duplicates of one of SourceMedium's template data sources, you'll notice that we've already renamed fields and mapped their warehouse name in the Description field
+                - Please do not edit the Description field on these data sources
+        - Data Source Access & Permissions
+            - [See here](SM%20Looker%20Studio%20Quick-Start%20Guide%2075a6540581ad48c18ef80477f490e919.md)
+    </Accordion>
+</AccordionGroup>
+
+## Creating & Editing Reports
+
+<AccordionGroup>
+    <Accordion title="Copying from SourceMedium Template reports">
+        Follow this guide to learn how to copy whole SourceMedium template Looker Studio dashboards.
+    </Accordion>
+    <Accordion title="Creating reports from scratch">
+        - Log in to [https://lookerstudio.google.com/](https://lookerstudio.google.com/)
+            - Here you'll be able to see all of the reports & data sources that you have access to.
+        - Near the top-right of the page, find and click the `+ Create` button, and then select `Report`
+            - screenshots
+                
+                ![Screenshot 2024-02-29 at 12.23.37 PM.png](/images/article-imgs/learn-looker-studio/Screenshot_2024-02-29_at_12.23.37_PM.png)
+                
+                ![Screenshot 2024-02-29 at 12.25.22 PM.png](/images/article-imgs/learn-looker-studio/Screenshot_2024-02-29_at_12.25.22_PM.png)
+                
+        - You'll immediately be moved to a blank report, and asked to select data to add to the report
+            - details
+                - screenshot
+                    
+                    ![Screenshot 2024-02-29 at 12.26.56 PM.png](/images/article-imgs/learn-looker-studio/Screenshot_2024-02-29_at_12.26.56_PM.png)
+                    
+                - If have already existing data sources you'd like to connect, navigate to the My data sources tab and select a source to include
+                    - screenshot
+                        
+                        ![Screenshot 2024-02-29 at 12.28.19 PM.png](/images/article-imgs/learn-looker-studio/Screenshot_2024-02-29_at_12.28.19_PM.png)
+                        
+                    - you can only select 1 data source in this step, but you can always add more later
+                        - see section on adding new data sources to a report
+                - If you'd like to create a new data source from data in your data warehouse, select the BigQuery connector and set up your new data source
+                    - can reference instructions for creating new custom Looker Studio data sources here
+                - If connecting a Looker-native data source (Google Ads, GA4, Search Console etc), simply select the connector and work through the authorization steps
+        - Once you select initial data to add, you'll be able to rename (recommended to do this right away) and begin editing the report!
+    </Accordion>
+    <Accordion title="Editing reports">
+        <Accordion title="Dates & date range controls">
+            It's important that every page has at least 1 date range control.  This control allows users to select desired ranges, which will filter charts based on the chart-level **date range dimension**.
+            
+            - [About date range controls](https://support.google.com/looker-studio/answer/6291067#zippy=%2Cin-this-article) & how to add them to your report
+        </Accordion>
+        <Accordion title="Add additional data sources">
+            
+            Once you have your report initialized, with an initial data source connected, you might want to connect additional data sources.  There are a couple ways to do this
+            
+            - From the top navigation bar, select Resource → Manage added data sources
+                - screenshot
+                    
+                    ![Screenshot 2024-02-29 at 12.38.02 PM.png](/images/article-imgs/learn-looker-studio/Screenshot_2024-02-29_at_12.38.02_PM.png)
+                    
+            - Here, you'll be able to access all data sources that have been added to your report
+            - Select `Add a Data Source`
+                - screenshot
+                    
+                    ![Screenshot 2024-02-29 at 12.38.08 PM.png](/images/article-imgs/learn-looker-studio/Screenshot_2024-02-29_at_12.38.08_PM.png)
+                    
+            - You'll be greeted with the same window you encountered when creating the report, asking you to select the type of data source you'd like to connect
+                - work through the connector-specific steps
+                    - you can find instructions here on **creating your own copies of SM data source templates**
+                    - you can find instructions here on **creating data sources from SM-provided tables in your warehouse**
+                    - you can find instructions here on **creating data sources from custom queries to your warehouse**
+        </Accordion>
+        <Accordion title="Visualize your data">
+            - Creating charts
+                
+                Once data has been added to your report, you can begin to visualize this data
+                
+                - Within the top nav-bar, select `Add a chart`, and select the chart-type you'd like to use
+                    - screenshots
+                        
+                        ![Screenshot 2024-02-29 at 12.36.39 PM.png](/images/article-imgs/learn-looker-studio/Screenshot_2024-02-29_at_12.36.39_PM.png)
+                        
+                        ![Screenshot 2024-02-29 at 12.36.49 PM.png](/images/article-imgs/learn-looker-studio/Screenshot_2024-02-29_at_12.36.49_PM.png)
+                        
+                    - see [here](https://support.google.com/looker-studio/answer/13590887?hl=en) for additional information from Google on the available Looker Studio chart types
+                - Drag and drop the chart to the desired location on-page
+                    - screenshots
+                        
+                        ![Screenshot 2024-02-29 at 12.47.09 PM.png](/images/article-imgs/learn-looker-studio/Screenshot_2024-02-29_at_12.47.09_PM.png)
+                        
+                - You can now swap in the [metric(s) and dimension(s)](SM%20Looker%20Studio%20Quick-Start%20Guide%2075a6540581ad48c18ef80477f490e919.md) you wish to visualize! (tip: double check the date range dimension)
+                    - you can do this by either selecting new fields directly from the Chart → Setup panel, or by drag & dropping fields from the Data panel to the Chart → Setup panel
+                        - screenshots
+                            
+                            ![Screenshot 2024-02-29 at 12.52.19 PM.png](/images/article-imgs/learn-looker-studio/Screenshot_2024-02-29_at_12.52.19_PM.png)
+                            
+                            ![Screenshot 2024-02-29 at 4.17.22 PM.png](/images/article-imgs/learn-looker-studio/Screenshot_2024-02-29_at_4.17.22_PM.png)
+                            
+                            ![Screenshot 2024-02-29 at 4.17.31 PM.png](/images/article-imgs/learn-looker-studio/Screenshot_2024-02-29_at_4.17.31_PM.png)
+                            
+                    - Make sure to pay attention to the date range dimension, which is set on each chart
+                        - This is the dimension that will be used in conjunction with a date range control to filter the data that's present within the visualization.
+                    - [You can find additional info on working with charts and tables here](SM%20Looker%20Studio%20Quick-Start%20Guide%2075a6540581ad48c18ef80477f490e919.md)
+            - Chart configuration & styling
+                - date range dimension
+                - dimensions
+                    - drilldown
+                - metrics
+                    - optional metrics
+                - renaming fields
+            - From Google: [Looker Studio chart types](https://support.google.com/looker-studio/answer/13590887?hl=en)
+        </Accordion>
+        <Accordion title="Filter your data">
+            
+            Outside of **date-range filtering**, there are two primary tools for filtering data in reports: **controls**, and **object-level filters**.  All 3 of these concepts can be combined in various ways to create perfectly manicured and highly functional reports.
+            
+            - **Control components —** page-level components that allow report viewers to filter data themselves
+                
+                There are many different types of control components, which you can explore [here](https://support.google.com/looker-studio/answer/6312144?hl=en#types-of-controls) ranging from dropdown lists to user-input boxes.  By default, controls will attempt to filter all components on the page they exist on — however, you can group charts & filters together to create more manicured filtering scenarios.
+                
+                Controls are used when you want report users to have the ability to filter views themselves.
+                
+                - [Additional information on control components](https://support.google.com/looker-studio/answer/6312144?hl=en#how-controls-work&zippy=%2Cin-this-article) and how to add them to your report
+            - Object-level **filters -** chart, page, or report-level logic that pre-filters all components within the given scope
+                
+                Object-level filters are useful when you want all users to have the same filter selection, without the ability to remove/change the filter selection.  Report viewers will not have the ability to see, edit, or remove these filters.
+                
+                Creating an object-level filter will create a reusable filter that can be used on multiple levels (charts, pages, & reports).
+                
+                - [Create, edit, and manage filters](https://support.google.com/looker-studio/answer/7326859?hl=en#:~:text=Add%20a%20filter%20to%20the,%2C%20click%20%2BAdd%20a%20filter.)
+                - [Additional information on filter properties (filters)](https://support.google.com/looker-studio/answer/6291066?hl=en)
+        </Accordion>
+        <Accordion title="Custom logic fields (”calculated fields”)">
+            
+            Calculated fields allow you to use custom logic to create new metrics & dimensions based on your data.  This is provides additional flexibility, allowing you to create higher-level metrics & dimensions within charts or data sources without needing to drop into your warehouse or write any SQL.
+            
+            - [Learn all about creating and managing calculated fields](https://support.google.com/looker-studio/answer/6299685?hl=en#zippy=%2Cin-this-article)
+        - **Structuring your report**
+            - [Adding pages and creating report structure](https://support.google.com/looker-studio/answer/6370267?hl=en#zippy=%2Cin-this-article)
+        </Accordion>    
+    </Accordion>
+</AccordionGroup>
+
+
+## Calculated fields — custom metrics & dimensions
+
+Calculated fields allow you to use custom logic to create new metrics & dimensions based on your data.  This is provides additional flexibility, allowing you to create higher-level metrics & dimensions within charts or data sources without needing to drop into your warehouse or write any SQL.
+
+You can either create calculated fields directly within a report component (chart, table, filter) — for temporary or more isolated use — or you can create calculated fields at the data source level for all users to use.
+<AccordionGroup>
+    <Accordion title="Creating calculated fields within a report component">
+        1. Select the chart or control component you'd like to add your new field to
+        2. Select Add Metric or Add Dimension, depending on the new field you'd like to create
+            - Screenshots
+                
+                ![Screenshot 2024-03-04 at 11.54.31 AM.png](/images/article-imgs/learn-looker-studio/Screenshot_2024-03-04_at_11.54.31_AM.png)
+                
+                ![Screenshot 2024-03-04 at 11.55.33 AM.png](/images/article-imgs/learn-looker-studio/Screenshot_2024-03-04_at_11.55.33_AM.png)
+                
+            1. you can also select an already existing field and choose Add Field to replace an already existing metric/dimension
+        3. An in-page window will open where you can name your new field and enter your custom logic
+            - Screenshot
+                
+                ![Screenshot 2024-03-04 at 11.57.43 AM.png](/images/article-imgs/learn-looker-studio/Screenshot_2024-03-04_at_11.57.43_AM.png)
+                
+        4. Once you're satisfied with your new formula, press Apply
+            - Screenshot
+                
+                ![Screenshot 2024-03-04 at 11.58.55 AM.png](/images/article-imgs/learn-looker-studio/Screenshot_2024-03-04_at_11.58.55_AM.png)
+                
+        5. And you're done! You can now see your new field within the chart configuration panel, and rendered on your chart
+            - Screenshot
+                
+                ![Screenshot 2024-03-04 at 12.00.13 PM.png](/images/article-imgs/learn-looker-studio/Screenshot_2024-03-04_at_12.00.13_PM.png)
+    </Accordion>       
+    <Accordion title="Creating calculated fields within a data source (must have data source Edit access)">
+        1. Open the data source you wish to create a calculated field on.  Near the top-left of the view, select Add a field, and then select Add calculated field
+            - Screenshots
+                
+                ![Screenshot 2024-03-04 at 11.38.05 AM.png](/images/article-imgs/learn-looker-studio/Screenshot_2024-03-04_at_11.38.05_AM.png)
+                
+                ![Screenshot 2024-03-04 at 11.39.24 AM.png](/images/article-imgs/learn-looker-studio/Screenshot_2024-03-04_at_11.39.24_AM.png)
+                
+        2. A new view will open where you can name your new field and enter your custom logic
+            - Screenshot
+                
+                ![Screenshot 2024-03-04 at 11.39.32 AM.png](/images/article-imgs/learn-looker-studio/Screenshot_2024-03-04_at_11.39.32_AM.png)
+                
+        3. Once you're satisfied with your new formula, press Save
+            - Screenshot
+                
+                ![Screenshot 2024-03-04 at 11.40.09 AM.png](/images/article-imgs/learn-looker-studio/Screenshot_2024-03-04_at_11.40.09_AM.png)
+                
+        4. And you're done! You can now see your new field within the data source, and it can be used within any report that your data source has been added to. Be sure to update the Description for the new field, so that data source Viewers have visibility.
+            - Screenshot
+                
+                ![Screenshot 2024-03-04 at 11.47.18 AM.png](/images/article-imgs/learn-looker-studio/Screenshot_2024-03-04_at_11.47.18_AM.png)
+    </Accordion>
+</AccordionGroup>
+- [Additional documentation on Looker Studio calculated fields](https://support.google.com/looker-studio/answer/6299685?hl=en#zippy=%2Cin-this-article)
+
+## Sharing access with your team
+<AccordionGroup>
+    <Accordion title="Report access">
+        Looker Studio Reports have 3 levels of available access
+
+        - Viewer — can simply view the report
+        - Editor — can view, and edit the report, and add access for other team mates
+        - Owner — can view, edit, and delete the report, and add access for other team mates
+    </Accordion>
+    <Accordion title="Data Source access">
+        In the same way that you might want to have Viewers and Editors separately for reports, we recommend setting up a similar access structure for data sources.  
+
+        Note: providing data source access to users is different than setting the [data credentials](https://support.google.com/looker-studio/answer/6371135?hl=en#zippy=%2Cin-this-article%2Cservice-account-credentials) for a data source
+
+        - Viewer — this user can look at the data source and all of the field descriptions
+        - Editor — this user can additionally rename fields & descriptions, edit the data source connection, and can create / edit / delete calculated fields.  This user can also add view and edit access for other users
+        - Owner — this user can additionally delete the data source, and provision access to any user type (including changing ownership of the data source to a different user)
+    </Accordion>
+    <Accordion title="Leveraging Google Groups for permission management">
+        To make managing access for larger teams easier, we recommend setting up Google Groups for your different user types.  You can add members to these groups separately based on the access they should have to certain resources.  For example, here's one group structure that we've seen work for teams
+
+        - Admin — this group has access to all resources
+        - Data source edit — this group has access to edit data sources. These users should have access to your Managed Warehouse.
+        - Data source view — this group has access to view data source details.  We recommend adding at least all report editors to this group
+        - Report edit — has access to edit reports. We recommend not having too many “cooks in the kitchen” here
+        - Report view — has access to view & use reports.
+
+        You can find documentation on creating google groups [here](https://support.google.com/groups/answer/2464926?hl=en).
+    </Accordion>
+</AccordionGroup>

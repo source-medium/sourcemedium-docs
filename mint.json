@@ -172,7 +172,7 @@
     {
       "group": "Analytics Tools",
       "pages": [
-        "onboarding/analytics-tools/learn-lookerstudio",
+        "onboarding/analytics-tools/learn-looker-studio",
         "onboarding/analytics-tools/learn-bigquery"
       ]
     },
@@ -549,7 +549,32 @@
       "pages": [
         "data-activation/managed-data-warehouse/overview",
         "data-activation/managed-data-warehouse/modeling",
-        "data-activation/managed-data-warehouse/bi-tools"
+        "data-activation/managed-data-warehouse/bi-tools",
+        {
+          "group": "SourceMedium Templates",
+          "pages": [
+            {
+              "group": "SourceMedium Data Sources",
+              "pages": [
+                "data-activation/template-resources/sm-data-source-template-directory",
+                "data-activation/template-resources/copying-sm-data-source-templates"
+              ]
+            },
+            {
+              "group": "SourceMedium Reports",
+              "pages": [
+                "data-activation/template-resources/sm-report-template-directory",
+                "data-activation/template-resources/copying-sm-report-templates"
+              ]
+            },
+            {
+              "group": "SourceMedium SQL Recipes",
+              "pages": [
+                
+              ]
+            }
+          ]
+        }
       ]
     },
     {
