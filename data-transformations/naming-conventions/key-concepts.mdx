@@ -1,0 +1,29 @@
+---
+title: 'Key Concepts'
+description: ''
+icon: ''
+---
+
+### Overview
+Data warehouse naming conventions play an important role in ensuring that a user's data exploration and modeling experience is clear, 
+consistent, and efficient.
+
+The building blocks outlined below help create a structured, methodical approach to naming tables and columns, 
+making it easier for users to understand and navigate what is typically inconsistent and unpredictable. We use these building blocks to 
+create consistent formulas that populate the columns and tables in your data warehouse.
+
+### Naming convention building blocks
+- `entity`: An `entity` refers to the primary object or concept that a column or table is related to. It represents the main subject 
+of the data stored in the column or table, such as an order, customer, or product.
+- `metric`: A `metric` is a quantifiable measure that is used to track and assess the status of a specific process or activity within 
+an entity. It often represents numerical data, such as financial figures (e.g., revenue, costs), counts (e.g., order counts, customer counts), 
+or other measurable attributes of an `entity`.
+- `dimension`: A `dimension` provides context to data and is often used for grouping, segmenting, and categorizing data. It is an attribute 
+or qualifier of an entity that allows data to be sliced and diced for analytical purposes. Dimensions are non-quantifiable attributes that describe 
+aspects of the entity, such as dates, geographical information, or categorical data like product types or customer segments.
+- `modifier`: A `modifier` is an additional qualifier that provides extra context or specificity to a metric or dimension. It can be 
+used to refine or alter the meaning of a metric or dimension by specifying a particular condition, state, or variation.
+- `prefix`: A `prefix` is a string of characters added to the beginning of a column name to provide additional context, indicate a 
+specific source, or denote a particular type of data.
+- `suffix`: A `suffix` is a string of characters added to the end of a column name to provide additional information about the type of data 
+the column contains or the format of the data.

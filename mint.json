@@ -34,20 +34,24 @@
     }
   ],
   "primaryTab": {
-    "name": "Help Center"
+    "name": "What Is SourceMedium?"
   },
   "tabs": [
+    {
+      "name": "Onboarding",
+      "url": "onboarding"
+    },
     {
       "name": "Data Integrations & Inputs",
       "url": "data-inputs"
     },
     {
-      "name": "Metrics & Dimensions",
-      "url": "https://airtable.com/appDL2NQzZOtufpl5/shriuBU2tZWDF2MJH/tblGNgK3rEziVojnH/viwGkJF0DcplUEAxY"
+      "name": "Data Transformations",
+      "url": "data-transformations"
     },
     {
-      "name": "SourceMedium Bootcamp",
-      "url": "source-medium-university"
+      "name": "Data Activation",
+      "url": "data-activation"
     }
 ],
 "feedback": {
@@ -61,9 +65,9 @@
 ],
   "navigation": [
     {
-      "group": "Help Center Home",
+      "group": "About",
       "pages": [
-        "help-center/start"
+        "help-center/what-is-sourcemedium"
       ]
     },
     {
@@ -135,6 +139,41 @@
             "help-center/faq/account-management-faqs/how-do-i-setup-post-purchase-survery-order-tagging-for-knocommerce"
           ]
         }
+      ]
+    },
+    {
+      "group": "Getting Started",
+      "pages": [
+        {
+          "group": "About SourceMedium",
+          "pages": [
+            "onboarding/getting-started/intro-to-sm",
+            "onboarding/getting-started/how-to-work-with-the-sourcemedium-team"
+          ]
+        },
+        {
+          "group": "Data Quality Checklist",
+          "pages": [
+            "onboarding/getting-started/getting-started-checklist",
+            "onboarding/getting-started/level-1-data-checklist",
+            "onboarding/getting-started/level-2-data-checklist",
+            "onboarding/getting-started/cold-start/cold-start-guide-home"
+          ]
+        },
+        {
+          "group": "Thinking Analytically",
+          "pages": [
+            "onboarding/getting-started/thinking-analytically/how-analytical-questions-are-key",
+            "onboarding/getting-started/thinking-analytically/common-analytical-questions"
+          ]
+        }
+      ]
+    },
+    {
+      "group": "Analytics Tools",
+      "pages": [
+        "onboarding/analytics-tools/learn-lookerstudio",
+        "onboarding/analytics-tools/learn-bigquery"
       ]
     },
     {
@@ -487,59 +526,59 @@
       ]
     },
     {
-      "group": "SourceMedium Bootcamp",
+      "group": "Transformations",
       "pages": [
+        "data-transformations/philosophy",
+        "data-transformations/data-cleaning"
+      ]
+    },
+    {
+      "group": "Naming Conventions",
+      "pages": [
+        "data-transformations/naming-conventions/key-concepts",
+        "data-transformations/naming-conventions/metric-columns",
+        "data-transformations/naming-conventions/dimension-columns",
+        "data-transformations/naming-conventions/numerical-columns",
+        "data-transformations/naming-conventions/sourcemedium-proprietary-columns",
+        "data-transformations/naming-conventions/boolean-columns",
+        "data-transformations/naming-conventions/time-columns"
+      ]
+    },
+    {
+      "group": "Managed Data Warehouse",
+      "pages": [
+        "data-activation/managed-data-warehouse/overview",
+        "data-activation/managed-data-warehouse/modeling",
+        "data-activation/managed-data-warehouse/bi-tools"
+      ]
+    },
+    {
+      "group": "Managed BI",
+      "pages": [
+        "data-activation/managed-bi-v1/overview",
+        "data-activation/managed-bi-v1/core-dashboard-features",
         {
-          "group": "About SourceMedium",
+          "group": "Modules",
           "pages": [
-            "source-medium-university/getting-started/intro-to-sm",
-            "source-medium-university/getting-started/how-to-work-with-the-sourcemedium-team"
-          ]
-        },
-        {
-          "group": "Getting Started",
-          "pages": [
-            "source-medium-university/getting-started/getting-started-checklist",
-            "source-medium-university/getting-started/level-1-data-checklist",
-            "source-medium-university/getting-started/level-2-data-checklist",
-            "source-medium-university/getting-started/cold-start/cold-start-guide-home",
-            "source-medium-university/data-docs/data-hygeine/importance-of-good-data-hygeine"
-          ]
-        },
-        {
-          "group": "Using Your Dashboard",
-          "pages": [
-            "source-medium-university/report-docs/core-dashboard-features",
-            {
-              "group": "Module Overviews",
-              "pages": [
-                "source-medium-university/report-docs/report-pages/executive-summary-module",
-                "source-medium-university/report-docs/report-pages/yoy-performance-module",
-                "source-medium-university/report-docs/report-pages/marketing-overview-module",
-                "source-medium-university/report-docs/report-pages/google-ads-module",
-                "source-medium-university/report-docs/report-pages/meta-ads-module",
-                "source-medium-university/report-docs/report-pages/influencers-deep-dive-module",
-                "source-medium-university/report-docs/report-pages/google-search-console-module",
-                "source-medium-university/report-docs/report-pages/traffic-deep-dive-module",
-                "source-medium-university/report-docs/report-pages/emails-general-module",
-                "source-medium-university/report-docs/report-pages/emails-conversions-module",
-                "source-medium-university/report-docs/report-pages/ltv-retention-module",
-                "source-medium-university/report-docs/report-pages/repurchase-analysis-module",
-                "source-medium-university/report-docs/report-pages/new-customer-analysis-module",
-                "source-medium-university/report-docs/report-pages/last-order-analysis-module",
-                "source-medium-university/report-docs/report-pages/orders-deep-dive-module",
-                "source-medium-university/report-docs/report-pages/product-performance-module",
-                "source-medium-university/report-docs/report-pages/product-affinity-module",
-                "source-medium-university/report-docs/report-pages/subscription-overview-module",
-                "source-medium-university/report-docs/report-pages/subscription-product-performance-module"]
-            }
-          ]
-        },
-        {
-          "group": "Thinking Analytically",
-          "pages": [
-            "source-medium-university/getting-started/thinking-analytically/how-analytical-questions-are-key",
-            "source-medium-university/getting-started/thinking-analytically/common-analytical-questions"
+            "data-activation/managed-bi-v1/modules/executive-summary-module",
+            "data-activation/managed-bi-v1/modules/yoy-performance-module",
+            "data-activation/managed-bi-v1/modules/marketing-overview-module",
+            "data-activation/managed-bi-v1/modules/google-ads-module",
+            "data-activation/managed-bi-v1/modules/meta-ads-module",
+            "data-activation/managed-bi-v1/modules/influencers-deep-dive-module",
+            "data-activation/managed-bi-v1/modules/google-search-console-module",
+            "data-activation/managed-bi-v1/modules/traffic-deep-dive-module",
+            "data-activation/managed-bi-v1/modules/emails-general-module",
+            "data-activation/managed-bi-v1/modules/emails-conversions-module",
+            "data-activation/managed-bi-v1/modules/ltv-retention-module",
+            "data-activation/managed-bi-v1/modules/repurchase-analysis-module",
+            "data-activation/managed-bi-v1/modules/new-customer-analysis-module",
+            "data-activation/managed-bi-v1/modules/last-order-analysis-module",
+            "data-activation/managed-bi-v1/modules/orders-deep-dive-module",
+            "data-activation/managed-bi-v1/modules/product-performance-module",
+            "data-activation/managed-bi-v1/modules/product-affinity-module",
+            "data-activation/managed-bi-v1/modules/subscription-overview-module",
+            "data-activation/managed-bi-v1/modules/subscription-product-performance-module"
           ]
         }
       ]

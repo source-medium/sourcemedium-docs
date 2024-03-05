@@ -1,0 +1,38 @@
+---
+title: 'Data Cleaning'
+description: ''
+icon: ''
+---
+
+## How We Deliver Clean Data
+The first layer of our data transformation process focuses on data cleanliness and consistency. 
+Through modeling techniques and automated testing, we proactively identify and rectify inconsistencies in the data we process, 
+laying a strong foundation for efficient modeling and robust insight development. This page outlines some of the key data cleaning 
+methods we employ.
+
+### Schema Alignment
+Schema alignment involves integrating and standardizing data structures from various sources, such as advertising platforms, 
+into a unified format. This process ensures that data across different systems can be compared and analyzed holistically. 
+By identifying equivalent data fields, harmonizing data formats, and resolving discrepancies, we deliver clean, consistent, and unified 
+datasets that help increase the speed and quality of downstream modeling or BI develoment.
+
+### Data Type Consistency
+Maintaining consistency in data types, especially for key identifiers like IDs or UUIDs, is crucial for data integrity. 
+We enforce data type consistency for similar fields across source systems to avoid errors during data processing or downstream analysis.
+
+### Negative Value Conversion
+We convert numerical values to negative to maintain logical consistency when values represent deductions or
+subtractions in calculations. This ensures that the computational logic reflects the actual financial or quantitative operations accurately.
+
+### Implementing Automated Rules
+We run automated tests several times per day to ensure the data we deliver meets predefined standards, such as validating the range of acceptable 
+values or ensuring that entries in a unique identifier field are distinct.
+
+### Standardizing Dates and Times
+Date and time standardization ensures that all temporal data across datasets adhere to a consistent format, facilitating easier analysis and 
+comparison of time-based information. While source systems report sever
+
+### Lowercasing Inconsistent Values
+For textual data, especially computer-generated values, standardizing capitalization conventions by converting all entries to lowercase can 
+reduce complexity and improve data uniformity. This method is particularly useful for data fields that are prone to inconsistent capitalization, 
+ensuring that comparisons and searches are not case-sensitive and more reliable.

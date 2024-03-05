@@ -1,0 +1,26 @@
+---
+title: 'Metric Columns'
+description: ''
+icon: ''
+---
+
+### Overview
+
+A metric will always consist of an `entity` (e.g. order, customer), `dimension`, and in some cases, a `modifier`. 
+To make column names more human readable, our naming conventions will always keep the `entity` and the `metric` next to each other, 
+as the combination of the two represents the majority of what you’re looking for when locating a metric or typing a metric in a query. 
+From there, any relevant entity modifiers will appear before the metric, as this context is critical for understanding the meaning of the 
+`entity_metric` combination.
+
+### Metric column name formula
+`{{ modifier }}_{{ entity }}_{{ metric }}`
+
+### Examples of metrics without modifiers
+
+- `order_gross_revenue` where `order` is the `entity` and `gross_revenue` is the `metric`
+- `order_net_revenue_before_refunds` where `order` is the `entity` and `net_revenue_before_refunds` is the metric
+
+### Examples of metrics with modifiers
+
+- `new_customer_order_net_revenue` where `order` is the `entity`, `net_order_revenue` is the `metric`, and `new_customer` modifies this `entity_metric` combination
+- `repeat_customer_order_count` where `order` is the `entity`, `count` is the `metric`, and `repeat_customer` modifies this `entity_metric` combination

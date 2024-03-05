@@ -1,0 +1,47 @@
+---
+title: 'Modeling Philosophy'
+description: ''
+icon: ''
+---
+
+## Bootstrapping Data Teams
+Our data modeling philosophy is grounded in the principle of abstracting away the complexity of raw data 
+transformation. The world of data can be a bad user experience, so our goal is to bootstrap engineering and analytics teams with high-quality, intuitive, and scalable 
+datasets so that they can focus on developing insights that differentiate their businesses instead of reinventing the wheel.
+
+## How We Shape Our Data
+
+Once we've ingested raw data from the source, we structure our downstream models into several different shapes based on best practices 
+to fit a variety of analytical use cases. These include composable fact and dimension tables, tables purpose-built for specific visualizations, 
+and datasets that enable predictive analytics.
+
+### Fact tables
+Fact tables, indicated by the `fct` prefix, are central components of our schema that primarily store quantitative information 
+about events or transactions that have occurred. Each record in a `fct` table represents a unique event or transaction, characterized by 
+metrics or measurements such as sales amount or units sold. `fct` tables are immutable, meaning once a transaction or event is recorded, it 
+doesn't change, ensuring the integrity and historical accuracy of the data. These tables are often surrounded by dimension tables to provide context 
+to the facts through foreign keys that can be used for joins.
+
+### Dimension tables
+Dimension tables, indicated by the `dim` prefix, contain descriptive attributes related to the dimensions of the facts in `fct` tables. 
+These tables provide the context for metrics recorded in `fct` tables, such as time, geography, products, or customers. Unlike `fct` tables, 
+dimension tables can change. For example, if a product's description changes, the corresponding dimension table would be updated to reflect these 
+changes.
+
+### One Big Tables
+One Big Table, indicated by the `obt` prefix, is a comprehensive table that joins elements of both `fct` and `dim` tables into a single, 
+unified structure. These tables are designed to simplify the data model and represent SourceMedium's out-of-the-box semantic layer, which translates 
+the underlying data into concepts used by a business. OBTs are crafted to represent the business's underlying data in a way that's intuitive, 
+facilitating easier development of BI solutions by providing a consolidated view of data that might otherwise be spread across multiple `fct` 
+and `dim` tables.
+
+### Report tables
+Report tables, indicated by `rpt` prefix, are specialized tables designed for specific types of BI reporting. These tables are narrower in 
+scope compared to OBTs but may involve a higher degree of complexity, especially in terms of data aggregations, calculations, or transformations 
+required to support particular reporting needs. `rpt` tables typically serve specific reporting purposes, such as financial summaries, performance 
+dashboards, or operational reports, and are optimized for performance and clarity in those contexts.
+
+### Summary tables
+Summary tables, which include `summary` in the table name, are a variant of `rpt` tables that focus on providing aggregated views of 
+data, summarizing detailed information into higher-level insights. `summary` tables might aggregate data by time periods, geographic regions, 
+product categories, or other dimensions to offer concise, actionable information derived from more granular datasets.
