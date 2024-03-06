@@ -1,0 +1,69 @@
+---
+title: 'dim_customer_addresses'
+description: ''
+---
+
+```yaml
+version: 2
+
+models:
+  - name: dim_customer_addresses
+    description: >
+      The dim_customer_addresses table contains dimensions associated with addresses of customers who have placed orders from a shop.
+    columns:
+      - name: smcid
+        description: >
+          The SourceMedium ID of a store, which is derived from the store's myshopify.com domain.
+        tests:
+          - not_null
+      - name: sm_customer_address_key
+        description: >
+          The unique address key created by SourceMedium that can be used to join address dimensions to related tables.
+        tests:
+          - not_null
+          - unique
+      - name: source_system
+        description: >
+          The e-commerce source system used to facilitate a customer's order.
+      - name: sm_customer_key
+        description: >
+          The unique customer key created by SourceMedium that can be used to join customer dimensions to related tables.
+      - name: is_default_address_for_customer
+        description: >
+          Whether the address is the default address for the customer.
+      - name: address_1
+        description: >
+          The customer's street address.
+      - name: address_2
+        description: >
+          The optional second line of the customer's street address.
+      - name: city
+        description: >
+          The city the customer's location is in.
+      - name: country
+        description: >
+          The country the customer's location is in.
+      - name: country_code
+        description: >
+          The two-letter code (ISO 3166-1 format) for the country of the customer's location.
+      - name: latitude
+        description: >
+          The latitude coordinate of the customer's location.
+      - name: longitude
+        description: >
+          The longitude coordinate of the customer's location.
+      - name: province
+        description: >
+          The province, state, or district code of the customer's location.
+      - name: province_code
+        description: >
+          The province, state, or district code (ISO 3166-2 alpha-2 format) of the customer's location.
+      - name: zip_code
+        description: >
+          The postal code of the customer's location.
+      - name: _synced_at
+        description: >
+          The date and time when SourceMedium last successfully synced the row of data.
+        tests:
+          - not_null
+```

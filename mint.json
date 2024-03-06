@@ -568,6 +568,27 @@
               ]
             }
           ]
+        },
+        {
+          "group": "SourceMedium Tables",
+          "pages": [
+            "data-activation/data-tables/sm_transformed_v2/dim_customer_addresses",
+            "data-activation/data-tables/sm_transformed_v2/dim_customers",
+            "data-activation/data-tables/sm_transformed_v2/dim_order_discounts",
+            "data-activation/data-tables/sm_transformed_v2/dim_order_lines",
+            "data-activation/data-tables/sm_transformed_v2/dim_order_shipping_lines",
+            "data-activation/data-tables/sm_transformed_v2/dim_order_taxes",
+            "data-activation/data-tables/sm_transformed_v2/dim_orders",
+            "data-activation/data-tables/sm_transformed_v2/dim_product_variants",
+            "data-activation/data-tables/sm_transformed_v2/dim_times",
+            "data-activation/data-tables/sm_transformed_v2/fct_orders_placed",
+            "data-activation/data-tables/sm_transformed_v2/fct_refunds_processed",
+            "data-activation/data-tables/sm_transformed_v2/obt_customers",
+            "data-activation/data-tables/sm_transformed_v2/obt_order_lines",
+            "data-activation/data-tables/sm_transformed_v2/obt_orders",
+            "data-activation/data-tables/sm_transformed_v2/rpt_ad_performance_daily",
+            "data-activation/data-tables/sm_transformed_v2/rpt_executive_summary_daily"
+          ]
         }
       ]
     },
