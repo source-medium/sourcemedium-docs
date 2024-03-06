@@ -557,8 +557,8 @@
               "group": "Looker Studio",
               "pages": [
                 "data-activation/template-resources/looker-studio-template-copy-instructions",
-                "data-activation/template-resources/sm-data-source-template-directory",
-                "data-activation/template-resources/sm-report-template-directory"
+                "data-activation/template-resources/sm-looker-data-source-template-directory",
+                "data-activation/template-resources/sm-looker-report-template-directory"
               ]
             },
             {
