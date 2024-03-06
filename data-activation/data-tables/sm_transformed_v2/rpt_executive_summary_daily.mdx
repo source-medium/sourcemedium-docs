@@ -12,20 +12,18 @@ models:
     - name: date
       description: >
         The date in YYYY-MM-DD format.
+      tests:
+        - not_null
 
     - name: smcid
-        description: >
-          The SourceMedium ID of a store, which is derived from the store's myshopify.com domain.
-        tests:
-          - not_null
+      description: >
+        The SourceMedium ID of a store, which is derived from the store's myshopify.com domain.
+      tests:
+        - not_null
     
     - name: sm_master_account_id
       description: >
         The unique identifier for the master account that is associated with the SourceMedium smcid.
-    
-    - name: sm_parent_company_name
-      description: >
-        The name of the parent company that is associated with the SourceMedium smcid.
     
     - name: store_name
       description: >
@@ -34,19 +32,9 @@ models:
     - name: sm_channel
       description: >
         The channel associated with the data, which is derived from the source system (e-commerce or advertising platform) and factors in manual overrides as defined by the SourceMedium channel mapping configuration sheet.
-    
-    - name: sm_sub_channel
-      description: >
-        The sub-channel associated with the data, which is derived from the source system (e-commerce or advertising platform) and factors in manual overrides as defined by the SourceMedium channel mapping configuration sheet.
-    
-    - name: country
-      description: >
-        The country associated with the data.
-    
-    - name: country_code
-      description: >
-        The ISO 3166-1 alpha-2 country code.
-    
+      tests:
+        - not_null
+        
     - name: order_count
       description: >
         The number of orders placed by customers.
@@ -112,8 +100,8 @@ models:
         The cost the business incurs while performing its normal operational activities. This data is entered into the Financial Cost - Operating Expenses tab of the SourceMedium financial cost configuration sheet.
     
     - name: ad_spend
-        description: >
-          The amount of money spent on ads.
+      description: >
+        The amount of money spent on ads.
       
     - name: ad_clicks
       description: >
@@ -215,10 +203,6 @@ models:
       description: >
         The net order revenue from repeat customers.
     
-    - name: non_recurring_subscription_order_net_revenue
-      description: >
-        The net order revenue from non-recurring subscriptions.
-    
     - name: new_customer_order_gross_revenue
       description: >
         The gross order revenue from new customers.
@@ -227,10 +211,6 @@ models:
       description: >
         The gross order revenue from repeat customers.
     
-    - name: non_recurring_subscription_order_gross_revenue
-      description: >
-        The gross order revenue from non-recurring subscriptions.
-    
     - name: new_customer_order_count
       description: >
         The number of orders from new customers.
@@ -238,10 +218,6 @@ models:
     - name: repeat_customer_order_count
       description: >
         The number of orders from repeat customers.
-    
-    - name: non_recurring_subscription_order_count
-      description: >
-        The number of orders from non-recurring subscriptions.
     
     - name: week_start_date
       description: >
@@ -310,4 +286,32 @@ models:
     - name: net_profit
       description: >
         Gross profit minus ad spend and operating expenses.
-```
+
+    #- name: sm_parent_company_name
+    #  description: >
+    #    The name of the parent company that is associated with the SourceMedium smcid.
+    
+    #- name: country
+    #  description: >
+    #    The country associated with the data.
+    
+    #- name: country_code
+    #  description: >
+    #    The ISO 3166-1 alpha-2 country code.
+
+    #- name: sm_sub_channel
+    #  description: >
+    #    The sub-channel associated with the data, which is derived from the source system (e-commerce or advertising platform) and factors in manual overrides as defined by the SourceMedium channel mapping configuration sheet.
+        
+    #- name: non_recurring_order_net_revenue
+    #  description: >
+    #    The net order revenue from regular one-time purchases.
+    
+    #- name: non_recurring_order_gross_revenue
+    #  description: >
+    #    The gross order revenue from non-recurring subscriptions.
+    
+    #- name: non_recurring_order_count
+    #  description: >
+    #    The number of orders from non-recurring subscriptions.
+    ```

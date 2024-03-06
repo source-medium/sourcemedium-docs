@@ -1,0 +1,166 @@
+```yaml
+version: 2
+
+models:
+  - name: rpt_ad_performance_daily
+    description: >
+      The rpt_marketing_performance_daily table is a report table containing daily advertising performance data. This includes data from all
+      advertising platforms integrated with SourceMedium, and provides daily aggregated metrics such as spend, clicks, impressions, conversions, and 
+      revenue at creative and date-level granularity. This report (RPT) table is optimized for building dashboards.
+    
+    columns:
+      - name: sm_master_account_id
+        description: >
+          The unique identifier for the master account that is associated with the SourceMedium smcid.
+      
+      - name: store_name
+        description: >
+          The name of the store that is associated with the SourceMedium smcid.
+      
+      - name: smcid
+        description: >
+          The SourceMedium ID of a store, which is derived from the store's myshopify.com domain.
+        tests:
+          - not_null
+
+      - name: source_system
+        description: >
+          The advertising source system used to deliver the ad.
+        tests:
+          - not_null
+
+      - name: ad_account_id
+        description: >
+          The unique identifier for the ad account that is associated with the ad.
+      
+      - name: ad_account_name
+        description: >
+          The name of the ad account that is associated with the ad.
+      
+      - name: ad_spend
+        description: >
+          The amount of money spent on the ad.
+      
+      - name: ad_clicks
+        description: >
+          The number of times the ad was clicked.
+      
+      - name: ad_impressions
+        description: >
+          The number of times the ad was shown.
+      
+      - name: ad_platform_reported_conversions
+        description: >
+          The number of conversions attributable to the ad, as reported by the advertising platform.
+      
+      - name: ad_platform_reported_revenue
+        description: >
+          The amount of revenue attributable to the ad, as reported by the advertising platform.
+
+      - name: ad_campaign_id
+        description: >
+          The unique identifier for the campaign that is associated with the ad.
+
+      - name: ad_campaign_name
+        description: >
+          The name of the campaign that is associated with the ad.
+
+      - name: ad_name
+        description: >
+          The name of the ad.
+
+      - name: ad_campaign_type
+        description: >
+          The type of campaign that is associated with the ad, such as reach, discovery, search, display, or video (this campaign type will vary by advertising platform).
+      
+      - name: ad_creative_id
+        description: >
+          The unique identifier for the ad creative that is associated with the ad.
+      
+      - name: ad_creative_title
+        description: >
+          The title of the ad creative used for the ad.
+      
+      - name: ad_creative_body
+        description: >
+          The body copy of the ad creative used for the ad.
+      
+      - name: ad_creative_image_url
+        description: >
+          The URL of the image used in the ad creative.
+      
+      - name: ad_creative_thumbnail_url
+        description: >
+          The URL of the thumbnail image used in the ad creative.
+      
+      - name: ad_creative_call_to_action_type
+        description: >
+          The type of call-to-action used in the ad creative, such as "order now" or "sign up" (the call to action type will vary by advertising platform).
+      
+      - name: ad_creative_link_params
+        description: >
+          The URL parameters used in the ad creative link.
+      
+      - name: ad_creative_instagram_url
+        description: >
+          The URL of the ad creative as it appears on Instagram.
+      
+      - name: ad_creative_facebook_url
+        description: >
+          The URL of the ad creative as it appears on Facebook.
+
+      - name: ad_platform_campaign_objective
+        description: >
+          The objective of the campaign that is associated with the ad, such as "maximize conversion" or "target impression share" (the campaign objective will vary by advertising platform).
+        tests:
+          - accepted_values:
+              values:
+                - manual_cpc
+                - landing_page
+                - manual_cpm
+                - target_cpa
+                - target_cpm
+                - maximize_conversion_value
+                - manual_cpv
+                - target_spend
+                - maximize_conversions
+                - target_roas
+                - target_impression_share
+                - unknown
+
+      - name: date
+        description: >
+          The date when the ad was delivered.
+      
+      - name: ad_id
+        description: >
+          The unique identifier for the ad.
+      
+      - name: sm_channel
+        description: >
+          The sales channel associated with the ad.
+      
+      - name: ad_campaign_tactic
+        description: >
+          The tactic of the campaign derived from campaign naming conventions. Possible values are "Prospecting", "Retargeting", and "Brand". Default is "Prospecting".
+
+      #- name: sm_parent_company_name
+      #  description: >
+      #    The name of the parent company that is associated with the SourceMedium smcid.
+      #- name: ad_utm_source
+      #  description: >
+      #    The UTM source parameter value that is associated with an ad.
+      #- name: ad_utm_medium
+      #  description: >
+      #    The UTM medium parameter value that is associated with an ad.
+      #- name: ad_country_code
+      #  description: >
+      #    The ISO 3166-1 alpha-2 country code where the ad was delivered.
+      # - name: ad_country
+      #  description: >
+      #    The country where the ad was delivered.
+      #- name: sm_sub_channel
+      #  description: >
+      #    The sub-channel associated with the ad, which, by default, is the name of the advertising platform (the source system).
+      
+```

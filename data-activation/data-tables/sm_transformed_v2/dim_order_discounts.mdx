@@ -1,0 +1,75 @@
+```yaml
+version: 2
+
+models:
+  - name: dim_order_discounts
+    description: >
+      The dim_order_discounts table is a dimensional table containing information about discounts that have been applied to orders and order lines.
+    columns:
+      - name: smcid
+        description: >
+          The SourceMedium ID of a store, which is derived from the store's myshopify.com domain.
+        tests:
+          - not_null
+
+      - name: sm_order_discount_key
+        description: >
+          The unique discount key created by SourceMedium that can be used to join discount dimensions to related tables.
+        tests:
+          - not_null
+          - unique
+
+      - name: sm_order_line_key
+        description: >
+          The unique order line key created by SourceMedium that can be used to join order line dimensions to related tables.
+        tests:
+          - not_null
+
+      - name: sm_order_key
+        description: >
+          The unique order key created by SourceMedium that can be used to join order dimensions to related tables.
+        tests:
+          - not_null
+
+      - name: source_system
+        description: >
+          The e-commerce source system used to facilitate an order.
+
+      - name: order_line_id
+        description: >
+          The ID of the order line.
+
+      - name: order_id
+        description: >
+          The ID of the order.
+
+      - name: discount_index
+        description: >
+          An ordered index that can be used to identify the discount application and indicate the precedence of the discount application for calculations.
+
+      - name: discount_code
+        description: >
+          The case-insensitive discount code that customers use at checkout.
+
+      - name: discount_type
+        description: >
+          The type of discount, such as an automatic discount, a discount code, or a manual discount.
+
+      - name: discount_line_entity
+        description: >
+          The entity that the discount is applied to, such as an order line or a shipping line.
+
+      - name: discounts
+        description: >
+          The amount of the discount applied to the discount entity.
+
+      - name: order_currency_code
+        description: >
+          The three-letter code (ISO 4217 format) for the currency used for the tender transaction.
+
+      - name: _synced_at
+        description: >
+          The date and time when SourceMedium last successfully synced the row of data.
+        tests:
+          - not_null
+```

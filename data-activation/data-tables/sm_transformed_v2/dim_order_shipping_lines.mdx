@@ -1,0 +1,46 @@
+```yaml
+version: 2
+
+models:
+  - name: dim_order_shipping_lines
+    description: >
+      The dim_order_shipping_lines table contains dimensions associated with shipping lines applied to orders.
+    columns:
+      - name: smcid
+        description: >
+          The SourceMedium ID of a store, which is derived from the store's myshopify.com domain.
+        tests:
+          - not_null
+      - name: sm_shipping_line_key
+        description: >
+          The unique shipping line key created by SourceMedium that can be used to join shipping line dimensions to related tables.
+        tests:
+          - not_null
+          - unique
+      - name: source_system
+        description: >
+          The e-commerce source system used to facilitate a customer's order.
+      - name: sm_order_line_key
+        description: >
+          The unique order line item key created by SourceMedium that can be used to join order line item dimensions to related tables.
+      - name: sm_order_key
+        description: >
+          The unique order key created by SourceMedium that can be used to join order dimensions to related tables.
+      - name: order_shipping_line_id
+        description: >
+          The ID that represents the shipping details for a customer's order.
+      - name: order_id
+        description: >
+          The ID of the order.
+      - name: shipping
+        description: >
+          The amount the customer paid in shipping for an order.
+      - name: order_shipping_line_title
+        description: >
+          The title of the shipping line (e.g., 2-3 Day Shipping, Economy Shipping).
+      - name: _synced_at
+        description: >
+          The date and time when SourceMedium last successfully synced the row of data.
+        tests:
+          - not_null
+```
