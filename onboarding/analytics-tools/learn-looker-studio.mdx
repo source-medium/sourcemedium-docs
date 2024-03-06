@@ -3,56 +3,67 @@ title: "Learn Looker Studio"
 description: ""
 ---
 
-Google provides a very useful high-level overview and quick-start guide for Looker Studio [HERE](https://support.google.com/looker-studio/answer/9171315?hl=en#zippy=).  We recommend familiarizing yourself with this doc, if you have time.
-
-If you're more of a visual learner, this 20 minute crash course will get you up and running 
+### Overview
+Google provides a very useful high-level overview and quick-start guide for Looker Studio [HERE](https://support.google.com/looker-studio/answer/9171315?hl=en#zippy=).  If you're more of a visual learner, this 20 minute crash course will get you up and running.
 
 However, we know people are busy, so below we've aggregated what we feel is the most important information you need to get from 0 → 60 with SourceMedium in Looker Studio.
 
 <Accordion title="Glossary">
-[Report](https://support.google.com/looker-studio/answer/6309867?sjid=14391589404630611402-NC#zippy=%2Cin-this-article)
+    <AccordionGroup>
+        <Accordion title="Report">
+            A Looker Studio asset that contains a collection of **components** whose purpose is to present to viewers information and insights derived from your data.
+            
+            [Additional Documentation](https://support.google.com/looker-studio/answer/6309867?sjid=14391589404630611402-NC#zippy=%2Cin-this-article)
+        </Accordion>
+        <Accordion title="Connector / Data Source">
+            **Connectors** connect Looker Studio to your underlying data. Connecting to your data creates a *data source* in Looker Studio.
 
-- A Looker Studio asset that contains a collection of **components** whose purpose is to present to viewers information and insights derived from your data.
+            **Data sources** represent a particular instance of a connector: for example, a connection to a specific BigQuery table or query, a Google Analytics property, or a Google Sheet. Data sources let you configure the fields and options provided by the connector used to create that connection instance. In addition, the data source gives you a secure way to share information and insights with report viewers who may not be able to directly access the underlying data.
+            
+            [Additional Documentation](https://support.google.com/looker-studio/answer/6268208?ref_topic=6370331&sjid=14391589404630611402-NC#zippy=%2Cin-this-article)
+        </Accordion>
+        <Accordion title="Component">
+            A widget that you add to a report to display your data, such as **charts**, **tables**, and interactive **date range controls** and **filter controls**. Data components get their information from a **data source**.
+            
+            You can also annotate your report with **text**, **shape**, **image**, and [embedded content](https://support.google.com/looker-studio/answer/9132022) components.
+            
+            [Additional Documentation](https://support.google.com/looker-studio/answer/6291062?ref_topic=12141289&sjid=14391589404630611402-NC#zippy=%2Cin-this-article)
+        </Accordion>
+        <Accordion title="Field">
+            A column of data.  Looker Studio uses two basic types of fields:
+            - **Dimensions** are things that you want to measure, or that serve as ways to categorize your data.
+            - **Metrics** are numbers that measure the things that are contained in dimensions.
 
-[Connector / Data Source](https://support.google.com/looker-studio/answer/6268208?ref_topic=6370331&sjid=14391589404630611402-NC#zippy=%2Cin-this-article)
+            [Additional Documentation](https://support.google.com/looker-studio/answer/7625527?sjid=14391589404630611402-NC#zippy=%2Cin-this-article)
+        </Accordion>
+        <Accordion title="View Mode / Edit Mode">
+            **Edit mode** allows you to edit the structure of a report and change, add, or remove data sources, and to use interactive controls.
+            - People who can edit a report or data source are referred to as **editors**.
+            
+            **View mode** lets you see all the data that you are authorized to see, and to use interactive controls. View mode does not allow you to modify the report structure.
+            - People who can only view a report or data source are referred to as **viewers**.
+        </Accordion>
+        <Accordion title="Credentials">
+            The mechanism by which a data source determines who can see the data it provides.
 
-- **Connectors** connect Looker Studio to your underlying data. Connecting to your data creates a *data source* in Looker Studio.
-- **Data sources** represent a particular instance of a connector: for example, a connection to a specific BigQuery table or query, a Google Analytics property, or a Google Sheet. Data sources let you configure the fields and options provided by the connector used to create that connection instance. In addition, the data source gives you a secure way to share information and insights with report viewers who may not be able to directly access the underlying data.
-
-[Components](https://support.google.com/looker-studio/answer/6291062?ref_topic=12141289&sjid=14391589404630611402-NC#zippy=%2Cin-this-article)
-
-- A widget that you add to a report to display your data, such as **charts**, **tables**, and interactive **date range controls** and **filter controls**. Data components get their information from a **data source**.
-- You can also annotate your report with **text**, **shape**, **image**, and [embedded content](https://support.google.com/looker-studio/answer/9132022) components.
-
-[Field](https://support.google.com/looker-studio/answer/7625527?sjid=14391589404630611402-NC#zippy=%2Cin-this-article)
-
-- A column of data.  Looker Studio uses two basic types of fields:
-    - **Dimensions** are things that you want to measure, or that serve as ways to categorize your data.
-    - **Metrics** are numbers that measure the things that are contained in dimensions.
-
-**View Mode / Edit Mode**
-
-- **Edit mode** allows you to edit the structure of a report and change, add, or remove data sources, and to use interactive controls.
-    - People who can edit a report or data source are referred to as **editors**.
-- **View mode** lets you see all the data that you are authorized to see, and to use interactive controls. View mode does not allow you to modify the report structure.
-    - People who can only view a report or data source are referred to as **viewers**.
-
-[Credentials](https://support.google.com/looker-studio/answer/6371135)
-
-- The mechanism by which a data source determines who can see the data it provides.
+            [Additional Documentation](https://support.google.com/looker-studio/answer/6371135)
+        </Accordion>
+    </AccordionGroup>
 </Accordion>
 
-Check out this helpful guide on [navigating the Looker Studio interface](https://support.google.com/looker-studio/answer/6378181?hl=en&ref_topic=12398462&sjid=14409909033535274115-NC#zippy=%2Creports-home-legend)
+## SourceMedium's Looker Studio templates
+
+We know teams are busy, this is why SourceMedium provides a suite of template reports and data sources for your business to leverage out of the box.  [Learn how to use our Looker Studio templates](/data-activation/template-resources/looker-studio-template-copy-instructions), or checkout our template directories:
+- [Looker Studio data source templates](/data-activation/template-resources/sm-data-source-template-directory)
+- [Looker Studio report templates](/data-activation/template-resources/sm-report-template-directory)
 
 ## Creating & Editing Data Sources
 
 <AccordionGroup>
-    <Accordion title="Copying from SourceMedium Template data sources">
-        Follow [this guide](/data-activation/template-resources/copying-sm-data-source-templates) to learn how to create duplicates of SM template Looker Studio data sources for use in your own BI.
-    </Accordion>
     <Accordion title="Creating new data sources">
-        You can create new data sources directly from your report, or from your Looker Studio home page.
+        You can provision data sources directly based on tables in your BQ (create a new data source out of an entire table like `obt_orders`), or write your own queries to derive new tables based on tables within your warehouse.
 
+        You can create new data sources directly from your report, or from your Looker Studio home page.
         <Accordion title="Create new data source from your report (must be in Edit mode)">
             ![Screenshot 2024-03-04 at 9.07.22 AM.png](/images/article-imgs/learn-looker-studio/Screenshot_2024-03-04_at_9.07.22_AM.png)
         </Accordion>
@@ -61,8 +72,6 @@ Check out this helpful guide on [navigating the Looker Studio interface](https:/
         </Accordion>
 
         The steps for configuring your new data source will be the same, regardless of where you initiate the creation process.  The majority of your data source creation needs will be enabled via data coming from your BigQuery warehouse — using the Looker Studio BigQuery connection.  
-        
-        You can provision data sources directly based on tables in your BQ (create a new data source out of an entire table like `obt_orders`), or write your own queries to derive new tables based on tables within your warehouse.  We'll cover both methods below:
 
         **Prerequisite**: you must be logged into a Google account that has access to the underlying data you wish to work with within BigQuery
 
@@ -121,9 +130,6 @@ Check out this helpful guide on [navigating the Looker Studio interface](https:/
 ## Creating & Editing Reports
 
 <AccordionGroup>
-    <Accordion title="Copying from SourceMedium Template reports">
-        Follow [this guide](/data-activation/template-resources/copying-sm-report-templates) to learn how to copy whole SourceMedium template Looker Studio dashboards.
-    </Accordion>
     <Accordion title="Creating reports from scratch">
         1. Log in to [https://lookerstudio.google.com/](https://lookerstudio.google.com/)
             - Here you'll be able to see all of the reports & data sources that you have access to.
