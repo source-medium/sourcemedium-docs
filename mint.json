@@ -46,7 +46,7 @@
       "url": "data-inputs"
     },
     {
-      "name": "Data Transformations",
+      "name": "Data Transformation",
       "url": "data-transformations"
     },
     {
@@ -71,22 +71,9 @@
       ]
     },
     {
-      "group": "Core Concepts",
-      "pages": 
-      [
-        {
-          "group": "Data Transformation & Cleaning",
-          "pages": [
-            "help-center/core-concepts/data-transformation/transformation-vs-cleaning",
-            "help-center/core-concepts/data-transformation/data-architecture",
-            "help-center/core-concepts/data-transformation/data-freshness"
-          ]
-        }
-      ]
-    },
-    {
       "group": "FAQs",
       "pages": [
+        "help-center/faq/cold-start-guide-home",
         {
           "group": "Data Clarification & Discrepancies",
           "pages": [
@@ -144,24 +131,12 @@
     {
       "group": "Getting Started",
       "pages": [
+          "onboarding/getting-started/getting-started-checklist",
+          "onboarding/getting-started/level-1-data-checklist",
+          "onboarding/getting-started/level-2-data-checklist",
+          "onboarding/getting-started/how-to-work-with-the-sourcemedium-team",
         {
-          "group": "About SourceMedium",
-          "pages": [
-            "onboarding/getting-started/intro-to-sm",
-            "onboarding/getting-started/how-to-work-with-the-sourcemedium-team"
-          ]
-        },
-        {
-          "group": "Data Quality Checklist",
-          "pages": [
-            "onboarding/getting-started/getting-started-checklist",
-            "onboarding/getting-started/level-1-data-checklist",
-            "onboarding/getting-started/level-2-data-checklist",
-            "onboarding/getting-started/cold-start/cold-start-guide-home"
-          ]
-        },
-        {
-          "group": "Thinking Analytically",
+          "group": "The Analytical Mindset",
           "pages": [
             "onboarding/getting-started/thinking-analytically/how-analytical-questions-are-key",
             "onboarding/getting-started/thinking-analytically/common-analytical-questions"
