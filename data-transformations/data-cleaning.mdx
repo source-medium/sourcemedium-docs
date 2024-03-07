@@ -1,13 +1,13 @@
 ---
 title: 'Data Cleaning'
-description: ''
+description: 'The first mile of our data transformation process'
 icon: ''
 ---
 
 ## How We Deliver Clean Data
 The first layer of our data transformation process focuses on data cleanliness and consistency. 
 Through modeling techniques and automated testing, we proactively identify and rectify inconsistencies in the data we process, 
-laying a strong foundation for efficient modeling and robust insight development. This page outlines some of the key data cleaning 
+laying a strong foundation for efficient downstream modeling. This page outlines some of the key data cleaning 
 methods we employ.
 
 ### Schema Alignment
@@ -30,7 +30,8 @@ values or ensuring that entries in a unique identifier field are distinct.
 
 ### Standardizing Dates and Times
 Date and time standardization ensures that all temporal data across datasets adhere to a consistent format, facilitating easier analysis and 
-comparison of time-based information. While source systems report sever
+comparison of time-based information. While most source systems standardize around UTC, we've encountered several data sources that only report 
+in ET, creating unexpected data quality issues.
 
 ### Lowercasing Inconsistent Values
 For textual data, especially computer-generated values, standardizing capitalization conventions by converting all entries to lowercase can 

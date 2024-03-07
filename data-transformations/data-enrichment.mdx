@@ -1,0 +1,37 @@
+---
+title: 'Data Enrichment'
+description: 'The next mile of our data transformation process'
+icon: ''
+---
+
+## Augmenting Your Data With Detailed Context
+The next layer of our data transformation process focuses on data enrichment, which involves supplementing your 
+cleaned data with additional context to maximize its utility for analytics. Because we funnel all of your data into one 
+unified schema, we can leverage multiple sources to create the most complete and robust datasets possible.
+
+Our goal is to identify, isolate, and standardize the building blocks across your data footprint and allow you to 
+compose those building blocks based on your unique business needs.
+
+__Below are some examples of how we enrich your data through our transformation layer.__
+
+### Financial Data
+The most straightforward example of how we enrich your data is by mapping financial metrics onto your transactional information (e.g. Amazon and Shopify). While 
+your e-commerce and advertising platforms will report on revenue and spend, the true profitability of the customers you're acquiring remains 
+a blind spot. Through our [cost configuration sheet](/data-inputs/configuration-sheet/costs/how-do-i-surface-product-costs), we integrate SKU-level 
+costs into your data to enable profitability analyses.
+
+### Channel Mapping
+Channel mapping, a feature unique to the SourceMedium platform, leverages the [configuration sheet](/data-inputs/configuration-sheet/how-can-i-create-order-channels-and-subchannels) 
+to enable the creation of custom groupings, termed as sub-channels. This functionality allows for a customizable and more nuanced 
+examination of orders, customers, and other entities in your data.
+
+### Last Click UTM Stitching
+We ingest last-click UTM data from an array of sources, including Shopify, website analytics tools, referring domains, zero-party attribution (post-purchase surveys) 
+and other event tracking optimization platforms. However, this data is rarely consistent, creating confusion and making it difficult to truly understand 
+the efficacy of your advertising efforts.
+
+To address this issue, we've developed a model that cleans, standardizes, and aggregates this data into a single table to make it much 
+easier to work with (for example, to build your own multi-touch attribution analysis).
+
+While we don't currently offer any media mix modeling solutions in-house, we simplify last-click UTM attribution reporting by using the aforementioned model and 
+prioritizing the data we ingest from source-of-truth platforms closer to the actual transaction.
