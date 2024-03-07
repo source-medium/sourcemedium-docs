@@ -34,7 +34,7 @@
     }
   ],
   "primaryTab": {
-    "name": "What Is SourceMedium?"
+    "name": "What Is SourceMedium"
   },
   "tabs": [
     {
@@ -501,10 +501,11 @@
       ]
     },
     {
-      "group": "Transformations",
+      "group": "Transformation",
       "pages": [
         "data-transformations/philosophy",
-        "data-transformations/data-cleaning"
+        "data-transformations/data-cleaning",
+        "data-transformations/data-enrichment"
       ]
     },
     {
