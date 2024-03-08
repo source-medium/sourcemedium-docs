@@ -512,6 +512,7 @@
       "group": "Naming Conventions",
       "pages": [
         "data-transformations/naming-conventions/key-concepts",
+        "data-transformations/naming-conventions/table-names",
         "data-transformations/naming-conventions/metric-columns",
         "data-transformations/naming-conventions/dimension-columns",
         "data-transformations/naming-conventions/numerical-columns",
