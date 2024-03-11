@@ -526,7 +526,6 @@
       "pages": [
         "data-activation/managed-data-warehouse/overview",
         "data-activation/managed-data-warehouse/bi-tools",
-        "data-activation/managed-data-warehouse/modeling",
         {
           "group": "SourceMedium Templates",
           "pages": [
@@ -536,12 +535,6 @@
                 "data-activation/template-resources/looker-studio-template-copy-instructions",
                 "data-activation/template-resources/sm-looker-data-source-template-directory",
                 "data-activation/template-resources/sm-looker-report-template-directory"
-              ]
-            },
-            {
-              "group": "SQL Recipes",
-              "pages": [
-                "data-activation/template-resources/sm-sql-recipe-directory"
               ]
             }
           ]
@@ -572,7 +565,6 @@
     {
       "group": "Managed BI",
       "pages": [
-        "data-activation/managed-bi-v1/overview",
         "data-activation/managed-bi-v1/core-dashboard-features",
         {
           "group": "Modules",
