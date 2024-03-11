@@ -1,0 +1,21 @@
+---
+title: 'Boolean Columns'
+description: ''
+icon: ''
+---
+
+### Overview
+
+Boolean columns are named to clearly reflect a true or false condition, and are always phrased in the form of a question. 
+This convention helps in understanding the purpose of the column at a glance, indicating a specific dimension of an entity 
+that can either be true or false.
+
+### Boolean column name formula
+`is_{{ entity }}_{{ dimension }}`
+
+### Examples
+
+- `is_price_tax_inclusive`, where `price` is the `entity` and `tax_inclusive` is the `dimension` 
+indicating whether the price includes tax
+- `is_product_gift_card`, where `product` is the `entity` and `gift_card` is the `dimension` 
+indicating whether the product is a gift card

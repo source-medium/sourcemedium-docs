@@ -1,0 +1,40 @@
+---
+title: "Learn BigQuery"
+description: "Use Cases & Important Information"
+---
+### Overview
+
+BigQuery is a powerful tool for large-scale data analysis, handling complex data types, managing permissions and sharing, and controlling computing power and workload. It can process massive datasets quickly, handle a variety of data types, and allows granular control over data access with IAM integration. 
+
+A great place to start is with [Google's How to Get Started with BigQuery video](https://www.youtube.com/watch?v=BH_7_zVk5oM&t=2s).
+
+### **Large-Scale Data Analysis**
+
+BigQuery excels in analyzing massive datasets. Using its SQL-like commands and leveraging its high-speed processing, it's possible to conduct comprehensive queries and data analysis on an enormous scale. This makes BigQuery an ideal tool for businesses dealing with extensive data. More information on how to analyze big data with BigQuery can be found in several documents: 
+
+- [GoogleSQL](https://cloud.google.com/bigquery/docs/reference/standard-sql/migrating-from-legacy-sql)
+- [Query Syntax](https://cloud.google.com/bigquery/docs/reference/standard-sql/query-syntax)
+- [Creating and Using Tables](https://cloud.google.com/bigquery/docs/tables)
+- [Introduction to Views](https://cloud.google.com/bigquery/docs/views-intro)
+- [Write a Query with Duet AI](https://cloud.google.com/bigquery/docs/write-sql-duet-ai?hl=en)
+- [Loading Data](https://cloud.google.com/bigquery/docs/loading-data)
+
+### **Complex Data Type Handling**
+
+BigQuery can handle a wide array of data types, from simple integers and strings to more complex types like arrays and structs. This versatility allows users to analyze diverse and complex datasets, providing more depth and flexibility in data analysis.
+
+A detailed guide on how to handle complex data types in BigQuery can be found in the [Google BigQuery Data Type Documentation](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-types).
+
+### Permissions & Sharing
+
+BigQuery integrates with Identity and Access Management (IAM) to provide granular control over who has access to your data. With IAM, you can assign specific roles to users and control their permissions on a project-wide or dataset-wide level. This makes it easy to manage access to your data and ensure that only authorized users can view or modify it.
+
+More information on how to manage IAM permissions in BigQuery can be found in the [IAM Permissions Documentation](https://cloud.google.com/bigquery/docs/access-control) and [Control Access to Resources with IAM](https://cloud.google.com/bigquery/docs/control-access-to-resources-iam).
+
+### Computing Power & Workload Management
+
+Google BigQuery offers a unique reservation model which involves the purchase and management of what's known as "BigQuery slots". Each of these slots represents computational capacity that is utilized for running queries, thus providing an efficient way to manage large-scale data analysis tasks.
+
+Google has designed this system to be highly flexible; reservations can be allocated according to the specific needs of different projects within your organization. This provides businesses with greater control over resources, enabling more efficient management and utilization of BigQuery's powerful data analysis capabilities.
+
+Source Medium offers Managed Data Warehouse customers up to 100 slot-hours to use at their discretion (generally most businesses will never reach that quota). You can find more detailed information in the [Workload Management Documentation](https://cloud.google.com/bigquery/docs/reservations-intro).

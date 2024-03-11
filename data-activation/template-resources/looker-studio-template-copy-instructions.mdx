@@ -1,0 +1,70 @@
+---
+title: 'Looker Studio - Base Template Copy Instructions'
+sidebarTitle: 'Template Instructions'
+description: "How to use SourceMedium's Looker Studio templates"
+icon: ''
+---
+
+Below, we outline how you can easily leverage our Looker Studio data source and report templates for our `obt_orders`
+dataset.
+
+### Step 1: Create your data sources
+<Note>
+Please note that you'll need to replicate this process for any other data sources you wish to use. See the full list of 
+data source templates [here](/data-activation/template-resources/sm-looker-data-source-template-directory).
+</Note>
+<AccordionGroup>
+    <Accordion title="Copy data source template">
+        1. Click to open the [[Demo] Orders OBT](https://lookerstudio.google.com/u/0/datasources/167f7529-5246-4aa4-a34c-e9045955b035) data source
+        2. Near the top-right of the page, directly to the left of the "CREATE REPORT" button, you’ll see a small icon showing a rectangle 
+        imposed over another rectangle
+            - Click this icon to create a duplicate of the data source
+            ![navigate-copy-data-source.png](/images/article-imgs/looker-studio-template-setup/navigate-copy-data-source.png)
+            - When prompted to confirm that you’d like to create a copy, select "Copy Data Source"
+            ![copy-data-source.png](/images/article-imgs/looker-studio-template-setup/copy-data-source.png)
+    </Accordion>
+    <Accordion title="Reconfigure the data source copy">
+        1. Navigate to your newly duplicated data source in the new tab that was opened
+        2. Rename the data source, and update the query powering the data source with the name of your data warehouse
+            - Replace `sm-democo` with the name of your warehouse (e.g. `mybrand-warehouse`), leaving the `.sm_transformed_v2.obt_orders` portion unchanged
+            - For data source naming, we recommend to always explicitly reference the underlying data that’s present
+                - For example, we've named this data source `[MyBrand] Orders`, as it uses data from the `obt_orders` table, but 
+                other potential names could be `[SM] Orders` or simply `Orders`
+                ![reconfig-data-source.png](/images/article-imgs/looker-studio-template-setup/reconfig-data-source.png)
+    </Accordion>
+    <Accordion title="Connect the data source to your Managed Data Warehouse">
+        1. Once you've reconfigured your data source copy, click "RECONNECT"
+        ![connect-reconfiged-data-source.png](/images/article-imgs/looker-studio-template-setup/connect-reconfiged-data-source.png)
+        2. When prompted to confirm any “connection changes” before moving on, press "Continue" (if you do see changes listed here,
+        simply press "Apply" as this ensure you're receiving the most up-to-date version of this data source)
+        ![connection-changes-not-found.png](/images/article-imgs/looker-studio-template-setup/connection-changes-not-found.png)
+        ![connection-changes.png](/images/article-imgs/looker-studio-template-setup/connection-changes.png)
+        3. After clicking "Continue", you'll land on the data source explorer screen.
+        Congrats! You've successfully created your own copy of a data source!
+    </Accordion>
+</AccordionGroup>
+
+### Step 2: Create your dashboard
+<AccordionGroup>
+    <Accordion title="Open SourceMedium's base template dashboard">
+        1. Ensure you’re logged into the same Google account you used while duplicating data sources in __Step 1__
+        2. Open the SourceMedium Looker Studio [base template dashboard](https://lookerstudio.google.com/u/0/reporting/655de73a-1df6-432e-b62b-3a99b9779f1a/page/p_yco5gdehad)
+        3. Hover near the top of the web page until the top navigation bar appears and click on the icon showing three 
+        vertical dots ("More options") and select "Make a copy"
+        ![make-dash-copy.png](/images/article-imgs/looker-studio-template-setup/make-dash-copy.png)
+    </Accordion>
+    <Accordion title="Map your copied data sources">
+        1. A modal will open asking you to “Select the data source(s) to be added to the new report”
+        2. For each “Original Data Source” on the left, select your corresponding newly created data source from __Step 1__
+            - For example, for `[DEMO] Orders OBT` (left), we would select the `[MyBrand] Orders OBT` data source we made during __Step 1__ 
+            in the corresponding slot on the right
+            ![map-data-sources.png](/images/article-imgs/looker-studio-template-setup/map-data-sources.png)
+        3. Once you’ve finished mapping all Original Data Sources to your newly created data sources, press "Copy Report"
+    </Accordion>
+    <Accordion title="Rename your report and share access with your team">
+        1. Rename your new report and share access with any users you’d like to have access to your new dashboard
+            - We recommend setting up Google Groups for managing team access
+            - You can find more information on setting up Google Groups and our best practices [here](https://support.google.com/groups/answer/46601?hl=en)
+            ![rename-dash.png](/images/article-imgs/looker-studio-template-setup/rename-dash.png)
+    </Accordion>
+</AccordionGroup>

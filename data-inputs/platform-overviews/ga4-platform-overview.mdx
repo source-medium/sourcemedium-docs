@@ -33,19 +33,19 @@ blockers or faulty tracking. For this reason, we use Shopify as our source of tr
 
 ### Where is GA4 data surfaced in SourceMedium?
 <Accordion title="Transformed GA4 data is surfaced to the following report modules by default">
-    - [Executive Summary](/source-medium-university/report-docs/report-pages/executive-summary-module)
+    - [Executive Summary](/data-activation/managed-bi-v1/modules/executive-summary-module)
         - Site traffic (`sessions`) and `CVR`
-    - [Traffic Deep Dive](/source-medium-university/report-docs/report-pages/traffic-deep-dive-module)
+    - [Traffic Deep Dive](/data-activation/managed-bi-v1/modules/traffic-deep-dive-module)
         - Traffic, engagement, and ecommerce performance by channel, device, and more
         - Most data available in GA4 native reporting is available to surface here
             - Visit our [Template Gallery](https://lookerstudio.google.com/reporting/2853e13c-3071-44dd-8e24-8f9d6f68381c/page/p_hbjrx5v6wc), or reach out to the Customer Solutions team via Slack or email for more info!
-    - [Orders Deep Dive](/source-medium-university/report-docs/report-pages/orders-deep-dive-module)
+    - [Orders Deep Dive](/data-activation/managed-bi-v1/modules/orders-deep-dive-module)
         - GA4-enriched last-click attribution of orders data
-    - [Product Performance](/source-medium-university/report-docs/report-pages/product-performance-module)
+    - [Product Performance](/data-activation/managed-bi-v1/modules/product-performance-module)
         - GA4-enriched last-click attribution for line-item sales data
-    - [New Customer Analysis](/source-medium-university/report-docs/report-pages/new-customer-analysis-module)
+    - [New Customer Analysis](/data-activation/managed-bi-v1/modules/new-customer-analysis-module)
         - GA4-enriched customer acquisition last-click attribution
-    - [Customers - Last Order Analysis](/source-medium-university/report-docs/report-pages/last-order-analysis-module)
+    - [Customers - Last Order Analysis](/data-activation/managed-bi-v1/modules/last-order-analysis-module)
         - Latest order & 1st to last order GA4-enriched attribution comparison
 </Accordion>
 
@@ -68,7 +68,7 @@ dashboards by the next day.
         - `(Direct) / (none)` means either customers visited your website directly (manually typing in the URL or hitting a bookmark) or something forced UTM tracking to break.
         - `(None) / (none)` traffic refers to visitors whose UTM source and medium values are both `null` and therefore cannot be identified by Google Analytics.
         If you're seeing one these `source / medium` values as a large bucket of your attribution, usually it means something can be improved!  You can read up 
-        on how to improve your UTM tracking in Google Analytics [here](/data-inputs/platform-supporting-resources/ga4/proper-google-analytics-setup).
+        on how to improve your UTM tracking in Google Analytics [here](/data-inputs/platform-supporting-resources/ga4/improving-last-click-attribution).
     </Accordion>
     <Accordion title="New vs returning customer accuracy">
         It is important to note that Google Analytics may not be able to distinguish between new and returning customers, as it does not have a total history 
