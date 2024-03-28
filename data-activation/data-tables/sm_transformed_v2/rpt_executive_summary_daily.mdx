@@ -1,0 +1,322 @@
+---
+title: 'rpt_executive_summary_daily'
+description: ''
+---
+
+```yaml
+version: 2
+
+models:
+  - name: rpt_executive_summary_daily
+    description: >
+      The rpt_executive_summary_daily table is a report table containing daily aggregated metrics across all of the data sources 
+      integrated with SourceMedium. This includes key metrics from your advertising, e-commerce, subscription, and analytics data sources
+      at date-level granularity. This report (RPT) table is optimized for a BI tool's consumption.
+    
+    columns:
+    - name: date
+      description: >
+        The date in YYYY-MM-DD format.
+      tests:
+        - not_null
+
+    - name: smcid
+      description: >
+        The SourceMedium ID of a store, which is derived from the store's myshopify.com domain.
+      tests:
+        - not_null
+    
+    - name: sm_master_account_id
+      description: >
+        The unique identifier for the master account that is associated with the SourceMedium smcid.
+    
+    - name: store_name
+      description: >
+        The name of the store that is associated with the SourceMedium smcid.
+    
+    - name: sm_channel
+      description: >
+        The channel associated with the data, which is derived from the source system (e-commerce or advertising platform) and factors in manual overrides as defined by the SourceMedium channel mapping configuration sheet.
+      tests:
+        - not_null
+        
+    - name: order_count
+      description: >
+        The number of orders placed by customers.
+    
+    - name: order_gross_revenue
+      description: >
+        The gross revenue for orders, based on order lines. Gross revenue is calculated by multiplying the price of an order's lines by the quantity purchased. Gross revenue excludes revenue from gift card purchases.
+    
+    - name: order_net_revenue
+      description: >
+        The gross order revenue minus order discounts and refunds.
+    
+    - name: order_total_revenue
+      description: >
+        Total order revenue after factoring in shipping revenue, taxes collected, discounts, and refunds.
+    
+    - name: order_discounts
+      description: >
+        The total amount of discounts applied to orders.
+    
+    - name: order_refunds
+      description: >
+        The total amount of refunds applied to orders.
+    
+    - name: order_net_shipping
+      description: >
+        The gross shipping revenue for orders minus shipping discounts and shipping refunds.
+    
+    - name: order_total_taxes
+      description: >
+        The amount of order and shipping taxes minus order and shipping tax refunds.
+    
+    - name: order_shipping_cost
+      description: >
+        The blended cost to ship products to customers, considering that shipping costs are variable order costs included in cost of goods sold (COGS). This data is set in the Financial Cost - Shipping tab of the SourceMedium financial cost configuration sheet.
+    
+    - name: order_return_cost
+      description: >
+        The blended cost to handle returned products from a customer, considering that the cost of returns is a variable order cost included in cost of goods sold (COGS). This data is entered in the Financial Cost - Shipping tab of the SourceMedium financial cost configuration sheet.
+    
+    - name: order_fulfillment_cost
+      description: >
+        The blended cost to fulfill (pick and pack) orders for customers, considering that fulfillment cost is a variable order cost included in cost of goods sold (COGS). This data is recorded in the Financial Cost - Fulfillment tab of the financial cost configuration sheet.
+    
+    - name: order_merchant_processing_fees
+      description: >
+        The payment processing fees for orders. This data is entered in the Financial Cost - Merchant Processing Fees tab of the SourceMedium financial cost configuration sheet.
+    
+    - name: order_product_cost
+      description: >
+        The landed cost of orders as defined by the SourceMedium financial cost configuration sheet (or input into Shopify) multiplied by the quantity purchased. The SourceMedium financial cost configuration overrides any costs input into Shopify.
+    
+    - name: product_gross_profit
+      description: >
+        Net order line revenue minus product cost.
+    
+    - name: gross_profit
+      description: >
+        Net order revenue and shipping revenue minus order product cost, order shipping cost, order fulfillment cost, and merchant processing fees.
+    
+    - name: operating_expenses
+      description: >
+        The cost the business incurs while performing its normal operational activities. This data is entered into the Financial Cost - Operating Expenses tab of the SourceMedium financial cost configuration sheet.
+    
+    - name: ad_spend
+      description: >
+        The amount of money spent on ads.
+      
+    - name: ad_clicks
+      description: >
+        The number of times ads were clicked.
+    
+    - name: ad_impressions
+      description: >
+        The number of times ads were shown.
+    
+    - name: ad_platform_reported_conversions
+      description: >
+        The number of conversions attributable to ads, as reported by the advertising platform.
+    
+    - name: ad_platform_reported_revenue
+      description: >
+        The amount of revenue attributable to the ads, as reported by the advertising platform.
+    
+    - name: website_sessions
+      description: >
+        The number of sessions on the website.
+
+    - name: new_subscription_count
+      description: >
+        The number of new subscriptions started by customers.
+    
+    - name: cancelled_subscription_count
+      description: >
+        The number of subscriptions voluntarily cancelled by customers.
+    
+    - name: cancelled_passive_subscription_count
+      description: >
+        The number of subscriptions that were terminated without active customer initiation, often due to reasons like the natural expiration of the subscription period.
+    
+    - name: new_subscription_monthly_recurring_revenue
+      description: >
+        Monthly recurring revenue associated with new subscriptions, normalized to a standard month (30.437 days).
+    
+    - name: cancelled_subscription_monthly_recurring_revenue
+      description: >
+        Monthly recurring revenue associated with cancelled subscriptions, normalized to a standard month (30.437 days).
+    
+    - name: cancelled_passive_subscription_monthly_recurring_revenue
+      description: >
+        Monthly recurring revenue associated with passively cancelled subscriptions, normalized to a standard month (30.437 days).
+    
+    - name: active_subscription_count
+      description: >
+        The number of active subscriptions with a store.
+    
+    - name: churned_subscription_count
+      description: >
+        The cumulative number of subscriptions that have been cancelled.
+    
+    - name: subscription_monthly_recurring_revenue
+      description: >
+        Monthly recurring revenue associated with active subscriptions, normalized to a standard "month" (30.437 days).
+    
+    - name: dunning_subscription_count
+      description: >
+        The number of subscriptions that are in dunning, which is the process of communicating with customers to collect payment for a subscription that is past due.
+    
+    - name: new_subscriber_count
+      description: >
+        The number of customers who converted on their first subscription program.
+    
+    - name: cancelled_subscriber_count
+      description: >
+        The number of customers who cancelled their final subscription (they do not have any active subscriptions).
+    
+    - name: active_subscriber_count
+      description: >
+        The number of customers who have at least one active subscription.
+    
+    - name: new_dunning_subscriber_count
+      description: >
+        The number of customers who entered into dunning.
+    
+    - name: churned_subscriber_count
+      description: >
+        The cumulative number of customers who have cancelled their final subscription.
+    
+    - name: customer_count
+      description: >
+        The number of unique customers who made a purchase.
+    
+    - name: new_customer_count
+      description: >
+        The number of unique customers who made their first purchase.
+    
+    - name: repeat_customer_count
+      description: >
+        The number of unique customers who made at least their second purchase.
+    
+    - name: new_customer_order_net_revenue
+      description: >
+        The net order revenue from new customers.
+    
+    - name: repeat_customer_order_net_revenue
+      description: >
+        The net order revenue from repeat customers.
+    
+    - name: new_customer_order_gross_revenue
+      description: >
+        The gross order revenue from new customers.
+    
+    - name: repeat_customer_order_gross_revenue
+      description: >
+        The gross order revenue from repeat customers.
+    
+    - name: new_customer_order_count
+      description: >
+        The number of orders from new customers.
+    
+    - name: repeat_customer_order_count
+      description: >
+        The number of orders from repeat customers.
+    
+    - name: week_start_date
+      description: >
+        The starting date of the week in YYYY-MM-DD format.
+    
+    - name: month_start_date
+      description: >
+        The starting date of the month in YYYY-MM-DD format.
+    
+    - name: quarter_start_date
+      description: >
+        The starting date of the quarter in YYYY-MM-DD format.
+
+    - name: year_start_date
+      description: >
+        The starting date of the year in YYYY-MM-DD format.
+    
+    - name: order_net_revenue_before_refunds
+      description: >
+        The gross order revenue minus order discounts.
+    
+    - name: target_order_gross_revenue
+      description: >
+        The gross order revenue target for the store. This data is entered in the Targets tab of the SourceMedium configuration sheet.
+    
+    - name: target_order_net_revenue
+      description: >
+        The net order revenue target for the store. This data is entered in the Targets tab of the SourceMedium configuration sheet.
+    
+    - name: target_total_order_revenue
+      description: >
+        The total order revenue target for the store. This data is entered in the Targets tab of the SourceMedium configuration sheet.
+    
+    - name: target_order_count
+      description: >
+        The order count target for the store. This data is entered in the Targets tab of the SourceMedium configuration sheet.
+    
+    - name: target_ad_spend
+      description: >
+        The ad spend target for the store. This data is entered in the Targets tab of the SourceMedium configuration sheet.
+    
+    - name: target_website_sessions
+      description: >
+        The website sessions target for the store. This data is entered in the Targets tab of the SourceMedium configuration sheet.
+    
+    - name: target_average_order_value
+      description: >
+        The average order value target for the store. This data is entered in the Targets tab of the SourceMedium configuration sheet.
+    
+    - name: target_cost_per_acquisition
+      description: >
+        The cost per acquisition target for the store. This data is entered in the Targets tab of the SourceMedium configuration sheet.
+    
+    - name: target_return_on_ad_spend
+      description: >
+        The return on ad spend target for the store. This data is entered in the Targets tab of the SourceMedium configuration sheet.
+    
+    - name: target_order_conversion_rate
+      description: >
+        The order conversion rate target for the store. This data is entered in the Targets tab of the SourceMedium configuration sheet.
+    
+    - name: contribution_profit
+      description: >
+        Gross profit minus ad spend.
+    
+    - name: net_profit
+      description: >
+        Gross profit minus ad spend and operating expenses.
+
+    #- name: sm_parent_company_name
+    #  description: >
+    #    The name of the parent company that is associated with the SourceMedium smcid.
+    
+    #- name: country
+    #  description: >
+    #    The country associated with the data.
+    
+    #- name: country_code
+    #  description: >
+    #    The ISO 3166-1 alpha-2 country code.
+
+    #- name: sm_sub_channel
+    #  description: >
+    #    The sub-channel associated with the data, which is derived from the source system (e-commerce or advertising platform) and factors in manual overrides as defined by the SourceMedium channel mapping configuration sheet.
+        
+    #- name: non_recurring_order_net_revenue
+    #  description: >
+    #    The net order revenue from regular one-time purchases.
+    
+    #- name: non_recurring_order_gross_revenue
+    #  description: >
+    #    The gross order revenue from non-recurring subscriptions.
+    
+    #- name: non_recurring_order_count
+    #  description: >
+    #    The number of orders from non-recurring subscriptions.
+    ```

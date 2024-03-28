@@ -1,0 +1,23 @@
+---
+title: 'Table Names'
+description: ''
+icon: ''
+---
+
+### Table Structure Overview
+- `fct`: Each record in a fact (`fct`) table represents a unique event or transaction, characterized by metrics or measurements 
+such as sales amount or units sold
+- `dim`: Each record in a dimension (`dim`) table provides context for the metrics recorded in `fct` tables, such as time, geography, 
+products, or customers
+- `obt`: Each record in a One Big Table (`obt`) is the product of joined `fct` and `dim` tables that have been modeled into a single, unified structure
+- `rpt`: Each record in a report (`rpt`) table represents a narrower, aggregated view of joined `fct` and `dim` tables that serve a specific analytical purpose
+
+
+__See [Modeling Philosophy](/data-transformations/philosophy) for a more in-depth overview of the types of 
+tables we generate through our data modeling.__
+
+### Metric column name formula
+- `fct` table name formula: `fct_{{ entity }}_{{ verb }}`
+- `dim` table name formula: `dim_{{ dimension }}`
+- `obt` table name formula: `obt_{{ entity }}`
+- `rpt` table name formula: `rpt_{{ entity }}_summary_{{ aggregation_granularity }}`

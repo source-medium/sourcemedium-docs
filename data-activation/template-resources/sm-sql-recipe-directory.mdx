@@ -1,0 +1,133 @@
+---
+title: 'SQL Recipe Directory'
+description: ''
+icon: ''
+---
+
+### Overview
+
+blah blah
+
+## Product Insights
+<AccordionGroup>
+    <Accordion title='Most commonly ordered product combinations'>
+        ```SQL
+        WITH RECURSIVE `CTE` AS (
+            -- Anchor Query
+            SELECT
+                p.smcid,
+                p.order_id,
+                1 AS length,
+                concat(p.product_title, ' - ', p.variant_title) AS combo,
+                concat(p.product_title, ' - ', p.variant_title) AS lastitem
+            FROM `customers-managed.masterset.product_performance` AS p
+            WHERE p.smcid = 'lilacst'
+
+            UNION ALL
+            -- Recursive Part
+            SELECT
+                p.smcid,
+                p.order_id,
+                r.length + 1 AS length,
+                CONCAT(r.combo, ', ', concat(p.product_title, ' - ', p.variant_title)) AS combo,
+                concat(p.product_title, ' - ', p.variant_title) AS lastitem
+            FROM `CTE` AS r
+            INNER JOIN `customers-managed.masterset.product_performance` AS p
+                ON
+                    p.order_id = r.order_id
+                    AND concat(p.product_title, ' - ', p.variant_title) > r.lastitem
+            WHERE r.length < 5
+        )
+
+        -- Output query
+        SELECT
+            combo as combinations,
+            COUNT(DISTINCT order_id) AS frequency,
+            (CHAR_LENGTH(combo) - CHAR_LENGTH(REPLACE(combo, ',', '')))+1 as number_of_products
+        FROM `CTE`
+        WHERE (CHAR_LENGTH(combo) - CHAR_LENGTH(REPLACE(combo, ',', ''))) >= 2
+        GROUP BY combo
+        HAVING frequency >= 1000
+        ORDER BY frequency DESC, combo ASC;
+        ```
+        
+    </Accordion>
+</AccordionGroup>
+
+## Subscription Insights
+<AccordionGroup>
+    <Accordion title='New Subscriptions by Product'>
+
+        ```SQL
+        
+        ```
+    </Accordion>
+    <Accordion title='Cancelled Subscriptions by Product'>
+        ```SQL
+        
+        ```
+    </Accordion>
+    <Accordion title='Onetime products purchased by churned subscribers'>
+        ```SQL
+        
+        ```
+
+    </Accordion>
+</AccordionGroup>
+
+## Marketing Insights
+<AccordionGroup>
+    <Accordion title=''>
+        ```SQL
+        
+        ```
+        
+    </Accordion>
+    <Accordion title=''>
+        ```SQL
+        
+        ```
+
+    </Accordion>
+    <Accordion title=''>
+        ```SQL
+        
+        ```
+
+    </Accordion>
+    <Accordion title=''>
+        ```SQL
+        
+        ```
+
+    </Accordion>
+</AccordionGroup>
+
+## Repurchase Analysis
+<AccordionGroup>
+    <Accordion title=''>
+        ```SQL
+        
+        ```
+        
+    </Accordion>
+    <Accordion title=''>
+        ```SQL
+        
+        ```
+
+    </Accordion>
+    <Accordion title=''>
+        ```SQL
+        
+        ```
+
+    </Accordion>
+    <Accordion title=''>
+        ```SQL
+        
+        ```
+
+    </Accordion>
+</AccordionGroup>
+
