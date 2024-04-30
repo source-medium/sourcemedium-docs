@@ -312,6 +312,12 @@
               "pages": [
                 "data-inputs/platform-integration-instructions/tatari-integration"
               ]
+            },
+            {
+              "group": "Reddit Ads",
+              "pages": [
+                "data-inputs/platform-integration-instructions/reddit-integration"
+              ]
             }
           ]
         },
