@@ -167,7 +167,8 @@
             {
               "group": "Amazon Seller Central",
               "pages": [
-                "data-inputs/platform-integration-instructions/amazon-sc-integration"
+                "data-inputs/platform-integration-instructions/amazon-sc-integration",
+                "data-inputs/platform-supporting-resources/amazon-seller-central/amazon-sc-data-nuances-and-limitations"
               ]
             },
             {
@@ -256,7 +257,8 @@
             {
               "group": "Amazon Ads",
               "pages": [
-                "data-inputs/platform-integration-instructions/amazon-ads-integration"
+                "data-inputs/platform-integration-instructions/amazon-ads-integration",
+                "data-inputs/platform-supporting-resources/amazon-ads/amazon-ads-data-nuances-and-limitations"
               ]
             },
             {
