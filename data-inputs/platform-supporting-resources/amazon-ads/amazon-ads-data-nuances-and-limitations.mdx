@@ -1,0 +1,29 @@
+---
+title: 'Data Nuances & Limitations'
+sidebarTitle: 'Data Nuances & Limitations'
+description: 'Important context for Amazon Ads data'
+icon: 'info'
+---
+
+*This page pertains to Amazon Sponsored Products, Sponsored Brands, Sponsored Display, and Sponsored Video.*
+
+### Historical Data Constraints
+
+Amazon imposes specific limitations on the historical advertising data available through their APIs. 
+For all advertising campaigns, the lookback period is capped at 60 days from the current date. This means that 
+historical advertising data older than 60 days is not accessible through Amazon's API (or their reporting interfaces).
+
+### API Versioning and Data Source Consolidation
+
+Amazon is in the process of releasing a new version (v3) of their reporting API for Sponsored Advertising campaigns, 
+including Sponsored Brands, Sponsored Products, Sponsored Display, and Sponsored Video. However, the rollout of this new 
+API version has been phased, with only Sponsored Products officially available on the v3 API.
+
+To accommodate this transition phase, our data ingestion partner has implemented two separate data connectors to 
+ensure comprehensive coverage of your Amazon advertising performance:
+
+1. **Sponsored Brands & Sponsored Display (v2 API)**: This connector interfaces with the previous version (v2) of Amazon's advertising API, allowing us to retrieve data for Sponsored Brands and Sponsored Display campaigns.
+2. **Sponsored Products (v3 API)**: A dedicated connector leverages the new v3 API to access data for Sponsored Products campaigns, taking advantage of the latest API.
+
+Our team is closely monitoring Amazon's API updates and roadmap to stay ahead of any changes. As Amazon introduces new 
+features or modifies existing APIs, we will adapt our data integration processes accordingly.
