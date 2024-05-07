@@ -539,7 +539,6 @@
               "group": "Looker Studio",
               "pages": [
                 "data-activation/template-resources/looker-studio-template-copy-instructions",
-                "data-activation/template-resources/sm-looker-data-source-template-directory",
                 "data-activation/template-resources/sm-looker-report-template-directory"
               ]
             }
