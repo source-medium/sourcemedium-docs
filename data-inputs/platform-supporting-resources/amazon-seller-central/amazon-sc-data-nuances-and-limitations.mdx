@@ -1,0 +1,44 @@
+---
+title: 'Data Nuances & Limitations'
+sidebarTitle: 'Data Nuances & Limitations'
+description: 'Important context for Amazon Seller Central data'
+icon: 'info'
+---
+
+### Historical Data: Amazon Sales Report
+
+For historical data, we rely on the Amazon Sales report, which provides us with up to 24 months of past order data. 
+However, due to Amazon's reporting processes, this data is subject to a 2-day delay, as stated 
+in their documentation: "Business Reports will have a lag of 24 hours" before the data becomes available.
+
+### Real-Time Data: Enriched Order Details
+
+To complement historical data and provide more granular insights into your ongoing operations, we also use data 
+from real-time APIs that capture enriched order details, such as charges, refunds, shipping costs, and promotions. 
+This real-time data feed kicks in once you've integrated your Amazon account, enabling you to view up-to-the-minute 
+performance metrics. However, please note that this real-time data will not be available for historical periods covered 
+by the Sales report.
+
+### FBA Returns: Delayed Reporting and Lookback Schedule
+
+Amazon's reporting of FBA (Fulfilled by Amazon) customer returns follows a specific process that introduces additional delays. 
+The FBA return data that Amazon provides reflects returns that have been received at a fulfillment center. This means that a 
+return will not appear in the report until it has been physically received and processed by Amazon, which can take over 30 days 
+from the initial return request date due to Amazon's 30-day return window.
+
+To account for these delays and ensure accurate return data, our data ingestion partner employs a lookback schedule for FBA 
+Returns. While they request the current FBA returns report, Amazon may retroactively post updates to older reports with return 
+information. To capture these updates, they check for changes to prior reports 7 and 35 days from the current date. 
+For example, on July 30th, they request prior FBA return reports for July 23rd and June 25th, updating any return data 
+that Amazon may have backdated.
+
+### Amazon Multi-Channel Fulfillment
+
+Orders fulfilled through Amazon's Multi-Channel Fulfillment program, which allows you to sell products on non-Amazon 
+platforms while utilizing Amazon's fulfillment services, are classified under the "Amazon Multi-Channel Fulfillment" sales channel.
+
+### Amazon Removal Orders
+
+Amazon Removal Orders, which represent instances where products are removed from Amazon's fulfillment centers, are automatically 
+categorized under the "Excluded" channel with a dedicated sales channel name of "Amazon Removal Order." This separation ensures 
+that removal orders are clearly distinguished from active sales transactions.
