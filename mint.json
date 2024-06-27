@@ -378,7 +378,8 @@
             {
               "group": "(Premium) Klaviyo",
               "pages": [
-                "data-inputs/platform-integration-instructions/klaviyo-integration"
+                "data-inputs/platform-integration-instructions/klaviyo-integration",
+                "data-inputs/platform-supporting-resources/klaviyo/klaviyo-data-nuances-and-limitations"
               ]
             },
             {

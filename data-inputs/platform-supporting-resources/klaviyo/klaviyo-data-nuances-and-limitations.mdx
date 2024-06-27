@@ -1,0 +1,16 @@
+---
+title: 'Data Nuances & Limitations'
+sidebarTitle: 'Data Nuances & Limitations'
+description: 'Important context for Klaviyo data'
+icon: 'info'
+---
+
+### Event-Based Aggregation vs. Campaign- or Flow-Based Aggregation
+
+Our Klaviyo data extractor uses the [Query Metric Aggregates](https://developers.klaviyo.com/en/reference/query_metric_aggregates) endpoint to access aggregate performance metrics. 
+It's important to note that this API provides aggregate performance metrics based on the time a particular event occurred, 
+not the send date of a campaign or flow. For this reason, comparing this data with send performance directly in the Klaviyo 
+is not recommended, as in-app performance is calculated based on send date.
+
+For example, if you ran an email campaign on January 1st and you want to view the unique number of email clicks for 
+that campaign from January 1st to January 7th, clicks that happened on January 10th would be included in the in-app Klaviyo metrics but not in the data from the API we use. To see the clicks from January 10th in our data, you would need to expand your time range to include January 10th.
