@@ -10,20 +10,36 @@ icon: 'info'
 ### Historical Data Constraints
 
 Amazon imposes specific limitations on the historical advertising data available through their APIs. 
-For all advertising campaigns, the lookback period is capped at 60 days from the current date. This means that 
-historical advertising data older than 60 days is not accessible through Amazon's API (or their reporting interfaces).
+For all advertising campaigns, the lookback period is capped at 60 days from the current date (the Amazon Ads v3 API 
+provides historical reporting of up to 95 days - see more details on the v3 API below). This means that 
+historical advertising data beyond this time window is not accessible through Amazon's API (or their reporting interfaces).
+
+### Data Freshness
+
+Amazon makes conversion data available within a day, but it's subject to changes through a restatement process. This process 
+happens at three points: 1 day, 7 days, and 28 days after a conversion occurs. The restatements affect all dates within 
+your chosen attribution window. For instance, if you're using a 14-day attribution window, the data for a particular 
+day could be updated for up to 42 days after that date. This is because the 28-day restatement could affect 
+conversions that happened on the last day of your 14-day window.
 
 ### API Versioning and Data Source Consolidation
 
 Amazon is in the process of releasing a new version (v3) of their reporting API for Sponsored Advertising campaigns, 
 including Sponsored Brands, Sponsored Products, Sponsored Display, and Sponsored Video. However, the rollout of this new 
-API version has been phased, with only Sponsored Products officially available on the v3 API.
+API version has been phased. While Amazon [deprecated](https://advertising.amazon.com/API/docs/en-us/guides/reporting/v2/sponsored-ads-reports) the v2 Ads API for Sponsored Products on March 30th 2023, the v2 API for 
+Sponsored Brands and Sponsored Display reports remains operational.
 
-To accommodate this transition phase, our data ingestion partner has implemented two separate data connectors to 
-ensure comprehensive coverage of your Amazon advertising performance:
+Over the last year, we've munged together Sponsored Products data from the v3 Ads API with Sponsored Brands, Sponsored Video, and 
+Sponsored Display data from the v2 API.
 
-1. **Sponsored Brands & Sponsored Display (v2 API)**: This connector interfaces with the previous version (v2) of Amazon's advertising API, allowing us to retrieve data for Sponsored Brands and Sponsored Display campaigns.
-2. **Sponsored Products (v3 API)**: A dedicated connector leverages the new v3 API to access data for Sponsored Products campaigns, taking advantage of the latest API.
+However, we've started to notice that the v2 reporting APIs for Sponsored Brands, Sponsored Video, and Sponsored Display are producing 
+stale data. For example, even though Amazon isn't planning on [shutting down](https://advertising.amazon.com/API/docs/en-us/release-notes/index#awareness-sponsored-display-version-2-reporting-endpoints-will-shut-off-on-october-31-2024) 
+the v2 API for Sponsored Display until October 31, 2024, we've 
+observed inaccurate reporting from Amazon's v2 API relative to the data reported in the Amazon Ads UI, particularly for modeled conversion 
+and revenue attribution.
+
+Because of this, we conducted a thorough QA process to understand the differences between the v2 and v3 APIs across our customer base and 
+made the decision to fully migrate all Sponsored Advertising campaign types to the v3 reporting API (as of July 10, 2024).
 
 Our team is closely monitoring Amazon's API updates and roadmap to stay ahead of any changes. As Amazon introduces new 
 features or modifies existing APIs, we will adapt our data integration processes accordingly.
