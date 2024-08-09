@@ -61,6 +61,11 @@
   {
     "source": "/integrations",
     "destination": "/data-inputs/platform-integration-instructions/all-available-integrations"
+  },
+  {
+    "source": "/data-inputs/platform-integration-instructions/twitter-integration",
+    "destination": "/data-inputs/platform-integration-instructions//x-integration"
+
   }
 ],
   "navigation": [
