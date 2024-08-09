@@ -64,7 +64,7 @@
   },
   {
     "source": "/data-inputs/platform-integration-instructions/twitter-integration",
-    "destination": "/data-inputs/platform-integration-instructions//x-integration"
+    "destination": "/data-inputs/platform-integration-instructions/x-integration"
 
   }
 ],
