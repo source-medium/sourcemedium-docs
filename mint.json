@@ -154,7 +154,8 @@
       "pages": [
         "onboarding/analytics-tools/learn-looker-studio",
         "onboarding/analytics-tools/learn-bigquery",
-        "onboarding/analytics-tools/creating-google-groups"
+        "onboarding/analytics-tools/creating-google-groups",
+        "onboarding/analytics-tools/sharing-access"
       ]
     },
     {
