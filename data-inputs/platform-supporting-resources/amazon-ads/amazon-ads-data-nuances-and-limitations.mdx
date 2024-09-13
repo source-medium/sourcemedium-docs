@@ -10,13 +10,12 @@ icon: 'info'
 ### Historical Data Constraints
 
 Amazon imposes specific limitations on the historical advertising data available through their APIs. 
-For all advertising campaigns, the lookback period is capped at 60 days from the current date (the Amazon Ads v3 API 
-provides historical reporting of up to 95 days - see more details on the v3 API below). This means that 
-historical advertising data beyond this time window is not accessible through Amazon's API (or their reporting interfaces).
+The Amazon Ads v3 API provides historical reporting of up to [95 days](https://advertising.amazon.com/API/docs/en-us/reference/migration-guides/reporting-v2-v3#expanded-reporting-period).
+This means that historical advertising data beyond this time window is not accessible through Amazon's API (or their reporting interfaces).
 
 ### Data Freshness
 
-Amazon makes conversion data available within a day, but it's subject to changes through a restatement process. This process 
+Amazon makes conversion data available within a day, but it's subject to changes through a [restatement process](https://advertising.amazon.com/API/docs/en-us/guides/amazon-attribution/troubleshooting). This process 
 happens at three points: 1 day, 7 days, and 28 days after a conversion occurs. The restatements affect all dates within 
 your chosen attribution window. For instance, if you're using a 14-day attribution window, the data for a particular 
 day could be updated for up to 42 days after that date. This is because the 28-day restatement could affect 
@@ -43,3 +42,30 @@ made the decision to fully migrate all Sponsored Advertising campaign types to t
 
 Our team is closely monitoring Amazon's API updates and roadmap to stay ahead of any changes. As Amazon introduces new 
 features or modifies existing APIs, we will adapt our data integration processes accordingly.
+
+### Validating Amazon Ads data from SourceMedium vs. the Amazon Ads UI
+
+Follow the steps below to download the Amazon Ads reports that we aim to replicate through our data transformation process.
+
+1. Login into your [Amazon Ads](https://advertising.amazon.com/) account
+2. Select the relevant account in the top right corner
+3. Navigate to Measurements & Reporting > Sponsored ads reports
+4. Click "Create report"
+5. For each report category ("Sponsored Products", "Sponsored Brands", and "Sponsored Display") do the following:
+    - Select "Report type" = "Campaign"
+    - Select "Time unit" = "Daily"
+    - Select "Currency conversion" = "True"
+    - Select the relevant time period (or default to the last full month of data if you're doing a general QA)
+    - Enter a unique value for "Report name"
+    - Leave "Recipients" blank
+    - Select "Request time" = "Now"
+    - Click "Run report" in the top right corner
+6. The campaign-level data returned in these reports should match the data you see in SourceMedium, with the following caveats:
+    - Amazon's v3 Ads API [standardizes](https://advertising.amazon.com/API/docs/en-us/guides/reporting/v3/columns#purchases)
+    Sponsored Brand and Sponsored Display sales around a 14-day attribution window. 
+    To maintain consistency, when we unify Amazon Ads data across ad formats, we persist 14-day sales attribution for 
+    Sponsored Brands and Sponsored Display (the default), along with 14-day revenue for Sponsored Products, and report the final value
+    as the platform-reported conversions and revenue.
+    - Note that when generating reports via the Amazon Ads UI, Amazon only reports on 7-day attribution windows for Sponsored Products. 
+    Because of this, when comparing attributed Sponsored Product conversions and revenue between SourceMedium and Amazon Ads, our 
+    reported conversions and revenue numbers should be higher.
