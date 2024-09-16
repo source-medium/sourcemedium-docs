@@ -19,9 +19,9 @@ Below are our platform-specific definitions for what is counted as a Conversion 
 <Accordion title= "Google Ads">
     - `Conversions` WHERE `Conversion Category` CONTAINS **"purchase"** OR **"sale"** OR **"subscription"** OR **"subscribe"**
 </Accordion>
-<Accordion title= "Facebook Ads">
+<Accordion title= "Meta Ads">
     - `Conversions` WHERE `Conversion Category` = "**omni_purchase**”
-        - Using 7d click attribution window
+        - Using the attribution window set at the campaign level within Meta
 </Accordion>
 <Accordion title= "Bing Ads">
     - `Conversions` WHERE `Goal` CONTAINS **"purchase"** OR **"sale"** OR **"subscription"** OR **"convert"** OR **"conversion"** OR **"ShopifyCheckoutComplete"**
