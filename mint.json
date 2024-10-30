@@ -218,7 +218,7 @@
           "group": "Marketing & Advertising",
           "pages": [
             {
-              "group": "Facebook Ads (Meta)",
+              "group": "Meta Ads (Facebook)",
               "pages": [
                 "data-inputs/platform-integration-instructions/meta-integration"
               ]
@@ -324,6 +324,12 @@
               "group": "Reddit Ads",
               "pages": [
                 "data-inputs/platform-integration-instructions/reddit-integration"
+              ]
+            },
+            {
+              "group": "(Beta) AppLovin ",
+              "pages": [
+                "data-inputs/platform-integration-instructions/applovin-integration"
               ]
             }
           ]
