@@ -329,7 +329,8 @@
             {
               "group": "(Beta) AppLovin ",
               "pages": [
-                "data-inputs/platform-integration-instructions/applovin-integration"
+                "data-inputs/platform-integration-instructions/applovin-integration",
+                "data-inputs/platform-supporting-resources/applovin/applovin-data-nuances-and-limitations"
               ]
             }
           ]
