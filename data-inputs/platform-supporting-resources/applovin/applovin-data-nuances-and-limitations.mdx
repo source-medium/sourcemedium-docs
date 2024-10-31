@@ -1,0 +1,22 @@
+---
+title: 'Data Nuances & Limitations'
+sidebarTitle: 'Data Nuances & Limitations'
+description: 'Important context for AppLovin data'
+icon: 'info'
+---
+
+### AppLovin Only Reports In UTC Time
+
+AppLovin currently reports all data in UTC time, both within their own UI and their API. 
+As their data is primarily aggregated into a daily view, there is a potential that events will be attributed to a 
+neignboring date.
+ 
+For example, if your brand is based on the east coast of the United States during Eastern Daylight Time (EDT) your AppLovin data 
+will be shifted forward by four hours (as EDT is UTC -4). Your daily AppLovin marketing cycle would begin & end daily at 8 PM EDT, 
+as this would be 12 AM UTC and begin the next "UTC Day". If you then had additional AppLovin spend at 9:55 PM EDT, this spend will 
+be attributed to the next day. 
+
+Currently, the data that SourceMedium receives via the API is using this concept of the "UTC Day" and will directly match 
+the report you can see in AppLovin's UI.
+
+
