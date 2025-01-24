@@ -6,16 +6,22 @@ icon: ''
 
 ### Overview
 
-Time columns are designated to represent either a timestamp or a datetime value associated with an 
-entity and a specific dimension. The suffix _at is used to denote a timestamp, whereas _datetime is used 
-for datetime values. When a time column is localized, it will be explicitly indicated with the suffix _local_datetime 
+import test from '/_snippets/cpa-definition.mdx'
+
+<test />
+
+Time columns are designated to represent either a timestamp or a datetime value associated with an
+entity and a specific dimension. The suffix \_at is used to denote a timestamp, whereas \_datetime is used
+for datetime values. When a time column is localized, it will be explicitly indicated with the suffix \_local\_datetime
 to denote the local time context.
 
 ### Time column name formula
+
 `{{ entity }}_{{ dimension }}_{{ suffix }}`
 
 ### Examples
 
-- `order_processed_at`, where `order` is the `entity`, `processed` is the `attribute`, and `_at` indicates a timestamp
-- `customer_created_at_local_datetime`, where `customer` is the `entity`, `created_at` is the `dimension`, 
-and `_local_datetime` indicates a localized datetime
+* `order_processed_at`, where `order` is the `entity`, `processed` is the `attribute`, and `_at` indicates a timestamp
+
+* `customer_created_at_local_datetime`, where `customer` is the `entity`, `created_at` is the `dimension`,
+  and `_local_datetime` indicates a localized datetime
