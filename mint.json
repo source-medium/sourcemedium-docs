@@ -11,7 +11,7 @@
   },
   "modeToggle": {
     "default": "light",
-    "isHidden": true
+    "isHidden": false
   },  
   "favicon": "/favicon.png",
   "colors": {
@@ -52,6 +52,10 @@
     {
       "name": "Data Activation",
       "url": "data-activation"
+    },
+    {
+      "name": "MTA",
+      "url": "mta"
     }
 ],
 "feedback": {
@@ -610,6 +614,14 @@
             "data-activation/managed-bi-v1/modules/subscription-product-performance-module"
           ]
         }
+      ]
+    },
+    {
+      "group": "MTA",
+      "pages": [
+        "mta/mta-overview",
+        "mta/mta-faqs",
+        "mta/mta-advanced-documentation"
       ]
     }
   ],

@@ -1,0 +1,135 @@
+---
+title: "How to Manage User Access"
+sidebarTitle: "How to Manage User Access"
+description: "Follow this guide to learn the industry best practices for securing your data"
+icon: "lock"
+iconType: "solid"
+---
+
+### Introduction
+
+Whether you're a brand marketing team or an agency servicing many brands, managing user access is a critical part of 
+harnessing Source Medium's data infrastructure and reporting. Industry best practices dictate that access should be given
+*only as needed*$~$ to achieve stalwart data security and reliable stability of custom analytics, tables, views, and pipelines 
+built upon Source Medium's infrastructure. Find out how to protect the security of your data and the reliability of custom tools
+you build on Source Medium using the information below. 
+
+<br/>
+
+### <Icon icon="address-card" iconType="solid" size={32}/> $~$ Basic Access Types 
+
+<AccordionGroup>
+
+    <Accordion title="Looker Studio - View">
+        <Icon icon="triangle-exclamation" size={20} color="lime"/> $~$ __Responsibility Rating: Low__ <br/><br/>
+            __Description:__ <br/>
+            Looker Studio View permissions allow users to look, but not touch. They will be able to see all analytics present 
+            on your dashboard, but they won't be able to edit charts or view any underlying data, though they can still operate filters. 
+            This is the safest permission to grant, suitable for anyone who can be trusted to look at your data. 
+
+            __How to Set this Permission:__ <br/>
+            Set this permission on your Source Medium Dashboard, which is always accessed from the link provided during your onboarding and 
+            pinned to your shared slack channel, should you choose to have one, otherwise provided by email. Use the Share button at the top right 
+            to add users by email as shown in the gif below. 
+            <Frame>
+            <img src="/images/article-gifs/looker_studio_permissions.gif" />
+            </Frame>
+            __Relevant Links:__ <br/>
+            [Looker Studio Permissions from Google](https://support.google.com/looker-studio/answer/10403868?hl=en)
+            
+    </Accordion>
+
+    <Accordion title="Looker Studio - Edit Dashboards">
+        <Icon icon="triangle-exclamation" size={20} color="yellow"/> $~$ __Responsibility Rating: Moderate__ <br/><br/>
+             __Description:__ <br/>
+            Looker Studio Edit permissions for dashboards allow users to create custom charts, swap or create metrics, and manage layouts.
+            This permission does not allow for editing of the underlying data or the creation of custom fields at the data source level. 
+
+            __How to Set this Permission:__ <br/>
+            Set this permission on your Source Medium Dashboard, which is always accessed from the link provided during your onboarding and 
+            pinned to your shared slack channel, should you choose to have one, otherwise provided by email. Use the Share button at the top right 
+            to add users by email as shown in the gif below. 
+            <Frame>
+            <img src="/images/article-gifs/looker_studio_permissions.gif" />
+            </Frame>
+            __Relevant Links:__ <br/>
+            [Looker Studio Permissions from Google](https://support.google.com/looker-studio/answer/10403868?hl=en)
+    </Accordion>
+
+     <Accordion title="Looker Studio - Edit Data Sources">
+        <Icon icon="triangle-exclamation" size={20} color="orange"/> $~$ __Responsibility Rating: High__ <br/><br/>
+              __Description:__ <br/>
+            Looker Studio data source editing permissions allow users to view, edit the connection of, and create custom data source level metrics in data sources
+            associated with Looker Studio dashboards. 
+
+            __How to Set this Permission:__ <br/>
+            This permission is set in multiple places. First, it is set on each data source in Looker Studio at the top of the edit screen with the heading 
+            "Data credentials." For embedded data sources, the "Owner's Credentials" option from this menu will allow anyone with edit access to the report 
+            to edit the data source. For reusable data sources, and when the data credentials are set to "Viewer's Credentials," the user must have edit access
+            to the data source on its original platform, e.g Big Query, Google Analytics, in order to edit the data source. 
+            <Frame>
+            <img src="" />
+            </Frame>
+            __Relevant Links:__ <br/>
+            [Editing Data Sources from Google](https://support.google.com/looker-studio/answer/7178497?hl=en#zippy=%2Cin-this-article)
+    </Accordion>
+
+    <Accordion title="Big Query - View Tables">
+        <Icon icon="triangle-exclamation" size={20} color="yellow"/> $~$ __Responsibility Rating: Moderate__
+            - Brief explanation of what the permission means/is capable of
+            - How to set the permission, including a screenshot
+            - Link to the relevant permission doc on google 
+            (Looker Studio, Big Query, and/or Google groups)  
+    </Accordion>
+
+    <Accordion title="Big Query - Edit Tables">
+        <Icon icon="triangle-exclamation" size={20} color="red"/> $~$ __Responsibility Rating: Very High__
+            - Brief explanation of what the permission means/is capable of
+            - How to set the permission, including a screenshot
+            - Link to the relevant permission doc on google 
+            (Looker Studio, Big Query, and/or Google groups)  
+    </Accordion>
+
+</AccordionGroup>
+
+<br/>
+
+### <Icon icon="user-group" iconType="solid" size={32}/> $~$ Source Medium Recommended Access Group Setup
+
+<Tooltip tip="test">Hover over me</Tooltip>
+
+<CardGroup cols={2}>
+
+  <Card title="Basic User Group" icon="square-1">
+    - __Permissions:__ 
+    <br/>_Looker Studio - View_
+    <br/>_Big Query - None_
+    - __Who this is for:__ Marketing team, Analysts, Client Team Members for Marketing Agencies—anyone who needs access to the data 
+    but doesn’t want to overcomplicate the process with editing
+  </Card>
+
+  <Card title="Intermediate User Group" icon="square-2">
+    - __Permissions:__ 
+    <br/>_Looker Studio - Edit Dashboards_
+    <br/>_Big Query - None_
+    - __Who this is for:__ Analysts, Data Team Members, and any tech savvy employees that not only need data access, but need to 
+    create custom visualizations, use templates, and copy dashboards to answer their analytical questions on the fly
+  </Card>
+
+  <Card title="Advanced User Group" icon="square-2">
+    - __Permissions:__ 
+    <br/>_Looker Studio - Edit Dashboards & Data Sources_
+    <br/>_Big Query - View Tables_
+    - __Who this is for:__ Deep Analysts, Data Team Members, and the most tech knowledgeable employees looking to answer the most 
+    complex analytical questions using the full power of Looker Studio and understanding the underlying data by observing Big Query data frameworks
+  </Card>
+
+  <Card title="Warehouse User Group" icon="square-2">
+    - __Permissions:__ 
+    <br/>_Looker Studio - Edit Dashboards & Data Sources_
+    <br/>_Big Query - Edit Tables_
+    - __Who this is for:__ Data Engineers, Data Team Managers, and data employees 
+    who need to create and edit tables in the warehouse
+  </Card>
+
+</CardGroup>

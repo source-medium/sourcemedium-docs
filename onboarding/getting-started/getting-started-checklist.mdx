@@ -2,66 +2,96 @@
 title: "Kick Off Your Onboarding & Implementation Period"
 sidebarTitle: "Initial Onboarding Checklist"
 description: "Follow this guide to get fully onboarded with SourceMedium"
+icon: "check"
+iconType: "solid"
 ---
 __Hi, we're SourceMedium and we're excited to work with you!__
 
 In this document, you'll find the steps and resources to get you started with SourceMedium.
 
-## 1. Learn About SourceMedium
-If you haven't done so already, checkout [What Is SourceMedium](/help-center/what-is-sourcemedium) and read through 
-some of the finer details around how we [transform](/data-transformations/philosophy) and help 
-[activate](/data-activation/managed-data-warehouse/overview) your data.
+<Steps titleSize="h2">
 
-## 2. Integrate Your Data
-<Note>
-__Your onboarding and implementation team will share a unique link to our data integrations app, which you can use to grant us access to your data sources__.
-</Note>
-Included below is a prioritized list of data sources you'll want to integrate to get you up and running as quickly as 
-possible.
+  <Step title="Learn About SourceMedium">
+    If you haven't done so already, checkout [What Is SourceMedium](/help-center/what-is-sourcemedium) and read through 
+    some of the finer details around how we [transform](/data-transformations/philosophy) and help 
+    [activate](/data-activation/managed-data-warehouse/overview) your data.
+  </Step>
 
-While we've automated the connection process for many of these data sources __(please see note about our integrations app above)__, our 
-[Data Integrations & Inputs](/data-inputs/platform-integration-instructions/all-available-integrations) section has instructions for 
-how to connect any data source within our marketplace of supported connectors.
+  <Step title="Integrate Your Data">
 
-#### E-Commerce
-- [Shopify](/data-inputs/platform-integration-instructions/shopify-integration)
-- [Amazon Seller Central](/data-inputs/platform-integration-instructions/amazon-sc-integration)
+    <Note>
+    __Your onboarding and implementation team will share a unique link to our data integrations app, which you can use to grant us access to your data sources__.
+    </Note>
 
-#### Marketing & Advertising
-- [Google Ads](/data-inputs/platform-integration-instructions/google-ads-integration)
-- [Facebook Ads](/data-inputs/platform-integration-instructions/meta-integration)
-- [Amazon Ads](/data-inputs/platform-integration-instructions/amazon-ads-integration)
+    Included below is a prioritized list of data sources you'll want to integrate to get you up and running as quickly as 
+    possible.
 
-#### Website Analytics
-- [Google Analytics Universal](/data-inputs/platform-integration-instructions/ga-universal-integration)
-- [Google Analytics 4](/data-inputs/platform-integration-instructions/ga4-integration)
+    While we've automated the connection process for many of these data sources __(please see note about our integrations app above)__, our 
+    [Data Integrations & Inputs](/data-inputs/platform-integration-instructions/all-available-integrations) section has instructions for 
+    how to connect any data source within our marketplace of supported connectors.
 
-#### Subscriptions
-- [ReCharge](/data-inputs/platform-integration-instructions/recharge-integration)
-- [StayAI](/data-inputs/platform-integration-instructions/stay-ai-integration)
+    <AccordionGroup>
 
-## 3. Schedule Your Analytical Deep Dive
--  As part of your onboarding and implementation process, we'll conduct a 1-hour deep dive review of the data you've integrated with SourceMedium, 
-in which a member of the SourceMedium team will walk through your data live and start to uncover some of the key 
-questions and insights for your business
-- To give you a sense of timing, we will start populating your data within 72 hours after permissions are granted to the data sources you'd like to integrate
-- Your team will be notified by Slack or by email when your data is ready to be viewed 
+        <Accordion title="E-Commerce">
+            - [Shopify](/data-inputs/platform-integration-instructions/shopify-integration)
+            - [Amazon Seller Central](/data-inputs/platform-integration-instructions/amazon-sc-integration)
+        </Accordion>
 
-<Info>If you're an enterprise customer, we'll schedule a 1-hour requirements gathering session in lieu of this deep dive</Info>
+        <Accordion title="Marketing & Advertising">
+            - [Google Ads](/data-inputs/platform-integration-instructions/google-ads-integration)
+            - [Facebook Ads](/data-inputs/platform-integration-instructions/meta-integration)
+            - [Amazon Ads](/data-inputs/platform-integration-instructions/amazon-ads-integration)
+        </Accordion>
 
-## 4. Start Asking Questions
-- You have access to our Customer Solutions Analysts (CSAs) who are deeply knowledgeable in our product and e-commerce metrics, and can help answer questions related to:
-    - Report functionality
-    - Data accuracy
-    - Customizations (after implementation period)
-    - Analytical insights
+        <Accordion title="Website Analytics">
+            - [Google Analytics Universal](/data-inputs/platform-integration-instructions/ga-universal-integration)
+            - [Google Analytics 4](/data-inputs/platform-integration-instructions/ga4-integration)
+        </Accordion>
 
-## 5. What Happens Next? 
-- If you decide to continue using SourceMedium after your initial implementation period, you've made the right decision
-- If you decide not to continue using SourceMedium after your initial implementation period, SourceMedium will stop ingesting your 
-data and will delete any integrations you've setup
+        <Accordion title="Website Analytics">
+            - [Google Analytics Universal](/data-inputs/platform-integration-instructions/ga-universal-integration)
+            - [Google Analytics 4](/data-inputs/platform-integration-instructions/ga4-integration)
+        </Accordion>
 
-## 6. Communicating with the SourceMedium team
-During your onboarding and implementation period, your team will have access to a shared Slack group with the SourceMedium team for direct communication. If you do not currently have access and would like to set up this shared group, please email support@sourcemedium.com .
+        <Accordion title="Subscriptions">
+            - [ReCharge](/data-inputs/platform-integration-instructions/recharge-integration)
+            - [StayAI](/data-inputs/platform-integration-instructions/stay-ai-integration)
+        </Accordion>
 
-Questions? Reach out on Slack or email support@sourcemedium.com
+    </AccordionGroup>
+
+  </Step>
+
+  <Step title="Schedule Your Analytical Deep Dive">
+    -  As part of your onboarding and implementation process, we'll conduct a 1-hour deep dive review of the data you've integrated with SourceMedium, 
+    in which a member of the SourceMedium team will walk through your data live and start to uncover some of the key 
+    questions and insights for your business
+    - To give you a sense of timing, we will start populating your data within 72 hours after permissions are granted to the data sources you'd like to integrate
+    - Your team will be notified by Slack or by email when your data is ready to be viewed 
+
+    <Info>If you're an enterprise customer, we'll schedule a 1-hour requirements gathering session in lieu of this deep dive</Info>
+
+  </Step>
+
+  <Step title="Start Asking Questions">
+    - You have access to our Customer Solutions Analysts (CSAs) who are deeply knowledgeable in our product and e-commerce metrics, and can help answer questions related to:
+        - Report functionality
+        - Data accuracy
+        - Customizations (after implementation period)
+        - Analytical insights
+  </Step>
+
+  <Step title="What Happens Next?">
+    - If you decide to continue using SourceMedium after your initial implementation period, you've made the right decision
+    - If you decide not to continue using SourceMedium after your initial implementation period, SourceMedium will stop ingesting your 
+    data and will delete any integrations you've setup
+  </Step>
+
+  <Step title="Communicating with the SourceMedium team">
+    During your onboarding and implementation period, your team will have access to a shared Slack group with the SourceMedium team for 
+    direct communication. If you do not currently have access and would like to set up this shared group, please email support@sourcemedium.com .
+
+    Questions? Reach out on Slack or email support@sourcemedium.com
+  </Step>
+
+</Steps>
