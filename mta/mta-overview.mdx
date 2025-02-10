@@ -6,7 +6,9 @@ icon: "sitemap"
 iconType: "solid"
 ---
 
-import ttpmta from '/snippets/roas-definition.mdx'
+import sniptest from '/snippets/test.mdx'
+
+<sniptest/>
 
 ### <Icon icon="sitemap" iconType="solid" size={32}/>  What is Source Medium Multi-Touch Attribution (MTA)?
 
@@ -14,7 +16,7 @@ Our model provides a comprehensive view of how various marketing efforts contrib
 By unifying data from multiple sources of first party data you already own, we construct detailed purchase journeys that help you understand the impact of different marketing channels, landing pages, and ad creatives.
 
 In the sections below, this document will provide everything you need to know to get started with Source Medium 
-MTA.
+MTA. <sniptest/>
 
 <Note>If you have a specific question and you’d like to skip the overview guide, check out our [MTA FAQs](/mta/mta-faqs) or use the AI-enabled search bar above to 
 quickly find what you’re looking for.</Note>
@@ -112,7 +114,8 @@ For a verbose technical explanation, skip ahead to our [MTA Advanced Documentati
         <Tip>_Example:_ A pie chart showing **Marketing Channel Attributable Revenue** is displaying the percentage of Revenue for which at least one touch point exists, when viewing touch points of the Marketing Channel (mapped UTM) type</Tip> 
 
         **Distinct Dimension Values**
-        - Distinct dimension values is a count of the number of touch points, for a given model dimension
+        - Distinct dimension values is a count of the number of _unique_ touch points, for a given model dimension
+        - The same Marketing Channel, Ad ID, or Landing Page will not be counted as a distinct dimension value more than once even if a customer interacts with it multiple times
 
         <Tip>_Example:_ A customer purchase journey that includes 3 distinct ad views before a purchase will have a **distinct dimension value** of 3, for the Ads model dimension</Tip> 
 
