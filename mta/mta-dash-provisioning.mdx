@@ -1,0 +1,115 @@
+---
+title: "How to Self-Service Provision Your Source Medium MTA Dashboard"
+sidebarTitle: "MTA Dash Provisioning"
+icon: "chart-bar"
+iconType: "solid"
+---
+
+To access Source Medium’s built-in multi-touch reporting, you’ll need to provision your dashboard. Dashboard provisioning is easy to do using Source Medium’s [template](https://lookerstudio.google.com/s/kN_l7dBHU1k) and the Looker Studio copying feature, just follow the steps below. <br/><br/>
+
+<Note>The video below contains the same information as the guide, choose whatever format you prefer!</Note>
+
+<Frame>
+    <iframe 
+        width="640" 
+        height="581"
+        src="https://www.loom.com/embed/b34e35d6146d4ffdb34499126e0e7551?sid=92ac52fe-5573-4bfc-9247-ddd13a115a40" frameborder="0" 
+        webkitallowfullscreen
+        mozallowfullscreen
+        allowfullscreen
+    ></iframe>
+</Frame>
+
+<Steps>
+
+    <Step title="Confirm Your Data is Ready and Navigate to the Template Dashboard">
+        Make sure you’ve gotten confirmation from a Source Medium team member via Slack or email that your MTA data has been modeled and is present in your warehouse.
+
+        Once you have confirmation your data is ready, navigate to the demo dashboard for the latest release of Source Medium’s MTA reporting, which you can find at the link [here](https://lookerstudio.google.com/s/kN_l7dBHU1k). If you have any issues accessing the dashboard, reach out to a Source medium team member via Slack or email.
+    </Step>
+
+    <Step title="Copy the Template Dashboard and Add Your Data Sources">
+        Once on the demo dashboard, use the 3 dots icon at the top right to bring up the menu and select <Icon icon="copy" size={24}/> **Make a copy**.
+
+        <Frame>
+            <img src="/images/article-imgs/mta/make_a_copy.png" />
+        </Frame>
+
+        You will then need to select new data sources from the drop down menus presented. The selection is simple: at each of the three drop down menus, select the **New Data Source** from your managed data warehouse which has the same name as the **Original Data Source** on the left. 
+
+        <Tip>Data sources from your warehouse will be listed under the _Available data sources_ section, not the _Added data sources_ section.</Tip> 
+
+        <Frame>
+            <img src="/images/article-imgs/mta/select_data_sources.png" />
+        </Frame>
+
+        <Note>If you do not find matching data sources from your warehouse, you will need to create them using the **Create data source** button. Proceed to **Step 3** for instructions on how to do so.</Note>
+    </Step>
+
+    <Step title="Create New Data Sources">
+        If you do not find matching data sources from your warehouse, you will need to create them using the **Create data source** button. 
+        
+        <Note>If you do not need to create data sources, proceed to **Step 4**.</Note> 
+
+        <Frame>
+            <img src="/images/article-imgs/mta/create_data_source.png" />
+        </Frame>
+
+        After you’ve begun creating the new data source, select the **Big Query** connector.
+
+        <Frame>
+            <img src="/images/article-imgs/mta/big_query.png" />
+        </Frame>
+
+        With the **Big Query** connector selected, select:
+        - Project: **SM Managed - Your Company Name**
+        - Dataset: **sm_experimental** 
+        - Table: **obt_purchase_journeys_with_mta_models** or **rpt_attribution_channel_mapping_summary** or **rpt_attribution_performance_daily**
+        - After you’ve selected the correct Project, Dataset, and Table, click **Connect** and then **Add to Report** on the next screen to add the data source
+
+        <Frame>
+            <img src="/images/article-imgs/mta/select_big_query_tables.png" />
+        </Frame>
+
+        After you’ve selected the correct Project, Dataset, and Table, click **Connect** and then **Add to Report** on the next screen to add the data source.
+
+        <Frame>
+            <img src="/images/article-imgs/mta/add_to_report.png" />
+        </Frame>
+
+        <Warning>You must repeat this process for each of the three required tables/data sources</Warning>
+
+     </Step>
+
+     <Step title="Personalize Your Report">
+        After selecting the correct data sources from your managed data warehouse, click Copy Report. You will automatically be brought into edit mode on your new MTA dashboard, which will need a few modifications.
+
+        Start by changing the name of the report in the top left corner. Delete _“Copy of”_ from the beginning of the name, and replace _“Demo”_ with your company name.
+
+        <Frame>
+            <img src="/images/article-imgs/mta/name_report.png" />
+        </Frame>
+
+        If you wish to do so, you may replace the Source Medium icon in the top left by clicking on it and then clicking the name of the default file in the **Image Properties** panel on the right. You will be prompted to select a new file from your computer. The icon is linked to all dashboard pages, so you only need to do this once. 
+
+        <Frame>
+            <img src="/images/article-imgs/mta/change_icon.png" />
+        </Frame>
+
+        If you’d like to customize the **Theme and Layout** of the dashboard to your preferences, you may do so by clicking any blank space on the dashboard (not a chart) and selecting **Theme and layout** from the right-click menu, or by selecting _File > Theme and layout_ from the main menu at the top of the page. 
+
+        <Frame>
+            <img src="/images/article-imgs/mta/theme_and_layout.png" />
+        </Frame>
+
+     </Step>
+
+    <Step title="Start Analyzing Multi-Touch Attribution Data!">
+        You are now ready to use Source Medium's built-in multi-touch attribution reporting. Happy analyzing!
+
+        <Note>If you'd like to learn more about the basics of Source Medium MTA, read our [MTA Overview](/mta/mta-overview)</Note>
+    
+        <Note>For answers to common MTA questions check out our [MTA FAQs](/mta/mta-faqs) or use the AI-enabled search bar above to quickly find what you’re looking for.</Note>
+    </Step>
+
+</Steps>

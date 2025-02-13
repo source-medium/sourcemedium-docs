@@ -577,6 +577,7 @@
             "group": "MTA",
             "pages": [
               "mta/mta-overview",
+              "mta/mta-dash-provisioning",
               "mta/mta-faqs"
             ]
           }
