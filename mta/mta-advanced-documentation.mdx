@@ -6,4 +6,588 @@ icon: "gear"
 iconType: "solid"
 ---
 
-This document is still in progress, coming soon!
+## Overview
+
+Our Multi-Touch Attribution (MTA) model provides a comprehensive view of how various marketing efforts contribute to customer purchases. By unifying data from multiple sources of first party data you already own, we construct detailed purchase journeys that help you understand the impact of different marketing channels, landing pages, and ad creatives.
+
+### Why is this a superior approach to MTA modeling?
+- **No New Pixels:** use the first party funnel data you already have
+- **Total Transparency:** direct access to all underlying data that make up the model in BigQuery
+- **Accurate Revenue Impact:** use accurate net revenue, gross revenue, or profit figures
+- **All the Numbers Add Up:** everything adds up to the correct number, no “magic”
+
+## Architecture
+
+<img src="/images/article-imgs/mta/mta_architecture.png" />
+
+### Data Sources
+
+We integrate first-party purchase funnel data from:
+
+- Customer Acquisition Platforms (CAPI): Elevar and Blotout
+- Analytics Platforms: Google Analytics 4 (GA4), Snowplow, and Heap
+- Mobile App Streams: Tapcart
+- Compatible MTA Vendors: Northbeam, TripleWhale, Rockerbox
+
+### Unified Purchase Journey Dataset
+
+We standardize and unify funnel event streams from these sources into a single schema. By organizing events into purchase journeys and assessing their quality, we create a comprehensive dataset:
+
+- **Highest Quality Journeys:** We select the best purchase journey from each data source, referred to as the "Source System".
+- **Quality Assessment:** The quality of a purchase journey is judged by the number of valid touch points it contains.
+
+<img src="/images/article-imgs/mta/purchase_journey.png" />
+
+<img src="/images/article-imgs/mta/attribution_scorecard.png" />
+
+### Data Quality Assurance
+We prioritize data accuracy and integrity through:
+
+- **Event Deduplication**: Eliminating duplicate events to prevent skewed attribution.
+- **Consistent Classification**: Applying rigorous rules for channel and touch point classification.
+- **Validation Testing**: Implementing tests to ensure correct purchase associations and revenue calculations.
+
+## Key Concepts
+
+### Purchase Journey
+
+A purchase journey represents the sequence of events a customer goes through before making a purchase. This includes events like:
+
+- Collection & Product Page Views
+- Add to Cart
+- Lead Capture
+- Checkout Steps
+- Purchase
+
+These events are standardized to the [GA4 E-Commerce Event Schema](https://support.google.com/analytics/answer/9267735?hl=en), such as **view_item**, **add_to_cart**, **purchase**, etc.
+
+### Touch Points
+**Touch points** are individual events within a purchase journey that carry key metadata:
+
+- **Timestamp**: When the event occurred.
+- **UTM Parameters**: Campaign tracking codes.
+- **Landing Page URL**: The initial page the customer landed on.
+- **Ad Creative ID**: Identifier for the ad that led the customer to the site.
+
+We extract three critical pieces of metadata from touch points:
+
+1. Landing Page
+2. UTM Parameters
+3. Ad Creative ID
+
+### Valid Touch Points
+A touch point is considered valid if it contains at least one of the following:
+
+- Valid Landing Page: Any URL that is not a checkout or order confirmation page.
+- Valid Ad Creative ID: A numerical ID with at least four digits, extracted from URL parameters.
+- Mappable Marketing Channel: A marketing channel that can be identified through our channel mapping logic.
+
+We do not consider Google branded campaigns as valid marketing channels for attribution purposes. Currently, the UTM values must contain “google” and “brand” in order for it to be considered branded search. In the future, we’ll connect to the actual underlying ad unit to better identify branded searches.
+
+### Lookback Window
+We currently will associate a touch point with a purchase with a max of 120 days lookback window. In other words, the preceding touch point must happen less than 120 days from the purchase.
+
+### Dimensions
+In our model, a dimension refers to a specific aspect we attribute conversions to:
+
+- Marketing Channels
+- Ad Creatives
+- Landing Pages
+
+A purchase journey can be attributable to one or more dimensions if it contains at least one valid touch point for that dimension.
+
+### Distinct Dimension Values 
+We assess the complexity of a purchase journey by counting the **distinct** values within each dimension, which is not necessarily equivalent to the number of touch points:
+
+<Tip>*Example*: A customer visits the same landing page 3 separate times on 3 separate dates before making a purchase. This purchase journey contains 3 landing page touch points, but only 1 **Distinct Dimension Value** for the landing page model dimension, as the landing pages were not unique.</Tip>
+
+In our default reporting template, you can set a minimum number of distinct values required for a journey to be included in MTA analysis. By default, this is set to **2**.
+
+## Attribution
+
+### Channel Classification Overview
+We have a default channel mapping logic that assigns marketing channels based on UTM parameters, referrer domains, and other common URL parameters. This logic is defined in our sm_event_marketing_channel_grouping macro and will be customizable in future releases.
+
+Our model automatically classifies traffic into the following channels:
+
+**Paid Channels**
+- Meta: Facebook and Instagram, identified through UTM sources like facebook, fb, and referrer domains.
+- Google Ads:
+- Non-Brand Search: Campaigns not containing branded terms.
+- Brand Search: Campaigns containing branded terms but are not considered for attribution.
+- TikTok
+- Snapchat
+- X Ads (Twitter)
+- Pinterest
+- AppLovin
+
+**Owned Channels**
+- Email: Identified via UTM sources/mediums like email, klaviyo, and referrer domains.
+- SMS
+- Push Notifications
+- Direct Mail
+- Shop App
+
+**Earned/Other Channels**
+- Affiliate
+- Influencer
+- Loyalty Program
+- Organic Search: Traffic from search engines like Google, Bing, DuckDuckGo.
+- Organic Social
+- Press/Media Coverage
+- Blog
+- Customer Service
+- QR Code Scans
+- Marketplace
+
+**Channel Mapping Examples**
+- Email:
+    - UTM Source/Medium contains patterns like email, klaviyo.
+    - Referrer domain matches known email providers.
+- Meta:
+    - UTM Source is facebook, fb, or ig.
+    - Referrer domain is facebook.com or instagram.com.
+- SMS:
+    - UTM Medium contains sms.
+    - No referrer domain, and UTM Source is null.
+
+### Channel Classification Detailed Logic
+The above is a simplified overview. Our channel mapping system automatically classifies traffic sources using UTM parameters and referrer information. Below is the current hierarchy of channel attribution rules.
+
+**Channel Mapping Rules (in order of precedence)**
+1. **Reddit**
+```YAML
+    Matches ANY of:
+    - source: reddit
+    - referrer: reddit.com
+    Channel: "reddit"
+```
+2. **Podcast/Newsletter**
+```YAML
+- medium contains: podcast, newsletter
+Channel: "podcast_newsletter"
+```
+3. **YouTube**
+```YAML
+Matches ANY of:
+- source: yt, youtube
+- medium: yt, youtube
+- campaign contains: youtube
+- referrer: youtube.com
+Channel: "youtube"
+```
+
+4. **Google Search (Brand/Non-Brand)**
+```YAML
+When source = 'google':
+Brand Search if:
+- campaign_tactic = 'brand' OR
+- campaign contains 'brand' (but not 'non-brand') OR
+- medium = 'organic'
+Channel: "brand_search"
+
+Otherwise:
+Channel: "non_brand_search"
+```
+
+5. **AppLovin**
+```YAML
+Matches ANY of:
+- source: applovin
+- medium contains: applovin
+Channel: "applovin"
+```
+
+6. **Direct Mail**
+```YAML
+Matches ANY of:
+- source contains: postpilot
+- medium contains: direct[-_]?mail
+Channel: "direct_mail"
+``` 
+
+7. **Social Media Platforms**
+```YAML
+TikTok:
+- source: tiktok
+- referrer: tiktok.com
+Channel: "tiktok"
+
+Snapchat:
+- source: snapchat
+- medium: snapchat
+- referrer: snapchat.com
+Channel: "snapchat"
+
+Influencers:
+- source: refersion, grin
+Channel: "influencers"
+
+X Ads:
+- source: twitter, x, x_ads
+Channel: "x_ads"
+
+Pinterest:
+- source/medium: pinterest
+- referrer: pinterest.com
+Channel: "pinterest"
+
+Meta (Facebook/Instagram):
+- source/medium matches meta pattern
+- meta_ad_id present
+Channel: "meta"
+```
+
+8. **Loyalty & Rewards**
+```YAML
+Matches ANY of:
+- source: smile_rewards, friendbuy, referralcandy
+- campaign: smileio_referrals, referral, loox
+- referrer: referralcandy, stamped, loox-referrals
+Channel: "loyalty_program"
+```
+
+9. **SMS**
+```YAML
+Matches ANY of:
+- source contains: postscript, attentive, sms, attv, mms, para
+- medium contains: postscript, attentive, attv, sms, mms
+- utm_id contains: sms
+Channel: "sms"
+```
+
+10. **Press/Media**
+```YAML
+- source or referrer matches press sources list
+Channel: "press"
+```
+
+11. **Email**
+```YAML
+Matches ANY of:
+- source matches email pattern
+- medium matches email pattern
+- medium in email mediums list
+- campaign matches email pattern
+- campaign in: campaign, flow
+- referrer in email referrers list
+Channel: "email"
+12. Other Channels
+Organic Social:
+- referrer in: facebook, instagram, tiktok, snapchat, pinterest, youtube, linktr, messenger, manychat
+- source in: linktree, beacon
+- medium: social
+Channel: "organic_social"
+
+Taboola:
+- source/medium/referrer contains: taboola
+Channel: "taboola"
+
+AI Search:
+- referrer: chatgpt, perplexity
+- source contains: chatgpt, perplexity
+Channel: "ai_search"
+
+Organic Search:
+- referrer matches organic search domains
+Channel: "organic_search"
+
+Employee Links:
+- source: lululinktree
+Channel: "employees"
+
+Blog:
+- source: blog
+Channel: "blog"
+
+Order Tracking:
+- source/medium contains: malomo
+Channel: "order_tracking"
+
+Customer Service:
+- referrer: gorgias
+Channel: "customer_success"
+
+QR Codes:
+- referrer: qrcodes
+- medium: qr
+Channel: "qr_code"
+
+Marketplaces:
+- referrer in: amazon, costco, thredup
+Channel: "marketplace"
+
+Calendly:
+- medium: calendly
+Channel: "calendly"
+
+Survey:
+- referrer: typeform
+Channel: "survey"
+```
+
+**Default Classifications**
+```YAML
+No Parameters:
+- All UTM parameters and referrer are null
+Channel: "(none)"
+
+Unmatched:
+- Any traffic not matching above rules
+Channel: "(other)"
+```
+
+### Core Attribution Elements
+1. **UTM Parameters**
+Standard URL parameters that help track traffic sources:
+```
+https://example.com?utm_source=facebook&utm_medium=paid_social
+&utm_campaign=summer_sale
+```
+
+**Common Parameters:**
+
+- **utm_source**: Traffic origin (facebook, google, tiktok)
+- **utm_medium**: Marketing method (cpc, email, social)
+- **utm_campaign**: Campaign name
+- **utm_content**: Ad variant/creative ID
+- **utm_term**: Search keywords
+
+**Implementation**:
+
+- Manually added to URLs
+- Built into ad platform URL builders
+- Automatically added by email/SMS platforms
+- Can be generated using URL builders like Google's Campaign URL Builder
+
+2. **Referrer Domain**
+The website that sent traffic to your site.
+
+```YAML
+User clicks link on facebook.com → Your site
+Referrer domain = facebook.com
+```
+
+**Common Implementations:**
+
+- Automatically captured by analytics platforms
+- Available in server logs
+- Accessible via JavaScript: document.referrer
+- Sometimes blocked by privacy settings or HTTPS restrictions
+
+3. **Ad Platform IDs**
+Facebook/Meta Ad IDs
+```YAML
+Common Parameters:
+- fbclid      : Facebook Click ID
+- fbadid      : Facebook Ad ID
+- fb_adid     : Alternative Facebook Ad ID format
+```
+
+**Implementation:**
+
+- Automatically added by Facebook Ads
+- Found in Facebook Ads Manager
+- Can be extracted from dynamic URL parameters
+- Often used in conversion tracking
+- Google Ad IDs
+```YAML
+Common Parameters:
+- gclid       : Google Click ID
+- gadid       : Google Ad ID
+- gaid        : Google Analytics ID
+```
+
+**Implementation:**
+
+- Automatically added by Google Ads
+- Found in Google Ads interface
+- Used for conversion tracking
+- Important for Google Analytics integration
+```YAML
+TikTok Ad IDs
+Common Parameters:
+- ttclid      : TikTok Click ID
+- ttadid      : TikTok Ad ID
+```
+
+**Implementation:**
+
+- Automatically added by TikTok Ads
+- Found in TikTok Ads Manager
+- Used for conversion attribution
+
+4. **MTA Vendor Parameters**
+```YAML
+Vendor-specific IDs:
+- nbt         : Northbeam tracking
+- tw_adid     : Triple Whale Ad ID
+- h_ad_id     : Hyros Ad ID
+```
+
+**Implementation:**
+
+- Added by respective attribution platforms
+- Usually requires platform-specific pixel installation
+- Often combined with platform native tracking
+
+**Example Full Attribution URL**
+```YAML
+https://example.com/product?
+  utm_source=facebook&
+  utm_medium=paid_social&
+  utm_campaign=summer_sale&
+  utm_content=video_ad_1&
+  fbclid=abc123&
+  fbadid=789xyz&
+  nbt=nb_campaign_456
+```
+
+### Common Implementation Methods
+1. **Direct URL Building**
+```YAML
+const baseUrl = 'https://example.com';
+const params = new URLSearchParams(\{
+    utm_source: 'facebook',
+    utm_medium: 'paid_social',
+    utm_campaign: 'summer_sale'
+\});
+const fullUrl = `${baseUrl}?${params.toString()}`;
+```
+
+2. **Platform Auto-Tagging**
+Most ad platforms offer automatic URL parameter addition:
+
+    - Facebook Ads Manager: Auto-adds fbclid, fbadid
+    - Google Ads: Auto-adds gclid
+    - TikTok Ads: Auto-adds ttclid
+
+3. **Marketing Tools Integration**
+Email/SMS platforms automatically add tracking:
+
+```YAML
+Klaviyo: 
+utm_source=klaviyo&utm_medium=email
+
+Attentive:
+utm_source=attentive&utm_medium=sms
+``` 
+
+### Attribution Parameter Best Practices
+**Consistent Naming:**
+```YAML
+✅ facebook, paid_social, summer_sale_2023
+❌ FB, Paid Social, Summer Sale
+```
+
+**Parameter Hierarchy:**
+
+1. Platform IDs (fbadid, gclid)
+2. UTM Parameters
+3. Custom Parameters
+
+**URL Length Considerations:**
+
+- Keep URLs under 2048 characters
+- Use URL shorteners for long URLs
+- Prioritize essential parameters
+
+**URL Tagging**
+1. Use lowercase consistently for all UTM parameters
+2. Follow standard naming conventions:
+```YAML
+utm_source: Platform/origin (e.g., facebook, google, tiktok)
+utm_medium: Traffic type (e.g., cpc, email, organic)
+utm_campaign: Campaign identifier (e.g. summer_sale)
+```
+
+3. Document any custom channel requirements with the data team
+
+**Testing:**
+
+- Verify parameters in analytics
+- Check attribution in test transactions
+- Validate against our test suite
+
+
+
+### Days to Conversion
+We now track how long it takes customers to make a purchase after their first interaction with different marketing touchpoints. This helps understand the customer journey and conversion timeline across three key dimensions:
+
+- Marketing Channels (e.g., Meta, Google, TikTok)
+- Ad Creatives
+- Landing Pages
+
+**Key Concepts**
+- Only calculated for successful purchases
+- Maximum tracking window of 120 days
+- Measures days between first valid touch and purchase
+- Independent tracking for each dimension
+- Automatically handles missing or invalid touchpoints
+
+**Business Value**
+- This data helps answer questions like:
+- How long does it typically take for Facebook ads to drive purchases?
+- Do certain landing pages lead to faster or slower conversions than others?
+- Which marketing channels have the shortest time to purchase?
+
+**Limitations**
+- Only tracks first touch to purchase (not intermediate touchpoints)
+- Requires at least one valid touch in the dimension being measured
+- Data older than 120 days is not included
+
+### Attribution Models
+We apply various MTA models to attribute revenue and conversions across valid touch points:
+
+1. **First-Touch Attribution**
+
+    - Assigns all credit to the first valid touch point in the purchase journey.
+    - Ideal for understanding initial customer acquisition channels.
+
+2. **Last-Touch Attribution**
+
+    - Assigns all credit to the last valid touch point before the purchase.
+    - Useful for identifying conversion-driving channels.
+
+3. **Linear Attribution**
+
+    - Distributes credit equally among all valid touch points.
+    - Provides a balanced view across the entire customer journey.
+
+<Note>Each dimension (marketing channels, ad creatives, landing pages) has independent first-touch, last-touch, and linear attribution calculations.</Note>
+
+### Valid Touch Point Criteria
+**Marketing Channel Touch Points**
+- Must Be: Non-purchase events with a mappable marketing channel.
+- Excluded: Google branded campaigns, (other), (none), and null values.
+
+**Ad Creative Touch Points**
+- Must Have: A valid ad creative ID (numerical, at least four digits).
+- Excluded: Brand search-associated ads.
+
+**Landing Page Touch Points**
+- Must Be: Non-purchase events with valid page paths.
+- Excluded: Checkout and order confirmation pages.
+
+## Reporting Capabilities
+Our model provides detailed reports to help you analyze and optimize your marketing efforts.
+
+### Channel Performance Reports
+- **Revenue Attribution**: See how much revenue is attributed to each marketing channel.
+- **Conversion Paths**: Understand the sequences of touch points leading to purchases.
+- **First vs. Last Touch Analysis**: Compare the effectiveness of channels in initiating vs. closing sales.
+
+### Journey Analysis Reports
+- **Journey Length Metrics**: Analyze the number of touch points and time taken before a purchase.
+- **Multi-Session Patterns**: Identify whether purchases occur in a single session or across multiple sessions.
+- **Cross-Channel Interactions**: Understand how different channels interact throughout the purchase journey.
+
+## Future Enhancements
+We are continually working to improve our MTA model. Upcoming features include:
+
+- **Advanced Attribution Models**: Time-decay and position-based models.
+- **Custom Attribution Weights**: Ability to assign custom weights to different touch points.
+- **Enhanced Ad Creative Analytics**: Deeper insights into the performance of specific ads.
+- **Zero-Party Data Integration**: Utilize customer-provided data for richer attribution.
+- **Discount Code Attribution**: Include discount codes as part of the attribution analysis.
+- **Direct Ad Platform Integrations**: Seamless data connections with platforms like Google Ads, Facebook Ads, etc.

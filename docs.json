@@ -578,7 +578,8 @@
             "pages": [
               "mta/mta-overview",
               "mta/mta-dash-provisioning",
-              "mta/mta-faqs"
+              "mta/mta-faqs",
+              "mta/mta-advanced-documentation"
             ]
           }
         ]
