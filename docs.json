@@ -436,6 +436,7 @@
               {
                 "group": "Channel Mapping",
                 "pages": [
+                  "data-inputs/configuration-sheet/how_does_channel_mapping_work",
                   "data-inputs/configuration-sheet/how-can-i-create-order-channels-and-subchannels"
                 ]
               },

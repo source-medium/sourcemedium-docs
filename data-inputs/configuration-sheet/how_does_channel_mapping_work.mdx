@@ -1,0 +1,224 @@
+---
+title: "How does channel mapping work in the SourceMedium Dashboard?"
+sidebarTitle: "How does channel mapping work?"
+icon: 'question-mark'
+---
+
+## Overview
+Channel mapping is a core feature that helps categorize orders and marketing spend into specific channels for better analysis and reporting. This documentation explains how orders are mapped to channels and how you can customize this mapping for your brand.
+
+## Channel Determination Process
+Orders are mapped to channels following this hierarchy:
+
+### 1. Exclusion Tag Check
+- If an order has the tag `"sm-exclude-order"`, it is automatically mapped to **"Excluded"**.
+- This takes precedence over **ALL** other rules.
+- Excluded orders won't appear in Executive Summary or LTV calculations.
+
+### 2. Brand Configuration Rules
+- Custom rules from your brand's **"Channel Mapping"** tab in configuration sheets.
+  - For more information on how to create order channel and sub-channel rules, [please see our guide here](/data-inputs/configuration-sheet/how-can-i-create-order-channels-and-subchannels).
+- Channel mapping can be based on the following order data:
+  - UTM parameters
+  - Order source
+  - Order tags
+  - Discount codes
+  - SKUs
+
+### 3. Default Channel Logic
+If no configuration rules match, the system applies these rules in order:
+- GRIN orders → **"Partners / Affiliates"**
+- Orders tagged with wholesale indicators → **"Wholesale"**
+- Exchange-related orders/tags → **"Exchanged"**
+- POS or Leap orders → **"Retail"**
+- Amazon-related orders → **"Amazon via Shopify"**
+- Draft orders → **"Draft Orders"**
+- Mirakl-tagged orders → **"Mirakl"**
+- All other orders → **"Online DTC"**
+
+## Standard Channel Definitions
+<AccordionGroup>
+<Accordion title="Online DTC">
+- Primary ecommerce sales channel.
+- Includes:
+  - Standard Shopify online store orders
+  - Performance marketing channels (Meta, Google, etc.)
+  - Email marketing
+  - SMS marketing
+  - Any orders not matching other criteria
+</Accordion>
+
+<Accordion title="Amazon">
+- Amazon Seller Central orders
+- Amazon Advertising
+- Amazon DSP (Display advertising)
+</Accordion>
+
+<Accordion title="Retail">
+ Retail
+- Physical retail store sales
+- Point of sale transactions
+- Leap platform sales
+</Accordion>
+
+<Accordion title="Wholesale">
+ Wholesale
+- B2B orders
+- Bulk orders
+- Faire marketplace orders
+</Accordion>
+
+<Accordion title="Mirakl">
+- Marketplace sales through Mirakl platform
+</Accordion>
+
+<Accordion title="Partners / Affiliates">
+- Influencer collaborations
+- Partnership orders
+- GRIN platform orders
+</Accordion>
+
+<Accordion title="Exchanged">
+- Order exchanges
+- Reshipments
+- Replacement orders
+</Accordion>
+
+<Accordion title="Excluded">
+- Orders tagged with `"sm-exclude-order"`
+- Not included in standard reporting
+- Not calculated in LTV models
+- Still visible when filtering by Channel
+</Accordion>
+</AccordionGroup>
+
+
+
+### Automated Channel Tagging with Shopify Flow
+Shopify Flow can help automate order tagging to ensure consistent channel mapping. Here's how to set it up:
+
+### Common Flow Triggers
+<AccordionGroup>
+<Accordion title= "Order Created">
+- Tag orders based on:
+  - Order source
+  - Payment gateway
+  - Shipping method
+  - Customer tags
+  - Product collections
+  - Discount codes used
+</Accordion>
+<Accordion title= "Order Tagged">
+- Add additional tags based on existing tags
+- Remove conflicting tags
+</Accordion>
+</AccordionGroup>
+
+
+### Example Flow Scenarios
+<AccordionGroup>
+<Accordion title= "Wholesale Orders">
+```liquid
+IF order.customer.tags CONTAINS "wholesale"
+OR order.discount_code CONTAINS "WHOLESALE-"
+THEN add_tag "wholesale"
+```
+</Accordion>
+<Accordion title="Exchange Orders">
+```liquid
+IF order.note CONTAINS "exchange"
+OR order.source_name EQUALS "returnly"
+THEN add_tag "exchange"
+```
+</Accordion>
+<Accordion title="Exclude Test Orders">
+```liquid
+IF order.email CONTAINS "@yourbrand.com"
+OR order.tags CONTAINS "staff-order"
+THEN add_tag "sm-exclude-order"
+```
+</Accordion>
+</AccordionGroup>
+
+## Best Practices for Flow Automation
+- Create flows for each major channel type.
+- Use consistent naming conventions for tags.
+- Document your Flow logic.
+- Test flows with sample orders.
+- Regularly audit flow effectiveness.
+
+## Sales Channel Attribution
+The system also tracks specific sales platforms and integrations, including:
+<AccordionGroup>
+<Accordion title= "Ecommerce & Apps">
+- Shopify online store
+- Shop App
+- TapCart
+- Mobile apps (iOS/Android)
+</Accordion>
+
+<Accordion title= "Subscription Platforms">
+- Shopify Subscription Contract
+- ReCharge
+</Accordion>
+
+<Accordion title= "Marketplaces">
+- Amazon via Shopify
+- Facebook/Meta
+- TikTok
+- Walmart
+- Instagram
+</Accordion>
+
+<Accordion title= "B2B Platforms">
+- Fermat
+- Convictional
+</Accordion>
+
+<Accordion title= "Order Management">
+- Draft Orders
+- Global-e
+- Gorgias
+- ParcelLab
+</Accordion>
+
+<Accordion title= "Marketing & Affiliate Platforms">
+- GRIN
+- LTK
+- CartHook
+- AfterSell
+</Accordion>
+</AccordionGroup>
+
+## Best Practices
+### 1. Using the Exclusion Tag
+- Tag orders with `"sm-exclude-order"` to exclude them from reporting.
+- Use for test orders, internal orders, or any orders that shouldn't count in analytics.
+- Set up Shopify Flow to automatically apply this tag when needed.
+
+### 2. Configuration Sheet Rules
+- Use for brand-specific channel mapping needs.
+- Create rules based on your unique business requirements.
+- Rules can combine multiple conditions (UTMs, tags, etc.).
+
+### 3. Channel Analysis
+- Use channel mapping for:
+  - Performance analysis by channel
+  - Channel-specific ROI calculations
+  - Customer acquisition analysis
+  - Marketing effectiveness measurement
+  - Budget allocation decisions
+
+### 4. Automated Tagging
+- Use Shopify Flow to maintain consistency.
+- Regularly review and update automation rules.
+- Monitor tag application for accuracy.
+
+## Important Notes
+- Excluded orders will still be visible when filtering by Channel.
+- Configuration rules can't override the `"sm-exclude-order"` tag.
+- Most orders default to **"Online DTC"** if no other rules match.
+- Channel mapping affects both order attribution and marketing spend attribution.
+- Automated tagging through Shopify Flow helps maintain data consistency.
+
+> For specific questions about your brand's channel mapping configuration or help setting up Shopify Flow automations, please reach out to your SourceMedium representative.
