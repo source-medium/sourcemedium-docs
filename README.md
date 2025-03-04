@@ -42,6 +42,16 @@ For making direct changes to documentation files (not generated from dbt), follo
 
 6. After merging, don't forget to update the main repository to point to the latest version of this submodule.
 
+7. When sending Slack notifications about documentation updates, include a link to the PR diffs:
+   ```
+   📚 *Documentation Update*: <description>
+
+   *View the updated documentation here*: <link>
+
+   *See PR & Diffs*: <PR-URL>/files
+   ```
+   This allows team members to easily view the changes made to the documentation.
+
 ## File Structure
 
 - `models/`: Documentation for dbt models
