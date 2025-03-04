@@ -1,8 +1,17 @@
 ## Overview
 
-The Customer Support data models provide analytics-ready transformations of your [Gorgias](https://www.gorgias.com/) customer support platform data in BigQuery. These models enable you to track, analyze, and visualize your customer support performance through our  [pre-built dashboard template](https://lookerstudio.google.com/s/iEvv2YdLPiM) or custom analysis via SQL.
+The Customer Support data models provide analytics-ready transformations of your [Gorgias](https://www.gorgias.com/) customer support platform data in BigQuery. These models enable you to track, analyze, and visualize your customer support performance through our [pre-built dashboard template](https://lookerstudio.google.com/s/iEvv2YdLPiM) or custom analysis via SQL.
 
 The integration transforms your raw Gorgias data into a structured, optimized format that follows SourceMedium's unified data model approach, ensuring consistent metrics definitions across all customer support platforms.
+
+### Why This Integration Matters
+
+Until now, your customer support data likely existed in isolation. This integration solves that problem by:
+
+- **Connecting siloed data systems**: Transform support data into actionable insights in your analytics environment
+- **Reducing data wrangling**: 60%+ reduction in data preparation time for your technical teams
+- **Providing immediate value**: Pre-built, open-source dashboard template ready for immediate visualization
+- **Enabling customer segmentation**: Join support data with Shopify customer data to understand how different segments experience your support
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/RtJ0MWYsIuU?si=1v8R3xTotqpTZiT1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
@@ -25,6 +34,7 @@ The Customer Support data models track several key performance indicators:
 - **One-Touch Resolution Rate**: Percentage of tickets resolved with a single agent interaction
 - **Open Tickets**: Total number of tickets currently open
 - **Resolution Distribution**: Distribution of tickets by resolution time (0-3 hours, 3-6 hours, etc.)
+- **Ticket Aging**: Visualization of how long tickets remain open, with customizable time buckets
 
 ### Customer Satisfaction
 - **CSAT Score**: Average customer satisfaction rating (1-5 scale)
@@ -35,51 +45,73 @@ The Customer Support data models track several key performance indicators:
 - **Tickets by Channel**: Distribution across channels (email, chat, social media, etc.)
 - **Tickets Created/Closed**: Total tickets created/closed in the selected period
 - **Messages per Ticket**: Average number of messages exchanged per ticket
+- **Channel Efficiency**: Analyze which channels have the highest one-touch resolution rates
+
+### Agent & Team Performance
+- **Resolution Metrics by Agent**: Track individual agent performance metrics
+- **Team Performance**: Compare metrics across support teams
+- **CSAT by Agent**: Identify coaching opportunities and recognize top performers
+
+## Audience-Specific Benefits
+
+### For CS Leaders
+- **Performance Tracking**: Monitor team and individual metrics with our ready-built dashboard template
+- **Agent Efficiency Analysis**: Filter by agent or team to visualize individual and group performance
+- **Report Generation**: Generate board-ready reports in minutes, not days
+- **Coaching Insights**: Identify opportunities for agent improvement based on resolution time and CSAT scores
+
+### For Data Teams
+- **Analytics-Ready Data**: Access clean, standardized support data in BigQuery alongside your other metrics
+- **Reduced Data Wrangling**: 60%+ reduction in data preparation time
+- **Unified Data Model**: Consistent metrics definitions across all customer support platforms
+- **Customer Journey Integration**: Connect support interactions with the complete customer journey
+
+### For Executives
+- **Operational Clarity**: Make data-driven decisions with a clear view of customer support operations
+- **Customer Experience Insights**: Understand how different customer segments experience your support
+- **Time-Series Analysis**: Track performance trends with period-over-period comparisons
+- **Resource Allocation**: Identify where additional support resources may be needed
 
 ## Key Tables & Fields
 
 ### obt_customer_support_tickets
 
-The primary reporting table for customer support analysis.
+The primary reporting table for customer support analysis, including metrics and dimensions for dashboard visualization.
 
 | Field | Description |
 |-------|-------------|
 | `sm_store_id` | SourceMedium Customer ID |
 | `source_system` | The system where the ticket originated (e.g., "gorgias") |
-| `ticket_source` | The source from which the ticket originated |
-| `ticket_channel` | The communication channel (email, chat, social, etc.) |
+| `ticket_communication_channel` | The communication channel (email, chat, social, etc.) |
+| `ticket_entry_method` | How the ticket was created |
 | `ticket_created_at_local_datetime` | Local datetime when the ticket was created |
 | `ticket_closed_at_local_datetime` | Local datetime when the ticket was closed |
-| `tickets_created` | Count of tickets created (1 or 0) |
-| `tickets_closed` | Count of tickets closed (1 or 0) |
-| `one_touch_tickets` | Whether the ticket was resolved in a single interaction |
+| `ticket_message_count` | Number of messages in the ticket thread |
 | `ticket_resolution_time_hours` | Time taken to resolve the ticket in hours |
-
-### dim_customer_support_tickets
-
-Detailed dimension table containing ticket attributes and metadata.
-
-| Field | Description |
-|-------|-------------|
-| `ticket_id` | Unique identifier for the ticket |
-| `ticket_external_id` | External identifier used in Gorgias |
-| `ticket_created_at` | UTC timestamp when the ticket was created |
-| `ticket_closed_at` | UTC timestamp when the ticket was closed |
-| `ticket_subject` | The subject line of the ticket |
-| `ticket_status` | Current status of the ticket (open, closed, pending) |
-| `ticket_priority` | Priority level assigned to the ticket |
-| `ticket_channel` | Communication channel used |
-| `ticket_assignee_email` | Email of the agent assigned to the ticket |
+| `is_ticket_one_touch` | Whether the ticket was resolved in a single interaction |
+| `ticket_csat_score` | Customer satisfaction score (1-5) if provided |
 
 ## Dashboard Capabilities
 
 The pre-built SourceMedium dashboard for Customer Support enables you to:
 
-1. **Filter data** by time period, channel, resolution time, and CSAT score
-2. **Monitor key metrics** through time-series visualizations
-3. **Analyze ticket resolution** by channel and time buckets
-4. **Track CSAT performance** and identify trends
-5. **Export data** for further analysis
+1. **Filter data** by time period, channel, resolution time, agent, team, and CSAT score
+2. **Monitor key metrics** through time-series visualizations with period-over-period comparisons
+3. **Analyze ticket resolution** by channel and customizable time buckets
+4. **Track CSAT performance** and identify trends across agents and channels
+5. **Measure agent and team performance** with detailed efficiency metrics
+6. **Export data** for further analysis to CSV or Google Sheets
+7. **Connect support data with customer segments** to understand how subscribers, first-time buyers, or high LTV customers experience your support
+
+## Data Model Implementation
+
+The Customer Support data models are implemented as a multi-layer transformation pipeline:
+
+1. **Staging Layer**: Raw data from the Gorgias API is extracted and staged
+2. **Fact/Dimension Layer**: Normalized data model with fact and dimension tables
+3. **Output Business Tables (OBT)**: Analytics-ready tables optimized for reporting
+
+The models are built using dbt and follow SourceMedium's unified data modeling approach, ensuring consistent metrics definitions across platforms and enabling seamless integration with your other business data.
 
 ## Common Use Cases
 
@@ -89,6 +121,8 @@ The pre-built SourceMedium dashboard for Customer Support enables you to:
 2. **Channel Analysis**: Identify which support channels have the highest volume and best resolution rates
 3. **Customer Satisfaction**: Monitor CSAT scores across channels and agents
 4. **SLA Compliance**: Track tickets against resolution time targets
+5. **Agent Coaching**: Identify agents who may need additional training or support based on resolution metrics
+6. **Support Volume Planning**: Analyze ticket trends to anticipate staffing needs
 
 ### For Data Engineers
 
@@ -96,17 +130,29 @@ The pre-built SourceMedium dashboard for Customer Support enables you to:
 2. **Data Integration**: Join customer support data with other business metrics
 3. **Custom Metrics**: Define and calculate additional KPIs beyond the pre-built dashboard
 4. **Historical Analysis**: Analyze trends and patterns in customer support performance over time
+5. **Customer Journey Analysis**: Connect support interactions with purchase behavior and marketing touchpoints
+6. **Segmentation Analysis**: Analyze support metrics across different customer segments (subscribers vs. one-time purchasers, high-value vs. low-value customers)
 
 ## Data Refresh Schedule
 
 The Gorgias data is updated daily through an automated ETL pipeline. The latest data available will typically represent activity from the previous day.
 
+## Technical Implementation
+
+The Customer Support data models are implemented with the following technical features:
+
+- **Incremental Loading**: Models use incremental loading patterns to efficiently process only new or changed data
+- **Partitioning**: Tables are partitioned by date for efficient querying
+- **Clustering**: Tables are clustered by key dimensions (smcid, source_system, and ticket_communication_channel)
+- **Timezone Handling**: All timestamps are stored in both UTC and local store timezone for flexible reporting
+- **Composite Keys**: Unique composite keys ensure data integrity across the model
+- **Standardized Naming**: Consistent naming conventions across all SourceMedium data models
+
 ## Notes & Additional Resources
 
 ### Debug Considerations for Engineers
 
-1. Export all Gorgias tickets by creating a Private view with no filters. [Instructions can be found here](https://docs.gorgias.com/en-US/exports-404844)
-2. Compare Ticket IDs available in the Gorgias exported tickets to the Ticket IDs available in the `dim_customer_support_tickets` table.
+Export all Gorgias tickets by creating a Private view with no filters. [Instructions can be found here](https://docs.gorgias.com/en-US/exports-404844)
 
 ### Additional Tickets in Warehouse
 
@@ -114,13 +160,21 @@ Due to API limitations tickets that have been fully deleted from the Gorgias pla
 
 ### Discrepancies vs. Gorgias internal analytics
 
-You may notice discrepancies for day-over-day and aggregated metrics versus the Source Medium calculated metrics. This is due to the method of aggregation utilized by Gorgias for their in-platform and API-provided analytics. Another factor that may cause discrepancies are user-account timezone settings. This is because Gorgias' in-platform analytics aggregates based on the timezone set for the user viewing them, whereas Source Medium aggregates based on your e-commerce platform native timezone. Gorgias provides excellent documentation and visualizations on how they calculate their analytics figures, which can be [found here](https://docs.gorgias.com/en-US/how-metrics-are-calculated-406747).
+You may notice discrepancies for day-over-day and aggregated metrics versus the SourceMedium calculated metrics. This is due to the method of aggregation utilized by Gorgias for their in-platform and API-provided analytics. Another factor that may cause discrepancies are user-account timezone settings. This is because Gorgias' in-platform analytics aggregates based on the timezone set for the user viewing them, whereas SourceMedium aggregates based on your e-commerce platform native timezone. Gorgias provides excellent documentation and visualizations on how they calculate their analytics figures, which can be [found here](https://docs.gorgias.com/en-US/how-metrics-are-calculated-406747).
 
+### Customizing the Dashboard
+
+The pre-built Looker Studio dashboard template is fully customizable:
+- Time buckets for resolution time analysis can be adjusted to match your SLAs
+- Additional metrics can be added using the underlying data model
+- Custom segments can be created by joining with your customer data
+- Visualizations can be modified or expanded based on your specific requirements
 
 ### Resources
-- [SourceMedium Documentation](https://docs.sourcemed.com/)
+- [SourceMedium Documentation](https://docs.sourcemedium.com/)
 - [Gorgias API Reference](https://developers.gorgias.com/reference/introduction)
 - [BigQuery SQL Reference](https://cloud.google.com/bigquery/docs/reference/standard-sql/query-syntax)
+- [SourceMedium LookerStudio Dashboard Template](https://lookerstudio.google.com/s/iEvv2YdLPiM)
 
 ---
 
