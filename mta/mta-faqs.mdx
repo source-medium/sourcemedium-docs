@@ -75,10 +75,177 @@ iconType: "solid"
         <Note>Learn more about the basics of Source Medium MTA in our [MTA Overview](/mta/mta-overview)</Note>
     </Accordion>
 
-    <Accordion title="How can I improve my attribution rate?">
-        Needs answer. To include verifying GA4 setup, links to Google Analytics documentation.
+    <Accordion title="Why doesn't Email/SMS receive first touch or linear attribution?">
+        Email and SMS channels are excluded from first touch and linear attribution for several important reasons:
 
-        <Note>Learn more about the basics of Source Medium MTA in our [MTA Overview](/mta/mta-overview)</Note>
+        1. **Existing Relationship Required**: By definition, Email and SMS require a customer to have already interacted with your brand (to provide their contact information), so they're rarely the true "first touch" in a customer's journey.
+
+        2. **Marketing Budget Allocation**: Including Email/SMS in all attribution models can lead to undervaluing true acquisition channels, causing misallocation of marketing budgets.
+
+        3. **Frequent Touches**: Email and SMS often have multiple touches in a journey, which can disproportionately influence linear attribution.
+
+        Instead, Source Medium provides a dedicated Email/SMS dimension that allows you to analyze the impact of these channels separately, while maintaining more accurate attribution for acquisition channels.
+
+        <Note>For more details, see our [Email & SMS Attribution](/mta/mta-email-sms-attribution) documentation.</Note>
+    </Accordion>
+
+    <Accordion title="Why do brand campaigns receive zero attribution?">
+        Brand campaigns receive zero attribution credit in Source Medium's MTA system because:
+
+        1. **Incremental Value**: Brand campaigns typically target users who would have found you anyway (searching specifically for your brand name).
+
+        2. **Last-Click Bias**: In traditional models, brand campaigns often receive disproportionate credit simply because they occur late in the purchase journey.
+
+        3. **Marketing Budget Optimization**: Attributing conversions to brand campaigns can lead to overinvestment in non-incremental marketing and underinvestment in true acquisition channels.
+
+        However, brand campaign metrics (spend, impressions, clicks) are still fully visible in the system. This approach gives you complete transparency into your marketing activities while preventing attribution bias.
+
+        <Note>For more details, see our [Brand Campaign Attribution](/mta/mta-brand-campaign-attribution) documentation.</Note>
+    </Accordion>
+
+    <Accordion title="What is the difference between ad-level and channel-level data?">
+        Source Medium's MTA system organizes marketing data at two distinct levels:
+
+        **Ad-Level Data**:
+        - Identified by specific `ad_id` values
+        - Contains complete ad metadata and performance metrics
+        - Receives attribution credit across all models
+        - Represents marketing activities that can be tied to specific creative assets
+
+        **Channel-Level Data**:
+        - Identified by `sm_marketing_channel` (e.g., Facebook, Google)
+        - Contains only unattributed metrics not already counted at the ad level
+        - Represents marketing activities that cannot be tied to specific ads
+        - Prevents double-counting while maintaining complete spend visibility
+
+        This dual approach ensures you have both granular ad-level insights and complete channel-level spend accountability.
+
+        <Note>For more details, see our [Channel-Level Attribution & Unattributed Metrics](/mta/mta-channel-level-attribution) documentation.</Note>
+    </Accordion>
+
+    <Accordion title="What is the dedicated Email/SMS dimension?">
+        The Email/SMS dimension is a specialized attribution dimension specifically designed for tracking and analyzing the impact of email and SMS messages on purchase journeys.
+
+        Key features include:
+        - **Message ID Extraction**: Identifies specific messages using utm_id, utm_content, or utm_term parameters
+        - **Display Format**: Uses a standardized [channel]message_id format (e.g., "[email]123456")
+        - **Performance Connection**: Links to engagement metrics from outbound message performance data
+        - **Attribution Rules**: Has its own specific attribution logic, separate from the marketing channel dimension
+
+        This dedicated dimension allows you to analyze email and SMS performance in detail, even while these channels are excluded from first touch and linear attribution in the marketing channel dimension.
+
+        <Note>For more details, see our [Email & SMS Attribution](/mta/mta-email-sms-attribution) documentation.</Note>
+    </Accordion>
+
+    <Accordion title="How can I improve my attribution rate?">
+        To improve your attribution rate (the percentage of purchases with attributable touchpoints), consider these approaches:
+
+        1. **Implement Proper UTM Parameters**:
+           - Ensure all marketing campaigns use consistent UTM parameters
+           - Add UTM parameters to email and SMS links
+           - Use unique campaign and content identifiers
+
+        2. **Connect Additional Data Sources**:
+           - Integrate all your marketing platforms with Source Medium
+           - Enable event tracking on your website and app
+           - Consider implementing a Customer Data Platform (CDP)
+
+        3. **Optimize Tracking Setup**:
+           - Verify your Google Analytics configuration
+           - Implement server-side tracking where possible
+           - Ensure cross-domain tracking is properly configured
+
+        4. **Review Attribution Windows**:
+           - Standard attribution window is 90 days
+           - Extending this window may capture more touchpoints
+           - Work with your SourceMedium account manager to adjust if needed
+
+        <Note>For technical assistance with improving attribution rates, contact your SourceMedium account manager.</Note>
+    </Accordion>
+
+    <Accordion title="Can I customize attribution rules for my business?">
+        Yes, Source Medium can implement custom attribution rules tailored to your business model. Common customizations include:
+
+        1. **Email/SMS Attribution Rules**:
+           - Enabling Email/SMS in last-touch attribution
+           - Customizing which message types receive attribution
+           - Special handling for referral or affiliate emails
+
+        2. **Brand Campaign Configuration**:
+           - Customizing what qualifies as a "brand" campaign
+           - Implementing partial attribution for brand campaigns
+           - Creating brand-specific attribution models
+
+        3. **Attribution Windows**:
+           - Adjusting lookback periods for specific product categories
+           - Setting different windows for different attribution models
+           - Configuring business-specific conversion cycles
+
+        4. **Custom Dimensions**:
+           - Creating industry-specific attribution dimensions
+           - Implementing custom weighting factors
+           - Building customer segment-specific models
+
+        To discuss custom attribution configurations, contact your SourceMedium account manager.
+    </Accordion>
+
+    <Accordion title="How do I analyze unattributed spend?">
+        Unattributed spend represents marketing activities that cannot be tied to specific ads but still contributes to overall marketing costs. To analyze this spend:
+
+        1. **Identify Channel-Level Rows**:
+           - Look for rows where `sm_marketing_channel` is present but `ad_id` is NULL
+           - These rows contain only the unattributed portion of each channel's metrics
+
+        2. **Run Analysis Queries**:
+           ```sql
+           -- Unattributed spend by channel
+           SELECT
+             sm_marketing_channel as channel,
+             SUM(ad_spend) as unattributed_spend
+           FROM `customers-managed.masterset.rpt_ad_attribution_performance_daily`
+           WHERE 
+             smcid = 'your-smcid'
+             AND date BETWEEN DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY) AND CURRENT_DATE()
+             AND sm_marketing_channel IS NOT NULL
+             AND ad_id IS NULL -- Only channel-level data
+           GROUP BY 1
+           ORDER BY 2 DESC
+           ```
+
+        3. **Calculate Unattributed Percentage**:
+           ```sql
+           -- Percentage of spend that is unattributed by channel
+           WITH channel_totals AS (
+             SELECT
+               COALESCE(sm_marketing_channel, 'Unknown') as channel,
+               SUM(ad_spend) as total_spend
+             FROM `customers-managed.masterset.rpt_ad_attribution_performance_daily`
+             WHERE smcid = 'your-smcid'
+               AND date BETWEEN DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY) AND CURRENT_DATE()
+             GROUP BY 1
+           ),
+           unattributed AS (
+             SELECT
+               sm_marketing_channel as channel,
+               SUM(ad_spend) as unattributed_spend
+             FROM `customers-managed.masterset.rpt_ad_attribution_performance_daily`
+             WHERE smcid = 'your-smcid'
+               AND date BETWEEN DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY) AND CURRENT_DATE()
+               AND sm_marketing_channel IS NOT NULL
+               AND ad_id IS NULL
+             GROUP BY 1
+           )
+           SELECT 
+             t.channel,
+             t.total_spend,
+             COALESCE(u.unattributed_spend, 0) as unattributed_spend,
+             SAFE_DIVIDE(COALESCE(u.unattributed_spend, 0), t.total_spend) * 100 as unattributed_percent
+           FROM channel_totals t
+           LEFT JOIN unattributed u ON t.channel = u.channel
+           ORDER BY 4 DESC
+           ```
+
+        <Note>For more details, see our [Channel-Level Attribution & Unattributed Metrics](/mta/mta-channel-level-attribution) documentation.</Note>
     </Accordion>
 
 </AccordionGroup>

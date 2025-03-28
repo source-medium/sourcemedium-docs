@@ -1,0 +1,142 @@
+---
+title: "Email & SMS Attribution in Source Medium MTA"
+sidebarTitle: "Email & SMS Attribution"
+description: "Understanding how Email and SMS messages are handled in Source Medium Multi-Touch Attribution"
+icon: "envelope"
+iconType: "solid"
+---
+
+# Email & SMS Attribution
+
+Source Medium's MTA system handles Email and SMS channels differently from other marketing channels. This special treatment is designed to provide a more accurate picture of acquisition performance while still recognizing the conversion power of owned marketing channels.
+
+## Special Attribution Rules for Email & SMS
+
+### Why Email/SMS Attribution Works Differently
+
+Email and SMS are unique marketing channels because:
+
+1. **Existing Relationship Required**: Unlike acquisition channels, Email and SMS require a prior relationship with the customer.
+2. **Skewed Attribution**: Without special rules, Email/SMS often receives disproportionate credit in first-touch and linear models.
+3. **Over-attribution Risk**: Including Email/SMS in all attribution models can lead to under-valuing true acquisition channels.
+
+### Email/SMS Attribution Rules
+
+To address these unique characteristics, Source Medium MTA applies the following rules:
+
+1. **First-Touch Attribution**: 
+   - Email/SMS channels do not receive first-touch attribution credit
+   - Credit goes to the earliest non-Email/SMS touch point instead
+   - For journeys with only Email/SMS touches, no first-touch attribution is assigned
+
+2. **Linear Attribution**:
+   - Email/SMS touches are excluded from linear attribution
+   - Credit is distributed only among non-Email/SMS touches
+   - For journeys with only Email/SMS touches, no linear attribution is assigned
+
+3. **Last-Touch Attribution**:
+   - Special customer-specific rules apply
+   - By default, Email/SMS is excluded from last-touch attribution
+   - For specific customers (currently only Elix Healing), Email/SMS can receive last-touch attribution
+   - This configuration is managed via the `is_email_sms_last_touch_enabled` setting
+
+4. **Email/SMS-Only Journeys**:
+   - Journeys where *all* touches are Email/SMS are generally not attributable
+   - These journeys show as "unattributed" in attribution reports
+   - Exception: Last-touch attribution for specific customers
+
+## Dedicated Email/SMS Dimension
+
+To provide visibility into Email and SMS performance while maintaining these special rules, Source Medium MTA includes a dedicated "email_sms" dimension.
+
+### Email/SMS Dimension Features
+
+- **Message ID Extraction**: Identifies specific email or SMS messages using:
+  1. `utm_id` (primary - used by Klaviyo and other ESPs)
+  2. `utm_content` (fallback option)
+  3. `utm_term` (secondary fallback)
+
+- **Display Format**: `[channel]message_id`
+  - Example: "[email]123456" or "[sms]789012"
+
+- **Connection to Message Performance**: Links to engagement metrics from `rpt_outbound_message_performance_daily`
+
+### Benefits of the Dedicated Dimension
+
+This approach provides the best of both worlds:
+- **Acquisition Accuracy**: By excluding Email/SMS from first touch and linear models, you get a clearer picture of which channels truly acquire customers
+- **Email/SMS Visibility**: Through the dedicated dimension, you still see the impact of Email/SMS on conversions
+- **Flexible Customer Configuration**: Customer-specific settings allow for business model adaptations
+
+## Analyzing Email/SMS Performance
+
+### Attribution Reports
+
+While Email/SMS channels generally do not receive attribution in first-touch and linear models, you can still analyze their performance:
+
+1. **Last-Touch Analysis** (for enabled customers):
+   - See which Email/SMS messages are most effective at closing sales
+   - Compare last-touch attribution to Email/SMS performance metrics
+
+2. **Email/SMS Dimension Analysis**:
+   - Track which messages appear in customer journeys
+   - Identify the Email/SMS messages most frequently associated with purchases
+
+### Example Analysis Queries
+
+```sql
+-- Email messages that appear most frequently in purchase journeys
+SELECT
+  SUBSTR(sm_event_ad_id, 8) as message_id,
+  COUNT(DISTINCT purchase_order_id) as journey_count
+FROM `customers-managed.masterset.obt_purchase_journeys_with_mta_models`
+WHERE 
+  smcid = 'your-smcid'
+  AND sm_event_marketing_channel IN ('email', 'sms')
+  AND sm_event_ad_id IS NOT NULL
+GROUP BY 1
+ORDER BY 2 DESC
+LIMIT 20
+```
+
+```sql
+-- Email performance metrics with last-touch attribution
+-- (only for customers with Email/SMS last-touch enabled)
+SELECT
+  r.campaign_name,
+  COUNT(DISTINCT r.message_id) as message_count,
+  SUM(r.message_unique_sends) as sends,
+  SUM(r.message_unique_opens) as opens,
+  SUM(r.message_unique_clicks) as clicks,
+  SUM(a.last_touch_revenue) as last_touch_revenue,
+  SUM(a.last_touch_revenue) / SUM(r.message_unique_sends) as revenue_per_send
+FROM `customers-managed.masterset.rpt_outbound_message_performance_daily` r
+LEFT JOIN (
+  SELECT
+    SUBSTR(sm_event_ad_id, 8) as message_id,
+    SUM(last_touch_revenue_impact.email_sms) as last_touch_revenue
+  FROM `customers-managed.masterset.obt_purchase_journeys_with_mta_models`
+  WHERE 
+    smcid = 'your-smcid'
+    AND sm_event_name = 'purchase'
+    AND last_touch_revenue_impact.email_sms > 0
+  GROUP BY 1
+) a ON r.message_id = a.message_id
+WHERE 
+  r.smcid = 'your-smcid'
+  AND r.sm_message_channel IN ('email', 'sms')
+  AND r.date BETWEEN DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY) AND CURRENT_DATE()
+GROUP BY 1
+ORDER BY 7 DESC
+```
+
+## Business Impact
+
+These Email/SMS attribution rules provide several business benefits:
+
+1. **More Accurate Channel Valuation**: Acquisition channels get proper credit for bringing in new customers
+2. **Better Budget Allocation**: Prevents overinvestment in email at the expense of true acquisition channels
+3. **Clearer Marketing Funnel**: Distinguishes between acquisition and retention/conversion channels
+4. **Adaptable to Business Models**: Customer-specific settings accommodate different business needs
+
+For businesses where Email/SMS plays a significant role in acquisition (e.g., referral programs delivered via email), custom attribution rules can be implemented. Contact your SourceMedium account manager to discuss your specific needs. 

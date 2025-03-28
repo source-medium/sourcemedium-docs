@@ -1,0 +1,222 @@
+---
+title: "Source Medium MTA Models Reference"
+sidebarTitle: "MTA Models Reference"
+description: "Understanding the core data models that power Source Medium Multi-Touch Attribution"
+icon: "database"
+iconType: "solid"
+---
+
+# Multi-Touch Attribution Data Models
+
+Source Medium's Multi-Touch Attribution system is built on several powerful data models that track customer journeys, calculate attribution, and provide insights into marketing performance. This guide explains the core models you can use for analysis and reporting.
+
+## Core Attribution Models
+
+### Purchase Journeys with MTA Models (`obt_purchase_journeys_with_mta_models`)
+
+This is the central model for multi-touch attribution, containing complete customer journey data with attribution calculations across multiple models and dimensions.
+
+#### Key Columns
+
+- **Identifiers**
+  - `smcid`: SourceMedium customer ID
+  - `source_system`: Original tracking source (Elevar, Blotout, etc.)
+  - `sm_touch_id`: Unique identifier for each touch point
+  - `purchase_order_id`: Associated order ID for purchase events
+
+- **Event Data**
+  - `sm_event_name`: Standardized event name
+  - `event_local_datetime`: Timestamp in customer's local timezone
+  - `sm_event_marketing_channel`: Marketing channel classification
+  - `sm_event_ad_id`: Ad identifier
+  - `sm_event_page_category`: Page category classification
+  - `sm_event_page_path`: Page path from the event
+
+- **Attribution Metadata**
+  - `attribution_metadata`: Contains UTM parameters and referrer information
+  - `has_non_email_sms_touch`: Indicates if journey has non-email/SMS touches
+  - `days_to_conversion`: Days between touch and conversion
+  - `purchase_journey_type`: Classification of the journey (single session, multi-session, etc.)
+
+- **Revenue Impact Metrics**
+  - `first_touch_revenue_impact`: Revenue attributed by first touch model for each dimension
+  - `last_touch_revenue_impact`: Revenue attributed by last touch model for each dimension
+  - `linear_revenue_impact`: Revenue attributed by linear model for each dimension
+
+- **Conversion Impact Metrics**
+  - `first_touch_conversion_impact`: Conversions attributed by first touch model
+  - `last_touch_conversion_impact`: Conversions attributed by last touch model
+  - `linear_conversion_impact`: Conversions attributed by linear model
+
+#### Special Features
+
+- **Email/SMS Handling**: The model implements special rules for Email/SMS channels
+  - Email/SMS touches are excluded from first touch and linear attribution
+  - Email/SMS can receive last touch attribution for specific customers
+  - A dedicated email_sms dimension tracks these touches separately
+
+- **Brand Campaign Handling**: Brand campaigns appear in data but receive zero attribution
+
+#### Example Queries
+
+```sql
+-- Revenue by marketing channel (first touch model)
+SELECT
+  sm_event_marketing_channel,
+  SUM(first_touch_revenue_impact.marketing_channel) as first_touch_revenue
+FROM `customers-managed.masterset.obt_purchase_journeys_with_mta_models`
+WHERE 
+  smcid = 'your-smcid'
+  AND first_touch_revenue_impact.marketing_channel > 0
+GROUP BY 1
+ORDER BY 2 DESC
+```
+
+### Ad Attribution Performance Daily (`rpt_ad_attribution_performance_daily`)
+
+This report model combines ad performance data with attribution metrics at both ad and channel levels, providing a comprehensive view of marketing performance.
+
+#### Key Columns
+
+- **Identifiers & Dimensions**
+  - `smcid`: SourceMedium customer ID
+  - `source_system`: Ad platform source
+  - `date`: Performance date
+  - `sm_marketing_channel`: Marketing channel (only for channel-level rows)
+  - `ad_id`: Ad identifier (only for ad-level rows)
+
+- **Ad Metadata**
+  - `ad_name`: Name of the ad
+  - `ad_campaign_id`: Campaign identifier
+  - `ad_campaign_name`: Campaign name
+  - `ad_campaign_type`: Campaign type
+  - `ad_campaign_tactic`: Campaign tactic (e.g., "brand", "prospecting")
+
+- **Performance Metrics**
+  - `ad_spend`: Amount spent on the ad
+  - `ad_clicks`: Number of clicks
+  - `ad_impressions`: Number of impressions
+  - `ad_platform_reported_conversions`: Conversions reported by the platform
+  - `ad_platform_reported_revenue`: Revenue reported by the platform
+
+- **Attribution Metrics**
+  - `sm_first_touch_revenue`: Revenue attributed via first touch model
+  - `sm_last_touch_revenue`: Revenue attributed via last touch model
+  - `sm_linear_revenue`: Revenue attributed via linear model
+  - `sm_first_touch_conversions`: Conversions attributed via first touch model
+  - `sm_last_touch_conversions`: Conversions attributed via last touch model
+  - `sm_linear_conversions`: Conversions attributed via linear model
+
+#### Special Features
+
+- **Channel-Level Unattributed Metrics**
+  - Channel-level rows (where `ad_id` is NULL) only include unattributed metrics not counted at the ad level
+  - This prevents double-counting while providing complete marketing spend visibility
+
+- **Brand Campaign Handling**
+  - Brand campaigns appear in the data with spend, impressions, and clicks
+  - Attribution metrics for brand campaigns are set to zero
+  - This allows full visibility into brand campaign performance while preventing attribution
+
+#### Example Queries
+
+```sql
+-- ROAS by Campaign (Last Touch Model)
+SELECT
+  ad_campaign_name,
+  SUM(ad_spend) as total_spend,
+  SUM(sm_last_touch_revenue) as attributed_revenue,
+  SAFE_DIVIDE(SUM(sm_last_touch_revenue), SUM(ad_spend)) as roas
+FROM `customers-managed.masterset.rpt_ad_attribution_performance_daily`
+WHERE 
+  smcid = 'your-smcid'
+  AND date BETWEEN DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY) AND CURRENT_DATE()
+  AND ad_id IS NOT NULL
+GROUP BY 1
+ORDER BY 4 DESC
+```
+
+## Supporting Models
+
+### Outbound Message Performance Daily (`rpt_outbound_message_performance_daily`)
+
+This model provides daily performance metrics for email and SMS campaigns, which can be connected to the Email/SMS dimension in the attribution models.
+
+#### Key Columns
+
+- **Identifiers**
+  - `smcid`: SourceMedium customer ID
+  - `date`: Performance date
+  - `sm_message_channel`: Channel (email or SMS)
+  - `message_id`: Unique identifier for the message
+  - `campaign_id`: Campaign identifier
+
+- **Message Metadata**
+  - `message_name`: Name of the message
+  - `message_subject`: Subject line of the message
+  - `campaign_name`: Name of the campaign
+
+- **Performance Metrics**
+  - `message_unique_sends`: Number of unique sends
+  - `message_unique_receives`: Number of unique receives
+  - `message_unique_opens`: Number of unique opens
+  - `message_unique_clicks`: Number of unique clicks
+  - `message_unique_bounces`: Number of unique bounces
+  - `platform_reported_orders`: Number of orders reported by the platform
+  - `platform_reported_order_revenue`: Revenue reported by the platform
+
+#### Usage with Attribution
+
+This model is particularly useful when analyzing the Email/SMS dimension in the MTA system, as it provides engagement metrics for the messages that appear in attribution reports.
+
+```sql
+-- Email campaign performance with attribution
+SELECT
+  r.campaign_name,
+  r.message_name,
+  SUM(r.message_unique_sends) as sends,
+  SUM(r.message_unique_opens) as opens,
+  SUM(r.message_unique_clicks) as clicks,
+  SUM(a.last_touch_revenue) as last_touch_revenue
+FROM `customers-managed.masterset.rpt_outbound_message_performance_daily` r
+LEFT JOIN (
+  SELECT
+    SUBSTR(sm_event_ad_id, 8) as message_id,
+    SUM(last_touch_revenue_impact.email_sms) as last_touch_revenue
+  FROM `customers-managed.masterset.obt_purchase_journeys_with_mta_models`
+  WHERE 
+    smcid = 'your-smcid'
+    AND sm_event_name = 'purchase'
+    AND last_touch_revenue_impact.email_sms > 0
+  GROUP BY 1
+) a ON r.message_id = a.message_id
+WHERE 
+  r.smcid = 'your-smcid'
+  AND r.date BETWEEN DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY) AND CURRENT_DATE()
+GROUP BY 1, 2
+ORDER BY 6 DESC
+```
+
+### Funnel Event History (`obt_funnel_event_history`)
+
+This model contains the raw event data that forms the basis of the attribution system, collecting and standardizing events from various sources.
+
+#### Key Features
+
+- Comprehensive collection of customer events across the purchase funnel
+- Standardized event schema following GA4 conventions
+- Deduplication of events across multiple sources
+- Extraction and normalization of UTM parameters and other identifiers
+
+While most users will interact with the attribution models rather than this raw event data, understanding its existence helps provide context for how the attribution system works. This model captures the individual interactions that make up customer journeys.
+
+## BigQuery Access and Customization
+
+All these models are available in your managed BigQuery instance, allowing you to:
+
+1. Build custom reports and visualizations
+2. Join attribution data with other business data
+3. Create advanced segmentation analyses
+4. Develop customer-specific attribution rules
+
+If you need assistance accessing these models or building custom queries, contact your SourceMedium account manager. 

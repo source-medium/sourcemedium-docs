@@ -584,6 +584,15 @@
             "group": "MTA",
             "pages": [
               "mta/mta-overview",
+              "mta/mta-models",
+              {
+                "group": "MTA Features",
+                "pages": [
+                  "mta/mta-email-sms-attribution",
+                  "mta/mta-brand-campaign-attribution",
+                  "mta/mta-channel-level-attribution"
+                ]
+              },
               "mta/mta-dash-provisioning",
               "mta/mta-faqs",
               "mta/mta-advanced-documentation"

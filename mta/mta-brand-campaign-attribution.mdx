@@ -1,0 +1,135 @@
+---
+title: "Brand Campaign Attribution in MTA"
+sidebarTitle: "Brand Campaign Attribution"
+description: "Understanding how brand campaigns are handled in Source Medium Multi-Touch Attribution"
+icon: "tag"
+iconType: "solid"
+---
+
+# Brand Campaign Attribution
+
+Source Medium's MTA system handles brand campaigns differently from non-brand campaigns. This document explains how brand campaigns are treated in attribution models and how to interpret their data.
+
+## What Are Brand Campaigns?
+
+Brand campaigns are marketing initiatives that target users already familiar with your brand, typically using branded search terms, remarketing audiences, or other brand-specific targeting methods. Common examples include:
+
+- Google Search ads for your company name
+- Meta ads targeted at your page's followers
+- Retargeting campaigns to previous site visitors
+
+## How Brand Campaigns Are Handled in MTA
+
+In Source Medium's MTA system, brand campaigns are treated with special rules:
+
+### 1. Zero Attribution Credit
+
+- Brand campaigns appear in performance data but receive **zero attribution credit**
+- The attribution metrics (first-touch, last-touch, linear) are all set to zero
+- This prevents over-attribution to brand terms customers would search for anyway
+
+### 2. Complete Performance Metrics
+
+- All campaign metadata, spend, impressions, and clicks are preserved
+- This allows complete performance reporting alongside attribution metrics
+- You can see exactly how much you're spending on brand campaigns
+
+### 3. Attribution Redistribution
+
+- Attribution credit that would have gone to brand campaigns is redistributed to non-brand touchpoints
+- This provides a more accurate picture of which marketing activities truly drive incremental business
+
+## Brand Campaign Identification
+
+Campaigns are identified as brand campaigns when:
+
+1. Campaign tactic is explicitly set to "brand" (`ad_campaign_tactic = 'brand'`)
+2. Campaign name contains "brand" but not "non-brand"
+3. For search campaigns, when using branded search terms
+
+## Analyzing Brand Campaign Performance
+
+While brand campaigns don't receive attribution credit, they remain important to analyze:
+
+### Metrics to Monitor
+
+- **Traditional Performance**: Clicks, impressions, CTR
+- **Cost Efficiency**: Cost per click, CPM
+- **Platform-Reported Metrics**: Conversions and revenue as reported by the platform
+- **Competitors Bidding**: Whether competitors are targeting your brand terms
+
+### Example Queries
+
+```sql
+-- Brand vs. Non-Brand Campaign Performance
+SELECT
+  CASE 
+    WHEN lower(ad_campaign_tactic) = 'brand' THEN 'Brand' 
+    ELSE 'Non-Brand' 
+  END as campaign_type,
+  SUM(ad_spend) as total_spend,
+  SUM(ad_impressions) as total_impressions,
+  SUM(ad_clicks) as total_clicks,
+  SUM(ad_platform_reported_conversions) as platform_conversions,
+  SUM(ad_platform_reported_revenue) as platform_revenue,
+  SUM(sm_first_touch_revenue) as attributed_revenue,
+  SAFE_DIVIDE(SUM(sm_first_touch_revenue), SUM(ad_spend)) as attributed_roas
+FROM `customers-managed.masterset.rpt_ad_attribution_performance_daily`
+WHERE 
+  smcid = 'your-smcid'
+  AND date BETWEEN DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY) AND CURRENT_DATE()
+GROUP BY 1
+ORDER BY 1
+```
+
+```sql
+-- Brand Campaign Metrics Over Time
+SELECT
+  DATE_TRUNC(date, MONTH) as month,
+  SUM(ad_spend) as brand_spend,
+  SUM(ad_impressions) as brand_impressions,
+  SUM(ad_clicks) as brand_clicks,
+  SAFE_DIVIDE(SUM(ad_clicks), SUM(ad_impressions)) as ctr,
+  SAFE_DIVIDE(SUM(ad_spend), SUM(ad_clicks)) as cpc
+FROM `customers-managed.masterset.rpt_ad_attribution_performance_daily`
+WHERE 
+  smcid = 'your-smcid'
+  AND lower(ad_campaign_tactic) = 'brand'
+  AND date >= DATE_SUB(CURRENT_DATE(), INTERVAL 6 MONTH)
+GROUP BY 1
+ORDER BY 1
+```
+
+## Business Implications
+
+### Why Brand Campaigns Receive Zero Attribution
+
+1. **Incremental Value**: Brand campaigns often target users who would have found you anyway
+2. **Last-Click Bias**: Brand campaigns typically occur late in the customer journey
+3. **Budget Allocation**: Attributing to brand campaigns can lead to overinvestment in non-incremental marketing
+
+### When Brand Campaigns Matter
+
+Despite receiving zero attribution credit, brand campaigns can still be valuable:
+
+- **Competitive Defense**: Protecting your brand terms from competitors
+- **Return Path Creation**: Providing an easy way back for customers considering your brand
+- **Remarketing Efficiency**: Re-engaging visitors who showed previous interest
+
+### Balanced Approach to Brand Campaigns
+
+Source Medium's approach allows you to:
+
+1. **See Complete Data**: All brand campaign performance metrics are visible
+2. **Make Informed Decisions**: Compare platform-reported vs. attributed metrics
+3. **Proper Budget Allocation**: Invest in truly incremental marketing while maintaining appropriate brand presence
+
+## Customizing Brand Campaign Handling
+
+If your business has unique requirements for brand campaign attribution, Source Medium can implement custom rules. Some options include:
+
+- **Partial Attribution**: Allowing brand campaigns to receive some attribution credit
+- **Custom Brand Definition**: Refining what constitutes a "brand" campaign for your business
+- **Advanced Models**: Implementing incrementality testing or other advanced attribution approaches
+
+Contact your SourceMedium account manager to discuss customization options that might be right for your business. 

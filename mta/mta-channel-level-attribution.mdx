@@ -1,0 +1,177 @@
+---
+title: "Channel-Level Attribution & Unattributed Metrics"
+sidebarTitle: "Channel-Level Attribution"
+description: "Understanding channel-level attribution and unattributed metrics in Source Medium MTA"
+icon: "chart-column"
+iconType: "solid"
+---
+
+# Channel-Level Attribution & Unattributed Metrics
+
+Source Medium's MTA system provides a complete view of marketing performance by combining ad-level attribution with channel-level metrics. This approach ensures that all marketing spend is accounted for, even when specific ads cannot be directly attributed.
+
+## Ad-Level vs. Channel-Level Data
+
+The MTA system organizes marketing data at two levels:
+
+### Ad-Level Data
+
+- **Granularity**: Individual ad creatives identified by `ad_id`
+- **Content**: Complete ad metadata, performance metrics, and attribution metrics
+- **Attribution**: Full attribution across first-touch, last-touch, and linear models
+- **Identification**: Records where `ad_id` is present and `sm_marketing_channel` is NULL
+
+### Channel-Level Data
+
+- **Granularity**: Marketing channels (Facebook, Google, etc.) identified by `sm_marketing_channel`
+- **Content**: Only unattributed spend, impressions, and clicks not already counted at the ad level
+- **Purpose**: Account for marketing activity that cannot be tied to specific ads
+- **Identification**: Records where `sm_marketing_channel` is present and `ad_id` is NULL
+
+## Unattributed Channel Metrics
+
+To prevent double-counting while ensuring complete marketing visibility, channel-level rows in the `rpt_ad_attribution_performance_daily` model contain only "unattributed" metrics:
+
+### What Are Unattributed Metrics?
+
+Unattributed metrics represent marketing activities that:
+1. Cannot be tied to a specific ad ID
+2. Are not already counted in ad-level metrics
+3. Still contribute to overall marketing spend and performance
+
+### Key Unattributed Metrics
+
+- `unattributed_channel_spend`: Marketing spend not associated with specific ads
+- `unattributed_channel_impressions`: Impressions not associated with specific ads
+- `unattributed_channel_clicks`: Clicks not associated with specific ads
+
+## How Unattributed Metrics Are Calculated
+
+The calculation of unattributed metrics follows this process:
+
+1. **Total Channel Metrics**: Calculate total spend, impressions, and clicks for each channel
+2. **Ad-Level Metrics**: Calculate the sum of these metrics for all ads in the channel
+3. **Unattributed Metrics**: Subtract ad-level metrics from total channel metrics
+
+This approach ensures that:
+- No metric is counted twice
+- All marketing spend is accounted for
+- Channel-level analysis is complete and accurate
+
+## Analyzing Channel and Ad-Level Data Together
+
+When analyzing marketing performance, it's important to consider both ad-level and channel-level data:
+
+### Complete Channel Analysis
+
+To get a complete view of a channel's performance:
+
+```sql
+-- Complete channel performance including attributed and unattributed metrics
+SELECT
+  COALESCE(sm_marketing_channel, 'Unknown') as channel,
+  SUM(ad_spend) as total_spend,
+  SUM(ad_impressions) as total_impressions,
+  SUM(ad_clicks) as total_clicks,
+  SUM(sm_first_touch_revenue) as first_touch_revenue,
+  SUM(sm_last_touch_revenue) as last_touch_revenue,
+  SUM(sm_linear_revenue) as linear_revenue,
+  SAFE_DIVIDE(SUM(sm_first_touch_revenue), SUM(ad_spend)) as first_touch_roas
+FROM `customers-managed.masterset.rpt_ad_attribution_performance_daily`
+WHERE 
+  smcid = 'your-smcid'
+  AND date BETWEEN DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY) AND CURRENT_DATE()
+GROUP BY 1
+ORDER BY 2 DESC
+```
+
+### Ad-Level Detail
+
+For granular analysis of the specific ads driving performance:
+
+```sql
+-- Ad-level performance for a specific channel
+SELECT
+  ad_name,
+  ad_campaign_name,
+  SUM(ad_spend) as ad_spend,
+  SUM(ad_impressions) as impressions,
+  SUM(ad_clicks) as clicks,
+  SUM(sm_first_touch_revenue) as first_touch_revenue,
+  SUM(sm_last_touch_revenue) as last_touch_revenue,
+  SUM(sm_linear_revenue) as linear_revenue,
+  SAFE_DIVIDE(SUM(sm_linear_revenue), SUM(ad_spend)) as linear_roas
+FROM `customers-managed.masterset.rpt_ad_attribution_performance_daily`
+WHERE 
+  smcid = 'your-smcid'
+  AND date BETWEEN DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY) AND CURRENT_DATE()
+  AND source_system = 'facebook' -- or other channel
+  AND ad_id IS NOT NULL -- Only ad-level data
+GROUP BY 1, 2
+ORDER BY 9 DESC -- Ordered by ROAS
+```
+
+### Unattributed Analysis
+
+To specifically analyze unattributed spend within channels:
+
+```sql
+-- Unattributed metrics by channel
+SELECT
+  sm_marketing_channel as channel,
+  SUM(ad_spend) as unattributed_spend,
+  SUM(ad_impressions) as unattributed_impressions,
+  SUM(ad_clicks) as unattributed_clicks
+FROM `customers-managed.masterset.rpt_ad_attribution_performance_daily`
+WHERE 
+  smcid = 'your-smcid'
+  AND date BETWEEN DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY) AND CURRENT_DATE()
+  AND sm_marketing_channel IS NOT NULL
+  AND ad_id IS NULL -- Only channel-level unattributed data
+GROUP BY 1
+ORDER BY 2 DESC
+```
+
+## Business Value of Unattributed Metrics
+
+Including unattributed metrics in the MTA system provides several business benefits:
+
+### 1. Complete Marketing Picture
+
+- **Total Cost Visibility**: Account for all marketing spend, not just ad-level spend
+- **Performance Context**: Understand channel performance holistically
+- **Budget Validation**: Reconcile platform-reported spend with actual spend
+
+### 2. Accurate Attribution Metrics
+
+- **No Double-Counting**: Attribution metrics remain accurate by avoiding duplication
+- **Clean Data Separation**: Ad-level and channel-level data remain distinct
+- **Proper Denominator**: ROI/ROAS calculations use correct total spend figures
+
+### 3. Marketing Mix Insights
+
+- **Channel Efficiency**: Compare attributed and unattributed spend by channel
+- **Data Quality Gaps**: Identify channels with high unattributed percentages
+- **Optimization Opportunities**: Focus on reducing unattributed spend through better tracking
+
+## Frequently Asked Questions
+
+### Why do some channels have high unattributed spend?
+
+Channels may have high unattributed spend due to:
+- Poor UTM parameter implementation
+- API limitations not providing ad-level data
+- Manual or offline marketing activities
+- Technical tracking limitations
+
+### How can I reduce unattributed spend?
+
+To reduce unattributed spend:
+- Implement consistent UTM parameters across all campaigns
+- Use dedicated tracking links for offline campaigns
+- Ensure proper API connections for all platforms
+- Work with your SourceMedium account manager to improve tracking
+
+### Can unattributed spend receive attribution?
+
+Unattributed spend cannot directly receive attribution in the MTA system since it cannot be tied to specific touchpoints in customer journeys. However, it's still included in overall channel metrics to provide complete performance visibility. 
