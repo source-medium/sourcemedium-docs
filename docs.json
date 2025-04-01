@@ -595,7 +595,8 @@
               },
               "mta/mta-dash-provisioning",
               "mta/mta-faqs",
-              "mta/mta-advanced-documentation"
+              "mta/mta-advanced-documentation",
+              "/mta/mta-release-notes"
             ]
           }
         ]
