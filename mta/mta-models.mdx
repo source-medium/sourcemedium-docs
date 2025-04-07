@@ -64,7 +64,7 @@ This is the central model for multi-touch attribution, containing complete custo
 SELECT
   sm_event_marketing_channel,
   SUM(first_touch_revenue_impact.marketing_channel) as first_touch_revenue
-FROM `customers-managed.masterset.obt_purchase_journeys_with_mta_models`
+FROM `sm-{{account_id}}.sm_transformed_v2_purchase_journeys_with_mta_models`
 WHERE 
   smcid = 'your-smcid'
   AND first_touch_revenue_impact.marketing_channel > 0
@@ -127,7 +127,7 @@ SELECT
   SUM(ad_spend) as total_spend,
   SUM(sm_last_touch_revenue) as attributed_revenue,
   SAFE_DIVIDE(SUM(sm_last_touch_revenue), SUM(ad_spend)) as roas
-FROM `customers-managed.masterset.rpt_ad_attribution_performance_daily`
+FROM `sm-{{account_id}}.sm_transformed_v2_ad_attribution_performance_daily`
 WHERE 
   smcid = 'your-smcid'
   AND date BETWEEN DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY) AND CURRENT_DATE()
@@ -178,12 +178,12 @@ SELECT
   SUM(r.message_unique_opens) as opens,
   SUM(r.message_unique_clicks) as clicks,
   SUM(a.last_touch_revenue) as last_touch_revenue
-FROM `customers-managed.masterset.rpt_outbound_message_performance_daily` r
+FROM `sm-{{account_id}}.sm_transformed_v2_outbound_message_performance_daily` r
 LEFT JOIN (
   SELECT
     SUBSTR(sm_event_ad_id, 8) as message_id,
     SUM(last_touch_revenue_impact.email_sms) as last_touch_revenue
-  FROM `customers-managed.masterset.obt_purchase_journeys_with_mta_models`
+  FROM `sm-{{account_id}}.sm_transformed_v2_purchase_journeys_with_mta_models`
   WHERE 
     smcid = 'your-smcid'
     AND sm_event_name = 'purchase'

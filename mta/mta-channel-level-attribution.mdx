@@ -77,7 +77,7 @@ SELECT
   SUM(sm_last_touch_revenue) as last_touch_revenue,
   SUM(sm_linear_revenue) as linear_revenue,
   SAFE_DIVIDE(SUM(sm_first_touch_revenue), SUM(ad_spend)) as first_touch_roas
-FROM `customers-managed.masterset.rpt_ad_attribution_performance_daily`
+FROM `sm-{{account_id}}.sm_transformed_v2_ad_attribution_performance_daily`
 WHERE 
   smcid = 'your-smcid'
   AND date BETWEEN DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY) AND CURRENT_DATE()
@@ -101,7 +101,7 @@ SELECT
   SUM(sm_last_touch_revenue) as last_touch_revenue,
   SUM(sm_linear_revenue) as linear_revenue,
   SAFE_DIVIDE(SUM(sm_linear_revenue), SUM(ad_spend)) as linear_roas
-FROM `customers-managed.masterset.rpt_ad_attribution_performance_daily`
+FROM `sm-{{account_id}}.sm_transformed_v2_ad_attribution_performance_daily`
 WHERE 
   smcid = 'your-smcid'
   AND date BETWEEN DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY) AND CURRENT_DATE()
@@ -122,7 +122,7 @@ SELECT
   SUM(ad_spend) as unattributed_spend,
   SUM(ad_impressions) as unattributed_impressions,
   SUM(ad_clicks) as unattributed_clicks
-FROM `customers-managed.masterset.rpt_ad_attribution_performance_daily`
+FROM `sm-{{account_id}}.sm_transformed_v2_ad_attribution_performance_daily`
 WHERE 
   smcid = 'your-smcid'
   AND date BETWEEN DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY) AND CURRENT_DATE()

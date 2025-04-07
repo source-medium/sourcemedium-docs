@@ -202,7 +202,7 @@ iconType: "solid"
            SELECT
              sm_marketing_channel as channel,
              SUM(ad_spend) as unattributed_spend
-           FROM `customers-managed.masterset.rpt_ad_attribution_performance_daily`
+           FROM `sm-{{account_id}}.sm_transformed_v2_ad_attribution_performance_daily`
            WHERE 
              smcid = 'your-smcid'
              AND date BETWEEN DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY) AND CURRENT_DATE()
@@ -219,7 +219,7 @@ iconType: "solid"
              SELECT
                COALESCE(sm_marketing_channel, 'Unknown') as channel,
                SUM(ad_spend) as total_spend
-             FROM `customers-managed.masterset.rpt_ad_attribution_performance_daily`
+             FROM `sm-{{account_id}}.sm_transformed_v2_ad_attribution_performance_daily`
              WHERE smcid = 'your-smcid'
                AND date BETWEEN DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY) AND CURRENT_DATE()
              GROUP BY 1
@@ -228,7 +228,7 @@ iconType: "solid"
              SELECT
                sm_marketing_channel as channel,
                SUM(ad_spend) as unattributed_spend
-             FROM `customers-managed.masterset.rpt_ad_attribution_performance_daily`
+             FROM `sm-{{account_id}}.sm_transformed_v2_ad_attribution_performance_daily`
              WHERE smcid = 'your-smcid'
                AND date BETWEEN DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY) AND CURRENT_DATE()
                AND sm_marketing_channel IS NOT NULL

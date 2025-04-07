@@ -20,7 +20,7 @@ blah blah
                 1 AS length,
                 concat(p.product_title, ' - ', p.variant_title) AS combo,
                 concat(p.product_title, ' - ', p.variant_title) AS lastitem
-            FROM `customers-managed.masterset.product_performance` AS p
+            FROM `sm-{{account_id}}.sm_transformed_v1.product_performance` AS p
             WHERE p.smcid = 'lilacst'
 
             UNION ALL
@@ -32,7 +32,7 @@ blah blah
                 CONCAT(r.combo, ', ', concat(p.product_title, ' - ', p.variant_title)) AS combo,
                 concat(p.product_title, ' - ', p.variant_title) AS lastitem
             FROM `CTE` AS r
-            INNER JOIN `customers-managed.masterset.product_performance` AS p
+            INNER JOIN `sm-{{account_id}}.sm_transformed_v1.product_performance` AS p
                 ON
                     p.order_id = r.order_id
                     AND concat(p.product_title, ' - ', p.variant_title) > r.lastitem

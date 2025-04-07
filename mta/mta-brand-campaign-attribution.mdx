@@ -76,7 +76,7 @@ SELECT
   SUM(ad_platform_reported_revenue) as platform_revenue,
   SUM(sm_first_touch_revenue) as attributed_revenue,
   SAFE_DIVIDE(SUM(sm_first_touch_revenue), SUM(ad_spend)) as attributed_roas
-FROM `customers-managed.masterset.rpt_ad_attribution_performance_daily`
+FROM `sm-{{account_id}}.sm_transformed_v2_ad_attribution_performance_daily`
 WHERE 
   smcid = 'your-smcid'
   AND date BETWEEN DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY) AND CURRENT_DATE()
@@ -93,7 +93,7 @@ SELECT
   SUM(ad_clicks) as brand_clicks,
   SAFE_DIVIDE(SUM(ad_clicks), SUM(ad_impressions)) as ctr,
   SAFE_DIVIDE(SUM(ad_spend), SUM(ad_clicks)) as cpc
-FROM `customers-managed.masterset.rpt_ad_attribution_performance_daily`
+FROM `sm-{{account_id}}.sm_transformed_v2_ad_attribution_performance_daily`
 WHERE 
   smcid = 'your-smcid'
   AND lower(ad_campaign_tactic) = 'brand'
