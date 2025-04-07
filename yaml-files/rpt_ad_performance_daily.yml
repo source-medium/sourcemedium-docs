@@ -10,17 +10,17 @@ models:
     columns:
       - name: sm_master_account_id
         description: >
-          The unique identifier for the master account that is associated with the SourceMedium smcid.
+          The unique identifier for the master account that is associated with the SourceMedium sm_store_id.
       
       - name: sm_parent_company_name
         description: >
-          The name of the parent company that is associated with the SourceMedium smcid.
+          The name of the parent company that is associated with the SourceMedium sm_store_id.
       
       - name: sm_store_name
         description: >
-          The name of the store that is associated with the SourceMedium smcid.
+          The name of the store that is associated with the SourceMedium sm_store_id.
       
-      - name: smcid
+      - name: sm_store_id
         description: >
           The SourceMedium ID of a store, which is derived from the store's myshopify.com domain.
         tests:

@@ -91,7 +91,7 @@ SELECT
   COUNT(DISTINCT purchase_order_id) as journey_count
 FROM `sm-{{account_id}}.sm_transformed_v2_purchase_journeys_with_mta_models`
 WHERE 
-  smcid = 'your-smcid'
+  sm_store_id = 'your-sm_store_id'
   AND sm_event_marketing_channel IN ('email', 'sms')
   AND sm_event_ad_id IS NOT NULL
 GROUP BY 1
@@ -117,13 +117,13 @@ LEFT JOIN (
     SUM(last_touch_revenue_impact.email_sms) as last_touch_revenue
   FROM `sm-{{account_id}}.sm_transformed_v2_purchase_journeys_with_mta_models`
   WHERE 
-    smcid = 'your-smcid'
+    sm_store_id = 'your-sm_store_id'
     AND sm_event_name = 'purchase'
     AND last_touch_revenue_impact.email_sms > 0
   GROUP BY 1
 ) a ON r.message_id = a.message_id
 WHERE 
-  r.smcid = 'your-smcid'
+  r.sm_store_id = 'your-sm_store_id'
   AND r.sm_message_channel IN ('email', 'sms')
   AND r.date BETWEEN DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY) AND CURRENT_DATE()
 GROUP BY 1

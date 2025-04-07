@@ -19,7 +19,7 @@ This is the central model for multi-touch attribution, containing complete custo
 #### Key Columns
 
 - **Identifiers**
-  - `smcid`: SourceMedium customer ID
+  - `sm_store_id`: SourceMedium customer ID
   - `source_system`: Original tracking source (Elevar, Blotout, etc.)
   - `sm_touch_id`: Unique identifier for each touch point
   - `purchase_order_id`: Associated order ID for purchase events
@@ -66,7 +66,7 @@ SELECT
   SUM(first_touch_revenue_impact.marketing_channel) as first_touch_revenue
 FROM `sm-{{account_id}}.sm_transformed_v2_purchase_journeys_with_mta_models`
 WHERE 
-  smcid = 'your-smcid'
+  sm_store_id = 'your-sm_store_id'
   AND first_touch_revenue_impact.marketing_channel > 0
 GROUP BY 1
 ORDER BY 2 DESC
@@ -79,7 +79,7 @@ This report model combines ad performance data with attribution metrics at both 
 #### Key Columns
 
 - **Identifiers & Dimensions**
-  - `smcid`: SourceMedium customer ID
+  - `sm_store_id`: SourceMedium customer ID
   - `source_system`: Ad platform source
   - `date`: Performance date
   - `sm_marketing_channel`: Marketing channel (only for channel-level rows)
@@ -129,7 +129,7 @@ SELECT
   SAFE_DIVIDE(SUM(sm_last_touch_revenue), SUM(ad_spend)) as roas
 FROM `sm-{{account_id}}.sm_transformed_v2_ad_attribution_performance_daily`
 WHERE 
-  smcid = 'your-smcid'
+  sm_store_id = 'your-sm_store_id'
   AND date BETWEEN DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY) AND CURRENT_DATE()
   AND ad_id IS NOT NULL
 GROUP BY 1
@@ -145,7 +145,7 @@ This model provides daily performance metrics for email and SMS campaigns, which
 #### Key Columns
 
 - **Identifiers**
-  - `smcid`: SourceMedium customer ID
+  - `sm_store_id`: SourceMedium customer ID
   - `date`: Performance date
   - `sm_message_channel`: Channel (email or SMS)
   - `message_id`: Unique identifier for the message
@@ -185,13 +185,13 @@ LEFT JOIN (
     SUM(last_touch_revenue_impact.email_sms) as last_touch_revenue
   FROM `sm-{{account_id}}.sm_transformed_v2_purchase_journeys_with_mta_models`
   WHERE 
-    smcid = 'your-smcid'
+    sm_store_id = 'your-sm_store_id'
     AND sm_event_name = 'purchase'
     AND last_touch_revenue_impact.email_sms > 0
   GROUP BY 1
 ) a ON r.message_id = a.message_id
 WHERE 
-  r.smcid = 'your-smcid'
+  r.sm_store_id = 'your-sm_store_id'
   AND r.date BETWEEN DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY) AND CURRENT_DATE()
 GROUP BY 1, 2
 ORDER BY 6 DESC

@@ -204,7 +204,7 @@ iconType: "solid"
              SUM(ad_spend) as unattributed_spend
            FROM `sm-{{account_id}}.sm_transformed_v2_ad_attribution_performance_daily`
            WHERE 
-             smcid = 'your-smcid'
+             sm_store_id = 'your-sm_store_id'
              AND date BETWEEN DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY) AND CURRENT_DATE()
              AND sm_marketing_channel IS NOT NULL
              AND ad_id IS NULL -- Only channel-level data
@@ -220,7 +220,7 @@ iconType: "solid"
                COALESCE(sm_marketing_channel, 'Unknown') as channel,
                SUM(ad_spend) as total_spend
              FROM `sm-{{account_id}}.sm_transformed_v2_ad_attribution_performance_daily`
-             WHERE smcid = 'your-smcid'
+             WHERE sm_store_id = 'your-sm_store_id'
                AND date BETWEEN DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY) AND CURRENT_DATE()
              GROUP BY 1
            ),
@@ -229,7 +229,7 @@ iconType: "solid"
                sm_marketing_channel as channel,
                SUM(ad_spend) as unattributed_spend
              FROM `sm-{{account_id}}.sm_transformed_v2_ad_attribution_performance_daily`
-             WHERE smcid = 'your-smcid'
+             WHERE sm_store_id = 'your-sm_store_id'
                AND date BETWEEN DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY) AND CURRENT_DATE()
                AND sm_marketing_channel IS NOT NULL
                AND ad_id IS NULL
@@ -241,7 +241,7 @@ iconType: "solid"
              COALESCE(u.unattributed_spend, 0) as unattributed_spend,
              SAFE_DIVIDE(COALESCE(u.unattributed_spend, 0), t.total_spend) * 100 as unattributed_percent
            FROM channel_totals t
-           LEFT JOIN unattributed u ON t.channel = u.channel
+           LEFT JOIN unattributed u ON t.sm_channel u.channel
            ORDER BY 4 DESC
            ```
 

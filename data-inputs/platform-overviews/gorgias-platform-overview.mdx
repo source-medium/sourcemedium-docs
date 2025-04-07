@@ -143,7 +143,7 @@ The Customer Support data models are implemented with the following technical fe
 
 - **Incremental Loading**: Models use incremental loading patterns to efficiently process only new or changed data
 - **Partitioning**: Tables are partitioned by date for efficient querying
-- **Clustering**: Tables are clustered by key dimensions (smcid, source_system, and ticket_communication_channel)
+- **Clustering**: Tables are clustered by key dimensions (sm_store_id, source_system, and ticket_communication_channel)
 - **Timezone Handling**: All timestamps are stored in both UTC and local store timezone for flexible reporting
 - **Composite Keys**: Unique composite keys ensure data integrity across the model
 - **Standardized Naming**: Consistent naming conventions across all SourceMedium data models

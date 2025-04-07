@@ -79,7 +79,7 @@ SELECT
   SAFE_DIVIDE(SUM(sm_first_touch_revenue), SUM(ad_spend)) as first_touch_roas
 FROM `sm-{{account_id}}.sm_transformed_v2_ad_attribution_performance_daily`
 WHERE 
-  smcid = 'your-smcid'
+  sm_store_id = 'your-sm_store_id'
   AND date BETWEEN DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY) AND CURRENT_DATE()
 GROUP BY 1
 ORDER BY 2 DESC
@@ -103,7 +103,7 @@ SELECT
   SAFE_DIVIDE(SUM(sm_linear_revenue), SUM(ad_spend)) as linear_roas
 FROM `sm-{{account_id}}.sm_transformed_v2_ad_attribution_performance_daily`
 WHERE 
-  smcid = 'your-smcid'
+  sm_store_id = 'your-sm_store_id'
   AND date BETWEEN DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY) AND CURRENT_DATE()
   AND source_system = 'facebook' -- or other channel
   AND ad_id IS NOT NULL -- Only ad-level data
@@ -124,7 +124,7 @@ SELECT
   SUM(ad_clicks) as unattributed_clicks
 FROM `sm-{{account_id}}.sm_transformed_v2_ad_attribution_performance_daily`
 WHERE 
-  smcid = 'your-smcid'
+  sm_store_id = 'your-sm_store_id'
   AND date BETWEEN DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY) AND CURRENT_DATE()
   AND sm_marketing_channel IS NOT NULL
   AND ad_id IS NULL -- Only channel-level unattributed data

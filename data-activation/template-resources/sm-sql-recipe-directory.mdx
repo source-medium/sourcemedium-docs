@@ -15,18 +15,18 @@ blah blah
         WITH RECURSIVE `CTE` AS (
             -- Anchor Query
             SELECT
-                p.smcid,
+                p.sm_store_id,
                 p.order_id,
                 1 AS length,
                 concat(p.product_title, ' - ', p.variant_title) AS combo,
                 concat(p.product_title, ' - ', p.variant_title) AS lastitem
             FROM `sm-{{account_id}}.sm_transformed_v1.product_performance` AS p
-            WHERE p.smcid = 'lilacst'
+            WHERE p.sm_store_id = 'your-sm_store_id'
 
             UNION ALL
             -- Recursive Part
             SELECT
-                p.smcid,
+                p.sm_store_id,
                 p.order_id,
                 r.length + 1 AS length,
                 CONCAT(r.combo, ', ', concat(p.product_title, ' - ', p.variant_title)) AS combo,

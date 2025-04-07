@@ -78,7 +78,7 @@ SELECT
   SAFE_DIVIDE(SUM(sm_first_touch_revenue), SUM(ad_spend)) as attributed_roas
 FROM `sm-{{account_id}}.sm_transformed_v2_ad_attribution_performance_daily`
 WHERE 
-  smcid = 'your-smcid'
+  sm_store_id = 'your-sm_store_id'
   AND date BETWEEN DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY) AND CURRENT_DATE()
 GROUP BY 1
 ORDER BY 1
@@ -95,7 +95,7 @@ SELECT
   SAFE_DIVIDE(SUM(ad_spend), SUM(ad_clicks)) as cpc
 FROM `sm-{{account_id}}.sm_transformed_v2_ad_attribution_performance_daily`
 WHERE 
-  smcid = 'your-smcid'
+  sm_store_id = 'your-sm_store_id'
   AND lower(ad_campaign_tactic) = 'brand'
   AND date >= DATE_SUB(CURRENT_DATE(), INTERVAL 6 MONTH)
 GROUP BY 1
