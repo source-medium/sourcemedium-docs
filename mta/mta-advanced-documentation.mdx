@@ -103,6 +103,63 @@ We assess the complexity of a purchase journey by counting the **distinct** valu
 
 In our default reporting template, you can set a minimum number of distinct values required for a journey to be included in MTA analysis. By default, this is set to **2**.
 
+### Linear Attribution Deduplication
+
+Linear attribution now implements **session-based deduplication** to ensure marketing effectiveness is measured accurately without over-crediting repetitive interactions.
+
+#### How It Works
+
+1. **Session Identification**: Each touchpoint is associated with a user session via `event_user_session_id`
+2. **First Occurrence Tracking**: Within each session, only the first occurrence of a dimension value receives attribution
+3. **Credit Distribution**: The linear multiplier is calculated based on unique dimension values, not total touches
+
+#### Implementation Details
+
+```sql
+-- Deduplication logic in obt_purchase_journeys_with_mta_models
+case 
+    when row_number() over (
+        partition by purchase_order_id, source_system, event_user_session_id, dimension_value.marketing_channel
+        order by event_local_datetime
+    ) = 1 then true
+    else false
+end as is_first_occurrence_marketing_channel
+```
+
+#### Multiplier Calculation
+
+```sql
+-- CORRECT: Uses unique dimension value count
+linear_multiplier = 1.0 / unique_dimension_value_count.marketing_channels
+
+-- INCORRECT (old method): Used total touch count
+-- linear_multiplier = 1.0 / valid_touch_count.marketing_channels
+```
+
+#### Example Scenario
+
+Consider a purchase journey with these touchpoints:
+
+| Session | Channel | Time | Is First Occurrence | Linear Credit |
+|---------|---------|------|-------------------|---------------|
+| Session_1 | Facebook | 9:00 AM | ✓ | 33.3% |
+| Session_1 | Facebook | 9:15 AM | ✗ | 0% |
+| Session_1 | Google | 9:30 AM | ✓ | 33.3% |
+| Session_2 | Facebook | 2:00 PM | ✓ | 33.3% |
+| Session_2 | Facebook | 2:10 PM | ✗ | 0% |
+
+**Result**: 3 unique contributions (Facebook in Session 1, Google in Session 1, Facebook in Session 2) each receive 33.3% credit.
+
+#### Available Deduplication Flags
+
+The model provides `is_first_occurrence_*` flags for all attribution dimensions:
+- `is_first_occurrence_marketing_channel`
+- `is_first_occurrence_ad`
+- `is_first_occurrence_campaign`
+- `is_first_occurrence_ad_group`
+- `is_first_occurrence_landing_page`
+- `is_first_occurrence_email_sms`
+
 ## Attribution
 
 ### Channel Classification Overview

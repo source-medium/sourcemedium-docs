@@ -248,4 +248,35 @@ iconType: "solid"
         <Note>For more details, see our [Channel-Level Attribution & Unattributed Metrics](/mta/mta-channel-level-attribution) documentation.</Note>
     </Accordion>
 
+    <Accordion title="How does linear attribution handle duplicate touches?">
+        Linear attribution uses **session-based deduplication** to ensure each unique marketing contribution is counted appropriately, avoiding over-attribution to repetitive interactions.
+
+        **Real-World Example:**
+        
+        Imagine a customer's day:
+        - **Morning (Session 1)**: Clicks Facebook ad 3 times while browsing with coffee
+        - **Afternoon (Session 2)**: Searches Google and clicks your ad once
+        - **Evening (Session 3)**: Clicks Facebook ad again before purchasing
+        
+        **How Linear Attribution Credits This Journey:**
+        
+        <Info>
+        **Before Deduplication**: All 5 clicks would share credit equally (20% each)
+        
+        **After Deduplication**: Only 3 unique contributions receive credit:
+        - Facebook (Session 1): 33.3%
+        - Google (Session 2): 33.3%  
+        - Facebook (Session 3): 33.3%
+        </Info>
+        
+        **Why This Matters:**
+        - **More Accurate**: Reflects true marketing effectiveness, not just click volume
+        - **Better Insights**: Shows which channels drive unique engagement vs. repetitive interactions
+        - **Smarter Budgeting**: Helps identify channels that genuinely influence purchase decisions
+        
+        **Technical Note**: This deduplication applies to all attribution dimensions - marketing channels, ads, campaigns, ad groups, landing pages, and email/SMS. Each dimension tracks its own "first occurrence" within sessions.
+
+        <Note>Learn more about the technical implementation in our [MTA Advanced Documentation](/mta/mta-advanced-documentation#linear-attribution-deduplication)</Note>
+    </Accordion>
+
 </AccordionGroup>

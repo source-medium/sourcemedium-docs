@@ -8,6 +8,58 @@ iconType: "solid"
 
 This document outlines the key updates and improvements to the Source Medium Multi-Touch Attribution system. We regularly enhance our attribution capabilities to provide more accurate insights and better reporting.
 
+## Version 1.34 - Linear Attribution Deduplication
+
+We've significantly improved how linear attribution handles repeated touchpoints to provide more accurate marketing effectiveness insights.
+
+### What Changed
+
+Linear attribution now uses **session-based deduplication** to ensure each unique marketing contribution is counted only once per user session. This prevents over-attribution when customers interact with the same channel multiple times in a single session.
+
+### Before vs. After Comparison
+
+<Tabs>
+  <Tab title="Before">
+    **Scenario**: Customer visits your site 3 times via Facebook ads in one morning session
+    
+    - Each visit counted as a separate touchpoint
+    - Linear credit: 1/3 + 1/3 + 1/3 = 100% to Facebook
+    - Result: Over-attribution to repetitive touches
+  </Tab>
+  
+  <Tab title="After">
+    **Scenario**: Same customer journey
+    
+    - Only first Facebook touch in the session receives credit
+    - Subsequent Facebook touches in same session = $0 attribution
+    - Result: More accurate view of unique marketing contributions
+  </Tab>
+</Tabs>
+
+### Impact on Your Data
+
+<Warning>
+**Expected Changes**: Linear revenue will typically increase by 20-60%. This is correct behavior - the attribution is now more accurately distributed among unique contributions rather than being diluted by repeated touches.
+</Warning>
+
+- **First Touch Attribution**: No change
+- **Last Touch Attribution**: No change  
+- **Linear Attribution**: 
+  - Revenue per channel may increase significantly
+  - Fewer touchpoints receive attribution credit
+  - More accurate representation of marketing effectiveness
+
+### Technical Details
+
+For data analysts and technical users:
+
+- Deduplication uses `event_user_session_id` to identify unique sessions
+- New flags `is_first_occurrence_*` indicate which touches receive attribution
+- Multipliers now calculated on `unique_dimension_value_count` instead of total touch count
+- Available for all dimensions: marketing channels, ads, campaigns, ad groups, landing pages, and email/SMS
+
+[Learn more in Advanced Documentation →](/mta/mta-advanced-documentation#linear-attribution-deduplication)
+
 ## Version 1.20 - Brand Campaign Inclusion
 
 Brand campaigns are now included in reporting without receiving attribution credit. This allows you to:

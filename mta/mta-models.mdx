@@ -48,6 +48,14 @@ This is the central model for multi-touch attribution, containing complete custo
   - `last_touch_conversion_impact`: Conversions attributed by last touch model
   - `linear_conversion_impact`: Conversions attributed by linear model
 
+- **Deduplication Flags** *(New in v1.34)*
+  - `is_first_occurrence_marketing_channel`: Indicates if this is the first occurrence of the marketing channel in the session
+  - `is_first_occurrence_ad`: Indicates if this is the first occurrence of the ad in the session
+  - `is_first_occurrence_campaign`: Indicates if this is the first occurrence of the campaign in the session
+  - `is_first_occurrence_ad_group`: Indicates if this is the first occurrence of the ad group in the session
+  - `is_first_occurrence_landing_page`: Indicates if this is the first occurrence of the landing page in the session
+  - `is_first_occurrence_email_sms`: Indicates if this is the first occurrence of the email/SMS in the session
+
 #### Special Features
 
 - **Email/SMS Handling**: The model implements special rules for Email/SMS channels
@@ -57,7 +65,39 @@ This is the central model for multi-touch attribution, containing complete custo
 
 - **Brand Campaign Handling**: Brand campaigns appear in data but receive zero attribution
 
+- **Session-Based Deduplication**: Linear attribution uses the `is_first_occurrence_*` flags to ensure unique contributions per session
+
 #### Example Queries
+
+**Analyze Linear Attribution Deduplication**
+```sql
+-- See how deduplication affects a specific purchase journey
+WITH journey_details AS (
+  SELECT 
+    purchase_order_id,
+    event_user_session_id,
+    dimension_value.marketing_channel,
+    event_local_datetime,
+    is_first_occurrence_marketing_channel,
+    linear_revenue_impact.marketing_channel as linear_revenue,
+    purchase_order_revenue
+  FROM `sm-{{account_id}}.sm_transformed_v2_purchase_journeys_with_mta_models`
+  WHERE 
+    sm_store_id = 'your-sm_store_id'
+    AND purchase_order_id = 'ORDER_ID_HERE'
+    AND dimension_value.marketing_channel IS NOT NULL
+  ORDER BY event_local_datetime
+)
+SELECT 
+  *,
+  CASE 
+    WHEN is_first_occurrence_marketing_channel THEN 'Receives Attribution'
+    ELSE 'Duplicate - No Attribution'
+  END as attribution_status
+FROM journey_details;
+```
+
+**Standard Attribution Queries**
 
 ```sql
 -- Revenue by marketing channel (first touch model)

@@ -75,8 +75,13 @@ For a verbose technical explanation, skip ahead to our [MTA Advanced Documentati
         - Assigns all credit to the last valid touch point before the purchase
         - Useful for identifying conversion-driving channels
       3. **Linear Attribution**
-        - Distributes credit equally among all valid touch points
-        - Provides a balanced and complete view across the entire purchase journey
+        - Distributes credit equally among all **unique** valid touch points
+        - Uses session-based deduplication to avoid over-crediting repeated interactions
+        - Provides a balanced view of distinct marketing contributions
+        
+        <Tip>
+        **Example**: If a customer clicks the same Facebook ad 3 times in one browsing session, linear attribution counts this as 1 unique touchpoint, not 3. This prevents inflating the importance of repetitive interactions.
+        </Tip>
       </Tab>
 
     </Tabs>
