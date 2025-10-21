@@ -9,61 +9,66 @@ version: 2
 models:
   - name: dim_customer_addresses
     description: >
-      The dim_customer_addresses table contains dimensions associated with addresses of customers who have placed orders from a shop.
+      Customer address dimension for enriching customers and orders with normalized geo attributes. Grain: One row per sm_customer_address_key. No canonical date; _synced_at is a freshness timestamp (not for analysis). Critical filters: source_system for platform coverage and address availability; is_default_for_customer for primary address. Key joins: dim_customers via sm_customer_key (many:1).
     columns:
-      - name: sm_store_id
+      - name: _synced_at
         description: >
-          The SourceMedium ID of a store, which is derived from the store's myshopify.com domain.
-        tests:
-          - not_null
+          UTC timestamp when SourceMedium last synced the row. Freshness indicator only; not for time-series analysis.
+
+      - name: address_id
+        description: >
+          The unique identifier for the address.
+
+      - name: customer_address_city
+        description: >
+          The city the customer's location is in.
+
+      - name: customer_address_country
+        description: >
+          The country the customer's location is in.
+
+      - name: customer_address_country_code
+        description: >
+          The two-letter code (ISO 3166-1 format) for the country of the customer's location.
+
+      - name: customer_address_province
+        description: >
+          The province, state, or district code of the customer's location.
+
+      - name: customer_address_province_code
+        description: >
+          The province, state, or district code (ISO 3166-2 alpha-2 format) of the customer's location.
+
+      - name: customer_address_zip_code
+        description: >
+          The postal code of the customer's location.
+
+      - name: customer_id
+        description: >
+          Platform-specific customer identifier from the source system. Links to the customer who owns this address.
+
+      - name: customer_street_address
+        description: >
+          The customer's street address.
+
+      - name: is_default_address_for_customer
+        description: >
+          Boolean indicating whether this address is the default/primary address for the customer. Used to identify the customer's preferred address for shipping and billing.
+
       - name: sm_customer_address_key
         description: >
           The unique address key created by SourceMedium that can be used to join address dimensions to related tables.
-        tests:
-          - not_null
-          - unique
-      - name: source_system
-        description: >
-          The e-commerce source system used to facilitate a customer's order.
+
       - name: sm_customer_key
         description: >
-          The unique customer key created by SourceMedium that can be used to join customer dimensions to related tables.
-      - name: is_default_address_for_customer
+          Stable SourceMedium customer key. Unique per customer. Key joins: `dim_customers` (1:1); `dim_orders`/`obt_orders` (1:many). Platform caveat: TikTok Shop coverage may be limited.
+
+      - name: sm_store_id
         description: >
-          Whether the address is the default address for the customer.
-      - name: address_1
+          SourceMedium's unique store identifier. For Shopify stores, derived from the myshopify.com domain; for other platforms (Amazon, TikTok Shop, Walmart.com), uses platform-specific identifiers.
+
+      - name: source_system
         description: >
-          The customer's street address.
-      - name: address_2
-        description: >
-          The optional second line of the customer's street address.
-      - name: city
-        description: >
-          The city the customer's location is in.
-      - name: country
-        description: >
-          The country the customer's location is in.
-      - name: country_code
-        description: >
-          The two-letter code (ISO 3166-1 format) for the country of the customer's location.
-      - name: latitude
-        description: >
-          The latitude coordinate of the customer's location.
-      - name: longitude
-        description: >
-          The longitude coordinate of the customer's location.
-      - name: province
-        description: >
-          The province, state, or district code of the customer's location.
-      - name: province_code
-        description: >
-          The province, state, or district code (ISO 3166-2 alpha-2 format) of the customer's location.
-      - name: zip_code
-        description: >
-          The postal code of the customer's location.
-      - name: _synced_at
-        description: >
-          The date and time when SourceMedium last successfully synced the row of data.
-        tests:
-          - not_null
+          Originating platform for the record (e.g., Shopify, Amazon, TikTok Shop, Chargebee). Used for platform‑specific behavior and coverage.
+
 ```

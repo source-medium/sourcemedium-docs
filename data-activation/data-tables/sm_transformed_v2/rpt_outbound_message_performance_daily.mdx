@@ -1,0 +1,118 @@
+---
+title: 'rpt_outbound_message_performance_daily'
+description: ''
+---
+
+```yaml
+version: 2
+
+models:
+  - name: rpt_outbound_message_performance_daily
+    description: >
+      Daily messaging performance across email/SMS/push for campaigns and flows. Grain: One row per (date x message/campaign context). Date field: date. Critical filters: sm_message_channel (email, sms, push); message_type (campaign vs flow). Key joins: none; drill down to message-detail models using (date, message context) filters.
+    columns:
+      - name: campaign_id
+        description: >
+          Messaging campaign identifier (if message_type is campaign).
+
+      - name: campaign_name
+        description: >
+          Messaging campaign name (if message_type is campaign).
+
+      - name: channel
+        description: >
+          Sales channel for the message performance (always 'Online DTC' for email/SMS/push campaigns). Provides consistency with order-level channel attribution in multi-channel reporting.
+
+      - name: date
+        description: >
+          Calendar date for daily aggregation.
+
+      - name: dimension_value
+        description: >
+          Dimension grouping value (e.g., campaign or flow identifier) depending on report mode.
+
+      - name: list_subscribes
+        description: >
+          Count of list subscription events attributed to the message.
+
+      - name: list_unsubscribes
+        description: >
+          Count of list unsubscribe events attributed to the message.
+
+      - name: message_id
+        description: >
+          Platform message identifier for the send.
+
+      - name: message_name
+        description: >
+          The name/title of the message as configured in the messaging platform. Used to identify specific email templates, SMS messages, or push notifications.
+
+      - name: message_subject
+        description: >
+          The subject line of the message (primarily for email campaigns). NULL for SMS/push messages that don't have subject lines.
+
+      - name: message_type
+        description: >
+          Whether the message originated from a flow/automation or from a campaign send.
+
+      - name: message_unique_bounces
+        description: >
+          Count of unique bounces.
+
+      - name: message_unique_clicks
+        description: >
+          Count of unique clicks.
+
+      - name: message_unique_drops
+        description: >
+          Count of unique drops/suppressed sends.
+
+      - name: message_unique_opens
+        description: >
+          Count of unique opens.
+
+      - name: message_unique_receives
+        description: >
+          Count of unique receives/deliveries.
+
+      - name: platform_reported_begin_checkout_revenue
+        description: >
+          Platform-attributed revenue from begin checkout events.
+
+      - name: platform_reported_begin_checkouts
+        description: >
+          Platform-attributed begin checkout events from the message/day.
+
+      - name: platform_reported_order_line_quantity
+        description: >
+          Platform-attributed order line item quantity from the message/day.
+
+      - name: platform_reported_order_line_revenue
+        description: >
+          Platform-attributed order line revenue from the message/day.
+
+      - name: platform_reported_order_revenue
+        description: >
+          Platform-attributed order revenue from the message/day.
+
+      - name: platform_reported_orders
+        description: >
+          Platform-attributed order conversions from the message/day.
+
+      - name: sm_message_channel
+        description: >
+          Normalized message channel (email, sms, push).
+
+      - name: sm_store_id
+        description: >
+          SourceMedium's unique store identifier. For Shopify stores, derived from the myshopify.com domain; for other platforms (Amazon, TikTok Shop, Walmart.com), uses platform-specific identifiers.
+
+      - name: sms_unique_sends
+        description: >
+          Count of unique SMS sends for the message/day.
+
+      - name: source_system
+        description: >
+          The messaging platform that sent the message (e.g., Klaviyo, Postscript, Attentive). Used to segment performance by messaging service provider.
+
+```

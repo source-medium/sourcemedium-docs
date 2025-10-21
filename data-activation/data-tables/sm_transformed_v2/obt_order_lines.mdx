@@ -9,244 +9,151 @@ version: 2
 models:
   - name: obt_order_lines
     description: >
-      The obt_order_lines table is SourceMedium's out-of-the-box, "BI-ready" table that contains fully joined order line facts and order line dimensions
-      for a shop. This "One Big Table" (obt) is a denormalized table that is designed to be developer friendly.
-
+      Product-level analytics table for order line revenue, costs, and profitability. Grain: One row per sm_order_line_key. Date field: order_processed_at_local_datetime. Critical filters: is_order_sm_valid = TRUE (exclude test/cancelled orders); sm_channel for segmentation. Key joins: obt_orders via sm_order_key (many:1); dim_product_variants via sm_product_variant_key (many:1).
     columns:
-      - name: sm_store_id
-        description: >
-          The SourceMedium ID of a store, which is derived from the store's myshopify.com domain.
-        tests:
-          - not_null
-
-      - name: sm_order_line_key
-        description: >
-          The unique order line key created by SourceMedium that can be used to join order line dimensions to related tables.
-        tests:
-          - not_null
-          - unique
-
-      - name: sm_order_key
-        description: >
-          The unique order key created by SourceMedium that can be used to join order dimensions to related tables.
-        tests:
-          - not_null
-
-      - name: sm_customer_key
-        description: >
-          The unique customer key created by SourceMedium that can be used to join customer dimensions to related tables.
-        tests:
-          - not_null
-
-      - name: sm_product_variant_key
-        description: >
-          The unique product variant key created by SourceMedium that can be used to join product variant dimensions to related tables.
-        tests:
-          - not_null
-
-      - name: order_line_id
-        description: >
-          The ID of the order line.
-
-      - name: order_id
-        description: >
-          The ID of the order.
-
       - name: customer_id
         description: >
-          The ID of the customer.
-
-      - name: order_number
-        description: >
-          The order's position in the shop's count of orders.
-
-      - name: source_system
-        description: >
-          The e-commerce source system used to facilitate a customer's order.
-
-      - name: sm_order_sales_channel
-        description: >
-          The sales channel associated with an order, which is derived from the order source name and order tags.
-
-      - name: sm_channel
-        description: >
-          The sales channel associated with an order, which is derived from the order source name and order tags and factors in manual overrides as defined by the SourceMedium channel mapping configuration sheet.
-
-      - name: sm_sub_channel
-        description: >
-          The sales sub-channel associated with an order, which is derived from the order source name and order tags and factors in manual overrides as defined by the SourceMedium channel mapping configuration sheet.
-
-      - name: sm_utm_source
-        description: >
-          The last touch utm_source value associated with an order, which is derived from Shopify notes data, Shopify customer visits data, and GA or GA4 events.
-
-      - name: sm_utm_medium
-        description: >
-          The last touch utm_medium value associated with an order, which is derived from Shopify notes data, Shopify customer visits data, and GA or GA4 events.
-
-      - name: sm_utm_source_medium
-        description: >
-          A concatenation of sm_utm_source and sm_utm_medium.
-
-      - name: sm_zero_party_attribution_source
-        description: >
-          The attributable source of an order based on order tags associated with a post-purchase survey service provider.
-
-      - name: sm_utm_campaign
-        description: >
-          The last touch utm_campaign value associated with an order, which is derived from Shopify notes data, Shopify customer visits data, and GA or GA4 events.
-
-      - name: is_order_sm_valid
-        description: >
-          Whether an order is not voided, cancelled, uncollectible, draft, or refunded.
-
-      - name: valid_order_index
-        description: >
-          An ordered index that can be used to identify the sequential position of a valid order relative to a customer's valid order history.
-
-      - name: valid_order_index_reversed
-        description: >
-          An ordered index in reverse that can be used to identify the sequential position of a valid order relative to a customer's valid order history.
-
-      - name: sm_order_type
-        description: >
-          The order classification, such as a subscription or one-time order, which is derived from order attributes, order tags, or subscription platform data, if a subscription platform has been integrated.
-
-      - name: order_index
-        description: >
-          An ordered index that can be used to identify the sequential position of an order relative to a customer's order history.
-
-      - name: order_sequence
-        description: >
-          Whether an order is the acquisition order or a repeat order.
-
-      - name: discount_codes_csv
-        description: >
-          A list of discount codes applied to an order.
-
-      - name: subscription_order_sequence
-        description: >
-          Whether a subscription order is the first subscription order or a repeat subscription order based on the subscription order index or order tag indicators when an index is not available.
-
-      - name: product_id
-        description: >
-          A unique identifier for the product generated by the source system.
-
-      - name: product_variant_id
-        description: >
-          A unique identifier for the product variant generated by the source system.
-
-      - name: is_product_gift_card
-        description: >
-          Whether the product is a gift card.
-
-      - name: primary_product_image
-        description: >
-          A URL used for the primary product image display on the shop.
-
-      - name: product_collection_titles_csv
-        description: >
-          The titles of collections the product belongs to. Collections are groupings of products that merchants can create to make their stores easier to browse.
-
-      - name: product_collection_handles_csv
-        description: >
-          Unique, human-readable strings for the collections a product belongs to automatically generated from their titles.
-
-      - name: is_order_only_gift_cards
-        description: >
-          Whether the order associated with the line item only contains gift cards.
-
-      - name: order_processed_at
-        description: >
-          The autogenerated date and time when the order was processed.
-
-      - name: order_created_at_local_datetime
-        description: >
-          The autogenerated date and time when the order was created, converted to the reporting timezone configured in SourceMedium.
-
-      - name: order_processed_at_local_datetime
-        description: >
-          The autogenerated date and time when the order was processed, converted to the reporting timezone configured in SourceMedium.
-
-      - name: order_payment_status
-        description: >
-          The financial status of an order, which indicates whether the order has been paid.
-
-      - name: order_tags_array
-        description: >
-          Tags that the shop owner has attached to the order in an array format.
+          The ID of the customer who placed the order.
 
       - name: customer_tags_array
         description: >
-          An aggregated list of all tags associated with a customer in an array format.
+          Array of all tags associated with a customer. Preferred for robust filtering (use UNNEST) and programmatic tag operations.
 
-      - name: product_tags_array
+      - name: customer_tags_csv
         description: >
-          Tags that the shop owner has attached to the product in an array format.
-
-      - name: order_shipping_country_code
-        description: >
-          The two-letter code (ISO 3166-1 format) for the country of the shipping address.
-
-      - name: order_shipping_country
-        description: >
-          The country of the shipping address.
-
-      - name: order_shipping_state
-        description: >
-          The state of the shipping address.
-
-      - name: order_shipping_city
-        description: >
-          The city, town, or village of the shipping address.
-
-      - name: order_shipping_zip
-        description: >
-          The postal code of the shipping address.
-
-      - name: product_type
-        description: >
-          A categorization for the product used for filtering and searching for products.
-
-      - name: sku
-        description: >
-          The stock keeping unit (SKU) of the product variant.
-
-      - name: product_title
-        description: >
-          The title of the product.
-
-      - name: product_variant_title
-        description: >
-          The title of the product variant.
-
-      - name: product_vendor
-        description: >
-          The vendor of the product.
+          Comma-separated customer tags at order time (free-form; convenience string form of array field). Tags may change over time; value reflects state at order processing time.
 
       - name: earliest_refund_date
         description: >
           The date of the first refund associated with the order line.
 
+      - name: is_order_line_subscription
+        description: >
+          Whether the order line is a susbcription order.
+
+      - name: is_order_only_gift_cards
+        description: >
+          Whether the order associated with the line item only contains gift cards.
+
+      - name: is_order_sm_valid
+        description: >
+          True if order is not voided, cancelled, uncollectible, draft, or refunded. Use WHERE is_order_sm_valid = TRUE to exclude test/invalid orders from revenue.
+
+      - name: is_product_gift_card
+        description: >
+          Whether the product is a gift card.
+
       - name: latest_refund_date
         description: >
           The most recent date a refund was processed for an order.
 
-      - name: order_line_gross_revenue
+      - name: order_cart_quantity
         description: >
-          The gross revenue for an order line. Gross revenue is calculated by multiplying the price of an order line by the quantity purchased. Gross revenue excludes revenue from gift card purchases.
+          The quantity of items that were originally purchased in an order.
+
+      - name: order_created_at_local_datetime
+        description: >
+          Order created timestamp converted to reporting timezone (from order_created_at UTC).
+
+      - name: order_id
+        description: >
+          Platform order identifier. Not globally unique across stores; pair with `smcid` and `source_system` when needed for scoping.
+
+      - name: order_index
+        description: >
+          An ordered index that can be used to identify the sequential position of an order relative to a customer's order history.
+
+      - name: order_line_discount_codes_csv
+        description: >
+          A list of discount codes applied to an order.
 
       - name: order_line_discounts
         description: >
           The amount of discounts applied to an order line.
 
-      - name: order_line_refunds
+      - name: order_line_duty_refunds
         description: >
-          The amount of refunds applied to an order line.
+          The amount of duty refunds applied to an order line.
+
+      - name: order_line_fulfillment_cost
+        description: >
+          The blended cost to fulfill (pick and pack) orders for customers, considering that fulfillment cost is a variable order cost included in cost of goods sold (COGS). This data is recorded in the Financial Cost - Fulfillment tab of the financial cost configuration sheet.
+
+      - name: order_line_gross_duties
+        description: >
+          The amount the customer paid in duties for an order.
+
+      - name: order_line_gross_profit
+        description: >
+          Net order line revenue and shipping revenue minus order line product cost, order shipping cost, order fulfillment cost, and merchant processing fees.
+
+      - name: order_line_gross_revenue
+        description: >
+          The gross revenue for an order line. Gross revenue is calculated by multiplying the price of an order line by the quantity purchased. Gross revenue excludes revenue from gift card purchases.
+
+      - name: order_line_gross_shipping
+        description: >
+          The amount the customer paid in shipping for an order shipping line. This does not include shipping tax.
+
+      - name: order_line_gross_shipping_taxes
+        description: >
+          The gross shipping tax for an order shipping line.
+
+      - name: order_line_gross_taxes
+        description: >
+          The amount of taxes associated with an order line, after discounts and before returns.
+
+      - name: order_line_id
+        description: >
+          The ID of the order line.
+
+      - name: order_line_merchant_processing_fees
+        description: >
+          The payment processing fees for an order. This data is entered in the Financial Cost - Merchant Processing Fees tab of the SourceMedium financial cost configuration sheet.
+
+      - name: order_line_net_duties
+        description: >
+          The gross order line duties minus order duty refunds.
+
+      - name: order_line_net_quantity
+        description: >
+          The quantity of items that were originally purchased for an order line minus the quantity of items refunded.
 
       - name: order_line_net_revenue
         description: >
           The gross order line revenue minus order line discounts and refunds.
+
+      - name: order_line_net_revenue_before_refunds
+        description: >
+          The gross order line revenue minus order line discounts.
+
+      - name: order_line_net_shipping
+        description: >
+          The gross shipping revenue for an order shipping line minus shipping discounts and shipping refunds.
+
+      - name: order_line_net_shipping_taxes
+        description: >
+          The shipping tax for an order shipping line minus shipping tax refunds.
+
+      - name: order_line_net_taxes
+        description: >
+          The gross order line tax minus the order line tax refunds.
+
+      - name: order_line_product_collection_handles_csv
+        description: >
+          Unique, human-readable strings for the collections a product belongs to automatically generated from their titles.
+
+      - name: order_line_product_collection_titles_csv
+        description: >
+          The titles of collections the product belongs to. Collections are groupings of products that merchants can create to make their stores easier to browse.
+
+      - name: order_line_product_cost
+        description: >
+          The landed cost of an order line as defined by the SourceMedium financial cost configuration sheet (or input into Shopify) multiplied by the quantity purchased. The SourceMedium financial cost configuration overrides any costs input into Shopify.
+
+      - name: order_line_product_gross_profit
+        description: >
+          Net order line revenue minus product cost.
 
       - name: order_line_quantity
         description: >
@@ -256,25 +163,17 @@ models:
         description: >
           The quantity of items purchased for an order line that were refunded.
 
-      - name: order_line_net_quantity
+      - name: order_line_refunds
         description: >
-          The quantity of items that were originally purchased for an order line minus the quantity of items refunded.
+          The amount of refunds applied to an order line.
 
-      - name: order_line_gross_taxes
+      - name: order_line_return_cost
         description: >
-          The amount of taxes associated with an order line, after discounts and before returns.
+          The blended cost per order to handle returned products from a customer, considering that the cost of returns is a variable order cost included in cost of goods sold (COGS). This data is entered in the Financial Cost - Shipping tab of the SourceMedium financial cost configuration sheet.
 
-      - name: order_line_tax_refunds
+      - name: order_line_shipping_cost
         description: >
-          The amount of tax refunds applied to an order line.
-
-      - name: order_line_net_taxes
-        description: >
-          The gross order line tax minus the order line tax refunds.
-
-      - name: order_line_gross_shipping
-        description: >
-          The amount the customer paid in shipping for an order shipping line. This does not include shipping tax.
+          The blended cost per order to ship products to customers, considering that shipping costs are variable order costs included in cost of goods sold (COGS). This data is set in the Financial Cost - Shipping tab of the SourceMedium financial cost configuration sheet.
 
       - name: order_line_shipping_discounts
         description: >
@@ -284,25 +183,13 @@ models:
         description: >
           The amount of shipping refunds applied to an order shipping line.
 
-      - name: order_line_net_shipping
-        description: >
-          The gross shipping revenue for an order shipping line minus shipping discounts and shipping refunds.
-
-      - name: order_line_gross_shipping_taxes
-        description: >
-          The gross shipping tax for an order shipping line.
-
       - name: order_line_shipping_tax_refunds
         description: >
           The amount of shipping tax refunds applied to an order shipping line.
 
-      - name: order_line_net_shipping_taxes
+      - name: order_line_tax_refunds
         description: >
-          The shipping tax for an order shipping line minus shipping tax refunds.
-
-      - name: order_line_total_taxes
-        description: >
-          The amount of taxes for an order line minus tax refunds.
+          The amount of tax refunds applied to an order line.
 
       - name: order_line_total_discounts
         description: >
@@ -312,79 +199,216 @@ models:
         description: >
           The amount of refunds for an order line.
 
-      - name: order_line_net_revenue_before_refunds
-        description: >
-          The gross order line revenue minus order line discounts.
-
       - name: order_line_total_revenue
         description: >
           Total order line revenue after factoring in shipping revenue, taxes collected, discounts, and refunds.
 
-      - name: order_line_gross_duties
+      - name: order_line_total_taxes
         description: >
-          The amount the customer paid in duties for an order.
+          The amount of taxes for an order line minus tax refunds.
 
-      - name: order_line_duty_refunds
+      - name: order_line_type
         description: >
-          The amount of duty refunds applied to an order line.
+          The order line classification, such as a subscription or one-time order, which is derived from order attributes, order tags, or subscription platform data, if a subscription platform has been integrated.
 
-      - name: order_line_net_duties
+      - name: order_number
         description: >
-          The gross order line duties minus order duty refunds.
+          The order's position in the shop's count of orders.
 
-      - name: shipping_cost
+      - name: order_payment_status
         description: >
-          The blended cost per order to ship products to customers, considering that shipping costs are variable order costs included in cost of goods sold (COGS). This data is set in the Financial Cost - Shipping tab of the SourceMedium financial cost configuration sheet.
+          The financial status of an order, which indicates whether the order has been paid.
 
-      - name: cost_of_returns
+      - name: order_processed_at
         description: >
-          The blended cost per order to handle returned products from a customer, considering that the cost of returns is a variable order cost included in cost of goods sold (COGS). This data is entered in the Financial Cost - Shipping tab of the SourceMedium financial cost configuration sheet.
+          UTC timestamp from source system when the order was processed.
 
-      - name: fulfillment_cost
+      - name: order_processed_at_local_datetime
         description: >
-          The blended cost to fulfill (pick and pack) orders for customers, considering that fulfillment cost is a variable order cost included in cost of goods sold (COGS). This data is recorded in the Financial Cost - Fulfillment tab of the financial cost configuration sheet.
+          Order processed timestamp converted to reporting timezone (from order_processed_at UTC). Primary date field for order analytics and time-based filtering.
 
-      - name: merchant_processing_fees
+      - name: order_sequence
         description: >
-          The payment processing fees for an order. This data is entered in the Financial Cost - Merchant Processing Fees tab of the SourceMedium financial cost configuration sheet.
+          Whether an order is the acquisition order or a repeat order.
+
+      - name: order_shipping_city
+        description: >
+          The city, town, or village of the shipping address.
+
+      - name: order_shipping_country
+        description: >
+          The country of the shipping address.
+
+      - name: order_shipping_country_code
+        description: >
+          The two-letter code (ISO 3166-1 format) for the country of the shipping address.
+
+      - name: order_shipping_state
+        description: >
+          The state of the shipping address.
+
+      - name: order_shipping_zip_code
+        description: >
+          Postal/ZIP code of the shipping address for the order (country-dependent format; not geo-normalized). Combine with country/state for region-based analysis.
+
+      - name: order_tags_array
+        description: >
+          Tags that the shop owner has attached to the order in an array format.
+
+      - name: order_tags_csv
+        description: >
+          Comma-separated order-level tags (free-form strings set by merchant/apps). Prefer array fields for exact matching where available.
+
+      - name: order_to_refund_days
+        description: >
+          Days between order processing and first refund (non-negative; NULL when no refund). Calculated from order_processed_at_local_datetime to earliest_refund_date.
+
+      - name: order_to_refund_months
+        description: >
+          Months between order processing date and first refund date for the order/line; derived from days using average month length.
+
+      - name: order_to_refund_weeks
+        description: >
+          Weeks between order processing date and first refund date for the order/line; derived from days and rounded per model logic.
+
+      - name: primary_product_image
+        description: >
+          Primary product image URL (display).
+
+      - name: product_id
+        description: >
+          A unique identifier for the product generated by the source system. It can be null for Shopify if the order line data did not contain the product_id populated.
+
+      - name: product_tags_array
+        description: >
+          Tags that the shop owner has attached to the product in an array format.
+
+      - name: product_tags_csv
+        description: >
+          Comma-separated product tags on the line's product (free-form; aggregated from product metadata). Use array for exact match; CSV for quick text filters.
+
+      - name: product_title
+        description: >
+          The title of the product.
+
+      - name: product_type
+        description: >
+          A categorization for the product used for filtering and searching for products.
+
+      - name: product_variant_compare_at_price
+        description: >
+          The original/compare-at price for the product variant (typically MSRP or pre-sale price). Used to show savings/discounts to customers; may be NULL if no compare-at price set.
+
+      - name: product_variant_id
+        description: >
+          A unique identifier for the product variant generated by the source system. It can be null for Shopify if the order line data did not contain the product_variant_id populated.
+
+      - name: product_variant_price
+        description: >
+          The price of the product variant at the time of purchase (per unit, before discounts). Use for pricing analysis and discount effectiveness calculations.
+
+      - name: product_variant_title
+        description: >
+          The title of the product variant.
+
+      - name: product_vendor
+        description: >
+          The vendor of the product.
+
+      - name: sku
+        description: >
+          The stock keeping unit (SKU) of the product variant.
+
+      - name: sm_channel
+        description: >
+          Sales channel via hierarchy: (1) exclusion tag 'sm-exclude-order' -> excluded; (2) config sheet overrides; (3) default logic (amazon/tiktok_shop/walmart.com, pos/leap -> retail, wholesale tags -> wholesale, otherwise online_dtc). Note: excluded channel is omitted from Executive Summary and LTV.
+
+      - name: sm_customer_key
+        description: >
+          Stable SourceMedium customer key. Unique per customer. Key joins: `dim_customers` (1:1); `dim_orders`/`obt_orders` (1:many). Platform caveat: TikTok Shop coverage may be limited. Foreign key to obt_customers (many:1 - multiple order lines per customer).
+
+      - name: sm_order_key
+        description: >
+          Stable SourceMedium order key. Unique per order. Key joins: `obt_order_lines` (1:many via `sm_order_key`); `dim_customers` (many:1 via `sm_customer_key`). Platform caveat: TikTok Shop coverage may be limited. Foreign key to obt_orders (many:1 - multiple order lines per order).
+
+      - name: sm_order_line_key
+        description: >
+          Stable SourceMedium order line key. Unique per line. Key joins: `dim_order_lines` (1:1); `dim_orders` (many:1 via `sm_order_key`). Platform caveat: TikTok Shop coverage may be limited.
+
+      - name: sm_order_sales_channel
+        description: >
+          The sales channel associated with an order, which is derived from the order source name and order tags.
+
+      - name: sm_order_type
+        description: >
+          Order classification (subscription vs one-time) derived from order attributes, tags, or subscription platforms (Shopify Subscription Contract, ReCharge, Stay.ai).
+
+      - name: sm_product_variant_key
+        description: >
+          Stable SourceMedium join key for product variants to related tables.
+
+      - name: sm_store_id
+        description: >
+          SourceMedium's unique store identifier. For Shopify stores, derived from the myshopify.com domain; for other platforms (Amazon, TikTok Shop, Walmart.com), uses platform-specific identifiers.
+
+      - name: sm_sub_channel
+        description: >
+          The sales sub-channel associated with an order, which is derived from the order source name and order tags and factors in manual overrides as defined by the SourceMedium channel mapping configuration sheet.
+
+      - name: sm_utm_campaign
+        description: >
+          Last-click UTM campaign from the attribution waterfall (Shopify visits/landing/notes -> website events -> GA/GA4 -> referrer). Native UTM on Shopify/Chargebee; marketplaces (Amazon, TikTok Shop, Walmart) lack it. Enriched via GA4, Elevar, Blotout, Snowplow, Heap, Littledata.
+
+      - name: sm_utm_id
+        description: >
+          SourceMedium-generated unique identifier for UTM parameter combinations on this order line. Enables join to UTM attribution data for marketing campaign analysis.
+
+      - name: sm_utm_medium
+        description: >
+          Last-click UTM medium from the attribution waterfall (Shopify visits/landing/notes -> website events -> GA/GA4 -> referrer). Native UTM on Shopify/Chargebee; marketplaces (Amazon, TikTok Shop, Walmart) lack it. Enriched via GA4, Elevar, Blotout, Snowplow, Heap, Littledata.
+
+      - name: sm_utm_source
+        description: >
+          Last-click UTM source from the attribution waterfall (Shopify visits/landing/notes -> website events -> GA/GA4 -> referrer). Native UTM on Shopify/Chargebee; marketplaces (Amazon, TikTok Shop, Walmart) lack it. Enriched via GA4, Elevar, Blotout, Snowplow, Heap, Littledata.
+
+      - name: sm_utm_source_medium
+        description: >
+          A concatenation of sm_utm_source and sm_utm_medium.
+
+      - name: sm_valid_order_index
+        description: >
+          Ordered index identifying the sequential position of a valid order in a customer's valid order history. Only counts orders where is_order_sm_valid = TRUE. See order_sequence for all orders.
+
+      - name: sm_valid_order_index_reversed
+        description: >
+          An ordered index in reverse that can be used to identify the sequential position of a valid order relative to a customer's valid order history.
+
+      - name: sm_zero_party_attribution_source
+        description: >
+          Attributable source from post‑purchase survey tags (e.g., Fairing/Enquire).
+
+      - name: source_system
+        description: >
+          Originating platform for the record (e.g., Shopify, Amazon, TikTok Shop, Chargebee). Used for platform‑specific behavior and coverage.
 
       - name: source_system_configured_product_cost
         description: >
-          The landed cost of an order line as defined by the costs configured in source system multiplied by the quantity purchased.
+          Landed cost from platform-configured product costs (not SourceMedium configuration sheet). For config-sheet costs, see user_configured_product_cost.
+
+      - name: subscription_id
+        description: >
+          The ID of the subscription.
+
+      - name: subscription_order_index
+        description: >
+          Ordered index identifying the sequential position of a subscription order in a customer's subscription order history.
+
+      - name: subscription_order_sequence
+        description: >
+          Whether a subscription order is the first subscription order or a repeat subscription order based on the subscription order index or order tag indicators when an index is not available.
 
       - name: user_configured_product_cost
         description: >
           The landed cost of an order line as defined by the SourceMedium financial cost configuration sheet multiplied by the quantity purchased.
 
-      - name: product_cost
-        description: >
-          The landed cost of an order line as defined by the SourceMedium financial cost configuration sheet (or input into Shopify) multiplied by the quantity purchased. The SourceMedium financial cost configuration overrides any costs input into Shopify.
-
-      - name: order_cart_quantity
-        description: >
-          The quantity of items that were originally purchased in an order.
-
-      - name: product_gross_profit
-        description: >
-          Net order line revenue minus product cost.
-
-      - name: gross_profit
-        description: >
-          Net order line revenue and shipping revenue minus order line product cost, order shipping cost, order fulfillment cost, and merchant processing fees.
-
-      - name: line_type
-        description: >
-          The order line classification, such as a subscription or one-time order, which is derived from order attributes, order tags, or subscription platform data, if a subscription platform has been integrated.
-
-      - name: is_order_line_subscription
-        description: >
-          Whether the order line is a susbcription order.
-
-      - name: subscription_order_index
-        description: >
-          An ordered index that can be used to identify the sequential position of a subscription order relative to a customer's subscription order history.
-
-      - name: subscription_id
-        description: >
-          The ID of the subscription.
 ```

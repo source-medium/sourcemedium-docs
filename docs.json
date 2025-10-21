@@ -533,14 +533,18 @@
                   "data-activation/data-tables/sm_transformed_v2/dim_order_taxes",
                   "data-activation/data-tables/sm_transformed_v2/dim_orders",
                   "data-activation/data-tables/sm_transformed_v2/dim_product_variants",
-                  "data-activation/data-tables/sm_transformed_v2/dim_times",
                   "data-activation/data-tables/sm_transformed_v2/fct_orders_placed",
                   "data-activation/data-tables/sm_transformed_v2/fct_refunds_processed",
+                  "data-activation/data-tables/sm_transformed_v2/obt_customer_support_tickets",
                   "data-activation/data-tables/sm_transformed_v2/obt_customers",
+                  "data-activation/data-tables/sm_transformed_v2/obt_funnel_event_history",
                   "data-activation/data-tables/sm_transformed_v2/obt_order_lines",
                   "data-activation/data-tables/sm_transformed_v2/obt_orders",
                   "data-activation/data-tables/sm_transformed_v2/rpt_ad_performance_daily",
-                  "data-activation/data-tables/sm_transformed_v2/rpt_executive_summary_daily"
+                  "data-activation/data-tables/sm_transformed_v2/rpt_cohort_ltv_by_first_valid_purchase_attribute_no_product_filters",
+                  "data-activation/data-tables/sm_transformed_v2/rpt_executive_summary_daily",
+                  "data-activation/data-tables/sm_transformed_v2/rpt_funnel_events_performance_hourly",
+                  "data-activation/data-tables/sm_transformed_v2/rpt_outbound_message_performance_daily"
                 ]
               }
             ]

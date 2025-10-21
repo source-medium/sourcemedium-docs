@@ -1,0 +1,194 @@
+---
+title: 'rpt_cohort_ltv_by_first_valid_purchase_attribute_no_product_filters'
+description: ''
+---
+
+```yaml
+version: 2
+
+models:
+  - name: rpt_cohort_ltv_by_first_valid_purchase_attribute_no_product_filters
+    description: >
+      Cohort LTV analysis by first valid purchase attributes (channel, campaign, source) with no product filters. Grain: One row per cohort_filter_name_filter_value_month_id. Date field: cohort_month. Critical filters: acquisition_order_filter_dimension for cohort grouping; cohort_month for time selection. Key joins: none; drill down to obt_orders using (cohort_month, attribute filters).
+    columns:
+      - name: acquisition_order_filter_dimension
+        description: >
+          Dimension name used to group cohorts by first valid purchase attribute (e.g., sm_channel).
+
+      - name: acquisition_order_filter_dimension_value
+        description: >
+          Dimension value for the cohort grouping.
+
+      - name: cohort_filter_name_filter_value_id
+        description: >
+          Unique identifier for the cohort grouping without time dimension (name/value composite).
+
+      - name: cohort_filter_name_filter_value_month_id
+        description: >
+          Unique identifier for the cohort row (name/value/month composite).
+
+      - name: cohort_month
+        description: >
+          Cohort acquisition month.
+
+      - name: cohort_month_gross_profit
+        description: >
+          Total gross profit for the acquisition month only (baseline for cohort profitability calculations).
+
+      - name: cohort_month_order_count
+        description: >
+          Total order count for the acquisition month only (baseline for cohort retention calculations).
+
+      - name: cohort_month_order_gross_revenue
+        description: >
+          Total gross revenue for the acquisition month only (baseline for cohort retention calculations).
+
+      - name: cohort_month_order_net_revenue
+        description: >
+          Total net revenue for the acquisition month only (baseline for cohort retention calculations).
+
+      - name: cohort_month_ordered_quantity
+        description: >
+          Total quantity ordered for the acquisition month only (baseline for cohort retention calculations).
+
+      - name: cohort_month_product_gross_profit
+        description: >
+          Total product gross profit for the acquisition month only (baseline for cohort profitability calculations).
+
+      - name: cohort_size
+        description: >
+          Number of customers in the acquisition cohort.
+
+      - name: cost_per_acquisition
+        description: >
+          Customer acquisition cost for the cohort based on marketing spend.
+
+      - name: cumulative_order_cost_of_returns
+        description: >
+          Running total of return costs from acquisition month through current month offset.
+
+      - name: cumulative_order_count
+        description: >
+          Running total of orders from acquisition month through current month offset.
+
+      - name: cumulative_order_fulfillment_cost
+        description: >
+          Running total of fulfillment costs from acquisition month through current month offset.
+
+      - name: cumulative_order_gross_profit
+        description: >
+          Running total of gross profit from acquisition month through current month offset.
+
+      - name: cumulative_order_gross_revenue
+        description: >
+          Running total of gross revenue from acquisition month through current month offset.
+
+      - name: cumulative_order_merchant_processing_fees
+        description: >
+          Running total of payment processing fees from acquisition month through current month offset.
+
+      - name: cumulative_order_net_revenue
+        description: >
+          Running total of net revenue from acquisition month through current month offset for LTV calculation.
+
+      - name: cumulative_order_net_shipping
+        description: >
+          Running total of net shipping revenue from acquisition month through current month offset.
+
+      - name: cumulative_order_product_cost
+        description: >
+          Running total of product costs from acquisition month through current month offset.
+
+      - name: cumulative_order_shipping_cost
+        description: >
+          Running total of shipping costs from acquisition month through current month offset.
+
+      - name: cumulative_ordered_quantiy
+        description: >
+          Running total of items ordered from acquisition month through current month offset.
+
+      - name: cumulative_product_gross_profit
+        description: >
+          Running total of product gross profit from acquisition month through current month offset.
+
+      - name: cumulative_second_order_count
+        description: >
+          Running count of customers who have placed a second order through current month offset.
+
+      - name: cumulative_third_order_count
+        description: >
+          Running count of customers who have placed a third order through current month offset.
+
+      - name: customer_count
+        description: >
+          Number of distinct customers with orders in the month offset period.
+
+      - name: months_since_first_order
+        description: >
+          Numeric offset from acquisition month (0 = acquisition month, 1 = month +1, etc.).
+
+      - name: months_since_first_order_name
+        description: >
+          Label for months since first valid purchase (e.g., 'Acquisition Month', '+1').
+
+      - name: order_cost_of_returns
+        description: >
+          Cost of returns processed in the month offset period.
+
+      - name: order_count
+        description: >
+          Number of orders placed in the month offset period.
+
+      - name: order_fulfillment_cost
+        description: >
+          Fulfillment and handling costs for orders in the month offset period.
+
+      - name: order_gross_profit
+        description: >
+          Total gross profit including all costs for orders in the month offset period.
+
+      - name: order_gross_revenue
+        description: >
+          Gross revenue before discounts and refunds for orders in the month offset period.
+
+      - name: order_merchant_processing_fees
+        description: >
+          Payment processing fees for orders in the month offset period.
+
+      - name: order_net_revenue
+        description: >
+          Net revenue after discounts and refunds for orders in the month offset period.
+
+      - name: order_product_cost
+        description: >
+          Product cost (COGS) for orders in the month offset period.
+
+      - name: order_product_gross_profit
+        description: >
+          Product gross profit (revenue minus product cost) for orders in the month offset period.
+
+      - name: order_shipping
+        description: >
+          Net shipping revenue (charged to customers) for orders in the month offset period.
+
+      - name: order_shipping_cost
+        description: >
+          Shipping cost incurred for orders in the month offset period.
+
+      - name: ordered_quantity
+        description: >
+          Total quantity of items ordered in the month offset period.
+
+      - name: sm_channel
+        description: >
+          Acquisition channel for cohort segmentation (mapped from channel field in parent model).
+
+      - name: sm_order_line_type
+        description: >
+          Order line type segmentation (mapped from slice field in parent model).
+
+      - name: sm_store_id
+        description: >
+          SourceMedium's unique store identifier. For Shopify stores, derived from the myshopify.com domain; for other platforms (Amazon, TikTok Shop, Walmart.com), uses platform-specific identifiers.
+
+```

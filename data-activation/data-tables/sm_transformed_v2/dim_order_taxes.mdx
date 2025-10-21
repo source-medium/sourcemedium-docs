@@ -9,32 +9,15 @@ version: 2
 models:
   - name: dim_order_taxes
     description: >
-      The dim_order_taxes table is a dimensional table containing information about taxes applied to orders.
+      Order tax dimension with tax names and amounts for reconciliation and reporting. Grain: One row per sm_order_tax_key. No canonical date; _synced_at is a freshness timestamp (not for analysis). Critical filters: source_system for platform-specific tax reporting, tax_line_entity for line vs shipping taxes. Key joins: dim_order_lines via sm_order_line_key (many:1); dim_orders via sm_order_key (many:1).
     columns:
-      - name: sm_store_id
+      - name: _synced_at
         description: >
-          The SourceMedium ID of a store, which is derived from the store's myshopify.com domain.
-        tests:
-          - not_null
+          UTC timestamp when SourceMedium last synced the row. Freshness indicator only; not for time-series analysis.
 
-      - name: sm_order_tax_key
+      - name: order_id
         description: >
-          The unique order tax key created by SourceMedium that can be used to join order tax dimensions to related tables.
-        tests:
-          - not_null
-          - unique
-
-      - name: sm_order_line_key
-        description: >
-          The unique order line key created by SourceMedium that can be used to join order line dimensions to related tables.
-
-      - name: sm_order_key
-        description: >
-          The unique order key created by SourceMedium that can be used to join order dimensions to related tables.
-
-      - name: source_system
-        description: >
-          The e-commerce source system used to facilitate a customer's order.
+          Platform order identifier. Not globally unique across stores; pair with `smcid` and `source_system` when needed for scoping.
 
       - name: order_line_id
         description: >
@@ -44,29 +27,40 @@ models:
         description: >
           The ID of the shipping line.
 
-      - name: order_id
+      - name: sm_order_key
         description: >
-          The ID of the order.
+          Stable SourceMedium order key. Unique per order. Key joins: `obt_order_lines` (1:many via `sm_order_key`); `dim_customers` (many:1 via `sm_customer_key`). Platform caveat: TikTok Shop coverage may be limited.
 
-      - name: tax_line_type
+      - name: sm_order_line_key
         description: >
-          The type of tax (e.g., state, county, excise and use, sales) applied to an order line.
+          Stable SourceMedium order line key. Unique per line. Key joins: `dim_order_lines` (1:1); `dim_orders` (many:1 via `sm_order_key`). Platform caveat: TikTok Shop coverage may be limited.
+
+      - name: sm_order_tax_key
+        description: >
+          The unique order tax key created by SourceMedium that can be used to join order tax dimensions to related tables.
+
+      - name: sm_store_id
+        description: >
+          SourceMedium's unique store identifier. For Shopify stores, derived from the myshopify.com domain; for other platforms (Amazon, TikTok Shop, Walmart.com), uses platform-specific identifiers.
+
+      - name: source_system
+        description: >
+          Originating platform for the record (e.g., Shopify, Amazon, TikTok Shop, Chargebee). Used for platform‑specific behavior and coverage.
 
       - name: tax_line_entity
         description: >
           The line the tax applies to (e.g., shipping, order).
 
-      - name: taxes
-        description: >
-          The amount of tax associated with a tax line entity, after discounts and before returns.
-
       - name: tax_line_rate
         description: >
           The proportion of the order price that the tax represents.
 
-      - name: _synced_at
+      - name: tax_line_type
         description: >
-          The date and time when SourceMedium last successfully synced the row of data.
-        tests:
-          - not_null
+          The type of tax (e.g., state, county, excise and use, sales) applied to an order line.
+
+      - name: taxes
+        description: >
+          The amount of tax associated with a tax line entity, after discounts and before returns.
+
 ```

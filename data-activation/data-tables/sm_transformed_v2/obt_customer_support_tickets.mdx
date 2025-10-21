@@ -1,0 +1,178 @@
+---
+title: 'obt_customer_support_tickets'
+description: ''
+---
+
+```yaml
+version: 2
+
+models:
+  - name: obt_customer_support_tickets
+    description: >
+      Customer support ticket analytics for lifecycle, agent performance, and channel analysis. Grain: One row per sm_ticket_key. Date field: ticket_created_at_local_datetime. Critical filters: sm_channel for ticket context; ticket_communication_channel for platform segmentation (email, instagram-direct-message, etc.). Key joins: dim_customers via customer_id (platform-dependent; primarily Shopify).
+    columns:
+      - name: _synced_at
+        description: >
+          UTC timestamp when SourceMedium last synced the row. Freshness indicator only; not for time-series analysis.
+
+      - name: customer_id
+        description: >
+          Source of truth customer ID from ecommerce platforms (e.g., Shopify)
+
+      - name: is_ticket_from_agent
+        description: >
+          Indicates whether the ticket was initiated by an agent (true) or customer (false)
+
+      - name: is_ticket_one_touch
+        description: >
+          Flag indicating if the ticket was resolved with a single touch
+
+      - name: is_ticket_spam
+        description: >
+          Whether the ticket is marked as spam
+
+      - name: is_ticket_unread
+        description: >
+          Indicates whether the ticket has unread messages
+
+      - name: sm_channel
+        description: >
+          The sales channel associated with the ticket.
+
+      - name: sm_store_id
+        description: >
+          SourceMedium's unique store identifier. For Shopify stores, derived from the myshopify.com domain; for other platforms (Amazon, TikTok Shop, Walmart.com), uses platform-specific identifiers.
+
+      - name: sm_ticket_key
+        description: >
+          Surrogate key for the ticket
+
+      - name: source_system
+        description: >
+          Source system identifier
+
+      - name: source_system_customer_id
+        description: >
+          Customer identifier from the customer support platform (e.g., Gorgias)
+
+      - name: ticket_assignee_email
+        description: >
+          Full email of the user assigned to the ticket
+
+      - name: ticket_assignee_full_name
+        description: >
+          Full name of the user assigned to the ticket
+
+      - name: ticket_assignee_id
+        description: >
+          Unique identifier for the agent assigned to the ticket. Links to the agent user profile in the customer support platform.
+
+      - name: ticket_assignee_profile_picture_url
+        description: >
+          URL of the assignee's profile picture
+
+      - name: ticket_assignee_team_name
+        description: >
+          Name of the team assigned to the ticket
+
+      - name: ticket_closed_at
+        description: >
+          UTC timestamp when the ticket was closed/resolved. NULL for open tickets; used with ticket_created_at to calculate resolution time.
+
+      - name: ticket_closed_at_local_datetime
+        description: >
+          Ticket closed timestamp in local timezone.
+
+      - name: ticket_communication_channel
+        description: >
+          The specific platform or channel used for ongoing communication with the customer. Represents the "channel" field in Gorgias that indicates where the conversation  takes place (instagram-direct-message, email, etc.).
+
+      - name: ticket_created_at
+        description: >
+          Timestamp when the ticket was created (UTC)
+
+      - name: ticket_created_at_local_datetime
+        description: >
+          Timestamp when the ticket was created (local timezone)
+
+      - name: ticket_csat_score
+        description: >
+          The ticket's CSAT score given by the customer
+
+      - name: ticket_custom_field_csv
+        description: >
+          Comma-separated list of custom field ID-value pairs for the ticket
+
+      - name: ticket_customer_email
+        description: >
+          Email address of the customer who created the ticket
+
+      - name: ticket_customer_first_name
+        description: >
+          First name of the customer who created the ticket. Extracted from the customer support platform; may be NULL if not collected.
+
+      - name: ticket_customer_full_name
+        description: >
+          Full name of the customer who created the ticket (concatenation of first and last name). Extracted from the customer support platform; may be NULL if not collected.
+
+      - name: ticket_customer_last_name
+        description: >
+          Last name of the customer who created the ticket. Extracted from the customer support platform; may be NULL if not collected.
+
+      - name: ticket_entry_method
+        description: >
+          The method through which the ticket was initially created in Gorgias. Represents the "via" field in Gorgias that indicates how the first message of the ticket was received or sent from Gorgias (email, helpdesk, api, etc.).
+
+      - name: ticket_excerpt
+        description: >
+          Brief excerpt of the ticket content
+
+      - name: ticket_external_id
+        description: >
+          External system identifier for the ticket
+
+      - name: ticket_id
+        description: >
+          Original ticket identifier from the source system
+
+      - name: ticket_last_message_at
+        description: >
+          UTC timestamp of the last message sent or received in the ticket conversation. Used to track ticket activity and identify stale tickets.
+
+      - name: ticket_last_message_at_local_datetime
+        description: >
+          Timestamp of the last message in the ticket in local timezone.
+
+      - name: ticket_message_count
+        description: >
+          Total number of messages exchanged in the ticket conversation. Includes both customer and agent messages; used for interaction analysis.
+
+      - name: ticket_priority
+        description: >
+          Priority level of the ticket
+
+      - name: ticket_resolution_time_hours
+        description: >
+          Time taken to resolve the ticket in hours. In rare occasions where ticket creation time is after ticket closed time, the resolution time is 0.
+
+      - name: ticket_status
+        description: >
+          Current status of the ticket -- open or closed
+
+      - name: ticket_subject
+        description: >
+          Subject line of the ticket
+
+      - name: ticket_tag_names_csv
+        description: >
+          Comma-separated list of tag names associated with the ticket
+
+      - name: ticket_updated_at
+        description: >
+          UTC timestamp when the ticket was last updated/modified. Tracks any changes to ticket status, assignee, or new messages.
+
+      - name: ticket_updated_at_local_datetime
+        description: >
+          Ticket latest updated timestamp in local timezone.
+
+```

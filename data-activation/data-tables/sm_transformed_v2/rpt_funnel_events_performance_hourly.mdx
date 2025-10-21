@@ -1,0 +1,118 @@
+---
+title: 'rpt_funnel_events_performance_hourly'
+description: ''
+---
+
+```yaml
+version: 2
+
+models:
+  - name: rpt_funnel_events_performance_hourly
+    description: >
+      Hourly funnel event aggregation for near-real-time conversion monitoring. Grain: One row per (hour x event dimension). Date field: event_local_datetime. Critical filters: event_local_datetime for hourly/daily time windows. Key joins: none; drill down to obt_funnel_event_history using event dimensions and time window filters.
+    columns:
+      - name: account_sign_up_event_count
+        description: >
+          Count of account registration events within the hour.
+
+      - name: add_payment_info_event_count
+        description: >
+          Count of payment information submission events within the hour.
+
+      - name: add_shipping_info_event_count
+        description: >
+          Count of shipping information submission events within the hour.
+
+      - name: add_to_cart_event_count
+        description: >
+          Count of add-to-cart events within the hour for funnel analysis.
+
+      - name: begin_checkout_event_count
+        description: >
+          Count of checkout initiation events within the hour for conversion funnel tracking.
+
+      - name: email_sign_up_event_count
+        description: >
+          Count of email subscription and lead generation events (subscribe, generate_lead) within the hour.
+
+      - name: event_local_datetime
+        description: >
+          Event timestamp in the reporting time zone (hourly bucket).
+
+      - name: event_order_revenue
+        description: >
+          Total revenue attributed to events within the hour aggregated from event_order_revenue field.
+
+      - name: event_page_path
+        description: >
+          URL path component for page-level aggregation.
+
+      - name: event_page_title
+        description: >
+          Page title where the event occurred for content analysis.
+
+      - name: event_page_url
+        description: >
+          Page URL without query parameters where the event occurred.
+
+      - name: event_utm_campaign
+        description: >
+          UTM campaign parameter for campaign-level attribution.
+
+      - name: event_utm_content
+        description: >
+          UTM content parameter for A/B testing and ad variation tracking.
+
+      - name: event_utm_medium
+        description: >
+          UTM medium parameter for channel grouping (e.g., cpc, social, email).
+
+      - name: event_utm_source
+        description: >
+          UTM source parameter for attribution analysis (e.g., google, facebook, email).
+
+      - name: event_utm_term
+        description: >
+          UTM term parameter for paid search keyword tracking.
+
+      - name: page_view_event_count
+        description: >
+          Count of page view events within the hour for traffic analysis.
+
+      - name: purchase_event_count
+        description: >
+          Count of purchase events within the hour.
+
+      - name: refund_event_count
+        description: >
+          Count of refund events within the hour.
+
+      - name: remove_from_cart_event_count
+        description: >
+          Count of cart removal events within the hour.
+
+      - name: select_item_event_count
+        description: >
+          Count of product selection events within the hour.
+
+      - name: sm_store_id
+        description: >
+          SourceMedium's unique store identifier. For Shopify stores, derived from the myshopify.com domain; for other platforms (Amazon, TikTok Shop, Walmart.com), uses platform-specific identifiers.
+
+      - name: source_system
+        description: >
+          Tracking platform emitting the event (elevar, blotout, snowplow, snowplow_ga4, heap, ga4).
+
+      - name: view_cart_event_count
+        description: >
+          Count of cart page view events within the hour.
+
+      - name: view_item_event_count
+        description: >
+          Count of product detail page view events within the hour.
+
+      - name: view_item_list_event_count
+        description: >
+          Count of product listing page view events within the hour.
+
+```

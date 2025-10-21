@@ -1,0 +1,86 @@
+---
+title: "SM Transformed v2 Tables"
+description: "Browse all tables in the sm_transformed_v2 schema, grouped by type."
+---
+
+Welcome to the sm_transformed_v2 schema. Use this page to quickly jump to table-level documentation. Tables are grouped by their role in the model for clarity.
+
+### Dimensions
+<CardGroup cols={2}>
+  <Card title="dim_customer_addresses" href="/data-activation/data-tables/sm_transformed_v2/dim_customer_addresses">
+    Customer address dimension for enriching customers and orders with normalized geo attributes.
+  </Card>
+  <Card title="dim_customers" href="/data-activation/data-tables/sm_transformed_v2/dim_customers">
+    Customer dimension with stable keys and profile attributes for joining and segmentation.
+  </Card>
+  <Card title="dim_order_discounts" href="/data-activation/data-tables/sm_transformed_v2/dim_order_discounts">
+    Order discount dimension with discount types, codes, and values.
+  </Card>
+  <Card title="dim_order_lines" href="/data-activation/data-tables/sm_transformed_v2/dim_order_lines">
+    Order line dimension for product-level attributes at line grain.
+  </Card>
+  <Card title="dim_order_shipping_lines" href="/data-activation/data-tables/sm_transformed_v2/dim_order_shipping_lines">
+    Order shipping line dimension for shipping method and cost details at line-level.
+  </Card>
+  <Card title="dim_order_taxes" href="/data-activation/data-tables/sm_transformed_v2/dim_order_taxes">
+    Order tax dimension with tax names and amounts for reconciliation and reporting.
+  </Card>
+  <Card title="dim_orders" href="/data-activation/data-tables/sm_transformed_v2/dim_orders">
+    Order dimension with stable keys and descriptive attributes for joining and exploration.
+  </Card>
+  <Card title="dim_product_variants" href="/data-activation/data-tables/sm_transformed_v2/dim_product_variants">
+    Product variant dimension for enriching line items with stable keys and attributes.
+  </Card>
+</CardGroup>
+
+### Facts
+<CardGroup cols={2}>
+  <Card title="fct_orders_placed" href="/data-activation/data-tables/sm_transformed_v2/fct_orders_placed">
+    Placed order fact table for order-count analytics and funnel tie-ins.
+  </Card>
+  <Card title="fct_refunds_processed" href="/data-activation/data-tables/sm_transformed_v2/fct_refunds_processed">
+    Refund transaction fact table for revenue adjustments and return analytics.
+  </Card>
+</CardGroup>
+
+### OBT (One Big Table)
+<CardGroup cols={2}>
+  <Card title="obt_customer_support_tickets" href="/data-activation/data-tables/sm_transformed_v2/obt_customer_support_tickets">
+    Customer support ticket analytics for lifecycle, agent performance, and channel analysis.
+  </Card>
+  <Card title="obt_customers" href="/data-activation/data-tables/sm_transformed_v2/obt_customers">
+    Customer analytics table for acquisition, subscription status, and cohort analysis.
+  </Card>
+  <Card title="obt_funnel_event_history" href="/data-activation/data-tables/sm_transformed_v2/obt_funnel_event_history">
+    Unified funnel event history across tracking sources (Elevar, Blotout, Snowplow/GA4, Heap) for pathing and attribution.
+  </Card>
+  <Card title="obt_order_lines" href="/data-activation/data-tables/sm_transformed_v2/obt_order_lines">
+    Product-level analytics table for order line revenue, costs, and profitability.
+  </Card>
+  <Card title="obt_orders" href="/data-activation/data-tables/sm_transformed_v2/obt_orders">
+    Order analytics table for revenue, profitability, refunds, and channel performance analysis.
+  </Card>
+</CardGroup>
+
+### Reports
+<CardGroup cols={2}>
+  <Card title="rpt_ad_performance_daily" href="/data-activation/data-tables/sm_transformed_v2/rpt_ad_performance_daily">
+    Daily advertising performance across platforms for spend, efficiency, and ROAS.
+  </Card>
+  <Card title="rpt_cohort_ltv_by_first_valid_purchase_attribute_no_product_filters" href="/data-activation/data-tables/sm_transformed_v2/rpt_cohort_ltv_by_first_valid_purchase_attribute_no_product_filters">
+    Cohort LTV analysis by first valid purchase attributes (channel, campaign, source) with no product filters.
+  </Card>
+  <Card title="rpt_executive_summary_daily" href="/data-activation/data-tables/sm_transformed_v2/rpt_executive_summary_daily">
+    Daily KPI aggregation for executive reporting and dashboards (revenue, ROAS, profit, targets).
+  </Card>
+  <Card title="rpt_funnel_events_performance_hourly" href="/data-activation/data-tables/sm_transformed_v2/rpt_funnel_events_performance_hourly">
+    Hourly funnel event aggregation for near-real-time conversion monitoring.
+  </Card>
+  <Card title="rpt_outbound_message_performance_daily" href="/data-activation/data-tables/sm_transformed_v2/rpt_outbound_message_performance_daily">
+    Daily messaging performance across email/SMS/push for campaigns and flows.
+  </Card>
+</CardGroup>
+
+<br/>
+
+Need something else in this index? Ping us and we’ll add it.

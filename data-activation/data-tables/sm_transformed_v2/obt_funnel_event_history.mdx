@@ -1,0 +1,266 @@
+---
+title: 'obt_funnel_event_history'
+description: ''
+---
+
+```yaml
+version: 2
+
+models:
+  - name: obt_funnel_event_history
+    description: >
+      Unified funnel event history across tracking sources (Elevar, Blotout, Snowplow/GA4, Heap) for pathing and attribution. Grain: One row per event (sm_event_key). Date field: event_local_datetime. Critical filters: source_system (tracking platform); sm_event_name (event type: purchase, add_to_cart, etc.). Key joins: obt_orders via event_order_id = order_id (many:1) when available.
+    columns:
+      - name: _source_system_relation
+        description: >
+          Internal dbt field identifying which source model this event originated from (e.g., 'int_elevar__funnel_event_history', 'stg_ga4__unified_events'). Used for debugging and understanding data lineage across the union of tracking platforms.
+
+      - name: _synced_at
+        description: >
+          UTC timestamp when SourceMedium last synced the row. Freshness indicator only; not for time-series analysis.
+
+      - name: event_action
+        description: >
+          Event action from analytics platforms (e.g., Google Analytics event action like 'click', 'submit'). Used for understanding specific user interactions within event categories.
+
+      - name: event_category
+        description: >
+          Event category from analytics platforms (e.g., Google Analytics event category). Used for grouping events by type in custom event tracking implementations.
+
+      - name: event_checkout_id
+        description: >
+          Checkout identifier associated with the event when the event occurs during a checkout process. Used to link funnel events to specific checkout sessions for abandoned cart analysis.
+
+      - name: event_checkout_token
+        description: >
+          Unique token for the checkout session associated with the event. Used to track checkout abandonment and recovery flows across multiple events.
+
+      - name: event_currency_code
+        description: >
+          Three-letter ISO 4217 currency code for revenue events (e.g., 'USD', 'EUR', 'GBP'). Used for multi-currency revenue tracking and international market analysis.
+
+      - name: event_customer_id
+        description: >
+          Platform-reported customer identifier associated with the event.
+
+      - name: event_datetime
+        description: >
+          UTC timestamp when the event was synced/ingested into the warehouse. Use event_local_datetime for time-series analysis in the reporting timezone.
+
+      - name: event_experiment_name
+        description: >
+          Name of the A/B test or experiment associated with the event. Used to segment events by experiment variant for testing analysis.
+
+      - name: event_experiment_variant
+        description: >
+          Variant identifier for the A/B test or experiment (e.g., 'control', 'variant_a'). Used to compare funnel performance across experiment variants.
+
+      - name: event_fbclid
+        description: >
+          Facebook Click Identifier (FBCLID) from the event, used for Meta/Facebook ad attribution. Links events to specific Facebook/Instagram ad clicks for conversion tracking.
+
+      - name: event_gclid
+        description: >
+          Google Click Identifier (GCLID) from the event, used for Google Ads attribution. Links events to specific Google Ads clicks for conversion tracking.
+
+      - name: event_id
+        description: >
+          Platform-specific identifier of the event instance.
+
+      - name: event_label
+        description: >
+          Event label from analytics platforms providing additional context about the event. Used for detailed event segmentation and custom tracking analysis.
+
+      - name: event_landing_page_ad_id
+        description: >
+          Facebook/Meta ad ID extracted from the landing page URL parameters (fbadid or ad_id). Used to attribute events to specific Meta advertising campaigns.
+
+      - name: event_local_datetime
+        description: >
+          Event timestamp in the reporting time zone; use for time-series grouping and recency checks.
+
+      - name: event_order_id
+        description: >
+          Associated order ID when the event relates to an order (e.g., purchase).
+
+      - name: event_order_line_subtotal_revenue
+        description: >
+          Line-level subtotal revenue attributed to the event when available.
+
+      - name: event_order_revenue
+        description: >
+          Revenue attributed to the event when applicable (e.g., purchase events).
+
+      - name: event_order_shipping_revenue
+        description: >
+          Shipping revenue attributed to the event when applicable.
+
+      - name: event_order_subtotal_revenue
+        description: >
+          Subtotal revenue (pre-tax, pre-shipping) attributed to the event.
+
+      - name: event_order_taxes
+        description: >
+          Taxes attributed to the event when applicable.
+
+      - name: event_page_path
+        description: >
+          The URL path of the page where the event occurred (e.g., '/products/item-name'). Normalized to remove special characters; use for page grouping in funnel analysis.
+
+      - name: event_page_title
+        description: >
+          The title of the web page where the event occurred (from HTML <title> tag). Used for page-level funnel analysis and identifying specific landing pages.
+
+      - name: event_page_url
+        description: >
+          Page URL with the query parameters removed.
+
+      - name: event_page_url_with_params
+        description: >
+          Page URL with all original query parameters.
+
+      - name: event_referrer
+        description: >
+          The full referrer URL that brought the user to the page where the event occurred. Contains complete referrer information including query parameters.
+
+      - name: event_referrer_domain
+        description: >
+          The domain extracted from the referrer URL that brought the user to the page. Used to identify traffic sources and external sites driving events.
+
+      - name: event_referrer_medium
+        description: >
+          Marketing medium extracted from the referrer URL (e.g., 'organic', 'cpc', 'social'). Used for medium-level attribution when UTM parameters are not available.
+
+      - name: event_referrer_source
+        description: >
+          Marketing source extracted from the referrer URL (e.g., 'google', 'facebook'). Used for source-level attribution when UTM parameters are not available.
+
+      - name: event_referrer_term
+        description: >
+          Search term or keyword extracted from the referrer URL. Used for keyword-level attribution and search query analysis.
+
+      - name: event_referrer_url
+        description: >
+          Full referrer URL including query parameters that brought the user to the page. More detailed than event_referrer; used for complete referrer analysis.
+
+      - name: event_screen_resolution
+        description: >
+          Screen resolution of the device where the event occurred (e.g., '1920x1080'). Used for device-specific funnel optimization and responsive design analysis.
+
+      - name: event_session_id
+        description: >
+          Platform-specific session identifier for the user's browsing session. May differ from event_user_session_id depending on tracking platform; used for session-level analysis.
+
+      - name: event_time
+        description: >
+          Raw event timestamp from the source tracking platform (may be in various formats). Use event_local_datetime for standardized time-series analysis.
+
+      - name: event_user_city
+        description: >
+          City location of the user who triggered the event, derived from IP geolocation or user profile. Used for geographic segmentation and regional funnel analysis.
+
+      - name: event_user_country_code
+        description: >
+          Two-letter ISO country code of the user who triggered the event (e.g., 'US', 'CA', 'GB'). Used for international market segmentation and country-level funnel analysis.
+
+      - name: event_user_email
+        description: >
+          Email address of the user who triggered the event, when available from tracking platform. Used for user identification and linking events to customer records.
+
+      - name: event_user_first_name
+        description: >
+          First name of the user who triggered the event, when available from tracking platform. Used for personalization and user identification.
+
+      - name: event_user_id
+        description: >
+          Platform-reported user identifier (distinct from customer ID) associated with the event.
+
+      - name: event_user_last_name
+        description: >
+          Last name of the user who triggered the event, when available from tracking platform. Used for personalization and user identification.
+
+      - name: event_user_phone
+        description: >
+          Phone number of the user who triggered the event, when available from tracking platform. Format varies by platform; used for user identification in phone-based campaigns.
+
+      - name: event_user_province_code
+        description: >
+          State/province code of the user who triggered the event (e.g., 'CA', 'NY'). Used for regional segmentation and state-level funnel analysis.
+
+      - name: event_user_session_count
+        description: >
+          Session count metric associated with the event/user context when provided by the platform.
+
+      - name: event_user_session_id
+        description: >
+          Session identifier for the user's browsing session when the event occurred. Used to group events into sessions for session-level funnel analysis and pathing.
+
+      - name: event_user_zip_code
+        description: >
+          ZIP/postal code of the user who triggered the event. Used for granular geographic analysis and local market segmentation.
+
+      - name: event_utm_campaign
+        description: >
+          UTM campaign associated with the event (if available).
+
+      - name: event_utm_content
+        description: >
+          UTM content associated with the event (if available).
+
+      - name: event_utm_id
+        description: >
+          UTM ID parameter from the event URL, used for campaign tracking across Google and other platforms. Links events to specific marketing campaign IDs for attribution analysis.
+
+      - name: event_utm_medium
+        description: >
+          UTM medium associated with the event (if available).
+
+      - name: event_utm_source
+        description: >
+          UTM source associated with the event (if available).
+
+      - name: event_utm_term
+        description: >
+          UTM term associated with the event (if available).
+
+      - name: sm_event_key
+        description: >
+          Internal SM event ID that's unique for each row.
+
+      - name: sm_event_name
+        description: >
+          Normalized event name mapped across platforms for consistent funnel analysis.
+
+      - name: sm_funnel_event_rank
+        description: >
+          Sequential rank of the event within the user's funnel journey (1 = first event, 2 = second, etc.). Used for funnel step analysis and understanding user progression through conversion paths.
+
+      - name: sm_store_id
+        description: >
+          SourceMedium's unique store identifier. For Shopify stores, derived from the myshopify.com domain; for other platforms (Amazon, TikTok Shop, Walmart.com), uses platform-specific identifiers.
+
+      - name: source_system
+        description: >
+          Tracking platform emitting the event (elevar, blotout, snowplow, snowplow_ga4, heap, ga4).
+
+      - name: source_system_event_local_datetime
+        description: >
+          Original event timestamp from the source tracking platform in its local timezone. May differ from event_local_datetime which uses the reporting timezone; use for debugging timestamp discrepancies.
+
+      - name: source_system_event_name
+        description: >
+          Original event name from the source platform.
+
+      - name: user_ip
+        description: >
+          IP address of the user who triggered the event. Used for geolocation analysis and fraud detection; may be anonymized based on privacy settings.
+
+      - name: user_user_agent
+        description: >
+          Browser user agent string from the event, identifying browser and device type. Used for browser compatibility analysis and device segmentation.
+
+      - name: user_zip
+        description: >
+          ZIP/postal code from user IP geolocation or profile data. Alternative to event_user_zip_code; used for geographic segmentation.
+
+```

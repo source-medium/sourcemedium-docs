@@ -9,43 +9,46 @@ version: 2
 models:
   - name: dim_order_shipping_lines
     description: >
-      The dim_order_shipping_lines table contains dimensions associated with shipping lines applied to orders.
+      Order shipping line dimension for shipping method and cost details at line-level. Grain: One row per sm_shipping_line_key. No canonical date; _synced_at is a freshness timestamp (not for analysis). Critical filters: source_system for platform-specific shipping representation. Key joins: dim_orders via sm_order_key (many:1); dim_order_lines via sm_order_line_key (many:1).
     columns:
-      - name: sm_store_id
+      - name: _synced_at
         description: >
-          The SourceMedium ID of a store, which is derived from the store's myshopify.com domain.
-        tests:
-          - not_null
-      - name: sm_shipping_line_key
+          UTC timestamp when SourceMedium last synced the row. Freshness indicator only; not for time-series analysis.
+
+      - name: order_id
         description: >
-          The unique shipping line key created by SourceMedium that can be used to join shipping line dimensions to related tables.
-        tests:
-          - not_null
-          - unique
-      - name: source_system
-        description: >
-          The e-commerce source system used to facilitate a customer's order.
-      - name: sm_order_line_key
-        description: >
-          The unique order line item key created by SourceMedium that can be used to join order line item dimensions to related tables.
-      - name: sm_order_key
-        description: >
-          The unique order key created by SourceMedium that can be used to join order dimensions to related tables.
+          Platform order identifier. Not globally unique across stores; pair with `smcid` and `source_system` when needed for scoping.
+
       - name: order_shipping_line_id
         description: >
           The ID that represents the shipping details for a customer's order.
-      - name: order_id
+
+      - name: order_shipping_line_shipping
         description: >
-          The ID of the order.
-      - name: shipping
-        description: >
-          The amount the customer paid in shipping for an order.
+          The shipping cost amount for this specific shipping line item. Represents the individual shipping charge when multiple shipping methods are used.
+
       - name: order_shipping_line_title
         description: >
           The title of the shipping line (e.g., 2-3 Day Shipping, Economy Shipping).
-      - name: _synced_at
+
+      - name: sm_order_key
         description: >
-          The date and time when SourceMedium last successfully synced the row of data.
-        tests:
-          - not_null
+          Stable SourceMedium order key. Unique per order. Key joins: `obt_order_lines` (1:many via `sm_order_key`); `dim_customers` (many:1 via `sm_customer_key`). Platform caveat: TikTok Shop coverage may be limited.
+
+      - name: sm_order_line_key
+        description: >
+          Stable SourceMedium order line key. Unique per line. Key joins: `dim_order_lines` (1:1); `dim_orders` (many:1 via `sm_order_key`). Platform caveat: TikTok Shop coverage may be limited.
+
+      - name: sm_shipping_line_key
+        description: >
+          The unique shipping line key created by SourceMedium that can be used to join shipping line dimensions to related tables.
+
+      - name: sm_store_id
+        description: >
+          SourceMedium's unique store identifier. For Shopify stores, derived from the myshopify.com domain; for other platforms (Amazon, TikTok Shop, Walmart.com), uses platform-specific identifiers.
+
+      - name: source_system
+        description: >
+          Originating platform for the record (e.g., Shopify, Amazon, TikTok Shop, Chargebee). Used for platform‑specific behavior and coverage.
+
 ```
