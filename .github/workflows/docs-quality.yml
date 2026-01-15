@@ -1,0 +1,92 @@
+name: Docs Quality Checks
+
+on:
+  pull_request:
+    branches: [master]
+    paths:
+      - '**/*.mdx'
+      - '**/*.md'
+      - 'docs.json'
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Spell check - catches typos like "attribuion" -> "attribution"
+      - name: Spell Check
+        uses: codespell-project/actions-codespell@v2
+        with:
+          skip: "*.json,*.yml,*.yaml,*.png,*.jpg,*.svg"
+          ignore_words_list: "smcid,sourcemedium,hdyhau,utm,utms,cogs,ltv,roas,aov,cpa,cac,arpu,sku,skus,recharge,shopify,klaviyo,gorgias,returnly,yotpo,elevar,fermát,fermat,knocommerce,fairing,zigpoll,matrixify,looker,bigquery,bq"
+
+      # Broken link validation
+      - name: Link Check
+        uses: lycheeverse/lychee-action@v1
+        with:
+          args: >-
+            --verbose
+            --no-progress
+            --accept 200,204,301,302,403,429
+            --exclude-path node_modules
+            --exclude 'mailto:*'
+            --exclude 'tel:*'
+            --exclude 'https://airtable.com/*'
+            '**/*.mdx'
+            '**/*.md'
+          fail: true
+
+      # JSON syntax validation
+      - name: Validate docs.json
+        run: python3 -m json.tool docs.json > /dev/null && echo "✅ docs.json is valid JSON"
+
+      # Navigation reference validation
+      - name: Validate Navigation References
+        run: |
+          python3 << 'EOF'
+          import json
+          import os
+          import sys
+
+          def extract_page_refs(obj, refs=None):
+              """Recursively extract all page references from navigation config."""
+              if refs is None:
+                  refs = []
+
+              if isinstance(obj, str):
+                  # Skip external URLs
+                  if not obj.startswith('http'):
+                      refs.append(obj)
+              elif isinstance(obj, list):
+                  for item in obj:
+                      extract_page_refs(item, refs)
+              elif isinstance(obj, dict):
+                  for key, value in obj.items():
+                      # Look inside tabs, groups, pages, and navigation
+                      if key in ('tabs', 'pages', 'navigation', 'groups'):
+                          extract_page_refs(value, refs)
+
+              return refs
+
+          with open('docs.json') as f:
+              config = json.load(f)
+
+          refs = extract_page_refs(config)
+          missing = []
+
+          for ref in refs:
+              mdx_path = f"{ref}.mdx"
+              if not os.path.exists(mdx_path):
+                  missing.append(mdx_path)
+
+          if missing:
+              print(f"❌ Found {len(missing)} missing navigation references:")
+              for m in missing[:20]:  # Limit output
+                  print(f"   - {m}")
+              if len(missing) > 20:
+                  print(f"   ... and {len(missing) - 20} more")
+              sys.exit(1)
+
+          print(f"✅ All {len(refs)} navigation references are valid")
+          EOF
