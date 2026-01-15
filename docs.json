@@ -28,6 +28,12 @@
             ]
           },
           {
+            "group": "Advanced Insights",
+            "pages": [
+              "advanced-insights-and-strategy/insights-overview"
+            ]
+          },
+          {
             "group": "Core Concepts",
             "pages": [
               "help-center/core-concepts/attribution/attribution-in-sourcemedium",
@@ -59,9 +65,11 @@
               {
                 "group": "Data Clarification & Discrepancies",
                 "pages": [
+                  "help-center/faq/data-faqs/data-faqs-home",
                   "help-center/faq/account-management-faqs/what-is-last-click-attribution",
                   "help-center/faq/data-faqs/why-would-external-reports-not-match-the-sourcemedium-dashboard",
                   "help-center/faq/data-faqs/why-dont-the-executive-summary-and-shopifys-sales-report-match",
+                  "help-center/faq/account-management-faqs/what-impact-does-global-e-have-in-source-medium",
                   "help-center/faq/data-faqs/why-doesnt-recharge-match-sourcemedium",
                   "help-center/faq/data-faqs/why-isnt-the-executive-summary-report-attributing-my-gift-card-revenue",
                   "help-center/faq/data-faqs/why-dont-new-customers-plus-repeat-customers-equal-customers",
@@ -78,6 +86,7 @@
               {
                 "group": "Dashboard Functionality",
                 "pages": [
+                  "help-center/faq/dashboard-functionality-faqs/dashboard-functionality-faqs-home",
                   "help-center/faq/dashboard-functionality-faqs/amazon-omnichannel-overview",
                   "help-center/faq/dashboard-functionality-faqs/amazon-sales-performance-in-sourcemedium",
                   "help-center/faq/dashboard-functionality-faqs/where-can-i-find-my-amazon-marketing-data",
@@ -88,6 +97,7 @@
               {
                 "group": "Configuration Sheet",
                 "pages": [
+                  "help-center/faq/configuration-sheet-faqs/configuration-sheet-faqs-home",
                   "help-center/faq/configuration-sheet-faqs/configuration-sheet-load-frequency",
                   "help-center/faq/configuration-sheet-faqs/how-can-i-filter-out-samples-returns-and-exchanges"
                 ]
@@ -95,9 +105,11 @@
               {
                 "group": "Account Management",
                 "pages": [
+                  "help-center/faq/account-management-faqs/account-management-faqs-home",
                   "help-center/faq/account-management-faqs/what-is-the-process-for-requesting-and-scoping-custom-work",
                   "help-center/faq/account-management-faqs/how-do-i-set-up-a-google-group",
                   "help-center/faq/account-management-faqs/how-do-i-invite-users-to-my-dashboard",
+                  "help-center/faq/account-management-faqs/how-do-i-give-dashboard-access-to-a-teammate",
                   "help-center/faq/account-management-faqs/bigquery-csv-upload-guide",
                   "help-center/faq/account-management-faqs/moving-slack-bot-to-another-channel",
                   "help-center/faq/account-management-faqs/what-metrics-can-i-include-in-my-daily-slack-bot-report",
@@ -444,6 +456,12 @@
                     ]
                   },
                   {
+                    "group": "FERMÀT",
+                    "pages": [
+                      "data-inputs/platform-integration-instructions/fermat-integration"
+                    ]
+                  },
+                  {
                     "group": "(Beta) Blotout",
                     "pages": [
                       "data-inputs/platform-integration-instructions/blotout-integration"
@@ -515,6 +533,53 @@
                   "data-inputs/configuration-sheet/costs/how-do-i-surface-shipping-costs-within-my-dashboard",
                   "data-inputs/configuration-sheet/costs/how-do-i-surface-merchant-processing-fees-within-my-dashboard",
                   "data-inputs/configuration-sheet/costs/how-do-i-surface-operating-expenses-within-my-dashboard"
+                ]
+              }
+            ]
+          },
+          {
+            "group": "Raw Data Source Overviews",
+            "pages": [
+              {
+                "group": "Ecommerce & Subscription",
+                "pages": [
+                  "help-center/raw-data-source-overviews/amazon-sc-overview",
+                  "help-center/raw-data-source-overviews/chargebee-overview",
+                  "help-center/raw-data-source-overviews/stripe-overview"
+                ]
+              },
+              {
+                "group": "Marketing & Advertising",
+                "pages": [
+                  "help-center/raw-data-source-overviews/meta-ads-overview",
+                  "help-center/raw-data-source-overviews/google-ads-overview"
+                ]
+              },
+              {
+                "group": "Email & CRM",
+                "pages": [
+                  "help-center/raw-data-source-overviews/klaviyo-overview",
+                  "help-center/raw-data-source-overviews/mailchimp-overview",
+                  "help-center/raw-data-source-overviews/hubspot-overview"
+                ]
+              },
+              {
+                "group": "Configuration Sheet",
+                "pages": [
+                  "help-center/raw-data-source-overviews/configuration-sheet/configuration-sheet-overview",
+                  "help-center/raw-data-source-overviews/configuration-sheet/sales-tab",
+                  "help-center/raw-data-source-overviews/configuration-sheet/channel-mapping-tab",
+                  "help-center/raw-data-source-overviews/configuration-sheet/targets-tab",
+                  {
+                    "group": "Costs",
+                    "pages": [
+                      "help-center/raw-data-source-overviews/configuration-sheet/costs/product-costs",
+                      "help-center/raw-data-source-overviews/configuration-sheet/costs/shipping-costs",
+                      "help-center/raw-data-source-overviews/configuration-sheet/costs/fulfillment-costs",
+                      "help-center/raw-data-source-overviews/configuration-sheet/costs/merchant-processing-fees",
+                      "help-center/raw-data-source-overviews/configuration-sheet/costs/marketing-costs"
+                    ]
+                  }
                 ]
               }
             ]
@@ -624,6 +689,7 @@
                   "data-activation/managed-bi-v1/modules/traffic-deep-dive-module",
                   "data-activation/managed-bi-v1/modules/emails-general-module",
                   "data-activation/managed-bi-v1/modules/emails-conversions-module",
+                  "data-activation/managed-bi-v1/modules/post-purchase-survey-module",
                   "data-activation/managed-bi-v1/modules/ltv-retention-module",
                   "data-activation/managed-bi-v1/modules/repurchase-analysis-module",
                   "data-activation/managed-bi-v1/modules/new-customer-analysis-module",
@@ -633,6 +699,18 @@
                   "data-activation/managed-bi-v1/modules/product-affinity-module",
                   "data-activation/managed-bi-v1/modules/subscription-overview-module",
                   "data-activation/managed-bi-v1/modules/subscription-product-performance-module"
+                ]
+              },
+              {
+                "group": "Managed BI v2 (beta)",
+                "pages": [
+                  "data-activation/managed-bi-v2/overview",
+                  {
+                    "group": "Modules",
+                    "pages": [
+                      "data-activation/managed-bi-v2/modules/executive-summary"
+                    ]
+                  }
                 ]
               }
             ]
