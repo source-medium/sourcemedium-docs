@@ -1,63 +1,255 @@
 ---
-title: "Best practices in setting up a post-purchase HDYHAU survey"
-sidebarTitle: "Post-purchase HDYHAU best practices"
-icon: 'question-mark'
+title: "Best Practices for Post-Purchase HDYHAU Surveys"
+sidebarTitle: "Post-Purchase Survey Setup"
+description: "How to set up effective 'How Did You Hear About Us?' surveys to collect zero-party attribution data"
+icon: 'square-poll-vertical'
 ---
-### Best practices in setting up a “How Did You Hear About Us?” survey to collect zero-party data
 
-### Survey Setup
+## What is a HDYHAU Survey?
 
-The main copy used and the options selected should be specific for your brand and respective marketing channels. Different platforms offer different ways to set up questions, but these are the general options we recommend.
+A "How Did You Hear About Us?" (HDYHAU) survey collects **zero-party data**—information customers voluntarily provide about how they discovered your brand. This data is valuable because:
 
-**Title**: How did you first hear about us?
+- **Privacy-resistant**: Not affected by cookie blockers, iOS privacy features, or ad blockers
+- **Top-of-funnel visibility**: Captures awareness channels that tracking can't see (word of mouth, podcasts, TV)
+- **Validates tracking data**: Cross-reference with your analytics to identify attribution gaps
 
-**Introduction text**: [leave blank]
+<Info>
+Zero-party data complements (not replaces) your tracking-based attribution. Use both for a complete picture of your marketing performance.
+</Info>
 
-**Placeholder text**: choose an option
+---
 
-**Button text**: submit
+## Survey Placement & Timing
 
-<Accordion title="Standard response options:">
-- Facebook
+<Tabs>
+  <Tab title="Thank-You Page (Recommended)">
+    Display the survey immediately after purchase on the order confirmation/thank-you page.
+
+    **Pros:**
+    - Highest response rates (15-30%)
+    - Customer is already engaged
+    - Memory is fresh
+
+    **Cons:**
+    - Can slow checkout flow slightly
+  </Tab>
+  <Tab title="Post-Purchase Email">
+    Send survey via email after order confirmation.
+
+    **Pros:**
+    - Doesn't interrupt checkout
+    - Can include follow-up questions
+
+    **Cons:**
+    - Lower response rates (3-8%)
+    - Delay may affect memory accuracy
+  </Tab>
+</Tabs>
+
+<Tip>
+For optimal response rates, display the survey on the thank-you page. Most survey tools (Fairing, KnoCommerce, Zigpoll) support this placement out of the box.
+</Tip>
+
+---
+
+## Survey Setup
+
+### Question Copy
+
+| Element | Recommendation |
+|---------|----------------|
+| **Question** | "How did you first hear about us?" |
+| **Introduction text** | Leave blank (keep it short) |
+| **Placeholder text** | "Choose an option" |
+| **Button text** | "Submit" |
+
+<Note>
+The word **"first"** is important—it prompts customers to think about initial discovery, not their most recent interaction.
+</Note>
+
+### Standard Response Options
+
+Include channels where you actively market. Order matters for accurate data:
+
+<Accordion title="Recommended response options">
+- Facebook / Meta
 - Instagram
 - TikTok
-- Google (or other search engine)
-- Youtube
+- Google Search
+- YouTube
 - Podcast
-- Blog or press
-- Influencer
-- Friend - family - coworker
+- Blog / Press / Article
+- Influencer / Creator
+- Email / Newsletter
+- Friend / Family / Coworker
+- I don't remember
 - Other
 </Accordion>
 
-<Accordion title = "Other channels to consider [not necessary if small spend]:"> 
+<Accordion title="Additional channels to consider">
+Add these if you have meaningful spend or presence:
+
 - Pinterest
 - Snapchat
+- Streaming TV / CTV
+- Linear TV
+- Radio
+- Billboard / Out of Home
+- Direct Mail
+- Reddit
+- Twitter / X
+- LinkedIn (B2B)
 - Bing Search
-- Google (or other search engine) 
-    - Can be broken into two or more questions depending on the platforms you're looking to track.
 </Accordion>
 
-### Recommended Survey/Question Settings
+<Warning>
+**Always include "I don't remember"** as an option. Without it, customers who genuinely don't recall will select a random channel, polluting your data. Research shows 10-20% of respondents legitimately don't remember.
+</Warning>
 
-- Display the options in random order, if possible.
-- Add a “fake” response option for a marketing channel that you aren't currently using (e.g. TV)
-- Optional: Select Only **capture one response per customer.**
-- Optional: Enable free form “Other” option if you would like richer qualitative response data
+---
 
-### Customer and Order Tagging
+## Survey Settings & Best Practices
 
-- Enable customer and order level tagging (note, for some platforms this is an upsell feature for a more premium plan)
-- Label with the prefix **HDYHAU-** or **PPS-**
-    - This label will be easier to identify for filtering in the SourceMedium dashboard and will show as something like **HDYHAU-Facebook**
+### Response Order
 
-### Where can zero party data be used in the SourceMedium dashboard?
+<CardGroup cols={2}>
+  <Card title="Randomize Options" icon="shuffle">
+    Randomize the display order of channels to prevent position bias (first options get selected more often).
+  </Card>
+  <Card title="Pin Bottom Options" icon="thumbtack">
+    Keep "I don't remember" and "Other" pinned at the bottom—these should always be last.
+  </Card>
+</CardGroup>
 
-- New Customers - customer tag required
-- Last Order Analysis - customer tag required
-- Orders Deep Dive - order tag required
-- Post Purchase Survey Module [BETA] - ask the SourceMedium team for early access!
+### Control Option (Validation Check)
 
-### Additional information and related articles
+Add a "control" channel you **don't** use to detect random clicking:
 
-- [Tagging orders with Fairing (Enquire)](https://help.sourcemedium.com/articles/how-do-i-tag-orders-with-post-purchase-survey-results-from-enquire)
+```
+Example: If you don't advertise on TV, include "TV Commercial" as an option.
+```
+
+If this control option receives significant responses (>5%), it indicates:
+- Customers are clicking randomly
+- Your question may be confusing
+- Response data quality may be compromised
+
+<Tip>
+A well-designed survey should see <3% responses for the control option.
+</Tip>
+
+### Response Settings
+
+| Setting | Recommendation |
+|---------|----------------|
+| **Responses per customer** | One response only (prevents duplicate data) |
+| **Free-form "Other"** | Enable—captures channels you haven't listed |
+| **Required vs Optional** | Optional (required surveys reduce completion rates) |
+
+---
+
+## Improving Response Rates
+
+<Steps>
+  <Step title="Keep it short">
+    One question is ideal. Each additional question reduces completion by ~20%.
+  </Step>
+  <Step title="Mobile-friendly design">
+    Ensure options are tap-friendly on mobile (most Shopify traffic is mobile).
+  </Step>
+  <Step title="Visual design">
+    Match your brand's look and feel. A cohesive design feels less intrusive.
+  </Step>
+  <Step title="Consider incentives">
+    Some brands offer discount codes for survey completion (use sparingly—can bias responses).
+  </Step>
+</Steps>
+
+---
+
+## Customer & Order Tagging
+
+Enable tagging so responses flow into SourceMedium and your other analytics tools.
+
+### Tag Format
+
+Use a consistent prefix for easy filtering:
+
+| Prefix | Example Tag |
+|--------|-------------|
+| `HDYHAU-` | `HDYHAU-Facebook` |
+| `PPS-` | `PPS-TikTok` |
+| `survey-` | `survey-Podcast` |
+
+<Note>
+Most survey platforms (Fairing, KnoCommerce, Zigpoll) support both **customer tags** and **order tags**. Enable both for maximum flexibility in reporting.
+</Note>
+
+### Platform-Specific Setup
+
+<CardGroup cols={3}>
+  <Card title="Fairing" icon="chart-simple" href="/data-inputs/platform-integration-instructions/fairing-integration">
+    Enterprise-grade surveys with advanced targeting and A/B testing.
+  </Card>
+  <Card title="KnoCommerce" icon="chart-pie" href="/data-inputs/platform-integration-instructions/knocommerce-integration">
+    Zero-party data platform with multi-question flows.
+  </Card>
+  <Card title="Zigpoll" icon="square-poll-horizontal">
+    Lightweight surveys with Shopify-native integration.
+  </Card>
+</CardGroup>
+
+---
+
+## Using Survey Data in SourceMedium
+
+Once tagging is configured, HDYHAU data appears in these modules:
+
+| Module | Tag Type Required |
+|--------|-------------------|
+| **New Customers Analysis** | Customer tag |
+| **Last Order Analysis** | Customer tag |
+| **Orders Deep Dive** | Order tag |
+| **Post-Purchase Survey Module** | Order tag |
+
+<Info>
+The Post-Purchase Survey Module provides dedicated reporting for zero-party data. Contact the SourceMedium team for access.
+</Info>
+
+---
+
+## Common Pitfalls to Avoid
+
+<AccordionGroup>
+  <Accordion title="Missing 'I don't remember' option">
+    Forces customers to guess, corrupting your data. Always include this option.
+  </Accordion>
+  <Accordion title="Too many options">
+    More than 12-15 options overwhelms customers. Group similar channels (e.g., "Social Media" instead of listing every platform).
+  </Accordion>
+  <Accordion title="Non-randomized order">
+    First options receive disproportionate clicks. Randomize to get accurate distribution.
+  </Accordion>
+  <Accordion title="Asking about last touchpoint">
+    "How did you hear about us?" captures discovery. For last touchpoint, use "What brought you back today?"—but this is usually better captured via tracking.
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Related Resources
+
+<CardGroup cols={2}>
+  <Card title="Attribution Health Overview" icon="heart-pulse" href="/data-inputs/attribution-health">
+    Strategies for improving your overall attribution coverage.
+  </Card>
+  <Card title="Fairing Integration" icon="plug" href="/data-inputs/platform-integration-instructions/fairing-integration">
+    Connect Fairing survey responses to SourceMedium.
+  </Card>
+  <Card title="KnoCommerce Integration" icon="plug" href="/data-inputs/platform-integration-instructions/knocommerce-integration">
+    Set up KnoCommerce for zero-party data collection.
+  </Card>
+  <Card title="Channel Mapping" icon="map" href="/data-inputs/configuration-sheet/how_does_channel_mapping_work">
+    How survey responses map to your channel groupings.
+  </Card>
+</CardGroup>
