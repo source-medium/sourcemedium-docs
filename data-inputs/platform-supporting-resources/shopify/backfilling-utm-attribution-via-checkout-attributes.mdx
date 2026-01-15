@@ -1,61 +1,29 @@
 ---
-title: 'Backfilling UTM Attribution via Checkout Attributes'
+title: 'Backfilling UTM Attribution via Order Attributes'
 sidebarTitle: 'UTM Attribution Backfill'
-description: 'Technical guide for capturing UTM parameters at checkout and surfacing them in SourceMedium attribution'
+description: 'How to backfill historical orders with UTM attribution data and capture UTMs for future orders'
 icon: 'code'
 ---
 
 <Info>
-**Audience**: This guide is for developers and technical teams implementing UTM capture at Shopify checkout.
-If you're looking for general UTM best practices, see [Improving Your Last-Click Attribution](/data-inputs/platform-supporting-resources/ga4/improving-last-click-attribution).
+**Audience**: This guide is for developers and technical teams who need to add UTM attribution data to Shopify orders—either backfilling historical orders or capturing UTMs for future orders.
 </Info>
 
 ## Overview
 
-SourceMedium can extract UTM attribution data from Shopify order-level `customAttributes`. This enables you to capture UTM parameters at checkout time and have them flow through to SourceMedium's attribution reporting—even when traditional tracking (GA4, cookies) fails due to ad blockers or cross-domain issues.
+SourceMedium extracts UTM attribution data from Shopify order-level `customAttributes`. This guide covers two scenarios:
 
-### When to Use This Approach
+1. **Backfilling existing orders** — You have attribution data (from spreadsheets, surveys, external tools) and want to write it to historical orders
+2. **Capturing UTMs going forward** — You want to automatically capture UTM parameters at checkout for future orders
 
 <CardGroup cols={2}>
-  <Card title="Good Fit" icon="check" color="#22c55e">
-    - High rates of `(direct) / (none)` attribution
-    - Significant traffic from privacy-conscious browsers
-    - Need server-side UTM capture as backup
-    - Custom checkout flows or headless commerce
+  <Card title="Backfill Historical Orders" icon="clock-rotate-left" href="#backfilling-historical-orders">
+    Use the Shopify Admin API to add attribution data to existing orders
   </Card>
-  <Card title="Not Needed If" icon="xmark" color="#ef4444">
-    - GA4 + Elevar already capturing 90%+ attribution
-    - Standard Shopify checkout with good tracking
-    - Low ad blocker rates in your audience
+  <Card title="Capture Future UTMs" icon="forward" href="#capturing-utms-for-future-orders">
+    Use Checkout UI Extensions to automatically capture UTMs at checkout
   </Card>
 </CardGroup>
-
----
-
-## How It Works
-
-```mermaid
-flowchart LR
-    A[User lands on site<br/>with UTM params] --> B[Checkout UI Extension<br/>captures UTMs]
-    B --> C[UTMs stored as<br/>customAttributes]
-    C --> D[SourceMedium extracts<br/>from order data]
-    D --> E[Attribution appears<br/>in dashboards]
-```
-
-<Steps>
-  <Step title="Capture UTMs at Checkout">
-    Your Checkout UI Extension reads UTM parameters from cookies, localStorage, or URL and writes them to checkout attributes.
-  </Step>
-  <Step title="Attributes Persist to Order">
-    When the order is placed, Shopify stores `customAttributes` on the order record.
-  </Step>
-  <Step title="SourceMedium Extracts">
-    During data ingestion, SourceMedium reads the allowlisted keys from `customAttributes` and maps them to standard attribution fields.
-  </Step>
-  <Step title="Attribution Flows Through">
-    The extracted UTMs appear in Orders Deep Dive, New Customer Analysis, and other attribution reports.
-  </Step>
-</Steps>
 
 ---
 
@@ -79,13 +47,311 @@ SourceMedium extracts the following keys from `customAttributes`. **Keys are cas
 **Case Sensitivity**: Keys must be exact lowercase. `UTM_SOURCE`, `Utm_Source`, and `utm_Source` will **not** be extracted.
 </Warning>
 
+---
+
+## Backfilling Historical Orders
+
+If you have attribution data for existing orders (e.g., from post-purchase surveys, manual tracking, or external tools), you can write it to Shopify orders so SourceMedium can extract it.
+
+### How It Works
+
+```mermaid
+flowchart LR
+    A[Your attribution data<br/>CSV/spreadsheet/database] --> B[Update orders via<br/>API or Shopify Flow]
+    B --> C[customAttributes added<br/>to existing orders]
+    C --> D[SourceMedium extracts<br/>on next sync]
+    D --> E[Attribution appears<br/>in dashboards]
+```
+
+### Available Methods
+
+| Method | Best For | Technical Skill Required |
+|--------|----------|--------------------------|
+| **Shopify Flow** | Small batches, no-code users, Shopify Plus | Low (no coding) |
+| **Admin API Script** | Large bulk backfills, automation | Medium (Python/Node.js) |
+| **Third-Party Apps** | Limited - most don't support order attributes | Varies |
+
 <Note>
-Keys not in this list are ignored. You can store other attributes on the order—they won't interfere with SourceMedium.
+**No CSV import available**: Unlike products, Shopify does not support CSV import for order attributes. Matrixify and similar bulk import tools also do not support `customAttributes` on orders.
 </Note>
 
 ---
 
-## Implementation Guide
+### Option 1: Shopify Flow (No-Code)
+
+If you have Shopify Plus, you can use **Shopify Flow** with the "Send Admin API request" action. This is ideal for smaller batches or when you want to trigger updates based on conditions.
+
+<Steps>
+  <Step title="Create a Flow workflow">
+    Go to **Settings → Flow** and create a new workflow. Use a trigger like "Order created" for new orders, or tag orders you want to backfill and trigger on "Order tags added".
+  </Step>
+  <Step title="Add 'Send Admin API request' action">
+    Select **GraphQL Admin API** and choose the **orderUpdate** mutation.
+  </Step>
+  <Step title="Configure the mutation">
+    Use this template to preserve existing attributes while adding new ones:
+
+    **Mutation:**
+    ```graphql
+    mutation orderUpdate($input: OrderInput!) {
+      orderUpdate(input: $input) {
+        order { id }
+        userErrors { field message }
+      }
+    }
+    ```
+
+    **Variables (JSON with Liquid):**
+    ```liquid
+    {
+      "input": {
+        "id": "{{ order.id }}",
+        "customAttributes": [
+          {%- for attr in order.customAttributes -%}
+            { "key": "{{ attr.key }}", "value": "{{ attr.value }}" }{% unless forloop.last %},{% endunless %}
+          {%- endfor -%},
+          { "key": "utm_source", "value": "facebook" },
+          { "key": "utm_medium", "value": "cpc" }
+        ]
+      }
+    }
+    ```
+  </Step>
+</Steps>
+
+<Warning>
+The `orderUpdate` mutation **replaces all** `customAttributes`. The Liquid loop above preserves existing attributes—don't skip it or you'll lose data.
+</Warning>
+
+---
+
+### Option 2: Admin API Script (Bulk)
+
+For large backfills (hundreds or thousands of orders), use a script with the [Shopify Admin GraphQL API](https://shopify.dev/docs/api/admin-graphql/latest/mutations/orderUpdate).
+
+#### Prerequisites
+
+<Check>Shopify Admin API access with `write_orders` scope</Check>
+<Check>Order IDs mapped to your attribution data</Check>
+<Check>Attribution data in the supported key format (see table above)</Check>
+
+#### Implementation
+
+<Tabs>
+  <Tab title="GraphQL Mutation">
+    ```graphql
+    mutation orderUpdate($input: OrderInput!) {
+      orderUpdate(input: $input) {
+        order {
+          id
+          customAttributes {
+            key
+            value
+          }
+        }
+        userErrors {
+          field
+          message
+        }
+      }
+    }
+    ```
+
+    **Variables:**
+    ```json
+    {
+      "input": {
+        "id": "gid://shopify/Order/1234567890",
+        "customAttributes": [
+          { "key": "utm_source", "value": "facebook" },
+          { "key": "utm_medium", "value": "cpc" },
+          { "key": "utm_campaign", "value": "summer_sale_2025" }
+        ]
+      }
+    }
+    ```
+  </Tab>
+  <Tab title="Python Script">
+    ```python
+    import shopify
+    import csv
+
+    # Initialize Shopify session
+    shop_url = "your-store.myshopify.com"
+    api_version = "2024-10"
+    access_token = "your-access-token"
+
+    session = shopify.Session(shop_url, api_version, access_token)
+    shopify.ShopifyResource.activate_session(session)
+
+    def backfill_order_attribution(order_id: str, attribution: dict):
+        """
+        Update an order with UTM attribution data.
+
+        Args:
+            order_id: Shopify order ID (numeric, e.g., "1234567890")
+            attribution: Dict with keys like utm_source, utm_medium, etc.
+        """
+        # Build customAttributes array
+        custom_attributes = [
+            {"key": key, "value": value}
+            for key, value in attribution.items()
+            if value  # Skip empty values
+        ]
+
+        # GraphQL mutation
+        query = """
+        mutation orderUpdate($input: OrderInput!) {
+          orderUpdate(input: $input) {
+            order {
+              id
+              customAttributes { key value }
+            }
+            userErrors { field message }
+          }
+        }
+        """
+
+        variables = {
+            "input": {
+                "id": f"gid://shopify/Order/{order_id}",
+                "customAttributes": custom_attributes
+            }
+        }
+
+        result = shopify.GraphQL().execute(query, variables)
+        return result
+
+    # Example: Backfill from CSV
+    with open('attribution_data.csv', 'r') as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            order_id = row['order_id']
+            attribution = {
+                'utm_source': row.get('source', ''),
+                'utm_medium': row.get('medium', ''),
+                'utm_campaign': row.get('campaign', ''),
+            }
+
+            result = backfill_order_attribution(order_id, attribution)
+            print(f"Updated order {order_id}: {result}")
+    ```
+  </Tab>
+  <Tab title="Node.js Script">
+    ```javascript
+    import '@shopify/shopify-api/adapters/node';
+    import { shopifyApi } from '@shopify/shopify-api';
+
+    const shopify = shopifyApi({
+      apiKey: process.env.SHOPIFY_API_KEY,
+      apiSecretKey: process.env.SHOPIFY_API_SECRET,
+      scopes: ['write_orders'],
+      hostName: 'your-store.myshopify.com',
+      apiVersion: '2024-10',
+    });
+
+    async function backfillOrderAttribution(session, orderId, attribution) {
+      const client = new shopify.clients.Graphql({ session });
+
+      const customAttributes = Object.entries(attribution)
+        .filter(([_, value]) => value) // Skip empty values
+        .map(([key, value]) => ({ key, value }));
+
+      const response = await client.request(`
+        mutation orderUpdate($input: OrderInput!) {
+          orderUpdate(input: $input) {
+            order {
+              id
+              customAttributes { key value }
+            }
+            userErrors { field message }
+          }
+        }
+      `, {
+        variables: {
+          input: {
+            id: `gid://shopify/Order/${orderId}`,
+            customAttributes,
+          },
+        },
+      });
+
+      return response;
+    }
+
+    // Example usage
+    const attribution = {
+      utm_source: 'facebook',
+      utm_medium: 'cpc',
+      utm_campaign: 'summer_sale_2025',
+    };
+
+    await backfillOrderAttribution(session, '1234567890', attribution);
+    ```
+  </Tab>
+</Tabs>
+
+### Important Considerations
+
+<AccordionGroup>
+  <Accordion title="Merging vs Overwriting Attributes" icon="merge">
+    The `orderUpdate` mutation **replaces** all `customAttributes` on the order. If the order already has attributes you want to keep:
+
+    1. First, fetch existing attributes via `order` query
+    2. Merge your new attributes with existing ones
+    3. Send the combined array in the mutation
+
+    ```python
+    # Fetch existing attributes first
+    existing = get_order_attributes(order_id)
+    merged = {**existing, **new_attribution}  # New values overwrite existing
+    backfill_order_attribution(order_id, merged)
+    ```
+  </Accordion>
+
+  <Accordion title="Rate Limits" icon="gauge">
+    Shopify's Admin API has rate limits. For bulk backfills:
+
+    - Use the [Bulk Operations API](https://shopify.dev/docs/api/admin-graphql/latest/queries/bulkOperationRunQuery) for large datasets
+    - Or throttle requests to ~2 per second for standard API calls
+    - Consider batching updates overnight
+  </Accordion>
+
+  <Accordion title="Order Age Limits" icon="calendar">
+    Shopify allows updating orders regardless of age, but consider:
+
+    - Very old orders may already have SourceMedium attribution from other sources
+    - Check with SourceMedium support about attribution waterfall priority for your account
+  </Accordion>
+</AccordionGroup>
+
+### Verification
+
+After backfilling:
+
+1. **Verify in Shopify Admin**: Orders → [Order] → Additional details should show your attributes
+2. **Wait for sync**: SourceMedium syncs typically run every 24 hours
+3. **Check Orders Deep Dive**: Verify the attribution appears in SourceMedium dashboards
+
+---
+
+## Capturing UTMs for Future Orders
+
+To automatically capture UTM parameters at checkout for new orders, use a Shopify Checkout UI Extension.
+
+<Note>
+This approach **supplements** your existing tracking (GA4, Elevar). It's particularly useful when cookie-based tracking fails due to ad blockers or cross-domain issues.
+</Note>
+
+### How It Works
+
+```mermaid
+flowchart LR
+    A[User lands on site<br/>with UTM params] --> B[Checkout UI Extension<br/>captures UTMs]
+    B --> C[UTMs stored as<br/>customAttributes]
+    C --> D[SourceMedium extracts<br/>from order data]
+    D --> E[Attribution appears<br/>in dashboards]
+```
 
 ### Prerequisites
 
@@ -95,7 +361,7 @@ Keys not in this list are ignored. You can store other attributes on the order�
 
 ### Step 1: Persist UTMs on Landing
 
-Before checkout, you need UTM parameters stored somewhere accessible. Common approaches:
+Before checkout, you need UTM parameters stored somewhere accessible:
 
 <Tabs>
   <Tab title="First-Party Cookies">
@@ -129,7 +395,6 @@ Before checkout, you need UTM parameters stored somewhere accessible. Common app
     });
 
     if (Object.keys(utmData).length > 0) {
-      // Store with timestamp for expiry logic
       localStorage.setItem('sm_utm_data', JSON.stringify({
         data: utmData,
         timestamp: Date.now()
@@ -140,8 +405,6 @@ Before checkout, you need UTM parameters stored somewhere accessible. Common app
 </Tabs>
 
 ### Step 2: Create Checkout UI Extension
-
-Create a Checkout UI Extension that reads stored UTMs and writes them to checkout attributes.
 
 ```typescript
 // extensions/utm-capture/src/Checkout.tsx
@@ -163,20 +426,12 @@ function UtmCapture() {
   }, []);
 
   async function captureUtmAttributes() {
-    // Define the keys we want to capture (must match SourceMedium allowlist)
     const utmKeys = [
-      'utm_source',
-      'utm_medium',
-      'utm_campaign',
-      'utm_content',
-      'utm_term',
-      'utm_id',
-      'gclid',
-      'fbclid',
-      'referrer',
+      'utm_source', 'utm_medium', 'utm_campaign',
+      'utm_content', 'utm_term', 'utm_id',
+      'gclid', 'fbclid', 'referrer',
     ];
 
-    // Read from cookies (adjust based on your storage method)
     const utmData: Record<string, string> = {};
 
     for (const key of utmKeys) {
@@ -186,32 +441,12 @@ function UtmCapture() {
       }
     }
 
-    // Also capture document.referrer if not already set
-    if (!utmData.referrer && document.referrer) {
-      // Only capture external referrers
-      const referrerHost = new URL(document.referrer).hostname;
-      const currentHost = window.location.hostname;
-      if (referrerHost !== currentHost) {
-        utmData.referrer = document.referrer;
-      }
-    }
-
-    // Apply each attribute
     for (const [key, value] of Object.entries(utmData)) {
-      // Skip if already set (don't overwrite)
       const existing = currentAttributes.find(attr => attr.key === key);
       if (existing) continue;
 
       try {
-        const result = await applyAttributeChange({
-          type: 'updateAttribute',
-          key,
-          value,
-        });
-
-        if (result.type === 'error') {
-          console.debug(`[UTM Capture] Failed to set ${key}:`, result.message);
-        }
+        await applyAttributeChange({ type: 'updateAttribute', key, value });
       } catch (err) {
         // Silently fail - accelerated checkout will throw
         console.debug(`[UTM Capture] Error setting ${key}:`, err);
@@ -219,7 +454,6 @@ function UtmCapture() {
     }
   }
 
-  // Render nothing - this extension only captures data
   return null;
 }
 
@@ -229,7 +463,7 @@ function getCookie(name: string): string | null {
 }
 ```
 
-### Step 3: Configure Extension
+### Step 3: Configure and Deploy
 
 ```toml
 # extensions/utm-capture/shopify.extension.toml
@@ -245,104 +479,33 @@ module = "./src/Checkout.tsx"
 target = "purchase.checkout.block.render"
 ```
 
-### Step 4: Deploy and Test
+```bash
+shopify app deploy
+```
 
-<Steps>
-  <Step title="Deploy the Extension">
-    ```bash
-    shopify app deploy
-    ```
-  </Step>
-  <Step title="Test with UTM Parameters">
-    Visit your store with UTM parameters:
-    ```
-    https://yourstore.com?utm_source=test&utm_medium=manual&utm_campaign=validation
-    ```
-  </Step>
-  <Step title="Complete a Test Order">
-    Add a product to cart and proceed through checkout.
-  </Step>
-  <Step title="Verify in Shopify Admin">
-    View the order in Shopify Admin → Orders → [Your Order] → Additional details.
-    You should see the UTM attributes listed.
-  </Step>
-  <Step title="Verify in SourceMedium">
-    After the next data sync (typically within 24 hours), check the order in SourceMedium's Orders Deep Dive to confirm attribution appears.
-  </Step>
-</Steps>
+### Limitations
 
----
-
-## Important Constraints
-
-<AccordionGroup>
-  <Accordion title="Accelerated Checkout Limitation" icon="apple-pay">
-    The `applyAttributeChange()` method **will fail** for buyers using accelerated checkout (Apple Pay, Google Pay, Shop Pay express).
-
-    This is a Shopify platform limitation—these checkout flows bypass the standard checkout UI for speed.
-
-    **Impact**: A portion of your orders (typically 10-30% depending on your audience) will not have UTM attributes captured via this method.
-
-    **Mitigation**: Use this as a **supplement** to GA4/Elevar tracking, not a replacement.
-  </Accordion>
-
-  <Accordion title="Cart Instruction Requirements" icon="cart-shopping">
-    The attribute change will fail if `attributes.canUpdateAttributes` is `false`.
-
-    This can happen if:
-    - The checkout is in a restricted state
-    - Another app has locked attribute modifications
-
-    **Best Practice**: Wrap your `applyAttributeChange` calls in try/catch and fail silently.
-  </Accordion>
-
-  <Accordion title="Timing and Race Conditions" icon="clock">
-    UTM data must be available before the checkout loads. If you're using cookies, ensure:
-    - Cookies are set on the landing page, not just at checkout
-    - Cookie domain/path allows access from checkout
-    - SameSite attribute permits cross-page access
-  </Accordion>
-</AccordionGroup>
-
----
-
-## Validation Checklist
-
-Use this checklist to verify your implementation:
-
-<CheckboxGroup>
-  <Checkbox id="1">UTM parameters captured on landing page (check cookies/localStorage)</Checkbox>
-  <Checkbox id="2">Checkout extension deployed and active</Checkbox>
-  <Checkbox id="3">Test order placed with UTM parameters</Checkbox>
-  <Checkbox id="4">Attributes visible in Shopify Admin order details</Checkbox>
-  <Checkbox id="5">Attribution appears in SourceMedium after next sync</Checkbox>
-  <Checkbox id="6">Tested with both standard checkout and accelerated checkout (Apple Pay should gracefully fail)</Checkbox>
-</CheckboxGroup>
+<Warning>
+**Accelerated Checkout**: The `applyAttributeChange()` method fails for Apple Pay, Google Pay, and Shop Pay express checkouts. This typically affects 10-30% of orders. Use this as a supplement to GA4/Elevar, not a replacement.
+</Warning>
 
 ---
 
 ## Troubleshooting
 
 <AccordionGroup>
-  <Accordion title="Attributes not appearing on orders">
-    **Check these in order:**
-    1. Is the extension deployed? Run `shopify app dev` and check browser console
-    2. Are cookies being set? Check Application → Cookies in browser dev tools
-    3. Is the extension rendering? Add a `console.log` at the start of your component
-    4. Are there errors? Check for `result.type === 'error'` responses
-  </Accordion>
-
   <Accordion title="Attributes appear in Shopify but not SourceMedium">
-    **Possible causes:**
     1. **Key name mismatch**: Keys must be exact lowercase (`utm_source`, not `UTM_Source`)
     2. **Sync timing**: Wait 24-48 hours for data to flow through
-    3. **Connector version**: Ensure your Shopify connector supports `customAttributes` (contact SourceMedium support)
+    3. **Connector version**: Ensure your Shopify connector supports `customAttributes` (V3 connector required)
   </Accordion>
 
-  <Accordion title="High failure rate for attribute changes">
-    **Likely cause**: Accelerated checkout usage
+  <Accordion title="Backfill script failing with permission errors">
+    Ensure your API credentials have `write_orders` scope. For private apps, this must be enabled in the app settings.
+  </Accordion>
 
-    Check your accelerated checkout adoption rate in Shopify Analytics. If it's high, this method will have limited coverage—that's expected.
+  <Accordion title="Existing attributes being overwritten">
+    The `orderUpdate` mutation replaces all attributes. Fetch existing attributes first, merge, then update.
   </Accordion>
 </AccordionGroup>
 
@@ -351,17 +514,17 @@ Use this checklist to verify your implementation:
 ## Related Resources
 
 <CardGroup cols={2}>
-  <Card title="Shopify Checkout Attributes API" icon="shopify" href="https://shopify.dev/docs/api/checkout-ui-extensions/latest/apis/attributes">
-    Official Shopify documentation for the useApplyAttributeChange hook
+  <Card title="Shopify Admin API - Order Update" icon="shopify" href="https://shopify.dev/docs/api/admin-graphql/latest/mutations/orderUpdate">
+    Official documentation for the orderUpdate mutation
   </Card>
-  <Card title="Shopify GraphQL Attribute Object" icon="code" href="https://shopify.dev/docs/api/admin-graphql/latest/objects/attribute">
-    Reference for the key/value Attribute structure in Shopify's Admin API
+  <Card title="Shopify Checkout Attributes API" icon="code" href="https://shopify.dev/docs/api/checkout-ui-extensions/latest/apis/attributes">
+    Documentation for useApplyAttributeChange hook
   </Card>
   <Card title="UTM Best Practices" icon="link" href="/data-inputs/platform-supporting-resources/ga4/improving-last-click-attribution">
-    General guidance on UTM naming conventions and tracking hygiene
+    General guidance on UTM naming conventions
   </Card>
-  <Card title="SourceMedium Attribution Waterfall" icon="sitemap" href="/data-transformations/data-enrichment">
-    How SourceMedium prioritizes attribution data from multiple sources
+  <Card title="Attribution Waterfall" icon="sitemap" href="/data-transformations/data-enrichment">
+    How SourceMedium prioritizes attribution from multiple sources
   </Card>
 </CardGroup>
 
@@ -370,19 +533,21 @@ Use this checklist to verify your implementation:
 ## FAQ
 
 <AccordionGroup>
-  <Accordion title="Will this replace GA4/Elevar tracking?">
-    **No.** This is a supplementary method. GA4 and Elevar capture richer data (sessions, events, page views). Use this to fill gaps where cookie-based tracking fails.
+  <Accordion title="Which method should I use?">
+    - **Backfill**: You have historical attribution data you want to add to existing orders
+    - **Capture going forward**: You want to automatically capture UTMs for new orders
+    - **Both**: Most brands benefit from backfilling historical data AND capturing future UTMs
   </Accordion>
 
-  <Accordion title="What's the priority if both GA4 and customAttributes have UTMs?">
-    SourceMedium uses an [attribution waterfall](/data-transformations/data-enrichment) that prioritizes data closest to the transaction. The exact priority depends on your configuration—contact SourceMedium support for details.
+  <Accordion title="What's the priority if multiple sources have UTMs?">
+    SourceMedium uses an [attribution waterfall](/data-transformations/data-enrichment) that prioritizes data closest to the transaction. Contact SourceMedium support for your specific configuration.
   </Accordion>
 
-  <Accordion title="Can I use the order `note` field instead?">
-    **Not recommended.** The `note` field is intended for customer-facing notes ("Please leave at back door"). Using it for JSON data can cause conflicts. `customAttributes` is the proper mechanism for programmatic metadata.
+  <Accordion title="Can I backfill orders that already have attribution in SourceMedium?">
+    Yes, but the waterfall priority determines which source wins. Backfilled `customAttributes` data may or may not override existing attribution depending on your configuration.
   </Accordion>
 
-  <Accordion title="How do I know if my Shopify connector supports this?">
-    SourceMedium's Shopify V3 connector extracts `customAttributes` automatically. If you're on an older connector version, contact support to verify or request an upgrade.
+  <Accordion title="How do I know if my connector supports this?">
+    SourceMedium's Shopify V3 connector extracts `customAttributes` automatically. Contact support if you're unsure which connector version you're on.
   </Accordion>
 </AccordionGroup>
