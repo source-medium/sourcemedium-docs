@@ -63,7 +63,7 @@
                   "help-center/faq/account-management-faqs/what-is-the-process-for-requesting-and-scoping-custom-work",
                   "help-center/faq/account-management-faqs/how-do-i-set-up-a-google-group",
                   "help-center/faq/account-management-faqs/how-do-i-invite-users-to-my-dashboard",
-                  "help-center/faq/account-management-faqs/bigquerey-csv-upload-guide",
+                  "help-center/faq/account-management-faqs/bigquery-csv-upload-guide",
                   "help-center/faq/account-management-faqs/moving-slack-bot-to-another-channel",
                   "help-center/faq/account-management-faqs/what-metrics-can-i-include-in-my-daily-slack-bot-report",
                   "help-center/faq/account-management-faqs/best-practices-in-setting-up-a-post-purchase-hdyhau-survey",
@@ -379,27 +379,9 @@
                 "group": "Proprietary Partner Integrations",
                 "pages": [
                   {
-                    "group": "(Beta) Elevar",
-                    "pages": [
-                      "data-inputs/platform-integration-instructions/elevar-integration"
-                    ]
-                  },
-                  {
-                    "group": "(Beta) Littledata",
-                    "pages": [
-                      "data-inputs/platform-integration-instructions/littledata-integration"
-                    ]
-                  },
-                  {
                     "group": "Global-E",
                     "pages": [
                       "data-inputs/platform-integration-instructions/global-e-integration"
-                    ]
-                  },
-                  {
-                    "group": "Fairing",
-                    "pages": [
-                      "data-inputs/platform-integration-instructions/fairing-integration"
                     ]
                   },
                   {
@@ -418,12 +400,6 @@
                     "group": "(Beta) Tapcart",
                     "pages": [
                       "data-inputs/platform-integration-instructions/tapcart-integration"
-                    ]
-                  },
-                  {
-                    "group": "Tatari",
-                    "pages": [
-                      "data-inputs/platform-integration-instructions/tatari-integration"
                     ]
                   }
                 ]
