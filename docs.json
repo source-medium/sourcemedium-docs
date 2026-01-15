@@ -20,6 +20,39 @@
             ]
           },
           {
+            "group": "Resources",
+            "pages": [
+              "help-center/glossary",
+              "help-center/template-gallery",
+              "help-center/slack-bot-setup"
+            ]
+          },
+          {
+            "group": "Core Concepts",
+            "pages": [
+              "help-center/core-concepts/attribution/attribution-in-sourcemedium",
+              "help-center/core-concepts/data-transformation/transformation-vs-cleaning",
+              "help-center/core-concepts/data-transformation/data-freshness",
+              "help-center/core-concepts/data-transformation/data-architecture"
+            ]
+          },
+          {
+            "group": "Common Analyses",
+            "pages": [
+              "help-center/common-analyses/common-analysis-template",
+              "help-center/common-analyses/top-selling-products",
+              "help-center/common-analyses/top-converting-products",
+              "help-center/common-analyses/roas",
+              "help-center/common-analyses/customer-retention",
+              "help-center/common-analyses/subscription-program-retention",
+              "help-center/common-analyses/revenue-retention",
+              "help-center/common-analyses/cohort-lto",
+              "help-center/common-analyses/cohort-ltv",
+              "help-center/common-analyses/understanding-your-gross-profit",
+              "help-center/common-analyses/understanding-your-contribution-margin"
+            ]
+          },
+          {
             "group": "FAQs",
             "pages": [
               "help-center/faq/cold-start-guide-home",
@@ -29,6 +62,7 @@
                   "help-center/faq/account-management-faqs/what-is-last-click-attribution",
                   "help-center/faq/data-faqs/why-would-external-reports-not-match-the-sourcemedium-dashboard",
                   "help-center/faq/data-faqs/why-dont-the-executive-summary-and-shopifys-sales-report-match",
+                  "help-center/faq/data-faqs/why-doesnt-recharge-match-sourcemedium",
                   "help-center/faq/data-faqs/why-isnt-the-executive-summary-report-attributing-my-gift-card-revenue",
                   "help-center/faq/data-faqs/why-dont-new-customers-plus-repeat-customers-equal-customers",
                   "help-center/faq/data-faqs/what-is-reported-as-a-conversion-within-the-marketing-overview",
@@ -89,6 +123,7 @@
               "onboarding/getting-started/intro-to-sm",
               "onboarding/getting-started/why-source-medium",
               "onboarding/getting-started/getting-started-checklist",
+              "onboarding/getting-started/cold-start/how-your-data-gets-from-point-a-to-b",
               "onboarding/getting-started/level-1-data-checklist",
               "onboarding/getting-started/level-2-data-checklist",
               "onboarding/getting-started/level-3-data-checklist",
@@ -116,6 +151,17 @@
               "onboarding/analytics-tools/learn-looker-studio",
               "onboarding/analytics-tools/learn-bigquery"
             ]
+          },
+          {
+            "group": "Data Dictionary",
+            "pages": [
+              "onboarding/data-docs/metrics",
+              "onboarding/data-docs/dimensions",
+              "onboarding/data-docs/tables/executive_summary_dda",
+              "onboarding/data-docs/tables/order_details_dda",
+              "onboarding/data-docs/tables/customer_details_dda",
+              "onboarding/data-docs/data-hygeine/importance-of-good-data-hygeine"
+            ]
           }
         ]
       },
@@ -125,6 +171,7 @@
           {
             "group": "Integrations",
             "pages": [
+              "data-inputs/data-inputs-overview",
               "data-inputs/platform-integration-instructions/all-available-integrations",
               {
                 "group": "Ecommerce & Subscription",
@@ -507,6 +554,7 @@
             "group": "Managed Data Warehouse",
             "pages": [
               "data-activation/managed-data-warehouse/overview",
+              "data-activation/managed-data-warehouse/modeling",
               "data-activation/managed-data-warehouse/bi-tools",
               {
                 "group": "SourceMedium Templates",
@@ -515,7 +563,16 @@
                     "group": "Looker Studio",
                     "pages": [
                       "data-activation/template-resources/looker-studio-template-copy-instructions",
-                      "data-activation/template-resources/sm-looker-report-template-directory"
+                      "data-activation/template-resources/sm-looker-report-template-directory",
+                      "data-activation/template-resources/sm-looker-data-source-template-directory",
+                      "data-activation/template-resources/copying-sm-report-templates",
+                      "data-activation/template-resources/copying-sm-data-source-templates"
+                    ]
+                  },
+                  {
+                    "group": "SQL",
+                    "pages": [
+                      "data-activation/template-resources/sm-sql-recipe-directory"
                     ]
                   }
                 ]
@@ -523,6 +580,7 @@
               {
                 "group": "SourceMedium Tables",
                 "pages": [
+                  "data-activation/data-tables/sm_transformed_v2/index",
                   "data-activation/data-tables/sm_transformed_v2/dim_customer_addresses",
                   "data-activation/data-tables/sm_transformed_v2/dim_customers",
                   "data-activation/data-tables/sm_transformed_v2/dim_order_discounts",
@@ -550,6 +608,7 @@
           {
             "group": "Managed BI",
             "pages": [
+              "data-activation/managed-bi-v1/overview",
               "data-activation/managed-bi-v1/core-dashboard-features",
               {
                 "group": "Modules",
@@ -656,12 +715,20 @@
       "destination": "/help-center/faq/account-management-faqs/what-to-know-about-connecting-google-analytics-to-sourcemedium"
     },
     {
+      "source": "/help-center/faq/account-management-faqs/what-to-know-about%20connecting-google-analytics-to-sourcemedium",
+      "destination": "/help-center/faq/account-management-faqs/what-to-know-about-connecting-google-analytics-to-sourcemedium"
+    },
+    {
       "source": "/help-center/faq/dashboard-functionality-faqs/what-is-exclude-$0-feature",
       "destination": "/help-center/faq/dashboard-functionality-faqs/what-is-exclude-zero-dollar-feature"
     },
     {
       "source": "/help-center/faq/data-faqs/what-attribution-windows-does-sourcemedoum-report-on-for-marketing-platforms",
       "destination": "/help-center/faq/data-faqs/what-attribution-windows-does-sourcemedium-report-on-for-marketing-platforms"
+    },
+    {
+      "source": "/help-center/faq/data-faqs/exec-summ-vs-shopify-sales-report",
+      "destination": "/help-center/faq/data-faqs/why-dont-the-executive-summary-and-shopifys-sales-report-match"
     },
     {
       "source": "/data-inputs/configuration-sheet",

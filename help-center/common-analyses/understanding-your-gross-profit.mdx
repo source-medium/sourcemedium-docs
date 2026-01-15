@@ -1,4 +1,32 @@
 ---
 title: "Understanding your Gross Profit"
+description: "How gross profit is calculated, which costs it includes, and where to validate inputs in SourceMedium"
 icon: 'dollar-sign'
 ---
+
+Gross profit helps you understand how much profit you generate after accounting for the variable costs required to sell and fulfill an order.
+
+## Common components
+
+Gross profit is typically derived from:
+
+- Net revenue (after discounts and refunds)
+- Minus product costs (COGS)
+- Minus fulfillment costs
+- Minus shipping costs (if modeled as a cost component)
+- Minus merchant processing fees
+
+## Where to look in SourceMedium
+
+- Order-level profitability: [`obt_orders`](/data-activation/data-tables/sm_transformed_v2/obt_orders)
+- Ensure cost inputs are present and up to date:
+  - [Product costs](/help-center/raw-data-source-overviews/configuration-sheet/costs/product-costs)
+  - [Fulfillment costs](/help-center/raw-data-source-overviews/configuration-sheet/costs/fulfillment-costs)
+  - [Merchant processing fees](/help-center/raw-data-source-overviews/configuration-sheet/costs/merchant-processing-fees)
+
+## Troubleshooting
+
+If gross profit looks “off”, confirm:
+
+- You’re using the same revenue definition across tools (gross vs net)
+- Costs are populated for the same date range and channels

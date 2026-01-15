@@ -1,0 +1,49 @@
+---
+title: "Why doesn't ReCharge subscription data match SourceMedium reports?"
+description: "Common reasons ReCharge subscription reporting can differ from SourceMedium dashboards and how to troubleshoot"
+sidebarTitle: "Why ReCharge doesn't match"
+icon: "question-mark"
+---
+
+It’s common for subscription reporting to differ across tools. ReCharge and SourceMedium may be answering slightly different questions, using different timestamps, or applying different rules for refunds, cancellations, and attribution.
+
+## Start by aligning on definitions
+
+Before troubleshooting, confirm which definition you’re using in each tool:
+
+- **New subscriptions:** created date vs first successful charge vs first fulfilled order
+- **Cancelled subscriptions:** cancelled timestamp vs churn proxy (no recurring orders in X days)
+- **Subscription order revenue:** gross vs net revenue, and how refunds are handled
+
+## Common causes of mismatches
+
+### 1) Different time fields
+
+ReCharge often reports on subscription lifecycle timestamps, while SourceMedium reporting typically uses order-based timestamps (e.g., processed/created at) for revenue and order metrics.
+
+### 2) Refund and cancellation handling
+
+If an order is refunded or cancelled, different tools may:
+
+- Exclude it entirely
+- Include it in gross but not net
+- Attribute it to the original purchase date vs the refund date
+
+### 3) Attribution differences (UTM + checkout)
+
+Subscription checkouts can reduce UTM coverage depending on your storefront/checkout setup. If you’re validating “source/medium” or channel attribution, start with:
+
+- [Improving Your Last-Click (UTM) Attribution](/data-inputs/platform-supporting-resources/ga4/improving-last-click-attribution)
+- [Google Analytics common failures](/data-inputs/platform-supporting-resources/ga4/google-analytics-common-failures)
+
+### 4) Multi-store / multi-channel scoping
+
+Confirm you’re comparing the same store(s), channel(s), and date range in both tools.
+
+## What to do next
+
+If you’re still seeing unexplained differences, share the following with your SourceMedium team:
+
+- The ReCharge report you’re using (name + filters + date field)
+- The SourceMedium module/table you’re comparing against
+- A handful of example subscription IDs or order IDs that illustrate the mismatch

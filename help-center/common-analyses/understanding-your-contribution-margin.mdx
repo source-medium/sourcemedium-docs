@@ -1,4 +1,29 @@
 ---
 title: "Understanding your Contribution Margin"
+description: "How contribution margin is calculated, which variable costs it includes, and common validation steps"
 icon: 'dollar-sign'
 ---
+
+Contribution margin extends gross profit by including additional variable costs that scale with demand (for example, marketing spend).
+
+## What it represents
+
+Contribution margin answers: “After variable costs, how much do we have left to cover fixed costs and profit?”
+
+Depending on your definition, it may include:
+
+- Gross profit components (COGS + fulfillment + fees, etc.)
+- Marketing spend (paid media + other variable acquisition costs)
+- Other variable operating expenses (if modeled)
+
+## Where to look in SourceMedium
+
+- Marketing spend: [`rpt_ad_performance_daily`](/data-activation/data-tables/sm_transformed_v2/rpt_ad_performance_daily) (and/or configuration sheet spend inputs)
+- Blended order profitability: [`obt_orders`](/data-activation/data-tables/sm_transformed_v2/obt_orders)
+
+## Troubleshooting
+
+If contribution margin is unexpected:
+
+- Confirm which spend sources are included (integrations vs config sheet)
+- Confirm refunds/cancellations and the revenue definition used
