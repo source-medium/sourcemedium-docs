@@ -218,6 +218,61 @@ The Post-Purchase Survey Module provides dedicated reporting for zero-party data
 
 ---
 
+## Backfilling Historical Orders
+
+If you have survey responses from before your tagging was configured (spreadsheets, old survey tools, manual records), you can backfill tags to historical orders.
+
+<Tabs>
+  <Tab title="Shopify Admin (Small Batches)">
+    Best for tagging a few dozen orders manually.
+
+    1. Go to **Orders** in Shopify Admin
+    2. Filter or search for the orders you need to tag
+    3. Select the orders (checkbox)
+    4. Click **More actions** → **Add tags**
+    5. Enter tag (e.g., `HDYHAU-Facebook`)
+
+    <Note>
+    You can select up to 50 orders at a time in the Shopify admin.
+    </Note>
+  </Tab>
+  <Tab title="Matrixify (Bulk)">
+    Best for tagging hundreds or thousands of orders from a spreadsheet.
+
+    1. Export your orders from Matrixify (or start with your survey response spreadsheet)
+    2. Add/update the `Tags` column with your HDYHAU tags
+    3. Import back via Matrixify
+
+    ```
+    Order Name,Tags
+    #1001,HDYHAU-Facebook
+    #1002,HDYHAU-TikTok
+    #1003,HDYHAU-Podcast
+    ```
+
+    <Tip>
+    Matrixify merges tags by default—your new tags will be added to existing tags, not replace them.
+    </Tip>
+  </Tab>
+  <Tab title="Shopify Flow">
+    Best for rule-based tagging (e.g., tag all orders from a date range).
+
+    Create a Flow that:
+    1. Triggers on order criteria (date, product, customer segment)
+    2. Adds the appropriate HDYHAU tag
+
+    <Note>
+    Shopify Flow requires Shopify Plus or the Flow app on Advanced plans.
+    </Note>
+  </Tab>
+</Tabs>
+
+<Warning>
+**Tag format matters.** Use the same prefix format (`HDYHAU-`, `PPS-`, etc.) as your survey tool to ensure SourceMedium can recognize and report on all your zero-party data consistently.
+</Warning>
+
+---
+
 ## Common Pitfalls to Avoid
 
 <AccordionGroup>
