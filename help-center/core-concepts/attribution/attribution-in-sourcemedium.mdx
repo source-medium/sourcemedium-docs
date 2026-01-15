@@ -1,0 +1,43 @@
+---
+title: "Attribution in SourceMedium"
+description: "How SourceMedium uses UTMs and attribution models (last-click and MTA) to attribute orders and revenue"
+sidebarTitle: "Attribution"
+icon: "sitemap"
+---
+
+SourceMedium supports multiple attribution approaches. This guide explains what we mean by attribution, where it comes from, and which knobs typically cause differences between tools.
+
+## Two common attribution layers
+
+### Last-click attribution (UTM-based)
+
+Last-click attribution assigns credit to the **most recent** tracked marketing touch before a purchase.
+
+- Primary inputs: UTM parameters, landing pages, referrers
+- Common use: channel reporting, performance trends, and reconciliation to analytics tools
+
+Related docs:
+
+- [What is last-click attribution?](/help-center/faq/account-management-faqs/what-is-last-click-attribution)
+- [How can I improve my last-click attribution?](/help-center/faq/account-management-faqs/how-can-i-improve-my-last-click-attribution)
+
+### Multi-touch attribution (MTA)
+
+Multi-touch attribution assigns credit across multiple touch points within a lookback window.
+
+- Primary inputs: first-party event streams (e.g., GA4), marketing data, and modeled purchase journeys
+- Common use: understanding incremental contribution across channels, creatives, and landing pages
+
+Related docs:
+
+- [MTA overview](/mta/mta-overview)
+- [MTA FAQs](/mta/mta-faqs)
+
+## Common reasons attribution differs between tools
+
+- Different lookback windows (e.g., 7-day vs 28-day vs 120-day)
+- Missing or inconsistent UTMs (especially for email/SMS and paid social)
+- Cross-domain or checkout tracking limitations
+- Post-purchase edits or delayed revenue recognition
+
+If you’re reconciling against Shopify, start with: [Why don’t Executive Summary & Shopify match?](/help-center/faq/data-faqs/why-dont-the-executive-summary-and-shopifys-sales-report-match)

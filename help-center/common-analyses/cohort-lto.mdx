@@ -1,0 +1,44 @@
+---
+title: "Cohort LTO analysis"
+description: "How to analyze lifetime orders (LTO) by cohort using SourceMedium tables and common filters"
+sidebarTitle: "Cohort LTO"
+icon: "magnifying-glass-location"
+---
+
+Use this guide to analyze **lifetime orders (LTO)** by cohort (typically first order month) and understand which acquisition cohorts generate the most repeat purchasing.
+
+## Recommended tables
+
+- Orders: [`obt_orders`](/data-activation/data-tables/sm_transformed_v2/obt_orders)
+- Customers: [`obt_customers`](/data-activation/data-tables/sm_transformed_v2/obt_customers)
+- (Optional) Order lines: [`obt_order_lines`](/data-activation/data-tables/sm_transformed_v2/obt_order_lines)
+
+## Define the cohort
+
+Most commonly:
+
+1. Cohort grain: first order **month**
+2. Cohort key: customer’s **first valid purchase date** (using SourceMedium-valid orders)
+
+Tip: Keep cohort logic consistent with any LTV reporting you already use.
+
+## Build the analysis (high level)
+
+1. Filter to SourceMedium-valid orders (`is_order_sm_valid = TRUE`).
+2. Determine each customer’s cohort (first valid order date).
+3. For each cohort, compute:
+   - Total orders
+   - Distinct customers
+   - Average lifetime orders = `total orders / distinct customers`
+4. Add breakdowns (channel, product category, geography) only after the cohort math looks right.
+
+## Common pitfalls
+
+- Mixing invalid/test/refunded orders with valid orders (always start with `is_order_sm_valid = TRUE`).
+- Comparing cohorts with different “age” (newer cohorts haven’t had time to accumulate repeat purchases).
+- Blending channels (e.g., Amazon + Online DTC) when the question is channel-specific.
+
+## Next steps
+
+- Pair this with retention-focused analysis: [Customer retention](/help-center/common-analyses/customer-retention)
+- If you’re reconciling to Shopify: start with [Why don’t Executive Summary & Shopify match?](/help-center/faq/data-faqs/why-dont-the-executive-summary-and-shopifys-sales-report-match)

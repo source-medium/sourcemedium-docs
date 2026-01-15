@@ -14,6 +14,42 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # Fail fast on broken/placeholder docs content
+      - name: Reject Empty MDX Files
+        run: |
+          empty="$(find . -type f -name '*.mdx' -size 0 -print)"
+          if [ -n "$empty" ]; then
+            echo "❌ Found empty .mdx files:"
+            echo "$empty"
+            exit 1
+          fi
+
+      - name: Reject Placeholder Text
+        run: |
+          if command -v rg >/dev/null 2>&1; then
+            search() { rg -n "\\bblah\\b" --glob='*.mdx'; }
+          else
+            search() { grep -RInw --include='*.mdx' 'blah' .; }
+          fi
+
+          if search; then
+            echo "❌ Found placeholder text ('blah') in docs"
+            exit 1
+          fi
+
+      - name: Reject Placeholder Links
+        run: |
+          if command -v rg >/dev/null 2>&1; then
+            search() { rg -n "\\]\\(\\{[^\\)]*\\}\\)" --glob='*.mdx'; }
+          else
+            search() { grep -RInE --include='*.mdx' '\\]\\(\\{[^)]*\\}\\)' .; }
+          fi
+
+          if search; then
+            echo "❌ Found placeholder links like ]({...}) in docs"
+            exit 1
+          fi
+
       # Spell check - catches typos like "attribuion" -> "attribution"
       - name: Spell Check
         uses: codespell-project/actions-codespell@v2

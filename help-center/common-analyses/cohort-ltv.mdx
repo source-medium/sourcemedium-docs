@@ -1,0 +1,43 @@
+---
+title: "Cohort LTV analysis"
+description: "How to analyze customer lifetime value (LTV) by cohort using SourceMedium tables and common filters"
+sidebarTitle: "Cohort LTV"
+icon: "magnifying-glass-location"
+---
+
+Use this guide to analyze **lifetime value (LTV)** by cohort (typically first purchase month) and compare cohort quality over time.
+
+## Recommended tables
+
+- Orders: [`obt_orders`](/data-activation/data-tables/sm_transformed_v2/obt_orders)
+- Customers: [`obt_customers`](/data-activation/data-tables/sm_transformed_v2/obt_customers)
+
+## Define LTV (before you chart)
+
+Decide which revenue definition you want to use consistently:
+
+- **Net revenue** (common for LTV): `order_net_revenue`
+- **Gross revenue**: `order_gross_revenue`
+
+If you include refunds/returns/cancellations, be explicit and keep the same definition across dashboards.
+
+## Build the analysis (high level)
+
+1. Filter to SourceMedium-valid orders (`is_order_sm_valid = TRUE`).
+2. Determine each customer’s cohort (first valid order date).
+3. For each cohort, compute:
+   - Total net revenue (or gross revenue)
+   - Distinct customers
+   - LTV = `total revenue / distinct customers`
+4. Add cohort aging (e.g., “months since cohort start”) if you want true cohort curves.
+
+## Common pitfalls
+
+- Comparing cohorts at different maturity (newer cohorts are incomplete).
+- Mixing revenue definitions when validating against other reports.
+- Not filtering out excluded/invalid orders.
+
+## Next steps
+
+- Pair with order behavior: [Cohort LTO](/help-center/common-analyses/cohort-lto)
+- If net revenue looks “off”, start here: [Why don’t Executive Summary & Shopify match?](/help-center/faq/data-faqs/why-dont-the-executive-summary-and-shopifys-sales-report-match)

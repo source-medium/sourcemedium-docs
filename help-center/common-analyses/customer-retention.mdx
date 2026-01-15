@@ -1,0 +1,38 @@
+---
+title: "Customer retention analysis"
+description: "How to measure customer retention and repeat purchasing with SourceMedium tables and common filters"
+sidebarTitle: "Customer retention"
+icon: "magnifying-glass-location"
+---
+
+Use this guide to understand how well you retain customers over time and where repeat purchasing comes from.
+
+## Recommended tables
+
+- Orders: [`obt_orders`](/data-activation/data-tables/sm_transformed_v2/obt_orders)
+- Customers: [`obt_customers`](/data-activation/data-tables/sm_transformed_v2/obt_customers)
+
+## Common retention cuts
+
+- New vs repeat customers over time
+- Repeat rate by acquisition channel
+- Time to second order (and distribution)
+- Retention by product purchased on first order
+
+## Suggested workflow
+
+1. Start with clean order filters:
+   - `is_order_sm_valid = TRUE`
+2. Decide whether to include all channels or a focused channel (e.g., Online DTC only).
+3. Pick a retention definition:
+   - “Customer retained” = places any additional valid order within X days
+   - Or “Repeat customer” = has `order_index >= 2`
+4. Break down by a single dimension (channel, first product, geography), validate, then layer on additional breakdowns.
+
+## Troubleshooting
+
+- If you see unexpected counts when reconciling, check for:
+  - Exclude $0 orders logic
+  - Channel mapping rules
+
+See also: [Why don’t Executive Summary & Shopify match?](/help-center/faq/data-faqs/why-dont-the-executive-summary-and-shopifys-sales-report-match)

@@ -1,0 +1,27 @@
+---
+title: "Top converting products"
+description: "How to identify products that convert best using SourceMedium order and order line tables"
+sidebarTitle: "Top converting products"
+icon: "magnifying-glass-location"
+---
+
+Use this guide to find which products drive the most conversions and revenue, and how that changes by channel or acquisition source.
+
+## Recommended tables
+
+- Orders: [`obt_orders`](/data-activation/data-tables/sm_transformed_v2/obt_orders)
+- Order lines: [`obt_order_lines`](/data-activation/data-tables/sm_transformed_v2/obt_order_lines)
+
+## Suggested workflow
+
+1. Start with valid orders: `is_order_sm_valid = TRUE`.
+2. Use order lines to aggregate product performance:
+   - Orders containing product
+   - Net revenue attributed to product lines
+   - Quantity sold
+3. Add slices:
+   - Channel (`sm_channel`)
+   - New vs repeat customer
+   - Discounted vs non-discounted orders
+
+Tip: If you’re looking for funnel-stage conversion (views → add to cart → purchase), you’ll want funnel events tables instead of order lines.

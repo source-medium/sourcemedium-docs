@@ -1,0 +1,32 @@
+---
+title: "Revenue retention analysis"
+description: "How to measure revenue retention over time using SourceMedium tables and consistent revenue definitions"
+sidebarTitle: "Revenue retention"
+icon: "magnifying-glass-location"
+---
+
+Use this guide to measure **how much revenue you retain** from existing customers over time.
+
+## Recommended tables
+
+- Orders: [`obt_orders`](/data-activation/data-tables/sm_transformed_v2/obt_orders)
+- Customers: [`obt_customers`](/data-activation/data-tables/sm_transformed_v2/obt_customers)
+
+## Define revenue retention (pick one)
+
+- **Gross revenue retention (GRR):** how much existing-customer revenue remains, excluding expansion
+- **Net revenue retention (NRR):** GRR + expansion from existing customers
+
+The exact definition depends on your business (subscription vs non-subscription). Write the definition down before you compute it.
+
+## Suggested workflow
+
+1. Filter to valid orders: `is_order_sm_valid = TRUE`.
+2. Choose a baseline window (e.g., customers who purchased in a given month).
+3. Track subsequent revenue from that same customer set across future periods.
+4. Segment by acquisition channel, first product, or subscription status to identify drivers.
+
+## Common pitfalls
+
+- Mixing subscription and one-time revenue in a single metric without clear separation.
+- Comparing cohorts at different maturity.

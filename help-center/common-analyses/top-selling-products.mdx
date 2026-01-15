@@ -1,6 +1,26 @@
 ---
 title: 'Top Selling Products'
-description: 'placeholder'
+description: "How to identify your top-selling products by revenue, orders, and quantity using SourceMedium order line data"
 icon: 'star'
 ---
-asdfas df
+
+Use this guide to find your top-selling products and understand how product performance changes by channel and customer type.
+
+## Recommended tables
+
+- Order lines: [`obt_order_lines`](/data-activation/data-tables/sm_transformed_v2/obt_order_lines)
+- Orders (for filtering/segmentation): [`obt_orders`](/data-activation/data-tables/sm_transformed_v2/obt_orders)
+
+## Suggested workflow
+
+1. Filter to valid orders (`is_order_sm_valid = TRUE`).
+2. Aggregate by product (and optionally variant) to compute:
+   - Orders containing product
+   - Quantity sold
+   - Net revenue
+3. Add slices:
+   - Channel (`sm_channel`)
+   - New vs repeat
+   - Discount codes
+
+Tip: If you want “top converting” vs “top selling”, start from funnel events rather than order lines.

@@ -1,7 +1,18 @@
 ---
 title: 'Stripe'
-description: ''
+description: "What SourceMedium ingests from Stripe and common reasons Stripe revenue differs from order-based reporting"
 icon: 'plug'
 ---
 
-blah blah blah
+SourceMedium can ingest Stripe to support payment-level and subscription revenue analysis.
+
+## Setup
+
+- [Stripe integration instructions](/data-inputs/platform-integration-instructions/stripe-integration)
+
+## Common caveats
+
+- Stripe is payment-centric; ecommerce reporting is typically order-centric. Align on the question before validating.
+- Metadata mapping can affect how transactions are categorized.
+
+See: [How does Stripe metadata work?](/help-center/faq/data-faqs/how-does-stripe-metadata-work)

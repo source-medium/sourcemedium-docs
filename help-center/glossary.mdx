@@ -1,0 +1,45 @@
+---
+title: "Glossary"
+description: "Definitions for common SourceMedium terms used across dashboards, tables, and FAQs"
+icon: "book"
+---
+
+This page defines common terms you’ll see throughout SourceMedium documentation. If you’re reconciling numbers across tools, start by aligning on these definitions.
+
+## Channel
+
+A **channel** is a standardized classification used to group orders and performance (e.g., Online DTC, Amazon). Channel values can be influenced by configuration sheet mapping rules.
+
+Related:
+
+- [How does channel mapping work?](/data-inputs/configuration-sheet/how_does_channel_mapping_work)
+- [Why would external reports not match the SourceMedium dashboard?](/help-center/faq/data-faqs/why-would-external-reports-not-match-the-sourcemedium-dashboard)
+
+## Subchannel
+
+A **subchannel** is a more granular breakdown under a channel (for example, different paid social strategies, affiliates, marketplaces, etc.). Subchannels are typically defined via channel mapping rules and/or UTMs.
+
+## SourceMedium-valid order
+
+A **SourceMedium-valid** order is an order that should be included in reporting (excluding test/invalid/voided scenarios). For order-based analyses, start with `is_order_sm_valid = TRUE`.
+
+See: [`obt_orders`](/data-activation/data-tables/sm_transformed_v2/obt_orders)
+
+## Gross revenue vs net revenue
+
+- **Gross revenue** is typically line-level price × quantity, before discounts/refunds.
+- **Net revenue** accounts for discounts/refunds and is usually the preferred basis for profitability and LTV analyses.
+
+If you’re reconciling to Shopify, see: [Why don’t Executive Summary & Shopify match?](/help-center/faq/data-faqs/why-dont-the-executive-summary-and-shopifys-sales-report-match)
+
+## Exclude $0 orders
+
+Some accounts exclude $0 revenue orders from reporting. This can impact reconciliations and retention metrics.
+
+See: [What is exclude $0 orders?](/help-center/faq/dashboard-functionality-faqs/what-is-exclude-zero-dollar-feature)
+
+## Attribution window
+
+An **attribution window** defines how far back in time a marketing interaction can receive credit for a purchase (e.g., 7-day click, 28-day click, 120-day lookback). Different tools often use different windows.
+
+See: [Attribution in SourceMedium](/help-center/core-concepts/attribution/attribution-in-sourcemedium)

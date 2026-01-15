@@ -1,0 +1,28 @@
+---
+title: "Subscription program retention analysis"
+description: "How to analyze subscription retention and churn using SourceMedium tables and subscription signals"
+sidebarTitle: "Subscription retention"
+icon: "magnifying-glass-location"
+---
+
+Use this guide to assess subscription retention/churn and how subscription customers behave compared to one-time customers.
+
+## Recommended tables
+
+- Orders: [`obt_orders`](/data-activation/data-tables/sm_transformed_v2/obt_orders)
+- Customers: [`obt_customers`](/data-activation/data-tables/sm_transformed_v2/obt_customers)
+
+## Key concepts
+
+- Subscription orders can be flagged in `obt_orders` (e.g., `is_subscription_order`, `is_order_recurring_subscription`).
+- If you’re validating against your subscription platform, start by aligning the definition of “active”, “new”, and “cancelled”.
+
+## Suggested workflow
+
+1. Filter to valid orders: `is_order_sm_valid = TRUE`.
+2. Segment subscription vs non-subscription customers.
+3. Analyze:
+   - Subscription order frequency
+   - Time between subscription orders
+   - Churn proxy (no subscription orders in X days)
+4. If you have a direct integration, reconcile key counts to the source platform.

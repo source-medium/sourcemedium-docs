@@ -1,7 +1,24 @@
 ---
 title: 'Amazon Seller Central'
-description: ''
+description: "What SourceMedium ingests from Amazon Seller Central and common caveats when validating Amazon sales reporting"
 icon: 'plug'
 ---
 
-blah blah blah
+SourceMedium integrates Amazon Seller Central data to support unified omnichannel reporting alongside DTC channels.
+
+## What we ingest
+
+- Orders and sales reporting (including historical backfill, where available)
+- Refunds/returns (with platform-specific reporting delays)
+- Product identifiers and order-level metadata used for reporting
+
+## Common caveats
+
+- Amazon reporting often has delays and retroactive changes (especially for FBA returns).
+- Historical reporting can differ from real-time/enriched feeds depending on what Amazon exposes.
+
+See: [Amazon Seller Central: Data nuances & limitations](/data-inputs/platform-supporting-resources/amazon-seller-central/amazon-sc-data-nuances-and-limitations)
+
+## Setup
+
+- [Amazon Seller Central integration instructions](/data-inputs/platform-integration-instructions/amazon-sc-integration)

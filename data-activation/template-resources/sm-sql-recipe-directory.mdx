@@ -1,17 +1,22 @@
 ---
 title: 'SQL Recipe Directory'
-description: ''
-icon: ''
+description: "A curated set of BigQuery SQL snippets to answer common questions using SourceMedium tables"
+icon: "code"
 ---
 
 ### Overview
 
-blah blah
+Use these queries as starting points for analysis in BigQuery. Replace placeholders like `{{account_id}}` and filter for your brand/store as needed.
+
+Notes:
+
+- Prefer SourceMedium v2 tables when available (`sm_transformed_v2`), and start with `is_order_sm_valid = TRUE` for order-based analyses.
+- If you’re not sure which table to use, start with: [`obt_orders`](/data-activation/data-tables/sm_transformed_v2/obt_orders) and [`obt_order_lines`](/data-activation/data-tables/sm_transformed_v2/obt_order_lines).
 
 ## Product Insights
 <AccordionGroup>
     <Accordion title='Most commonly ordered product combinations'>
-        ```SQL
+        ```sql
         WITH RECURSIVE `CTE` AS (
             -- Anchor Query
             SELECT
@@ -54,80 +59,6 @@ blah blah
     </Accordion>
 </AccordionGroup>
 
-## Subscription Insights
-<AccordionGroup>
-    <Accordion title='New Subscriptions by Product'>
+## More recipes
 
-        ```SQL
-        
-        ```
-    </Accordion>
-    <Accordion title='Cancelled Subscriptions by Product'>
-        ```SQL
-        
-        ```
-    </Accordion>
-    <Accordion title='Onetime products purchased by churned subscribers'>
-        ```SQL
-        
-        ```
-
-    </Accordion>
-</AccordionGroup>
-
-## Marketing Insights
-<AccordionGroup>
-    <Accordion title=''>
-        ```SQL
-        
-        ```
-        
-    </Accordion>
-    <Accordion title=''>
-        ```SQL
-        
-        ```
-
-    </Accordion>
-    <Accordion title=''>
-        ```SQL
-        
-        ```
-
-    </Accordion>
-    <Accordion title=''>
-        ```SQL
-        
-        ```
-
-    </Accordion>
-</AccordionGroup>
-
-## Repurchase Analysis
-<AccordionGroup>
-    <Accordion title=''>
-        ```SQL
-        
-        ```
-        
-    </Accordion>
-    <Accordion title=''>
-        ```SQL
-        
-        ```
-
-    </Accordion>
-    <Accordion title=''>
-        ```SQL
-        
-        ```
-
-    </Accordion>
-    <Accordion title=''>
-        ```SQL
-        
-        ```
-
-    </Accordion>
-</AccordionGroup>
-
+More recipes are coming soon. If there’s a query you’d like added (subscription churn, cohort LTV curves, creative performance, etc.), reach out to your SourceMedium team and include the business question and the table(s) you’re using.

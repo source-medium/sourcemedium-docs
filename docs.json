@@ -670,6 +670,34 @@
     {
       "source": "/data-activation/managed-bi-v1/modules",
       "destination": "/data-activation/managed-bi-v1/modules/index"
+    },
+    {
+      "source": "/help-center/what-is-sourcemediumglossary",
+      "destination": "/help-center/glossary"
+    },
+    {
+      "source": "/help-center/what-is-sourcemediumarticles/template-gallery",
+      "destination": "/help-center/template-gallery"
+    },
+    {
+      "source": "/help-center/what-is-sourcemediumarticles/source-medium-report-analytics-slack-bot-setup",
+      "destination": "/help-center/slack-bot-setup"
+    },
+    {
+      "source": "/help-center/what-is-sourcemediumarticles/exclude-0-orders-feature-overview",
+      "destination": "/help-center/faq/dashboard-functionality-faqs/what-is-exclude-zero-dollar-feature"
+    },
+    {
+      "source": "/onboarding/data-docs/tables/order_details_looker",
+      "destination": "/onboarding/data-docs/tables/order_details_dda"
+    },
+    {
+      "source": "/onboarding/data-docs/tables/executive_summary_looker",
+      "destination": "/onboarding/data-docs/tables/executive_summary_dda"
+    },
+    {
+      "source": "/onboarding/data-docs/tables/customer_details_looker",
+      "destination": "/onboarding/data-docs/tables/customer_details_dda"
     }
   ]
 }

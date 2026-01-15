@@ -1,9 +1,35 @@
 ---
 title: 'Common Analysis Template'
-description: 'Longer-form version of title (REPLACE)'
+description: "A reusable structure for running analyses in SourceMedium: define the question, the metric, the grain, and the filters"
 icon: 'magnifying-glass-location'
 ---
 
-<Accordion title="Video walk-thru">
-    <iframe width="640" height="360" src="https://www.loom.com/embed/1ed6e5fbb1134cc3a49f652ab7976857?sid=f455d810-09f6-4ecd-ad83-c8961a268271" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
-</Accordion>
+Use this template when you’re not sure how to structure a question, or when you want to standardize analyses across stakeholders.
+
+## 1) Define the question
+
+Examples:
+
+- “Which cohorts have the highest LTV after 90 days?”
+- “Which products are most often purchased together?”
+- “Why did ROAS drop week over week?”
+
+## 2) Choose the primary metric
+
+Pick one metric to optimize the analysis around (revenue, orders, CPA, retention rate, etc.). Decide the revenue definition up front (gross vs net).
+
+## 3) Pick a grain and time window
+
+- Grain: day / week / month / customer / order / order line
+- Time window: last 30/90 days, QTD, by cohort month, etc.
+
+## 4) Apply the baseline filters
+
+Start with the “clean” baseline and only relax it intentionally:
+
+- `is_order_sm_valid = TRUE` (where applicable)
+- Focused channel selection if you’re comparing to a channel-specific source report
+
+## 5) Add one breakdown at a time
+
+Add dimensions one-by-one and validate after each step (channel → platform → campaign → creative).

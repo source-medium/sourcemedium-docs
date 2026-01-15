@@ -1,5 +1,25 @@
 ---
 title: "Copying SourceMedium Data Source Templates"
-description: ""
+description: "How to copy SourceMedium Looker Studio data source templates and map them to your warehouse tables"
 ---
-blah blah
+
+Use this guide to copy SourceMedium-provided Looker Studio **data source templates** and connect them to your environment.
+
+## When to use this
+
+- You want to build new reports using the SourceMedium table layer without recreating fields from scratch.
+- You want to start from an existing template and modify dimensions/metrics.
+
+## Prerequisites
+
+- Access to Looker Studio
+- Access to your SourceMedium datasets in BigQuery (or your managed warehouse, if applicable)
+
+## Steps
+
+1. Start with the template directory (if provided by your team).
+2. Make a copy of the data source.
+3. Map the copied data source to your account’s tables/datasets.
+4. Validate field types (dates, numbers, booleans) before building charts.
+
+If you’re copying full reports (dashboards), start with: [Copying SourceMedium report templates](/data-activation/template-resources/copying-sm-report-templates)
