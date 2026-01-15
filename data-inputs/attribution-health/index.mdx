@@ -1,0 +1,105 @@
+---
+title: 'Attribution Health'
+sidebarTitle: 'Overview'
+description: 'Strategies and tools for improving your attribution coverage and data quality'
+icon: 'heart-pulse'
+---
+
+## What is Attribution Health?
+
+Attribution health measures how completely your marketing touchpoints are being captured and connected to customer purchases. High attribution rates mean you can confidently analyze which channels drive revenue; low rates mean you're flying blind.
+
+<Info>
+If you're seeing high rates of `(direct) / (none)` in your attribution data, this section will help you diagnose and fix the gaps.
+</Info>
+
+---
+
+## Common Attribution Gaps
+
+<CardGroup cols={2}>
+  <Card title="Cookie/Tracking Blockers" icon="shield">
+    Ad blockers, iOS privacy features, and browser restrictions prevent traditional tracking from capturing touchpoints.
+  </Card>
+  <Card title="Cross-Domain Issues" icon="arrows-split-up-and-left">
+    Customers moving between domains (ads → landing page → checkout) can lose UTM parameters along the way.
+  </Card>
+  <Card title="Missing UTM Parameters" icon="link-slash">
+    Marketing campaigns without proper UTM tagging result in traffic appearing as direct/none.
+  </Card>
+  <Card title="Delayed Attribution" icon="clock">
+    Long consideration cycles mean the original touchpoint expires before purchase.
+  </Card>
+</CardGroup>
+
+---
+
+## Attribution Health Toolkit
+
+The following guides cover different strategies for improving your attribution coverage. Most brands benefit from implementing multiple approaches.
+
+### Server-Side & First-Party Methods
+
+<CardGroup cols={2}>
+  <Card title="UTM Capture via Checkout Attributes" icon="shopify" href="/data-inputs/platform-supporting-resources/shopify/backfilling-utm-attribution-via-checkout-attributes">
+    **Shopify Plus** — Capture UTM parameters at checkout using Checkout UI Extensions, bypassing cookie blockers.
+  </Card>
+  <Card title="Improving Last-Click Attribution" icon="bullseye" href="/data-inputs/platform-supporting-resources/ga4/improving-last-click-attribution">
+    **All Platforms** — Best practices for UTM naming conventions and tracking hygiene.
+  </Card>
+</CardGroup>
+
+### Zero-Party Data Methods
+
+<CardGroup cols={2}>
+  <Card title="Post-Purchase Survey (HDYHAU)" icon="square-poll-vertical" href="/help-center/faq/account-management-faqs/best-practices-in-setting-up-a-post-purchase-hdyhau-survey">
+    **All Platforms** — Ask customers directly how they heard about you. Complements tracking-based attribution.
+  </Card>
+  <Card title="Fairing Integration" icon="plug" href="/data-inputs/platform-integration-instructions/fairing-integration">
+    Set up Fairing for automated post-purchase surveys with order tagging.
+  </Card>
+  <Card title="KnoCommerce Integration" icon="plug" href="/data-inputs/platform-integration-instructions/knocommerce-integration">
+    Set up KnoCommerce for zero-party data collection and attribution.
+  </Card>
+</CardGroup>
+
+---
+
+## Choosing the Right Approach
+
+| Method | Best For | Limitations |
+|--------|----------|-------------|
+| **Checkout Attributes** | High ad blocker rates, Shopify Plus stores | Doesn't work with accelerated checkout (Apple Pay, etc.) |
+| **HDYHAU Surveys** | Understanding top-of-funnel discovery | Self-reported data can be inaccurate |
+| **UTM Best Practices** | Prevention—catching gaps before they happen | Doesn't fix historical data |
+| **Fairing/KnoCommerce** | Automated survey collection at scale | Requires additional integration |
+
+<Tip>
+**Recommended approach**: Implement UTM best practices as your foundation, add checkout attribute capture for server-side backup, and use HDYHAU surveys to validate and supplement your tracking-based data.
+</Tip>
+
+---
+
+## Measuring Your Attribution Health
+
+SourceMedium's MTA dashboard includes an **Attribution Health** module that shows:
+- Percentage of orders with attributable touchpoints
+- Attribution rates by channel and time period
+- Trends in your attribution coverage
+
+<Card title="MTA Attribution Health Module" icon="chart-pie" href="/mta/mta-overview">
+  Learn how to interpret your attribution health metrics in the MTA dashboard.
+</Card>
+
+---
+
+## Related Resources
+
+<CardGroup cols={2}>
+  <Card title="Attribution Waterfall" icon="sitemap" href="/data-transformations/data-enrichment">
+    How SourceMedium prioritizes attribution data from multiple sources.
+  </Card>
+  <Card title="Channel Mapping" icon="map" href="/data-inputs/configuration-sheet/how_does_channel_mapping_work">
+    Organize your attributed orders into meaningful channel groupings.
+  </Card>
+</CardGroup>

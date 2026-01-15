@@ -120,7 +120,8 @@
                   {
                     "group": "Shopify",
                     "pages": [
-                      "data-inputs/platform-integration-instructions/shopify-integration"
+                      "data-inputs/platform-integration-instructions/shopify-integration",
+                      "data-inputs/platform-supporting-resources/shopify/backfilling-utm-attribution-via-checkout-attributes"
                     ]
                   },
                   {
@@ -427,6 +428,15 @@
                   }
                 ]
               }
+            ]
+          },
+          {
+            "group": "Attribution Health",
+            "pages": [
+              "data-inputs/attribution-health/index",
+              "data-inputs/platform-supporting-resources/shopify/backfilling-utm-attribution-via-checkout-attributes",
+              "data-inputs/platform-supporting-resources/ga4/improving-last-click-attribution",
+              "help-center/faq/account-management-faqs/best-practices-in-setting-up-a-post-purchase-hdyhau-survey"
             ]
           },
           {
