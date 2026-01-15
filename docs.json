@@ -26,6 +26,7 @@
               {
                 "group": "Data Clarification & Discrepancies",
                 "pages": [
+                  "help-center/faq/account-management-faqs/what-is-last-click-attribution",
                   "help-center/faq/data-faqs/why-would-external-reports-not-match-the-sourcemedium-dashboard",
                   "help-center/faq/data-faqs/why-dont-the-executive-summary-and-shopifys-sales-report-match",
                   "help-center/faq/data-faqs/why-isnt-the-executive-summary-report-attributing-my-gift-card-revenue",
@@ -85,9 +86,12 @@
           {
             "group": "Getting Started",
             "pages": [
+              "onboarding/getting-started/intro-to-sm",
+              "onboarding/getting-started/why-source-medium",
               "onboarding/getting-started/getting-started-checklist",
               "onboarding/getting-started/level-1-data-checklist",
               "onboarding/getting-started/level-2-data-checklist",
+              "onboarding/getting-started/level-3-data-checklist",
               "onboarding/getting-started/how-to-work-with-the-sourcemedium-team",
               {
                 "group": "The Analytical Mindset",
@@ -96,6 +100,14 @@
                   "onboarding/getting-started/thinking-analytically/common-analytical-questions"
                 ]
               }
+            ]
+          },
+          {
+            "group": "Account Management",
+            "pages": [
+              "onboarding/getting-started/how-to-manage-user-access",
+              "onboarding/analytics-tools/creating-google-groups",
+              "onboarding/analytics-tools/sharing-access"
             ]
           },
           {
