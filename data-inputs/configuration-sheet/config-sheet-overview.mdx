@@ -1,23 +1,96 @@
 ---
 title: "Configuration Sheet Overview"
+sidebarTitle: "Overview"
+description: "How to use the SourceMedium Configuration Sheet to enrich your data with targets, channel mapping, costs, and custom metrics"
+icon: "table"
 ---
 
-The SourceMedium Configuration Sheet is a a powerful tool that allows you to enrich your own data based on your business's specific needs.
+The SourceMedium Configuration Sheet is a powerful Google Sheets-based tool that allows you to enrich your data based on your business's specific needs—without writing any code.
 
-The standard SourceMediun Configuration sheet gives your team the ability to:
-- [Set targets for executive-level metrics](/data-inputs/configuration-sheet/can-i-set-targets-in-my-dashboard)
-- [Map orders to specific channels, sub-channels, and vendors for easier analysis](/data-inputs/configuration-sheet/how-can-i-create-order-channels-and-subchannels)
-- Surface non-integrated [marketing costs](/data-inputs/configuration-sheet/how-do-i-include-marketing-spend-through-the-cost-tab-of-the-configuration-sheet) and [sales](/data-inputs/configuration-sheet/how-do-i-enter-non-integrated-sales-data-sales-tab) into your dashboard
-- Enable **Profit & Loss** analysis by entering COGS other costs related to your business...
+<Info>
+Your Configuration Sheet is automatically synced to SourceMedium. Changes typically reflect in your dashboard within 24 hours.
+</Info>
 
+---
 
-If you choose to enable **Costs of Goods Sold (COGS)** within SourceMedium, new tabs are added to your Configuration sheet that allow you to enter:
+## What Can You Configure?
 
-- [Product Costs](/data-inputs/configuration-sheet/costs/how-do-i-surface-product-costs-from-platforms-outside-of-shopify-into-my-dashboard) (for non-Shopify, or historic backfill of Shopify product costs)
-    - SourceMedium automatically syncs the latest Product Cost values entered in your Shopify account
-- [Shipping Costs](/data-inputs/configuration-sheet/costs/how-do-i-surface-shipping-costs-within-my-dashboard)
-- [Fulfillment Costs](/data-inputs/configuration-sheet/costs/how-do-i-surface-fulfillment-costs-within-my-dashboard)
-- [Merchant Processing Fees](/data-inputs/configuration-sheet/costs/how-do-i-surface-merchant-processing-fees-within-my-dashboard)
-- [Operating Expenses](/data-inputs/configuration-sheet/costs/how-do-i-surface-operating-expenses-within-my-dashboard)
+<CardGroup cols={2}>
+  <Card title="Metric Targets" icon="bullseye" href="/data-inputs/configuration-sheet/can-i-set-targets-in-my-dashboard">
+    Set targets for executive-level metrics like revenue, orders, and ROAS.
+  </Card>
+  <Card title="Channel Mapping" icon="sitemap" href="/data-inputs/configuration-sheet/how_does_channel_mapping_work">
+    Map orders to specific channels, sub-channels, and vendors for easier analysis.
+  </Card>
+  <Card title="Custom Marketing Costs" icon="dollar-sign" href="/data-inputs/configuration-sheet/how-do-i-include-marketing-spend-through-the-cost-tab-of-the-configuration-sheet">
+    Add marketing spend from non-integrated platforms (influencers, podcasts, etc.).
+  </Card>
+  <Card title="Custom Sales" icon="cart-shopping" href="/data-inputs/configuration-sheet/how-do-i-enter-non-integrated-sales-data-sales-tab">
+    Enter sales from non-integrated channels (retail, wholesale, marketplaces).
+  </Card>
+</CardGroup>
 
-[def]: data-inputs/configuration-sheet/how-can-i-create-order-channels-and-subchannels
+---
+
+## Cost of Goods Sold (COGS)
+
+Enable Profit & Loss analysis by adding your cost data. When COGS is enabled, additional tabs appear in your Configuration Sheet:
+
+<CardGroup cols={2}>
+  <Card title="Product Costs" icon="box" href="/data-inputs/configuration-sheet/costs/how-do-i-surface-product-costs">
+    Enter product-level costs. SourceMedium automatically syncs Shopify product costs.
+  </Card>
+  <Card title="Shipping Costs" icon="truck" href="/data-inputs/configuration-sheet/costs/how-do-i-surface-shipping-costs-within-my-dashboard">
+    Add shipping and delivery costs.
+  </Card>
+  <Card title="Fulfillment Costs" icon="warehouse" href="/data-inputs/configuration-sheet/costs/how-do-i-surface-fulfillment-costs-within-my-dashboard">
+    Track fulfillment and 3PL fees.
+  </Card>
+  <Card title="Merchant Processing Fees" icon="credit-card" href="/data-inputs/configuration-sheet/costs/how-do-i-surface-merchant-processing-fees-within-my-dashboard">
+    Include payment processing fees (Stripe, PayPal, etc.).
+  </Card>
+  <Card title="Operating Expenses" icon="building" href="/data-inputs/configuration-sheet/costs/how-do-i-surface-operating-expenses-within-my-dashboard">
+    Add fixed operating costs for full P&L visibility.
+  </Card>
+</CardGroup>
+
+---
+
+## How to Access Your Configuration Sheet
+
+1. Log in to SourceMedium
+2. Navigate to **Settings** > **Configuration Sheet**
+3. Click the Google Sheets link to open your sheet
+
+<Tip>
+Bookmark your Configuration Sheet for quick access. You can also request view/edit access for team members.
+</Tip>
+
+---
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Keep data consistent">
+    Use the same naming conventions across tabs. For example, if you call a channel "Meta" in one place, don't call it "Facebook" elsewhere.
+  </Accordion>
+  <Accordion title="Update costs regularly">
+    Product costs and shipping rates change. Set a recurring reminder to review and update your cost data quarterly.
+  </Accordion>
+  <Accordion title="Document your mappings">
+    Add notes in the sheet explaining why certain orders are mapped to specific channels—future you will thank you.
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Related Resources
+
+<CardGroup cols={2}>
+  <Card title="Channel Mapping Deep Dive" icon="map" href="/data-inputs/configuration-sheet/how_does_channel_mapping_work">
+    Learn how channel mapping logic works.
+  </Card>
+  <Card title="Influencer Tracking" icon="user-group" href="/data-inputs/configuration-sheet/how-can-i-track-influencer-spend-and-performance">
+    Track influencer spend and performance with UTM codes.
+  </Card>
+</CardGroup>
