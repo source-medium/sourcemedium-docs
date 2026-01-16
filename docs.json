@@ -813,10 +813,6 @@
       "destination": "/data-inputs/configuration-sheet/config-sheet-overview"
     },
     {
-      "source": "/data-activation/managed-bi-v1/modules",
-      "destination": "/data-activation/managed-bi-v1/modules/index"
-    },
-    {
       "source": "/help-center/what-is-sourcemediumglossary",
       "destination": "/help-center/glossary"
     },
