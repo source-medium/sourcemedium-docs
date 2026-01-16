@@ -1,15 +1,73 @@
 ---
-title: "Configuration sheet: Product costs"
-description: "How product costs (COGS) are sourced and how to fill gaps using the Configuration Sheet"
+title: "Product Costs (COGS)"
+description: "How product costs are sourced, where they appear in dashboards, and how to fill gaps using the Configuration Sheet"
 sidebarTitle: "Product costs"
-icon: "table"
+icon: "box"
 ---
 
-Product costs (COGS) are used to compute profitability metrics like gross profit. SourceMedium can use costs from platforms like Shopify, and you can override or supplement those costs through the Configuration Sheet.
+Product costs (COGS) power profitability metrics like gross profit and contribution margin across your SourceMedium dashboards.
 
-## Start here
+## How Product Costs Work
 
-- [How do I surface product costs?](/data-inputs/configuration-sheet/costs/how-do-i-surface-product-costs)
-- [How do I add historic product costs from Shopify?](/data-inputs/configuration-sheet/costs/how-do-i-add-historic-product-costs-from-shopify-into-my-dashboard)
-- [How do I override product costs from Shopify?](/data-inputs/configuration-sheet/costs/how-do-i-override-product-costs-from-shopify-into-my-dashboard)
-- [How do I surface product costs from platforms outside of Shopify?](/data-inputs/configuration-sheet/costs/how-do-i-surface-product-costs-from-platforms-outside-of-shopify-into-my-dashboard)
+SourceMedium pulls product costs from Shopify's `Cost per item` field at the variant level. This enables:
+- **Order-level profitability**: Gross profit per order
+- **Customer-level LTV**: Profit-based lifetime value
+- **Product-level margins**: Gross margin by product/collection
+
+<Info>
+SourceMedium tracks cost changes over time. Orders use the product cost that was active when the order was placed.
+</Info>
+
+## Where Costs Appear
+
+| Module | Cost Usage |
+|--------|------------|
+| Executive Summary | Gross profit, contribution margin |
+| LTV & Retention | Profit-adjusted LTV |
+| Product Performance | Product-level margins |
+| Orders Deep Dive | Order-level profitability |
+
+## Setting Up Product Costs
+
+<Steps>
+  <Step title="Enter costs in Shopify">
+    Go to **Products** → select product → select variant → enter **Cost per item**
+  </Step>
+  <Step title="Use landed cost">
+    Include product cost + inbound shipping/duties for accurate margins
+  </Step>
+  <Step title="Notify SourceMedium">
+    Let your team know costs are ready so we can enable the feature
+  </Step>
+</Steps>
+
+## Common Scenarios
+
+<CardGroup cols={2}>
+  <Card title="Add Shopify costs" icon="shopify" href="/data-inputs/configuration-sheet/costs/how-do-i-surface-product-costs">
+    Set up costs from Shopify product data
+  </Card>
+  <Card title="Historic costs" icon="clock-rotate-left" href="/data-inputs/configuration-sheet/costs/how-do-i-add-historic-product-costs-from-shopify-into-my-dashboard">
+    Backfill costs for older orders
+  </Card>
+  <Card title="Override costs" icon="pen" href="/data-inputs/configuration-sheet/costs/how-do-i-override-product-costs-from-shopify-into-my-dashboard">
+    Override Shopify costs with custom values
+  </Card>
+  <Card title="Non-Shopify costs" icon="store" href="/data-inputs/configuration-sheet/costs/how-do-i-surface-product-costs-from-platforms-outside-of-shopify-into-my-dashboard">
+    Add costs for non-Shopify products
+  </Card>
+</CardGroup>
+
+## FAQs
+
+<AccordionGroup>
+  <Accordion title="What should I include in product cost?">
+    Use **landed cost**: product cost + inbound shipping + duties/tariffs. This gives the most accurate gross margin.
+  </Accordion>
+  <Accordion title="How do I handle cost changes over time?">
+    Update the cost in Shopify when it changes. SourceMedium tracks historical costs—old orders keep old costs, new orders use new costs.
+  </Accordion>
+  <Accordion title="Will changes appear immediately?">
+    Cost changes typically reflect in dashboards within 24 hours after the next data sync.
+  </Accordion>
+</AccordionGroup>

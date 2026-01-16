@@ -23,15 +23,11 @@ models:
         description: >
           The ID of the customer who placed the order.
 
-      - name: customer_tags_array
-        description: >
-          Array of all tags associated with a customer. Preferred for robust filtering (use UNNEST) and programmatic tag operations. Snapshot at time of order (free-form, set by merchants/apps). Tags reflect state at processing time; use ARRAY_TO_STRING for filtering.
-
       - name: customer_tags_csv
         description: >
-          Comma-separated customer tags at time of order; string version of customer_tags_array. Prefer array field for robust matching; CSV can include commas in tag values.
+          Comma-separated customer tags at time of order. Beware that individual tag values may contain commas.
 
-      - name: earliest_refund_date
+      - name: earliest_order_refund_date
         description: >
           The earliest date when a refund was processed for an order.
 
@@ -47,7 +43,7 @@ models:
         description: >
           Whether an order has an order_index_reversed that equals 1.
 
-      - name: is_order_recurring_subscription
+      - name: is_recurring_subscription_order
         description: >
           Whether a subscription order is a repeat subscription order based on the subscription order index or order tag indicators when an index is not available.
 
@@ -63,7 +59,7 @@ models:
         description: >
           Whether the order is a subscription order.
 
-      - name: latest_refund_date
+      - name: latest_order_refund_date
         description: >
           The most recent date when a refund was processed for an order.
 
@@ -145,7 +141,7 @@ models:
 
       - name: order_id
         description: >
-          Platform order identifier. Not globally unique across stores; pair with `smcid` and `source_system` when needed for scoping.
+          Platform order identifier. Not globally unique across stores; pair with `sm_store_id` and `source_system` when needed for scoping.
 
       - name: order_index
         description: >
@@ -193,7 +189,7 @@ models:
 
       - name: order_number
         description: >
-          Shop-scoped sequence number assigned by the platform. Not globally unique; pair with `smcid` for scoping.
+          Shop-scoped sequence number assigned by the platform. Not globally unique; pair with `sm_store_id` for scoping.
 
       - name: order_payment_status
         description: >
@@ -211,31 +207,19 @@ models:
         description: >
           Method used to process the order (e.g., 'manual', 'direct', 'offsite'). Platform-defined strings; some methods may only appear for specific integrations.
 
-      - name: order_product_tags_array
-        description: >
-          Array of unique product tags included in the order (de-duplicated from order lines). Prefer array for exact matching; CSV for quick text filters.
-
       - name: order_product_tags_csv
         description: >
           Comma-separated list of product tags from items in the order (free-form, merchant-defined). Tags can be inconsistent across platforms; prefer normalized dimensional attributes when available.
-
-      - name: order_product_titles_array
-        description: >
-          Array of product titles included in the order (aggregated from order lines). Product titles can change; prefer product/variant IDs for stable joins.
 
       - name: order_product_titles_csv
         description: >
           A list of product titles included in an order.
 
-      - name: order_product_variant_titles_array
-        description: >
-          Array of product variant titles in the order (e.g., size/color; aggregated from order lines). Variant titles can change; use stable variant IDs for joins when available.
-
       - name: order_product_variant_titles_csv
         description: >
           A list of product variant titles included in an order.
 
-      - name: order_referring_site
+      - name: order_referrer_url
         description: >
           The URL of the site that referred the customer to the shop.
 
@@ -253,7 +237,7 @@ models:
 
       - name: order_sequence
         description: >
-          Customer lifecycle classification: 'First Order' for new customers, 'Repeat Order' for returning customers. Includes all orders (valid + invalid). Use for cohort analysis and retention reporting. See valid_order_index for valid-only ordering.
+          Customer lifecycle classification: 'First Order' for new customers, 'Repeat Order' for returning customers. Includes all orders (valid + invalid). Use for cohort analysis and retention reporting. See sm_valid_order_index for valid-only ordering.
 
       - name: order_session_browser_type
         description: >
@@ -303,13 +287,9 @@ models:
         description: >
           A list of SKUs included in an order.
 
-      - name: order_source_name
+      - name: source_system_sales_channel
         description: >
           Original source reported by the platform (e.g., Shopify sales channel/app name).
-
-      - name: order_tags_array
-        description: >
-          Array of tags that the shop owner has attached to the order. Preferred for robust filtering (use UNNEST) and programmatic tag operations.
 
       - name: order_tags_csv
         description: >
@@ -413,7 +393,7 @@ models:
 
       - name: sm_order_referrer_domain
         description: >
-          Domain derived from order_referring_site.
+          Domain derived from order_referrer_url.
 
       - name: sm_order_sales_channel
         description: >

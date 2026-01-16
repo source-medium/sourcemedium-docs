@@ -1,6 +1,176 @@
 ---
-title: "Modeling With SourceMedium"
-description: "How to model on top of SourceMedium tables in your warehouse: best practices, joins, and common patterns"
+title: "Modeling with SourceMedium"
+description: "How to build custom models on top of SourceMedium tables: best practices, common patterns, and example queries"
+icon: "cubes"
 ---
 
-(Coming soon...)
+This guide covers how to extend SourceMedium's data models by building your own tables, views, or queries in your Managed Data Warehouse.
+
+## Before you start
+
+Understand [our table types](/data-transformations/philosophy#how-we-shape-our-data):
+- **`obt_*`** (One Big Tables) — Best starting point for most analyses. Pre-joined, business-ready.
+- **`fct_*`** / **`dim_*`** — Granular building blocks for custom joins.
+- **`rpt_*`** — Pre-aggregated for specific reporting use cases.
+
+<Tip>
+Start with `obt_` tables when possible. They're designed as a semantic layer and handle most common joins for you.
+</Tip>
+
+## Recommended approach
+
+### 1. Start with OBT tables
+
+For most custom analyses, `obt_orders` and `obt_customers` provide everything you need:
+
+```sql
+-- Example: Custom cohort analysis
+WITH first_valid_order AS (
+  SELECT
+    sm_customer_key,
+    MIN(order_processed_at) AS first_valid_order_processed_at
+  FROM `your_project.sm_transformed_v2.obt_orders`
+  WHERE is_order_sm_valid = TRUE
+  GROUP BY 1
+)
+SELECT
+  DATE_TRUNC(DATE(first_valid_order_processed_at), MONTH) AS cohort_month,
+  COUNT(DISTINCT o.sm_customer_key) AS customers,
+  SUM(o.order_net_revenue) AS total_revenue
+FROM `your_project.sm_transformed_v2.obt_orders` o
+JOIN first_valid_order f
+  ON o.sm_customer_key = f.sm_customer_key
+WHERE o.is_order_sm_valid = TRUE
+GROUP BY 1
+ORDER BY 1
+```
+
+### 2. Join fact + dimension tables for granular needs
+
+When OBTs don't have the grain you need:
+
+```sql
+-- Example: Order line-level analysis with product details
+SELECT
+  order_id,
+  product_title,
+  order_line_net_revenue,
+  product_type
+FROM `your_project.sm_transformed_v2.obt_order_lines`
+WHERE is_order_sm_valid = TRUE
+```
+
+### 3. Use report tables for pre-aggregated metrics
+
+Don't re-aggregate what's already computed:
+
+```sql
+-- Example: Daily ad performance already aggregated
+SELECT
+  date,
+  sm_channel,
+  ad_spend,
+  ad_platform_reported_revenue,
+  SAFE_DIVIDE(ad_platform_reported_revenue, ad_spend) AS roas
+FROM `your_project.sm_transformed_v2.rpt_ad_performance_daily`
+WHERE date >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)
+```
+
+## Common join keys
+
+| Table Type | Primary Key | Common Join Keys |
+|-----------|-------------|------------------|
+| Orders | `sm_order_key` | `sm_customer_key`, `sm_store_id`, `source_system` |
+| Order Lines | `sm_order_line_key` | `sm_order_key`, `sm_product_variant_key` |
+| Customers | `sm_customer_key` | `sm_store_id`, `source_system` |
+| Products | `sm_product_variant_key` | `product_id`, `variant_id` |
+
+<Warning>
+Always filter by `sm_store_id` (SourceMedium store identifier) when working across brands or stores to avoid cross-contamination.
+</Warning>
+
+## Best practices
+
+### Filter to valid orders
+Always include `is_order_sm_valid = TRUE` to exclude test orders, cancelled orders, and other invalid transactions:
+
+```sql
+WHERE is_order_sm_valid = TRUE
+```
+
+### Use consistent revenue definitions
+Pick one and stick with it across your models:
+- `order_net_revenue` — After discounts, refunds, taxes
+- `order_gross_revenue` — Before adjustments
+
+### Partition and cluster your models
+If creating persistent tables, optimize for query performance:
+
+```sql
+CREATE TABLE `your_project.your_dataset.custom_model`
+PARTITION BY DATE(order_created_at)
+CLUSTER BY sm_store_id, sm_channel
+AS (
+  SELECT ...
+)
+```
+
+### Document your models
+Add descriptions so others (and future you) understand the logic:
+
+```sql
+-- Model: custom_weekly_cohort_summary
+-- Purpose: Weekly cohort LTV for finance reporting
+-- Owner: analytics@yourcompany.com
+-- Last updated: 2026-01-15
+```
+
+## Common patterns
+
+### Customer-level aggregations
+```sql
+SELECT
+  sm_customer_key,
+  MIN(order_created_at) AS first_order_date,
+  MAX(order_created_at) AS last_order_date,
+  COUNT(DISTINCT sm_order_key) AS order_count,
+  SUM(order_net_revenue) AS lifetime_revenue
+FROM `your_project.sm_transformed_v2.obt_orders`
+WHERE is_order_sm_valid = TRUE
+GROUP BY 1
+```
+
+### Channel attribution analysis
+```sql
+SELECT
+  sm_channel,
+  sm_sub_channel,
+  COUNT(DISTINCT sm_order_key) AS orders,
+  SUM(order_net_revenue) AS revenue
+FROM `your_project.sm_transformed_v2.obt_orders`
+WHERE is_order_sm_valid = TRUE
+  AND order_created_at >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)
+GROUP BY 1, 2
+ORDER BY revenue DESC
+```
+
+### Product affinity (what's bought together)
+```sql
+SELECT
+  a.product_title AS product_a,
+  b.product_title AS product_b,
+  COUNT(DISTINCT a.sm_order_key) AS co_purchase_count
+FROM `your_project.sm_transformed_v2.obt_order_lines` a
+JOIN `your_project.sm_transformed_v2.obt_order_lines` b
+  ON a.sm_order_key = b.sm_order_key
+  AND a.sm_order_line_key < b.sm_order_line_key
+GROUP BY 1, 2
+HAVING co_purchase_count >= 10
+ORDER BY co_purchase_count DESC
+```
+
+## Next steps
+
+- Browse available tables: [Data Tables Reference](/data-activation/data-tables/sm_transformed_v2)
+- Connect your BI tool: [BI Tools Setup](/data-activation/managed-data-warehouse/bi-tools)
+- Learn naming conventions: [Column Naming Standards](/data-transformations/naming-conventions/key-concepts)

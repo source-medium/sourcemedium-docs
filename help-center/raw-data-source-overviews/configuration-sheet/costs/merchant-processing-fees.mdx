@@ -1,12 +1,66 @@
 ---
-title: "Configuration sheet: Merchant processing fees"
+title: "Merchant Processing Fees"
 description: "How merchant processing fees entered in the Configuration Sheet flow into profitability and gross profit reporting"
-sidebarTitle: "Merchant processing fees"
-icon: "table"
+sidebarTitle: "Merchant fees"
+icon: "credit-card"
 ---
 
-Merchant processing fees are variable costs associated with payments. Entering them in the Configuration Sheet supports more accurate gross profit and contribution margin reporting.
+Merchant processing fees are the costs charged by payment providers (Stripe, PayPal, Shopify Payments) to process customer payments.
 
-## Start here
+## What Are Merchant Processing Fees?
 
-- [How do I surface merchant processing fees within my dashboard?](/data-inputs/configuration-sheet/costs/how-do-i-surface-merchant-processing-fees-within-my-dashboard)
+These fees typically include:
+- **Transaction fees**: Percentage of transaction (e.g., 2.9%)
+- **Fixed fees**: Per-transaction fee (e.g., $0.30)
+- **Gateway fees**: Monthly/per-transaction gateway costs
+- **Chargeback fees**: Fees for disputed transactions
+
+<Info>
+Processing fees vary by payment method. Credit cards typically cost more than ACH/bank transfers.
+</Info>
+
+## Where Processing Fees Appear
+
+| Module | Usage |
+|--------|-------|
+| Executive Summary | Contribution margin calculation |
+| Orders Deep Dive | Order-level profitability |
+| P&L Reports | Operating cost line item |
+
+## Common Fee Structures
+
+| Provider | Typical Rate |
+|----------|-------------|
+| Shopify Payments | 2.4-2.9% + $0.30 |
+| Stripe | 2.9% + $0.30 |
+| PayPal | 2.9% + $0.49 |
+| Shop Pay | 2.4-2.6% + $0.30 |
+
+## Setting Up Processing Fees
+
+<Steps>
+  <Step title="Calculate blended rate">
+    Review payment provider statements to find your average rate across all payment methods
+  </Step>
+  <Step title="Open Configuration Sheet">
+    Navigate to the merchant processing section
+  </Step>
+  <Step title="Enter percentage">
+    Enter your blended rate (e.g., 2.7% for most DTC brands)
+  </Step>
+</Steps>
+
+<Tip>
+Use your **blended rate** across all payment types. Most brands see 2.5-3.0% when combining credit cards, PayPal, and alternative payments.
+</Tip>
+
+## Related Resources
+
+<CardGroup cols={2}>
+  <Card title="Set up processing fees" icon="credit-card" href="/data-inputs/configuration-sheet/costs/how-do-i-surface-merchant-processing-fees-within-my-dashboard">
+    Step-by-step setup guide
+  </Card>
+  <Card title="Contribution margin" icon="chart-pie" href="/help-center/common-analyses/understanding-your-contribution-margin">
+    How processing fees affect contribution margin
+  </Card>
+</CardGroup>

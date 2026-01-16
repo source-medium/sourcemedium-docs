@@ -1,8 +1,102 @@
 ---
 title: "Dimension Definitions"
 description: "Definitions and examples for common SourceMedium dimensions used in reporting and filtering"
-icon: "map"
+icon: "filter"
 ---
 
-| Dimension Name | Dimension Definition | Further Documentation |
-| ---         | ---               | ---                   |
+Dimensions are attributes used to slice and filter your data. This reference covers the most common dimensions across SourceMedium tables.
+
+<Tip>
+For full column documentation, see [Data Tables Reference](/data-activation/data-tables/sm_transformed_v2).
+</Tip>
+
+## Channel & Attribution Dimensions
+
+| Dimension | Definition | Example Values |
+|-----------|------------|----------------|
+| `sm_channel` | Primary channel classification for orders and marketing | `Online DTC`, `Amazon`, `TikTok Shop`, `Retail` |
+| `sm_sub_channel` | Granular breakdown within a channel | `Paid Social`, `Organic`, `Affiliates`, `Email` |
+| `sm_utm_source` | UTM source (when available) | `facebook`, `google`, `klaviyo`, `direct` |
+| `sm_utm_medium` | UTM medium (when available) | `cpc`, `email`, `organic`, `referral` |
+| `sm_utm_campaign` | UTM campaign (when available) | `spring_sale_2026`, `retargeting_lookalike` |
+| `sm_utm_source_medium` | Convenience combined source/medium | `facebook / cpc` |
+
+## Customer Dimensions
+
+| Dimension | Definition | Example Values |
+|-----------|------------|----------------|
+| `customer_tags_array` | Customer tags as an array (preferred for exact matching) | `VIP`, `wholesale`, `influencer` |
+| `customer_tags_csv` | Customer tags as a comma-separated string | `VIP, wholesale` |
+
+## Order Dimensions
+
+| Dimension | Definition | Example Values |
+|-----------|------------|----------------|
+| `is_order_sm_valid` | Whether order should be included in reporting | `TRUE`, `FALSE` |
+| `order_payment_status` | Payment/financial status | `paid`, `refunded`, `partially_refunded` |
+| `order_discount_codes_csv` | Discount codes applied to the order | `SUMMER20, INFLUENCER10` |
+| `order_product_tags_array` | Tags across products in the order (array) | `subscription`, `gift` |
+| `sm_valid_order_index` | Sequential index of valid orders per customer | `1`, `2`, `3` |
+
+## Product Dimensions
+
+| Dimension | Definition | Example Values |
+|-----------|------------|----------------|
+| `product_type` | Shopify product type | `T-Shirt`, `Supplement`, `Accessory` |
+| `product_vendor` | Product vendor/brand | `Nike`, `In-house`, `Partner Brand` |
+| `product_tags_array` | Shopify product tags (array) | `bestseller`, `new-arrival`, `sale` |
+| `product_collection_titles_csv` | Product collection membership | `Summer 2026`, `Basics`, `Limited Edition` |
+
+## Time Dimensions
+
+| Dimension | Definition | Notes |
+|-----------|------------|-------|
+| `order_created_at` | Order timestamp (UTC) | Use for filtering by date range |
+| `order_created_at_local_datetime` | Order timestamp (brand timezone) | Use for time-of-day analysis |
+| `date` | Date for aggregated report tables | In `rpt_*` tables |
+
+## Geographic Dimensions
+
+| Dimension | Definition | Example Values |
+|-----------|------------|----------------|
+| `order_shipping_country_code` | Shipping destination country code | `US`, `CA`, `GB` |
+| `order_shipping_state` | Shipping destination state/province | `CA`, `NY`, `ON` |
+| `order_shipping_city` | Shipping destination city | `Los Angeles`, `New York` |
+
+## Marketing Dimensions (Ad Performance)
+
+| Dimension | Definition | Example Values |
+|-----------|------------|----------------|
+| `source_system` | Advertising platform source | `Meta`, `Google Ads`, `TikTok` |
+| `ad_campaign_name` | Campaign name from ad platform | `Prospecting - Lookalike` |
+| `ad_group_name` | Ad group/ad set name | `Interest - Fitness` |
+| `ad_name` | Individual ad name | `Video - Testimonial v2` |
+
+## Common Filtering Patterns
+
+### Filter to valid orders
+```sql
+WHERE is_order_sm_valid = TRUE
+```
+
+### Filter by channel
+```sql
+WHERE sm_channel = 'Online DTC'
+```
+
+### Filter by date range
+```sql
+WHERE order_created_at >= '2026-01-01'
+  AND order_created_at < '2026-02-01'
+```
+
+### Filter by customer type
+```sql
+WHERE sm_valid_order_index = 1
+```
+
+## Related Resources
+
+- [Glossary](/help-center/glossary) — Term definitions
+- [Metric Definitions](/onboarding/data-docs/metrics) — Calculated metrics
+- [Data Tables Reference](/data-activation/data-tables/sm_transformed_v2) — Full table documentation

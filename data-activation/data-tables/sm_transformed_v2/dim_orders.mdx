@@ -61,7 +61,7 @@ models:
 
       - name: order_id
         description: >
-          Platform order identifier. Not globally unique across stores; pair with `smcid` and `source_system` when needed for scoping.
+          Platform order identifier. Not globally unique across stores; pair with `sm_store_id` and `source_system` when needed for scoping.
 
       - name: order_index
         description: >
@@ -77,7 +77,7 @@ models:
 
       - name: order_number
         description: >
-          Shop-scoped sequence number assigned by the platform. Not globally unique; pair with `smcid` for scoping.
+          Shop-scoped sequence number assigned by the platform. Not globally unique; pair with `sm_store_id` for scoping.
 
       - name: order_payment_status
         description: >
@@ -95,13 +95,13 @@ models:
         description: >
           The processing method used for the order (e.g., checkout, manual, express). Indicates how the order was created and processed in the source system.
 
-      - name: order_referring_site
+      - name: order_referrer_url
         description: >
           The URL of the site that referred the customer to the shop.
 
       - name: order_sequence
         description: >
-          Customer lifecycle classification: 'First Order' for new customers, 'Repeat Order' for returning customers. Includes all orders (valid + invalid). Use for cohort analysis and retention reporting. See valid_order_index for valid-only ordering.
+          Customer lifecycle classification: 'First Order' for new customers, 'Repeat Order' for returning customers. Includes all orders (valid + invalid). Use for cohort analysis and retention reporting. See sm_valid_order_index for valid-only ordering.
 
       - name: order_session_browser_type
         description: >
@@ -131,13 +131,9 @@ models:
         description: >
           The postal code of the shipping address.
 
-      - name: order_source_name
+      - name: source_system_sales_channel
         description: >
           Original source reported by the platform (e.g., Shopify sales channel/app name).
-
-      - name: order_tags_array
-        description: >
-          Array of tags that the shop owner has attached to the order. Preferred for robust filtering (use UNNEST) and programmatic tag operations.
 
       - name: order_tags_csv
         description: >
@@ -189,7 +185,7 @@ models:
 
       - name: sm_order_referrer_domain
         description: >
-          Domain derived from order_referring_site.
+          Domain derived from order_referrer_url.
 
       - name: sm_order_sales_channel
         description: >

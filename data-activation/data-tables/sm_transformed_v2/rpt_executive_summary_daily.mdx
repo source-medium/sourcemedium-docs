@@ -9,7 +9,7 @@ version: 2
 models:
   - name: rpt_executive_summary_daily
     description: >
-      Daily KPI aggregation for executive reporting and dashboards (revenue, ROAS, profit, targets). Grain: One row per (smcid, sm_channel, sm_sub_channel, date). Date field: date. Critical filters: sm_channel for channel-specific KPIs; date for time windows. Key joins: none; drill down to obt_orders using (date, sm_channel) filters.
+      Daily KPI aggregation for executive reporting and dashboards (revenue, ROAS, profit, targets). Grain: One row per (sm_store_id, sm_channel, sm_sub_channel, date). Date field: date. Critical filters: sm_channel for channel-specific KPIs; date for time windows. Key joins: none; drill down to obt_orders using (date, sm_channel) filters.
     columns:
       - name: active_subscriber_count
         description: >
@@ -51,13 +51,13 @@ models:
         description: >
           The number of subscriptions voluntarily cancelled by customers.
 
-      - name: churned_subscriber_count
+      - name: cancelled_subscriber_count_daily_snapshot
         description: >
-          The cumulative number of customers who have cancelled their final subscription.
+          The cumulative number of customers who have cancelled their final subscription (daily snapshot).
 
-      - name: churned_subscription_count
+      - name: cancelled_subscription_count_daily_snapshot
         description: >
-          The cumulative number of subscriptions that have been cancelled.
+          The cumulative number of subscriptions that have been cancelled (daily snapshot).
 
       - name: contribution_profit
         description: >
@@ -203,9 +203,9 @@ models:
         description: >
           The average order value target for the store. This data is entered in the Targets tab of the SourceMedium configuration sheet.
 
-      - name: target_cost_per_acquisition
+      - name: target_customer_acquisition_cost
         description: >
-          The cost per acquisition target for the store. This data is entered in the Targets tab of the SourceMedium configuration sheet.
+          The customer acquisition cost target for the store. This data is entered in the Targets tab of the SourceMedium configuration sheet.
 
       - name: target_order_conversion_rate
         description: >

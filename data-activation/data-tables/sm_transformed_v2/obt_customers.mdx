@@ -11,10 +11,6 @@ models:
     description: >
       Customer analytics table for acquisition, subscription status, and cohort analysis. Grain: One row per sm_customer_key. Date field: customer_created_at. Critical filters: source_system for platform-specific analysis. Key joins: obt_orders via sm_customer_key (1:many); dim_customers via sm_customer_key (1:1).
     columns:
-      - name: _synced_at
-        description: >
-          UTC timestamp when SourceMedium last synced the row. Freshness indicator only; not for time-series analysis.
-
       - name: customer_address_city
         description: >
           City from customer's primary address (free-form). Coverage varies by source_system; Amazon often has NULL/obfuscated data.
@@ -63,10 +59,6 @@ models:
         description: >
           The customer's street address.
 
-      - name: customer_tags_array
-        description: >
-          Array of all tags associated with a customer. Preferred for robust filtering (use UNNEST) and programmatic tag operations.
-
       - name: customer_tags_csv
         description: >
           Comma-separated list of all tags associated with a customer. Use for simple filtering; beware that individual tag values may contain commas.
@@ -75,7 +67,7 @@ models:
         description: >
           UTC timestamp when the customer was last modified.
 
-      - name: first_order_id
+      - name: customer_first_order_id
         description: >
           The ID of the customer's first order.
 
@@ -87,7 +79,7 @@ models:
         description: >
           Whether the customer's email has been verified.
 
-      - name: last_order_id
+      - name: customer_last_order_id
         description: >
           The ID of the customer's last order.
 

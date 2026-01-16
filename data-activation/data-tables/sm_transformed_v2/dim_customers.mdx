@@ -11,10 +11,6 @@ models:
     description: >
       Customer dimension with stable keys and profile attributes for joining and segmentation. Grain: One row per sm_customer_key. Date field: customer_created_at. Critical filters: source_system for platform-specific coverage differences. Key joins: dim_orders via sm_customer_key (1:many).
     columns:
-      - name: _synced_at
-        description: >
-          UTC timestamp when SourceMedium last synced the row. Freshness indicator only; not for time-series analysis.
-
       - name: customer_created_at
         description: >
           UTC timestamp when the customer was created.
@@ -42,10 +38,6 @@ models:
       - name: customer_phone_number
         description: >
           Customer's phone number in platform-provided format (varies by source_system). May be NULL if not collected; formatting and country codes not standardized.
-
-      - name: customer_tags_array
-        description: >
-          Array of all tags associated with a customer. Preferred for robust filtering (use UNNEST) and programmatic tag operations.
 
       - name: customer_tags_csv
         description: >

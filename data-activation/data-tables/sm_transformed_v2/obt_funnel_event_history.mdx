@@ -15,10 +15,6 @@ models:
         description: >
           Internal dbt field identifying which source model this event originated from (e.g., 'int_elevar__funnel_event_history', 'stg_ga4__unified_events'). Used for debugging and understanding data lineage across the union of tracking platforms.
 
-      - name: _synced_at
-        description: >
-          UTC timestamp when SourceMedium last synced the row. Freshness indicator only; not for time-series analysis.
-
       - name: event_action
         description: >
           Event action from analytics platforms (e.g., Google Analytics event action like 'click', 'submit'). Used for understanding specific user interactions within event categories.

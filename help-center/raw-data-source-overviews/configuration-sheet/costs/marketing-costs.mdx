@@ -1,12 +1,83 @@
 ---
-title: "Configuration sheet: Marketing costs"
+title: "Marketing Costs"
 description: "How to enter marketing spend via the Configuration Sheet and how it impacts blended metrics like CPA and ROAS"
 sidebarTitle: "Marketing costs"
-icon: "table"
+icon: "bullhorn"
 ---
 
-Marketing costs can be entered via the Configuration Sheet to ensure your reporting includes **complete spend**, including sources that aren’t directly integrated.
+Marketing costs entered via the Configuration Sheet ensure your reporting includes **complete spend**—including sources that aren't directly integrated with SourceMedium.
 
-## Start here
+## Why Add Marketing Costs Manually?
 
-- [How do I include marketing spend through the Cost tab of the Configuration Sheet?](/data-inputs/configuration-sheet/how-do-i-include-marketing-spend-through-the-cost-tab-of-the-configuration-sheet)
+SourceMedium integrates with major ad platforms (Meta, Google, TikTok, etc.), but some spend sources require manual entry:
+
+| Source Type | Examples |
+|-------------|----------|
+| **Influencer spend** | Creator payments, gifting costs |
+| **Podcast ads** | Sponsorships, host-read ads |
+| **Affiliate payouts** | Commission payments |
+| **Traditional media** | TV, radio, print |
+| **Offline marketing** | Events, direct mail |
+
+<Warning>
+If you have significant untracked spend, your blended ROAS and CPA metrics will be inflated. Adding all spend gives you accurate efficiency metrics.
+</Warning>
+
+## Where Marketing Costs Appear
+
+| Module | Impact |
+|--------|--------|
+| Executive Summary | Blended ROAS, total spend |
+| Marketing Overview | Channel-level spend breakdown |
+| CPA metrics | Cost per acquisition accuracy |
+
+## Setting Up Marketing Costs
+
+<Steps>
+  <Step title="Identify untracked spend">
+    List all marketing spend not captured by integrations
+  </Step>
+  <Step title="Open Configuration Sheet">
+    Navigate to the marketing costs tab
+  </Step>
+  <Step title="Enter spend data">
+    Add spend by date, channel, and optionally subchannel
+  </Step>
+</Steps>
+
+## Data Format
+
+Enter marketing costs with these fields:
+
+| Field | Required | Example |
+|-------|----------|---------|
+| Date | Yes | `2026-01-15` |
+| Channel | Yes | `Influencer` |
+| Subchannel | No | `TikTok Creators` |
+| Spend | Yes | `5000` |
+| Notes | No | `January creator campaign` |
+
+## Common Use Cases
+
+<AccordionGroup>
+  <Accordion title="Influencer marketing">
+    Track creator payments to understand true influencer CAC and ROAS.
+  </Accordion>
+  <Accordion title="Podcast sponsorships">
+    Add podcast spend with promo codes to measure attribution.
+  </Accordion>
+  <Accordion title="Affiliate commissions">
+    Include payouts to calculate true affiliate channel efficiency.
+  </Accordion>
+</AccordionGroup>
+
+## Related Resources
+
+<CardGroup cols={2}>
+  <Card title="Add marketing spend" icon="dollar-sign" href="/data-inputs/configuration-sheet/how-do-i-include-marketing-spend-through-the-cost-tab-of-the-configuration-sheet">
+    Step-by-step setup guide
+  </Card>
+  <Card title="Track influencers" icon="user-group" href="/data-inputs/configuration-sheet/how-can-i-track-influencer-spend-and-performance">
+    Influencer tracking best practices
+  </Card>
+</CardGroup>

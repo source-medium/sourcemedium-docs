@@ -1,12 +1,60 @@
 ---
-title: "Configuration sheet: Shipping costs"
+title: "Shipping Costs"
 description: "How shipping costs entered in the Configuration Sheet flow into profitability and gross profit reporting"
 sidebarTitle: "Shipping costs"
-icon: "table"
+icon: "truck"
 ---
 
-Shipping costs can be entered through the Configuration Sheet to support order-level profitability and accurate gross profit reporting.
+Shipping costs represent the cost you pay to deliver orders to customers. Adding shipping costs enables accurate gross profit and contribution margin calculations.
 
-## Start here
+## How Shipping Costs Work
 
-- [How do I surface shipping costs within my dashboard?](/data-inputs/configuration-sheet/costs/how-do-i-surface-shipping-costs-within-my-dashboard)
+Shipping costs can be entered as:
+- **Flat rate per order**: Same cost for every order
+- **Percentage of shipping revenue**: e.g., 80% of what customer paid
+- **Per-order values**: Custom cost per order via upload
+
+## Where Shipping Costs Appear
+
+| Module | Usage |
+|--------|-------|
+| Executive Summary | Gross profit calculation |
+| Orders Deep Dive | Order-level profitability |
+| LTV & Retention | Profit-adjusted LTV metrics |
+
+## Setting Up Shipping Costs
+
+<Steps>
+  <Step title="Access Configuration Sheet">
+    Open your Configuration Sheet from SourceMedium settings
+  </Step>
+  <Step title="Navigate to Shipping tab">
+    Find the shipping costs section
+  </Step>
+  <Step title="Enter your method">
+    Choose flat rate, percentage, or upload order-level costs
+  </Step>
+</Steps>
+
+## Common Approaches
+
+| Approach | Best For | Example |
+|----------|----------|---------|
+| **Flat rate** | Simple, consistent shipping | $5.00 per order |
+| **Percentage** | Variable shipping costs | 75% of shipping charged |
+| **Per-order upload** | Complex/negotiated rates | CSV with order-specific costs |
+
+<Tip>
+If you use multiple carriers with different rates, consider using the average cost across all orders. You can refine later with per-order data.
+</Tip>
+
+## Related Resources
+
+<CardGroup cols={2}>
+  <Card title="Set up shipping costs" icon="truck" href="/data-inputs/configuration-sheet/costs/how-do-i-surface-shipping-costs-within-my-dashboard">
+    Step-by-step setup guide
+  </Card>
+  <Card title="Fulfillment costs" icon="warehouse" href="/help-center/raw-data-source-overviews/configuration-sheet/costs/fulfillment-costs">
+    Track 3PL and fulfillment fees
+  </Card>
+</CardGroup>

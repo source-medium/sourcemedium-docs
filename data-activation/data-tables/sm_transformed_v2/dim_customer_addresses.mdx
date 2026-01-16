@@ -11,10 +11,6 @@ models:
     description: >
       Customer address dimension for enriching customers and orders with normalized geo attributes. Grain: One row per sm_customer_address_key. No canonical date; _synced_at is a freshness timestamp (not for analysis). Critical filters: source_system for platform coverage and address availability; is_default_for_customer for primary address. Key joins: dim_customers via sm_customer_key (many:1).
     columns:
-      - name: _synced_at
-        description: >
-          UTC timestamp when SourceMedium last synced the row. Freshness indicator only; not for time-series analysis.
-
       - name: address_id
         description: >
           The unique identifier for the address.
@@ -39,6 +35,14 @@ models:
         description: >
           The province, state, or district code (ISO 3166-2 alpha-2 format) of the customer's location.
 
+      - name: customer_address_latitude
+        description: >
+          The latitude coordinate of the customer's location.
+
+      - name: customer_address_longitude
+        description: >
+          The longitude coordinate of the customer's location.
+
       - name: customer_address_zip_code
         description: >
           The postal code of the customer's location.
@@ -50,6 +54,10 @@ models:
       - name: customer_street_address
         description: >
           The customer's street address.
+
+      - name: is_default_for_customer
+        description: >
+          Whether the address is the default address for the customer.
 
       - name: is_default_address_for_customer
         description: >

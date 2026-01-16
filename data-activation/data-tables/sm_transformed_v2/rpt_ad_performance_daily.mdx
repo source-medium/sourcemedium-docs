@@ -9,8 +9,12 @@ version: 2
 models:
   - name: rpt_ad_performance_daily
     description: >
-      Daily advertising performance across platforms for spend, efficiency, and ROAS. Grain: One row per (smcid, source_system, sm_channel, date, ad_id). Date field: date. Critical filters: sm_channel for segmentation; source_system for platform analysis. Key joins: none; drill down to platform detail using (source_system, ad_id); blend with rpt_executive_summary_daily via (date, sm_channel).
+      Daily advertising performance across platforms for spend, efficiency, and ROAS. Grain: One row per (sm_store_id, source_system, sm_channel, date, ad_id). Date field: date. Critical filters: sm_channel for segmentation; source_system for platform analysis. Key joins: none; drill down to platform detail using (source_system, ad_id); blend with rpt_executive_summary_daily via (date, sm_channel).
     columns:
+      - name: sm_store_id
+        description: >
+          SourceMedium's unique store identifier. For Shopify stores, derived from the myshopify.com domain; for other platforms (Amazon, TikTok Shop, Walmart.com), uses platform-specific identifiers.
+
       - name: ad_account_id
         description: >
           The unique identifier for the ad account that is associated with the ad.
@@ -107,6 +111,18 @@ models:
         description: >
           Struct containing platform-reported conversion metrics across different attribution windows. Enables analysis of how attribution window selection affects reported performance.
 
+      - name: ad_platform_reported_conversion_windows.default_window
+        description: >
+          Platform-reported conversions using the default attribution window for the platform (e.g., Meta Ads default blended window).
+
+      - name: ad_platform_reported_conversion_windows._7d_click
+        description: >
+          Platform-reported conversions using a 7-day click attribution window (Meta Ads-specific window).
+
+      - name: ad_platform_reported_conversion_windows._1d_view
+        description: >
+          Platform-reported conversions using a 1-day view attribution window (Meta Ads-specific window).
+
       - name: ad_platform_reported_conversions
         description: >
           The number of conversions attributable to the ad, as reported by the advertising platform.
@@ -119,6 +135,18 @@ models:
         description: >
           Struct containing platform-reported revenue metrics across different attribution windows. Enables analysis of how attribution window selection affects reported revenue performance.
 
+      - name: ad_platform_reported_revenue_windows.default_window
+        description: >
+          Platform-reported revenue using the default attribution window for the platform (e.g., Meta Ads default blended window).
+
+      - name: ad_platform_reported_revenue_windows._7d_click
+        description: >
+          Platform-reported revenue using a 7-day click attribution window (Meta Ads-specific window).
+
+      - name: ad_platform_reported_revenue_windows._1d_view
+        description: >
+          Platform-reported revenue using a 1-day view attribution window (Meta Ads-specific window).
+
       - name: ad_spend
         description: >
           The amount of money spent on the ad.
@@ -130,10 +158,6 @@ models:
       - name: sm_channel
         description: >
           The sales channel associated with the ad.
-
-      - name: sm_store_id
-        description: >
-          SourceMedium's unique store identifier. For Shopify stores, derived from the myshopify.com domain; for other platforms (Amazon, TikTok Shop, Walmart.com), uses platform-specific identifiers.
 
       - name: source_system
         description: >

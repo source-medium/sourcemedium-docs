@@ -1,7 +1,87 @@
 ---
-title: 'Return on Ad Spend'
-description: 'Understand your true return on adspend'
-icon: 'map'
+title: "Return on Ad Spend (ROAS)"
+description: "How to calculate, interpret, and analyze return on ad spend across channels using SourceMedium data"
+sidebarTitle: "ROAS"
+icon: "chart-line-up"
 ---
 
-Understanding your global -- as well as channel-level -- Return on Ad Spend
+Use this guide to understand **Return on Ad Spend (ROAS)** at global, channel, and campaign levels using SourceMedium data.
+
+## What is ROAS?
+
+ROAS measures the revenue generated for every dollar spent on advertising:
+
+```
+ROAS = Revenue / Ad Spend
+```
+
+A ROAS of 3.0 means you earned $3 in revenue for every $1 spent on ads.
+
+## Where to find ROAS in SourceMedium
+
+### Executive Summary
+The [Executive Summary module](/data-activation/managed-bi-v1/modules/executive-summary-module) shows global ROAS across all paid channels.
+
+### Marketing Overview
+The [Marketing Overview module](/data-activation/managed-bi-v1/modules/marketing-overview-module) breaks down ROAS by channel (Meta, Google, TikTok, etc.).
+
+### Ad Performance table
+For granular analysis, use [`rpt_ad_performance_daily`](/data-activation/data-tables/sm_transformed_v2/rpt_ad_performance_daily):
+- `ad_spend` — Total spend
+- `ad_platform_reported_revenue` — Revenue attributed to ads (as reported by the ad platform)
+- Calculate: `ad_platform_reported_revenue / ad_spend`
+
+## ROAS by attribution model
+
+You’ll see ROAS reflected in a few different ways depending on the view you’re using:
+
+- **Platform-reported ROAS:** best for reconciling to Meta/Google/TikTok reporting, using `rpt_ad_performance_daily` (spend and platform-reported revenue).
+- **Dashboard ROAS (blended / channel-level):** best for high-level planning, shown in Executive Summary and Marketing Overview.
+- **MTA ROAS (if enabled):** best for multi-touch analysis, covered in the MTA documentation.
+
+<Tip>
+If your ROAS looks different from in-platform reporting, it's usually due to attribution windows or revenue definitions. See [attribution windows FAQ](/help-center/faq/data-faqs/what-attribution-windows-does-sourcemedium-report-on-for-marketing-platforms).
+</Tip>
+
+## Common ROAS analyses
+
+### 1. Channel comparison
+Compare ROAS across channels to understand efficiency:
+- Which channels drive the best return?
+- Are you over-investing in low-ROAS channels?
+
+### 2. ROAS trends over time
+Track weekly/monthly ROAS trends:
+- Identify seasonal patterns
+- Spot declining efficiency early
+
+### 3. New vs returning customer ROAS
+If you have customer-level attribution:
+- What's your ROAS on prospecting (new customers)?
+- What's your ROAS on retargeting (returning customers)?
+
+## Interpreting ROAS
+
+| ROAS | Interpretation |
+|------|----------------|
+| < 1.0 | Losing money on ads (spend > revenue) |
+| 1.0 - 2.0 | Low efficiency; may not cover COGS/overhead |
+| 2.0 - 4.0 | Typical range for many DTC brands |
+| > 4.0 | Strong efficiency (validate it's not measurement error) |
+
+<Warning>
+A high ROAS isn't always good — it may indicate under-investment in growth. Balance ROAS against total revenue and new customer acquisition.
+</Warning>
+
+## Common pitfalls
+
+- **Comparing apples to oranges**: Platform-reported ROAS uses different attribution than SourceMedium's unified view.
+- **Ignoring attribution windows**: Different platforms use different default windows (e.g., Meta's 7-day click / 1-day view). Check your platform settings.
+- **Looking at ROAS in isolation**: Always pair with total spend and revenue — a 10x ROAS on $100 spend is less valuable than 3x ROAS on $10,000 spend.
+
+## Related resources
+
+- [Marketing Overview module](/data-activation/managed-bi-v1/modules/marketing-overview-module)
+- [Ad Performance table](/data-activation/data-tables/sm_transformed_v2/rpt_ad_performance_daily)
+- [Attribution windows FAQ](/help-center/faq/data-faqs/what-attribution-windows-does-sourcemedium-report-on-for-marketing-platforms)
+- [Contribution margin guide](/help-center/common-analyses/understanding-your-contribution-margin)

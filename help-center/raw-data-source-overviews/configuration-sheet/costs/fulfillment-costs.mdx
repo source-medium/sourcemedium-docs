@@ -1,12 +1,65 @@
 ---
-title: "Configuration sheet: Fulfillment costs"
-description: "How fulfillment costs entered in the Configuration Sheet flow into profitability and gross profit reporting"
+title: "Fulfillment Costs"
+description: "How fulfillment and 3PL costs entered in the Configuration Sheet affect profitability reporting"
 sidebarTitle: "Fulfillment costs"
-icon: "table"
+icon: "warehouse"
 ---
 
-Fulfillment costs represent variable costs to fulfill orders (pick/pack and related costs). Entering them in the Configuration Sheet enables order-level and aggregate profitability reporting.
+Fulfillment costs cover the fees charged by 3PLs, fulfillment centers, and warehouses to pick, pack, and ship your orders.
 
-## Start here
+## What Are Fulfillment Costs?
 
-- [How do I surface fulfillment costs within my dashboard?](/data-inputs/configuration-sheet/costs/how-do-i-surface-fulfillment-costs-within-my-dashboard)
+Fulfillment costs include:
+- **Pick and pack fees**: Per-order handling charges
+- **Storage fees**: Monthly warehouse storage
+- **3PL fees**: ShipBob, Deliverr, Amazon FBA, etc.
+- **Packaging materials**: Boxes, tape, inserts
+
+<Note>
+Fulfillment costs are separate from shipping costs (carrier fees). Both contribute to your total cost to fulfill an order.
+</Note>
+
+## Where Fulfillment Costs Appear
+
+| Module | Usage |
+|--------|-------|
+| Executive Summary | Part of COGS / gross profit |
+| Orders Deep Dive | Order-level profitability |
+| Contribution Margin | Full order cost analysis |
+
+## Setting Up Fulfillment Costs
+
+<Steps>
+  <Step title="Calculate your average cost">
+    Review 3PL invoices to determine average fulfillment cost per order
+  </Step>
+  <Step title="Open Configuration Sheet">
+    Navigate to the fulfillment costs section
+  </Step>
+  <Step title="Enter your rate">
+    Use flat rate per order or percentage of order value
+  </Step>
+</Steps>
+
+## Common Approaches
+
+| Approach | When to Use |
+|----------|-------------|
+| **Flat rate per order** | Single 3PL with predictable fees |
+| **Flat rate per item** | When costs scale with order size |
+| **Percentage of revenue** | When 3PL charges % of GMV |
+
+<Tip>
+Start with your average cost per order from the last 3 months. You can refine as you get more data.
+</Tip>
+
+## Related Resources
+
+<CardGroup cols={2}>
+  <Card title="Set up fulfillment costs" icon="warehouse" href="/data-inputs/configuration-sheet/costs/how-do-i-surface-fulfillment-costs-within-my-dashboard">
+    Step-by-step setup guide
+  </Card>
+  <Card title="Shipping costs" icon="truck" href="/help-center/raw-data-source-overviews/configuration-sheet/costs/shipping-costs">
+    Track carrier and delivery costs
+  </Card>
+</CardGroup>

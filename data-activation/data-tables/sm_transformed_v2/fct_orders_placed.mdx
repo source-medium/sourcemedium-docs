@@ -11,17 +11,13 @@ models:
     description: >
       Placed order fact table for order-count analytics and funnel tie-ins. Grain: One row per sm_order_line_key. Date field: order_created_at_local_datetime. Critical filters: source_system for platform-specific order placement reporting; order_created_at_local_datetime for temporal analysis. Key joins: dim_orders via sm_order_key (many:1); dim_order_lines via sm_order_line_key (1:1).
     columns:
-      - name: _synced_at
-        description: >
-          UTC timestamp when SourceMedium last synced the row. Freshness indicator only; not for time-series analysis.
-
       - name: order_created_at_local_datetime
         description: >
           Order created timestamp converted to reporting timezone (from order_created_at UTC).
 
       - name: order_id
         description: >
-          Platform order identifier. Not globally unique across stores; pair with `smcid` and `source_system` when needed for scoping.
+          Platform order identifier. Not globally unique across stores; pair with `sm_store_id` and `source_system` when needed for scoping.
 
       - name: order_line_gross_sales
         description: >

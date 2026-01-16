@@ -1,8 +1,154 @@
 ---
-title: "The Post Purchase Survey Module"
-sidebarTitle: "Post Purchase Survey"
-description: "Overview of the post-purchase survey module, including key metrics and common analyses"
-icon: 'bullseye'
+title: "Post-Purchase Survey Module"
+sidebarTitle: "Post-Purchase Survey"
+description: "Analyze zero-party attribution data from HDYHAU surveys to understand how customers discover your brand"
+icon: "bullseye"
 ---
 
-This page is being drafted. If you need support interpreting post-purchase survey results, reach out to your SourceMedium team.
+The Post-Purchase Survey Module surfaces **zero-party attribution data**—self-reported responses from "How Did You Hear About Us?" (HDYHAU) surveys.
+
+<Info>
+Zero-party data complements tracking-based attribution by capturing channels that are hard to track: word of mouth, podcasts, influencers, and offline media.
+</Info>
+
+## Prerequisites
+
+To use this module, you need:
+1. A post-purchase survey tool (Fairing, KnoCommerce, or similar)
+2. Order tagging enabled (survey responses tagged to orders)
+3. Consistent tag format (e.g., `HDYHAU-Facebook`, `PPS-TikTok`)
+
+See [Post-Purchase Survey Best Practices](/help-center/faq/account-management-faqs/best-practices-in-setting-up-a-post-purchase-hdyhau-survey) for setup guidance.
+
+## Key Metrics
+
+| Metric | Definition |
+|--------|------------|
+| **Response Rate** | Orders with survey response / Total orders |
+| **Channel Distribution** | % of responses attributed to each channel |
+| **Revenue by Channel** | Revenue from orders tagged with each survey response |
+| **New Customer Distribution** | Survey responses from first-time buyers only |
+
+## Module Sections
+
+### Survey Response Distribution
+
+Shows the breakdown of how customers say they discovered your brand:
+
+- **Bar chart**: Response counts by channel
+- **Pie chart**: Percentage distribution
+- **Table**: Detailed breakdown with revenue
+
+<Tip>
+Compare survey attribution to your tracking-based attribution. Large gaps may indicate tracking blind spots or channels you're under-crediting.
+</Tip>
+
+### Response Rate Trends
+
+Track survey completion over time:
+- Are response rates consistent?
+- Did a site change affect survey visibility?
+- Seasonal patterns in discovery channels?
+
+### Revenue Attribution
+
+Connect survey responses to business outcomes:
+- Which discovery channels drive the most revenue?
+- What's the average order value by discovery channel?
+- How does new customer LTV vary by discovery channel?
+
+## Common Analyses
+
+### 1. Tracking vs Survey Comparison
+
+Compare what tracking says vs what customers say:
+
+| Channel | Tracking Attribution | Survey Attribution | Gap |
+|---------|---------------------|-------------------|-----|
+| Meta | 45% | 25% | +20% over-credited |
+| Podcast | 0% | 12% | -12% under-credited |
+| Word of Mouth | 0% | 18% | -18% invisible to tracking |
+
+<Note>
+Gaps don't mean either source is "wrong"—they measure different things. Tracking captures last-touch interactions; surveys capture initial discovery.
+</Note>
+
+### 2. New Customer Discovery
+
+Filter to first-time buyers only to understand:
+- Where are **new** customers coming from?
+- Which channels drive **acquisition** vs re-engagement?
+
+### 3. Channel Quality Analysis
+
+Go beyond volume to measure channel quality:
+- **AOV by channel**: Do podcast customers spend more?
+- **Repeat rate by channel**: Do referral customers have higher retention?
+- **LTV by channel**: Which discovery channels drive the best long-term customers?
+
+## Interpreting Survey Data
+
+### Expected Patterns
+
+| Channel | Typical Survey % | Notes |
+|---------|------------------|-------|
+| Social (Meta, TikTok, IG) | 20-40% | Often primary for DTC brands |
+| Word of Mouth / Referral | 10-25% | Strong indicator of brand health |
+| Search (Google) | 5-15% | Usually lower than tracking shows |
+| Email | 3-8% | Rarely "first" discovery |
+| Podcast / Influencer | 5-15% | Highly variable by brand |
+| "I don't remember" | 10-20% | Expected; indicates honest responses |
+
+### Red Flags
+
+<Warning>
+Watch for these data quality issues:
+
+- **Control channel > 5%**: Customers may be clicking randomly
+- **"I don't remember" < 5%**: Survey may be forcing responses
+- **Response rate < 10%**: Survey placement may need adjustment
+- **One channel > 60%**: Consider if options are too limited
+</Warning>
+
+## Filtering & Segmentation
+
+Use these filters to slice survey data:
+
+| Filter | Use Case |
+|--------|----------|
+| **Date range** | Seasonal discovery patterns |
+| **Customer type** | New vs returning customer discovery |
+| **Order value** | High-value customer discovery |
+| **Product** | Product-specific discovery channels |
+| **Geography** | Regional marketing effectiveness |
+
+## Combining with Other Data
+
+### Zero-Party + First-Party Attribution
+
+For the most complete picture:
+
+1. **Survey data**: "How did you first hear about us?" (awareness)
+2. **UTM/tracking data**: Last touchpoint before purchase (conversion)
+3. **MTA data**: Multi-touch credit across the journey
+
+<Tip>
+Use survey data to inform your MTA model weights. If surveys show 15% podcast discovery but tracking shows 0%, consider adding podcast as a valid touchpoint.
+</Tip>
+
+## Related Resources
+
+<CardGroup cols={2}>
+  <Card title="Survey Best Practices" icon="square-poll-vertical" href="/help-center/faq/account-management-faqs/best-practices-in-setting-up-a-post-purchase-hdyhau-survey">
+    How to set up effective HDYHAU surveys
+  </Card>
+  <Card title="Attribution Health" icon="heart-pulse" href="/data-inputs/attribution-health">
+    Improve your overall attribution coverage
+  </Card>
+  <Card title="New Customer Analysis" icon="user-plus" href="/data-activation/managed-bi-v1/modules/new-customer-analysis-module">
+    Deeper analysis of new customer behavior
+  </Card>
+  <Card title="Fairing Integration" icon="plug" href="/data-inputs/platform-integration-instructions/fairing-integration">
+    Connect Fairing to SourceMedium
+  </Card>
+</CardGroup>

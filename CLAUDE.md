@@ -234,6 +234,60 @@ PRs trigger `.github/workflows/docs-quality.yml` which validates:
 1. Create snippet in `snippets/snippet-name.mdx`
 2. Use with `<Snippet file="snippet-name.mdx" />`
 
+## Data Table Documentation (sm_transformed_v2)
+
+The `data-activation/data-tables/sm_transformed_v2/` folder contains schema docs for customer-facing tables. These require special attention to ensure accuracy.
+
+### Customer-Facing Dataset
+- **Correct:** `sm_transformed_v2` - This is the dataset customers query
+- **Incorrect:** `masterset` - Legacy internal dataset, NOT customer-facing
+- All SQL examples in docs should use `your_project.sm_transformed_v2.<table>`
+
+### MDW Column Exclusions
+The Managed Data Warehouse (MDW) automatically excludes certain columns. **Never document these in table docs:**
+
+1. **Explicit exclusions** - Listed in `dbt_project.yml` under `vars.mdw.excluded_columns_all_tables`:
+   - `sm_order_referrer_source`, `_synced_at`, etc.
+
+2. **Naming convention exclusions** (from MDW macros):
+   - Columns ending in `_array` (e.g., `order_tags_array`)
+   - Columns starting with `_` (e.g., `_synced_at`)
+
+3. **Column renames** - Check `vars.mdw.rename_column_map_all` for transformed names
+
+### Verifying Against Real Warehouse
+Before publishing table docs, verify columns exist in customer MDW:
+
+```bash
+# Check actual schema in a customer warehouse
+bq show --schema sm-irestore4:sm_transformed_v2.<table_name> | jq -r '.[].name' | sort
+
+# Compare with documented columns
+grep "name:" <table>.mdx | sed 's/.*name: //' | sort
+
+# Find differences
+comm -23 <(documented) <(actual)  # In docs but not warehouse
+```
+
+### Struct Field Documentation
+For struct/nested columns, document subfields with dot notation:
+```yaml
+- name: ad_platform_reported_conversion_windows
+  description: Struct containing conversion metrics...
+
+- name: ad_platform_reported_conversion_windows.default_window
+  description: Platform-reported conversions using default window...
+
+- name: ad_platform_reported_conversion_windows._7d_click
+  description: Platform-reported conversions using 7-day click window...
+```
+
+### Common Pitfalls
+- **dbt YAML ≠ MDW schema** - Columns can be documented in dbt but not implemented in SQL
+- **Array columns** - Always excluded from MDW, never document them
+- **Duplicate entries** - Watch for accidentally documenting same column twice
+- **Broken links** - Use `/folder` not `/folder/index` (index.mdx routing quirk)
+
 ## Troubleshooting
 
 ### "Page not found" in local dev

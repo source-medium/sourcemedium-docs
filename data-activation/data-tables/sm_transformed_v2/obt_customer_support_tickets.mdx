@@ -11,10 +11,6 @@ models:
     description: >
       Customer support ticket analytics for lifecycle, agent performance, and channel analysis. Grain: One row per sm_ticket_key. Date field: ticket_created_at_local_datetime. Critical filters: sm_channel for ticket context; ticket_communication_channel for platform segmentation (email, instagram-direct-message, etc.). Key joins: dim_customers via customer_id (platform-dependent; primarily Shopify).
     columns:
-      - name: _synced_at
-        description: >
-          UTC timestamp when SourceMedium last synced the row. Freshness indicator only; not for time-series analysis.
-
       - name: customer_id
         description: >
           Source of truth customer ID from ecommerce platforms (e.g., Shopify)
