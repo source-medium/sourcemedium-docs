@@ -19,7 +19,7 @@ This is the central model for multi-touch attribution, containing complete custo
 #### Key Columns
 
 - **Identifiers**
-  - `sm_store_id`: SourceMedium customer ID
+  - `sm_store_id`: SourceMedium store identifier (brand/workspace; formerly `smcid`)
   - `source_system`: Original tracking source (Elevar, Blotout, etc.)
   - `sm_touch_id`: Unique identifier for each touch point
   - `purchase_order_id`: Associated order ID for purchase events
@@ -119,7 +119,7 @@ This report model combines ad performance data with attribution metrics at both 
 #### Key Columns
 
 - **Identifiers & Dimensions**
-  - `sm_store_id`: SourceMedium customer ID
+  - `sm_store_id`: SourceMedium store identifier (brand/workspace; formerly `smcid`)
   - `source_system`: Ad platform source
   - `date`: Performance date
   - `sm_marketing_channel`: Marketing channel (only for channel-level rows)
@@ -185,7 +185,7 @@ This model provides daily performance metrics for email and SMS campaigns, which
 #### Key Columns
 
 - **Identifiers**
-  - `sm_store_id`: SourceMedium customer ID
+  - `sm_store_id`: SourceMedium store identifier (brand/workspace; formerly `smcid`)
   - `date`: Performance date
   - `sm_message_channel`: Channel (email or SMS)
   - `message_id`: Unique identifier for the message

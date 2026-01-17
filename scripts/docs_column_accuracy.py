@@ -32,6 +32,90 @@ DDA_DOCS_DIR = REPO_ROOT / "onboarding" / "data-docs" / "tables"
 
 YAML_BLOCK_RE = re.compile(r"```yaml\s*\n(.*?)\n```", re.DOTALL)
 YAML_NAME_RE = re.compile(r"^\s*-\s*name:\s*([A-Za-z0-9_]+)\s*$", re.MULTILINE)
+SQL_BLOCK_RE = re.compile(r"```sql\s*\n(.*?)\n```", re.DOTALL | re.IGNORECASE)
+
+# Table refs in example SQL blocks typically look like:
+# FROM `your_project.sm_transformed_v2.obt_orders` o
+TABLE_REF_RE = re.compile(
+    r"`[^`]*?\.sm_transformed_v2\.([A-Za-z0-9_]+)`(?:\s+(?:AS\s+)?([A-Za-z_][A-Za-z0-9_]*))?",
+    re.IGNORECASE,
+)
+QUALIFIED_COL_RE = re.compile(r"\b([A-Za-z_][A-Za-z0-9_]*)\.([A-Za-z_][A-Za-z0-9_]*)\b")
+UNQUALIFIED_IDENT_RE = re.compile(r"\b([a-z][a-z0-9_]{2,})\b")
+AS_ALIAS_RE = re.compile(r"\bAS\s+([A-Za-z_][A-Za-z0-9_]*)\b", re.IGNORECASE)
+CTE_NAME_RE = re.compile(r"(?:\bWITH\s+|,\s*)([A-Za-z_][A-Za-z0-9_]*)\s+AS\s*\(", re.IGNORECASE)
+
+SQL_IGNORE_WORDS = {
+    # keywords
+    "select",
+    "from",
+    "where",
+    "group",
+    "by",
+    "order",
+    "limit",
+    "join",
+    "left",
+    "right",
+    "inner",
+    "outer",
+    "full",
+    "cross",
+    "on",
+    "as",
+    "with",
+    "union",
+    "all",
+    "distinct",
+    "having",
+    "over",
+    "partition",
+    "and",
+    "or",
+    "not",
+    "null",
+    "is",
+    "in",
+    "like",
+    "between",
+    "case",
+    "when",
+    "then",
+    "else",
+    "end",
+    "desc",
+    "asc",
+    "qualify",
+    # literals / misc
+    "true",
+    "false",
+    "interval",
+    "day",
+    "week",
+    "month",
+    "quarter",
+    "year",
+}
+
+SQL_IGNORE_FUNCTIONS = {
+    "sum",
+    "count",
+    "countif",
+    "avg",
+    "min",
+    "max",
+    "lag",
+    "lead",
+    "safe_divide",
+    "nullif",
+    "ifnull",
+    "coalesce",
+    "current_date",
+    "current_timestamp",
+    "date_sub",
+    "date_add",
+    "cast",
+}
 
 
 @dataclass(frozen=True)
@@ -98,6 +182,70 @@ def extract_key_columns(text: str) -> list[str]:
     return cols
 
 
+def extract_sql_blocks(text: str) -> list[str]:
+    return [m.group(1) for m in SQL_BLOCK_RE.finditer(text)]
+
+
+def normalize_sql(sql: str) -> str:
+    # Strip line comments and collapse whitespace.
+    sql = re.sub(r"--.*?$", "", sql, flags=re.M)
+    sql = re.sub(r"/\*.*?\*/", "", sql, flags=re.S)
+    # Strip quoted string literals so placeholders don't look like identifiers.
+    sql = re.sub(r"'([^'\\]|\\.)*'", "''", sql)
+    sql = re.sub(r'"([^"\\]|\\.)*"', '""', sql)
+    return sql
+
+
+def validate_sql_blocks(
+    *,
+    path: Path,
+    text: str,
+    table_to_columns: dict[str, set[str]],
+) -> list[Issue]:
+    issues: list[Issue] = []
+    for sql in extract_sql_blocks(text):
+        sql_norm = normalize_sql(sql)
+        alias_to_table: dict[str, str] = {}
+        referenced_tables: set[str] = set()
+
+        for table, alias in TABLE_REF_RE.findall(sql_norm):
+            referenced_tables.add(table)
+            if alias:
+                alias_to_table[alias] = table
+            alias_to_table.setdefault(table, table)
+
+        known_tables = {t for t in referenced_tables if t in table_to_columns}
+
+        # 1) Qualified column references: alias.column
+        for qualifier, col in QUALIFIED_COL_RE.findall(sql_norm):
+            if qualifier not in alias_to_table:
+                continue
+            table = alias_to_table[qualifier]
+            if table not in table_to_columns:
+                continue
+            if col not in table_to_columns[table]:
+                issues.append(Issue(path, f"unknown column `{qualifier}.{col}` for table `{table}` in sql block"))
+
+        # 2) Unqualified identifiers: validate only when the SQL references exactly one known table.
+        if len(known_tables) != 1:
+            continue
+        (single_table,) = tuple(known_tables)
+        known_cols = table_to_columns[single_table]
+
+        aliases = set(AS_ALIAS_RE.findall(sql_norm))
+        ctes = set(CTE_NAME_RE.findall(sql_norm))
+        ignore = SQL_IGNORE_WORDS | SQL_IGNORE_FUNCTIONS | set(alias_to_table.keys()) | aliases | ctes
+        ignore |= {single_table, "your_project", "sm_transformed_v2"}
+
+        for ident in UNQUALIFIED_IDENT_RE.findall(sql_norm):
+            if ident in ignore:
+                continue
+            if ident not in known_cols:
+                issues.append(Issue(path, f"unknown column `{ident}` for table `{single_table}` in sql block"))
+
+    return issues
+
+
 def main() -> int:
     table_to_columns = build_table_columns_from_schema_docs()
     if not table_to_columns:
@@ -124,6 +272,8 @@ def main() -> int:
             if col not in known_cols:
                 issues.append(Issue(path, f"unknown column `{col}` for table `{table}`"))
 
+        issues.extend(validate_sql_blocks(path=path, text=text, table_to_columns=table_to_columns))
+
     if issues:
         print(f"[ERROR] Column accuracy check failed with {len(issues)} issue(s):")
         for issue in issues[:100]:
@@ -139,4 +289,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-
