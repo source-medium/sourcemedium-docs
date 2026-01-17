@@ -1,5 +1,74 @@
 ---
 title: 'Table: Executive Summary'
-description: 'Working with the `executive_summary` table in BigQuery'
-icon: 'map'
+description: 'Working with the `rpt_executive_summary_daily` table in BigQuery'
+icon: 'chart-line'
 ---
+
+The **Executive Summary** table (`rpt_executive_summary_daily`) provides a daily aggregate view of your key business metrics across all integrated data sources. This is the go-to table for high-level KPI tracking and trend analysis.
+
+## When to Use This Table
+
+<CardGroup cols={2}>
+  <Card title="Daily KPI Tracking" icon="calendar-day">
+    Monitor revenue, orders, customers, and ad spend on a daily basis
+  </Card>
+  <Card title="Executive Dashboards" icon="gauge-high">
+    Power high-level dashboards for leadership
+  </Card>
+  <Card title="Cross-Channel Summary" icon="diagram-venn">
+    See aggregated performance across all marketing channels
+  </Card>
+  <Card title="Trend Analysis" icon="chart-line">
+    Analyze week-over-week or month-over-month changes
+  </Card>
+</CardGroup>
+
+## Key Columns
+
+| Column | Description |
+|--------|-------------|
+| `date` | The calendar date for the metrics |
+| `gross_revenue` | Total revenue before refunds and discounts |
+| `net_revenue` | Revenue after refunds and discounts |
+| `order_count` | Number of orders placed |
+| `new_customer_count` | Number of first-time customers |
+| `returning_customer_count` | Number of repeat customers |
+| `total_ad_spend` | Total advertising spend across platforms |
+
+## Example Queries
+
+### Daily Revenue Trend
+```sql
+SELECT
+  date,
+  net_revenue,
+  order_count,
+  net_revenue / NULLIF(order_count, 0) AS aov
+FROM `your_project.sm_transformed_v2.rpt_executive_summary_daily`
+WHERE date >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)
+ORDER BY date
+```
+
+### Week-over-Week Comparison
+```sql
+SELECT
+  date,
+  net_revenue,
+  LAG(net_revenue, 7) OVER (ORDER BY date) AS revenue_last_week,
+  SAFE_DIVIDE(net_revenue - LAG(net_revenue, 7) OVER (ORDER BY date),
+              LAG(net_revenue, 7) OVER (ORDER BY date)) * 100 AS wow_change_pct
+FROM `your_project.sm_transformed_v2.rpt_executive_summary_daily`
+WHERE date >= DATE_SUB(CURRENT_DATE(), INTERVAL 60 DAY)
+ORDER BY date DESC
+```
+
+## Related Resources
+
+<CardGroup cols={2}>
+  <Card title="Full Table Schema" icon="table" href="/data-activation/data-tables/sm_transformed_v2/rpt_executive_summary_daily">
+    Complete column documentation
+  </Card>
+  <Card title="Metric Definitions" icon="calculator" href="/onboarding/data-docs/metrics">
+    How metrics are calculated
+  </Card>
+</CardGroup>
