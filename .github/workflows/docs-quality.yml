@@ -81,6 +81,14 @@ jobs:
       - name: Validate Page Metadata and Orphans
         run: python3 scripts/docs_inventory.py
 
+      # Placeholder language guardrail
+      - name: Reject Placeholder Language
+        run: python3 scripts/docs_placeholder_lint.py
+
+      # dbt-backed column accuracy (via schema docs yaml blocks)
+      - name: Validate Column References
+        run: python3 scripts/docs_column_accuracy.py
+
       # Navigation reference validation
       - name: Validate Navigation References
         run: |

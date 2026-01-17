@@ -146,6 +146,8 @@ def main() -> int:
             metadata_issues.append(f"{p.relative_to(REPO_ROOT)}: missing title")
         if not fm.description:
             metadata_issues.append(f"{p.relative_to(REPO_ROOT)}: missing description")
+        elif re.match(r"^Learn about .+ in SourceMedium\.$", fm.description):
+            metadata_issues.append(f"{p.relative_to(REPO_ROOT)}: generic description (replace with a real summary)")
         if not fm.icon:
             metadata_issues.append(f"{p.relative_to(REPO_ROOT)}: missing icon")
 
