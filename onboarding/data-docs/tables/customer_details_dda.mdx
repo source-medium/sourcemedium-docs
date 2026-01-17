@@ -4,22 +4,26 @@ description: 'Working with the `obt_customers` table in BigQuery'
 icon: 'user'
 ---
 
-The **Customer Details** table (`obt_customers`) provides a comprehensive view of each customer with their lifetime metrics, acquisition source, and behavioral attributes. This is your primary table for customer-centric analysis.
+The **Customer Details** table (`obt_customers`) provides customer-level data including contact information, subscription status, and first/last order references. Use this table for customer lookups and subscription analysis.
+
+<Note>
+**For lifetime metrics (LTV, order counts, acquisition channel):** Join to `obt_orders` and aggregate, or use `dim_customers` which includes pre-calculated lifetime fields.
+</Note>
 
 ## When to Use This Table
 
 <CardGroup cols={2}>
-  <Card title="Customer Analytics" icon="user-magnifying-glass">
-    Analyze customer lifetime value, purchase frequency
+  <Card title="Customer Lookups" icon="user-magnifying-glass">
+    Find customer details by ID or email
   </Card>
-  <Card title="Acquisition Analysis" icon="funnel-dollar">
-    Understand which channels acquire the best customers
+  <Card title="Subscription Analysis" icon="rotate">
+    Analyze subscriber status and churn
   </Card>
-  <Card title="Segmentation" icon="users-rectangle">
-    Build customer segments based on behavior
+  <Card title="Contact Data" icon="address-book">
+    Access customer contact information
   </Card>
-  <Card title="Retention Analysis" icon="rotate">
-    Measure repeat purchase rates and churn
+  <Card title="Order References" icon="link">
+    Link to first and last orders
   </Card>
 </CardGroup>
 
@@ -28,67 +32,69 @@ The **Customer Details** table (`obt_customers`) provides a comprehensive view o
 | Column | Description |
 |--------|-------------|
 | `sm_customer_key` | Unique customer identifier (use for joins) |
-| `customer_email_hashed` | Hashed email for matching |
-| `customer_lifetime_net_revenue` | Total revenue from this customer |
-| `customer_lifetime_order_count` | Total orders placed |
-| `customer_first_order_date` | Date of first purchase |
-| `customer_latest_order_date` | Date of most recent purchase |
-| `customer_acquisition_channel` | Channel of first order |
+| `customer_email_hashed` | SHA-256 hash of email for privacy-safe matching |
+| `customer_email` | Customer email address (PII) |
+| `customer_created_at` | When the customer record was created |
+| `customer_first_order_id` | ID of customer's first order |
+| `customer_last_order_id` | ID of customer's most recent order |
+| `subscriber_status` | Current subscription status |
 | `customer_tags_csv` | Customer tags from your platform |
 
 ## Example Queries
 
-### Customer Lifetime Value Distribution
-```sql
-SELECT
-  CASE
-    WHEN customer_lifetime_net_revenue < 100 THEN '$0-99'
-    WHEN customer_lifetime_net_revenue < 250 THEN '$100-249'
-    WHEN customer_lifetime_net_revenue < 500 THEN '$250-499'
-    ELSE '$500+'
-  END AS ltv_bucket,
-  COUNT(*) AS customer_count,
-  SUM(customer_lifetime_net_revenue) AS total_ltv
-FROM `your_project.sm_transformed_v2.obt_customers`
-WHERE customer_lifetime_order_count >= 1
-GROUP BY ltv_bucket
-ORDER BY MIN(customer_lifetime_net_revenue)
-```
-
-### Acquisition Channel Performance
-```sql
-SELECT
-  customer_acquisition_channel,
-  COUNT(*) AS customers_acquired,
-  AVG(customer_lifetime_net_revenue) AS avg_ltv,
-  AVG(customer_lifetime_order_count) AS avg_orders
-FROM `your_project.sm_transformed_v2.obt_customers`
-WHERE customer_first_order_date >= DATE_SUB(CURRENT_DATE(), INTERVAL 365 DAY)
-GROUP BY customer_acquisition_channel
-ORDER BY customers_acquired DESC
-```
-
-### Repeat Purchase Rate
-```sql
-SELECT
-  COUNT(*) AS total_customers,
-  COUNTIF(customer_lifetime_order_count >= 2) AS repeat_customers,
-  SAFE_DIVIDE(COUNTIF(customer_lifetime_order_count >= 2), COUNT(*)) * 100 AS repeat_rate_pct
-FROM `your_project.sm_transformed_v2.obt_customers`
-WHERE customer_first_order_date >= DATE_SUB(CURRENT_DATE(), INTERVAL 365 DAY)
-```
-
-### Recently Active Customers
+### Customer Lookup by Email Hash
 ```sql
 SELECT
   sm_customer_key,
   customer_email_hashed,
-  customer_lifetime_order_count,
-  customer_lifetime_net_revenue,
-  customer_latest_order_date
+  customer_created_at,
+  subscriber_status
 FROM `your_project.sm_transformed_v2.obt_customers`
-WHERE customer_latest_order_date >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)
-ORDER BY customer_lifetime_net_revenue DESC
+WHERE customer_email_hashed = 'your_sha256_hash_here'
+```
+
+### Subscribers by Status
+```sql
+SELECT
+  subscriber_status,
+  COUNT(*) AS customer_count
+FROM `your_project.sm_transformed_v2.obt_customers`
+WHERE subscriber_status IS NOT NULL
+GROUP BY subscriber_status
+ORDER BY customer_count DESC
+```
+
+### Customer Lifetime Metrics (via Join)
+To get lifetime value and order counts, join to `obt_orders`:
+
+```sql
+SELECT
+  c.sm_customer_key,
+  c.customer_email_hashed,
+  c.customer_created_at,
+  COUNT(o.sm_order_key) AS lifetime_order_count,
+  SUM(o.order_net_revenue) AS lifetime_revenue,
+  MIN(o.order_processed_at_local_datetime) AS first_order_date,
+  MAX(o.order_processed_at_local_datetime) AS last_order_date
+FROM `your_project.sm_transformed_v2.obt_customers` c
+LEFT JOIN `your_project.sm_transformed_v2.obt_orders` o
+  ON c.sm_customer_key = o.sm_customer_key
+  AND o.is_order_sm_valid = TRUE
+GROUP BY 1, 2, 3
+ORDER BY lifetime_revenue DESC
+LIMIT 100
+```
+
+### Recently Created Customers
+```sql
+SELECT
+  sm_customer_key,
+  customer_email_hashed,
+  customer_created_at,
+  subscriber_status
+FROM `your_project.sm_transformed_v2.obt_customers`
+WHERE customer_created_at >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)
+ORDER BY customer_created_at DESC
 LIMIT 100
 ```
 

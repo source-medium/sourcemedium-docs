@@ -30,9 +30,10 @@ The **Order Details** table (`obt_orders`) is your primary table for order-level
 | `sm_order_key` | Unique order identifier (use for joins) |
 | `order_processed_at_local_datetime` | Order timestamp in your brand's timezone |
 | `is_order_sm_valid` | Filter to `TRUE` to exclude test/cancelled orders |
-| `net_order_revenue` | Revenue after refunds |
+| `order_net_revenue` | Revenue after discounts and refunds |
+| `order_gross_revenue` | Revenue before discounts and refunds |
 | `sm_channel` | Primary channel classification |
-| `sm_valid_order_index` | Customer's order number (1 = first order) |
+| `sm_valid_order_index` | Customer's valid order number (1 = first order) |
 | `sm_customer_key` | Unique customer identifier |
 
 ## Critical Filter
@@ -52,8 +53,8 @@ This excludes test orders, cancelled orders, and other invalid transactions.
 SELECT
   sm_channel,
   COUNT(*) AS order_count,
-  SUM(net_order_revenue) AS total_revenue,
-  AVG(net_order_revenue) AS avg_order_value
+  SUM(order_net_revenue) AS total_revenue,
+  AVG(order_net_revenue) AS avg_order_value
 FROM `your_project.sm_transformed_v2.obt_orders`
 WHERE is_order_sm_valid = TRUE
   AND order_processed_at_local_datetime >= '2026-01-01'
@@ -66,7 +67,7 @@ ORDER BY total_revenue DESC
 SELECT
   CASE WHEN sm_valid_order_index = 1 THEN 'New' ELSE 'Returning' END AS customer_type,
   COUNT(*) AS order_count,
-  SUM(net_order_revenue) AS total_revenue
+  SUM(order_net_revenue) AS total_revenue
 FROM `your_project.sm_transformed_v2.obt_orders`
 WHERE is_order_sm_valid = TRUE
   AND order_processed_at_local_datetime >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)
@@ -78,7 +79,7 @@ GROUP BY customer_type
 SELECT
   order_id,
   order_processed_at_local_datetime,
-  net_order_revenue,
+  order_net_revenue,
   order_discount_codes_csv
 FROM `your_project.sm_transformed_v2.obt_orders`
 WHERE is_order_sm_valid = TRUE
