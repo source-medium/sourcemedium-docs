@@ -77,6 +77,10 @@ jobs:
       - name: Validate docs.json
         run: python3 -m json.tool docs.json > /dev/null && echo "✅ docs.json is valid JSON"
 
+      # Metadata + orphan detection (discoverability)
+      - name: Validate Page Metadata and Orphans
+        run: python3 scripts/docs_inventory.py
+
       # Navigation reference validation
       - name: Validate Navigation References
         run: |
@@ -112,8 +116,10 @@ jobs:
           missing = []
 
           for ref in refs:
+              # Accept both "path.mdx" and "path/index.mdx"
               mdx_path = f"{ref}.mdx"
-              if not os.path.exists(mdx_path):
+              index_path = os.path.join(ref, "index.mdx")
+              if not os.path.exists(mdx_path) and not os.path.exists(index_path):
                   missing.append(mdx_path)
 
           if missing:
