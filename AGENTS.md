@@ -3,7 +3,7 @@
 ## Project Structure & Module Organization
 - Content lives in `.mdx` under topical folders: `onboarding/`, `data-activation/`, `mta/`, `advanced-insights-and-strategy/`, `internal/`.
 - Assets live in `images/` (logos, article images, gifs, videos). Reference with root-relative paths (e.g., `/images/article-gifs/eznav.gif`).
-- Site configuration: `v2-mint.json` (branding, navigation, tabs, analytics).
+- Site configuration: `docs.json` (branding, navigation, tabs, analytics).
 
 ## Build, Test, and Development Commands
 - Install Mintlify CLI (once): `npm i -g mintlify`
@@ -26,12 +26,12 @@
 
 ## Validation Guidelines
 - Preview locally via `mintlify dev`; ensure pages render, links resolve, and images load.
-- Check frontmatter completeness (title, description) and navigation presence in `v2-mint.json` if adding new pages/sections.
+- Check frontmatter completeness (title, description) and navigation presence in `docs.json` if adding new pages/sections.
 - Keep images optimized; place new media in `images/article-imgs/` or `images/article-videos/` as appropriate.
 
 ## Commit & Pull Request Guidelines
 - Commits: short, imperative summaries (scope optional). Example: `Update MTA docs with dedup logic`.
-- PRs: include a clear description, related issue/linear ticket, and screenshots or screen capture of the rendered page. Note any `v2-mint.json` navigation changes.
+- PRs: include a clear description, related issue/linear ticket, and screenshots or screen capture of the rendered page. Note any `docs.json` navigation changes.
 - Before requesting review: run `mintlify dev` locally and verify no console errors.
 
 ## Security & Configuration Tips

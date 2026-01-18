@@ -547,15 +547,7 @@
             "group": "Data Dictionary",
             "pages": [
               "onboarding/data-docs/metrics",
-              "onboarding/data-docs/dimensions",
-              {
-                "group": "DDA Tables (Legacy)",
-                "pages": [
-                  "onboarding/data-docs/tables/executive_summary_dda",
-                  "onboarding/data-docs/tables/order_details_dda",
-                  "onboarding/data-docs/tables/customer_details_dda"
-                ]
-              }
+              "onboarding/data-docs/dimensions"
             ]
           },
           {
@@ -835,11 +827,11 @@
     },
     {
       "source": "/onboarding/data-docs/tables/order_details_looker",
-      "destination": "/onboarding/data-docs/tables/order_details_dda"
+      "destination": "/data-activation/data-tables/sm_transformed_v2/obt_orders"
     },
     {
       "source": "/onboarding/data-docs/tables/executive_summary_looker",
-      "destination": "/onboarding/data-docs/tables/executive_summary_dda"
+      "destination": "/data-activation/data-tables/sm_transformed_v2/rpt_executive_summary_daily"
     },
     {
       "source": "/data-transformations/attribution-waterfall",
@@ -847,7 +839,19 @@
     },
     {
       "source": "/onboarding/data-docs/tables/customer_details_looker",
-      "destination": "/onboarding/data-docs/tables/customer_details_dda"
+      "destination": "/data-activation/data-tables/sm_transformed_v2/obt_customers"
+    },
+    {
+      "source": "/onboarding/data-docs/tables/order_details_dda",
+      "destination": "/data-activation/data-tables/sm_transformed_v2/obt_orders"
+    },
+    {
+      "source": "/onboarding/data-docs/tables/customer_details_dda",
+      "destination": "/data-activation/data-tables/sm_transformed_v2/obt_customers"
+    },
+    {
+      "source": "/onboarding/data-docs/tables/executive_summary_dda",
+      "destination": "/data-activation/data-tables/sm_transformed_v2/rpt_executive_summary_daily"
     }
   ]
 }

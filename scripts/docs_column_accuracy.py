@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
 """
-Validate table/column references in docs against schema docs (dbt YAML snapshots).
+Validate table/column references in docs SQL examples against schema docs (dbt YAML snapshots).
 
 Why this exists:
-- Drift is most painful in "how to query" pages (e.g., DDA guides) where examples
-  reference columns that may be renamed in dbt (rename_column_map_all).
-- The canonical column list is already present in this repo under
+- Drift is most painful in "how to query" pages where examples reference columns that
+  may be renamed in dbt (rename_column_map_all).
+- The canonical exposed column list is already present in this repo under
   data-activation/data-tables/sm_transformed_v2/*.mdx as a fenced ```yaml block.
 
 This script:
 1) Parses those schema pages to build a map of table -> exposed column names.
-2) Validates onboarding/data-docs/tables/* Key Columns lists reference real columns.
+2) Validates fenced ```sql examples that reference `sm_transformed_v2` use real columns.
 
 Usage:
   python3 scripts/docs_column_accuracy.py
@@ -27,7 +27,6 @@ from typing import Iterable
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 SCHEMA_DOCS_DIR = REPO_ROOT / "data-activation" / "data-tables" / "sm_transformed_v2"
-DDA_DOCS_DIR = REPO_ROOT / "onboarding" / "data-docs" / "tables"
 
 
 YAML_BLOCK_RE = re.compile(r"```yaml\s*\n(.*?)\n```", re.DOTALL)
@@ -130,6 +129,15 @@ def iter_mdx_files(root: Path) -> Iterable[Path]:
     return sorted(root.rglob("*.mdx"))
 
 
+def is_excluded_path(path: Path) -> bool:
+    # Exclude internal/authoring scratch pads and non-page content.
+    if any(part.startswith(".") for part in path.parts):
+        return True
+    if path.parts and path.parts[0] in {"snippets", "yaml-files", "internal"}:
+        return True
+    return False
+
+
 def extract_yaml_block(text: str) -> str | None:
     m = YAML_BLOCK_RE.search(text)
     if not m:
@@ -155,31 +163,6 @@ def build_table_columns_from_schema_docs() -> dict[str, set[str]]:
         if cols:
             table_to_columns[table_name] = cols
     return table_to_columns
-
-
-def parse_table_from_frontmatter(text: str) -> str | None:
-    # Common pattern: description: 'Working with the `obt_orders` table in BigQuery'
-    m = re.search(r"^description:\s*['\"].*?`([A-Za-z0-9_]+)`.*['\"]\s*$", text, flags=re.M)
-    if not m:
-        return None
-    return m.group(1)
-
-
-def extract_key_columns(text: str) -> list[str]:
-    # Extract first-column values from the markdown table under "## Key Columns".
-    start = text.find("## Key Columns")
-    if start == -1:
-        return []
-    rest = text[start:]
-    next_header = re.search(r"^##\s+", rest[1:], flags=re.M)
-    section = rest if not next_header else rest[: next_header.start() + 1]
-
-    cols: list[str] = []
-    for line in section.splitlines():
-        m = re.match(r"^\|\s*`([A-Za-z0-9_]+)`\s*\|", line)
-        if m:
-            cols.append(m.group(1))
-    return cols
 
 
 def extract_sql_blocks(text: str) -> list[str]:
@@ -253,25 +236,13 @@ def main() -> int:
         return 0
 
     issues: list[Issue] = []
-    for path in iter_mdx_files(DDA_DOCS_DIR):
+    for path in iter_mdx_files(REPO_ROOT):
+        rel = path.relative_to(REPO_ROOT)
+        if is_excluded_path(rel):
+            continue
         text = path.read_text(encoding="utf-8", errors="ignore")
-        table = parse_table_from_frontmatter(text)
-        if not table:
-            issues.append(Issue(path, "unable to determine table name from frontmatter description"))
+        if "```sql" not in text.lower():
             continue
-        if table not in table_to_columns:
-            issues.append(Issue(path, f"no schema doc found for table `{table}` in {SCHEMA_DOCS_DIR}"))
-            continue
-        key_cols = extract_key_columns(text)
-        if not key_cols:
-            issues.append(Issue(path, "missing or unparseable `## Key Columns` table"))
-            continue
-
-        known_cols = table_to_columns[table]
-        for col in key_cols:
-            if col not in known_cols:
-                issues.append(Issue(path, f"unknown column `{col}` for table `{table}`"))
-
         issues.extend(validate_sql_blocks(path=path, text=text, table_to_columns=table_to_columns))
 
     if issues:

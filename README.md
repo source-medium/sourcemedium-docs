@@ -103,7 +103,7 @@ Content goes here...
 
 ## Customizing Branding
 
-Brand settings are configured in the `v2-mint.json` file, including:
+Brand settings are configured in `docs.json`, including:
 - Company name
 - Logo
 - Favicon
