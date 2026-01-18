@@ -21,12 +21,8 @@ jobs:
       - name: Install Mintlify CLI
         run: npm install -g mintlify
 
-      - name: Build and deploy documentation
-        run: |
-          mintlify build
-          mintlify deploy
-        env:
-          MINTLIFY_API_KEY: ${{ secrets.MINTLIFY_API_KEY }}
+      - name: Validate documentation
+        run: mintlify validate
           
       - name: Send Slack notification
         if: always()
