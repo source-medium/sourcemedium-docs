@@ -41,6 +41,13 @@ class Frontmatter:
     icon: str | None
 
 
+def normalize_title(title: str) -> str:
+    norm = title.strip().lower()
+    norm = re.sub(r"""[?!\.:,'"`“”’()\[\]{}]+""", "", norm)
+    norm = re.sub(r"\s+", " ", norm)
+    return norm
+
+
 def is_excluded_path(path: Path) -> bool:
     if any(part.startswith(".") for part in path.parts):
         return True
@@ -136,12 +143,14 @@ def main() -> int:
 
     # Metadata check
     metadata_issues: list[str] = []
+    frontmatters: dict[Path, Frontmatter] = {}
     for p in page_files:
         text = p.read_text(encoding="utf-8", errors="ignore")
         fm = parse_frontmatter(text)
         if fm is None:
             metadata_issues.append(f"{p.relative_to(REPO_ROOT)}: missing/invalid frontmatter")
             continue
+        frontmatters[p] = fm
         if not fm.title:
             metadata_issues.append(f"{p.relative_to(REPO_ROOT)}: missing title")
         if not fm.description:
@@ -150,6 +159,21 @@ def main() -> int:
             metadata_issues.append(f"{p.relative_to(REPO_ROOT)}: generic description (replace with a real summary)")
         if not fm.icon:
             metadata_issues.append(f"{p.relative_to(REPO_ROOT)}: missing icon")
+
+    # Duplicate title check (published pages only)
+    normalized_title_to_paths: dict[str, list[Path]] = {}
+    for p, fm in frontmatters.items():
+        ref = mdx_ref_from_path(p)
+        if is_allowed_orphan(ref):
+            continue
+        if not fm.title:
+            continue
+        normalized = normalize_title(fm.title)
+        normalized_title_to_paths.setdefault(normalized, []).append(p)
+
+    title_dupes = sorted(
+        (k, v) for k, v in normalized_title_to_paths.items() if len(v) > 1
+    )
 
     # Orphans check
     orphan_refs = sorted(r for r in (page_refs - docs_refs) if not is_allowed_orphan(r))
@@ -164,6 +188,18 @@ def main() -> int:
             print(f"  - {line}")
         if len(metadata_issues) > 50:
             print(f"  ... and {len(metadata_issues) - 50} more")
+
+    if title_dupes:
+        had_issues = True
+        print(f"[ERROR] Duplicate page titles detected: {len(title_dupes)}")
+        for normalized, paths in title_dupes[:50]:
+            titles = sorted({frontmatters[p].title for p in paths if frontmatters[p].title})
+            display_title = titles[0] if titles else normalized
+            print(f"  - {display_title}")
+            for p in sorted(paths):
+                print(f"    - {p.relative_to(REPO_ROOT)}")
+        if len(title_dupes) > 50:
+            print(f"  ... and {len(title_dupes) - 50} more")
 
     if orphan_refs:
         had_issues = True
