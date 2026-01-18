@@ -34,9 +34,17 @@
             ]
           },
           {
-            "group": "Core Concepts",
+            "group": "Attribution",
             "pages": [
               "help-center/core-concepts/attribution/attribution-in-sourcemedium",
+              "data-transformations/attribution-source-hierarchy",
+              "data-inputs/attribution-health/index",
+              "mta/mta-overview"
+            ]
+          },
+          {
+            "group": "Data Foundations",
+            "pages": [
               "help-center/core-concepts/data-transformation/transformation-vs-cleaning",
               "help-center/core-concepts/data-transformation/data-freshness",
               "help-center/core-concepts/data-transformation/data-architecture"
@@ -594,7 +602,12 @@
             "pages": [
               "data-transformations/philosophy",
               "data-transformations/data-cleaning",
-              "data-transformations/data-enrichment",
+              "data-transformations/data-enrichment"
+            ]
+          },
+          {
+            "group": "Attribution",
+            "pages": [
               "data-transformations/attribution-source-hierarchy"
             ]
           },
