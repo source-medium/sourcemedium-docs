@@ -17,45 +17,47 @@ Notes:
 <AccordionGroup>
     <Accordion title='Most commonly ordered product combinations'>
         ```sql
-        WITH RECURSIVE `CTE` AS (
-            -- Anchor Query
+        WITH RECURSIVE product_combos AS (
+            -- Anchor: Start with individual products per order
             SELECT
-                p.sm_store_id,
-                p.order_id,
-                1 AS length,
-                concat(p.product_title, ' - ', p.variant_title) AS combo,
-                concat(p.product_title, ' - ', p.variant_title) AS lastitem
-            FROM `sm-{{account_id}}.sm_transformed_v1.product_performance` AS p
-            WHERE p.sm_store_id = 'your-sm_store_id'
+                ol.smcid,
+                ol.sm_order_key,
+                1 AS combo_length,
+                CONCAT(ol.product_title, ' - ', ol.variant_title) AS combo,
+                CONCAT(ol.product_title, ' - ', ol.variant_title) AS last_item
+            FROM `sm-{{account_id}}.sm_transformed_v2.obt_order_lines` AS ol
+            WHERE ol.smcid = 'your-smcid'
+              AND ol.is_order_sm_valid = TRUE
 
             UNION ALL
-            -- Recursive Part
+
+            -- Recursive: Build combinations up to 5 products
             SELECT
-                p.sm_store_id,
-                p.order_id,
-                r.length + 1 AS length,
-                CONCAT(r.combo, ', ', concat(p.product_title, ' - ', p.variant_title)) AS combo,
-                concat(p.product_title, ' - ', p.variant_title) AS lastitem
-            FROM `CTE` AS r
-            INNER JOIN `sm-{{account_id}}.sm_transformed_v1.product_performance` AS p
-                ON
-                    p.order_id = r.order_id
-                    AND concat(p.product_title, ' - ', p.variant_title) > r.lastitem
-            WHERE r.length < 5
+                ol.smcid,
+                ol.sm_order_key,
+                pc.combo_length + 1,
+                CONCAT(pc.combo, ', ', CONCAT(ol.product_title, ' - ', ol.variant_title)),
+                CONCAT(ol.product_title, ' - ', ol.variant_title)
+            FROM product_combos AS pc
+            INNER JOIN `sm-{{account_id}}.sm_transformed_v2.obt_order_lines` AS ol
+                ON ol.sm_order_key = pc.sm_order_key
+                AND CONCAT(ol.product_title, ' - ', ol.variant_title) > pc.last_item
+            WHERE pc.combo_length < 5
+              AND ol.is_order_sm_valid = TRUE
         )
 
-        -- Output query
         SELECT
-            combo as combinations,
-            COUNT(DISTINCT order_id) AS frequency,
-            (CHAR_LENGTH(combo) - CHAR_LENGTH(REPLACE(combo, ',', '')))+1 as number_of_products
-        FROM `CTE`
-        WHERE (CHAR_LENGTH(combo) - CHAR_LENGTH(REPLACE(combo, ',', ''))) >= 2
-        GROUP BY combo
-        HAVING frequency >= 1000
-        ORDER BY frequency DESC, combo ASC;
+            combo AS product_combinations,
+            COUNT(DISTINCT sm_order_key) AS order_frequency,
+            combo_length AS num_products
+        FROM product_combos
+        WHERE combo_length >= 2
+        GROUP BY combo, combo_length
+        HAVING order_frequency >= 100
+        ORDER BY order_frequency DESC, combo ASC
+        LIMIT 100;
         ```
-        
+
     </Accordion>
 </AccordionGroup>
 

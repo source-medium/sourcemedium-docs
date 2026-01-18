@@ -1,23 +1,119 @@
 ---
 title: "Metric Definitions"
-description: "Definitions and examples for common SourceMedium metrics used across dashboards and tables"
+description: "Definitions for SourceMedium metrics used across dashboards and the semantic layer"
 icon: "chart-line"
 ---
-<Snippet file="tooltip-CPA.mdx" />
 
-<AccordionGroup>
-    
-    <Accordion title="Marketing Overview" icon="alien-8bit">
-        foo
-    </Accordion>
-    <Accordion title="Orders Deep Dive">
-        bar
-    </Accordion>
-</AccordionGroup>
+This reference documents the metrics available in SourceMedium dashboards and the semantic layer. Metrics are organized by category.
 
-<Card title="CPA" icon="lightbulb" iconType="duotone" color="#ca8b04">
-  Cost per Acquisition = Spend / New Customers
-</Card>
+<Note>
+Metrics marked as "Alias" are legacy names maintained for backward compatibility. Use the preferred metric name for new queries.
+</Note>
 
-| Metric Name | Metric Definition | Further Documentation |
-| ---         | ---               | ---                   |
+## Revenue Metrics
+
+| Metric | Description | Type |
+|--------|-------------|------|
+| **Average Order Value (AOV) - Net** | Average net revenue per order | Ratio |
+| **Average Order Value (AOV) - Gross** | Average gross revenue per order | Ratio |
+| **Average Order Value (AOV) - Total** | Average total revenue per order (before refunds/discounts) | Ratio |
+| **Order Net Revenue** | Revenue after refunds and discounts | Simple |
+| **Order Gross Revenue** | Revenue after refunds, before discounts | Simple |
+| **Order Total Revenue** | Total revenue before any deductions | Simple |
+| **New Customer Revenue** | Net revenue from first-time customers | Simple |
+| **Repeat Customer Revenue** | Net revenue from returning customers | Simple |
+| **Gross Profit** | Revenue minus cost of goods sold | Simple |
+| **Gross Margin %** | Gross profit as percentage of net revenue | Ratio |
+| **Total Discounts** | Total discount amount applied to orders | Simple |
+| **Total Refunds** | Total refund amount processed | Simple |
+
+## Customer Metrics
+
+| Metric | Description | Type |
+|--------|-------------|------|
+| **New Customers** | Count of newly acquired customers in the period | Simple |
+| **Total Customers** | Total count of all customers | Simple |
+| **New Customer Order Count** | Number of first-time customer orders | Simple |
+| **Repeat Customer Order Count** | Number of repeat customer orders | Simple |
+| **Active Subscribers** | Count of customers with active subscriptions | Simple |
+| **Churned Subscribers** | Count of customers with churned subscriptions | Simple |
+| **Email Subscribers** | Count of customers opted into email marketing | Simple |
+| **SMS Subscribers** | Count of customers opted into SMS marketing | Simple |
+| **Customer Acquisition Cost (CAC)** | Average cost to acquire a new customer | Ratio |
+| **Subscriber Churn Rate** | Percentage of subscribers who have churned | Ratio |
+
+## Marketing Metrics
+
+| Metric | Description | Type |
+|--------|-------------|------|
+| **Total Ad Spend** | Total advertising spend across all platforms | Simple |
+| **Total Ad Clicks** | Total clicks across all ad platforms | Simple |
+| **Total Ad Impressions** | Total impressions across all ad platforms | Simple |
+| **Marketing Efficiency Ratio (MER)** | Total revenue divided by total ad spend (blended ROAS) | Ratio |
+| **Return on Ad Spend (ROAS)** | Revenue generated per dollar of ad spend | Ratio |
+| **Cost Per Click (CPC)** | Average cost per ad click | Ratio |
+| **Cost Per Order (CPO)** | Average advertising cost per order | Ratio |
+| **Cost Per Thousand Impressions (CPM)** | Cost per thousand impressions | Derived |
+| **Click-Through Rate (CTR)** | Percentage of impressions that result in clicks | Ratio |
+| **Platform Reported Conversions** | Conversions as reported by ad platforms | Simple |
+| **Platform Return on Ad Spend** | Return on ad spend as reported by platforms | Ratio |
+
+## Conversion Metrics
+
+| Metric | Description | Type |
+|--------|-------------|------|
+| **Site Conversion Rate** | Overall conversion rate (orders / website sessions) | Ratio |
+| **Simple Conversion Rate** | Orders / sessions using executive summary data | Ratio |
+| **Add to Cart Rate** | Percentage of page views that result in add to cart | Ratio |
+| **Checkout Initiation Rate** | Percentage of add to carts that proceed to checkout | Ratio |
+| **Checkout Completion Rate** | Percentage of checkouts that complete purchase | Ratio |
+| **Discount Rate %** | Discounts as percentage of gross revenue | Ratio |
+| **Refund Rate %** | Refunds as percentage of gross revenue | Ratio |
+| **Email Opt-in Rate** | Percentage of customers opted into email marketing | Ratio |
+| **SMS Opt-in Rate** | Percentage of customers opted into SMS marketing | Ratio |
+
+## Cumulative / Period Metrics
+
+| Metric | Description | Type |
+|--------|-------------|------|
+| **MTD Net Revenue** | Month-to-date net revenue | Cumulative |
+| **MTD Order Count** | Month-to-date order count | Cumulative |
+| **MTD New Customers** | Month-to-date new customer acquisitions | Cumulative |
+| **MTD Ad Spend** | Month-to-date advertising spend | Cumulative |
+| **QTD Net Revenue** | Quarter-to-date net revenue | Cumulative |
+| **YTD Net Revenue** | Year-to-date net revenue | Cumulative |
+| **Trailing 30 Day Revenue** | Revenue for the last 30 days | Cumulative |
+| **Trailing 90 Day Revenue** | Revenue for the last 90 days | Cumulative |
+
+## Product Metrics
+
+| Metric | Description | Type |
+|--------|-------------|------|
+| **Total Products** | Total count of unique products in catalog | Simple |
+| **Total SKUs** | Total count of product variants/SKUs | Simple |
+| **Product Page Views** | Count of product page views | Simple |
+| **Product Cost (COGS)** | Total cost of goods sold | Simple |
+| **SKUs per Product** | Average number of variants per product | Ratio |
+
+## Legacy Aliases
+
+These metric names are maintained for backward compatibility. Use the preferred name for new implementations.
+
+| Alias | Preferred Metric |
+|-------|-----------------|
+| `aov` | `average_order_value_net` |
+| `mer` | `marketing_efficiency_ratio` |
+| `cac` | `customer_acquisition_cost` |
+| `cpc` | `cost_per_click` |
+| `cpm` | `cost_per_thousand_impressions` |
+| `roas` | `return_on_ad_spend` |
+| `ctr` | `click_through_rate` |
+| `cpo` | `cost_per_order` |
+| `cvr` | `conversion_rate` |
+
+## Metric Types
+
+- **Simple**: Direct aggregation of a measure (e.g., SUM of revenue)
+- **Ratio**: Division of two metrics (e.g., revenue / orders = AOV)
+- **Derived**: Calculation involving other metrics (e.g., MoM change)
+- **Cumulative**: Running total over a time period (e.g., MTD revenue)
