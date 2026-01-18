@@ -320,6 +320,12 @@
                     "pages": [
                       "data-inputs/platform-integration-instructions/autopilot-integration"
                     ]
+                  },
+                  {
+                    "group": "Mailchimp",
+                    "pages": [
+                      "data-inputs/platform-integration-instructions/mailchimp-integration"
+                    ]
                   }
                 ]
               },
@@ -330,6 +336,12 @@
                     "group": "Global-E",
                     "pages": [
                       "data-inputs/platform-integration-instructions/global-e-integration"
+                    ]
+                  },
+                  {
+                    "group": "FERMÀT",
+                    "pages": [
+                      "data-inputs/platform-integration-instructions/fermat-integration"
                     ]
                   },
                   {
@@ -465,18 +477,6 @@
                   "data-activation/managed-bi-v1/modules/product-affinity-module",
                   "data-activation/managed-bi-v1/modules/subscription-overview-module",
                   "data-activation/managed-bi-v1/modules/subscription-product-performance-module"
-                ]
-              },
-              {
-                "group": "Managed BI v2 (beta)",
-                "pages": [
-                  "data-activation/managed-bi-v2/overview",
-                  {
-                    "group": "Modules",
-                    "pages": [
-                      "data-activation/managed-bi-v2/modules/executive-summary"
-                    ]
-                  }
                 ]
               }
             ]
@@ -839,6 +839,14 @@
     {
       "source": "/onboarding/data-docs/tables/executive_summary_dda",
       "destination": "/data-activation/data-tables/sm_transformed_v2/rpt_executive_summary_daily"
+    },
+    {
+      "source": "/data-activation/managed-bi-v2/overview",
+      "destination": "/data-activation/managed-bi-v1/overview"
+    },
+    {
+      "source": "/data-activation/managed-bi-v2/modules/executive-summary",
+      "destination": "/data-activation/managed-bi-v1/modules/executive-summary-module"
     }
   ]
 }
