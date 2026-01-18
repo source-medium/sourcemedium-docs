@@ -1,0 +1,148 @@
+---
+title: "Order Type (sm_order_type)"
+description: "How SourceMedium classifies orders as subscription vs one-time purchases"
+sidebarTitle: "Order Type"
+icon: "repeat"
+---
+
+The `sm_order_type` field classifies whether an order is a subscription or one-time purchase. This classification is essential for subscription analytics, cohort analysis, and LTV calculations.
+
+## Order Type Values
+
+| Value | Description |
+|-------|-------------|
+| `Subscription` | Recurring subscription order |
+| `One-time` | Non-subscription purchase |
+| `Subscription - Prepaid` | Prepaid subscription (multiple periods paid upfront) |
+| `Subscription & One-time` | Mixed order containing both subscription and one-time items |
+
+## How Order Type is Determined
+
+Order type classification uses a multi-signal approach evaluated at the **line item level**, then rolled up to the order. The system checks multiple signals in priority order:
+
+### Signal Priority (Highest to Lowest)
+
+| Priority | Signal | Result |
+|----------|--------|--------|
+| 1 | Amazon Subscribe & Save line item match | `Subscription` |
+| 2 | `prepaid` + subscription tag in order tags | `Subscription - Prepaid` |
+| 3 | Subscription platform line item type (ReCharge, Retextion) | Per platform classification |
+| 4 | Shopify Subscription Contract app ID | `Subscription` |
+| 5 | Order tags matching subscription patterns | `Subscription` |
+| 6 | Line item `is_from_subscription` flag | `Subscription` |
+| 7 | **Default** | `One-time` |
+
+### Subscription Tag Patterns
+
+The system recognizes these tag patterns (case-insensitive):
+
+- `Subscription`, `SubscriptionActive`
+- `recurring_order`, `recurring-order`
+- `subscription_order_loop`
+- `first_subscription_order`, `first-subscription`
+- `Luna Subscription`, `Ordergroove Trigger Order`
+
+<Note>
+The final `sm_order_type` on `dim_orders` uses `COALESCE(line_level_type, 'One-time')`, so orders always have a value—never null.
+</Note>
+
+### Subscription Platform Integration
+
+When you have a direct integration with a subscription platform, line-level data provides more accurate classification:
+
+| Platform | Data Source |
+|----------|-------------|
+| ReCharge | Line item type from ReCharge API |
+| Retextion | Line item type from Retextion API |
+| Chargebee | Invoice line subscription sequence |
+| Amazon Subscribe & Save | SKU-level subscription matching |
+
+## Related Dimensions
+
+### is_subscription_order
+
+A boolean convenience field derived from `sm_order_type`:
+
+```sql
+is_subscription_order = (sm_order_type = 'Subscription')
+```
+
+### order_sequence
+
+Customer lifecycle classification based on order position:
+
+| Value | Description |
+|-------|-------------|
+| `1st Order` | Customer's first order (new customer) |
+| `Repeat Order` | Any subsequent order (returning customer) |
+
+### subscription_order_sequence
+
+Subscription-specific lifecycle classification:
+
+| Value | Description |
+|-------|-------------|
+| `1st Sub. Order` | Customer's first subscription purchase |
+| `Recurring Sub. Order` | Subscription renewal or subsequent subscription order |
+| `One-time Order` | Non-subscription order |
+
+## Using Order Type in Analysis
+
+### Filter to Subscription Orders
+
+```sql
+WHERE sm_order_type = 'Subscription'
+-- or equivalently
+WHERE is_subscription_order = TRUE
+```
+
+### Separate Subscription vs One-time Metrics
+
+```sql
+SELECT
+  sm_order_type,
+  COUNT(*) as order_count,
+  SUM(order_net_revenue) as revenue
+FROM obt_orders
+WHERE is_order_sm_valid = TRUE
+GROUP BY sm_order_type
+```
+
+### Subscription Cohort Analysis
+
+Use `subscription_order_sequence` to analyze subscription retention:
+
+```sql
+SELECT
+  DATE_TRUNC(order_processed_at, MONTH) as cohort_month,
+  subscription_order_sequence,
+  COUNT(DISTINCT sm_customer_key) as customers
+FROM obt_orders
+WHERE is_subscription_order = TRUE
+GROUP BY 1, 2
+```
+
+## Best Practices
+
+### Ensure Consistent Tagging
+
+For accurate subscription classification in Shopify, ensure your subscription app consistently applies subscription tags to orders. Most subscription apps (ReCharge, Skio, etc.) do this automatically.
+
+### Validate with Subscription Platform Data
+
+If you have a direct subscription platform integration, compare the `sm_order_type` classification against your subscription platform's data to ensure accuracy.
+
+### Use for LTV Segmentation
+
+Subscription and one-time customers often have very different lifetime value patterns. Use `sm_order_type` to segment your LTV analysis accordingly.
+
+## Related Resources
+
+<CardGroup cols={2}>
+  <Card title="LTV & Retention Module" icon="chart-line" href="/data-activation/managed-bi-v1/modules/ltv-retention-module">
+    Analyze subscription and one-time customer retention
+  </Card>
+  <Card title="Orders Deep Dive" icon="magnifying-glass" href="/data-activation/managed-bi-v1/modules/orders-deep-dive-module">
+    Filter and analyze orders by type
+  </Card>
+</CardGroup>

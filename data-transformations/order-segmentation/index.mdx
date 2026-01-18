@@ -1,0 +1,52 @@
+---
+title: "Order Segmentation"
+description: "How SourceMedium classifies orders by sales channel and order type for reporting and analysis"
+icon: "layer-group"
+---
+
+Order segmentation classifies each order into meaningful groups for reporting and analysis. These classifications power filters, breakdowns, and metrics throughout your dashboards.
+
+## Key Segmentation Dimensions
+
+<CardGroup cols={2}>
+  <Card title="Sales Channel (sm_channel)" icon="store" href="/data-transformations/order-segmentation/sales-channel">
+    Groups orders by sales channel, integration path, acquisition source, and special order types
+  </Card>
+  <Card title="Order Type (sm_order_type)" icon="repeat" href="/data-transformations/order-segmentation/order-type">
+    Subscription vs one-time classification using multi-signal detection
+  </Card>
+</CardGroup>
+
+## How Segmentation Works
+
+Each segmentation dimension uses a **determination hierarchy** that evaluates multiple signals to assign the correct classification. The system prioritizes explicit signals (like platform integrations and exclusion tags) over inferred signals (like order tags and UTMs).
+
+For example, a TikTok Shop order from a direct integration is always classified as `TikTok Shop`—even if your config sheet has a rule that would otherwise match it.
+
+<Note>
+See each dimension's page for the specific hierarchy and signal priority used.
+</Note>
+
+## Customizing Segmentation
+
+You can override default channel assignments using the **Channel Mapping** tab in your configuration sheet. This allows you to:
+
+- Map specific UTM patterns to custom channels
+- Group orders by discount codes
+- Segment by order tags or SKUs
+- Assign orders to vendors for cost tracking
+
+<Card title="Creating Channel Mappings" icon="gear" href="/data-inputs/configuration-sheet/how-can-i-create-order-channels-and-subchannels">
+  Step-by-step guide to setting up custom channel mapping rules
+</Card>
+
+## Related Resources
+
+<CardGroup cols={2}>
+  <Card title="Dimension Definitions" icon="filter" href="/onboarding/data-docs/dimensions">
+    Full list of available dimensions including sm_channel and sm_sub_channel
+  </Card>
+  <Card title="Attribution Source Hierarchy" icon="sitemap" href="/data-transformations/attribution-source-hierarchy">
+    How UTM attribution data is selected when multiple sources exist
+  </Card>
+</CardGroup>

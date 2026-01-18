@@ -1,0 +1,155 @@
+---
+title: "Sales Channel (sm_channel)"
+description: "How SourceMedium determines the channel for each order"
+sidebarTitle: "Sales Channel"
+icon: "store"
+---
+
+The `sm_channel` field groups orders for reporting based on:
+
+- **Sales channel** — Online DTC, Amazon, Retail, TikTok Shop
+- **Integration path** — direct integration (`Amazon`) vs flowing through Shopify (`Amazon via Shopify`)
+- **Acquisition source** — Partners / Affiliates (e.g., GRIN)
+- **Special order types** — Exchanges, Draft Orders, Excluded
+
+This is one of the most important dimensions for segmenting your business performance.
+
+## Standard Channel Values
+
+| Channel | Description |
+|---------|-------------|
+| `Online DTC` | Direct-to-consumer orders from your online store |
+| `Amazon` | Orders from Amazon Seller Central (direct integration) |
+| `Amazon via Shopify` | Amazon orders flowing through Shopify |
+| `TikTok Shop` | Orders from TikTok Shop (direct integration) |
+| `TikTok Shop via Shopify` | TikTok Shop orders flowing through Shopify |
+| `Retail` | Point-of-sale and physical retail orders |
+| `Wholesale` | B2B and bulk orders |
+| `Partners / Affiliates` | GRIN and affiliate platform orders |
+| `Mirakl` | Marketplace orders via Mirakl |
+| `Exchanged` | Exchange and replacement orders |
+| `Draft Orders` | Manually created draft orders |
+| `Excluded` | Orders tagged with `sm-exclude-order` |
+
+## Channel Determination Hierarchy
+
+SourceMedium evaluates each order through this priority sequence:
+
+### Priority 1: Exclusion Tag
+
+Orders with the `sm-exclude-order` tag are always assigned to the **Excluded** channel, regardless of any other signals.
+
+```sql
+-- This tag takes absolute precedence
+WHERE order_tags CONTAINS 'sm-exclude-order' → 'Excluded'
+```
+
+<Warning>
+Excluded orders won't appear in Executive Summary metrics or LTV calculations. Use this tag for test orders, internal orders, or any orders that shouldn't count in analytics.
+</Warning>
+
+### Priority 2: Source System Override
+
+Orders from direct platform integrations (not flowing through Shopify) are assigned based on their source:
+
+| Source System | Assigned Channel |
+|---------------|------------------|
+| `tiktok_shop` | TikTok Shop |
+| `amazon` | Amazon |
+
+### Priority 3: Shopify Marketplace Detection
+
+For Shopify orders, marketplace signals derived from the order source trigger specific channel mappings:
+
+| Condition | Assigned Channel |
+|-----------|------------------|
+| Order source contains `amazon` | Amazon via Shopify |
+| Sales channel is `TikTok Shop` | TikTok Shop via Shopify |
+
+### Priority 4: Config Sheet Rules
+
+Your custom channel mapping rules are evaluated next. These rules can match on:
+
+| Attribute | Description | Example |
+|-----------|-------------|---------|
+| `source` | UTM source | `utm_source=influencer` |
+| `medium` | UTM medium | `utm_medium=affiliate` |
+| `source_medium` | Combined source/medium | `facebook / cpc` |
+| `campaign` | UTM campaign | `utm_campaign=wholesale_q1` |
+| `discount_codes` | Applied discount codes | `WHOLESALE50` |
+| `order_tags` | Shopify order tags | `wholesale`, `b2b` |
+| `skus` | Product SKUs in the order | `BULK-*` |
+| `shopify_sales_channel` | Shopify app/source | `Shop App` |
+
+<Card title="Create Custom Channel Mappings" icon="gear" href="/data-inputs/configuration-sheet/how-can-i-create-order-channels-and-subchannels">
+  Step-by-step guide to setting up your own channel mapping rules
+</Card>
+
+### Priority 5: Default Logic
+
+If no config sheet rules match, these defaults apply based on order attributes:
+
+| Condition | Assigned Channel |
+|-----------|------------------|
+| GRIN app orders | Partners / Affiliates |
+| Tags contain `wholesale`, `faire`, `wholesaler` | Wholesale |
+| Tags contain `exchange`, `returnly_exchange`, `ex-###` | Exchanged |
+| POS or Leap app orders | Retail |
+| Draft order source | Draft Orders |
+| Tags contain `mirakl` | Mirakl |
+| **Everything else** | Online DTC |
+
+## Sub-Channel (sm_sub_channel)
+
+The `sm_sub_channel` field provides additional granularity within a channel. The value is determined by:
+
+1. **For Amazon orders**: Derived from fulfillment channel:
+   - `Fulfilled by Amazon` — FBA orders
+   - `Fulfilled by Merchant` — Merchant-fulfilled orders
+
+2. **For all other orders**: Uses your config sheet `sub_channel` if set, otherwise falls back to the channel name, or `Unknown` as a last resort
+
+<Note>
+Sub-channels are most commonly used to segment Online DTC orders by marketing source (e.g., separating influencer orders from general paid social).
+</Note>
+
+## Debugging Channel Assignment
+
+Each order includes a `channel_map_debug` field that shows:
+
+1. **Input values** - The UTMs, tags, and other attributes evaluated
+2. **Matched rule** - Which config sheet rule (if any) was applied
+3. **Output** - The resulting channel, sub_channel, and vendor
+
+This is useful for troubleshooting why an order was assigned to a particular channel.
+
+## Best Practices
+
+### Use Tags for Non-UTM Segmentation
+
+For orders that don't have reliable UTM data (wholesale, B2B, exchanges), use Shopify order tags and set up config sheet rules to match them.
+
+### Set Up Shopify Flow Automation
+
+Automate consistent tagging with Shopify Flow:
+
+```liquid
+IF order.customer.tags CONTAINS "wholesale"
+OR order.discount_code CONTAINS "WHOLESALE-"
+THEN add_tag "wholesale"
+```
+
+### Review Channel Distribution Regularly
+
+Check the **Orders Deep Dive** module to ensure orders are being assigned to the expected channels. If you see unexpected `Online DTC` orders, they may need config sheet rules.
+
+## Related Resources
+
+<CardGroup cols={2}>
+  <Card title="Channel Mapping Guide" icon="map" href="/data-inputs/configuration-sheet/how_does_channel_mapping_work">
+    Detailed explanation of the channel mapping system
+  </Card>
+  <Card title="Orders Deep Dive" icon="magnifying-glass" href="/data-activation/managed-bi-v1/modules/orders-deep-dive-module">
+    Analyze orders by channel in your dashboard
+  </Card>
+</CardGroup>

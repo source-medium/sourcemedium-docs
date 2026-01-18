@@ -15,7 +15,7 @@ For full column documentation, see [Data Tables Reference](/data-activation/data
 | Dimension | Definition | Example Values |
 |-----------|------------|----------------|
 | `sm_channel` | Primary channel classification for orders and marketing | `Online DTC`, `Amazon`, `TikTok Shop`, `Retail` |
-| `sm_sub_channel` | Granular breakdown within a channel | `Paid Social`, `Organic`, `Affiliates`, `Email` |
+| `sm_sub_channel` | Granular breakdown within a channel (config-sheet or platform-derived; falls back to channel) | `Fulfilled by Amazon`, `Fulfilled by Merchant`, `Online DTC` |
 | `sm_utm_source` | UTM source (when available) | `facebook`, `google`, `klaviyo`, `direct` |
 | `sm_utm_medium` | UTM medium (when available) | `cpc`, `email`, `organic`, `referral` |
 | `sm_utm_campaign` | UTM campaign (when available) | `spring_sale_2026`, `retargeting_lookalike` |

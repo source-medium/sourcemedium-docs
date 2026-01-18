@@ -612,6 +612,14 @@
             ]
           },
           {
+            "group": "Order Segmentation",
+            "pages": [
+              "data-transformations/order-segmentation/index",
+              "data-transformations/order-segmentation/sales-channel",
+              "data-transformations/order-segmentation/order-type"
+            ]
+          },
+          {
             "group": "Naming Conventions",
             "pages": [
               "data-transformations/naming-conventions/key-concepts",
