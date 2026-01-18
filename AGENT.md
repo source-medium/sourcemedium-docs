@@ -150,6 +150,37 @@ For struct/nested columns, document subfields with dot-notation when they are qu
 - Linking to `/folder/index` instead of `/folder`
 - dbt YAML includes columns that may not be present in exported MDW schema (verify against config + warehouse when possible)
 
+## Navigation Restructure Guidelines
+
+When reorganizing `docs.json` navigation:
+
+### Safe Approach: Nav-Only Refactor
+1. **Change only `docs.json`** - Don't move files in the first pass
+2. **Run validation after every change** - `python3 -m json.tool docs.json` + nav ref check
+3. **Audit for orphan pages** - Compare files on disk vs pages in navigation
+
+### Orphan Page Detection
+After restructuring, verify no pages were dropped:
+```bash
+# Find .mdx files not in docs.json (potential orphans)
+comm -23 <(find . -name "*.mdx" -not -path "./snippets/*" | sed 's|^\./||;s|\.mdx$||' | sort) \
+         <(python3 -c "import json; exec('''
+def extract(obj, refs):
+    if isinstance(obj, str) and not obj.startswith(\"http\"): refs.append(obj)
+    elif isinstance(obj, list): [extract(i, refs) for i in obj]
+    elif isinstance(obj, dict): [extract(v, refs) for k,v in obj.items() if k in (\"tabs\",\"pages\",\"navigation\",\"groups\")]
+    return refs
+print(\"\\n\".join(sorted(extract(json.load(open(\"docs.json\")), []))))
+''')" | sort)
+```
+
+### URL Verification
+**Never hallucinate URLs** - Always derive URLs from actual file paths:
+- File: `help-center/faq/data-faqs/why-dont-new-customers-match.mdx`
+- URL: `https://docs.sourcemedium.com/help-center/faq/data-faqs/why-dont-new-customers-match`
+
+The validation script checks file existence, NOT URL correctness. When opening pages for QA, copy paths from `docs.json` or file listings.
+
 ### Recommended deterministic audit (monorepo)
 
 If `../dbt_project.yml` exists, compare docs table YAML blocks against dbt YAML columns,

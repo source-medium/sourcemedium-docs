@@ -98,12 +98,13 @@ The navigation uses a `tabs > groups > pages` hierarchy:
 ```
 
 **Current Tabs:**
-- What Is SourceMedium (help-center)
-- Onboarding
-- Data Integrations & Inputs
-- Data Transformation
-- Data Activation
-- MTA
+- Overview (getting started, core concepts)
+- Connect Your Data (integrations, configuration)
+- Understand Your Data (transformations, attribution)
+- Use Your Data (MDW, dashboards, data tables)
+- Reference (metrics, dimensions, data dictionary)
+- Help (FAQs, troubleshooting)
+- MTA (multi-touch attribution)
 
 **Important:** Page references are paths WITHOUT `.mdx` extension. They must match actual file paths.
 
@@ -181,12 +182,13 @@ Common icons: `plug`, `chart-line`, `question-mark`, `book`, `gear`, `heart-puls
 
 ## CI/CD Quality Checks
 
-PRs trigger `.github/workflows/docs-quality.yml` which validates:
+PRs trigger `.github/workflows/mintlify-docs-update.yml` which validates:
 
-1. **Spell Check** (codespell) - Catches typos
-2. **Link Check** (lychee) - Validates internal/external URLs
-3. **JSON Validation** - Ensures docs.json is valid
-4. **Navigation Validation** - All page refs point to existing files
+1. **JSON Validation** - Ensures docs.json is valid
+2. **Navigation Validation** - All page refs point to existing files
+3. **Mintlify Validation** - Runs `mintlify validate` (non-blocking due to pre-existing MDX issues)
+
+**Note:** Mintlify auto-deploys on merge to master. The CI workflow is validation-only—no build/deploy steps needed.
 
 **Ignored terms** (add to workflow if needed): smcid, sourcemedium, hdyhau, utm, cogs, ltv, roas, aov, klaviyo, shopify, etc.
 
@@ -224,7 +226,14 @@ PRs trigger `.github/workflows/docs-quality.yml` which validates:
 
 ### Adding a new FAQ
 1. Create file in appropriate `help-center/faq/<category>/` folder
-2. Add to `docs.json` under "What Is SourceMedium" tab > FAQs group
+2. Add to `docs.json` under "Help" tab > appropriate FAQ group
+
+### Restructuring Navigation
+When reorganizing `docs.json`:
+1. **Nav-only first** - Change docs.json without moving files
+2. **Validate after each change** - Run JSON + nav ref validation
+3. **Check for orphans** - See AGENT.md for orphan detection script
+4. **Single location per page** - Each page should appear in exactly one place in nav
 
 ### Adding images
 1. Place in `images/article-imgs/` (or `platform-logos/` for logos)
