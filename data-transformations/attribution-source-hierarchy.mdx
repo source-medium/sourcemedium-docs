@@ -91,7 +91,7 @@ Only specific keys are extracted from order notes and custom attributes. This pr
 
 - `utm_source`, `utm_medium`, `utm_campaign`, `utm_content`, `utm_term`, `utm_id`
 - `utmParams`, `GE_utmParams` (aggregate query string fields)
-- `_source`, `_attribution`
+- `_source`, `_attribution`, `referrer`
 
 <Note>
 **Click IDs are not allowlisted for raw extraction.** Instead, when click IDs (`gclid`, `fbclid`, `ttclid`, etc.) are present, they're used only to infer a fallback channel-level `utm_source` value (e.g., `gclid` → `google`). The raw click ID values are not stored as attribution data.

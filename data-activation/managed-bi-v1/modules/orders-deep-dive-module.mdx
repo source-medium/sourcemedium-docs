@@ -32,15 +32,9 @@ icon: 'dollar-sign'
 </AccordionGroup>
 
 #### Potential Reporting Differences & Discrepancies
-SourceMedium reports on Last-Click Attribution within the Orders Deep Dive and follows the Waterfall Logic below:
 
-        ```
-        1. Shopify UTM Values
-        2. GA UTMs if it doesn't exist in Shopify
-        3. Referring domain if it isn't in GA
-        4. Dependent on being a Subscription or Non-Subscription:
-            a. Subscription
-                i. New sub (subscription/first_order)
-            b. Non-Subscription
-                i. (none)/(none)
-        ```
+SourceMedium reports on Last-Click Attribution within the Orders Deep Dive using the [Attribution Source Hierarchy](/data-transformations/attribution-source-hierarchy).
+
+If no UTM attribution is found, the default value depends on order type:
+- **Subscription orders**: `subscription/first_order`
+- **Non-subscription orders**: `(none)/(none)`
