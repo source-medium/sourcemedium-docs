@@ -22,15 +22,6 @@ jobs:
         run: npm install -g mintlify
 
       - name: Validate documentation
-        run: mintlify validate || echo "Validation had warnings/errors - check output above"
-        continue-on-error: true
-          
-      - name: Send Slack notification
-        if: always()
-        uses: 8398a7/action-slack@v3
-        with:
-          status: ${{ job.status }}
-          fields: repo,message,commit,author,action,eventName,ref,workflow
-          text: "Mintlify documentation deployment ${{ job.status }}"
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} 
+        run: |
+          echo "Validating documentation at SHA: ${{ github.sha }}"
+          mintlify validate 
