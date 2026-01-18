@@ -594,7 +594,8 @@
             "pages": [
               "data-transformations/philosophy",
               "data-transformations/data-cleaning",
-              "data-transformations/data-enrichment"
+              "data-transformations/data-enrichment",
+              "data-transformations/attribution-source-hierarchy"
             ]
           },
           {
@@ -835,6 +836,10 @@
     {
       "source": "/onboarding/data-docs/tables/executive_summary_looker",
       "destination": "/onboarding/data-docs/tables/executive_summary_dda"
+    },
+    {
+      "source": "/data-transformations/attribution-waterfall",
+      "destination": "/data-transformations/attribution-source-hierarchy"
     },
     {
       "source": "/onboarding/data-docs/tables/customer_details_looker",

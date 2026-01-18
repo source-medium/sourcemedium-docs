@@ -1,14 +1,16 @@
 ---
 title: "What to know about connecting Google Analytics to SourceMedium"
-description: "How SourceMedium integrates Google Analytics data with Shopify using the Attribution Waterfall, and common reasons for data discrepancies"
+description: "How SourceMedium integrates Google Analytics data with Shopify using the Attribution Source Hierarchy, and common reasons for data discrepancies"
 sidebarTitle: "Connecting Google Analytics to SourceMedium"
 icon: 'question-mark'
 ---
 Google Analytics is a powerful system for understanding user behavior. When you connect SourceMedium to Google Analytics, SourceMedium will stream and integrate your 'GA' data into your dashboard and other data sources. The integration of this data can be fairly involved, so let's break it down to just the main things that give the maximum amount of clarity.
 
-### How Google Analytics data is Integrated - the “Attribution Waterfall”
+### How Google Analytics data is Integrated - the “Attribution Source Hierarchy”
 
-When integrating data, it's important to decide on a most trustworthy data source to use as a foundation. At SourceMedium we use Shopify data as our Source of Truth, as Shopify data is robust and represents real financial transactions. When we integrate Google Analytics data with Shopify data, we trust Shopify more than Google Analytics - this hierarchy of trust is called our “Attribution Waterfall.” In short, when we report this integrated data, we are showing Shopify data which has been enriched and expanded by Google Analytics.
+When integrating data, it's important to decide on a most trustworthy data source to use as a foundation. At SourceMedium we use Shopify data as our Source of Truth, as Shopify data is robust and represents real financial transactions. When we integrate Google Analytics data with Shopify data, we trust Shopify more than Google Analytics - this hierarchy of trust is called our “Attribution Source Hierarchy.” In short, when we report this integrated data, we are showing Shopify data which has been enriched and expanded by Google Analytics.
+
+For the full priority order, see [Attribution Source Hierarchy](/data-transformations/attribution-source-hierarchy).
 
 This enrichment can fill in gaps in both data sources — SourceMedium can regularly provide attribution for 10-30% more orders than Google Analytics on its own.
 

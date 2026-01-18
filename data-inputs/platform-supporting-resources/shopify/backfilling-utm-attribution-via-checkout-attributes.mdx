@@ -321,7 +321,7 @@ For large backfills (hundreds or thousands of orders), use a script with the [Sh
     Shopify allows updating orders regardless of age, but consider:
 
     - Very old orders may already have SourceMedium attribution from other sources
-    - Check with SourceMedium support about attribution waterfall priority for your account
+    - Check with SourceMedium support about attribution source hierarchy priority for your account
   </Accordion>
 </AccordionGroup>
 
@@ -523,7 +523,7 @@ shopify app deploy
   <Card title="UTM Best Practices" icon="link" href="/data-inputs/platform-supporting-resources/ga4/improving-last-click-attribution">
     General guidance on UTM naming conventions
   </Card>
-  <Card title="Attribution Waterfall" icon="sitemap" href="/data-transformations/data-enrichment">
+  <Card title="Attribution Source Hierarchy" icon="sitemap" href="/data-transformations/attribution-source-hierarchy">
     How SourceMedium prioritizes attribution from multiple sources
   </Card>
 </CardGroup>
@@ -540,11 +540,11 @@ shopify app deploy
   </Accordion>
 
   <Accordion title="What's the priority if multiple sources have UTMs?">
-    SourceMedium uses an [attribution waterfall](/data-transformations/data-enrichment) that prioritizes data closest to the transaction. Contact SourceMedium support for your specific configuration.
+    SourceMedium uses an [attribution source hierarchy](/data-transformations/attribution-source-hierarchy) that prioritizes data closest to the transaction. Contact SourceMedium support for your specific configuration.
   </Accordion>
 
   <Accordion title="Can I backfill orders that already have attribution in SourceMedium?">
-    Yes, but the waterfall priority determines which source wins. Backfilled `customAttributes` data may or may not override existing attribution depending on your configuration.
+    Yes, but the attribution source hierarchy determines which source wins. Backfilled `customAttributes` data may or may not override existing attribution depending on your configuration.
   </Accordion>
 
   <Accordion title="How do I know if my connector supports this?">

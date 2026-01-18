@@ -11,17 +11,8 @@ icon: 'dollar-sign'
     - Data is segmented by Channel and is defaulted to be Online DTC. Financial status is defaulted to show orders that are partially refunded and paid.
     - Source/Medium reports on Last-Click Attribution within the Orders Deep Dive.
     
-    **SourceMedium uses a waterfall of logic for attribution. Our logic is as follows:**
-    ```
-    1. Shopify UTM Values
-    2. GA UTMs if it doesn't exist in Shopify
-    3. Referring domain if it isn't in GA
-    4. Dependent on being a Subscription or Non-Subscription:
-        a. Subscription
-            i. New sub (subscription/first_order)
-        b. Non-Subscription
-            i. (none)/(none)
-    ```
+    SourceMedium uses the **Attribution Source Hierarchy** to select last-click UTM attribution when multiple systems capture attribution for an order.
+    See [Attribution Source Hierarchy](/data-transformations/attribution-source-hierarchy) for the exact priority order and details.
 #### Common Questions & Insights That Can Be Answered Here:
 
 <AccordionGroup>

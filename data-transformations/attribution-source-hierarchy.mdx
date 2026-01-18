@@ -1,0 +1,125 @@
+---
+title: "Attribution Source Hierarchy"
+description: "How SourceMedium decides which UTM data source wins when multiple systems capture attribution for an order"
+icon: "layer-group"
+---
+
+When SourceMedium receives an order, we often have UTM attribution data from multiple sources—Shopify customer visits, order notes, website event tracking, and Google Analytics. The **attribution source hierarchy** determines which source "wins" when data is available from multiple places.
+
+<Info>
+This is a **last-touch attribution** system. We prioritize data sources that capture the customer's most recent touchpoint before purchase.
+</Info>
+
+## Primary Attribution Source Hierarchy
+
+The order attribution system evaluates data sources in this specific priority order:
+
+| Priority | Source Type | Description |
+|----------|-------------|-------------|
+| 1 | Shopify Last Customer Visit | The final tracked visit before order placement, captured by Shopify's customer visit tracking |
+| 2 | Shopify Landing Site | UTM parameters extracted from the order's landing page URL |
+| 3 | Shopify Order Notes | UTM data written to order notes by tracking tools (Elevar, Blotout, etc.) |
+| 4 | Website Event Tracking | First-party event pixels from GA4, Elevar, or other website analytics |
+| 5 | Shopify First Customer Visit | The customer's first tracked visit, captured by Shopify's customer visit tracking |
+| 6 | GA4/Universal Analytics | Transaction data from Google Analytics platforms |
+| 7 | Shopify Order Referring Site UTMs | UTM parameters parsed from the order's `referring_site` URL |
+
+If data is missing at priority 1, the system "falls" to priority 2, and so on until it finds valid UTM data.
+
+<Tip>
+**Why does "Last Customer Visit" beat "First Customer Visit"?**
+
+Because we're building a last-touch attribution model. The most recent touchpoint before purchase (last visit) is more relevant for understanding what drove the conversion than the first touchpoint (which may have been weeks earlier).
+</Tip>
+
+## Website Event Tracking Details
+
+For website event tracking sources (priority 4), the system uses qualifying events within a **90-day lookback window** before the order.
+
+When multiple events exist, they're ranked by:
+1. Days between event and order (closer to order = higher priority)
+2. Event timestamp (earlier `event_local_datetime` wins ties)
+3. Event ID and source system (as final tie-breakers)
+
+If a website event has a UTM source, that's used directly. If only a referrer domain is available, the source is inferred from the domain and the medium defaults to `referral`.
+
+## Shopify Order Notes (Priority 3)
+
+Order notes are a key source for attribution data written by server-side tracking tools like **Elevar** and **Blotout**. These tools capture UTM parameters at checkout and write them to Shopify order notes.
+
+### For Shopify V2 (Legacy)
+
+The system extracts UTM data from note attributes with these keys:
+- `utm_source`, `utm_medium`, `utm_campaign`, `utm_content`, `utm_term`, `utm_id`
+- `_elevar_visitor_info` (parsed for nested UTM data)
+- `_source`, `_attribution`
+
+### For Shopify V3 (GraphQL API)
+
+The new `customAttributes` field has its own sub-priority system:
+
+| Sub-Priority | Source Type | Example Keys |
+|--------------|-------------|--------------|
+| 1 | Direct UTM keys | `utm_source`, `utm_medium`, `utm_campaign`, etc. |
+| 2 | Parsed from aggregate fields | `utmParams`, `GE_utmParams` (URL query string format) |
+| 3 | Inferred from click IDs | `gclid` → google, `fbclid` → facebook, etc. |
+
+When the same order has both a direct UTM key and the same key parsed from an aggregate field, the direct key wins.
+
+### Click ID to Channel Inference
+
+When only a click ID is present (no explicit `utm_source`), the system infers the channel:
+
+| Click ID | Inferred Channel | Channel Priority |
+|----------|-----------------|------------------|
+| `gclid` | google | 10 (highest) |
+| `fbclid` | facebook | 20 |
+| `ttclid` | tiktok | 30 |
+| `msclkid` | microsoft | 40 |
+| `irclickid` | impact | 50 |
+| `scclid` | snapchat | 60 (lowest) |
+
+If an order has multiple click IDs (e.g., both `gclid` and `fbclid`), the channel priority determines which one is used to infer `utm_source`.
+
+<Note>
+Click IDs are **fallback only**. If an explicit `utm_source` exists, it takes precedence over any click ID inference.
+</Note>
+
+## Allowlisted Attribution Keys
+
+Only specific keys are extracted from order notes and custom attributes. This prevents accidental capture of non-attribution data:
+
+- `utm_source`, `utm_medium`, `utm_campaign`, `utm_content`, `utm_term`, `utm_id`
+- `utmParams`, `GE_utmParams` (aggregate query string fields)
+- `_source`, `_attribution`
+
+<Note>
+**Click IDs are not allowlisted for raw extraction.** Instead, when click IDs (`gclid`, `fbclid`, `ttclid`, etc.) are present, they're used only to infer a fallback channel-level `utm_source` value (e.g., `gclid` → `google`). The raw click ID values are not stored as attribution data.
+</Note>
+
+## UTM Field Collapsing
+
+After the primary source is determined, the system "collapses" supplementary UTM fields from lower-priority sources.
+
+**Example:** If priority 1 (Last Customer Visit) provides `utm_source=google` but no `utm_campaign`, and priority 2 (Landing Site) has `utm_campaign=summer_sale`, the final attribution will combine:
+- `utm_source=google` (from priority 1)
+- `utm_campaign=summer_sale` (from priority 2)
+
+This only happens when the `utm_source` grouped channel is the **same** across sources—we don't mix data from different channels.
+
+## Related Resources
+
+<CardGroup cols={2}>
+  <Card title="Attribution in SourceMedium" icon="sitemap" href="/help-center/core-concepts/attribution/attribution-in-sourcemedium">
+    Overview of last-click vs. multi-touch attribution
+  </Card>
+  <Card title="Improve Last-Click Attribution" icon="bullseye" href="/help-center/faq/account-management-faqs/how-can-i-improve-my-last-click-attribution">
+    Tips for improving UTM tracking quality
+  </Card>
+  <Card title="Data Enrichment" icon="gear" href="/data-transformations/data-enrichment">
+    How we enrich and standardize your data
+  </Card>
+  <Card title="Attribution Health" icon="heart-pulse" href="/data-inputs/attribution-health">
+    Check and improve your attribution data quality
+  </Card>
+</CardGroup>
