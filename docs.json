@@ -28,12 +28,6 @@
             ]
           },
           {
-            "group": "Advanced Insights",
-            "pages": [
-              "advanced-insights-and-strategy/insights-overview"
-            ]
-          },
-          {
             "group": "Attribution",
             "pages": [
               "help-center/core-concepts/attribution/attribution-in-sourcemedium",
