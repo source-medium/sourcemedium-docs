@@ -123,9 +123,6 @@ def parse_frontmatter(text: str) -> Frontmatter | None:
 
 
 def is_allowed_orphan(ref: str) -> bool:
-    # allow internal pages to live off-nav
-    if ref.startswith("internal/"):
-        return True
     for pat in ALLOW_ORPHAN_PATTERNS:
         if re.search(pat, ref, flags=re.IGNORECASE):
             return True
