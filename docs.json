@@ -17,10 +17,22 @@
             "group": "Getting Started",
             "pages": [
               "help-center/what-is-sourcemedium",
+              "onboarding/getting-started/intro-to-sm",
               "onboarding/getting-started/why-source-medium",
               "onboarding/getting-started/getting-started-checklist",
               "onboarding/getting-started/cold-start/how-your-data-gets-from-point-a-to-b",
-              "help-center/core-concepts/data-transformation/data-architecture"
+              "onboarding/getting-started/level-1-data-checklist",
+              "onboarding/getting-started/level-2-data-checklist",
+              "onboarding/getting-started/level-3-data-checklist",
+              "onboarding/getting-started/how-to-work-with-the-sourcemedium-team",
+              "help-center/core-concepts/data-transformation/data-architecture",
+              {
+                "group": "The Analytical Mindset",
+                "pages": [
+                  "onboarding/getting-started/thinking-analytically/how-analytical-questions-are-key",
+                  "onboarding/getting-started/thinking-analytically/common-analytical-questions"
+                ]
+              }
             ]
           },
           {
@@ -535,7 +547,15 @@
             "group": "Data Dictionary",
             "pages": [
               "onboarding/data-docs/metrics",
-              "onboarding/data-docs/dimensions"
+              "onboarding/data-docs/dimensions",
+              {
+                "group": "DDA Tables (Legacy)",
+                "pages": [
+                  "onboarding/data-docs/tables/executive_summary_dda",
+                  "onboarding/data-docs/tables/order_details_dda",
+                  "onboarding/data-docs/tables/customer_details_dda"
+                ]
+              }
             ]
           },
           {
