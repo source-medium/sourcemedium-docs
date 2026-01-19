@@ -41,6 +41,12 @@ Use the Targets tab for KPI targets displayed in scorecards and executive report
 Targets are treated as **daily values** across the selected date range. If you want a monthly total target, enter the per-day target value.
 </Note>
 
+<Note>
+If multiple Target rows overlap on the same day for the same channel:
+- Summable metrics (e.g., revenue, orders, spend, sessions) are **summed**
+- Ratio-like metrics (e.g., AOV, CPA, ROAS) use the **max** value for that day
+</Note>
+
 | Column | Type | Required | Notes |
 |--------|------|----------|------|
 | `channel` | STRING | Yes | Targets are keyed by channel. |
@@ -71,10 +77,14 @@ Use Channel Mapping to route orders (and some marketing records) into consistent
 | `attribute` | STRING | Yes | Which input field to match against. |
 | `operator` | STRING | Yes | One of: `equals`, `contains`, `in` (must match exactly). |
 | `value` | STRING | Yes | Match value (comparison is case-insensitive). For `in`, use a comma-separated list (whitespace is ignored). |
-| `channel` | STRING | Yes | Output channel when matched. |
-| `sub_channel` | STRING | No | Output subchannel when matched. |
-| `vendor` | STRING | No | Output vendor when matched. |
+| `channel` | STRING | No | Optional output channel when matched. |
+| `sub_channel` | STRING | No | Optional output subchannel when matched. |
+| `vendor` | STRING | No | Optional output vendor when matched. |
 | `cost_per_order` | FLOAT64 | No | Optional CPO value associated with the matched rule. |
+
+<Info>
+Rules are evaluated from highest to lowest derived **weight**. In addition to `row`, some non-default channels are intentionally boosted to win over lower-priority “online” rules.
+</Info>
 
 ### Supported `attribute` values
 
@@ -107,6 +117,10 @@ Use the Sales tab to enter **non-integrated sales** and have them included in re
 | `primary_product_units` | NUMERIC | No | Optional (brand-dependent). |
 | `discounts` | FLOAT64 | No | Total for the period (spread evenly if `date_end` provided). |
 | `refunds` | FLOAT64 | No | Total for the period (spread evenly if `date_end` provided). |
+
+<Note>
+Orders are stored as whole numbers; when a Sales row spans multiple days, order counts are distributed across the range to stay integer-valued.
+</Note>
 
 ---
 
