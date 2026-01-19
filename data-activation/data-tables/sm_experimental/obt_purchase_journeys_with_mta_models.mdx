@@ -1,0 +1,417 @@
+---
+title: 'obt_purchase_journeys_with_mta_models'
+description: 'Multi-Touch Attribution (MTA) model for purchase journeys with revenue impact calculations across multiple dimensions.'
+icon: "table"
+---
+
+This is the central model for multi-touch attribution, containing complete customer journey data with attribution calculations across multiple dimensions and models.
+
+## Key Features
+
+- **Multi-dimensional attribution**: Marketing channel, landing page, ad, campaign, ad group, and email/SMS
+- **Three attribution models**: First touch, last touch, and linear
+- **Journey metadata**: Session count, days to conversion, journey type classification
+- **Deduplication flags**: Ensure unique contributions per session for linear attribution
+
+<Note>
+Email/SMS touches are excluded from first touch and linear attribution but can receive last touch attribution for configured customers.
+</Note>
+
+## Key Columns
+
+```yaml
+version: 2
+
+models:
+  - name: obt_purchase_journeys_with_mta_models
+    description: >
+      Multi-Touch Attribution (MTA) model for purchase journeys with revenue impact calculations.
+      Grain: One row per touchpoint (sm_touch_id). Date field: event_local_datetime.
+      Critical filters: sm_event_name = 'purchase' for conversion rows; is_valid_touch.* for dimension-specific valid touches.
+    columns:
+      - name: smcid
+        description: >
+          SourceMedium customer identifier (brand/workspace).
+
+      - name: source_system
+        description: >
+          Event tracking platform emitting the touchpoint (elevar, snowplow, heap, etc.).
+
+      - name: sm_touch_id
+        description: >
+          Unique identifier for each touchpoint in the customer journey. Primary key.
+
+      - name: event_user_id
+        description: >
+          User identifier from the event tracking system for journey attribution.
+
+      - name: sm_event_name
+        description: >
+          Standardized event name (page_view, purchase, add_to_cart, etc.).
+
+      - name: event_local_datetime
+        description: >
+          Event timestamp in the reporting timezone for time-based attribution.
+
+      - name: valid_event_index_to_next_purchase
+        description: >
+          Sequence index from this touchpoint to the next purchase event.
+
+      - name: is_valid_touch
+        description: >
+          Struct indicating whether touch is valid for each attribution dimension (marketing_channel, landing_page, ad, email_sms, campaign, ad_group).
+
+      - name: unique_dimension_value_count
+        description: >
+          Count of distinct dimension values in the purchase journey.
+
+      - name: ad_platform_metadata
+        description: >
+          Struct containing ad platform metadata (ad_id, ad_name, platform details).
+
+      - name: campaign_platform_metadata
+        description: >
+          Struct containing campaign platform metadata (campaign_id, campaign_name, etc.).
+
+      - name: ad_group_platform_metadata
+        description: >
+          Struct containing ad group platform metadata (ad_group_id, ad_group_name, etc.).
+
+      - name: purchase_session_count
+        description: >
+          Number of distinct sessions in the purchase journey from first touch to conversion.
+
+      - name: order_metadata
+        description: >
+          Struct containing order metadata fields (order_id, customer details, etc.).
+
+      - name: dimension_value
+        description: >
+          Struct containing the dimension value of the touch for each attribution dimension.
+
+      - name: dimension_value.marketing_channel
+        description: >
+          Marketing channel dimension value for this touchpoint.
+
+      - name: dimension_value.landing_page
+        description: >
+          Landing page URL path for this touchpoint.
+
+      - name: dimension_value.ad
+        description: >
+          Ad identifier for this touchpoint.
+
+      - name: dimension_value.email_sms
+        description: >
+          Email or SMS campaign identifier for this touchpoint.
+
+      - name: dimension_value.campaign
+        description: >
+          Campaign identifier for this touchpoint.
+
+      - name: dimension_value.ad_group
+        description: >
+          Ad group identifier for this touchpoint.
+
+      - name: purchase_order_id
+        description: >
+          Order ID of the purchase event this touchpoint contributed to.
+
+      - name: purchase_order_revenue
+        description: >
+          Total revenue from the purchase order for attribution calculations.
+
+      - name: purchase_local_datetime
+        description: >
+          Purchase event timestamp in the reporting timezone for conversion attribution.
+
+      - name: linear_model_multiplier
+        description: >
+          Struct containing linear attribution multipliers for each dimension based on valid touch count.
+
+      - name: valid_touch_count
+        description: >
+          Struct containing count of valid touches for each dimension.
+
+      - name: valid_touch_count.marketing_channels
+        description: >
+          Count of valid non-brand marketing channel touches in the purchase journey.
+
+      - name: valid_touch_count.landing_pages
+        description: >
+          Count of valid landing page touches in the purchase journey.
+
+      - name: valid_touch_count.ads
+        description: >
+          Count of valid non-brand ad touches in the purchase journey.
+
+      - name: valid_touch_count.campaigns
+        description: >
+          Count of valid non-brand campaign touches in the purchase journey.
+
+      - name: valid_touch_count.ad_groups
+        description: >
+          Count of valid non-brand ad group touches in the purchase journey.
+
+      - name: valid_touch_count.email_sms
+        description: >
+          Count of valid email/SMS touches in the purchase journey.
+
+      - name: sm_is_purchase_attributable_by
+        description: >
+          Struct indicating which dimensions this purchase can be attributed by based on business rules.
+
+      - name: sm_is_purchase_attributable_by_last_touch
+        description: >
+          Struct indicating which dimensions allow last touch attribution for this purchase.
+
+      - name: purchase_journey_type
+        description: >
+          Categorizes the purchase journey: single_session, same_day_multi_session, or multi_day_multi_session.
+
+      - name: days_to_conversion
+        description: >
+          Struct containing days between first touch and purchase conversion for each attribution dimension.
+
+      - name: days_to_conversion.marketing_channel
+        description: >
+          Days between first valid marketing channel touch and purchase.
+
+      - name: days_to_conversion.landing_page
+        description: >
+          Days between first valid landing page touch and purchase.
+
+      - name: days_to_conversion.ad
+        description: >
+          Days between first valid ad touch and purchase.
+
+      - name: days_to_conversion.email_sms
+        description: >
+          Days between first valid email/sms touch and purchase.
+
+      - name: days_to_conversion.campaign
+        description: >
+          Days between first valid campaign touch and purchase.
+
+      - name: days_to_conversion.ad_group
+        description: >
+          Days between first valid ad group touch and purchase.
+
+      - name: first_touch_dimension_value
+        description: >
+          Struct containing the dimension values for the first valid touch in each attribution dimension.
+
+      - name: last_touch_dimension_value
+        description: >
+          Struct containing the dimension values for the last valid touch in each attribution dimension.
+
+      - name: first_touch_revenue_impact
+        description: >
+          Struct containing revenue attributed to this touchpoint if it was the first touch for each dimension.
+
+      - name: first_touch_revenue_impact.marketing_channel
+        description: >
+          Revenue attributed to this touchpoint as first touch for the marketing channel dimension.
+
+      - name: first_touch_revenue_impact.landing_page
+        description: >
+          Revenue attributed to this touchpoint as first touch for the landing page dimension.
+
+      - name: first_touch_revenue_impact.ad
+        description: >
+          Revenue attributed to this touchpoint as first touch for the ad dimension.
+
+      - name: first_touch_revenue_impact.campaign
+        description: >
+          Revenue attributed to this touchpoint as first touch for the campaign dimension.
+
+      - name: first_touch_revenue_impact.ad_group
+        description: >
+          Revenue attributed to this touchpoint as first touch for the ad group dimension.
+
+      - name: first_touch_revenue_impact.email_sms
+        description: >
+          Revenue attributed to this touchpoint as first touch for the email/SMS dimension.
+
+      - name: last_touch_revenue_impact
+        description: >
+          Struct containing revenue attributed to this touchpoint if it was the last touch for each dimension.
+
+      - name: last_touch_revenue_impact.marketing_channel
+        description: >
+          Revenue attributed to this touchpoint as last touch for the marketing channel dimension.
+
+      - name: last_touch_revenue_impact.landing_page
+        description: >
+          Revenue attributed to this touchpoint as last touch for the landing page dimension.
+
+      - name: last_touch_revenue_impact.ad
+        description: >
+          Revenue attributed to this touchpoint as last touch for the ad dimension.
+
+      - name: last_touch_revenue_impact.campaign
+        description: >
+          Revenue attributed to this touchpoint as last touch for the campaign dimension.
+
+      - name: last_touch_revenue_impact.ad_group
+        description: >
+          Revenue attributed to this touchpoint as last touch for the ad group dimension.
+
+      - name: last_touch_revenue_impact.email_sms
+        description: >
+          Revenue attributed to this touchpoint as last touch for the email/SMS dimension.
+
+      - name: linear_revenue_impact
+        description: >
+          Struct containing revenue attributed to this touchpoint using linear attribution for each dimension.
+
+      - name: linear_revenue_impact.marketing_channel
+        description: >
+          Revenue attributed to this touchpoint using linear model for the marketing channel dimension.
+
+      - name: linear_revenue_impact.landing_page
+        description: >
+          Revenue attributed to this touchpoint using linear model for the landing page dimension.
+
+      - name: linear_revenue_impact.ad
+        description: >
+          Revenue attributed to this touchpoint using linear model for the ad dimension.
+
+      - name: linear_revenue_impact.campaign
+        description: >
+          Revenue attributed to this touchpoint using linear model for the campaign dimension.
+
+      - name: linear_revenue_impact.ad_group
+        description: >
+          Revenue attributed to this touchpoint using linear model for the ad group dimension.
+
+      - name: linear_revenue_impact.email_sms
+        description: >
+          Revenue attributed to this touchpoint using linear model for the email/SMS dimension.
+
+      - name: first_touch_conversion_impact
+        description: >
+          Struct containing conversion (1 or 0) attributed to this touchpoint as first touch for each dimension.
+
+      - name: last_touch_conversion_impact
+        description: >
+          Struct containing conversion (1 or 0) attributed to this touchpoint as last touch for each dimension.
+
+      - name: linear_conversion_impact
+        description: >
+          Struct containing conversion credit (fractional) attributed to this touchpoint using linear model for each dimension.
+
+      - name: attribution_metadata
+        description: >
+          Struct containing UTM parameters and event metadata for attribution tracking.
+
+      - name: attribution_metadata.event_utm_source
+        description: >
+          UTM source parameter from the event for attribution analysis.
+
+      - name: attribution_metadata.event_utm_medium
+        description: >
+          UTM medium parameter from the event for channel grouping.
+
+      - name: attribution_metadata.event_utm_campaign
+        description: >
+          UTM campaign parameter from the event for campaign attribution.
+
+      - name: attribution_metadata.event_utm_content
+        description: >
+          UTM content parameter from the event for A/B testing tracking.
+
+      - name: attribution_metadata.event_utm_term
+        description: >
+          UTM term parameter from the event for paid search keyword tracking.
+
+      - name: attribution_metadata.event_referrer_domain
+        description: >
+          Referrer domain from the event for traffic source analysis.
+
+      - name: attribution_metadata.sm_event_page_category
+        description: >
+          Page category classification for the event (product, collection, checkout, etc.).
+
+```
+
+## Example Queries
+
+### Revenue by Marketing Channel (First Touch)
+
+```sql
+SELECT
+  dimension_value.marketing_channel,
+  SUM(first_touch_revenue_impact.marketing_channel) as first_touch_revenue
+FROM `your_project.sm_experimental.obt_purchase_journeys_with_mta_models`
+WHERE
+  smcid = 'your-smcid'
+  AND first_touch_revenue_impact.marketing_channel > 0
+GROUP BY 1
+ORDER BY 2 DESC
+```
+
+### Compare Attribution Models for a Single Order
+
+```sql
+SELECT
+  purchase_order_id,
+  dimension_value.marketing_channel,
+  event_local_datetime,
+  linear_revenue_impact.marketing_channel as linear_revenue,
+  first_touch_revenue_impact.marketing_channel as first_touch_revenue,
+  last_touch_revenue_impact.marketing_channel as last_touch_revenue,
+  purchase_order_revenue
+FROM `your_project.sm_experimental.obt_purchase_journeys_with_mta_models`
+WHERE
+  smcid = 'your-smcid'
+  AND purchase_order_id = 'ORDER_ID_HERE'
+  AND dimension_value.marketing_channel IS NOT NULL
+ORDER BY event_local_datetime
+```
+
+### Days to Conversion Analysis
+
+```sql
+SELECT
+  purchase_journey_type,
+  AVG(days_to_conversion.marketing_channel) as avg_days_to_conversion,
+  COUNT(DISTINCT purchase_order_id) as journeys
+FROM `your_project.sm_experimental.obt_purchase_journeys_with_mta_models`
+WHERE
+  smcid = 'your-smcid'
+  AND sm_event_name = 'purchase'
+  AND days_to_conversion.marketing_channel IS NOT NULL
+GROUP BY 1
+ORDER BY 2
+```
+
+## Key Behaviors
+
+### Email/SMS Attribution Rules
+
+- **First Touch**: Email/SMS touches are excluded (can't be the first touch)
+- **Linear**: Email/SMS touches are excluded from linear attribution
+- **Last Touch**: Email/SMS can receive last touch attribution for configured customers
+
+### Brand Campaign Handling
+
+Brand campaigns appear in data but receive zero attribution to prevent brand search from inflating metrics.
+
+### Session-Based Deduplication
+
+Linear attribution uses `is_first_occurrence_*` flags to ensure unique contributions per session, preventing the same channel from being counted multiple times within a session.
+
+## Related Resources
+
+<CardGroup cols={2}>
+  <Card title="Ad Attribution Performance" icon="chart-line" href="/data-activation/data-tables/sm_experimental/rpt_ad_attribution_performance_daily">
+    Daily aggregated attribution metrics at ad, campaign, and channel levels
+  </Card>
+  <Card title="MTA Models Reference" icon="database" href="/mta/mta-models">
+    Complete guide to all MTA data models
+  </Card>
+  <Card title="Channel-Level Attribution" icon="layer-group" href="/mta/mta-channel-level-attribution">
+    Understanding unattributed metrics and channel rollups
+  </Card>
+</CardGroup>

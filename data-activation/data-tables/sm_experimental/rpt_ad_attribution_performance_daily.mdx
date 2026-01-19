@@ -1,0 +1,234 @@
+---
+title: 'rpt_ad_attribution_performance_daily'
+description: 'Daily ad performance with waterfall MTA attribution at ad, ad group, campaign, and channel levels.'
+icon: "table"
+---
+
+This model combines ad-level performance data with multi-touch attribution metrics using a waterfall hierarchy that ensures each dollar flows to the most granular level available.
+
+## Waterfall Attribution Hierarchy
+
+The model implements a true waterfall where attribution flows to the most specific level with data:
+
+| Level | Description | ID Populated |
+|-------|-------------|--------------|
+| `ad_level` | Most granular—individual ad performance | `ad_id` present |
+| `ad_group_level` | Ad group aggregation when no ad_id | `ad_group_id` present, `ad_id` null |
+| `campaign_level` | Campaign aggregation when no ad_group_id | `ad_campaign_id` present, both above null |
+| `channel_level` | Channel-only metrics (unattributed remainder) | All IDs null |
+
+<Note>
+Brand campaigns appear in data with spend, impressions, and clicks, but receive **zero attribution** to prevent inflating brand impact metrics.
+</Note>
+
+## Key Columns
+
+```yaml
+version: 2
+
+models:
+  - name: rpt_ad_attribution_performance_daily
+    description: >
+      Daily ad performance with waterfall MTA attribution. Grain: One row per smcid + date + source_system + waterfall_level + ad hierarchy.
+      Date field: date. Critical filters: waterfall_level for aggregation granularity; ad_campaign_tactic for brand exclusion.
+    columns:
+      - name: smcid
+        description: >
+          SourceMedium customer identifier (brand/workspace).
+
+      - name: date
+        description: >
+          Calendar date for daily aggregation of performance and attribution metrics.
+
+      - name: source_system
+        description: >
+          Ad platform emitting performance data (facebook, google_ads, tiktok, amazon_ads, pinterest, snapchat, microsoft_ads, impact, refersion, etc.).
+
+      - name: waterfall_level
+        description: >
+          Level in the waterfall hierarchy: ad_level, ad_group_level, campaign_level, or channel_level. Use to filter or aggregate at the appropriate granularity.
+
+      - name: sm_channel
+        description: >
+          Marketing channel classification (e.g., 'Meta', 'Google', 'Impact', 'Amazon').
+
+      - name: ad_id
+        description: >
+          Ad-level identifier; populated only for ad_level waterfall rows, null for higher aggregation levels.
+
+      - name: ad_name
+        description: >
+          Ad name from the platform; available for ad_level rows.
+
+      - name: ad_group_id
+        description: >
+          Ad group identifier; populated for ad_group_level and ad_level rows, null for campaign/channel levels.
+
+      - name: ad_group_name
+        description: >
+          Ad group name from the platform; available for ad_group_level and ad_level rows.
+
+      - name: ad_campaign_id
+        description: >
+          Campaign identifier; populated for campaign_level, ad_group_level, and ad_level rows, null for channel_level.
+
+      - name: ad_campaign_name
+        description: >
+          Campaign name from the platform; available for campaign_level and more granular rows.
+
+      - name: ad_campaign_type
+        description: >
+          Campaign type classification from the platform (e.g., search, display, shopping, video).
+
+      - name: ad_campaign_tactic
+        description: >
+          Campaign tactic classification: Prospecting, Retargeting, Retention, Brand, Affiliate, or Automatic Targeting. Brand campaigns receive zero attribution.
+
+      - name: ad_creative_title
+        description: >
+          Ad creative title text for ad-level identification and creative analysis.
+
+      - name: ad_creative_image_url
+        description: >
+          URL to the ad creative image for visual reference and creative analysis.
+
+      - name: ad_platform_campaign_objective
+        description: >
+          Campaign objective set in the ad platform (e.g., conversions, traffic, awareness).
+
+      - name: ad_spend
+        description: >
+          Total advertising spend for the day at the appropriate waterfall level aggregation.
+
+      - name: ad_clicks
+        description: >
+          Total ad clicks for the day at the appropriate waterfall level aggregation.
+
+      - name: ad_impressions
+        description: >
+          Total ad impressions for the day at the appropriate waterfall level aggregation.
+
+      - name: ad_platform_reported_conversions
+        description: >
+          Platform-reported conversion count; may differ from attribution conversions due to tracking methodology.
+
+      - name: ad_platform_reported_revenue
+        description: >
+          Platform-reported revenue; may differ from attribution revenue due to tracking methodology and attribution windows.
+
+      - name: sm_first_touch_revenue
+        description: >
+          Revenue attributed to first valid non-brand touchpoint in the customer journey; excludes brand campaigns.
+
+      - name: sm_last_touch_revenue
+        description: >
+          Revenue attributed to last valid touchpoint before purchase; excludes brand campaigns and applies email/sms rules.
+
+      - name: sm_linear_revenue
+        description: >
+          Revenue attributed using linear model distributing credit evenly across valid touchpoints in the customer journey.
+
+      - name: sm_first_touch_conversions
+        description: >
+          Conversion count attributed to first valid non-brand touchpoint; fractional conversions possible for shared attribution.
+
+      - name: sm_last_touch_conversions
+        description: >
+          Conversion count attributed to last valid touchpoint before purchase; fractional conversions possible for shared attribution.
+
+      - name: sm_linear_conversions
+        description: >
+          Conversion count attributed using linear model distributing credit evenly across valid touchpoints; fractional values.
+
+```
+
+## Example Queries
+
+### Campaign ROAS by Attribution Model
+
+```sql
+SELECT
+  ad_campaign_name,
+  SUM(ad_spend) as total_spend,
+  SUM(sm_last_touch_revenue) as last_touch_revenue,
+  SUM(sm_first_touch_revenue) as first_touch_revenue,
+  SUM(sm_linear_revenue) as linear_revenue,
+  SAFE_DIVIDE(SUM(sm_last_touch_revenue), SUM(ad_spend)) as last_touch_roas,
+  SAFE_DIVIDE(SUM(sm_linear_revenue), SUM(ad_spend)) as linear_roas
+FROM `your_project.sm_experimental.rpt_ad_attribution_performance_daily`
+WHERE
+  smcid = 'your-smcid'
+  AND date BETWEEN DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY) AND CURRENT_DATE()
+  AND waterfall_level = 'campaign_level'
+  AND ad_campaign_tactic != 'brand'
+GROUP BY 1
+ORDER BY total_spend DESC
+```
+
+### Ad-Level Performance with Attribution
+
+```sql
+SELECT
+  source_system,
+  ad_campaign_name,
+  ad_name,
+  SUM(ad_spend) as spend,
+  SUM(ad_clicks) as clicks,
+  SUM(sm_last_touch_conversions) as attributed_conversions,
+  SUM(sm_last_touch_revenue) as attributed_revenue,
+  SAFE_DIVIDE(SUM(sm_last_touch_revenue), SUM(ad_spend)) as roas
+FROM `your_project.sm_experimental.rpt_ad_attribution_performance_daily`
+WHERE
+  smcid = 'your-smcid'
+  AND date >= DATE_SUB(CURRENT_DATE(), INTERVAL 7 DAY)
+  AND waterfall_level = 'ad_level'
+GROUP BY 1, 2, 3
+HAVING spend > 100
+ORDER BY attributed_revenue DESC
+LIMIT 20
+```
+
+### Channel Performance Summary
+
+```sql
+SELECT
+  sm_channel,
+  SUM(ad_spend) as total_spend,
+  SUM(sm_first_touch_revenue) as first_touch_revenue,
+  SUM(sm_last_touch_revenue) as last_touch_revenue,
+  SUM(sm_linear_revenue) as linear_revenue
+FROM `your_project.sm_experimental.rpt_ad_attribution_performance_daily`
+WHERE
+  smcid = 'your-smcid'
+  AND date BETWEEN '2024-01-01' AND '2024-12-31'
+GROUP BY 1
+ORDER BY total_spend DESC
+```
+
+## Key Behaviors
+
+### Brand Campaign Handling
+
+Brand campaigns (where `ad_campaign_tactic = 'brand'`) appear in the data with full performance metrics (spend, clicks, impressions) but receive **zero attribution** across all models (first touch, last touch, linear). This prevents brand search from receiving credit that belongs to non-brand touchpoints.
+
+### Channel-Level Unattributed Metrics
+
+Channel-level rows (`waterfall_level = 'channel_level'`) contain only unattributed metrics—spend and performance that couldn't be matched to a specific ad, ad group, or campaign. This prevents double-counting while maintaining complete visibility into marketing spend.
+
+### Amazon and TikTok Shop
+
+Amazon and TikTok Shop channels cannot have SourceMedium attribution since these platforms don't share customer-level conversion data. Platform-reported metrics are available, but `sm_*` attribution columns will be zero.
+
+## Related Resources
+
+<CardGroup cols={2}>
+  <Card title="MTA Models Reference" icon="database" href="/mta/mta-models">
+    Complete guide to all MTA data models including purchase journeys
+  </Card>
+  <Card title="Channel-Level Attribution" icon="layer-group" href="/mta/mta-channel-level-attribution">
+    Understanding unattributed metrics and channel rollups
+  </Card>
+  <Card title="Ad Performance Daily" icon="chart-line" href="/data-activation/data-tables/sm_transformed_v2/rpt_ad_performance_daily">
+    Base ad performance table without attribution (sm_transformed_v2)
+  </Card>
+</CardGroup>

@@ -564,6 +564,14 @@
             ]
           },
           {
+            "group": "Experimental Tables",
+            "pages": [
+              "data-activation/data-tables/sm_experimental/index",
+              "data-activation/data-tables/sm_experimental/rpt_ad_attribution_performance_daily",
+              "data-activation/data-tables/sm_experimental/obt_purchase_journeys_with_mta_models"
+            ]
+          },
+          {
             "group": "Naming Conventions",
             "pages": [
               "data-transformations/naming-conventions/key-concepts",
