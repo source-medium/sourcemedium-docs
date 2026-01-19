@@ -320,12 +320,6 @@
                     "pages": [
                       "data-inputs/platform-integration-instructions/autopilot-integration"
                     ]
-                  },
-                  {
-                    "group": "Mailchimp",
-                    "pages": [
-                      "data-inputs/platform-integration-instructions/mailchimp-integration"
-                    ]
                   }
                 ]
               },
