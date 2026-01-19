@@ -1,0 +1,210 @@
+---
+title: "Configuration sheet: schema"
+description: "Exact column schema for each Configuration Sheet tab and how SourceMedium ingests dates and ranges."
+sidebarTitle: "Schema"
+icon: "table"
+---
+
+This page is a **reference spec** for the SourceMedium Configuration Sheet: what columns exist on each tab, which fields are required, and how dates/ranges are interpreted during ingestion.
+
+<Info>
+Your Configuration Sheet is shared during onboarding (email + Slack) and is typically synced into SourceMedium within 24 hours.
+</Info>
+
+---
+
+## General rules
+
+### Date formats
+
+Different tabs parse dates differently:
+
+- **Targets / Sales / Cost (Marketing Costs)**: dates are parsed from common string formats, including:
+  - `YYYY-MM-DD`
+  - `MM-DD-YYYY`
+  - `MM/DD/YYYY`
+  - `MM/DD/YY`
+- **Financial Cost tabs**: `date_start` / `date_end` are parsed as `MM/DD/YYYY` specifically.
+
+### Date ranges
+
+- Where a tab supports a date range, `date_end` is treated as **inclusive** (the range includes both `date_start` and `date_end`).
+- For tabs that amortize/spread amounts, the spread is done evenly across the number of days in the inclusive range.
+
+---
+
+## Targets tab
+
+Use the Targets tab for KPI targets displayed in scorecards and executive reporting.
+
+<Note>
+Targets are treated as **daily values** across the selected date range. If you want a monthly total target, enter the per-day target value.
+</Note>
+
+| Column | Type | Required | Notes |
+|--------|------|----------|------|
+| `channel` | STRING | Yes | Targets are keyed by channel. |
+| `date_start` | STRING | Yes | Parsed into a date. |
+| `date_end` | STRING | No | If provided, targets apply to each day in the inclusive range. |
+| `gross_revenue` | FLOAT64 | No | Target value (per day if using a range). |
+| `net_revenue` | FLOAT64 | No | Target value (per day if using a range). |
+| `total_revenue` | FLOAT64 | No | Target value (per day if using a range). |
+| `orders` | FLOAT64 | No | Target value (per day if using a range). |
+| `spend` | FLOAT64 | No | Target value (per day if using a range). |
+| `sessions` | FLOAT64 | No | Target value (per day if using a range). |
+| `aov` | FLOAT64 | No | Ratio/derived KPI targets are applied as a constant value across the range. |
+| `cpa` | FLOAT64 | No | Ratio/derived KPI targets are applied as a constant value across the range. |
+| `cpo` | FLOAT64 | No | Ratio/derived KPI targets are applied as a constant value across the range. |
+| `conversion_rate` | FLOAT64 | No | Ratio/derived KPI targets are applied as a constant value across the range. |
+| `roas` | FLOAT64 | No | Ratio/derived KPI targets are applied as a constant value across the range. |
+| `primary_product_units` | NUMERIC | No | Optional (brand-dependent). |
+
+---
+
+## Channel Mapping tab
+
+Use Channel Mapping to route orders (and some marketing records) into consistent **channels**, **subchannels**, and **vendors** using rule-based matching.
+
+| Column | Type | Required | Notes |
+|--------|------|----------|------|
+| `row` | INT64 | Yes | Rule priority. Higher values are evaluated first. `0` disables a row. |
+| `attribute` | STRING | Yes | Which input field to match against. |
+| `operator` | STRING | Yes | One of: `equals`, `contains`, `in` (must match exactly). |
+| `value` | STRING | Yes | Match value (comparison is case-insensitive). For `in`, use a comma-separated list (whitespace is ignored). |
+| `channel` | STRING | Yes | Output channel when matched. |
+| `sub_channel` | STRING | No | Output subchannel when matched. |
+| `vendor` | STRING | No | Output vendor when matched. |
+| `cost_per_order` | FLOAT64 | No | Optional CPO value associated with the matched rule. |
+
+### Supported `attribute` values
+
+These attributes are supported by the channel mapping ingestion logic:
+
+- `source` (UTM source)
+- `medium` (UTM medium)
+- `source_medium` (combined UTM source/medium)
+- `campaign` (UTM campaign)
+- `discount_codes` (order discount codes)
+- `order_tags` (order tags)
+- `skus` (product SKUs)
+- `shopify_sales_channel` (Shopify sales channel / marketplace signal)
+
+---
+
+## Sales tab
+
+Use the Sales tab to enter **non-integrated sales** and have them included in reporting.
+
+| Column | Type | Required | Notes |
+|--------|------|----------|------|
+| `channel` | STRING | Yes | Sales channel bucket for the entry. |
+| `sub_channel` | STRING | No | Optional label for internal organization. |
+| `date_start` | STRING | Yes | Parsed into a date. |
+| `date_end` | STRING | No | If provided, amounts are spread evenly across the inclusive range. |
+| `gross_revenue` | FLOAT64 | No | Total for the period (spread evenly if `date_end` provided). |
+| `net_revenue` | FLOAT64 | No | Total for the period (spread evenly if `date_end` provided). |
+| `orders` | FLOAT64 | No | Total for the period (spread evenly if `date_end` provided). |
+| `primary_product_units` | NUMERIC | No | Optional (brand-dependent). |
+| `discounts` | FLOAT64 | No | Total for the period (spread evenly if `date_end` provided). |
+| `refunds` | FLOAT64 | No | Total for the period (spread evenly if `date_end` provided). |
+
+---
+
+## Cost tab (Marketing Costs)
+
+Use the Cost tab (sometimes labeled **Marketing Costs**) for marketing spend that isn’t captured by an integration.
+
+| Column | Type | Required | Notes |
+|--------|------|----------|------|
+| `category` | STRING | Yes | Used to categorize spend (commonly `Marketing`). |
+| `channel` | STRING | Yes | Channel where you want reporting to reflect spend. |
+| `sub_channel` | STRING | No | Optional subchannel. |
+| `vendor` | STRING | No | Optional platform/vendor. |
+| `cost` | FLOAT64 | Yes | Total cost for the period. |
+| `date_start` | STRING | Yes | Parsed into a date. |
+| `date_end` | STRING | No | If provided, cost is spread evenly across the inclusive range. |
+
+---
+
+## Financial Cost tabs
+
+Financial Cost tabs define rates used for profit and cost reporting. These tabs require `date_start` and `date_end` and parse dates as **`MM/DD/YYYY`**.
+
+<Warning>
+For Financial Cost tabs, rows without a `date_end` are ignored.
+</Warning>
+
+### Financial Cost - Product COGS
+
+| Column | Type | Required | Notes |
+|--------|------|----------|------|
+| `category` | STRING | Yes | Typically `Financial`. |
+| `channel` | STRING | Yes | Channel the cost applies to. |
+| `expense_channel` | STRING | Yes | Typically `Product COGS`. |
+| `sku` | STRING | Yes | SKU/variant identifier the cost applies to. |
+| `fixed_cost` | FLOAT64 | Yes | Per-unit product cost for the SKU. |
+| `date_start` | STRING | Yes | `MM/DD/YYYY` |
+| `date_end` | STRING | Yes | `MM/DD/YYYY` |
+
+### Financial Cost - Shipping
+
+| Column | Type | Required | Notes |
+|--------|------|----------|------|
+| `category` | STRING | Yes | Typically `Financial`. |
+| `channel` | STRING | Yes | Channel the cost applies to. |
+| `expense_channel` | STRING | Yes | Typically `Shipping Cost`. |
+| `region` | STRING | Yes | Region bucket used for allocation. |
+| `cost` | FLOAT64 | Yes | Per-order shipping cost for the period. |
+| `date_start` | STRING | Yes | `MM/DD/YYYY` |
+| `date_end` | STRING | Yes | `MM/DD/YYYY` |
+
+### Financial Cost - Fulfillment
+
+| Column | Type | Required | Notes |
+|--------|------|----------|------|
+| `category` | STRING | Yes | Typically `Financial`. |
+| `channel` | STRING | Yes | Channel the cost applies to. |
+| `expense_channel` | STRING | Yes | Typically `Fulfillment Cost`. |
+| `region` | STRING | Yes | Region bucket used for allocation. |
+| `cost` | FLOAT64 | Yes | Per-order fulfillment cost for the period. |
+| `date_start` | STRING | Yes | `MM/DD/YYYY` |
+| `date_end` | STRING | Yes | `MM/DD/YYYY` |
+
+### Financial Cost - Merchant Processing Fees
+
+| Column | Type | Required | Notes |
+|--------|------|----------|------|
+| `category` | STRING | Yes | Typically `Financial`. |
+| `channel` | STRING | Yes | Channel the cost applies to. |
+| `expense_channel` | STRING | Yes | Typically `Merchant Processing Fees`. |
+| `region` | STRING | Yes | Region bucket used for allocation. |
+| `vendor` | STRING | Yes | Payment processor/platform label. |
+| `fixed_cost` | FLOAT64 | Yes | Fixed per-order fee. |
+| `variable_cost` | FLOAT64 | Yes | Variable rate (used as a rate downstream). |
+| `date_start` | STRING | Yes | `MM/DD/YYYY` |
+| `date_end` | STRING | Yes | `MM/DD/YYYY` |
+
+### Financial Cost - Operating Expenses
+
+| Column | Type | Required | Notes |
+|--------|------|----------|------|
+| `category` | STRING | Yes | Typically `Financial`. |
+| `channel` | STRING | Yes | Channel the cost applies to. |
+| `expense_channel` | STRING | Yes | Typically `Operating Expenses`. |
+| `region` | STRING | Yes | Region bucket used for allocation. |
+| `cost` | FLOAT64 | Yes | Total operating expenses amount for the period. |
+| `date_start` | STRING | Yes | `MM/DD/YYYY` |
+| `date_end` | STRING | Yes | `MM/DD/YYYY` |
+
+---
+
+## Related resources
+
+<CardGroup cols={2}>
+  <Card title="Configuration Sheet Overview" icon="table" href="/data-inputs/configuration-sheet/config-sheet-overview">
+    Start here for how-to guides and workflows.
+  </Card>
+  <Card title="How does channel mapping work?" icon="sitemap" href="/data-inputs/configuration-sheet/how_does_channel_mapping_work">
+    Learn the routing/precedence logic behind channel mapping.
+  </Card>
+</CardGroup>

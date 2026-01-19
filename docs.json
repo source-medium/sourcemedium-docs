@@ -599,10 +599,11 @@
               {
                 "group": "Configuration Sheet",
                 "pages": [
-                  "help-center/raw-data-source-overviews/configuration-sheet/configuration-sheet-overview",
-                  "help-center/raw-data-source-overviews/configuration-sheet/sales-tab",
-                  "help-center/raw-data-source-overviews/configuration-sheet/channel-mapping-tab",
-                  "help-center/raw-data-source-overviews/configuration-sheet/targets-tab",
+                      "help-center/raw-data-source-overviews/configuration-sheet/configuration-sheet-overview",
+                      "help-center/raw-data-source-overviews/configuration-sheet/schema",
+                      "help-center/raw-data-source-overviews/configuration-sheet/sales-tab",
+                      "help-center/raw-data-source-overviews/configuration-sheet/channel-mapping-tab",
+                      "help-center/raw-data-source-overviews/configuration-sheet/targets-tab",
                   {
                     "group": "Costs",
                     "pages": [
