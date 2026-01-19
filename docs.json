@@ -17,9 +17,6 @@
             "group": "Getting Started",
             "pages": [
               "index",
-              "help-center/what-is-sourcemedium",
-              "onboarding/getting-started/intro-to-sm",
-              "onboarding/getting-started/why-source-medium",
               "onboarding/getting-started/getting-started-checklist",
               "onboarding/getting-started/cold-start/how-your-data-gets-from-point-a-to-b",
               "onboarding/getting-started/level-1-data-checklist",
@@ -34,6 +31,14 @@
                   "onboarding/getting-started/thinking-analytically/common-analytical-questions"
                 ]
               }
+            ]
+          },
+          {
+            "group": "Product Overview",
+            "pages": [
+              "help-center/what-is-sourcemedium",
+              "onboarding/getting-started/intro-to-sm",
+              "onboarding/getting-started/why-source-medium"
             ]
           },
           {
