@@ -149,7 +149,7 @@ For struct/nested columns, document subfields with dot-notation when they are qu
 - Documenting pre-rename names (e.g., `smcid` instead of `sm_store_id`)
 - Directory links without `/index` suffix (use `/folder/index`, not `/folder`)
 - dbt YAML includes columns that may not be present in exported MDW schema (verify against config + warehouse when possible)
-- **Config vs production mismatch**: `dbt_project.yml` may show display labels (e.g., `'1st Order'`) but actual data uses different values (e.g., `'1st_order'`). Always verify against production data.
+- **Config vs production mismatch**: `dbt_project.yml` may show display labels (e.g., `'1st Order'`) but actual data uses different values (e.g., `'1st_order'`). Always verify enum values by querying `sm-democo.sm_transformed_v2.*` (see CLAUDE.md for SQL examples).
 
 ## Navigation Restructure Guidelines
 
@@ -187,21 +187,6 @@ The validation script checks file existence, NOT URL correctness. When opening p
 If `../dbt_project.yml` exists, compare docs table YAML blocks against dbt YAML columns,
 applying `rename_column_map_all` and excluding `excluded_columns_all_tables`.
 (Keep this check as a gate for "schema accuracy" work.)
-
-### Verifying Enum Values Against Production
-
-**CRITICAL:** Config files may show display labels that differ from actual data values. Always verify enum values against production data:
-
-```sql
--- Verify actual values in sm-democo warehouse
-SELECT DISTINCT order_sequence FROM `sm-democo.sm_transformed_v2.obt_orders` WHERE order_sequence IS NOT NULL
--- Returns: 1st_order, repeat_order (NOT 'First Order', 'Repeat Order')
-
-SELECT DISTINCT subscription_order_sequence FROM `sm-democo.sm_transformed_v2.obt_orders` WHERE subscription_order_sequence IS NOT NULL
--- Returns: 1st_sub_order, recurring_sub_order, one_time_order
-```
-
-**Pattern:** Config files describe intended display values; actual implementation uses snake_case constants.
 
 ### Handling Orphaned Files During Consolidation
 

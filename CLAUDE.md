@@ -311,29 +311,12 @@ SELECT DISTINCT subscription_order_sequence FROM `sm-democo.sm_transformed_v2.ob
 
 **Pattern:** Config files describe intended display values; actual implementation uses snake_case constants. Query production data, not config files.
 
-## Validation Checklist
+## Pre-Commit Validation
 
-Before committing documentation changes, run these checks:
+Run the validation commands from [Essential Commands](#essential-commands), plus:
 
 ```bash
-# 1. JSON syntax
-python3 -m json.tool docs.json > /dev/null && echo "✅ JSON valid"
-
-# 2. Navigation refs (all 238+ refs should pass)
-python3 << 'EOF'
-import json, os, sys
-def extract_refs(obj, refs=[]):
-    if isinstance(obj, str) and not obj.startswith('http'): refs.append(obj)
-    elif isinstance(obj, list): [extract_refs(i, refs) for i in obj]
-    elif isinstance(obj, dict): [extract_refs(v, refs) for k,v in obj.items() if k in ('tabs','pages','navigation','groups')]
-    return refs
-refs = extract_refs(json.load(open('docs.json')))
-missing = [f"{r}.mdx" for r in refs if not os.path.exists(f"{r}.mdx")]
-if missing: print(f"Missing: {missing[:10]}"); sys.exit(1)
-print(f"✅ All {len(refs)} nav refs valid")
-EOF
-
-# 3. Test external URLs (spot check key links)
+# Test external URLs (spot check key links)
 curl -sI "https://support.google.com/looker-studio/" | head -1
 # Should return HTTP/2 200
 ```
