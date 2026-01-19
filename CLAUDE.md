@@ -295,7 +295,54 @@ For struct/nested columns, document subfields with dot notation:
 - **dbt YAML ≠ MDW schema** - Columns can be documented in dbt but not implemented in SQL
 - **Array columns** - Always excluded from MDW, never document them
 - **Duplicate entries** - Watch for accidentally documenting same column twice
-- **Broken links** - Use `/folder` not `/folder/index` (index.mdx routing quirk)
+- **Directory links** - Use `/folder/index` explicitly (Mintlify doesn't auto-resolve `/folder` to `/folder/index.mdx`)
+
+### Verifying Enum Values
+**CRITICAL:** Config files (`dbt_project.yml`) may show display labels that differ from actual data values. Always verify enum values against production data:
+
+```sql
+-- Verify actual values in sm-democo warehouse
+SELECT DISTINCT order_sequence FROM `sm-democo.sm_transformed_v2.obt_orders` WHERE order_sequence IS NOT NULL
+-- Returns: 1st_order, repeat_order (NOT 'First Order', 'Repeat Order')
+
+SELECT DISTINCT subscription_order_sequence FROM `sm-democo.sm_transformed_v2.obt_orders` WHERE subscription_order_sequence IS NOT NULL
+-- Returns: 1st_sub_order, recurring_sub_order, one_time_order
+```
+
+**Pattern:** Config files describe intended display values; actual implementation uses snake_case constants. Query production data, not config files.
+
+## Validation Checklist
+
+Before committing documentation changes, run these checks:
+
+```bash
+# 1. JSON syntax
+python3 -m json.tool docs.json > /dev/null && echo "✅ JSON valid"
+
+# 2. Navigation refs (all 238+ refs should pass)
+python3 << 'EOF'
+import json, os, sys
+def extract_refs(obj, refs=[]):
+    if isinstance(obj, str) and not obj.startswith('http'): refs.append(obj)
+    elif isinstance(obj, list): [extract_refs(i, refs) for i in obj]
+    elif isinstance(obj, dict): [extract_refs(v, refs) for k,v in obj.items() if k in ('tabs','pages','navigation','groups')]
+    return refs
+refs = extract_refs(json.load(open('docs.json')))
+missing = [f"{r}.mdx" for r in refs if not os.path.exists(f"{r}.mdx")]
+if missing: print(f"Missing: {missing[:10]}"); sys.exit(1)
+print(f"✅ All {len(refs)} nav refs valid")
+EOF
+
+# 3. Test external URLs (spot check key links)
+curl -sI "https://support.google.com/looker-studio/" | head -1
+# Should return HTTP/2 200
+```
+
+### Handling Orphaned Files
+When consolidating docs, don't delete old files immediately. Instead:
+1. Add redirect `<Info>` notice pointing to new location
+2. Keep in place for one release cycle (allows external links to still work)
+3. Delete in follow-up PR after confirming no broken external references
 
 ## Troubleshooting
 
