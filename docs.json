@@ -16,6 +16,7 @@
           {
             "group": "Getting Started",
             "pages": [
+              "index",
               "help-center/what-is-sourcemedium",
               "onboarding/getting-started/intro-to-sm",
               "onboarding/getting-started/why-source-medium",
