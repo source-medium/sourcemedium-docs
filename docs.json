@@ -42,19 +42,18 @@
             ]
           },
           {
-            "group": "Account Setup",
+            "group": "Access & Permissions",
             "pages": [
               "onboarding/getting-started/how-to-manage-user-access",
-              "onboarding/analytics-tools/creating-google-groups",
-              "onboarding/analytics-tools/sharing-access",
+              "onboarding/analytics-tools/google-groups-access-control",
               "help-center/slack-bot-setup"
             ]
           },
           {
             "group": "Analytics Tools",
             "pages": [
-              "onboarding/analytics-tools/learn-looker-studio",
-              "onboarding/analytics-tools/learn-bigquery"
+              "onboarding/analytics-tools/looker-studio-guide",
+              "onboarding/analytics-tools/bigquery-essentials"
             ]
           },
           {
@@ -667,8 +666,6 @@
                 "pages": [
                   "help-center/faq/account-management-faqs/account-management-faqs-home",
                   "help-center/faq/account-management-faqs/what-is-the-process-for-requesting-and-scoping-custom-work",
-                  "help-center/faq/account-management-faqs/how-do-i-set-up-a-google-group",
-                  "help-center/faq/account-management-faqs/how-do-i-invite-users-to-my-dashboard",
                   "help-center/faq/account-management-faqs/how-do-i-give-dashboard-access-to-a-teammate",
                   "help-center/faq/account-management-faqs/bigquery-csv-upload-guide",
                   "help-center/faq/account-management-faqs/moving-slack-bot-to-another-channel",

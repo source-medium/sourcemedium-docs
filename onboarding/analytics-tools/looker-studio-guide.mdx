@@ -1,0 +1,437 @@
+---
+title: "Looker Studio Guide"
+sidebarTitle: "Looker Studio Guide"
+description: "Navigate your SourceMedium dashboard, create custom views, and understand credential modes"
+icon: "chart-line"
+---
+
+## Quick Start
+
+Your SourceMedium dashboard is built in Looker Studio (formerly Google Data Studio). Here's what you need to know to get started.
+
+### Navigating the Dashboard
+
+<Steps>
+  <Step title="Use the page selector">
+    Click the page dropdown (top left) or use the navigation menu to switch between report sections.
+  </Step>
+  <Step title="Apply date filters">
+    Use the date range picker to adjust the reporting period. Most dashboards default to the last 30 days.
+  </Step>
+  <Step title="Use dimension filters">
+    Filter by channel, product, region, or other dimensions using the dropdown controls.
+  </Step>
+  <Step title="Hover for details">
+    Hover over charts to see detailed tooltips with exact values.
+  </Step>
+</Steps>
+
+<Tip>
+**Visual learner?** Check out [this 20 minute Looker Studio crash course](https://www.youtube.com/watch?v=Coe_f79Xc2o&t=706s) or Google's [quick-start guide](https://support.google.com/looker-studio/answer/9171315?hl=en#zippy=).
+</Tip>
+
+---
+
+## Glossary
+
+Understanding these key terms will help you navigate Looker Studio effectively.
+
+<AccordionGroup>
+  <Accordion title="Report">
+    A Looker Studio asset that contains a collection of **components** (charts, tables, controls) to present insights from your data.
+
+    [Additional Documentation](https://support.google.com/looker-studio/answer/6309867?sjid=14391589404630611402-NC#zippy=%2Cin-this-article)
+  </Accordion>
+  <Accordion title="Connector / Data Source">
+    **Connectors** connect Looker Studio to your underlying data. Connecting creates a **data source** in Looker Studio.
+
+    **Data sources** represent a particular instance of a connector—for example, a connection to a specific BigQuery table, a Google Analytics property, or a Google Sheet. Data sources let you configure fields and options, and provide a secure way to share insights with viewers who may not have direct access to the underlying data.
+
+    [Additional Documentation](https://support.google.com/looker-studio/answer/6268208?ref_topic=6370331&sjid=14391589404630611402-NC#zippy=%2Cin-this-article)
+  </Accordion>
+  <Accordion title="Component">
+    A widget you add to a report to display data: **charts**, **tables**, **date range controls**, **filter controls**, etc. Data components get their information from a **data source**.
+
+    You can also add **text**, **shapes**, **images**, and [embedded content](https://support.google.com/looker-studio/answer/9132022).
+
+    [Additional Documentation](https://support.google.com/looker-studio/answer/6291062?ref_topic=12141289&sjid=14391589404630611402-NC#zippy=%2Cin-this-article)
+  </Accordion>
+  <Accordion title="Field">
+    A column of data. Looker Studio uses two basic types:
+    - **Dimensions** — Categories or attributes you want to group by (e.g., `sm_channel`, `product_title`)
+    - **Metrics** — Numbers that measure things (e.g., `order_net_revenue`, `orders`)
+
+    [Additional Documentation](https://support.google.com/looker-studio/answer/7625527?sjid=14391589404630611402-NC#zippy=%2Cin-this-article)
+  </Accordion>
+  <Accordion title="Credentials">
+    The mechanism determining who can see data in a data source. See [Credential Modes](#credential-modes-explained) below.
+
+    [Additional Documentation](https://support.google.com/looker-studio/answer/6371135)
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## View vs Edit Mode
+
+### View Mode (Default)
+- Interact with filters and controls
+- Hover over charts for details
+- Cannot modify dashboard structure
+
+### Edit Mode
+- Modify charts, add new visualizations
+- Change data sources and calculations
+- **Requires Editor permission**
+
+<Warning>
+**Be careful in Edit mode.** Changes affect everyone who views the dashboard. If you want to experiment, make a copy first: **File → Make a copy**.
+</Warning>
+
+---
+
+## Credential Modes Explained
+
+Looker Studio dashboards can use two different credential modes for data access. Understanding this helps troubleshoot "no data" issues.
+
+### Owner's Credentials (Recommended)
+
+- **How it works**: Dashboard uses the owner's BigQuery permissions
+- **Viewers see**: Data without needing their own BigQuery access
+- **Best for**: Sharing dashboards broadly within your organization
+
+### Viewer's Credentials
+
+- **How it works**: Each viewer must have their own BigQuery access
+- **Viewers see**: Only data they have permission to access
+- **Best for**: Dashboards with sensitive data requiring row-level security
+
+<Info>
+SourceMedium dashboards typically use **Owner's Credentials** so your team can view data without individual BigQuery access.
+</Info>
+
+---
+
+## SourceMedium Templates
+
+If you're on our [Managed Data Warehouse](/data-activation/managed-data-warehouse/overview) solution, SourceMedium provides template reports and data sources:
+
+- [Looker Studio Template Copy Instructions](/data-activation/template-resources/looker-studio-template-copy-instructions)
+- [Data Source Template Directory](/data-activation/template-resources/sm-looker-data-source-template-directory)
+- [Report Template Directory](/data-activation/template-resources/sm-looker-report-template-directory)
+
+---
+
+## Creating & Managing Data Sources
+
+Data sources connect your reports to data stored in BigQuery, Google Sheets, Google Analytics, etc.
+
+### Creating a New Data Source
+
+**Prerequisite**: You must be logged into a Google account with BigQuery access.
+
+<AccordionGroup>
+  <Accordion title="Option 1: Create from your report (Edit mode)">
+    ![Create data source from report](/images/article-imgs/learn-looker-studio/Screenshot_2024-03-04_at_9.07.22_AM.png)
+  </Accordion>
+  <Accordion title="Option 2: Create from Looker Studio home page">
+    ![Create data source from home](/images/article-imgs/learn-looker-studio/Screenshot_2024-03-04_at_9.05.39_AM.png)
+  </Accordion>
+</AccordionGroup>
+
+<Steps>
+  <Step title="Select the BigQuery connector">
+    ![Select BigQuery connector](/images/article-imgs/learn-looker-studio/Screenshot_2024-03-04_at_9.09.15_AM.png)
+  </Step>
+  <Step title="Choose your data">
+    **From an existing table:**
+    1. Under My Projects, select your SourceMedium warehouse
+    2. Select a Dataset (e.g., `sm_transformed_v2`) and Table (e.g., `obt_orders`)
+    3. Click **Add**
+
+    ![Select BigQuery table](/images/article-imgs/learn-looker-studio/Screenshot_2024-03-04_at_9.11.30_AM.png)
+
+    **From a custom query:**
+    1. Select **Custom Query** from the left menu
+    2. Select your project
+    3. Write your SQL query
+    4. Click **Add**
+
+    ![Custom SQL query](/images/article-imgs/learn-looker-studio/Screenshot_2024-03-04_at_9.18.39_AM.png)
+  </Step>
+  <Step title="Configure and share">
+    Rename your data source descriptively (e.g., "Orders OBT", "[MyBrand] Orders") and configure access.
+  </Step>
+</Steps>
+
+### Data Source Best Practices
+
+<AccordionGroup>
+  <Accordion title="Naming conventions">
+    Name data sources to clearly indicate the underlying table:
+    - ✅ `Orders OBT`, `[MyBrand] Orders`, `Ad Performance Daily`
+    - ❌ `Data Source 1`, `Copy of Copy of Orders`
+  </Accordion>
+  <Accordion title="Field naming and descriptions">
+    BigQuery fields use `snake_case` (e.g., `order_net_revenue`). You can rename fields for readability, but:
+
+    - **Copy the original field name into the Description field** — this is your only reference for looking up definitions
+    - For calculated fields, include the formula in the Description
+    - Don't edit Descriptions on SourceMedium template data sources
+  </Accordion>
+  <Accordion title="Service account credentials">
+    For production data sources, use a [service account](https://cloud.google.com/iam/docs/service-account-overview) as the Data Credential:
+
+    - Ensures access survives when employees leave
+    - Centralizes permission management
+    - See [service account setup for Looker Studio](https://support.google.com/looker-studio/answer/10835295?sjid=1005066725261683010-NC#zippy=%2Cin-this-article)
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Creating & Editing Reports
+
+### Creating a Report from Scratch
+
+<Steps>
+  <Step title="Start a new report">
+    Go to [lookerstudio.google.com](https://lookerstudio.google.com/), click **+ Create** → **Report**
+
+    ![Create new report](/images/article-imgs/learn-looker-studio/Screenshot_2024-02-29_at_12.23.37_PM.png)
+  </Step>
+  <Step title="Add a data source">
+    Select an existing data source from **My data sources**, or create a new one via BigQuery.
+
+    ![Add data source](/images/article-imgs/learn-looker-studio/Screenshot_2024-02-29_at_12.26.56_PM.png)
+  </Step>
+  <Step title="Rename your report">
+    Click the title in the top left to rename immediately—this prevents "Untitled Report" proliferation.
+  </Step>
+</Steps>
+
+### Adding Charts
+
+1. Click **Add a chart** in the toolbar and select a chart type
+   ![Add chart menu](/images/article-imgs/learn-looker-studio/Screenshot_2024-02-29_at_12.36.49_PM.png)
+2. Drag the chart to your desired location
+3. Configure dimensions and metrics in the **Setup** panel
+   ![Configure chart](/images/article-imgs/learn-looker-studio/Screenshot_2024-02-29_at_12.52.19_PM.png)
+
+<Tip>
+**Always set the Date Range Dimension** on time-based charts. This connects the chart to your date range control.
+</Tip>
+
+For more chart types and styling options, see [Looker Studio chart types](https://support.google.com/looker-studio/answer/13590887?hl=en).
+
+### Adding Data Sources to an Existing Report
+
+1. Go to **Resource** → **Manage added data sources**
+   ![Manage data sources](/images/article-imgs/learn-looker-studio/Screenshot_2024-02-29_at_12.38.02_PM.png)
+2. Click **Add a Data Source**
+   ![Add data source button](/images/article-imgs/learn-looker-studio/Screenshot_2024-02-29_at_12.38.08_PM.png)
+3. Select your connector and configure
+
+---
+
+## Filtering Data
+
+### Filter Controls (Interactive)
+Filter controls let **report viewers** filter data themselves using dropdowns, input boxes, etc.
+
+- By default, controls filter all components on the page
+- You can group charts with filters for more targeted filtering
+- [Control types documentation](https://support.google.com/looker-studio/answer/6312144?hl=en#types-of-controls)
+
+### Object-Level Filters (Fixed)
+Object-level filters are **pre-set by editors** and cannot be changed by viewers. They apply at the chart, page, or report level.
+
+- Use when all users should see the same filtered view
+- Viewers cannot see, edit, or remove these filters
+- [Create and manage filters](https://support.google.com/looker-studio/answer/7326859?hl=en)
+
+---
+
+## Calculated Fields
+
+Create custom metrics and dimensions without writing SQL in your warehouse.
+
+### Chart-Level Calculated Fields
+
+Quick fields created within a single chart—not reusable elsewhere.
+
+<Steps>
+  <Step title="Select your chart">
+    Click on the chart where you want the custom field.
+  </Step>
+  <Step title="Add a new field">
+    In the Setup panel, click **Add Metric** or **Add Dimension**, then choose **Add Field**.
+
+    ![Add metric](/images/article-imgs/learn-looker-studio/Screenshot_2024-03-04_at_11.54.31_AM.png)
+  </Step>
+  <Step title="Enter your formula">
+    Name the field and enter your formula.
+
+    ![Enter formula](/images/article-imgs/learn-looker-studio/Screenshot_2024-03-04_at_11.57.43_AM.png)
+  </Step>
+  <Step title="Apply">
+    Click **Apply** to add the field to your chart.
+
+    ![Applied field](/images/article-imgs/learn-looker-studio/Screenshot_2024-03-04_at_12.00.13_PM.png)
+  </Step>
+</Steps>
+
+### Data Source-Level Calculated Fields
+
+Reusable fields available in any report using that data source. **Requires data source Edit access.**
+
+<Steps>
+  <Step title="Open the data source">
+    From your report: **Resource** → **Manage added data sources** → **Edit**
+  </Step>
+  <Step title="Add a calculated field">
+    Click **Add a field** → **Add calculated field**
+
+    ![Add calculated field](/images/article-imgs/learn-looker-studio/Screenshot_2024-03-04_at_11.38.05_AM.png)
+  </Step>
+  <Step title="Enter your formula">
+    Name the field, enter your formula, and click **Save**.
+
+    ![Save calculated field](/images/article-imgs/learn-looker-studio/Screenshot_2024-03-04_at_11.40.09_AM.png)
+  </Step>
+  <Step title="Document it">
+    Add the formula to the Description field so viewers understand what it calculates.
+
+    ![Document field](/images/article-imgs/learn-looker-studio/Screenshot_2024-03-04_at_11.47.18_AM.png)
+  </Step>
+</Steps>
+
+### Common Formulas
+
+**Average Order Value (AOV)**
+```
+SUM(order_net_revenue) / COUNT_DISTINCT(sm_order_key)
+```
+
+**New Customer Revenue %**
+```
+SUM(CASE WHEN order_sequence = '1st_order' THEN order_net_revenue ELSE 0 END) / SUM(order_net_revenue)
+```
+
+**Year-over-Year Growth**
+```
+(SUM(order_net_revenue) - SUM(order_net_revenue_ly)) / SUM(order_net_revenue_ly)
+```
+
+[Full list of Looker Studio functions](https://support.google.com/looker-studio/table/6379764)
+
+---
+
+## Sharing Your Dashboard
+
+### Permission Levels
+
+| Level | View | Interact | Edit | Share | Delete |
+|-------|------|----------|------|-------|--------|
+| Viewer | ✅ | ✅ | ❌ | ❌ | ❌ |
+| Editor | ✅ | ✅ | ✅ | ✅ | ❌ |
+| Owner | ✅ | ✅ | ✅ | ✅ | ✅ |
+
+### Sharing a Report
+
+1. Click **Share** (top right)
+2. Enter email addresses or Google Group emails
+3. Choose permission level
+
+![Share dialog](/images/article-imgs/how-do-i-invite-users-to-my-dashboard/Untitled.png)
+
+### Sharing a Data Source
+
+Data source access is **separate** from report access:
+
+- **Viewer**: Can see field names and descriptions
+- **Editor**: Can rename fields, edit calculated fields, change the connection
+- **Owner**: Can delete the data source, change ownership
+
+[Learn how to share a data source](https://support.google.com/looker-studio/answer/10403278?hl=en)
+
+<Note>
+Data source access ≠ data credentials. Access controls who can modify the data source configuration; credentials control who can see the underlying data.
+</Note>
+
+### Using Google Groups
+
+For teams with 5+ users, manage access via [Google Groups](/onboarding/analytics-tools/google-groups-access-control):
+
+| Group | Purpose |
+|-------|---------|
+| `company-sm-admins` | Full access to reports and data sources |
+| `company-sm-editors` | Report editors, data source viewers |
+| `company-sm-viewers` | Report viewers only |
+
+---
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Dashboard shows 'No data'">
+    **Check these in order:**
+    1. Date range filter — is it set to a period with data?
+    2. Other filters — are they excluding all data?
+    3. Data source credentials — do they have BigQuery access?
+    4. Contact SourceMedium support if issues persist
+  </Accordion>
+  <Accordion title="Charts are slow to load">
+    Large date ranges or complex calculations slow performance. Try:
+    - Reducing the date range
+    - Using pre-aggregated metrics when available
+    - Removing unnecessary charts from the page
+  </Accordion>
+  <Accordion title="Can't enter Edit mode">
+    You need **Editor** permission. Contact the dashboard owner or admin.
+  </Accordion>
+  <Accordion title="Changes aren't saving">
+    - Ensure you have Editor permission
+    - Check your internet connection
+    - Try refreshing and re-entering Edit mode
+  </Accordion>
+  <Accordion title="Filter not affecting all charts">
+    In Edit mode:
+    1. Click the filter control
+    2. Check **Properties** → **Filter applied to**
+    3. Ensure relevant charts are selected
+  </Accordion>
+  <Accordion title="'You don't have access' on data source">
+    - Verify you have data source Viewer or Editor access
+    - Check the data credentials match your BigQuery permissions
+    - Permission changes can take time to propagate—sign out and back in
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Keyboard Shortcuts
+
+| Action | Shortcut |
+|--------|----------|
+| Undo | `Ctrl/Cmd + Z` |
+| Redo | `Ctrl/Cmd + Y` |
+| Copy | `Ctrl/Cmd + C` |
+| Paste | `Ctrl/Cmd + V` |
+| Select All | `Ctrl/Cmd + A` |
+| Group | `Ctrl/Cmd + G` |
+
+---
+
+## Additional Resources
+
+**Google Documentation:**
+- [Looker Studio Help Center](https://support.google.com/looker-studio/)
+- [Calculated Field Functions](https://support.google.com/looker-studio/table/6379764)
+- [Chart Types Reference](https://support.google.com/looker-studio/answer/13590887?hl=en)
+- [Using the Properties Panel](https://support.google.com/looker-studio/answer/6302996?sjid=17257856173080190020-NC)
+
+**SourceMedium Resources:**
+- [Google Groups Access Control](/onboarding/analytics-tools/google-groups-access-control)
+- [BigQuery Essentials](/onboarding/analytics-tools/bigquery-essentials)
+- [Data Tables Reference](/data-activation/data-tables/sm_transformed_v2)

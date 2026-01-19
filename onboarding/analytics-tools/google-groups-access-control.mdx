@@ -1,0 +1,150 @@
+---
+title: "Google Groups for Access Control"
+sidebarTitle: "Google Groups Access Control"
+description: "Use Google Groups as a single identity to manage access across Looker Studio dashboards, BigQuery, and Google Sheets"
+icon: "users"
+---
+
+## Why Google Groups?
+
+Google Groups acts as an **identity primitive** across Google's ecosystem. One group email grants access to:
+
+- **Looker Studio dashboards** (viewer or editor)
+- **BigQuery datasets** (query access)
+- **Google Sheets** (config sheets, exports)
+
+<Info>
+**One group email = unified access control.** Add a teammate to the group once, and they automatically get access to all shared resources.
+</Info>
+
+---
+
+## Quick Start: Create a Group
+
+<Steps>
+  <Step title="Go to Google Groups">
+    Navigate to [groups.google.com](https://groups.google.com) and sign in with your organization account.
+  </Step>
+  <Step title="Click Create Group">
+    ![Create Group button](/images/article-imgs/how-do-i-set-up-a-google-group/photo1.png)
+  </Step>
+  <Step title="Configure group details">
+    - **Group name**: Descriptive name (e.g., "Acme Analytics Team")
+    - **Group email**: `acme-analytics@googlegroups.com`
+    - **Description**: Who should be in this group and what they access
+
+    ![Group details form](/images/article-imgs/how-do-i-set-up-a-google-group/2.png)
+  </Step>
+  <Step title="Set privacy settings">
+    Choose who can find and join the group. For internal teams, "Only invited users" is recommended.
+
+    ![Privacy settings](/images/article-imgs/how-do-i-set-up-a-google-group/3.png)
+  </Step>
+  <Step title="Add members and create">
+    Enter email addresses for initial members, then click **Create group**.
+
+    ![Add members](/images/article-imgs/how-do-i-set-up-a-google-group/4.png)
+  </Step>
+</Steps>
+
+---
+
+## Managing Group Members
+
+### Add members
+Click **Add Members** at the top of your group page.
+
+![Add members button](/images/article-imgs/how-do-i-set-up-a-google-group/5.png)
+
+### Adjust permissions
+Go to **Group Settings** to modify who can post, view members, or join.
+
+![Group settings](/images/article-imgs/how-do-i-set-up-a-google-group/6.png)
+
+### Allow external members
+If you need to add people outside your organization, enable this in Group Settings:
+
+![External members setting](/images/article-imgs/how-do-i-set-up-a-google-group/group_settings.png)
+
+---
+
+## Sharing Resources with Your Group
+
+Once your group exists, use the group email to grant access across Google products.
+
+### Looker Studio Dashboards
+
+1. Open your dashboard and click **Share** (top right)
+2. Enter the group email address
+3. Choose permission level:
+   - **Viewer**: Can view and interact with filters
+   - **Editor**: Can modify the dashboard
+
+![Share dashboard](/images/article-imgs/how-do-i-invite-users-to-my-dashboard/Untitled.png)
+
+<Warning>
+**Recommendation**: Grant **Viewer** access to most users. Editor access can lead to accidental changes that break dashboards.
+</Warning>
+
+### Google Sheets (Config Sheets)
+
+1. Open the sheet and click **Share**
+2. Enter the group email
+3. Choose permission level:
+   - **Viewer**: Read-only
+   - **Commenter**: Can add comments
+   - **Editor**: Can modify content
+
+![Share sheet](/images/article-imgs/creating-google-groups/Untitled2.png)
+
+### BigQuery Datasets
+
+For BigQuery access, your SourceMedium team will configure IAM permissions using your group email. Contact support if you need to grant BigQuery access to additional team members.
+
+---
+
+## Recommended Group Structure
+
+For most teams, we recommend two groups:
+
+| Group | Purpose | Typical Access |
+|-------|---------|----------------|
+| `company-sm-viewers` | Day-to-day dashboard users | Dashboard: Viewer, Sheets: Viewer |
+| `company-sm-admins` | Analytics leads, data team | Dashboard: Editor, Sheets: Editor, BigQuery: Query |
+
+<Tip>
+Start with one group for simplicity. Split into viewer/admin groups when you have 5+ users with different needs.
+</Tip>
+
+---
+
+## Troubleshooting
+
+### "You don't have access" error
+
+<AccordionGroup>
+  <Accordion title="Check group membership">
+    Verify the user is actually in the group at [groups.google.com](https://groups.google.com).
+  </Accordion>
+  <Accordion title="Wait for propagation">
+    Permission changes can take time to propagate across Google services. If you just added someone to the group or shared a resource, have the user sign out and back in, then try again.
+  </Accordion>
+  <Accordion title="Check the correct email">
+    Ensure the resource was shared with the **group email** (e.g., `team@googlegroups.com`), not an individual.
+  </Accordion>
+  <Accordion title="External domain restrictions">
+    If adding external users, ensure "Allow members outside your organization" is enabled in Group Settings.
+  </Accordion>
+</AccordionGroup>
+
+### Dashboard shows "No data"
+
+This usually means the **data source** permissions are separate from dashboard permissions. Contact SourceMedium support to verify data source access.
+
+---
+
+## Related Resources
+
+- [Google Groups Help Center](https://support.google.com/groups/)
+- [Looker Studio sharing documentation](https://support.google.com/looker-studio/answer/10403868)
+- [BigQuery IAM overview](https://cloud.google.com/bigquery/docs/access-control)
