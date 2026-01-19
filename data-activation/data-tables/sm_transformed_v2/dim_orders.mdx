@@ -101,7 +101,7 @@ models:
 
       - name: order_sequence
         description: >
-          Customer lifecycle classification: 'First Order' for new customers, 'Repeat Order' for returning customers. Includes all orders (valid + invalid). Use for cohort analysis and retention reporting. See sm_valid_order_index for valid-only ordering.
+          Customer lifecycle classification: '1st_order' for new customers, 'repeat_order' for returning customers. Includes all orders (valid + invalid). Use for cohort analysis and retention reporting. See sm_valid_order_index for valid-only ordering.
 
       - name: order_session_browser_type
         description: >
@@ -237,6 +237,6 @@ models:
 
       - name: subscription_order_sequence
         description: >
-          Subscription lifecycle classification: 'First Subscription Order' for initial subscription purchase, 'Repeat Subscription Order' for renewals. Based on subscription order index when available, otherwise inferred from order tags. Use for subscription cohort analysis.
+          Subscription lifecycle classification: '1st_sub_order' for initial subscription purchase, 'recurring_sub_order' for renewals, 'one_time_order' for non-subscription orders. Based on subscription order index when available, otherwise inferred from order tags. Use for subscription cohort analysis.
 
 ```

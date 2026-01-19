@@ -47,14 +47,14 @@ If a website event has a UTM source, that's used directly. If only a referrer do
 
 Order notes are a key source for attribution data written by server-side tracking tools like **Elevar** and **Blotout**. These tools capture UTM parameters at checkout and write them to Shopify order notes.
 
-### For Shopify V2 (Legacy)
+### Note Attributes (Legacy)
 
 The system extracts UTM data from note attributes with these keys:
 - `utm_source`, `utm_medium`, `utm_campaign`, `utm_content`, `utm_term`, `utm_id`
 - `_elevar_visitor_info` (parsed for nested UTM data)
 - `_source`, `_attribution`
 
-### For Shopify V3 (GraphQL API)
+### Custom Attributes (GraphQL API)
 
 The new `customAttributes` field has its own sub-priority system:
 
