@@ -853,6 +853,30 @@
     {
       "source": "/data-activation/managed-bi-v2/modules/executive-summary",
       "destination": "/data-activation/managed-bi-v1/modules/executive-summary-module"
+    },
+    {
+      "source": "/onboarding/analytics-tools/learn-bigquery",
+      "destination": "/onboarding/analytics-tools/bigquery-essentials"
+    },
+    {
+      "source": "/onboarding/analytics-tools/learn-looker-studio",
+      "destination": "/onboarding/analytics-tools/looker-studio-guide"
+    },
+    {
+      "source": "/onboarding/analytics-tools/creating-google-groups",
+      "destination": "/onboarding/analytics-tools/google-groups-access-control"
+    },
+    {
+      "source": "/onboarding/analytics-tools/sharing-access",
+      "destination": "/onboarding/analytics-tools/google-groups-access-control"
+    },
+    {
+      "source": "/help-center/faq/account-management-faqs/how-do-i-set-up-a-google-group",
+      "destination": "/onboarding/analytics-tools/google-groups-access-control"
+    },
+    {
+      "source": "/help-center/faq/account-management-faqs/how-do-i-invite-users-to-my-dashboard",
+      "destination": "/onboarding/analytics-tools/looker-studio-guide"
     }
   ]
 }
