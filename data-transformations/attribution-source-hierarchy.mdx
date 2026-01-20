@@ -62,24 +62,24 @@ The new `customAttributes` field has its own sub-priority system:
 |--------------|-------------|--------------|
 | 1 | Direct UTM keys | `utm_source`, `utm_medium`, `utm_campaign`, etc. |
 | 2 | Parsed from aggregate fields | `utmParams`, `GE_utmParams` (URL query string format) |
-| 3 | Inferred from click IDs | `gclid` → google, `fbclid` → facebook, etc. |
+| 3 | Inferred from click IDs (fallback) | `gclid` → google, `fbclid` → meta, etc. |
 
 When the same order has both a direct UTM key and the same key parsed from an aggregate field, the direct key wins.
 
 ### Click ID to Channel Inference
 
-When only a click ID is present (no explicit `utm_source`), the system infers the channel:
+When only a click ID is present (no explicit `utm_source`), the system infers a fallback `utm_source` value:
 
-| Click ID | Inferred Channel | Channel Priority |
-|----------|-----------------|------------------|
-| `gclid` | google | 10 (highest) |
-| `fbclid` | facebook | 20 |
-| `ttclid` | tiktok | 30 |
-| `msclkid` | microsoft | 40 |
-| `irclickid` | impact | 50 |
-| `scclid` | snapchat | 60 (lowest) |
+| Priority (highest first) | Click ID | Inferred `utm_source` | Platform |
+|--------------------------|----------|------------------------|----------|
+| 1 | `scclid` | snapchat | Snapchat Ads |
+| 2 | `irclickid` | impact | Impact (Affiliate) |
+| 3 | `msclkid` | microsoft | Microsoft/Bing Ads |
+| 4 | `ttclid` | tiktok | TikTok Ads |
+| 5 | `fbclid` | meta | Meta (Facebook/Instagram) |
+| 6 | `gclid` | google | Google Ads |
 
-If an order has multiple click IDs (e.g., both `gclid` and `fbclid`), the channel priority determines which one is used to infer `utm_source`.
+If an order has multiple click IDs, the highest-priority click ID wins. This preserves more specific intent signals (like affiliates or smaller platforms) over ambient IDs from high-volume platforms.
 
 <Note>
 Click IDs are **fallback only**. If an explicit `utm_source` exists, it takes precedence over any click ID inference.
