@@ -21,10 +21,14 @@ The order attribution system evaluates data sources in this specific priority or
 | 3 | Shopify Order Notes | UTM data written to order notes by tracking tools (Elevar, Blotout, etc.) |
 | 4 | Website Event Tracking | First-party event pixels from GA4, Elevar, or other website analytics |
 | 5 | Shopify First Customer Visit | The customer's first tracked visit, captured by Shopify's customer visit tracking |
-| 6 | GA4/Universal Analytics | Transaction data from Google Analytics platforms |
+| 6 | GA4 | Transaction data from Google Analytics 4 |
 | 7 | Shopify Order Referring Site UTMs | UTM parameters parsed from the order's `referring_site` URL |
 
 If data is missing at priority 1, the system "falls" to priority 2, and so on until it finds valid UTM data.
+
+<Note>
+Universal Analytics (UA) has been sunset by Google. If your organization already exported and retained historical UA data, treat it as historical-only and prefer GA4 for ongoing tracking.
+</Note>
 
 <Tip>
 **Why does "Last Customer Visit" beat "First Customer Visit"?**
