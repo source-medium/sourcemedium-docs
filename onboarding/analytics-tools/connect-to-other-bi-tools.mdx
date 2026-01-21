@@ -1,0 +1,29 @@
+---
+title: "Use SourceMedium data in other BI tools"
+sidebarTitle: "Other BI tools"
+description: "Your SourceMedium data lives in BigQuery, so you can connect it to Tableau, Looker, and other BI tools."
+icon: "chart-bar"
+---
+
+## TL;DR
+
+- SourceMedium data lives in **BigQuery**, so you can use it in **any BI tool that can connect to BigQuery**.
+- You’ll typically select your **Google Cloud project** → dataset (commonly `sm_transformed_v2`) → table/view (or use a **custom SQL query**).
+- Make sure the user or service account you connect with has the right **BigQuery permissions** for the project/dataset.
+
+---
+
+## Recommended Google docs (best starting points)
+
+- [BigQuery data analysis tools overview](https://docs.cloud.google.com/bigquery/docs/data-analysis-tools-intro)
+- [Tableau + BigQuery](https://docs.cloud.google.com/bigquery/docs/analyze-data-tableau)
+- [Looker + BigQuery](https://docs.cloud.google.com/bigquery/docs/looker)
+- [Looker Studio + BigQuery](https://docs.cloud.google.com/bigquery/docs/visualize-looker-studio)
+- [Third-party integrations](https://docs.cloud.google.com/bigquery/docs/third-party-integration)
+
+---
+
+## Notes for SourceMedium customers
+
+- For Looker Studio specifically, see [Connect BigQuery to Looker Studio](/onboarding/analytics-tools/connect-bigquery-to-looker-studio).
+- If you’re building dashboards for a team, prefer connecting with a **service account** (or a shared/managed identity) so access doesn’t break when an employee leaves.

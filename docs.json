@@ -53,7 +53,9 @@
             "group": "Analytics Tools",
             "pages": [
               "onboarding/analytics-tools/looker-studio-guide",
-              "onboarding/analytics-tools/bigquery-essentials"
+              "onboarding/analytics-tools/bigquery-essentials",
+              "onboarding/analytics-tools/connect-bigquery-to-looker-studio",
+              "onboarding/analytics-tools/connect-to-other-bi-tools"
             ]
           },
           {

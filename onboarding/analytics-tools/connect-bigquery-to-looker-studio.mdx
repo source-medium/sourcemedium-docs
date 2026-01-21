@@ -1,0 +1,58 @@
+---
+title: "Connect BigQuery to Looker Studio"
+sidebarTitle: "Connect BigQuery → Looker Studio"
+description: "Use any BigQuery table (including SourceMedium tables) as a Looker Studio data source."
+icon: "link"
+---
+
+## TL;DR
+
+- You can connect **any** BigQuery table or view (including `sm_transformed_v2` tables) to Looker Studio using the **BigQuery connector**.
+- If you start from a SourceMedium Looker Studio template, it’s usually **already connected** to your BigQuery project—adding more data is just adding another **data source**.
+- If you don’t see data, it’s almost always a **permissions** or **credentials mode** issue.
+
+---
+
+## Connect a BigQuery table (fast)
+
+<Steps>
+  <Step title="Open your report in Edit mode">
+    In Looker Studio, open your report and click **Edit**.
+  </Step>
+  <Step title="Add a BigQuery data source">
+    Go to **Resource → Manage added data sources → Add a data source**, then choose **BigQuery**.
+  </Step>
+  <Step title="Pick the table (or use Custom Query)">
+    Select your Google Cloud project, dataset (commonly `sm_transformed_v2`), and the table you want (for example, `obt_orders`), then click **Add**.
+  </Step>
+</Steps>
+
+<Tip>
+If you’re new to Looker Studio data sources, the [Looker Studio Guide](/onboarding/analytics-tools/looker-studio-guide) explains connectors, data sources, and credential modes.
+</Tip>
+
+---
+
+## Add more tables to an existing SourceMedium template
+
+When you copy a SourceMedium template, the existing charts are already wired to existing data sources. To use additional tables:
+
+- Create a **new data source** pointing at the table/view you want in BigQuery
+- Update a chart to use it: select the chart → **Data** panel → **Data source** → choose your new data source
+
+---
+
+## Common gotchas
+
+<AccordionGroup>
+  <Accordion title="I can’t find my project or dataset">
+    Make sure you’re signed into the **same Google account** that has access to your BigQuery project, and that you have permission to view datasets and tables.
+  </Accordion>
+  <Accordion title="Viewers see 'No data'">
+    Check the data source credential mode (Owner vs Viewer). SourceMedium dashboards typically work best with **Owner’s credentials** so viewers don’t need direct BigQuery access.
+  </Accordion>
+</AccordionGroup>
+
+<Info>
+Google's official walkthrough: [BigQuery + Looker Studio](https://docs.cloud.google.com/bigquery/docs/visualize-looker-studio)
+</Info>
