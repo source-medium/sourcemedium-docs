@@ -81,7 +81,30 @@ Keys are **normalized** (case + delimiter + snake/camel agnostic) before matchin
 | `sm_utm_source`, `sm_utm_medium`, `sm_utm_campaign`, `sm_utm_content`, `sm_utm_term`, `sm_utm_id` | SourceMedium override keys (recommended to avoid collisions with other apps) |
 | `utm_source`, `utm_medium`, `utm_campaign`, `utm_content`, `utm_term`, `utm_id` | Standard UTM keys |
 | `sm_utmParams`, `utmParams`, `GE_utmParams` | Aggregate UTM query-string fields (parsed into individual UTM keys) |
-| `referrer` | Referring URL |
+| `sm_referrer`, `referrer` | Referring URL |
+
+### Conflict resolution (deterministic)
+
+If your `customAttributes` data is messy (duplicate keys, multiple sources provided), SourceMedium applies a deterministic waterfall to resolve each final field.
+
+#### Field-level precedence
+
+For each UTM field, the **first non-empty value wins** (highest → lowest):
+
+1. Direct SM override key (`sm_utm_*`)
+2. Direct standard UTM key (`utm_*`)
+3. Parsed from `sm_utmParams` (query string)
+4. Parsed from `utmParams` (query string)
+5. Parsed from `GE_utmParams` (query string)
+6. **`utm_source` only**: click ID inference (`scclid` → `irclickid` → `msclkid` → `ttclid` → `fbclid` → `gclid`)
+
+`referrer` is resolved similarly: `sm_referrer` → `referrer`.
+
+#### Duplicate keys (same tier)
+
+If the same normalized key appears multiple times at the same tier (for example both `utm_source` and `UTM_SOURCE`, or repeated `utm_source` entries), SourceMedium de-dupes deterministically using `MAX()` (lexicographically largest value after decoding/cleaning).
+
+To avoid surprises, only set each key once.
 
 <Note>
 Click IDs are processed as a **fallback** (see below), but the raw click ID values are not stored as attribution fields.
@@ -105,6 +128,11 @@ When only a click ID is present (no explicit `utm_source`), the system infers a 
 | 6 | `gclid` | google | Google Ads |
 
 If an order has multiple click IDs, the highest-priority click ID wins. This preserves more specific intent signals (like affiliates or smaller platforms) over ambient IDs from high-volume platforms.
+
+Click IDs are checked in this order:
+1. Direct `customAttributes` click ID keys (e.g., `scclid`, `gclid`)
+2. Click IDs embedded inside `utmParams`
+3. Click IDs embedded inside `GE_utmParams`
 
 <Note>
 Click IDs are **fallback only**. If an explicit `utm_source` exists, it takes precedence over any click ID inference.

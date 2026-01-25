@@ -45,7 +45,7 @@ To reduce collisions with other checkout apps, prefer the `sm_utm_*` / `sm_utmPa
 | `sm_utm_source`, `sm_utm_medium`, `sm_utm_campaign`, `sm_utm_content`, `sm_utm_term`, `sm_utm_id` | SourceMedium override UTMs (recommended) | `sm_utm_source=facebook` |
 | `utm_source`, `utm_medium`, `utm_campaign`, `utm_content`, `utm_term`, `utm_id` | Standard UTMs | `utm_campaign=summer_sale_2025` |
 | `sm_utmParams`, `utmParams`, `GE_utmParams` | Aggregate UTM query string (parsed) | `utm_source=google&utm_medium=cpc` |
-| `referrer` | Referring URL | `https://blog.example.com/review` |
+| `sm_referrer`, `referrer` | Referring URL | `https://blog.example.com/review` |
 
 ### Click IDs (fallback inference)
 
@@ -61,6 +61,16 @@ Click IDs are processed but **not stored as raw values**. If no explicit `utm_so
 | `gclid` | `google` |
 
 If multiple click IDs exist, the system prioritizes: `scclid` > `irclickid` > `msclkid` > `ttclid` > `fbclid` > `gclid`.
+
+### Conflict resolution (deterministic)
+
+If you provide conflicting values (e.g., both `sm_utm_source` and `utm_source`, or both direct keys and `utmParams`), SourceMedium resolves each final field with a deterministic waterfall:
+
+- **UTM fields**: direct `sm_utm_*` → direct `utm_*` → parsed from `sm_utmParams` → parsed from `utmParams` → parsed from `GE_utmParams`
+- **`utm_source` only**: if still missing, infer from click IDs (`scclid` → `irclickid` → `msclkid` → `ttclid` → `fbclid` → `gclid`)
+- **Referrer**: `sm_referrer` → `referrer`
+
+If the same normalized key appears multiple times at the same level (e.g., `utm_source` and `UTM_SOURCE`), SourceMedium de-dupes deterministically using `MAX()` (lexicographically largest value). To avoid surprises, only set each key once.
 
 ---
 
@@ -400,7 +410,7 @@ const attributes = {
   ttclid: getParam('ttclid'),
   fbclid: getParam('fbclid'),
   gclid: getParam('gclid'),
-  referrer: document.referrer || null,
+  sm_referrer: document.referrer || null,
 };
 
 const cleanAttributes = Object.fromEntries(
