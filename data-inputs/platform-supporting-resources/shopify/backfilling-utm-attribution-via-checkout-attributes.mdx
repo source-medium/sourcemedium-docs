@@ -27,25 +27,40 @@ SourceMedium extracts UTM attribution data from Shopify order-level `customAttri
 
 ---
 
-## Supported Keys
+## Supported Keys (Normalized)
 
-SourceMedium extracts the following keys from `customAttributes`. **Keys are case-sensitive**—use exact lowercase.
+SourceMedium extracts a specific allowlist of keys from order-level `customAttributes`.
 
-| Key | Description | Example Value |
-|-----|-------------|---------------|
-| `utm_source` | Traffic source | `facebook`, `google`, `klaviyo` |
-| `utm_medium` | Marketing medium | `cpc`, `email`, `social` |
-| `utm_campaign` | Campaign name | `summer_sale_2025` |
-| `utm_content` | Ad content identifier | `carousel_v2` |
-| `utm_term` | Search term (paid search) | `running+shoes` |
-| `utm_id` | Campaign ID | `120211234567890` |
-| `gclid` | Google Click ID | `EAIaIQobChMI...` |
-| `fbclid` | Facebook Click ID | `IwAR3x...` |
+Keys are **normalized** before matching (snake_case / camelCase / delimiter / case agnostic):
+- `utm_source`, `utmSource`, `UTM_SOURCE`, `utm-source` → treated as the same key
+- `sm_utmParams`, `smUtmParams` → treated as the same key
+- `GE_utmParams`, `ge_utm_params` → treated as the same key
+
+<Note>
+To reduce collisions with other checkout apps, prefer the `sm_utm_*` / `sm_utmParams` keys for explicit overrides. Standard `utm_*` keys are also supported.
+</Note>
+
+| Key | Description | Example |
+|-----|-------------|---------|
+| `sm_utm_source`, `sm_utm_medium`, `sm_utm_campaign`, `sm_utm_content`, `sm_utm_term`, `sm_utm_id` | SourceMedium override UTMs (recommended) | `sm_utm_source=facebook` |
+| `utm_source`, `utm_medium`, `utm_campaign`, `utm_content`, `utm_term`, `utm_id` | Standard UTMs | `utm_campaign=summer_sale_2025` |
+| `sm_utmParams`, `utmParams`, `GE_utmParams` | Aggregate UTM query string (parsed) | `utm_source=google&utm_medium=cpc` |
 | `referrer` | Referring URL | `https://blog.example.com/review` |
 
-<Warning>
-**Case Sensitivity**: Keys must be exact lowercase. `UTM_SOURCE`, `Utm_Source`, and `utm_Source` will **not** be extracted.
-</Warning>
+### Click IDs (fallback inference)
+
+Click IDs are processed but **not stored as raw values**. If no explicit `utm_source` is present, their presence infers a channel-level `utm_source` (fallback-only).
+
+| Click ID | Inferred `utm_source` |
+|----------|------------------------|
+| `scclid` | `snapchat` |
+| `irclickid` | `impact` |
+| `msclkid` | `microsoft` |
+| `ttclid` | `tiktok` |
+| `fbclid` | `meta` |
+| `gclid` | `google` |
+
+If multiple click IDs exist, the system prioritizes: `scclid` > `irclickid` > `msclkid` > `ttclid` > `fbclid` > `gclid`.
 
 ---
 
@@ -110,8 +125,8 @@ If you have Shopify Plus, you can use **Shopify Flow** with the "Send Admin API 
           {%- for attr in order.customAttributes -%}
             { "key": "{{ attr.key }}", "value": "{{ attr.value }}" }{% unless forloop.last %},{% endunless %}
           {%- endfor -%},
-          { "key": "utm_source", "value": "facebook" },
-          { "key": "utm_medium", "value": "cpc" }
+          { "key": "sm_utm_source", "value": "facebook" },
+          { "key": "sm_utm_medium", "value": "cpc" }
         ]
       }
     }
@@ -163,9 +178,9 @@ For large backfills (hundreds or thousands of orders), use a script with the [Sh
       "input": {
         "id": "gid://shopify/Order/1234567890",
         "customAttributes": [
-          { "key": "utm_source", "value": "facebook" },
-          { "key": "utm_medium", "value": "cpc" },
-          { "key": "utm_campaign", "value": "summer_sale_2025" }
+          { "key": "sm_utm_source", "value": "facebook" },
+          { "key": "sm_utm_medium", "value": "cpc" },
+          { "key": "sm_utm_campaign", "value": "summer_sale_2025" }
         ]
       }
     }
@@ -321,7 +336,7 @@ For large backfills (hundreds or thousands of orders), use a script with the [Sh
     Shopify allows updating orders regardless of age, but consider:
 
     - Very old orders may already have SourceMedium attribution from other sources
-    - Check with SourceMedium support about attribution source hierarchy priority for your account
+    - Order-level `customAttributes` are treated as an explicit override (see [Attribution Source Hierarchy](/data-transformations/attribution-source-hierarchy))
   </Accordion>
 </AccordionGroup>
 
@@ -347,8 +362,8 @@ This approach **supplements** your existing tracking (GA4, Elevar). It's particu
 
 ```mermaid
 flowchart LR
-    A[User lands on site<br/>with UTM params] --> B[Checkout UI Extension<br/>captures UTMs]
-    B --> C[UTMs stored as<br/>customAttributes]
+    A[User lands on site<br/>with UTM params] --> B[Storefront writes attribution<br/>to cart/checkout attributes]
+    B --> C[Attributes become order<br/>customAttributes]
     C --> D[SourceMedium extracts<br/>from order data]
     D --> E[Attribution appears<br/>in dashboards]
 ```
@@ -357,52 +372,57 @@ flowchart LR
 
 <Check>Shopify Plus or ability to create Checkout UI Extensions</Check>
 <Check>Access to deploy changes to your Shopify theme/app</Check>
-<Check>Method to persist UTM params across pages (cookies, localStorage, etc.)</Check>
+<Check>Method to write cart attributes before checkout (theme JS / Storefront API)</Check>
 
-### Step 1: Persist UTMs on Landing
+### Step 1: Write Attribution to Cart Attributes (Before Checkout)
 
-Before checkout, you need UTM parameters stored somewhere accessible:
+Checkout UI Extensions are sandboxed and can't directly access the browser DOM (e.g., `document.cookie`, `localStorage`, or `window.location`). To make UTMs available at checkout, capture them on the storefront and write them into **cart attributes** before the buyer starts checkout.
 
-<Tabs>
-  <Tab title="First-Party Cookies">
-    ```javascript
-    // On page load, capture UTMs from URL and store in cookies
-    const urlParams = new URLSearchParams(window.location.search);
-    const utmKeys = ['utm_source', 'utm_medium', 'utm_campaign',
-                     'utm_content', 'utm_term', 'utm_id', 'gclid', 'fbclid'];
+This example uses the Online Store `cart/update` endpoint to set SourceMedium override keys (`sm_utm_*`). These cart attributes flow into checkout attributes and appear on the order as `customAttributes`.
 
-    utmKeys.forEach(key => {
-      const value = urlParams.get(key);
-      if (value) {
-        // Set cookie with 30-day expiry, SameSite=Lax for cross-page persistence
-        document.cookie = `${key}=${encodeURIComponent(value)}; ` +
-                          `max-age=${30 * 24 * 60 * 60}; path=/; SameSite=Lax`;
-      }
-    });
-    ```
-  </Tab>
-  <Tab title="localStorage">
-    ```javascript
-    // On page load, capture UTMs from URL
-    const urlParams = new URLSearchParams(window.location.search);
-    const utmKeys = ['utm_source', 'utm_medium', 'utm_campaign',
-                     'utm_content', 'utm_term', 'utm_id', 'gclid', 'fbclid'];
+```javascript
+// theme.js (storefront)
+function getParam(name) {
+  return new URLSearchParams(window.location.search).get(name);
+}
 
-    const utmData = {};
-    utmKeys.forEach(key => {
-      const value = urlParams.get(key);
-      if (value) utmData[key] = value;
-    });
+const attributes = {
+  sm_utm_source: getParam('utm_source'),
+  sm_utm_medium: getParam('utm_medium'),
+  sm_utm_campaign: getParam('utm_campaign'),
+  sm_utm_content: getParam('utm_content'),
+  sm_utm_term: getParam('utm_term'),
+  sm_utm_id: getParam('utm_id'),
+  // Optional click IDs for fallback inference (not stored as raw values in SourceMedium)
+  scclid: getParam('scclid'),
+  irclickid: getParam('irclickid'),
+  msclkid: getParam('msclkid'),
+  ttclid: getParam('ttclid'),
+  fbclid: getParam('fbclid'),
+  gclid: getParam('gclid'),
+  referrer: document.referrer || null,
+};
 
-    if (Object.keys(utmData).length > 0) {
-      localStorage.setItem('sm_utm_data', JSON.stringify({
-        data: utmData,
-        timestamp: Date.now()
-      }));
-    }
-    ```
-  </Tab>
-</Tabs>
+const cleanAttributes = Object.fromEntries(
+  Object.entries(attributes).filter(([_, v]) => v != null && v !== '')
+);
+
+if (Object.keys(cleanAttributes).length > 0) {
+  fetch('/cart/update.js', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ attributes: cleanAttributes }),
+  });
+}
+```
+
+<Warning>
+Set these attributes **before** the buyer starts checkout. If you update cart attributes after checkout is already open, they might not be reflected unless the buyer refreshes checkout.
+</Warning>
+
+<Note>
+If you're using a headless storefront, use the Storefront API to set cart attributes instead of `cart/update.js`.
+</Note>
 
 ### Step 2: Create Checkout UI Extension
 
@@ -422,26 +442,28 @@ function UtmCapture() {
   const currentAttributes = useAttributes();
 
   useEffect(() => {
-    captureUtmAttributes();
+    void ensureSmOverrideKeys();
   }, []);
 
-  async function captureUtmAttributes() {
-    const utmKeys = [
-      'utm_source', 'utm_medium', 'utm_campaign',
-      'utm_content', 'utm_term', 'utm_id',
-      'gclid', 'fbclid', 'referrer',
-    ];
+  function getAttributeValue(key: string): string | null {
+    return currentAttributes.find(attr => attr.key === key)?.value ?? null;
+  }
 
-    const utmData: Record<string, string> = {};
+  async function ensureSmOverrideKeys() {
+    // Checkout UI extensions cannot access cookies or localStorage.
+    // This helper maps any existing `utm_*` attributes to `sm_utm_*` override keys.
+    const mapping: Record<string, string | null> = {
+      sm_utm_source: getAttributeValue('sm_utm_source') ?? getAttributeValue('utm_source'),
+      sm_utm_medium: getAttributeValue('sm_utm_medium') ?? getAttributeValue('utm_medium'),
+      sm_utm_campaign: getAttributeValue('sm_utm_campaign') ?? getAttributeValue('utm_campaign'),
+      sm_utm_content: getAttributeValue('sm_utm_content') ?? getAttributeValue('utm_content'),
+      sm_utm_term: getAttributeValue('sm_utm_term') ?? getAttributeValue('utm_term'),
+      sm_utm_id: getAttributeValue('sm_utm_id') ?? getAttributeValue('utm_id'),
+    };
 
-    for (const key of utmKeys) {
-      const value = getCookie(key);
-      if (value && value.trim() !== '') {
-        utmData[key] = value;
-      }
-    }
+    for (const [key, value] of Object.entries(mapping)) {
+      if (!value) continue;
 
-    for (const [key, value] of Object.entries(utmData)) {
       const existing = currentAttributes.find(attr => attr.key === key);
       if (existing) continue;
 
@@ -455,11 +477,6 @@ function UtmCapture() {
   }
 
   return null;
-}
-
-function getCookie(name: string): string | null {
-  const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
-  return match ? decodeURIComponent(match[2]) : null;
 }
 ```
 
@@ -495,7 +512,7 @@ shopify app deploy
 
 <AccordionGroup>
   <Accordion title="Attributes appear in Shopify but not SourceMedium">
-    1. **Key name mismatch**: Keys must be exact lowercase (`utm_source`, not `UTM_Source`)
+    1. **Unsupported key**: Only allowlisted keys are extracted (see "Supported Keys")
     2. **Sync timing**: Wait 24-48 hours for data to flow through
     3. **Connector version**: Ensure your Shopify connector supports `customAttributes` (contact support to verify)
   </Accordion>
@@ -540,11 +557,11 @@ shopify app deploy
   </Accordion>
 
   <Accordion title="What's the priority if multiple sources have UTMs?">
-    SourceMedium uses an [attribution source hierarchy](/data-transformations/attribution-source-hierarchy) that prioritizes data closest to the transaction. Contact SourceMedium support for your specific configuration.
+    SourceMedium uses an [attribution source hierarchy](/data-transformations/attribution-source-hierarchy). If allowlisted attribution is present in order `customAttributes`, it is treated as an explicit override and takes top priority.
   </Accordion>
 
   <Accordion title="Can I backfill orders that already have attribution in SourceMedium?">
-    Yes, but the attribution source hierarchy determines which source wins. Backfilled `customAttributes` data may or may not override existing attribution depending on your configuration.
+    Yes. If you write allowlisted attribution to order `customAttributes`, it is treated as an explicit override and will replace the order's last-touch attribution (unless you only set a subset of fields, in which case missing fields may be filled from lower-priority sources when the channel matches).
   </Accordion>
 
   <Accordion title="How do I know if my connector supports this?">

@@ -4,7 +4,7 @@ description: "How SourceMedium decides which UTM data source wins when multiple 
 icon: "layer-group"
 ---
 
-When SourceMedium receives an order, we often have UTM attribution data from multiple sources—Shopify customer visits, order notes, website event tracking, and Google Analytics. The **attribution source hierarchy** determines which source "wins" when data is available from multiple places.
+When SourceMedium receives an order, we often have UTM attribution data from multiple sources—Shopify customer visits, order custom attributes, order notes, website event tracking, and Google Analytics. The **attribution source hierarchy** determines which source "wins" when data is available from multiple places.
 
 <Info>
 This is a **last-click (UTM-based) attribution** system. We prioritize data sources that capture the customer's most recent measurable marketing touch before purchase.
@@ -16,15 +16,27 @@ The order attribution system evaluates data sources in this specific priority or
 
 | Priority | Source Type | Description |
 |----------|-------------|-------------|
-| 1 | Shopify Last Customer Visit | The final tracked visit before order placement, captured by Shopify's customer visit tracking |
-| 2 | Shopify Landing Site | UTM parameters extracted from the order's landing page URL |
-| 3 | Shopify Order Notes | UTM data written to order notes by tracking tools (Elevar, Blotout, etc.) |
-| 4 | Website Event Tracking | First-party event pixels from GA4, Elevar, or other website analytics |
-| 5 | Shopify First Customer Visit | The customer's first tracked visit, captured by Shopify's customer visit tracking |
-| 6 | GA4 | Transaction data from Google Analytics 4 |
-| 7 | Shopify Order Referring Site UTMs | UTM parameters parsed from the order's `referring_site` URL |
+| 1 | Shopify Custom Attributes Override | Order-level attribution set via Shopify `customAttributes` (Checkout / Admin GraphQL API). Treated as an explicit override (`shopify_custom_attribute_override`). |
+| 2 | Shopify Last Customer Visit | The final tracked visit before order placement, captured by Shopify's customer visit tracking |
+| 3 | Shopify Landing Site | UTM parameters extracted from the order's landing page URL |
+| 4 | Shopify Order Notes (Legacy) | UTM data written to order notes / note attributes by tracking tools (Elevar, Blotout, etc.) |
+| 5 | Website Event Tracking | First-party event pixels from GA4, Elevar, or other website analytics |
+| 6 | Shopify First Customer Visit | The customer's first tracked visit, captured by Shopify's customer visit tracking |
+| 7 | GA4 | Transaction data from Google Analytics 4 |
+| 8 | Shopify Order Referring Site UTMs | UTM parameters parsed from the order's `referring_site` URL |
 
 If data is missing at priority 1, the system "falls" to priority 2, and so on until it finds valid UTM data.
+
+```mermaid
+flowchart TB
+  A[1. Shopify customAttributes override] --> B[2. Shopify last customer visit]
+  B --> C[3. Shopify landing site]
+  C --> D[4. Shopify order notes (legacy)]
+  D --> E[5. Website event tracking]
+  E --> F[6. Shopify first customer visit]
+  F --> G[7. GA4]
+  G --> H[8. Shopify referring_site UTMs]
+```
 
 <Note>
 Universal Analytics (UA) has been sunset by Google. If your organization already exported and retained historical UA data, treat it as historical-only and prefer GA4 for ongoing tracking.
@@ -38,7 +50,7 @@ Because we're building a last-click attribution model. The most recent touchpoin
 
 ## Website Event Tracking Details
 
-For website event tracking sources (priority 4), the system uses qualifying events within a **90-day lookback window** before the order.
+For website event tracking sources (priority 5), the system uses qualifying events within a **90-day lookback window** before the order.
 
 When multiple events exist, they're ranked by:
 1. Days between event and order (closer to order = higher priority)
@@ -47,28 +59,37 @@ When multiple events exist, they're ranked by:
 
 If a website event has a UTM source, that's used directly. If only a referrer domain is available, the source is inferred from the domain and the medium defaults to `referral`.
 
-## Shopify Order Notes (Priority 3)
+## Shopify Custom Attributes Override (Priority 1)
 
-Order notes are a key source for attribution data written by server-side tracking tools like **Elevar** and **Blotout**. These tools capture UTM parameters at checkout and write them to Shopify order notes.
+If your Shopify order has attribution data written to `customAttributes` (Shopify Admin GraphQL API / Checkout attributes), SourceMedium treats it as an **explicit override** and prioritizes it ahead of the default Shopify attribution sources (visits, landing site, website events, GA4).
 
-### Note Attributes (Legacy)
+This is the recommended mechanism for:
+- Backfilling attribution onto historical orders
+- Capturing UTMs at checkout when cookie-based tracking is unreliable (ad blockers, ITP, cross-domain, etc.)
 
-The system extracts UTM data from note attributes with these keys:
-- `utm_source`, `utm_medium`, `utm_campaign`, `utm_content`, `utm_term`, `utm_id`
-- `_elevar_visitor_info` (parsed for nested UTM data)
-- `_source`, `_attribution`
+### Supported keys (allowlist)
 
-### Custom Attributes (GraphQL API)
+Only a specific set of keys are extracted from `customAttributes` to prevent accidental capture of non-attribution data.
 
-The new `customAttributes` field has its own sub-priority system:
+Keys are **normalized** (case + delimiter + snake/camel agnostic) before matching:
+- `utm_source`, `utmSource`, `UTM_SOURCE`, `utm-source` → treated as the same key
+- `sm_utmParams`, `smUtmParams` → treated as the same key
+- `GE_utmParams`, `ge_utm_params` → treated as the same key
 
-| Sub-Priority | Source Type | Example Keys |
-|--------------|-------------|--------------|
-| 1 | Direct UTM keys | `utm_source`, `utm_medium`, `utm_campaign`, etc. |
-| 2 | Parsed from aggregate fields | `utmParams`, `GE_utmParams` (URL query string format) |
-| 3 | Inferred from click IDs (fallback) | `gclid` → google, `fbclid` → meta, etc. |
+| Key | Purpose |
+|-----|---------|
+| `sm_utm_source`, `sm_utm_medium`, `sm_utm_campaign`, `sm_utm_content`, `sm_utm_term`, `sm_utm_id` | SourceMedium override keys (recommended to avoid collisions with other apps) |
+| `utm_source`, `utm_medium`, `utm_campaign`, `utm_content`, `utm_term`, `utm_id` | Standard UTM keys |
+| `sm_utmParams`, `utmParams`, `GE_utmParams` | Aggregate UTM query-string fields (parsed into individual UTM keys) |
+| `referrer` | Referring URL |
 
-When the same order has both a direct UTM key and the same key parsed from an aggregate field, the direct key wins.
+<Note>
+Click IDs are processed as a **fallback** (see below), but the raw click ID values are not stored as attribution fields.
+</Note>
+
+### Aggregate UTM fields
+
+If you send `sm_utmParams`, `utmParams`, or `GE_utmParams` as a URL query string (e.g., `utm_source=google&utm_medium=cpc`), SourceMedium parses it and extracts the individual UTM keys. Parsing is snake/camel agnostic (both `utm_source=` and `utmSource=` are supported) and URL-decoding is applied.
 
 ### Click ID to Channel Inference
 
@@ -89,25 +110,91 @@ If an order has multiple click IDs, the highest-priority click ID wins. This pre
 Click IDs are **fallback only**. If an explicit `utm_source` exists, it takes precedence over any click ID inference.
 </Note>
 
-## Allowlisted Attribution Keys
+### Checkout UI Extensions (recommended)
 
-Only specific keys are extracted from order notes and custom attributes. This prevents accidental capture of non-attribution data:
+Use Shopify Checkout UI Extensions to write attribution to checkout attributes (which become order `customAttributes`).
 
-- `utm_source`, `utm_medium`, `utm_campaign`, `utm_content`, `utm_term`, `utm_id`
-- `utmParams`, `GE_utmParams` (aggregate query string fields)
-- `_source`, `_attribution`, `referrer`
+```typescript
+import { useEffect } from 'react';
+import { reactExtension, useApplyAttributeChange, useAttributes } from '@shopify/ui-extensions-react/checkout';
+
+export default reactExtension('purchase.checkout.block.render', () => <AttributionCapture />);
+
+function AttributionCapture() {
+  const applyAttributeChange = useApplyAttributeChange();
+  const attributes = useAttributes();
+
+  useEffect(() => {
+    void setAttribution();
+  }, []);
+
+  function getAttributeValue(key: string): string | null {
+    return attributes.find(attr => attr.key === key)?.value ?? null;
+  }
+
+  async function setAttribution() {
+    const attribution = {
+      // Prefer explicit SM overrides if present; otherwise map from standard UTM attributes.
+      sm_utm_source: getAttributeValue('sm_utm_source') ?? getAttributeValue('utm_source'),
+      sm_utm_medium: getAttributeValue('sm_utm_medium') ?? getAttributeValue('utm_medium'),
+      sm_utm_campaign: getAttributeValue('sm_utm_campaign') ?? getAttributeValue('utm_campaign'),
+      sm_utm_content: getAttributeValue('sm_utm_content') ?? getAttributeValue('utm_content'),
+      sm_utm_term: getAttributeValue('sm_utm_term') ?? getAttributeValue('utm_term'),
+      sm_utm_id: getAttributeValue('sm_utm_id') ?? getAttributeValue('utm_id'),
+    };
+
+    for (const [key, value] of Object.entries(attribution)) {
+      if (!value) continue;
+
+      const result = await applyAttributeChange({
+        type: 'updateAttribute',
+        key,
+        value: String(value),
+      });
+
+      if (result.type === 'error') {
+        console.error('Failed to set attribution:', result.message);
+      }
+    }
+  }
+
+  return null;
+}
+```
+
+<Warning>
+Accelerated checkout methods (Apple Pay, Google Pay, Shop Pay express) may bypass checkout extension execution. Use this as a supplement to GA4/server-side tracking, not a single point of failure.
+</Warning>
 
 <Note>
-**Click IDs are not allowlisted for raw extraction.** Instead, when click IDs (`gclid`, `fbclid`, `ttclid`, etc.) are present, they're used only to infer a fallback channel-level `utm_source` value (e.g., `gclid` → `google`). The raw click ID values are not stored as attribution data.
+Checkout UI extensions are sandboxed and can't access the browser DOM (e.g., `document.cookie`, `localStorage`, or `window.location`). Capture UTMs on the storefront and write them into cart/checkout attributes before checkout starts.
 </Note>
+
+<Note>
+Custom attributes may be used by other apps. To reduce collisions, prefer `sm_utm_*` / `sm_utmParams` keys for explicit overrides (matching is normalized, but canonical keys reduce ambiguity).
+</Note>
+
+## Shopify Order Notes (Priority 4)
+
+Order notes are a key attribution source written by server-side tracking tools like **Elevar** and **Blotout**. These tools capture UTMs at checkout and write them to Shopify order notes / note attributes.
+
+<Info>
+If you have control over implementation, prefer **customAttributes override (priority 1)** instead of writing attribution into notes. Notes are shared and can be overwritten by apps; custom attributes are clearer and explicitly prioritized.
+</Info>
+
+### Note Attributes (Legacy)
+
+The system supports extracting attribution from legacy `note_attributes` patterns, including:
+- Standard UTM keys like `utm_source`, `utm_medium`, `utm_campaign`, `utm_content`, `utm_term`, `utm_id`
+- Tool-specific payloads (e.g., `_elevar_visitor_info`) when they contain nested UTM data
 
 ## UTM Field Collapsing
 
 After the primary source is determined, the system "collapses" supplementary UTM fields from lower-priority sources.
 
-**Example:** If priority 1 (Last Customer Visit) provides `utm_source=google` but no `utm_campaign`, and priority 2 (Landing Site) has `utm_campaign=summer_sale`, the final attribution will combine:
-- `utm_source=google` (from priority 1)
-- `utm_campaign=summer_sale` (from priority 2)
+**Example:** If priority 2 (Last Customer Visit) provides `utm_source=google` but no `utm_campaign`, and priority 3 (Landing Site) has `utm_campaign=summer_sale`, the final attribution will combine:
+- `utm_source=google` (from priority 2)
+- `utm_campaign=summer_sale` (from priority 3)
 
 This only happens when the `utm_source` grouped channel is the **same** across sources—we don't mix data from different channels.
 
