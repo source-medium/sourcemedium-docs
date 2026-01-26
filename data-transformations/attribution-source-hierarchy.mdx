@@ -114,6 +114,12 @@ Click IDs are processed as a **fallback** (see below), but the raw click ID valu
 
 If you send `sm_utmParams`, `utmParams`, or `GE_utmParams` as a URL query string (e.g., `utm_source=google&utm_medium=cpc`), SourceMedium parses it and extracts the individual UTM keys. Parsing is snake/camel agnostic (both `utm_source=` and `utmSource=` are supported) and URL-decoding is applied.
 
+#### URL Handling
+
+URL encoding in `sm_utmParams`, `utmParams`, and `GE_utmParams` values is fully decoded:
+- Percent encoding: `%XX` patterns (e.g., `%20` → space, `%26` → `&`)
+- Form-style encoding: `+` characters are decoded as spaces (common in checkout apps)
+
 ### Click ID to Channel Inference
 
 When only a click ID is present (no explicit `utm_source`), the system infers a fallback `utm_source` value:
