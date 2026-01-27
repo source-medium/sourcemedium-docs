@@ -1,0 +1,141 @@
+---
+title: "AI Analyst"
+sidebarTitle: "Overview"
+description: "Ask questions about your data in natural language and get answers with charts and SQL"
+icon: "message-bot"
+---
+
+The AI Analyst lets you ask questions about your e-commerce data in plain English. It understands your question, finds the right data, writes SQL, and returns results with visualizations — all within Slack.
+
+## How It Works
+
+When you ask a question, the AI Analyst:
+
+1. **Classifies your question** — Determines whether you need data analysis, a definition, or a diagnostic check
+2. **Identifies relevant tables** — Finds the right data sources for your question
+3. **Generates SQL** — Writes a query against your BigQuery warehouse
+4. **Executes and visualizes** — Runs the query and creates a chart if appropriate
+
+<Info>
+The AI Analyst queries your actual data in BigQuery. Results reflect your real business metrics, not sample data.
+</Info>
+
+---
+
+## What You Can Ask
+
+The AI Analyst handles three types of questions:
+
+### Data Questions
+
+Questions that require querying your warehouse:
+
+- "What was our revenue last week?"
+- "Show me top 10 products by units sold this month"
+- "How many new customers did we acquire in January?"
+- "What's our average order value by channel?"
+
+### Definitions & Schema
+
+Questions about metrics, tables, and data structure:
+
+- "What is LTV?"
+- "How is conversion rate calculated?"
+- "Which table has order data?"
+- "What columns are in the customers table?"
+
+### Diagnostics
+
+Health checks for your data and tracking:
+
+- "How is my data health?" — Check table freshness and availability
+- "How is my attribution health?" — Check UTM tracking coverage
+
+<CardGroup cols={2}>
+  <Card title="Data Health" icon="stethoscope" href="/ai-analyst/diagnostics/data-health">
+    Understand whether your data is fresh and ready for analysis.
+  </Card>
+  <Card title="Attribution Health" icon="heart-pulse" href="/ai-analyst/diagnostics/attribution-health">
+    Diagnose tracking gaps and improve attribution coverage.
+  </Card>
+</CardGroup>
+
+---
+
+## Analytical Domains
+
+The AI Analyst can query data across these domains:
+
+| Domain | What You Can Analyze |
+|--------|---------------------|
+| **Orders & Revenue** | Revenue, AOV, order counts, discounts, shipping |
+| **Customers** | New vs. repeat, cohort analysis, customer-level metrics |
+| **Marketing** | Ad spend, ROAS, CPO, channel performance |
+| **Email & SMS** | Campaign performance, engagement metrics |
+| **Web Analytics** | Funnel events, page views, conversion paths |
+| **Cohort LTV** | Lifetime value by acquisition cohort |
+| **Attribution** | Multi-touch attribution, channel contribution |
+
+---
+
+## Getting Started
+
+<Steps>
+  <Step title="Access via Slack">
+    The AI Analyst is installed as a private bot within your company's Slack workspace. Mention the bot or send a direct message in your designated SourceMedium channel to start.
+  </Step>
+  <Step title="Ask a question">
+    Type your question in natural language. Be specific about time ranges and metrics when possible.
+  </Step>
+  <Step title="Review results">
+    The AI Analyst returns a response with data, a chart (if applicable), and the SQL query used.
+  </Step>
+</Steps>
+
+---
+
+## What It Can't Do
+
+The AI Analyst is designed for analytics questions against your SourceMedium data. It cannot:
+
+- Access systems outside your BigQuery warehouse
+- Modify data or run write operations
+- Answer questions unrelated to your e-commerce analytics
+- Guarantee real-time data (see [Data Health](/ai-analyst/diagnostics/data-health) for freshness)
+- Access custom tables or customized logic built on top of SourceMedium data
+
+---
+
+## Data Access & Security
+
+### Data Access Scope
+
+Currently, the AI Analyst has access only to **SourceMedium out-of-the-box transformed tables**. If you have built custom tables or added customized logic on top of our data within your BigQuery instance, the agent will not have visibility into those for now.
+
+<Note>
+Support for custom tables and user-defined schemas is planned for a future update.
+</Note>
+
+### Access Control
+
+The AI Analyst operates at the **tenant level**. This means:
+
+- **Full Tenant Visibility**: Anyone within your Slack workspace who has access to the bot can query any data available in the SourceMedium tables for your tenant.
+- **Multi-Store Organizations**: If your tenant includes multiple stores, the bot can query data across all of them.
+
+<Warning>
+Granular access control (limiting specific users to specific stores or tables) is not yet available but is on our roadmap.
+</Warning>
+
+---
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Example Questions" icon="lightbulb" href="/ai-analyst/what-you-can-ask">
+    See examples of questions across different domains.
+  </Card>
+  <Card title="Understanding Results" icon="chart-simple" href="/ai-analyst/understanding-results">
+    Learn how to read responses, charts, and SQL output.
+  </Card>
+</CardGroup>

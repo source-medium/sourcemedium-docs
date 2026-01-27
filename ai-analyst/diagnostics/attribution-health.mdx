@@ -1,0 +1,121 @@
+---
+title: "Attribution Health"
+sidebarTitle: "Attribution Health"
+description: "Diagnose tracking quality and improve marketing attribution coverage"
+icon: "heart-pulse"
+---
+
+**Attribution Health answers: Is my marketing attribution accurate?**
+
+When you ask "How is my attribution health?", the AI Analyst runs a live audit against your orders data to show what percentage of purchases have attributable marketing touchpoints vs. showing as `(direct) / (none)`.
+
+## Why It Matters
+
+If a significant portion of your orders show as "direct" or "unattributed," you can't accurately measure which marketing channels are driving revenue. This affects:
+
+- **ROAS calculations** — Spend looks less efficient than it actually is
+- **Budget allocation** — You can't shift spend toward what's working
+- **Channel comparisons** — Organic and paid performance becomes unclear
+
+---
+
+## What the Audit Shows
+
+When you ask about attribution health, you'll see:
+
+| Metric | What It Means |
+|--------|---------------|
+| **Unattributed %** | Percentage of orders showing as `(direct) / (none)` |
+| **Top unattributed sources** | Breakdown of what "direct" traffic looks like |
+| **Trend** | Whether attribution coverage is improving or degrading |
+
+### Interpreting the Results
+
+| Unattributed % | Assessment |
+|----------------|------------|
+| **< 10%** | Healthy — your tracking captures most sources |
+| **10–25%** | Moderate — room to improve coverage |
+| **> 25%** | High — significant marketing attribution is missing |
+
+<Note>
+**Marketplace orders are excluded.** Attribution Health focuses on your direct-to-consumer (online DTC) orders — the ones where UTM tracking matters. Orders from Amazon, TikTok Shop, and other marketplaces are inherently attributed to that platform, so there's no UTM to capture.
+</Note>
+
+---
+
+## Common Causes of Poor Attribution
+
+<CardGroup cols={2}>
+  <Card title="Missing UTM Parameters" icon="link-slash">
+    Campaigns without proper UTM tagging result in traffic appearing as direct.
+  </Card>
+  <Card title="Cookie/Tracking Blockers" icon="shield">
+    Ad blockers, iOS privacy features, and browser restrictions prevent tracking.
+  </Card>
+  <Card title="Cross-Domain Issues" icon="arrows-split-up-and-left">
+    Customers moving between domains lose UTM parameters along the way.
+  </Card>
+  <Card title="Delayed Purchases" icon="clock">
+    Long consideration cycles mean the original touchpoint expires before purchase.
+  </Card>
+</CardGroup>
+
+---
+
+## How to Improve Attribution
+
+For detailed guidance on improving your attribution coverage, see the full Attribution Health toolkit:
+
+<Card title="Attribution Health Toolkit" icon="toolbox" href="/data-inputs/attribution-health/index">
+  Comprehensive strategies for improving tracking: UTM setup, checkout attribute capture, post-purchase surveys, and more.
+</Card>
+
+### Quick Wins
+
+1. **Audit your UTM tagging** — Ensure all paid campaigns have consistent UTM parameters
+2. **Enable checkout attribute capture** — Capture UTMs at checkout to bypass cookie blockers (Shopify Plus)
+3. **Add post-purchase surveys** — Ask customers directly how they heard about you
+
+---
+
+## Example Questions
+
+- "How is my attribution health?"
+- "What's the health of my tracking?"
+- "Is my UTM coverage good?"
+- "Why is so much traffic direct/none?"
+- "What percentage of orders are unattributed?"
+
+---
+
+## Attribution Health vs Data Health
+
+| | Attribution Health | Data Health |
+|-|-------------------|-------------|
+| **Focus** | Tracking and UTM coverage quality | Table freshness and availability |
+| **Question it answers** | "Is my marketing attribution accurate?" | "Is my data pipeline working?" |
+| **Data source** | Live SQL audit of orders | Metadata about table freshness |
+| **What fixes it** | Fix UTM tagging, landing page parameters | Wait for sync, escalate integration issue |
+
+<Tip>
+If Attribution Health looks poor but Data Health is fine, the issue is your tracking setup — not your data pipeline. Focus on UTM tagging and checkout attribute capture.
+</Tip>
+
+---
+
+## Related Resources
+
+<CardGroup cols={2}>
+  <Card title="Data Health" icon="stethoscope" href="/ai-analyst/diagnostics/data-health">
+    Check whether your data tables are fresh and available.
+  </Card>
+  <Card title="UTM Setup" icon="bullseye" href="/help-center/core-concepts/attribution/utm-setup">
+    Standardize UTM tagging for consistent attribution.
+  </Card>
+  <Card title="Why (direct) / (none) Happens" icon="question" href="/help-center/core-concepts/attribution/direct-none">
+    Deep dive into causes of missing attribution.
+  </Card>
+  <Card title="Checkout Attribute Capture" icon="shopify" href="/data-inputs/platform-supporting-resources/shopify/backfilling-utm-attribution-via-checkout-attributes">
+    Capture UTMs at checkout to bypass cookie blockers.
+  </Card>
+</CardGroup>

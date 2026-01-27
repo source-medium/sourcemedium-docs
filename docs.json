@@ -715,6 +715,39 @@
         ]
       },
       {
+        "tab": "AI Analyst",
+        "groups": [
+          {
+            "group": "Getting Started",
+            "pages": [
+              "ai-analyst/index",
+              "ai-analyst/what-you-can-ask"
+            ]
+          },
+          {
+            "group": "Using the AI Analyst",
+            "pages": [
+              "ai-analyst/understanding-results"
+            ]
+          },
+          {
+            "group": "Diagnostics",
+            "pages": [
+              "ai-analyst/diagnostics/index",
+              "ai-analyst/diagnostics/data-health",
+              "ai-analyst/diagnostics/attribution-health"
+            ]
+          },
+          {
+            "group": "Help",
+            "pages": [
+              "ai-analyst/troubleshooting",
+              "ai-analyst/roadmap"
+            ]
+          }
+        ]
+      },
+      {
         "tab": "MTA",
         "groups": [
           {

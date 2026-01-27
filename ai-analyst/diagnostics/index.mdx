@@ -1,0 +1,63 @@
+---
+title: "Diagnostics"
+sidebarTitle: "Overview"
+description: "Health checks to ensure your data is ready for analysis"
+icon: "stethoscope"
+---
+
+Before diving into analytics, it helps to know whether your data is complete and reliable. The AI Analyst includes built-in diagnostic checks that surface issues proactively.
+
+---
+
+## Two Types of Health Checks
+
+| Check | What It Answers |
+|-------|----------------|
+| **Data Health** | Is my data fresh and available? Are tables up to date? |
+| **Attribution Health** | Is my tracking working? Are marketing sources being captured? |
+
+These checks address different concerns:
+
+- **Data Health** is about your *data pipeline* — whether data is flowing from source systems to your warehouse
+- **Attribution Health** is about your *tracking setup* — whether UTM parameters and touchpoints are being captured correctly
+
+<Info>
+A table can be perfectly fresh but still show poor attribution. Conversely, tracking can be excellent but data stale. These are independent issues with different solutions.
+</Info>
+
+---
+
+## When to Run Diagnostics
+
+**Before starting an analysis:**
+Ask "How is my data health?" to confirm the tables you need are current.
+
+**When results look wrong:**
+If numbers seem off, check Data Health first (is the data stale?), then Attribution Health (is tracking capturing sources correctly?).
+
+**Proactively:**
+Run diagnostics periodically to catch issues before they affect decisions.
+
+---
+
+## Diagnostic Reports
+
+<CardGroup cols={2}>
+  <Card title="Data Health" icon="stethoscope" href="/ai-analyst/diagnostics/data-health">
+    Check table freshness, availability, and domain readiness. Answers: "Is my data pipeline working?"
+  </Card>
+  <Card title="Attribution Health" icon="heart-pulse" href="/ai-analyst/diagnostics/attribution-health">
+    Check UTM coverage, tracking quality, and unattributed traffic. Answers: "Is my marketing attribution accurate?"
+  </Card>
+</CardGroup>
+
+---
+
+## Quick Reference
+
+| Question | Diagnostic | What You Learn |
+|----------|-----------|----------------|
+| "How is my data health?" | Data Health | Table freshness, which domains are ready |
+| "Which tables are fresh?" | Data Health | Specific table-level status |
+| "How is my attribution health?" | Attribution Health | % of orders with attribution, tracking gaps |
+| "Why is traffic showing as direct/none?" | Attribution Health | Causes of missing attribution |

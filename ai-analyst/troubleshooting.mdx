@@ -1,0 +1,122 @@
+---
+title: "Troubleshooting"
+sidebarTitle: "Troubleshooting"
+description: "Common issues with the AI Analyst and how to resolve them"
+icon: "wrench"
+---
+
+This page covers common issues you might encounter when using the AI Analyst and how to resolve them.
+
+---
+
+## Results Don't Match Expectations
+
+### The numbers seem wrong
+
+<Steps>
+  <Step title="Check the date range in the SQL">
+    Review the generated SQL query. The AI Analyst may have interpreted your time range differently than you intended. "Last week" could mean the previous 7 days or the previous calendar week.
+  </Step>
+  <Step title="Verify the metric definition">
+    Confirm the AI used the metric you expected. "Revenue" might be gross or net depending on context. Check the SQL to see exactly what was summed.
+  </Step>
+  <Step title="Check Data Health">
+    Ask "How is my data health?" — if the relevant tables are stale, recent data may be missing from results.
+  </Step>
+</Steps>
+
+### High (direct) / (none) in results
+
+This indicates an attribution issue, not a query issue. The AI Analyst is correctly reflecting what's in your data.
+
+<Card title="Attribution Health" icon="heart-pulse" href="/ai-analyst/diagnostics/attribution-health">
+  Learn how to diagnose and improve attribution coverage.
+</Card>
+
+---
+
+## The AI Misunderstood My Question
+
+### It answered a different question
+
+Rephrase with more specificity:
+
+| Instead of | Try |
+|------------|-----|
+| "How are we doing?" | "What was our revenue last 30 days vs. the previous 30 days?" |
+| "Show me sales" | "Show me daily order count for the past 2 weeks" |
+| "Best products" | "Top 10 products by revenue this month" |
+
+### It used the wrong table
+
+If the AI queried the wrong data source, clarify the domain:
+
+| Instead of | Try |
+|------------|-----|
+| "Show me performance" | "Show me ad performance by platform" |
+| "Customer data" | "Show me new customer acquisition by week" |
+
+---
+
+## No Results Returned
+
+### "No data found" or empty results
+
+1. **Check the date range** — You may be querying a period with no activity
+2. **Check filters** — The AI may have applied filters that excluded all rows
+3. **Check Data Health** — The table may be empty or not yet populated for your account
+
+### Query timed out
+
+Complex queries against large date ranges may time out. Try:
+
+- Narrowing the date range
+- Asking for aggregated data instead of row-level details
+- Breaking the question into smaller parts
+
+---
+
+## Chart Not Generated
+
+The AI Analyst generates charts when visualization adds value. Charts may not appear when:
+
+- The result is a single number (e.g., "total revenue was $142,350")
+- The data structure doesn't lend itself to visualization
+- There was an error generating the chart
+
+In these cases, the data is still returned as text or a table.
+
+---
+
+## Slow Responses
+
+Response time depends on:
+
+- **Query complexity** — Aggregations across large date ranges take longer
+- **Table size** — Some tables have more data than others
+- **Current load** — Occasional delays during peak usage
+
+Most queries complete within 1–2 minutes. If responses consistently take significantly longer, try simplifying your question or narrowing the scope.
+
+---
+
+## The AI Said It Can't Help
+
+The AI Analyst is designed for e-commerce analytics questions. It will decline requests that:
+
+- Ask about data outside your BigQuery warehouse
+- Request actions (modifying data, sending emails, etc.)
+- Are unrelated to analytics (general knowledge questions)
+
+For questions about SourceMedium concepts or definitions, the AI can still help — try rephrasing as a definition or schema question.
+
+---
+
+## Getting More Help
+
+If you're stuck:
+
+1. **Check the SQL** — The generated query often reveals how the AI interpreted your question
+2. **Try a simpler question** — Start basic, then add complexity
+3. **Ask about schema** — "Which table has order data?" can help you understand the data structure
+4. **Contact support** — Reach out to your SourceMedium team for persistent issues

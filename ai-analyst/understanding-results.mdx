@@ -1,0 +1,140 @@
+---
+title: "Understanding Results"
+sidebarTitle: "Reading Results"
+description: "How to interpret responses, charts, and SQL from the AI Analyst"
+icon: "chart-simple"
+---
+
+When the AI Analyst answers your question, it returns a structured response with multiple components. This page explains what each part means and how to use it.
+
+---
+
+## Response Components
+
+A typical response includes:
+
+| Component | Description |
+|-----------|-------------|
+| **Answer** | Natural language summary of the results |
+| **Chart** | Visual representation of the data (when applicable) |
+| **Data Table** | The underlying numbers in tabular format |
+| **SQL Query** | The exact query used to retrieve the data |
+
+---
+
+## The Answer
+
+The AI Analyst summarizes findings in plain language. This is designed to give you the key insight without needing to parse raw data.
+
+**Example:**
+
+> Your total revenue last week was $142,350, down 8% from the previous week. The top channel was Paid Social at $52,100 (37% of total).
+
+The answer prioritizes:
+- The specific number you asked for
+- Relevant context (comparisons, breakdowns)
+- Highlighting notable patterns
+
+---
+
+## Charts
+
+When your question lends itself to visualization, the AI Analyst generates a chart. Common chart types:
+
+| Chart Type | Used For |
+|------------|----------|
+| **Bar chart** | Comparisons across categories (channels, products, campaigns) |
+| **Line chart** | Trends over time (daily revenue, weekly orders) |
+| **Table** | Detailed breakdowns with multiple metrics |
+
+Charts are generated as images and posted directly in the Slack thread.
+
+<Note>
+If a chart doesn't appear, the AI Analyst determined the data was better presented as text or a table. This often happens for single-value answers or complex multi-dimensional data.
+</Note>
+
+---
+
+## Data Tables
+
+For questions that return multiple rows, you'll see a data table showing the raw results. This is the actual output from BigQuery, limited to a reasonable preview size.
+
+**Example:**
+
+| channel | revenue | orders |
+|---------|---------|--------|
+| Paid Social | 52,100 | 412 |
+| Email | 38,200 | 298 |
+| Organic Search | 28,750 | 215 |
+
+You can download the full dataset as a CSV file attached to the response.
+
+---
+
+## The SQL Query
+
+Every data response includes the SQL query used. This is useful for:
+
+- **Verification** — Confirm the AI understood your question correctly
+- **Learning** — See how to write similar queries yourself using SourceMedium table schemas
+- **Iteration** — Copy and modify the query in BigQuery for deeper follow-up analysis
+
+<Tip>
+**Use the AI as a SQL tutor.** If you are learning BigQuery, comparing the generated SQL against our [Table Schemas](/onboarding/data-docs/dimensions) is the fastest way to master your data structure. You can copy any query directly into the BigQuery console to test your own modifications.
+</Tip>
+
+**Example:**
+
+```sql
+SELECT
+  sm_default_channel AS channel,
+  SUM(total_price) AS revenue,
+  COUNT(DISTINCT order_id) AS orders
+FROM `your-project.sm_transformed_v2.obt_orders`
+WHERE order_date BETWEEN '2024-01-08' AND '2024-01-14'
+GROUP BY 1
+ORDER BY 2 DESC
+```
+
+<Tip>
+If the results don't match your expectations, check the SQL to see how the AI Analyst interpreted your question. Date ranges and filters are common sources of misunderstanding.
+</Tip>
+
+---
+
+## File Downloads
+
+Responses may include downloadable files:
+
+| File | Contents |
+|------|----------|
+| `query.sql` | The SQL query used |
+| `results.csv` | Full data export (not truncated) |
+| `chart.png` | The visualization as an image |
+
+These files are attached to the Slack message and can be downloaded directly.
+
+---
+
+## When Things Look Wrong
+
+If results don't match your expectations:
+
+<Steps>
+  <Step title="Check the date range">
+    Review the SQL query to confirm the time period matches your intent.
+  </Step>
+  <Step title="Verify the metric">
+    Make sure the AI Analyst used the metric you expected (e.g., gross revenue vs. net revenue).
+  </Step>
+  <Step title="Check data freshness">
+    Ask "How is my data health?" to confirm the underlying tables are up to date.
+  </Step>
+  <Step title="Rephrase and retry">
+    If the AI misunderstood, rephrase with more specificity and try again.
+  </Step>
+</Steps>
+
+<Card title="Troubleshooting" icon="wrench" href="/ai-analyst/troubleshooting">
+  Common issues and how to resolve them.
+</Card>

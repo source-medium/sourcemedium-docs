@@ -1,0 +1,151 @@
+---
+title: "Data Health"
+sidebarTitle: "Data Health"
+description: "Understand whether your data is fresh, available, and ready for analysis"
+icon: "stethoscope"
+---
+
+**Data Health answers one question: Is my data ready for analysis?**
+
+Before diving into revenue trends or cohort performance, you need to know whether the underlying data is complete and current. Data Health surfaces pipeline issues proactively so you can trust your answers, avoid surprises, and scope your analyses appropriately.
+
+## Why It Matters
+
+Analytics are only as reliable as the data behind them.
+
+- **Stale data misleads**: A "last 7 days" analysis is useless if the most recent 3 days haven't synced
+- **Proactive visibility prevents bad decisions**: Catching a sync issue before a board meeting is better than discovering it afterward
+- **Scoping saves time**: Knowing which domains are ready helps you focus on answerable questions
+
+<Note>
+Data Health tells you whether the pipeline is working. [Attribution Health](/ai-analyst/diagnostics/attribution-health) tells you whether your tracking is capturing marketing touchpoints. Both matter — a table can be perfectly fresh but still show 40% `(direct) / (none)` if UTM tracking isn't set up properly.
+</Note>
+
+---
+
+## What We Check
+
+| Dimension | What It Means |
+|-----------|---------------|
+| **Freshness** | Has the table been updated recently? We flag tables that haven't refreshed in 14+ days. |
+| **Availability** | Does the table contain data, or is it empty? |
+| **Domain Readiness** | Which analytical areas are usable — orders, customers, ads, attribution, etc.? |
+
+---
+
+## When Data Updates
+
+Key tables refresh daily. Our SLA guarantees **fresh data through the previous day** based on your reporting timezone.
+
+- **Through yesterday** — Complete and reliable. This is what we guarantee.
+- **Today's data** — Incomplete. Don't use current-day data for analysis.
+
+<Info>
+Real-time isn't the goal. We optimize for **accuracy over speed** — ensuring data is correctly transformed, deduplicated, and enriched before it reaches your warehouse.
+</Info>
+
+### Platform-Specific Timing
+
+Some platforms have longer sync windows due to API limitations:
+
+| Platform | Typical Lag |
+|----------|-------------|
+| Shopify, Klaviyo, Meta, Google Ads | 24 hours |
+| Amazon Seller/Vendor Central, Amazon Ads | 24–72 hours (API rate limits) |
+| GA4 | 24–48 hours |
+
+---
+
+## Why 14 Days?
+
+Key tables — orders, customers, sessions, ad spend — should have fresh data every day. That's the normal operating state for an active e-commerce business.
+
+The **14-day threshold** exists for secondary tables that may not see daily activity:
+
+- A new subscription program might not have orders every day yet
+- Refunds tables depend on actual refund volume
+- Some niche integrations only fire on specific events
+
+We flag tables at 14+ days because it's long enough to account for legitimate low-volume periods while still surfacing tables worth investigating.
+
+<Note>
+If a core table (orders, customers, ad performance) is stale, that's almost always a pipeline issue. If a secondary table is stale, check whether you'd expect activity — it might just be low volume.
+</Note>
+
+---
+
+## Common Scenarios
+
+| What You See | What It Likely Means |
+|--------------|----------------------|
+| Orders table is stale | E-commerce platform sync may be delayed or disconnected |
+| Attribution table fresh but coverage low | Pipeline works, but tracking may not — check [Attribution Health](/ai-analyst/diagnostics/attribution-health) |
+| Ad performance empty for a platform | That integration may not be connected |
+| Multiple tables 14+ days stale | Broader pipeline issue — recent analyses across domains are affected |
+| Single table stale, others fine | Platform-specific issue (API error, auth expiration, rate limits) |
+
+---
+
+## What To Do If Data Is Degraded
+
+<Steps>
+  <Step title="Check specific tables">
+    Ask "Which tables are stale?" to identify exactly what's affected. Is it one platform or multiple?
+  </Step>
+  <Step title="Scope your analysis">
+    Avoid date ranges that depend on stale data. If orders haven't synced since Jan 15, don't analyze Jan 16–20.
+  </Step>
+  <Step title="Check Attribution Health">
+    If data is fresh but results look wrong (e.g., high `(direct) / (none)`), the issue may be tracking, not pipeline.
+  </Step>
+  <Step title="Escalate if persistent">
+    If staleness persists beyond 24–48 hours, reach out to your SourceMedium team — there may be an integration issue requiring admin attention.
+  </Step>
+</Steps>
+
+---
+
+## Example Questions
+
+You can ask about data health in natural language:
+
+- "How is my data health?"
+- "Can I trust my last 7 days of data?"
+- "Which tables are fresh?"
+- "What data do I have available?"
+- "Are my tables up to date?"
+- "When was my orders data last updated?"
+
+---
+
+## Data Health vs Attribution Health
+
+| | Data Health | Attribution Health |
+|-|-------------|-------------------|
+| **Focus** | Table freshness and availability | Tracking and UTM coverage quality |
+| **Question it answers** | "Is my data pipeline working?" | "Is my marketing attribution accurate?" |
+| **When to check** | Before any analysis | When results look wrong despite fresh data |
+| **What fixes it** | Wait for sync, or escalate integration issue | Fix UTM tagging, landing page parameters |
+
+<Tip>
+**Check Data Health first.** If data is stale, that explains why numbers look off. If data is fresh but attribution seems wrong, then check Attribution Health.
+</Tip>
+
+---
+
+## Related Resources
+
+<CardGroup cols={2}>
+  <Card title="Attribution Health" icon="heart-pulse" href="/ai-analyst/diagnostics/attribution-health">
+    Diagnose and improve tracking coverage for marketing attribution.
+  </Card>
+  <Card title="Data Freshness" icon="clock" href="/help-center/core-concepts/data-transformation/data-freshness">
+    Details on refresh schedules and platform-specific timing.
+  </Card>
+  <Card title="Why (direct) / (none) Happens" icon="question" href="/help-center/core-concepts/attribution/direct-none">
+    Common causes of missing attribution and how to fix them.
+  </Card>
+  <Card title="Data Architecture" icon="sitemap" href="/help-center/core-concepts/data-transformation/data-architecture">
+    How SourceMedium structures and transforms your data.
+  </Card>
+</CardGroup>
