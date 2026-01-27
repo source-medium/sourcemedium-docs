@@ -311,6 +311,46 @@ SELECT DISTINCT subscription_order_sequence FROM `sm-democo.sm_transformed_v2.ob
 
 **Pattern:** Config files describe intended display values; actual implementation uses snake_case constants. Query production data, not config files.
 
+## SQL Examples in Documentation
+
+### Validation Requirement
+**All SQL examples MUST be validated by an engineer before merging.** Run queries against a test warehouse (e.g., `sm-democo`) using BigQuery dry-run to catch syntax and schema errors:
+
+```bash
+bq query --dry_run --use_legacy_sql=false "SELECT ... FROM \`sm-democo.sm_transformed_v2.obt_orders\` ..."
+```
+
+### Query Standards
+1. **Required filters for order tables:**
+   ```sql
+   WHERE is_order_sm_valid = TRUE
+   ```
+
+2. **Dataset paths:** Use placeholder format for customer docs:
+   ```sql
+   FROM `your_project.sm_transformed_v2.obt_orders`      -- Standard tables
+   FROM `your_project.sm_experimental.obt_purchase_journeys_with_mta_models`  -- MTA tables
+   ```
+
+3. **Placeholders:** Use `your_project` and `your-sm_store_id` consistently (not `{{account_id}}` or `smcid`)
+
+4. **Safe division:** Always use `SAFE_DIVIDE()` to avoid division-by-zero errors
+
+5. **Date/timestamp handling:** BigQuery is strict about types:
+   ```sql
+   -- Correct: wrap timestamp in DATE() when comparing to DATE
+   WHERE DATE(order_processed_at_local_datetime) >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)
+
+   -- Wrong: comparing TIMESTAMP to DATE directly
+   WHERE order_processed_at_local_datetime >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)
+   ```
+
+### Common Pitfalls
+- **Column `smcid` doesn't exist** → Use `sm_store_id`
+- **Column `sm_marketing_channel` doesn't exist** → Use `sm_channel`
+- **Reserved word `rows`** → Use `row_count` or another alias
+- **Missing required filters** → Order queries need `is_order_sm_valid = TRUE`
+
 ## Pre-Commit Validation
 
 Run the validation commands from [Essential Commands](#essential-commands), plus:
