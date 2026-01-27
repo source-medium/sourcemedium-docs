@@ -109,7 +109,11 @@ This yields **LTV by targeting strategy**, not “LTV by customer age/gender”.
 
 ## Example: Average customer LTV by primary country
 
-This example uses `dim_customer_addresses` for a customer’s primary country and `obt_orders` for net revenue.
+This example uses `dim_customer_addresses` for a customer's primary country and `obt_orders` for net revenue.
+
+<Warning>
+Always filter `obt_orders` with `WHERE is_order_sm_valid = true` to exclude cancelled, test, and invalid orders from your analysis.
+</Warning>
 
 ```sql
 with customer_geo as (
@@ -124,32 +128,90 @@ customer_ltv as (
     sm_customer_key,
     sum(order_net_revenue) as ltv
   from your_project.sm_transformed_v2.obt_orders
+  where is_order_sm_valid = true
   group by 1
 )
 select
-  g.country,
+  coalesce(g.country, 'Unknown') as country,
   count(*) as customers,
   avg(l.ltv) as avg_ltv
 from customer_ltv l
-join customer_geo g using (sm_customer_key)
+left join customer_geo g using (sm_customer_key)
 group by 1
 order by avg_ltv desc;
 ```
 
-## Example: Cohort LTV by “first purchase attribute” (discover what dimensions you have)
+<Note>
+This query uses a `LEFT JOIN` so customers without a default address are grouped under "Unknown" rather than excluded. If you prefer to exclude them, use an `INNER JOIN` instead.
+</Note>
+
+## Example: Cohort LTV by "first purchase attribute" (discover what dimensions you have)
 
 If you use UTMs to encode audience strategy, a convenient way to view LTV over time is the cohort LTV report table:
 `your_project.sm_transformed_v2.rpt_cohort_ltv_by_first_valid_purchase_attribute_no_product_filters`.
+
+<Warning>
+This table contains **three rows per cohort**—one for each `sm_order_line_type` value (`all_orders`, `one_time_orders_only`, `subscription_orders_only`). Always filter to `sm_order_line_type = 'all_orders'` unless you specifically need subscription-only or one-time-only analysis.
+</Warning>
 
 To see which cohort dimensions exist in your warehouse:
 
 ```sql
 select
   acquisition_order_filter_dimension,
-  count(*) as rows
+  count(*) as row_count
 from your_project.sm_transformed_v2.rpt_cohort_ltv_by_first_valid_purchase_attribute_no_product_filters
+where sm_order_line_type = 'all_orders'
 group by 1
-order by rows desc;
+order by row_count desc;
+```
+
+To see example values for each dimension:
+
+```sql
+select
+  acquisition_order_filter_dimension,
+  count(distinct acquisition_order_filter_dimension_value) as distinct_values,
+  array_agg(distinct acquisition_order_filter_dimension_value limit 5) as example_values
+from your_project.sm_transformed_v2.rpt_cohort_ltv_by_first_valid_purchase_attribute_no_product_filters
+where sm_order_line_type = 'all_orders'
+group by 1
+order by distinct_values desc;
+```
+
+### Available dimensions
+
+| Dimension | Description | Example Values |
+|-----------|-------------|----------------|
+| `source/medium` | UTM source and medium | `google / organic`, `facebook / paid`, `bing / cpc` |
+| `campaign` | UTM campaign name | `fps-3-in-1-zp-amz`, `email #1 - bundle offer` |
+| `discount_code` | First-order discount code | `SAVE10`, `SAVE100` |
+| `sub_channel` | Marketing sub-channel | `Paid Social`, `Paid Search`, `Online DTC` |
+| `zero_party_attribution` | HDYHAU / post-purchase survey | `user_input: web search`, `user_input: my dermatologist recommended it` |
+| `order_type_(sub_vs._one_time)` | Subscription vs one-time | `Subscription`, `One-time`, `Subscription & One-time` |
+| `no_filters` | Unfiltered cohort totals | `No Filters` |
+
+### Example: 12-month LTV by acquisition source/medium
+
+<Note>
+Cohorts need 12+ months of history to have 12-month LTV values. Filter to cohorts at least 12 months old, or `ltv_12m` will be NULL.
+</Note>
+
+```sql
+select
+  acquisition_order_filter_dimension_value as source_medium,
+  cohort_month,
+  cohort_size,
+  max(case when months_since_first_order = 12
+      then cumulative_order_net_revenue / nullif(cohort_size, 0) end) as ltv_12m
+from your_project.sm_transformed_v2.rpt_cohort_ltv_by_first_valid_purchase_attribute_no_product_filters
+where acquisition_order_filter_dimension = 'source/medium'
+  and sm_order_line_type = 'all_orders'
+  and cohort_month >= date_sub(current_date(), interval 24 month)
+  and cohort_month < date_sub(current_date(), interval 12 month)
+group by 1, 2, 3
+having ltv_12m is not null
+order by cohort_month desc, ltv_12m desc;
 ```
 
 ## Related resources
