@@ -94,6 +94,32 @@ Most examples default to the last 30 days for performance and “current state�
     LIMIT 20;
     ```
   </Accordion>
+
+  <Accordion title="Q081 — ROAS trends over time (monthly, last 6 months)">
+    ```sql
+    -- Assumptions: timeframe=last_6_months | metric=ROAS=platform_reported_revenue/ad_spend | grain=month+platform | scope=all_stores
+    WITH monthly AS (
+      SELECT
+        DATE_TRUNC(date, MONTH) AS month_start,
+        source_system AS platform,
+        SUM(ad_platform_reported_revenue) AS platform_reported_revenue,
+        SUM(ad_spend) AS ad_spend
+      FROM `your_project.sm_transformed_v2.rpt_ad_performance_daily`
+      WHERE date >= DATE_SUB(DATE_TRUNC(CURRENT_DATE(), MONTH), INTERVAL 6 MONTH)
+        AND date < DATE_ADD(DATE_TRUNC(CURRENT_DATE(), MONTH), INTERVAL 1 MONTH)
+        AND ad_spend > 0
+      GROUP BY 1, 2
+    )
+    SELECT
+      platform,
+      month_start,
+      ad_spend,
+      platform_reported_revenue,
+      SAFE_DIVIDE(platform_reported_revenue, NULLIF(ad_spend, 0)) AS roas
+    FROM monthly
+    ORDER BY platform, month_start;
+    ```
+  </Accordion>
 </AccordionGroup>
 
 ### Customers & Retention
@@ -177,6 +203,30 @@ Most examples default to the last 30 days for performance and “current state�
     ORDER BY week_start;
     ```
   </Accordion>
+
+  <Accordion title="Q082 — Customer acquisition trend (monthly new customers, last 12 months)">
+    ```sql
+    -- Assumptions: timeframe=last_12_months | metric=new_customers | grain=month | scope=all_channels
+    WITH monthly AS (
+      SELECT
+        DATE_TRUNC(date, MONTH) AS month_start,
+        SUM(new_customer_count) AS new_customers,
+        SUM(new_customer_order_count) AS new_customer_orders,
+        SUM(new_customer_order_net_revenue) AS new_customer_order_net_revenue
+      FROM `your_project.sm_transformed_v2.rpt_executive_summary_daily`
+      WHERE date >= DATE_SUB(DATE_TRUNC(CURRENT_DATE(), MONTH), INTERVAL 12 MONTH)
+      GROUP BY 1
+    )
+    SELECT
+      month_start,
+      new_customers,
+      new_customer_orders,
+      new_customer_order_net_revenue,
+      SAFE_DIVIDE(new_customer_order_net_revenue, NULLIF(new_customer_orders, 0)) AS new_customer_aov
+    FROM monthly
+    ORDER BY month_start;
+    ```
+  </Accordion>
 </AccordionGroup>
 
 ### Products
@@ -199,6 +249,55 @@ Most examples default to the last 30 days for performance and “current state�
     GROUP BY 1
     ORDER BY order_line_net_revenue DESC
     LIMIT 10;
+    ```
+  </Accordion>
+
+  <Accordion title="Q083 — Top products by units sold (last 30 days)">
+    ```sql
+    -- Assumptions: timeframe=last_30_days | metric=units_sold=SUM(order_line_quantity) | grain=sku | scope=valid_orders_only
+    SELECT
+      sku,
+      ANY_VALUE(product_title) AS product_title,
+      SUM(order_line_quantity) AS units_sold,
+      SUM(order_line_net_revenue) AS order_line_net_revenue,
+      COUNT(DISTINCT sm_order_key) AS orders
+    FROM `your_project.sm_transformed_v2.obt_order_lines`
+    WHERE is_order_sm_valid = TRUE
+      AND DATE(order_processed_at_local_datetime) >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)
+      AND sku IS NOT NULL
+      AND NOT REGEXP_CONTAINS(product_title, r'(?i)(shipping protection|not a product|service fee|processing fee)')
+    GROUP BY 1
+    ORDER BY units_sold DESC
+    LIMIT 20;
+    ```
+  </Accordion>
+
+  <Accordion title="Q017 — Products most common with new customers (first valid orders, last 90 days)">
+    ```sql
+    -- Assumptions: timeframe=first_valid_orders_last_90_days | metric=units_sold=SUM(order_line_quantity) | grain=product_title | scope=new_customers_valid_orders_only
+    WITH first_valid_orders AS (
+      SELECT
+        sm_order_key
+      FROM `your_project.sm_transformed_v2.obt_orders`
+      WHERE is_order_sm_valid = TRUE
+        AND order_cancelled_at IS NULL
+        AND sm_valid_order_index = 1
+        AND DATE(order_processed_at_local_datetime) >= DATE_SUB(CURRENT_DATE(), INTERVAL 90 DAY)
+    )
+    SELECT
+      ol.product_title,
+      SUM(ol.order_line_quantity) AS units_sold,
+      COUNT(DISTINCT ol.sm_order_key) AS orders,
+      COUNT(DISTINCT ol.sku) AS skus
+    FROM `your_project.sm_transformed_v2.obt_order_lines` ol
+    INNER JOIN first_valid_orders fvo
+      ON ol.sm_order_key = fvo.sm_order_key
+    WHERE ol.is_order_sm_valid = TRUE
+      AND ol.sku IS NOT NULL
+      AND NOT REGEXP_CONTAINS(ol.product_title, r'(?i)(shipping protection|not a product|service fee|processing fee)')
+    GROUP BY 1
+    ORDER BY units_sold DESC
+    LIMIT 25;
     ```
   </Accordion>
 </AccordionGroup>
@@ -264,6 +363,55 @@ Most examples default to the last 30 days for performance and “current state�
     FROM last_30_valid_orders o
     LEFT JOIN subscription_customers sc
       ON o.sm_customer_key = sc.sm_customer_key;
+    ```
+  </Accordion>
+
+  <Accordion title="Q062 — Refund rate by marketing channel (last 90 days)">
+    ```sql
+    -- Assumptions: timeframe=last_90_days | metric=refund_rate | grain=sm_utm_source_medium | scope=valid_orders_only
+    WITH base AS (
+      SELECT
+        COALESCE(NULLIF(LOWER(TRIM(sm_utm_source_medium)), ''), '(none) / (none)') AS marketing_channel,
+        order_total_refunds,
+        order_net_revenue_before_refunds,
+        sm_order_key
+      FROM `your_project.sm_transformed_v2.obt_orders`
+      WHERE is_order_sm_valid = TRUE
+        AND order_cancelled_at IS NULL
+        AND DATE(order_processed_at_local_datetime) >= DATE_SUB(CURRENT_DATE(), INTERVAL 90 DAY)
+    )
+    SELECT
+      marketing_channel,
+      COUNT(DISTINCT sm_order_key) AS orders,
+      COUNTIF(ABS(order_total_refunds) > 0) AS refunded_orders,
+      SAFE_DIVIDE(COUNTIF(ABS(order_total_refunds) > 0), NULLIF(COUNT(DISTINCT sm_order_key), 0)) AS refund_rate_orders,
+      ABS(SUM(order_total_refunds)) AS refund_amount,
+      SUM(order_net_revenue_before_refunds) AS revenue_before_refunds,
+      SAFE_DIVIDE(ABS(SUM(order_total_refunds)), NULLIF(SUM(order_net_revenue_before_refunds), 0)) AS refund_rate_revenue
+    FROM base
+    GROUP BY 1
+    HAVING orders >= 50
+    ORDER BY refund_rate_revenue DESC
+    LIMIT 50;
+    ```
+  </Accordion>
+
+  <Accordion title="Q115 — Distribution of orders and revenue by sales channel (last 30 days)">
+    ```sql
+    -- Assumptions: timeframe=last_30_days | metric=orders+net_revenue+share | grain=sm_channel | scope=valid_orders_only
+    SELECT
+      sm_channel,
+      COUNT(*) AS orders,
+      SUM(order_net_revenue) AS order_net_revenue,
+      SAFE_DIVIDE(COUNT(*), NULLIF(SUM(COUNT(*)) OVER (), 0)) AS pct_orders,
+      SAFE_DIVIDE(SUM(order_net_revenue), NULLIF(SUM(SUM(order_net_revenue)) OVER (), 0)) AS pct_revenue
+    FROM `your_project.sm_transformed_v2.obt_orders`
+    WHERE is_order_sm_valid = TRUE
+      AND order_cancelled_at IS NULL
+      AND DATE(order_processed_at_local_datetime) >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)
+      AND sm_channel IS NOT NULL
+    GROUP BY 1
+    ORDER BY orders DESC;
     ```
   </Accordion>
 </AccordionGroup>

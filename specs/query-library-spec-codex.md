@@ -96,6 +96,18 @@ Navigation note (v0):
   - Static schema/column validation: done (docs validator).
   - Live BigQuery dry-run validation (`bq query --dry_run ...`): pending engineering gate.
 
+### Batch 2 (shipped to docs; pending dry-run gate)
+- Canonical page: `sourcemedium-docs/data-activation/template-resources/sql-query-library.mdx`
+- Batch 2 queries added: Q081, Q082, Q083, Q017, Q062, Q115
+- Why these queries (selection rationale):
+  - **High-frequency questions** we repeatedly see (ROAS trend, acquisition trend, top products, refunds, channel mix, new-customer product mix).
+  - **Core, stable tables** only (`sm_transformed_v2`): `rpt_ad_performance_daily`, `rpt_executive_summary_daily`, `obt_orders`, `obt_order_lines`.
+  - **Low QA risk**: minimal joins, clear grains, and metrics align with uni2 routing rules (platform ROAS from ad performance tables; unique new customers from executive summary; last-click marketing channel from `sm_utm_source_medium`).
+  - **Complements Batch 1** by adding time-series + refunds + channel-mix + “new customer product” patterns without introducing MTA/experimental tables.
+ - Validation status:
+   - Static schema/column validation: done (0 issues for the canonical page’s SQL blocks).
+   - Live BigQuery dry-run validation (`bq query --dry_run ...`): pending engineering gate.
+
 ## Query Entry Format (Canonical Metadata)
 
 Each query should have consistent metadata so it can be searched, deduped, and QA’d.
@@ -229,13 +241,83 @@ Expected normalization notes for Batch 1:
 
 Target: add time-series + refunds + product discovery patterns with minimal QA risk.
 
-Proposed candidates (from `questions_grouped/unique/`):
+Status: drafted in docs; pending validation gate (static + dry-run).
+
+Candidates shipped as Batch 2:
 - Q081 — ROAS trends over time (Marketing & Ads; `rpt_ad_performance_daily`)
 - Q082 — customer acquisition trends over time (Customers; `rpt_executive_summary_daily`)
 - Q083 — top products by units sold (Products; `obt_order_lines`)
-- Q062 — refund rate by marketing channel (Refunds/Attribution; likely `obt_orders` + refund fields)
-- Q115 — distribution of retail vs wholesale vs DTC vs Amazon (Sales channels; `obt_orders`)
-- Q017 — products most common with new customers (Products/Customers; `obt_order_lines` + first-order filter)
+- Q017 — products most common with new customers (Products/Customers; `obt_order_lines` + `sm_valid_order_index = 1`)
+- Q062 — refund rate by marketing channel (Refunds/Attribution; `obt_orders` + refund fields)
+- Q115 — distribution of orders/revenue by sales channel (Sales channels; `obt_orders`)
+
+Notes (what we changed vs eval artifacts):
+- Q081/Q082 eval artifacts referenced non-canonical datasets (`sm_experimental.*`, `sm_views.*`). We rewrote to canonical `sm_transformed_v2` tables that match uni2 routing rules.
+- Q062 eval artifact used `sm_channel` for “marketing channel”. We rewrote to use `sm_utm_source_medium` (last-click) per uni2 attribution semantics.
+
+## Batch 3 (candidate pool — “stumper queries”)
+
+Target: expand coverage to questions that routinely stump analysts because they require:
+- first-valid-order anchoring,
+- careful cohort definitions / denominators,
+- choosing between **precomputed cohort tables** vs **dynamic LTV** from `obt_orders`/`obt_order_lines`,
+- subscription retention semantics (customer-level retention proxy, not subscription-billing-system churn).
+
+Batch size: 5–10, but expect higher QA effort per query.
+
+### Primary candidates (recommended for Batch 3)
+
+1) **LTV by first-purchased SKU / product (dynamic, uses order lines)**
+   - Question archetype: “Which initial products create the highest 90‑day LTV?”
+   - Table(s): `obt_order_lines` (for SKU/product) + `obt_orders` (for first-order anchor if needed)
+   - Key requirements:
+     - anchor cohort on first **valid** order (`sm_valid_order_index = 1`)
+     - define horizon (30/60/90 days) and compute per customer then aggregate by SKU
+     - include sample-size guard (`customers >= 10` or higher)
+
+2) **LTV by first-order attribute (dynamic, uses orders)**
+   - Question archetype: “What is 90‑day LTV by acquisition source/medium (or discount code / landing page)?”
+   - Table(s): `obt_orders` (preferred when the attribute exists at order level)
+   - Key requirements:
+     - anchor cohort on first **valid** order (`sm_valid_order_index = 1`)
+     - use `order_net_revenue` as default LTV metric unless the question specifies otherwise
+
+3) **Retention % by acquisition source/medium (precomputed cohort table)**
+   - Question archetype: “How does 3‑month / 6‑month retention vary by acquisition channel?”
+   - Table: `rpt_cohort_ltv_by_first_valid_purchase_attribute_no_product_filters`
+   - Key requirements:
+     - filter `acquisition_order_filter_dimension = 'source/medium'`
+     - **must include** `sm_order_line_type = 'all_orders'` to avoid double counting
+     - compute retention as `customer_count / cohort_size` at `months_since_first_order = N`
+     - include cohort-size guards (`cohort_size >= 10` minimum; prefer `>= 50` for ranked outputs)
+
+4) **Discount-code cohorts: retention + LTV (precomputed cohort table)**
+   - Question archetype: “Which discount codes acquire higher-retention customers?”
+   - Table: `rpt_cohort_ltv_by_first_valid_purchase_attribute_no_product_filters`
+   - Key requirements:
+     - filter `acquisition_order_filter_dimension = 'discount_code'`
+     - `sm_order_line_type = 'all_orders'` (no double counting)
+     - discovery-first if discount codes are messy (enumerate top codes by cohort_size, then analyze)
+
+5) **Subscription vs one-time: retention + LTV comparison (precomputed cohort table)**
+   - Question archetype: “How much more valuable are subscription customers vs one-time?”
+   - Table: `rpt_cohort_ltv_by_first_valid_purchase_attribute_no_product_filters`
+   - Key requirements:
+     - be explicit whether we mean:
+       - **first-order type** cohorts (use `acquisition_order_filter_dimension = 'order_type_(sub_vs._one_time)'`), or
+       - **lifetime behavior** subsets (use `sm_order_line_type IN ('subscription_orders_only','one_time_orders_only')`)
+     - never aggregate across `sm_order_line_type` without filtering (triple-count risk)
+
+### Secondary candidates (pick 0–3 if we want 8–10 in Batch 3)
+
+- Contribution profit trend by channel (`rpt_executive_summary_daily`, time series).
+- Payback period proxy (cohort LTV + CAC scalar):
+  - Use cohort table for marketing acquisition dimensions; add CAC from `rpt_executive_summary_daily` at matching grain.
+- Purchase interval distribution for non-subscribers (orders; window functions, careful filters).
+
+### Reference guidance (useful, but uni2 wins on conflicts)
+- Uni2 authoritative routing + rules: `src/agent_core/agents/prompts.py`
+- Cohort-table cautions (double-counting; dimensions): `uni-training/.claude/shared/MODEL_KNOWLEDGE.md`
 
 ## Handling “Discovery-First” Without Breaking uni2 Rules
 
