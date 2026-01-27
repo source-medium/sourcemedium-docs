@@ -35,11 +35,10 @@ Data Health tells you whether the pipeline is working. [Attribution Health](/dat
 
 ## When data updates
 
-Most tables refresh on a **24-hour incremental schedule**. This means:
+Most tables refresh on a **24-hour incremental schedule**. Our SLA guarantees **fresh data through yesterday** based on your reporting timezone. This means:
 
-- **Data from 2+ days ago** is typically stable and complete
-- **Yesterday's data** is usually available, but may still be processing
-- **Today's data** will be incomplete — avoid using it for analysis
+- **Yesterday's data and earlier** is stable and complete
+- **Today's data** is not guaranteed and will be incomplete — avoid using it for analysis
 
 <Info>
 Real-time isn't the goal. We optimize for **accuracy over speed** — ensuring data is correctly transformed, deduplicated, and enriched before it reaches your dashboard or warehouse.
@@ -110,6 +109,10 @@ You can ask about data health in natural language:
 - "What data do I have available?"
 - "Are my tables up to date?"
 - "When was my orders data last updated?"
+
+<Tip>
+Use the [AI Analyst](/ai-analyst/index) in Slack to run these checks. Just ask "How is my data health?" and get a real-time assessment of your table freshness and availability.
+</Tip>
 
 ---
 
