@@ -5,25 +5,11 @@ description: "How to validate AI-generated insights and establish the AI Analyst
 icon: "shield"
 ---
 
-You now have access to multiple AI tools that claim to answer business questions: Shopify Sidekick, ChatGPT, Gemini, your BI platform's AI assistant, and SourceMedium's AI Analyst. Each will confidently give you an answer. But which one should you trust for decisions that matter?
+This guide explains how to validate AI Analyst results and establish a reliable workflow for using AI-generated analytics in your organization.
 
-## The Problem with AI Analytics Today
+## Why Validation Matters
 
-A common question we hear from teams using multiple AI tools: **"I asked two tools the same question and got different answers. Which one is right?"**
-
-This isn't surprising. Recent research shows:
-
-- **46% of developers now distrust AI accuracy**, up from 31% in 2024 ([Stack Overflow Developer Survey 2025](https://survey.stackoverflow.co/2025/ai))
-- Independent testing shows AI tools often **select the wrong calculations** even when they execute correctly—misinterpreting what you actually asked for
-- Even when AI tools run valid SQL, they frequently choose the wrong tables, joins, or filters for the user's actual intent
-
-<Warning>
-AI tools that don't query your actual data warehouse are fundamentally guessing. They may use generic benchmarks, outdated information, or hallucinate metrics entirely.
-</Warning>
-
-### Why Generic AI Tools Fail for Business Analytics
-
-When you ask Shopify Sidekick or ChatGPT "What was my ROAS last month?", here's what can go wrong:
+Generic AI tools (ChatGPT, Gemini, platform chatbots) don't query your actual data warehouse. When you ask them analytics questions, they may:
 
 | Issue | What Happens | Impact |
 |-------|--------------|--------|
@@ -32,24 +18,18 @@ When you ask Shopify Sidekick or ChatGPT "What was my ROAS last month?", here's 
 | **Hallucinated joins** | AI invents relationships between tables | Numbers look plausible but are fabricated |
 | **Outdated context** | Tool trained on old data patterns | Doesn't reflect your current business |
 
-The core issue: **these tools don't query your actual warehouse**. They're language models, not analytics engines.
+## How SM AI Analyst Is Different
 
-## Why SourceMedium AI Analyst Is Different
+The AI Analyst queries your actual BigQuery warehouse:
 
-The AI Analyst is fundamentally different from generic AI assistants:
+1. **Queries your actual data** — Every answer comes from SQL executed against BigQuery
+2. **Uses your data model** — Understands SourceMedium's attribution logic and metric definitions
+3. **Shows its work** — You see the exact SQL query, making results auditable
+4. **Validated schema** — Queries only tables and columns that exist in your warehouse
 
-1. **Queries your actual data** — Every answer comes from SQL executed against your BigQuery warehouse
-2. **Uses your data model** — Understands SourceMedium's attribution logic, metric definitions, and table relationships
-3. **Shows its work** — You see the exact SQL query used, making results auditable
-4. **Validated schema** — Queries only tables and columns that actually exist in your warehouse
+## Validation Process
 
-<Info>
-When the AI Analyst says "Your ROAS was 3.2x last month," that number came from a SQL query against your real order and ad spend data—not a language model prediction.
-</Info>
-
-## Establishing Trust: The Validation Process
-
-Trust isn't assumed—it's earned through validation. Here's a practical framework to establish the AI Analyst as your source of truth.
+Use this framework to validate AI Analyst results before relying on them for decisions.
 
 ### Step 1: Define Your Key Questions
 
@@ -115,65 +95,26 @@ Once your core questions are validated, establish clear guidelines:
 3. **Cite your source** — When reporting numbers, indicate whether it came from a validated AI Analyst query or exploratory analysis
 
 <Note>
-**Suggested policy**: "Metrics cited in business decisions must be verified through SourceMedium AI Analyst. Shopify Sidekick and other generic AI tools should not be cited as data sources—they're useful for exploration, not for numbers that inform decisions."
+**Suggested policy**: Metrics cited in business decisions should come from SourceMedium dashboards or validated AI Analyst queries. Generic AI tools are useful for exploration but should not be cited as data sources.
 </Note>
 
-## The Trust-But-Verify Workflow
+## Recommended Workflow
 
-For day-to-day analytics work, we recommend this workflow:
+1. **Explore** — Use any AI tool for quick hypothesis generation
+2. **Verify** — Confirm findings with AI Analyst (review the SQL)
+3. **Cite** — Use verified numbers in reports; keep the SQL for reproducibility
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│  1. EXPLORE                                                 │
-│     Use any AI tool (Sidekick, ChatGPT, etc.)              │
-│     Find patterns, generate hypotheses                      │
-│     This is fast, informal, not for reporting              │
-└─────────────────────────────────────────────────────────────┘
-                            │
-                            ▼
-┌─────────────────────────────────────────────────────────────┐
-│  2. VERIFY                                                  │
-│     Ask the same question to SM AI Analyst                 │
-│     Review the SQL query for correctness                   │
-│     Confirm the number before using it                     │
-└─────────────────────────────────────────────────────────────┘
-                            │
-                            ▼
-┌─────────────────────────────────────────────────────────────┐
-│  3. CITE                                                    │
-│     Use the verified number in your report/decision        │
-│     Reference "Source: SM AI Analyst" for auditability     │
-│     Keep the SQL query for reproducibility                 │
-└─────────────────────────────────────────────────────────────┘
-```
-
-## Continuous Evaluation
-
-Trust is not a one-time exercise. We recommend:
+## Ongoing Validation
 
 ### Regular Re-validation
 - **Monthly**: Re-run your canonical question set to catch any drift
 - **After major changes**: Re-validate when you change attribution windows, add new data sources, or modify business logic
 
-### Feedback Loop
-Every AI Analyst response includes a feedback button. Use it to:
-- Report incorrect answers (we review every report)
-- Flag confusing responses
-- Suggest improvements to question handling
+### Feedback
+Every AI Analyst response includes a feedback button. Use it to report incorrect answers or flag issues—we review all feedback and use it to improve the system.
 
-We actively monitor every single feedback score and use them to improve the system. Your feedback directly influences prompt tuning, edge case handling, and feature prioritization. Negative feedback gets reviewed by our team—we take accuracy seriously.
-
-### Coming Soon: Automated Evaluation
-
-We're building more robust evaluation tooling that will:
-- Automatically run your canonical questions on a schedule
-- Alert you to any changes in results
-- Provide accuracy scores over time
-- Compare results against your validated baselines
-
-<Info>
-For now, the manual validation process described above is the 80/20 solution—simple to implement and highly effective at establishing trust.
-</Info>
+### Automated Evaluation (Coming Soon)
+We're building tooling to automatically run your canonical questions on a schedule and alert you to changes in results.
 
 ## Summary
 
