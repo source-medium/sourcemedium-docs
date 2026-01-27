@@ -535,7 +535,7 @@
         ]
       },
       {
-        "tab": "Reference",
+        "tab": "Data Dictionary",
         "groups": [
           {
             "group": "Data Dictionary",
@@ -641,7 +641,63 @@
         ]
       },
       {
-        "tab": "Help",
+        "tab": "AI Analyst",
+        "groups": [
+          {
+            "group": "Getting Started",
+            "pages": [
+              "ai-analyst/index",
+              "ai-analyst/what-you-can-ask"
+            ]
+          },
+          {
+            "group": "Using the AI Analyst",
+            "pages": [
+              "ai-analyst/understanding-results"
+            ]
+          },
+          {
+            "group": "Diagnostics",
+            "pages": [
+              "ai-analyst/diagnostics/index",
+              "ai-analyst/diagnostics/data-health",
+              "ai-analyst/diagnostics/attribution-health"
+            ]
+          },
+          {
+            "group": "Help",
+            "pages": [
+              "ai-analyst/troubleshooting",
+              "ai-analyst/roadmap"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "MTA",
+        "groups": [
+          {
+            "group": "Multi-Touch Attribution",
+            "pages": [
+              "mta/mta-overview",
+              "mta/mta-models",
+              {
+                "group": "MTA Features",
+                "pages": [
+                  "mta/mta-email-sms-attribution",
+                  "mta/mta-brand-campaign-attribution",
+                  "mta/mta-channel-level-attribution"
+                ]
+              },
+              "mta/mta-dash-provisioning",
+              "mta/mta-faqs",
+              "mta/mta-advanced-documentation"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "FAQs",
         "groups": [
           {
             "group": "Getting Help",
@@ -710,62 +766,6 @@
               "help-center/faq/data-faqs/what-is-reported-as-a-conversion-within-the-marketing-overview",
               "help-center/faq/data-faqs/what-attribution-windows-does-sourcemedium-report-on-for-marketing-platforms",
               "help-center/faq/data-faqs/how-does-stripe-metadata-work"
-            ]
-          }
-        ]
-      },
-      {
-        "tab": "AI Analyst",
-        "groups": [
-          {
-            "group": "Getting Started",
-            "pages": [
-              "ai-analyst/index",
-              "ai-analyst/what-you-can-ask"
-            ]
-          },
-          {
-            "group": "Using the AI Analyst",
-            "pages": [
-              "ai-analyst/understanding-results"
-            ]
-          },
-          {
-            "group": "Diagnostics",
-            "pages": [
-              "ai-analyst/diagnostics/index",
-              "ai-analyst/diagnostics/data-health",
-              "ai-analyst/diagnostics/attribution-health"
-            ]
-          },
-          {
-            "group": "Help",
-            "pages": [
-              "ai-analyst/troubleshooting",
-              "ai-analyst/roadmap"
-            ]
-          }
-        ]
-      },
-      {
-        "tab": "MTA",
-        "groups": [
-          {
-            "group": "Multi-Touch Attribution",
-            "pages": [
-              "mta/mta-overview",
-              "mta/mta-models",
-              {
-                "group": "MTA Features",
-                "pages": [
-                  "mta/mta-email-sms-attribution",
-                  "mta/mta-brand-campaign-attribution",
-                  "mta/mta-channel-level-attribution"
-                ]
-              },
-              "mta/mta-dash-provisioning",
-              "mta/mta-faqs",
-              "mta/mta-advanced-documentation"
             ]
           }
         ]
