@@ -2,7 +2,7 @@
 title: "Building Trust in AI Analytics"
 sidebarTitle: "Building Trust"
 description: "How to validate AI-generated insights and establish the AI Analyst as your source of truth"
-icon: "shield-check"
+icon: "shield"
 ---
 
 You now have access to multiple AI tools that claim to answer business questions: Shopify Sidekick, ChatGPT, Gemini, your BI platform's AI assistant, and SourceMedium's AI Analyst. Each will confidently give you an answer. But which one should you trust for decisions that matter?
@@ -13,7 +13,7 @@ A common question we hear from teams using multiple AI tools: **"I asked two too
 
 This isn't surprising. Recent research shows:
 
-- **46% of developers now distrust AI accuracy**, up from 31% in 2024 (Stack Overflow Developer Survey 2025)
+- **46% of developers now distrust AI accuracy**, up from 31% in 2024 ([Stack Overflow Developer Survey 2025](https://survey.stackoverflow.co/2025/ai))
 - Independent testing shows AI tools often **select the wrong calculations** even when they execute correctly—misinterpreting what you actually asked for
 - Even when AI tools run valid SQL, they frequently choose the wrong tables, joins, or filters for the user's actual intent
 
@@ -53,7 +53,7 @@ Trust isn't assumed—it's earned through validation. Here's a practical framewo
 
 ### Step 1: Define Your Key Questions
 
-Work with your data point-of-contact to identify **10-15 business questions** that matter most to your organization. These should be questions where getting the wrong answer would lead to bad decisions.
+Work with your data point of contact to identify **10-15 business questions** that matter most to your organization. These should be questions where getting the wrong answer would lead to bad decisions.
 
 **Example key questions:**
 - What was our blended ROAS last month?
@@ -72,7 +72,7 @@ Ask each question to the AI Analyst and collect:
 
 ### Step 3: Independent Validation
 
-Your data PoC should **independently validate** each result:
+Your data point of contact should **independently validate** each result:
 
 ```sql
 -- Example: Validate the AI's ROAS calculation
@@ -80,6 +80,12 @@ Your data PoC should **independently validate** each result:
 -- 2. Run the query manually in BigQuery
 -- 3. Cross-check against your dashboard or known benchmarks
 -- 4. Verify the time ranges and filters match your intent
+
+SELECT
+  SUM(sm_last_touch_revenue) / NULLIF(SUM(ad_spend), 0) AS roas
+FROM `your_project.sm_experimental.rpt_ad_attribution_performance_daily`
+WHERE sm_store_id = 'your-sm_store_id'
+  AND date BETWEEN DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY) AND CURRENT_DATE()
 ```
 
 <Tip>
@@ -102,7 +108,7 @@ Document your validated questions as your organization's **canonical question se
 
 Once your core questions are validated, establish clear guidelines:
 
-1. **Verified numbers must come from AI Analyst** — Any metrics cited in reports, decisions, or external communications should be sourced from validated AI Analyst queries
+1. **Verified numbers must be traceable to the warehouse** — Any metrics cited in reports, decisions, or external communications should come from SourceMedium dashboards or validated AI Analyst queries (both query BigQuery)
 
 2. **Exploratory analysis can use any tool** — Quick hypothesis generation with Sidekick or ChatGPT is fine for exploration
 
@@ -171,14 +177,13 @@ For now, the manual validation process described above is the 80/20 solution—s
 
 ## Summary
 
-| Tool | Best For | Trust Level for Reporting |
-|------|----------|---------------------------|
-| **Shopify Sidekick** | Quick exploration, Shopify-specific questions | ❌ Do not cite |
-| **ChatGPT / Gemini** | Brainstorming, general questions | ❌ Do not cite |
-| **BI Dashboard AI** | Varies by platform | ⚠️ Verify against source |
-| **SM AI Analyst** | Validated business metrics | ✅ Cite after validation |
+| Tool Type | Best For | Trust Level for Reporting |
+|-----------|----------|---------------------------|
+| **Generic AI assistants** (ChatGPT, Gemini, platform chatbots) | Quick exploration, brainstorming | ❌ Do not cite |
+| **BI dashboards** | Curated views of validated metrics | ✅ Cite (queries warehouse) |
+| **SM AI Analyst** | Ad-hoc questions with SQL transparency | ✅ Cite after validation |
 
-The goal isn't to avoid other AI tools—they're useful for exploration. The goal is to have **one validated source of truth** for the numbers that matter. That's what the AI Analyst is designed to be.
+The goal isn't to avoid other AI tools—they're useful for exploration. The goal is to ensure **numbers that inform decisions are traceable to your warehouse**. Both SourceMedium dashboards and the AI Analyst provide this traceability.
 
 ---
 
