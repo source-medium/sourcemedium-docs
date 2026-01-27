@@ -446,14 +446,14 @@
             "pages": [
               "data-transformations/order-segmentation/index",
               "data-transformations/order-segmentation/sales-channel",
-              "data-transformations/order-segmentation/order-type",
-              {
-                "group": "Customer Record",
-                "pages": [
-                  "help-center/core-concepts/customer-record-enrichment/index",
-                  "help-center/core-concepts/demographics/demographic-data-sources"
-                ]
-              }
+              "data-transformations/order-segmentation/order-type"
+            ]
+          },
+          {
+            "group": "Customer Record",
+            "pages": [
+              "help-center/core-concepts/customer-record-enrichment/index",
+              "help-center/core-concepts/demographics/demographic-data-sources"
             ]
           }
         ]
