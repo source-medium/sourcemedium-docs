@@ -103,7 +103,7 @@ SELECT
   sm_order_type,
   COUNT(*) as order_count,
   SUM(order_net_revenue) as revenue
-FROM obt_orders
+FROM your_project.sm_transformed_v2.obt_orders
 WHERE is_order_sm_valid = TRUE
 GROUP BY sm_order_type
 ```
@@ -117,8 +117,9 @@ SELECT
   DATE_TRUNC(order_processed_at, MONTH) as cohort_month,
   subscription_order_sequence,
   COUNT(DISTINCT sm_customer_key) as customers
-FROM obt_orders
-WHERE is_subscription_order = TRUE
+FROM your_project.sm_transformed_v2.obt_orders
+WHERE is_order_sm_valid = TRUE
+  AND is_subscription_order = TRUE
 GROUP BY 1, 2
 ```
 

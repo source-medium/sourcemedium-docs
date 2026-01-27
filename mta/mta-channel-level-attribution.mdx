@@ -69,7 +69,7 @@ To get a complete view of a channel's performance:
 ```sql
 -- Complete channel performance including attributed and unattributed metrics
 SELECT
-  COALESCE(sm_marketing_channel, 'Unknown') as channel,
+  COALESCE(sm_channel, 'Unknown') as channel,
   SUM(ad_spend) as total_spend,
   SUM(ad_impressions) as total_impressions,
   SUM(ad_clicks) as total_clicks,
@@ -77,8 +77,8 @@ SELECT
   SUM(sm_last_touch_revenue) as last_touch_revenue,
   SUM(sm_linear_revenue) as linear_revenue,
   SAFE_DIVIDE(SUM(sm_first_touch_revenue), SUM(ad_spend)) as first_touch_roas
-FROM `sm-{{account_id}}.sm_transformed_v2_ad_attribution_performance_daily`
-WHERE 
+FROM `your_project.sm_experimental.rpt_ad_attribution_performance_daily`
+WHERE
   sm_store_id = 'your-sm_store_id'
   AND date BETWEEN DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY) AND CURRENT_DATE()
 GROUP BY 1
@@ -101,8 +101,8 @@ SELECT
   SUM(sm_last_touch_revenue) as last_touch_revenue,
   SUM(sm_linear_revenue) as linear_revenue,
   SAFE_DIVIDE(SUM(sm_linear_revenue), SUM(ad_spend)) as linear_roas
-FROM `sm-{{account_id}}.sm_transformed_v2_ad_attribution_performance_daily`
-WHERE 
+FROM `your_project.sm_experimental.rpt_ad_attribution_performance_daily`
+WHERE
   sm_store_id = 'your-sm_store_id'
   AND date BETWEEN DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY) AND CURRENT_DATE()
   AND source_system = 'facebook' -- or other channel
@@ -118,15 +118,15 @@ To specifically analyze unattributed spend within channels:
 ```sql
 -- Unattributed metrics by channel
 SELECT
-  sm_marketing_channel as channel,
+  sm_channel as channel,
   SUM(ad_spend) as unattributed_spend,
   SUM(ad_impressions) as unattributed_impressions,
   SUM(ad_clicks) as unattributed_clicks
-FROM `sm-{{account_id}}.sm_transformed_v2_ad_attribution_performance_daily`
-WHERE 
+FROM `your_project.sm_experimental.rpt_ad_attribution_performance_daily`
+WHERE
   sm_store_id = 'your-sm_store_id'
   AND date BETWEEN DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY) AND CURRENT_DATE()
-  AND sm_marketing_channel IS NOT NULL
+  AND sm_channel IS NOT NULL
   AND ad_id IS NULL -- Only channel-level unattributed data
 GROUP BY 1
 ORDER BY 2 DESC

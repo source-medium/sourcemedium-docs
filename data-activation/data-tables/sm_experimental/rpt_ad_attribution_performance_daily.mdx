@@ -157,7 +157,7 @@ SELECT
   SAFE_DIVIDE(SUM(sm_linear_revenue), SUM(ad_spend)) as linear_roas
 FROM `your_project.sm_experimental.rpt_ad_attribution_performance_daily`
 WHERE
-  smcid = 'your-smcid'
+  sm_store_id = 'your-sm_store_id'
   AND date BETWEEN DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY) AND CURRENT_DATE()
   AND waterfall_level = 'campaign_level'
   AND ad_campaign_tactic != 'brand'
@@ -179,7 +179,7 @@ SELECT
   SAFE_DIVIDE(SUM(sm_last_touch_revenue), SUM(ad_spend)) as roas
 FROM `your_project.sm_experimental.rpt_ad_attribution_performance_daily`
 WHERE
-  smcid = 'your-smcid'
+  sm_store_id = 'your-sm_store_id'
   AND date >= DATE_SUB(CURRENT_DATE(), INTERVAL 7 DAY)
   AND waterfall_level = 'ad_level'
 GROUP BY 1, 2, 3
@@ -199,7 +199,7 @@ SELECT
   SUM(sm_linear_revenue) as linear_revenue
 FROM `your_project.sm_experimental.rpt_ad_attribution_performance_daily`
 WHERE
-  smcid = 'your-smcid'
+  sm_store_id = 'your-sm_store_id'
   AND date BETWEEN '2024-01-01' AND '2024-12-31'
 GROUP BY 1
 ORDER BY total_spend DESC

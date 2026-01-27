@@ -149,7 +149,7 @@ SELECT
   SUM(order_net_revenue) AS revenue
 FROM `your_project.sm_transformed_v2.obt_orders`
 WHERE is_order_sm_valid = TRUE
-  AND order_created_at >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)
+  AND DATE(order_created_at) >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)
 GROUP BY 1, 2
 ORDER BY revenue DESC
 ```
@@ -164,6 +164,7 @@ FROM `your_project.sm_transformed_v2.obt_order_lines` a
 JOIN `your_project.sm_transformed_v2.obt_order_lines` b
   ON a.sm_order_key = b.sm_order_key
   AND a.sm_order_line_key < b.sm_order_line_key
+WHERE a.is_order_sm_valid = TRUE
 GROUP BY 1, 2
 HAVING co_purchase_count >= 10
 ORDER BY co_purchase_count DESC

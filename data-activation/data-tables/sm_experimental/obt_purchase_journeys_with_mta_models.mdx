@@ -345,7 +345,7 @@ SELECT
   SUM(first_touch_revenue_impact.marketing_channel) as first_touch_revenue
 FROM `your_project.sm_experimental.obt_purchase_journeys_with_mta_models`
 WHERE
-  smcid = 'your-smcid'
+  sm_store_id = 'your-sm_store_id'
   AND first_touch_revenue_impact.marketing_channel > 0
 GROUP BY 1
 ORDER BY 2 DESC
@@ -364,7 +364,7 @@ SELECT
   purchase_order_revenue
 FROM `your_project.sm_experimental.obt_purchase_journeys_with_mta_models`
 WHERE
-  smcid = 'your-smcid'
+  sm_store_id = 'your-sm_store_id'
   AND purchase_order_id = 'ORDER_ID_HERE'
   AND dimension_value.marketing_channel IS NOT NULL
 ORDER BY event_local_datetime
@@ -379,7 +379,7 @@ SELECT
   COUNT(DISTINCT purchase_order_id) as journeys
 FROM `your_project.sm_experimental.obt_purchase_journeys_with_mta_models`
 WHERE
-  smcid = 'your-smcid'
+  sm_store_id = 'your-sm_store_id'
   AND sm_event_name = 'purchase'
   AND days_to_conversion.marketing_channel IS NOT NULL
 GROUP BY 1

@@ -87,11 +87,12 @@ Every data response includes the SQL query used. This is useful for:
 
 ```sql
 SELECT
-  sm_default_channel AS channel,
-  SUM(total_price) AS revenue,
-  COUNT(DISTINCT order_id) AS orders
-FROM `your-project.sm_transformed_v2.obt_orders`
-WHERE order_date BETWEEN '2024-01-08' AND '2024-01-14'
+  sm_channel AS channel,
+  SUM(order_net_revenue) AS revenue,
+  COUNT(DISTINCT sm_order_key) AS orders
+FROM `your_project.sm_transformed_v2.obt_orders`
+WHERE is_order_sm_valid = TRUE
+  AND DATE(order_processed_at_local_datetime) BETWEEN '2024-01-08' AND '2024-01-14'
 GROUP BY 1
 ORDER BY 2 DESC
 ```

@@ -87,13 +87,12 @@ While Email/SMS channels generally do not receive attribution in first-touch and
 ```sql
 -- Email messages that appear most frequently in purchase journeys
 SELECT
-  SUBSTR(sm_event_ad_id, 8) as message_id,
+  dimension_value.email_sms as message_id,
   COUNT(DISTINCT purchase_order_id) as journey_count
-FROM `sm-{{account_id}}.sm_transformed_v2_purchase_journeys_with_mta_models`
-WHERE 
+FROM `your_project.sm_experimental.obt_purchase_journeys_with_mta_models`
+WHERE
   sm_store_id = 'your-sm_store_id'
-  AND sm_event_marketing_channel IN ('email', 'sms')
-  AND sm_event_ad_id IS NOT NULL
+  AND dimension_value.email_sms IS NOT NULL
 GROUP BY 1
 ORDER BY 2 DESC
 LIMIT 20
@@ -109,20 +108,20 @@ SELECT
   SUM(r.message_unique_opens) as opens,
   SUM(r.message_unique_clicks) as clicks,
   SUM(a.last_touch_revenue) as last_touch_revenue,
-  SUM(a.last_touch_revenue) / SUM(r.message_unique_sends) as revenue_per_send
-FROM `sm-{{account_id}}.sm_transformed_v2_outbound_message_performance_daily` r
+  SAFE_DIVIDE(SUM(a.last_touch_revenue), SUM(r.message_unique_sends)) as revenue_per_send
+FROM `your_project.sm_transformed_v2.rpt_outbound_message_performance_daily` r
 LEFT JOIN (
   SELECT
-    SUBSTR(sm_event_ad_id, 8) as message_id,
+    dimension_value.email_sms as message_id,
     SUM(last_touch_revenue_impact.email_sms) as last_touch_revenue
-  FROM `sm-{{account_id}}.sm_transformed_v2_purchase_journeys_with_mta_models`
-  WHERE 
+  FROM `your_project.sm_experimental.obt_purchase_journeys_with_mta_models`
+  WHERE
     sm_store_id = 'your-sm_store_id'
     AND sm_event_name = 'purchase'
     AND last_touch_revenue_impact.email_sms > 0
   GROUP BY 1
 ) a ON r.message_id = a.message_id
-WHERE 
+WHERE
   r.sm_store_id = 'your-sm_store_id'
   AND r.sm_message_channel IN ('email', 'sms')
   AND r.date BETWEEN DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY) AND CURRENT_DATE()

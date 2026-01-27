@@ -6,12 +6,16 @@ icon: "code"
 
 ### Overview
 
-Use these queries as starting points for analysis in BigQuery. Replace placeholders like `{{account_id}}` and filter for your brand/store as needed.
+Use these queries as starting points for analysis in BigQuery. Replace `your_project` with your BigQuery project ID (e.g., `sm-yourcompany`) and `your-sm_store_id` with your store identifier.
 
-Notes:
+<Tip>
+**Query Standards:**
+- Always include `is_order_sm_valid = TRUE` for order-based analyses
+- Use `your_project.sm_transformed_v2.*` for standard tables
+- Use `your_project.sm_experimental.*` for MTA tables
+</Tip>
 
-- Prefer SourceMedium v2 tables when available (`sm_transformed_v2`), and start with `is_order_sm_valid = TRUE` for order-based analyses.
-- If you’re not sure which table to use, start with: [`obt_orders`](/data-activation/data-tables/sm_transformed_v2/obt_orders) and [`obt_order_lines`](/data-activation/data-tables/sm_transformed_v2/obt_order_lines).
+If you're not sure which table to use, start with: [`obt_orders`](/data-activation/data-tables/sm_transformed_v2/obt_orders) and [`obt_order_lines`](/data-activation/data-tables/sm_transformed_v2/obt_order_lines).
 
 ## Product Insights
 <AccordionGroup>
@@ -20,26 +24,26 @@ Notes:
         WITH RECURSIVE product_combos AS (
             -- Anchor: Start with individual products per order
             SELECT
-                ol.smcid,
+                ol.sm_store_id,
                 ol.sm_order_key,
                 1 AS combo_length,
                 CONCAT(ol.product_title, ' - ', ol.variant_title) AS combo,
                 CONCAT(ol.product_title, ' - ', ol.variant_title) AS last_item
-            FROM `sm-{{account_id}}.sm_transformed_v2.obt_order_lines` AS ol
-            WHERE ol.smcid = 'your-smcid'
+            FROM `your_project.sm_transformed_v2.obt_order_lines` AS ol
+            WHERE ol.sm_store_id = 'your-sm_store_id'
               AND ol.is_order_sm_valid = TRUE
 
             UNION ALL
 
             -- Recursive: Build combinations up to 5 products
             SELECT
-                ol.smcid,
+                ol.sm_store_id,
                 ol.sm_order_key,
                 pc.combo_length + 1,
                 CONCAT(pc.combo, ', ', CONCAT(ol.product_title, ' - ', ol.variant_title)),
                 CONCAT(ol.product_title, ' - ', ol.variant_title)
             FROM product_combos AS pc
-            INNER JOIN `sm-{{account_id}}.sm_transformed_v2.obt_order_lines` AS ol
+            INNER JOIN `your_project.sm_transformed_v2.obt_order_lines` AS ol
                 ON ol.sm_order_key = pc.sm_order_key
                 AND CONCAT(ol.product_title, ' - ', ol.variant_title) > pc.last_item
             WHERE pc.combo_length < 5
