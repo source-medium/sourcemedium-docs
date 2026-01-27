@@ -7,6 +7,41 @@ icon: "gear"
 
 The AI Analyst queries your data in BigQuery through Slack. Before you can use it, your data infrastructure must be in place.
 
+## How It Works
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│                        YOUR DATA SOURCES                            │
+│  Shopify · Google Ads · Meta Ads · GA4 · Klaviyo · ReCharge · ...   │
+└───────────────────────────────┬─────────────────────────────────────┘
+                                │
+                                ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│                     SOURCEMEDIUM PIPELINE                           │
+│           Ingest → Transform → Load into BigQuery                   │
+└───────────────────────────────┬─────────────────────────────────────┘
+                                │
+                                ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│                    YOUR BIGQUERY WAREHOUSE                          │
+│                      sm_transformed_v2                              │
+│   ┌──────────────┐  ┌──────────────┐  ┌──────────────┐              │
+│   │  obt_orders  │  │ dim_customers│  │ rpt_ad_perf  │  ...         │
+│   └──────────────┘  └──────────────┘  └──────────────┘              │
+└───────────────────────────────┬─────────────────────────────────────┘
+                                │
+                ┌───────────────┴───────────────┐
+                │                               │
+                ▼                               ▼
+┌───────────────────────────┐   ┌───────────────────────────┐
+│      LOOKER STUDIO        │   │       AI ANALYST          │
+│    Dashboards & Reports   │   │   Natural Language SQL    │
+│                           │   │      via Slack            │
+└───────────────────────────┘   └───────────────────────────┘
+```
+
+The AI Analyst and your Looker Studio dashboards query the same underlying data — they're just different ways to access it.
+
 ---
 
 ## Prerequisites
