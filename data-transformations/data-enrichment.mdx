@@ -39,3 +39,10 @@ prioritizing the data we ingest from source-of-truth platforms closer to the act
 <Tip>
 For details on how we prioritize between different UTM data sources, see the [Attribution Source Hierarchy](/data-transformations/attribution-source-hierarchy) documentation.
 </Tip>
+
+### Customer Demographics
+Demographic attributes like age and gender generally **aren’t available by default** in e-commerce and ad-platform data exports in a way that can be joined to customer LTV.
+
+For practical paths (zero-party collection, third-party enrichment, cautious inference, and what geography we already have), see: [Demographic Data: What You Can (and Can’t) Do](/help-center/core-concepts/demographics/demographic-data-sources).
+
+If you’re trying to understand whether a *targeting strategy* (e.g., “female 25–34” or “new parents”) produces better long-term customers, a common approach is to encode that segment into UTMs so it becomes joinable to purchases. See the “Strategy-based audience segments” section in [Customer Record Enrichment](/help-center/core-concepts/customer-record-enrichment/index).

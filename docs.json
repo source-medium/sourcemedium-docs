@@ -429,6 +429,13 @@
             ]
           },
           {
+            "group": "Customer Record",
+            "pages": [
+              "help-center/core-concepts/customer-record-enrichment/index",
+              "help-center/core-concepts/demographics/demographic-data-sources"
+            ]
+          },
+          {
             "group": "Attribution",
             "pages": [
               "help-center/core-concepts/attribution/attribution-in-sourcemedium",

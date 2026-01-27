@@ -1,0 +1,176 @@
+---
+title: "Demographic Data: What You Can (and Can’t) Do"
+description: "Where demographic attributes come from in SourceMedium, and how to use them for LTV analysis."
+sidebarTitle: "Demographic Data"
+icon: "users"
+---
+
+Brands often ask a version of:
+
+> “Meta Ads Manager can break down performance by age/gender/region. Can we ingest that into the warehouse—and use it for LTV?”
+
+This page explains what’s available in SourceMedium today, what typically isn’t, and the most practical paths to **LTV by demographic**.
+
+## The key constraint: LTV needs a customer-level identifier
+
+Ad platforms (including Meta) can report **campaign performance by demographic buckets** (e.g., impressions/conversions by age range), but those buckets generally **don’t include customer PII** and **can’t be joined to orders/customers** in your warehouse.
+
+That’s why platform demographic reporting is usually useful for:
+- **Creative and targeting diagnostics** (within the ad platform)
+- **Top-of-funnel performance by demographic**
+
+But not directly useful for:
+- **Customer LTV by demographic**
+
+## What SourceMedium already provides (by default)
+
+These are common “building blocks” you can use for demographic-style segmentation.
+
+### Geographic attributes
+
+- Customer address geography in `your_project.sm_transformed_v2.dim_customer_addresses` (e.g., `customer_address_city`, `customer_address_province`, `customer_address_country`) and a flag for the primary address (`is_default_address_for_customer`).
+- Order-level shipping geography in `your_project.sm_transformed_v2.obt_orders` (e.g., `order_shipping_city`, `order_shipping_state`, `order_shipping_country`).
+
+### Customer identity fields (PII)
+
+- `your_project.sm_transformed_v2.dim_customers` includes `customer_first_name`, `customer_last_name`, `customer_email`, `customer_phone_number`, and `customer_email_hashed`.
+
+<Warning>
+PII and inferred demographic attributes can be sensitive. Make sure your collection, storage, and usage complies with your privacy policy and applicable laws.
+</Warning>
+
+### Tags you can use for enrichment
+
+- Customer tags: `your_project.sm_transformed_v2.dim_customers.customer_tags_csv`
+- Order tags: `your_project.sm_transformed_v2.dim_orders.order_tags_csv`
+
+These are the most common way customers attach **self-reported** or **internally-derived** attributes (e.g., `gender:female`, `survey_age:25_34`, `persona:fitness`).
+
+## What SourceMedium typically does NOT provide by default
+
+- **Age** and **gender** (unless you collect/attach them yourself)
+- **Household** or **income** data
+- **Ad-platform demographic breakdown tables** (e.g., Meta “age/gender” breakdowns) in the standard transformed dataset
+
+If you want ad-platform demographic breakdowns as raw tables for analysis, contact SourceMedium support to scope feasibility and coverage.
+
+## Practical ways to get “LTV by demographic”
+
+### Option 1: Collect zero-party demographics (recommended when possible)
+
+Ask customers directly (pre-purchase quiz, account creation, post-purchase survey), then store the response in a way that lands in the warehouse (commonly via customer tags or order tags).
+
+<Tip>
+Keep tag values normalized and stable (avoid free-text) so they’re usable in SQL, e.g., `gender:female`, `age_range:25_34`.
+</Tip>
+
+### Option 2: First-party enrichment you already control
+
+Some brands collect attributes (gender, life stage, preferences) in their own systems and push them into e-commerce/CRM fields or tags. If your platform writes tags into your commerce system, those tags can flow into `customer_tags_csv` / `order_tags_csv`.
+
+### Option 3: Join third-party demographic enrichment
+
+If you purchase demographic enrichment from a third party, you can usually join it to SourceMedium customers using one of these join keys (depends on what your vendor provides):
+- `customer_email_hashed` (privacy-safe matching)
+- `customer_phone_number`
+- Address fields from `dim_customer_addresses` (street/zip/city)
+
+We recommend materializing a customer-level table keyed by `sm_customer_key` (for example, `dim_customer_demographics`) and keeping vendor fields in one place.
+
+### Option 4: Infer demographics (use cautiously)
+
+You can infer some attributes from PII (most commonly **gender from first name**). This can work as an 80/20 directional view at scale, but it will be imperfect and biased.
+
+<Note>
+Age inference is usually much less reliable than gender inference. If age is a must-have, prioritize collection (Option 1) or a vetted enrichment vendor (Option 3).
+</Note>
+
+### Option 5: Encode “audience segments” in campaign/creative naming (good for LTV by strategy)
+
+If the real question is “Which *targeting strategy* drives the best long-term customers?”, you can treat the “audience” as a **label** you control (not a true demographic attribute):
+
+1. Create dedicated campaigns / ad sets / creatives for each targeting strategy (keep overlap low).
+2. Put the segment label into a **joinable field that makes it to the warehouse**:
+   - Prefer UTMs on the landing page URL (e.g., `utm_campaign`, `utm_content`, `utm_term`).
+   - Campaign/ad set/ad names are useful only if you also pass that label through UTMs or another first-party capture method.
+3. Analyze LTV by that label using order/customer-level tables.
+
+In SourceMedium, last-click UTM fields like `sm_utm_campaign` / `sm_utm_content` / `sm_utm_term` are available on orders (see `your_project.sm_transformed_v2.obt_orders`), and event-level UTMs are available on funnel events (see `your_project.sm_transformed_v2.obt_funnel_event_history`).
+
+<Note>
+This yields **LTV by targeting strategy**, not “LTV by customer age/gender”. It’s often the most actionable answer for paid social, because the label is joinable to orders.
+</Note>
+
+#### Implementation checklist
+
+- Use a consistent UTM taxonomy across paid social (see [UTM Setup](/help-center/core-concepts/attribution/utm-setup)).
+- Keep the segment label coarse (e.g., `segment:female_25_34`, not an ad ID per creative).
+- QA by spot-checking recent orders in the warehouse and confirming the expected `sm_utm_*` values are populated (and not falling back to `(direct) / (none)`).
+
+## Example: Average customer LTV by primary country
+
+This example uses `dim_customer_addresses` for a customer’s primary country and `obt_orders` for net revenue.
+
+```sql
+with customer_geo as (
+  select
+    sm_customer_key,
+    customer_address_country as country
+  from your_project.sm_transformed_v2.dim_customer_addresses
+  where is_default_address_for_customer = true
+),
+customer_ltv as (
+  select
+    sm_customer_key,
+    sum(order_net_revenue) as ltv
+  from your_project.sm_transformed_v2.obt_orders
+  group by 1
+)
+select
+  g.country,
+  count(*) as customers,
+  avg(l.ltv) as avg_ltv
+from customer_ltv l
+join customer_geo g using (sm_customer_key)
+group by 1
+order by avg_ltv desc;
+```
+
+## Example: Cohort LTV by “first purchase attribute” (discover what dimensions you have)
+
+If you use UTMs to encode audience strategy, a convenient way to view LTV over time is the cohort LTV report table:
+`your_project.sm_transformed_v2.rpt_cohort_ltv_by_first_valid_purchase_attribute_no_product_filters`.
+
+To see which cohort dimensions exist in your warehouse:
+
+```sql
+select
+  acquisition_order_filter_dimension,
+  count(*) as rows
+from your_project.sm_transformed_v2.rpt_cohort_ltv_by_first_valid_purchase_attribute_no_product_filters
+group by 1
+order by rows desc;
+```
+
+## Related resources
+
+<CardGroup cols={2}>
+  <Card title="Customer Record Enrichment" icon="users" href="/help-center/core-concepts/customer-record-enrichment/index">
+    Central source of truth for customers, enrichment, and audiences
+  </Card>
+  <Card title="UTM Setup" icon="bullseye" href="/help-center/core-concepts/attribution/utm-setup">
+    Make campaign and audience labels joinable to orders
+  </Card>
+  <Card title="Data Enrichment" icon="gear" href="/data-transformations/data-enrichment">
+    How enrichment fits into SourceMedium’s transformation layer
+  </Card>
+  <Card title="Customer & Order Tagging" icon="tags" href="/help-center/faq/account-management-faqs/are-you-utilizing-customer-and-order-tagging-for-deeper-enrichment-of-your-data">
+    Practical tagging patterns for segmentation and enrichment
+  </Card>
+  <Card title="dim_customers" icon="table" href="/data-activation/data-tables/sm_transformed_v2/dim_customers">
+    Customer identity fields and join keys (including hashed email)
+  </Card>
+  <Card title="dim_customer_addresses" icon="table" href="/data-activation/data-tables/sm_transformed_v2/dim_customer_addresses">
+    Customer geo attributes for segmentation
+  </Card>
+</CardGroup>

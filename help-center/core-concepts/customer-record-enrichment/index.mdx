@@ -1,0 +1,80 @@
+---
+title: "Customer Record Enrichment (CDP Foundations)"
+sidebarTitle: "Customer Record"
+description: "How SourceMedium can be your customer source of truth for enrichment and audience workflows."
+icon: "users"
+---
+
+SourceMedium’s transformed dataset is designed to be a **central source of truth for your customers**—with stable join keys and normalized tables that make it easier to:
+- Build a customer 360 (orders, products, geo, acquisition context)
+- Attach enrichment fields (zero-party, first-party, or third-party)
+- Create audience-ready customer lists (while respecting privacy requirements)
+
+## What “customer record enrichment” means in practice
+
+Most enrichment work comes down to two steps:
+1. **Pick a customer-level join key** (usually `sm_customer_key`)
+2. **Attach attributes** you want to analyze (or activate) at the customer level
+
+In SourceMedium, `your_project.sm_transformed_v2.dim_customers` is the base customer table, and most downstream analysis joins back through `sm_customer_key`.
+
+## Common enrichment sources
+
+### Zero-party (self-reported)
+
+Collected directly from customers (post-purchase surveys, quizzes, account creation). This is typically the highest-quality demographic data you can get—because it’s explicit.
+
+### First-party (internal systems you control)
+
+Attributes you collect operationally (loyalty tier, VIP status, subscription preferences, customer tags) that can flow into the warehouse via customer/order tags or platform fields.
+
+### Third-party enrichment
+
+Purchased demographic/household attributes joined to your customer records via privacy-safe identifiers (often hashed email) or address/phone, depending on the vendor.
+
+### Inference (use cautiously)
+
+Heuristic enrichment derived from PII (for example, gender inference from first name). Useful for directional analysis, not ground truth.
+
+## Audience building workflows (warehouse-first)
+
+Once attributes are on a customer-level table, you can build segments like:
+- High LTV customers in a specific region
+- New customers acquired from a specific campaign strategy
+- Customers who match a survey persona
+
+Those segments can then be exported from your warehouse (commonly using hashed identifiers like `customer_email_hashed`) for downstream activation—if your policies and tools allow.
+
+### Strategy-based “audience” segments via campaign/UTM conventions
+
+If you run demographic-targeted (or persona-targeted) campaigns, the most reliable way to measure **long-term LTV** is to encode the targeting strategy into a joinable attribute at purchase time—typically UTMs.
+
+For example:
+- Create distinct ad sets per segment
+- Add a stable segment label to `utm_campaign` / `utm_content` / `utm_term`
+- Analyze LTV by that label in the warehouse
+
+This produces “LTV by targeting strategy” (joinable to customers/orders), which is usually more actionable than ad-platform demographic breakdowns.
+
+<Warning>
+Be careful with PII and inferred demographic attributes. Ensure your privacy policy, consent practices, and downstream usage are compliant with applicable laws and platform policies.
+</Warning>
+
+## Start here: demographics and joinability
+
+The most common question is demographics (age/gender) and whether ad platforms can provide it in a way that supports LTV.
+
+<CardGroup cols={2}>
+  <Card title="Demographic Data Sources" icon="users" href="/help-center/core-concepts/demographics/demographic-data-sources">
+    What you can (and can’t) do for LTV by demographic
+  </Card>
+  <Card title="Customer & Order Tagging" icon="tags" href="/help-center/faq/account-management-faqs/are-you-utilizing-customer-and-order-tagging-for-deeper-enrichment-of-your-data">
+    Practical tagging patterns for enrichment
+  </Card>
+  <Card title="dim_customers" icon="table" href="/data-activation/data-tables/sm_transformed_v2/dim_customers">
+    Customer join keys and identity fields
+  </Card>
+  <Card title="Data Enrichment" icon="gear" href="/data-transformations/data-enrichment">
+    How enrichment fits into SourceMedium’s transformation layer
+  </Card>
+</CardGroup>
