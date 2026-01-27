@@ -5,7 +5,11 @@ description: "How to install the AI Analyst in your Slack workspace"
 icon: "gear"
 ---
 
-The AI Analyst is installed as a Slack app in your company's workspace. This page covers how to get set up and what to expect.
+The AI Analyst is delivered as a Slack app called **SourceMedium** in your company's workspace. This page covers how to get set up and what to expect.
+
+<Note>
+In Slack, the bot appears as "SourceMedium" (or "SourceMedium (YourCompany)"). Throughout these docs, we refer to it as the "AI Analyst" to distinguish it from other SourceMedium products.
+</Note>
 
 ---
 
@@ -13,7 +17,7 @@ The AI Analyst is installed as a Slack app in your company's workspace. This pag
 
 ### Your Tenant URL
 
-Each SourceMedium customer has a dedicated AI Analyst instance at:
+Each SourceMedium customer has a dedicated instance at:
 
 ```
 https://{your-tenant}.sourcemedium.com
@@ -41,17 +45,18 @@ You must be a Slack workspace admin (or have app installation permissions) to in
 
 ## Permissions Requested
 
-When you install the AI Analyst, Slack will show the permissions being requested:
+When you install the app, Slack will show the permissions being requested. The key permissions include:
 
-| Permission | Why It's Needed |
-|------------|-----------------|
-| **View messages in channels the app is added to** | Read your questions and provide answers |
-| **Send messages as the app** | Reply with results, charts, and SQL |
+| Category | What It Enables |
+|----------|-----------------|
+| **Read messages** | See your questions in channels and DMs where the bot is present |
+| **Send messages** | Reply with results, charts, and SQL queries |
 | **Upload files** | Attach CSV exports, SQL files, and chart images |
-| **View basic user info** | Identify who asked the question for context |
+| **Read user info** | Identify who asked the question for context |
+| **Join channels** | Accept channel invitations when you add the bot |
 
 <Info>
-The AI Analyst only sees messages in channels where it's explicitly added or direct messages sent to it. It cannot read messages in channels it hasn't been invited to.
+The bot only sees messages in channels where it's explicitly added or in direct messages sent to it. It cannot read messages in other channels.
 </Info>
 
 ---
@@ -60,14 +65,14 @@ The AI Analyst only sees messages in channels where it's explicitly added or dir
 
 Once installed:
 
-1. **Invite the bot to a channel**: Use `/invite @AI Analyst` or add it from channel settings
-2. **Or use direct messages**: Send a DM to the AI Analyst for private queries
+1. **Invite the bot to a channel**: Use `/invite @SourceMedium` or add it from channel settings
+2. **Or use direct messages**: Send a DM to the SourceMedium bot for private queries
 3. **Ask a question**: Type your question in natural language
 
 The bot will respond in a thread with your results.
 
 <Tip>
-Many teams create a dedicated `#analytics` or `#data-questions` channel for AI Analyst queries. This keeps analytics discussions organized and lets the whole team learn from each other's questions.
+Many teams create a dedicated `#analytics` or `#data-questions` channel for queries. This keeps analytics discussions organized and lets the whole team learn from each other's questions.
 </Tip>
 
 ---
@@ -121,7 +126,7 @@ Your Slack workspace may not be linked to your SourceMedium tenant. Contact your
 
 1. Make sure the bot is invited to the channel you're messaging in
 2. Try sending a direct message to the bot instead
-3. Check that you're mentioning the bot correctly (`@AI Analyst`)
+3. Check that you're mentioning the bot correctly (`@SourceMedium`)
 
 ---
 
