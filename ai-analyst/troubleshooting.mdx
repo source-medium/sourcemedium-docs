@@ -1,11 +1,11 @@
 ---
-title: "Troubleshooting"
+title: "Troubleshooting & FAQ"
 sidebarTitle: "Troubleshooting"
-description: "Common issues with the AI Analyst and how to resolve them"
+description: "Common issues, questions, and how to resolve them"
 icon: "wrench"
 ---
 
-This page covers common issues you might encounter when using the AI Analyst and how to resolve them.
+This page covers common issues you might encounter when using the AI Analyst and answers frequently asked questions.
 
 ---
 
@@ -109,6 +109,33 @@ The AI Analyst is designed for e-commerce analytics questions. It will decline r
 - Are unrelated to analytics (general knowledge questions)
 
 For questions about SourceMedium concepts or definitions, the AI can still help — try rephrasing as a definition or schema question.
+
+---
+
+## Common Questions
+
+<AccordionGroup>
+  <Accordion title="Can I ask follow-up questions?">
+    Not yet. Each message starts a fresh session — the AI doesn't remember previous questions in the thread. If you want to drill down, include full context in your follow-up: "Show me revenue by channel for the last 30 days" rather than "Break that down by channel."
+
+    Conversation follow-ups are on our [roadmap](/ai-analyst/roadmap).
+  </Accordion>
+  <Accordion title="How often does data refresh?">
+    Most tables refresh daily. Our SLA guarantees fresh data through yesterday based on your reporting timezone. Today's data is not guaranteed. See [Data Health](/ai-analyst/diagnostics/data-health) for details.
+  </Accordion>
+  <Accordion title="Can I export the results?">
+    Yes. Each response includes downloadable files: `query.sql` (the SQL used), `results.csv` (full data), and the chart image if one was generated.
+  </Accordion>
+  <Accordion title="Can multiple people use it at once?">
+    Yes. Anyone in your Slack workspace with access to the bot can ask questions simultaneously. There's no queue or limit on concurrent users.
+  </Accordion>
+  <Accordion title="Why do I see different results than my teammate?">
+    You shouldn't — everyone queries the same underlying data. If results differ, check:
+    - Are you asking about the same time range?
+    - Are you using the same metric definition?
+    - Did the data refresh between queries?
+  </Accordion>
+</AccordionGroup>
 
 ---
 
