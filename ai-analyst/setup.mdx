@@ -1,0 +1,135 @@
+---
+title: "Setup & Installation"
+sidebarTitle: "Setup"
+description: "How to install the AI Analyst in your Slack workspace"
+icon: "gear"
+---
+
+The AI Analyst is installed as a Slack app in your company's workspace. This page covers how to get set up and what to expect.
+
+---
+
+## Installation
+
+### Your Tenant URL
+
+Each SourceMedium customer has a dedicated AI Analyst instance at:
+
+```
+https://{your-tenant}.sourcemedium.com
+```
+
+For example, if your tenant ID is `acme`, your URL would be `https://acme.sourcemedium.com`.
+
+<Note>
+Not sure what your tenant ID is? It's typically your company name or a shortened version. Ask your SourceMedium team if you're unsure.
+</Note>
+
+### Installing to Slack
+
+1. **Visit your install URL**: Go to `https://{your-tenant}.sourcemedium.com/slack/install`
+2. **Click "Add to Slack"**: You'll be redirected to Slack's authorization page
+3. **Review permissions**: See what the app can access (details below)
+4. **Authorize**: Click "Allow" to complete installation
+5. **Start asking questions**: Mention the bot in a channel or send it a direct message
+
+<Warning>
+You must be a Slack workspace admin (or have app installation permissions) to install the AI Analyst.
+</Warning>
+
+---
+
+## Permissions Requested
+
+When you install the AI Analyst, Slack will show the permissions being requested:
+
+| Permission | Why It's Needed |
+|------------|-----------------|
+| **View messages in channels the app is added to** | Read your questions and provide answers |
+| **Send messages as the app** | Reply with results, charts, and SQL |
+| **Upload files** | Attach CSV exports, SQL files, and chart images |
+| **View basic user info** | Identify who asked the question for context |
+
+<Info>
+The AI Analyst only sees messages in channels where it's explicitly added or direct messages sent to it. It cannot read messages in channels it hasn't been invited to.
+</Info>
+
+---
+
+## After Installation
+
+Once installed:
+
+1. **Invite the bot to a channel**: Use `/invite @AI Analyst` or add it from channel settings
+2. **Or use direct messages**: Send a DM to the AI Analyst for private queries
+3. **Ask a question**: Type your question in natural language
+
+The bot will respond in a thread with your results.
+
+<Tip>
+Many teams create a dedicated `#analytics` or `#data-questions` channel for AI Analyst queries. This keeps analytics discussions organized and lets the whole team learn from each other's questions.
+</Tip>
+
+---
+
+## Multi-Store Organizations
+
+If your organization has multiple stores connected to SourceMedium, the AI Analyst can query data across all of them. Currently, queries return combined results across all stores in your tenant.
+
+<Note>
+Per-store filtering is on our [roadmap](/ai-analyst/roadmap). For now, if you need store-specific queries, include the store name in your question and the AI will attempt to filter appropriately if the data supports it.
+</Note>
+
+---
+
+## Access Control
+
+### Who Can Use It
+
+Anyone in your Slack workspace who can message the bot can query your data. There's no separate login — Slack authentication is used.
+
+### What Data Is Accessible
+
+The AI Analyst can query all SourceMedium out-of-the-box tables for your tenant. This includes:
+
+- Orders and revenue data
+- Customer information
+- Marketing and ad performance
+- Email and SMS metrics
+- Web analytics events
+- Attribution data
+
+<Warning>
+Granular access control (limiting specific users to specific data) is not yet available. Anyone with access to the bot can query any data in your SourceMedium tables. Plan accordingly for sensitive data.
+</Warning>
+
+---
+
+## Troubleshooting Installation
+
+### "You don't have permission to install apps"
+
+Ask your Slack workspace admin to either:
+- Install the app for you
+- Grant you app installation permissions
+
+### "This workspace is not authorized"
+
+Your Slack workspace may not be linked to your SourceMedium tenant. Contact your SourceMedium team to verify the configuration.
+
+### Bot not responding after installation
+
+1. Make sure the bot is invited to the channel you're messaging in
+2. Try sending a direct message to the bot instead
+3. Check that you're mentioning the bot correctly (`@AI Analyst`)
+
+---
+
+## Getting Help
+
+If you run into issues during setup:
+
+- **Email**: support@sourcemedium.com
+- **Slack**: Message your SourceMedium team in your shared channel
+
+Include your tenant ID and a description of the issue.

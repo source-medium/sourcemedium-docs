@@ -647,6 +647,7 @@
             "group": "Getting Started",
             "pages": [
               "ai-analyst/index",
+              "ai-analyst/setup",
               "ai-analyst/what-you-can-ask"
             ]
           },
