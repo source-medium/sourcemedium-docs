@@ -1,6 +1,6 @@
 # Query Library (AI Analyst) — Spec (Codex)
 
-Status: Draft  
+Status: In progress (Batch 1 shipped)  
 Owner: TBD (Docs + AI Analyst)  
 Last updated: 2026-01-27
 
@@ -16,10 +16,14 @@ We already have three strong sources of truth:
 
 - **Uni2 SQL rules** (authoritative): `src/agent_core/agents/prompts.py` + `src/agent_core/domain_tables.py`.  
 - **QA patterns + SQL guidelines** (useful but secondary when conflicting): `uni-training/.claude/shared/*`.  
-- **Semi-vetted eval dataset** (seed set): `uni-training/evaluation/training_simplified.json` (136 Qs, with SQL strings + insights; requires validation).
+- **Eval dataset + artifacts** (seed set): `uni-training/eval3.json` (120 Qs) plus pre-generated SQL artifacts under `uni-training/questions_grouped/unique/Q*/artifacts/generated-queries.sql` (and sometimes `generated-queries_revised.sql`).
 
 Important conflict resolution rule:
 - If `uni-training/.claude` guidance conflicts with **uni2** logic, **prefer uni2**.
+
+Note on datasets:
+- `uni-training/eval3.json` is the primary seed for v0 because it maps cleanly to the `questions_grouped/unique/Q*/` artifact folders.
+- `uni-training/evaluation/training_simplified.json` is a useful supplemental pool, but not the v0 extraction source.
 
 ## Goals
 
@@ -63,48 +67,52 @@ Important conflict resolution rule:
 
 ## Where the Query Library Lives (Docs)
 
-We publish in two places (with the same underlying “gold” queries):
+We publish in two places (single source of truth + pointer):
 
-1) **AI Analyst Query Library pages** (domain-oriented, question-first)
-   - Proposed location: `sourcemedium-docs/ai-analyst/query-library/`
-   - Pages per domain (mirrors “What You Can Ask”):
-     - Orders & Revenue
-     - Customers
-     - Products
-     - Marketing & Ads
-     - Email & SMS
-     - Cohorts & LTV
-     - Web Analytics / Funnel
-     - Refunds & Support (optional early)
-   - Each page: 8–20 queries over time, with “gold” badge and clear tags.
+1) **SQL Query Library (canonical, BigQuery-facing)**
+   - Location: `sourcemedium-docs/data-activation/template-resources/sql-query-library.mdx`
+   - This is the canonical home for copy/paste SQL templates.
 
-2) **Per-table “Example Queries” sections** (table-oriented, schema-first)
+2) **AI Analyst Query Library pointer (AI Analyst-facing)**
+   - Location: `sourcemedium-docs/ai-analyst/query-library/index.mdx`
+   - Purpose: link AI Analyst users to the canonical SQL Query Library page.
+
+3) **Per-table “Example Queries” sections** (table-oriented, schema-first; follow-up)
    - Add a small curated set (2–5) to high-traffic tables under:
      - `sourcemedium-docs/data-activation/data-tables/sm_transformed_v2/*.mdx`
    - Start with:
      - `obt_orders`, `dim_orders`, `obt_order_lines`, `rpt_executive_summary_daily`, `rpt_ad_performance_daily`, `rpt_cohort_ltv_*`, `rpt_outbound_message_performance_daily`, `obt_funnel_event_history`.
 
+Navigation note (v0):
+- We added a redirect from the old permalink `/data-activation/template-resources/sm-sql-recipe-directory` → `/data-activation/template-resources/sql-query-library` in `sourcemedium-docs/docs.json`.
+
+## Current Progress
+
+### Batch 1 (shipped to docs)
+- Canonical page: `sourcemedium-docs/data-activation/template-resources/sql-query-library.mdx`
+- AI Analyst pointer: `sourcemedium-docs/ai-analyst/query-library/index.mdx`
+- Batch 1 queries included: Q011, Q001, Q022, Q021, Q003, Q119, Q060, Q023
+- Validation status:
+  - Static schema/column validation: done (docs validator).
+  - Live BigQuery dry-run validation (`bq query --dry_run ...`): pending engineering gate.
+
 ## Query Entry Format (Canonical Metadata)
 
 Each query should have consistent metadata so it can be searched, deduped, and QA’d.
 
-Minimum fields:
-- `id`: stable identifier (e.g., `QL-ORD-001`)
-- `title`: human-readable
-- `domain`: one of the doc domains above
-- `primary_table`: canonical table name (e.g., `sm_transformed_v2.obt_orders`)
-- `tables_used`: list (keep small)
-- `archetype`: `trend` | `breakdown` | `ranking` | `cohort_curve` | `funnel` | `diagnostic` | `exploration`
-- `time_grain`: `day` | `week` | `month` | `none`
-- `default_timeframe`: e.g., `last_30_days`
-- `tags`: e.g., `["sm_channel", "new_vs_repeat", "pop_comparison"]`
-- `assumptions`: the literal assumptions header values
-- `sql`: the final SQL (docs-ready placeholders)
-- `notes`: pitfalls + how to adapt (optional)
+Phased approach (avoid upfront overhead):
 
-Optional but recommended:
-- `example_questions`: 2–5 natural language phrasings that this query answers.
-- `validation_checks`: a short checklist (expected ranges, sanity checks).
+### v0 (Batches 1–2): minimal required fields
+- `id`: stable identifier (we can start with eval IDs like `Q011` and later alias to `QL-*` if needed)
+- `title`
+- `domain`
+- `primary_table`
+- `sql` (docs-ready placeholders)
+- `notes` (only when caveats are important)
+- `source_artifacts_path` (e.g., `uni-training/questions_grouped/unique/Q011_.../artifacts/generated-queries.sql`)
+
+### v1+ (Batch 3 onward): add structure once patterns emerge
+- `archetype`, `time_grain`, `default_timeframe`, `tags`, `example_questions`, `validation_checks`
 
 ## Archetypes (Reusable Building Blocks)
 
@@ -134,8 +142,8 @@ Practical batch selection rule:
   - plus one “adjacent” table when needed (e.g., `rpt_executive_summary_daily`).
 
 Seed evidence we already have:
-- `training_simplified.json` usage is concentrated in Orders/Order Lines/Order Dims and then cohort + MTA.
-- It includes deprecated `sm_experimental.rpt_mta_models_v4` references; those should not be promoted to “gold”.
+- The `questions_grouped/unique/` set is concentrated in Orders/Order Lines/Order Dims, then CAC/ROAS, then cohort/MTA.
+- It includes deprecated `sm_experimental.rpt_mta_models_v4` references; those must not be promoted to “gold”.
 
 ## QA + Validation Workflow (Batch-Based)
 
@@ -146,6 +154,9 @@ Seed evidence we already have:
   - Specific table pages (if applicable)
 
 ### Step 1 — Normalize to docs conventions
+- Prefer extracting directly from the eval artifacts first:
+  - `uni-training/questions_grouped/unique/Q*/artifacts/generated-queries.sql`
+  - If present, compare with `generated-queries_revised.sql` and choose the best starting point.
 - Replace literal project IDs with `your_project`.
 - Ensure tables are `sm_transformed_v2` unless explicitly experimental.
 - Add assumptions header.
@@ -165,7 +176,7 @@ We can validate without warehouse access:
 
 ### Step 3 — Live validation (engineer-run gate)
 - Run BigQuery dry-run for each query example (per docs repo guidance):
-  - `bq query --dry_run --use_legacy_sql=false "<sql>"`
+  - `bq query --dry_run --use_legacy_sql=false --project_id=sm-uni "<sql>"`
 - When feasible, run the query with a constrained timeframe and `LIMIT` to verify it returns plausible results.
 
 ### Step 4 — Human QA checklist
@@ -193,16 +204,38 @@ We can validate without warehouse access:
 
 ## Batch 1 Recommendation (Initial “Gold” Set)
 
-Target: high ROI, low risk, core tables. Primarily `obt_orders` + `dim_orders` + `obt_order_lines`.
+Target: high ROI, low risk, core tables, directly extractable from eval artifacts.
 
-Suggested batch contents (example; final selection should follow rubric):
+Concrete, immediately-actionable candidates (from `questions_grouped/unique/`):
 
-1) Revenue / Orders / AOV trend (daily) + PoP comparison  
-2) Revenue / Orders by `sm_channel` (include `sm_store_id`)  
-3) New vs repeat customers (use `sm_valid_order_index = 1`)  
-4) Top SKUs/products by net revenue (with non-product filters as needed)  
-5) Discount + refund contribution rates (safe use of negative fields)  
-6) (Optional) Attribution completeness summary using `sm_utm_source_medium` with exact-match hygiene (no LIKE/REGEXP)
+| # | Question | Seed ID | Domain | Archetype | Primary table |
+|---|----------|---------|--------|-----------|---------------|
+| 1 | What is my average CAC? | Q011 | Marketing & Ads | breakdown | `rpt_executive_summary_daily` |
+| 2 | Which platform and campaign type has the highest ROAS? | Q001 | Marketing & Ads | ranking | `rpt_ad_performance_daily` |
+| 3 | Which source/mediums are driving repeat purchases? | Q021 | Customers / Retention | breakdown | `obt_orders` |
+| 4 | What percentage of our orders are first-time vs repeat? | Q022 | Customers | breakdown | `obt_orders` |
+| 5 | How has the ratio of new to repeat customers changed? | Q003 | Customers | trend | `rpt_executive_summary_daily` |
+| 6 | What are the top 10 products by net revenue? | Q119 | Products | ranking | `obt_order_lines` |
+| 7 | What’s the average order value by marketing channel? | Q060 | Revenue / Attribution | breakdown | `obt_orders` |
+| 8 | Let’s define current revenue as last 30 days (and compare) | Q023 | Orders & Revenue | trend | `obt_orders` |
+
+Batch size flexibility:
+- Start with 5–8 if we want fast iteration; expand to 10 once the publish + QA loop is smooth.
+
+Expected normalization notes for Batch 1:
+- Q021/Q060 involve UTMs / source-medium dimensions; ensure uni2-safe categorical handling (avoid LIKE/REGEXP; consider a discovery-first pattern if needed).
+
+## Batch 2 (up next)
+
+Target: add time-series + refunds + product discovery patterns with minimal QA risk.
+
+Proposed candidates (from `questions_grouped/unique/`):
+- Q081 — ROAS trends over time (Marketing & Ads; `rpt_ad_performance_daily`)
+- Q082 — customer acquisition trends over time (Customers; `rpt_executive_summary_daily`)
+- Q083 — top products by units sold (Products; `obt_order_lines`)
+- Q062 — refund rate by marketing channel (Refunds/Attribution; likely `obt_orders` + refund fields)
+- Q115 — distribution of retail vs wholesale vs DTC vs Amazon (Sales channels; `obt_orders`)
+- Q017 — products most common with new customers (Products/Customers; `obt_order_lines` + first-order filter)
 
 ## Handling “Discovery-First” Without Breaking uni2 Rules
 
@@ -222,10 +255,22 @@ This also avoids embedding tenant-specific value assumptions in docs.
 
 ## Open Questions
 
-1) Source of truth:
-   - Should canonical query metadata live in `uni2/` and sync into docs, or live directly in `sourcemedium-docs/`?
+1) Source of truth (decision):
+   - Canonical “gold” queries live in `sourcemedium-docs/` (these are documentation artifacts). Uni2 can optionally consume them later, but docs should own validation + publication.
 2) “Gold” vs “Draft”:
    - Do we publish drafts in docs (clearly marked), or keep drafts internal until validated?
 3) MTA sequencing:
    - When do we start including MTA examples (explicit intent only), and how do we label experimental limitations?
 
+## v0 Exit Criteria (Ship Gate)
+
+We consider v0 shipped when:
+- ≥ 10 queries are published on the canonical SQL page (`sourcemedium-docs/data-activation/template-resources/sql-query-library.mdx`),
+- each new query passes BigQuery dry-run against a real project (`--project_id=sm-uni`) before placeholder rewrite,
+- each query has engineering QA sign-off,
+- at least 3 core table pages have updated “Example Queries” sections (recommended: `obt_orders`, `dim_orders`, `obt_order_lines`).
+
+## Table Preference (One-liners)
+
+- Prefer `obt_orders` for order-level aggregations where you want the wide “analytics-ready” order fields (revenue/profit/refunds/channel context) with minimal joins.
+- Prefer `dim_orders` when you specifically need order sequencing fields like `sm_valid_order_index` for new vs repeat logic and other “dimension” attributes.

@@ -1,0 +1,321 @@
+---
+title: 'SQL Query Library'
+sidebarTitle: "SQL Query Library"
+description: "Copy/paste BigQuery SQL templates to answer common questions using SourceMedium tables"
+icon: "code"
+---
+
+### Overview
+
+Use these queries as starting points for analysis in BigQuery. Replace `your_project` with your BigQuery project ID (e.g., `sm-yourcompany`) and `your-sm_store_id` with your store identifier.
+
+<Tip>
+**Query Standards:**
+- Always include `is_order_sm_valid = TRUE` for order-based analyses
+- Use `your_project.sm_transformed_v2.*` for standard tables
+- Use `your_project.sm_experimental.*` for MTA tables
+</Tip>
+
+If you're not sure which table to use, start with: [`obt_orders`](/data-activation/data-tables/sm_transformed_v2/obt_orders) and [`obt_order_lines`](/data-activation/data-tables/sm_transformed_v2/obt_order_lines).
+
+---
+
+## AI Analyst query templates (v0)
+
+These templates are derived from real AI Analyst evaluation questions and normalized for reuse in BigQuery.
+
+<Info>
+Most examples default to the last 30 days for performance and “current state” analysis. Adjust the timeframe and add `sm_store_id` scoping when needed.
+</Info>
+
+### Marketing & Ads
+
+<AccordionGroup>
+  <Accordion title="Q011 — Average CAC (last 30 days)">
+    ```sql
+    -- Assumptions: timeframe=last_30_days | metric=CAC=ad_spend/new_customer_count | grain=sm_channel | scope=all_channels
+    WITH channel_rollup AS (
+      SELECT
+        sm_channel,
+        SUM(ABS(ad_spend)) AS ad_spend,
+        SUM(new_customer_count) AS new_customers
+      FROM `your_project.sm_transformed_v2.rpt_executive_summary_daily`
+      WHERE date >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)
+        AND ad_spend IS NOT NULL
+        AND new_customer_count IS NOT NULL
+      GROUP BY 1
+    ),
+    overall AS (
+      SELECT
+        '(all_channels)' AS sm_channel,
+        SUM(ABS(ad_spend)) AS ad_spend,
+        SUM(new_customer_count) AS new_customers
+      FROM `your_project.sm_transformed_v2.rpt_executive_summary_daily`
+      WHERE date >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)
+        AND ad_spend IS NOT NULL
+        AND new_customer_count IS NOT NULL
+    )
+    SELECT
+      sm_channel,
+      ad_spend,
+      new_customers,
+      SAFE_DIVIDE(ad_spend, NULLIF(new_customers, 0)) AS cac
+    FROM channel_rollup
+    WHERE ad_spend > 0
+
+    UNION ALL
+
+    SELECT
+      sm_channel,
+      ad_spend,
+      new_customers,
+      SAFE_DIVIDE(ad_spend, NULLIF(new_customers, 0)) AS cac
+    FROM overall
+    WHERE ad_spend > 0
+    ORDER BY cac ASC;
+    ```
+  </Accordion>
+
+  <Accordion title="Q001 — Highest ROAS by platform + campaign type (last 30 days)">
+    ```sql
+    -- Assumptions: timeframe=last_30_days | metric=ROAS=platform_reported_revenue/ad_spend | grain=platform+campaign_type | scope=all_stores
+    SELECT
+      sm_store_id,
+      source_system AS platform,
+      ad_campaign_type AS campaign_type,
+      SUM(ad_platform_reported_revenue) AS platform_reported_revenue,
+      SUM(ad_spend) AS ad_spend,
+      SAFE_DIVIDE(SUM(ad_platform_reported_revenue), NULLIF(SUM(ad_spend), 0)) AS roas
+    FROM `your_project.sm_transformed_v2.rpt_ad_performance_daily`
+    WHERE date >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)
+      AND ad_spend > 0
+    GROUP BY 1, 2, 3
+    ORDER BY roas DESC
+    LIMIT 20;
+    ```
+  </Accordion>
+</AccordionGroup>
+
+### Customers & Retention
+
+<AccordionGroup>
+  <Accordion title="Q022 — First-time vs repeat orders (last 30 days)">
+    ```sql
+    -- Assumptions: timeframe=last_30_days | metric=orders+customers+net_revenue | grain=first_vs_repeat | scope=valid_orders_only
+    SELECT
+      CASE WHEN order_index = 1 THEN 'first_order' ELSE 'repeat_order' END AS order_type,
+      COUNT(DISTINCT sm_order_key) AS orders,
+      COUNT(DISTINCT sm_customer_key) AS customers,
+      SUM(order_net_revenue) AS order_net_revenue
+    FROM `your_project.sm_transformed_v2.obt_orders`
+    WHERE is_order_sm_valid = TRUE
+      AND DATE(order_processed_at_local_datetime) >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)
+    GROUP BY 1
+    ORDER BY orders DESC;
+    ```
+  </Accordion>
+
+  <Accordion title="Q021 — Which source/mediums drive repeat purchases? (cohorted on first order in last 12 months)">
+    ```sql
+    -- Assumptions: timeframe=first_orders_last_12_months | metric=repeat_rate=customers_with_2+_orders/customers | grain=first_order_source_medium | scope=valid_orders_only
+    WITH valid_orders AS (
+      SELECT
+        sm_customer_key,
+        sm_order_key,
+        order_processed_at_local_datetime,
+        COALESCE(NULLIF(LOWER(TRIM(sm_utm_source_medium)), ''), '(none) / (none)') AS source_medium,
+        ROW_NUMBER() OVER (
+          PARTITION BY sm_customer_key
+          ORDER BY order_processed_at_local_datetime
+        ) AS rn
+      FROM `your_project.sm_transformed_v2.obt_orders`
+      WHERE is_order_sm_valid = TRUE
+        AND sm_customer_key IS NOT NULL
+    ),
+    customer_summary AS (
+      SELECT
+        sm_customer_key,
+        MAX(CASE WHEN rn = 1 THEN source_medium END) AS first_order_source_medium,
+        MIN(CASE WHEN rn = 1 THEN DATE(order_processed_at_local_datetime) END) AS first_order_date,
+        COUNT(DISTINCT sm_order_key) AS valid_order_count
+      FROM valid_orders
+      GROUP BY 1
+    )
+    SELECT
+      first_order_source_medium AS source_medium,
+      COUNT(*) AS customers,
+      COUNTIF(valid_order_count >= 2) AS repeat_customers,
+      SAFE_DIVIDE(COUNTIF(valid_order_count >= 2), COUNT(*)) AS repeat_rate,
+      AVG(valid_order_count - 1) AS avg_subsequent_orders
+    FROM customer_summary
+    WHERE first_order_date >= DATE_SUB(CURRENT_DATE(), INTERVAL 365 DAY)
+    GROUP BY 1
+    HAVING customers >= 100
+    ORDER BY repeat_rate DESC
+    LIMIT 25;
+    ```
+  </Accordion>
+
+  <Accordion title="Q003 — New vs repeat customer ratio trend (weekly, YTD)">
+    ```sql
+    -- Assumptions: timeframe=year_to_date | metric=new_to_repeat_ratio=new_customer_count/repeat_customer_count | grain=week | scope=all_channels
+    WITH weekly AS (
+      SELECT
+        DATE_TRUNC(date, WEEK(MONDAY)) AS week_start,
+        SUM(new_customer_count) AS new_customers,
+        SUM(repeat_customer_count) AS repeat_customers
+      FROM `your_project.sm_transformed_v2.rpt_executive_summary_daily`
+      WHERE date >= DATE_TRUNC(CURRENT_DATE(), YEAR)
+      GROUP BY 1
+    )
+    SELECT
+      week_start,
+      new_customers,
+      repeat_customers,
+      SAFE_DIVIDE(new_customers, NULLIF(repeat_customers, 0)) AS new_to_repeat_ratio
+    FROM weekly
+    ORDER BY week_start;
+    ```
+  </Accordion>
+</AccordionGroup>
+
+### Products
+
+<AccordionGroup>
+  <Accordion title="Q119 — Top 10 products by net revenue (last 30 days)">
+    ```sql
+    -- Assumptions: timeframe=last_30_days | metric=net_revenue=SUM(order_line_net_revenue) | grain=sku | scope=valid_orders_only
+    SELECT
+      sku,
+      ANY_VALUE(product_title) AS product_title,
+      SUM(order_line_net_revenue) AS order_line_net_revenue,
+      SUM(order_line_quantity) AS units_sold,
+      COUNT(DISTINCT sm_order_key) AS orders
+    FROM `your_project.sm_transformed_v2.obt_order_lines`
+    WHERE is_order_sm_valid = TRUE
+      AND DATE(order_processed_at_local_datetime) >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)
+      AND sku IS NOT NULL
+      AND NOT REGEXP_CONTAINS(product_title, r'(?i)(shipping protection|not a product|service fee|processing fee)')
+    GROUP BY 1
+    ORDER BY order_line_net_revenue DESC
+    LIMIT 10;
+    ```
+  </Accordion>
+</AccordionGroup>
+
+### Orders & revenue
+
+<AccordionGroup>
+  <Accordion title="Q060 — Average order value (AOV) by marketing channel (last 30 days)">
+    ```sql
+    -- Assumptions: timeframe=last_30_days | metric=AOV=SUM(order_net_revenue)/orders | grain=sm_utm_source_medium | scope=valid_orders_only
+    WITH base AS (
+      SELECT
+        COALESCE(NULLIF(LOWER(TRIM(sm_utm_source_medium)), ''), '(none) / (none)') AS marketing_channel,
+        sm_order_key,
+        sm_customer_key,
+        order_net_revenue
+      FROM `your_project.sm_transformed_v2.obt_orders`
+      WHERE is_order_sm_valid = TRUE
+        AND DATE(order_processed_at_local_datetime) >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)
+    )
+    SELECT
+      marketing_channel,
+      COUNT(DISTINCT sm_order_key) AS orders,
+      COUNT(DISTINCT sm_customer_key) AS customers,
+      SUM(order_net_revenue) AS order_net_revenue,
+      SAFE_DIVIDE(SUM(order_net_revenue), NULLIF(COUNT(DISTINCT sm_order_key), 0)) AS aov
+    FROM base
+    GROUP BY 1
+    HAVING orders >= 50
+    ORDER BY aov DESC
+    LIMIT 50;
+    ```
+  </Accordion>
+
+  <Accordion title="Q023 — Revenue in the last 30 days from customers who have ever had a subscription">
+    ```sql
+    -- Assumptions: timeframe=last_30_days | metric=net_revenue=SUM(order_net_revenue) | grain=overall | scope=customers_with_any_subscription_history
+    WITH subscription_customers AS (
+      SELECT DISTINCT
+        sm_customer_key
+      FROM `your_project.sm_transformed_v2.obt_orders`
+      WHERE is_order_sm_valid = TRUE
+        AND is_subscription_order = TRUE
+        AND sm_customer_key IS NOT NULL
+    ),
+    last_30_valid_orders AS (
+      SELECT
+        sm_order_key,
+        sm_customer_key,
+        order_net_revenue
+      FROM `your_project.sm_transformed_v2.obt_orders`
+      WHERE is_order_sm_valid = TRUE
+        AND DATE(order_processed_at_local_datetime) >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)
+        AND sm_customer_key IS NOT NULL
+    )
+    SELECT
+      SUM(CASE WHEN sc.sm_customer_key IS NOT NULL THEN o.order_net_revenue ELSE 0 END) AS revenue_from_customers_with_subscription_history,
+      SUM(o.order_net_revenue) AS total_revenue_last_30_days,
+      SAFE_DIVIDE(
+        SUM(CASE WHEN sc.sm_customer_key IS NOT NULL THEN o.order_net_revenue ELSE 0 END),
+        NULLIF(SUM(o.order_net_revenue), 0)
+      ) AS pct_of_revenue_from_subscription_history_customers
+    FROM last_30_valid_orders o
+    LEFT JOIN subscription_customers sc
+      ON o.sm_customer_key = sc.sm_customer_key;
+    ```
+  </Accordion>
+</AccordionGroup>
+
+## Product Insights
+<AccordionGroup>
+    <Accordion title='Most commonly ordered product combinations'>
+        ```sql
+        WITH RECURSIVE product_combos AS (
+            -- Anchor: Start with individual products per order
+            SELECT
+                ol.sm_store_id,
+                ol.sm_order_key,
+                1 AS combo_length,
+                CONCAT(ol.product_title, ' - ', ol.product_variant_title) AS combo,
+                CONCAT(ol.product_title, ' - ', ol.product_variant_title) AS last_item
+            FROM `your_project.sm_transformed_v2.obt_order_lines` AS ol
+            WHERE ol.sm_store_id = 'your-sm_store_id'
+              AND ol.is_order_sm_valid = TRUE
+
+            UNION ALL
+
+            -- Recursive: Build combinations up to 5 products
+            SELECT
+                ol.sm_store_id,
+                ol.sm_order_key,
+                pc.combo_length + 1,
+                CONCAT(pc.combo, ', ', CONCAT(ol.product_title, ' - ', ol.product_variant_title)),
+                CONCAT(ol.product_title, ' - ', ol.product_variant_title)
+            FROM product_combos AS pc
+            INNER JOIN `your_project.sm_transformed_v2.obt_order_lines` AS ol
+                ON ol.sm_order_key = pc.sm_order_key
+                AND CONCAT(ol.product_title, ' - ', ol.product_variant_title) > pc.last_item
+            WHERE pc.combo_length < 5
+              AND ol.is_order_sm_valid = TRUE
+        )
+
+        SELECT
+            combo AS product_combinations,
+            COUNT(DISTINCT sm_order_key) AS order_frequency,
+            combo_length AS num_products
+        FROM product_combos
+        WHERE combo_length >= 2
+        GROUP BY combo, combo_length
+        HAVING order_frequency >= 100
+        ORDER BY order_frequency DESC, combo ASC
+        LIMIT 100;
+        ```
+
+    </Accordion>
+</AccordionGroup>
+
+## More recipes
+
+We regularly add new recipes. If there’s a query you’d like added (subscription churn, cohort LTV curves, creative performance, etc.), reach out to your SourceMedium team and include the business question and the table(s) you’re using.
