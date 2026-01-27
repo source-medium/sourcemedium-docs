@@ -261,13 +261,13 @@
                 "group": "Site Analytics & Attribution",
                 "pages": [
                   {
-                    "group": "Google Analytics - 4 (GA4)",
-                    "pages": [
-                      "data-inputs/platform-integration-instructions/ga4-integration",
-                      "data-inputs/platform-supporting-resources/ga4/google-analytics-common-failures",
-                      "data-inputs/platform-supporting-resources/ga4/improving-last-click-attribution"
-                    ]
-                  },
+                "group": "Google Analytics - 4 (GA4)",
+                "pages": [
+                  "data-inputs/platform-integration-instructions/ga4-integration",
+                  "data-inputs/platform-supporting-resources/ga4/google-analytics-common-failures",
+                  "help-center/core-concepts/attribution/utm-setup"
+                ]
+              },
                   {
                     "group": "(Legacy) Google Analytics - Universal",
                     "pages": [
@@ -431,6 +431,10 @@
             "group": "Attribution",
             "pages": [
               "help-center/core-concepts/attribution/attribution-in-sourcemedium",
+              "help-center/core-concepts/attribution/utm-setup",
+              "help-center/core-concepts/attribution/direct-none",
+              "help-center/core-concepts/attribution/first-party-attribution",
+              "help-center/core-concepts/attribution/zero-party-attribution",
               "data-transformations/attribution-source-hierarchy",
               "data-inputs/attribution-health/index",
               "help-center/faq/account-management-faqs/best-practices-in-setting-up-a-post-purchase-hdyhau-survey"
@@ -830,6 +834,10 @@
     {
       "source": "/data-transformations/attribution-waterfall",
       "destination": "/data-transformations/attribution-source-hierarchy"
+    },
+    {
+      "source": "/data-inputs/platform-supporting-resources/ga4/improving-last-click-attribution",
+      "destination": "/help-center/faq/account-management-faqs/how-can-i-improve-my-last-click-attribution"
     },
     {
       "source": "/onboarding/data-docs/tables/customer_details_looker",

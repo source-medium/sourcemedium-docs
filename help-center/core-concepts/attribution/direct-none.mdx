@@ -1,0 +1,63 @@
+---
+title: "Why am I seeing (direct) / (none)?"
+sidebarTitle: "(direct) / (none)"
+description: "Understand what (direct)/(none) means in attribution reporting and how to diagnose and reduce it"
+icon: "heart-pulse"
+---
+
+In attribution reporting, **`(direct) / (none)`** typically means SourceMedium could not confidently associate an order with a marketing touchpoint (for example, missing UTMs or lost attribution context during the journey).
+
+## Common causes
+
+1. **Missing UTMs**: Campaigns (especially email/SMS and paid social) aren't consistently tagged.
+2. **UTMs dropped during the journey**: Cross-domain transitions, checkout flows, or redirects (including URL shorteners and 302s) lose parameters.
+3. **"Dark social" and mobile apps**: Links shared via WhatsApp, Slack, SMS, or clicked within mobile apps often don't pass referrer data.
+4. **Offline documents**: Links embedded in PDFs, Word/Excel/PowerPoint files, or slide decks have no referrer context.
+5. **HTTPS to HTTP transitions**: Navigating from a secure site to a non-secure page drops referral data for security.
+6. **Tracking blockers**: Ad blockers, iOS privacy restrictions, browser privacy modes, and firewall settings reduce client-side capture.
+7. **Bookmarks and direct URL entry**: Returning customers who bookmarked your site or type the URL directly.
+8. **Long time-to-convert**: The purchase happens after attribution context expires or can't be stitched.
+
+## How to diagnose (fast)
+
+<Steps>
+  <Step title="Check if your links are tagged">
+    Pick a few live campaigns and click through. Confirm the landing page URL includes `utm_source` / `utm_medium` / `utm_campaign`.
+  </Step>
+  <Step title="Find where UTMs are being lost">
+    If the landing page has UTMs but orders still show `(direct) / (none)`, the drop often happens during cross-domain navigation or checkout.
+  </Step>
+  <Step title="Look for the pattern by channel">
+    If `(direct) / (none)` spikes after a specific campaign type (email/SMS, paid social, affiliates), that’s usually the tagging or redirect path for that channel.
+  </Step>
+  <Step title="Validate against survey data">
+    If surveys show meaningful discovery but tracking shows `(direct) / (none)`, that’s a strong signal you have a capture gap.
+  </Step>
+</Steps>
+
+## How to reduce (direct) / (none)
+
+- Standardize UTM tagging across all channels (start here: [UTM Setup](/help-center/core-concepts/attribution/utm-setup))
+- Add server-side/checkout capture for platforms where UTMs are commonly dropped (Shopify Plus teams often capture UTMs into order attributes)
+- Use post-purchase surveys to supplement tracking-based attribution for offline and hard-to-track channels
+
+## Related resources
+
+<CardGroup cols={2}>
+  <Card title="UTM Setup" icon="bullseye" href="/help-center/core-concepts/attribution/utm-setup">
+    Tag links consistently so last-click attribution stays reliable.
+  </Card>
+  <Card title="Attribution Health" icon="heart-pulse" href="/data-inputs/attribution-health/index">
+    A structured toolkit for diagnosing and fixing attribution gaps.
+  </Card>
+  <Card title="Backfilling UTM Attribution via Order Attributes" icon="code" href="/data-inputs/platform-supporting-resources/shopify/backfilling-utm-attribution-via-checkout-attributes">
+    Shopify Plus developer guide for capturing UTMs at checkout.
+  </Card>
+  <Card title="Zero-Party Attribution" icon="square-poll-vertical" href="/help-center/core-concepts/attribution/zero-party-attribution">
+    Use surveys to capture discovery channels tracking can’t see.
+  </Card>
+</CardGroup>
+
+<Tip>
+For a deeper dive into debugging this in GA4, check out Google's guide on [Traffic acquisition reports](https://support.google.com/analytics/answer/9143382).
+</Tip>

@@ -38,20 +38,29 @@ If you're seeing high rates of `(direct) / (none)` in your attribution data, thi
 
 The following guides cover different strategies for improving your attribution coverage. Most brands benefit from implementing multiple approaches.
 
-### Server-Side & First-Party Methods
+### First-Party Attributes & Tracking
 
 <CardGroup cols={2}>
   <Card title="UTM Capture via Checkout Attributes" icon="shopify" href="/data-inputs/platform-supporting-resources/shopify/backfilling-utm-attribution-via-checkout-attributes">
     **Shopify Plus** — Capture UTM parameters at checkout using Checkout UI Extensions, bypassing cookie blockers.
   </Card>
-  <Card title="Improving Last-Click Attribution" icon="bullseye" href="/data-inputs/platform-supporting-resources/ga4/improving-last-click-attribution">
+  <Card title="UTM Setup" icon="bullseye" href="/help-center/core-concepts/attribution/utm-setup">
+    **All Platforms** — Standardize UTM tagging so last-click attribution stays consistent.
+  </Card>
+  <Card title="Improve Last-Click Attribution" icon="bullseye" href="/help-center/faq/account-management-faqs/how-can-i-improve-my-last-click-attribution">
     **All Platforms** — Best practices for UTM naming conventions and tracking hygiene.
+  </Card>
+  <Card title="Why (direct) / (none) happens" icon="heart-pulse" href="/help-center/core-concepts/attribution/direct-none">
+    Learn what `(direct) / (none)` means and how to reduce it.
   </Card>
 </CardGroup>
 
 ### Zero-Party Data Methods
 
 <CardGroup cols={2}>
+  <Card title="Zero-Party Attribution" icon="square-poll-vertical" href="/help-center/core-concepts/attribution/zero-party-attribution">
+    Learn how self-reported survey answers complement tracking-based attribution.
+  </Card>
   <Card title="Post-Purchase Survey (HDYHAU)" icon="square-poll-vertical" href="/help-center/faq/account-management-faqs/best-practices-in-setting-up-a-post-purchase-hdyhau-survey">
     **All Platforms** — Ask customers directly how they heard about you. Complements tracking-based attribution.
   </Card>
@@ -75,7 +84,7 @@ The following guides cover different strategies for improving your attribution c
 | **Fairing/KnoCommerce** | Automated survey collection at scale | Requires additional integration |
 
 <Tip>
-**Recommended approach**: Implement UTM best practices as your foundation, add checkout attribute capture for server-side backup, and use HDYHAU surveys to validate and supplement your tracking-based data.
+**Recommended approach**: Implement UTM best practices as your foundation, add checkout attribute capture for robust input, and use HDYHAU surveys to validate and supplement your tracking-based data.
 </Tip>
 
 ---

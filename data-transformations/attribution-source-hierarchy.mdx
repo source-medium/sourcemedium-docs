@@ -4,7 +4,9 @@ description: "How SourceMedium decides which UTM data source wins when multiple 
 icon: "layer-group"
 ---
 
-When SourceMedium receives an order, we often have UTM attribution data from multiple sources—Shopify customer visits, order custom attributes, order notes, website event tracking, and Google Analytics. The **attribution source hierarchy** determines which source "wins" when data is available from multiple places.
+When SourceMedium receives an order, we often have attribution data from multiple First-Party Inputs—Shopify visits, order custom attributes, existing GA4 tracking, and post-purchase surveys.
+
+The **Attribution Source Hierarchy** is our **Resolution Strategy**. It determines how we intelligently resolve conflicts when data is available from multiple places, ensuring we always use the most granular and reliable signal available for every single order.
 
 <Info>
 This is a **last-click (UTM-based) attribution** system. We prioritize data sources that capture the customer's most recent measurable marketing touch before purchase.
@@ -244,7 +246,7 @@ This only happens when the `utm_source` grouped channel is the **same** across s
   <Card title="Data Enrichment" icon="gear" href="/data-transformations/data-enrichment">
     How we enrich and standardize your data
   </Card>
-  <Card title="Attribution Health" icon="heart-pulse" href="/data-inputs/attribution-health">
+  <Card title="Attribution Health" icon="heart-pulse" href="/data-inputs/attribution-health/index">
     Check and improve your attribution data quality
   </Card>
 </CardGroup>

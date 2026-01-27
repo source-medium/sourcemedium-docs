@@ -1,0 +1,65 @@
+---
+title: "What is zero-party attribution?"
+sidebarTitle: "Zero-Party Attribution"
+description: "Learn how customer-reported survey answers complement tracking-based attribution and how to use zero-party data in SourceMedium"
+icon: "square-poll-vertical"
+---
+
+**Zero-party attribution** is attribution based on what customers explicitly tell you—most commonly via a post-purchase survey like **"How did you hear about us?" (HDYHAU)**.
+
+<Note>
+The term "zero-party data" was coined by [Forrester Research](https://www.forrester.com/blogs/straight-from-the-source-collecting-zero-party-data-from-customers/): *"data that a customer intentionally and proactively shares with a brand, including preference center data, purchase intentions, and personal context."*
+</Note>
+
+This distinction is important: 
+- **First-party data** is data you collect about a user's behavior (observed intent - e.g., "User viewed Blue Shirt").
+- **Zero-party data** is data the user tells you about themselves (explicit intent - e.g., "I am looking for a Blue Shirt").
+
+This complements tracking-based attribution by capturing discovery channels that are often hard to measure with cookies and pixels. As privacy restrictions reduce tracking reliability, zero-party data becomes increasingly valuable.
+
+## When zero-party attribution is most useful
+
+Zero-party data is especially valuable for:
+
+- Word of mouth / referrals
+- Podcasts, radio, print, and other offline media
+- Influencers where click tracking is inconsistent
+- PR and partnerships
+
+## How it fits with UTMs and MTA
+
+A simple way to think about the three layers:
+
+1. **Zero-party**: “How did you first hear about us?” (discovery/awareness)
+2. **UTM last-click**: the last tracked touch before purchase (conversion)
+3. **MTA**: credit across multiple touchpoints in the journey (multi-touch)
+
+<Tip>
+If surveys show meaningful revenue from a channel that tracking doesn’t capture, treat that as a measurement gap to investigate—not just a reporting difference.
+</Tip>
+
+## Survey setup basics (high impact)
+
+- Prefer **single-select** answers for clean reporting, with an optional free-text “Other”.
+- Keep options mutually exclusive (avoid overlapping choices like “Instagram” and “Social”).
+- Use stable naming for options so historical reporting stays consistent.
+
+## Related resources
+
+<CardGroup cols={2}>
+  <Card title="Survey Best Practices (HDYHAU)" icon="square-poll-vertical" href="/help-center/faq/account-management-faqs/best-practices-in-setting-up-a-post-purchase-hdyhau-survey">
+    How to design and deploy an effective post-purchase survey.
+  </Card>
+  <Card title="Post-Purchase Survey Module" icon="chart-pie" href="/data-activation/managed-bi-v1/modules/post-purchase-survey-module">
+    How zero-party attribution appears in SourceMedium reporting.
+  </Card>
+  <Card title="Fairing Integration" icon="plug" href="/data-inputs/platform-integration-instructions/fairing-integration">
+    Set up Fairing for automated survey collection and order tagging.
+  </Card>
+  <Card title="KnoCommerce Integration" icon="plug" href="/data-inputs/platform-integration-instructions/knocommerce-integration">
+    Set up KnoCommerce for zero-party data collection and attribution.
+  </Card>
+  <Card title="First-Party Attribution" icon="shield" href="/help-center/core-concepts/attribution/first-party-attribution">
+    How tracking-based signals complement self-reported discovery.
+  </Card>
+</CardGroup>

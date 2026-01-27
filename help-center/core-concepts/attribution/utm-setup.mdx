@@ -1,0 +1,172 @@
+---
+title: "What are UTMs (and how to set them up)?"
+sidebarTitle: "UTM Setup"
+description: "Learn what UTM parameters are, how to name them, and how to set them up for reliable last-click attribution"
+icon: "bullseye"
+---
+
+UTM parameters (Urchin Tracking Module) are **query string parameters** you add to links so tools like SourceMedium and Google Analytics can attribute visits and purchases back to marketing campaigns.
+
+## How UTMs work (in practice)
+
+- UTMs are appended to a URL (after a `?`).
+- When a user clicks that URL, analytics tools record those parameters for the visit/session.
+- When the user purchases, SourceMedium uses the available attribution signals (including UTMs) to assign attribution (see [Attribution Source Hierarchy](/data-transformations/attribution-source-hierarchy)).
+
+## The UTM fields (and what they mean)
+
+SourceMedium primarily uses these fields:
+
+- `utm_source`: **Where** the traffic came from (e.g., `google`, `meta`, `klaviyo`, `podcast_partner`)
+- `utm_medium`: **How** it got there (e.g., `cpc`, `paid_social`, `email`, `affiliate`)
+- `utm_campaign`: **Which campaign** (e.g., `bfcm_2025`, `spring_launch`)
+- `utm_content`: Optional creative/variation (e.g., `video_15s`, `carousel_a`)
+- `utm_term`: Optional keyword/targeting (often paid search)
+- `utm_id`: Optional internal campaign identifier
+
+<Tip>
+If you’re starting from scratch, make `utm_source`, `utm_medium`, and `utm_campaign` mandatory. Use `utm_content` and `utm_term` only when you’ll actively use them.
+</Tip>
+
+## What each value should represent
+
+Here’s a practical mental model that prevents messy reporting:
+
+- Put the **platform/publisher** in `utm_source` (where the traffic is coming from)
+- Put the **marketing motion** in `utm_medium` (how you’re buying/sending it)
+- Put the **initiative** in `utm_campaign` (what you’re running)
+- Put the **creative/variation** in `utm_content` (what version)
+
+<Note>
+Avoid putting highly-granular values (like ad IDs) in `utm_source` or `utm_medium`. Those tend to explode your reporting into thousands of rows.
+</Note>
+
+## Recommended naming conventions
+
+Consistency matters more than the “perfect” taxonomy. Pick rules your team will actually follow.
+
+**Recommended defaults**
+- Lowercase values (avoid `Facebook` vs `facebook`)
+- Use `_` for separators (avoid spaces)
+- Keep sources stable over time (campaigns can change; sources shouldn’t)
+
+**Example**
+```text
+https://example.com/products/widget?utm_source=meta&utm_medium=paid_social&utm_campaign=spring_launch&utm_content=video_15s
+```
+
+## How to tag links (step-by-step)
+
+1. Start from the clean destination URL (no UTMs).
+2. Use the official [Google Campaign URL Builder](https://ga-dev-tools.google/ga4/campaign-url-builder/) to ensure correct formatting.
+3. Decide values for `utm_source`, `utm_medium`, `utm_campaign` (and optionally `utm_content`, `utm_term`).
+4. Append parameters to the URL:
+   - If the URL has no query params, start with `?utm_source=...`
+   - If it already has query params, append with `&utm_source=...`
+5. Click your own tagged link and confirm the landing page retains UTMs.
+6. Reuse the same conventions everywhere (ads, emails, affiliates, QR codes).
+
+<Tip>
+If you use short links, ensure the short link resolves to a URL that still includes the UTMs (or preserves them via redirect).
+</Tip>
+
+## Setup checklist (by channel)
+
+<Steps>
+  <Step title="Paid social (Meta, TikTok, Snapchat, etc.)">
+    Ensure every ad destination URL has UTMs. If the platform supports templates, use a single template so your whole account stays consistent.
+  </Step>
+  <Step title="Paid search (Google, Microsoft)">
+    Tag final URLs with UTMs. If you use auto-tagging (click IDs), still set UTMs for human-readable reporting.
+  </Step>
+  <Step title="Email / SMS (Klaviyo, Attentive, etc.)">
+    Tag every link, including buttons and image links. Email/SMS is a common source of `(direct) / (none)` if links aren’t consistently tagged.
+  </Step>
+  <Step title="Affiliates / influencers">
+    Give each partner a tagged URL (or short link that redirects to a tagged URL). Decide whether you want partner-level detail in `utm_source` or `utm_content`.
+  </Step>
+  <Step title="Partnerships, PR, podcasts, offline">
+    Use tagged vanity URLs/QR codes that redirect to your UTM-tagged landing page. Pair with a post-purchase survey to validate discovery.
+  </Step>
+</Steps>
+
+## Examples (copy/paste)
+
+**Paid social ad**
+```text
+https://example.com/collections/new?utm_source=meta&utm_medium=paid_social&utm_campaign=spring_launch&utm_content=carousel_a
+```
+
+**Paid search**
+```text
+https://example.com/products/widget?utm_source=google&utm_medium=cpc&utm_campaign=brand_search&utm_term=widget
+```
+
+**Email**
+```text
+https://example.com/pages/sale?utm_source=klaviyo&utm_medium=email&utm_campaign=bfcm_2025&utm_content=hero_button
+```
+
+**Influencer**
+```text
+https://example.com/discount/CREATOR?utm_source=creator_name&utm_medium=influencer&utm_campaign=creator_program
+```
+
+## Standard Channel Groupings
+
+Adopting a standard taxonomy helps ensure your data maps correctly to channels in SourceMedium and Google Analytics.
+
+| Channel | `utm_source` | `utm_medium` |
+| :--- | :--- | :--- |
+| **Paid Social** | `facebook`, `instagram`, `tiktok` | `paid_social`, `cpc` |
+| **Paid Search** | `google`, `bing` | `cpc`, `paid_search` |
+| **Email** | `klaviyo`, `mailchimp` | `email` |
+| **SMS** | `attentive`, `postscript` | `sms` |
+| **Affiliate** | `shareasale`, `impact` | `affiliate` |
+| **Organic Social** | `instagram`, `tiktok`, `youtube` | `social`, `organic` |
+
+## QA: how to verify UTMs are working
+
+1. Click a test link with UTMs and confirm the landing page URL includes the UTM parameters.
+2. Add a product and proceed to checkout; confirm UTMs aren’t dropped during the journey (cross-domain and checkout flows are common break points).
+3. In SourceMedium, spot-check recent orders to confirm expected `utm_source` / `utm_medium` values appear (and aren’t falling back to `(direct) / (none)`).
+
+<Info>
+If checkout or privacy features drop UTMs, Shopify Plus teams often add a server-side backup by capturing UTMs into order attributes at checkout.
+</Info>
+
+## Common mistakes (and how to avoid them)
+
+- **Inconsistent casing** (`Meta` vs `meta`) → standardize to lowercase
+- **Overlapping meanings** (`utm_source=paid_social`) → keep `source` for the platform, `medium` for the motion
+- **Untagged email/SMS links** → tag all links (buttons + images), not just one CTA
+- **Changing conventions mid-stream** → don’t rename sources/mediums without a migration plan (reporting will split)
+
+## UTMs vs click IDs (gclid, fbclid, etc.)
+
+Click IDs can help identify an ad click, but they don’t replace a consistent UTM taxonomy. In SourceMedium, click IDs can act as a **fallback-only inference** for the channel-level source when explicit UTMs are missing.
+
+## External resources
+
+- [Google Campaign URL Builder](https://ga-dev-tools.google/ga4/campaign-url-builder/) — Official tool for generating tagged URLs
+- [Google Analytics: Custom URL collection](https://support.google.com/analytics/answer/10917952) — Google's official UTM documentation
+
+## Related resources
+
+<CardGroup cols={2}>
+  <Card title="What is last-click attribution?" icon="question-mark" href="/help-center/faq/account-management-faqs/what-is-last-click-attribution">
+    How UTM-based last-click attribution works in SourceMedium.
+  </Card>
+  <Card title="Improve Last-Click Attribution" icon="bullseye" href="/help-center/faq/account-management-faqs/how-can-i-improve-my-last-click-attribution">
+    Practical best practices and common pitfalls.
+  </Card>
+  <Card title="Attribution Source Hierarchy" icon="sitemap" href="/data-transformations/attribution-source-hierarchy">
+    How SourceMedium selects the winning source when multiple signals exist.
+  </Card>
+  <Card title="Attribution Health" icon="heart-pulse" href="/data-inputs/attribution-health/index">
+    Diagnose common attribution gaps like `(direct) / (none)`.
+  </Card>
+  <Card title="Backfilling UTM Attribution via Order Attributes" icon="code" href="/data-inputs/platform-supporting-resources/shopify/backfilling-utm-attribution-via-checkout-attributes">
+    Developer guide for Shopify order-attribute capture and backfills.
+  </Card>
+</CardGroup>

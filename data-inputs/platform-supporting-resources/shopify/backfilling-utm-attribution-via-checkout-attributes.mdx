@@ -1,6 +1,6 @@
 ---
-title: 'Backfilling UTM Attribution via Order Attributes'
-sidebarTitle: 'UTM Attribution Backfill'
+title: "Capturing & Backfilling UTM Attribution via Order Attributes"
+sidebarTitle: "Capturing & Backfilling Attribution"
 description: 'How to backfill historical orders with UTM attribution data and capture UTMs for future orders'
 icon: 'code'
 ---
@@ -13,8 +13,8 @@ icon: 'code'
 
 SourceMedium extracts UTM attribution data from Shopify order-level `customAttributes`. This guide covers two scenarios:
 
-1. **Backfilling existing orders** — You have attribution data (from spreadsheets, surveys, external tools) and want to write it to historical orders
-2. **Capturing UTMs going forward** — You want to automatically capture UTM parameters at checkout for future orders
+1. **Backfilling existing orders** — You have attribution data (from spreadsheets, surveys, external tools) and want to write it to historical orders.
+2. **Capturing UTMs going forward** — You want to automatically capture UTM parameters at checkout for future orders.
 
 <CardGroup cols={2}>
   <Card title="Backfill Historical Orders" icon="clock-rotate-left" href="#backfilling-historical-orders">
@@ -547,8 +547,8 @@ shopify app deploy
   <Card title="Shopify Checkout Attributes API" icon="code" href="https://shopify.dev/docs/api/checkout-ui-extensions/latest/apis/attributes">
     Documentation for useApplyAttributeChange hook
   </Card>
-  <Card title="UTM Best Practices" icon="link" href="/data-inputs/platform-supporting-resources/ga4/improving-last-click-attribution">
-    General guidance on UTM naming conventions
+  <Card title="UTM Setup" icon="bullseye" href="/help-center/core-concepts/attribution/utm-setup">
+    What UTMs are, what each value means, and how to tag links
   </Card>
   <Card title="Attribution Source Hierarchy" icon="sitemap" href="/data-transformations/attribution-source-hierarchy">
     How SourceMedium prioritizes attribution from multiple sources

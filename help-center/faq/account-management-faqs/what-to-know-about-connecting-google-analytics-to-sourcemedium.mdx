@@ -8,7 +8,9 @@ Google Analytics is a powerful system for understanding user behavior. When you 
 
 ### How Google Analytics data is Integrated - the “Attribution Source Hierarchy”
 
-When integrating data, it's important to decide on a most trustworthy data source to use as a foundation. At SourceMedium we use Shopify data as our Source of Truth, as Shopify data is robust and represents real financial transactions. When we integrate Google Analytics data with Shopify data, we trust Shopify more than Google Analytics - this hierarchy of trust is called our “Attribution Source Hierarchy.” In short, when we report this integrated data, we are showing Shopify data which has been enriched and expanded by Google Analytics.
+When integrating data, we focus on **Best-Signal Selection**. SourceMedium uses Shopify as the robust transactional foundation (Source of Truth for "what was sold"), but we actively **enhance** that record with attribution signals from Google Analytics and other platforms.
+
+Rather than just "trusting" one over the other, we intelligently merge them. We prioritize the most specific and reliable signal for each order—this is our [Attribution Source Hierarchy](/data-transformations/attribution-source-hierarchy). In short, we report an aggregated dataset where Shopify's financial records are enriched by GA's behavioral data.
 
 For the full priority order, see [Attribution Source Hierarchy](/data-transformations/attribution-source-hierarchy).
 
@@ -24,16 +26,26 @@ Google Analytics has some common failure points that can cause data sources to d
     
 - Adblockers
     
-    The data that GA provides is generally only as good as the tracking, and most, if not all tracking tech (pixels, cookies, tag, etc.) can be circumvented by customers.
+    The data that GA provides is generally only as good as the tracking, and most, if not all tracking tech (pixels, cookies, tags, etc.) can be circumvented by customers.
     
 - Faulty Tracking
     
-    There's no absolute right or wrong approach for setting up UTMs, but most companies make some sort of mistake when setting up tracking. The best practices we have identified are covered in [Improving Your Last-Click (UTM) Attribution](/data-inputs/platform-supporting-resources/ga4/improving-last-click-attribution) and this [template](https://docs.google.com/spreadsheets/d/14hx6hlce6zTwfMIcuKLUIuOYl5uWVlcyCr9FIL0GQJk/edit#gid=0).
+    There's no absolute right or wrong approach for setting up UTMs, but most companies make some sort of mistake when setting up tracking. Start with [UTM Setup](/help-center/core-concepts/attribution/utm-setup), then follow [Improving Last-Click Attribution](/help-center/faq/account-management-faqs/how-can-i-improve-my-last-click-attribution) and this [template](https://docs.google.com/spreadsheets/d/14hx6hlce6zTwfMIcuKLUIuOYl5uWVlcyCr9FIL0GQJk/edit#gid=0).
     
 - Factors not visible to SourceMedium
     
     Tracking is complex, and many other factors that are not visible to SourceMedium can come into play. It is generally reasonable to expect 10-20% discrepancies between Shopify (source of truth) and GA.
     
+
+### Intelligent Data Aggregation
+
+SourceMedium doesn't just rely on one method. Instead, we **aggregate first-party data captured from all sources** and intelligently merge it to create the highest quality record.
+
+This means:
+- **More Data Sources = Better Output**: Connecting more platforms gives SourceMedium more signals to resolve identity and attribution.
+- **Better Capture = Better Output**: Improvements to your upstream tracking (e.g., a robust GA4 setup or server-side tracking) directly improve SourceMedium's accuracy.
+
+We use Shopify as the transactional backbone (financial truth) and enrich it with the best available attribution signals from your entire stack.
 
 ### What do “Direct / None” & “None / None “ Source / Mediums mean?
 

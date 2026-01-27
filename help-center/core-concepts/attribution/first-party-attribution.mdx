@@ -1,0 +1,69 @@
+---
+title: "What is first-party attribution?"
+sidebarTitle: "First-Party Attribution"
+description: "Understand first-party attribution, what first-party signals SourceMedium uses, and how it relates to last-click and MTA"
+icon: "shield"
+---
+
+**First-party attribution** uses data you collect and control from your own properties (your site/app and checkout) to understand which marketing touchpoints contributed to purchases.
+
+In practice, this typically includes **First-Party Inputs** from multiple sources:
+- **Website Events**: pixel-based tracking (e.g., GA4, Elevar)
+- **Server-Side Capture**: API-based tracking (e.g., Shopify Order Attributes, Connectors)
+- **Landing Page Data**: Referrer and URL parameters captured at the start of the session
+
+SourceMedium aggregates all these *First-Party Inputs* to build a complete picture.
+
+## First-party vs platform-reported attribution
+
+- **First-party**: derived from your site/app + checkout signals (what happened on your properties)
+- **Platform-reported**: derived from ad platforms (what platforms believe happened based on their measurement and models)
+
+Both can be useful; they often differ due to attribution windows, privacy restrictions, and identity resolution.
+
+## What counts as a first-party signal in SourceMedium
+
+Common examples include:
+
+- Website analytics/event streams (e.g., GA4, Elevar)
+- Landing page + referrer capture (including UTMs when present)
+- Checkout/order-level capture for UTMs (useful when browser tracking drops parameters)
+
+## Where first-party attribution shows up in SourceMedium
+
+- **Last-click attribution (UTM-based)**: relies on UTMs/landing/referrer capture to assign the most recent touchpoint.
+- **Multi-touch attribution (MTA)**: uses first-party purchase journeys (touchpoints) to model first touch, last touch, and linear attribution across the journey.
+
+## Common failure modes (and how to reduce them)
+
+- **`(direct) / (none)` growth**: usually missing UTMs or UTMs being dropped during the journey (cross-domain/checkout).
+- **Cross-domain/checkout breaks**: customers move between domains or checkout flows and attribution context is lost.
+- **Browser/privacy restrictions**: ad blockers, iOS privacy features, and browser changes reduce client-side tracking reliability.
+
+<Tip>
+Start with consistent UTM setup, then ensure you are capturing data across both client-side (pixel) and server-side (API) inputs to maximize coverage.
+</Tip>
+
+## External resources
+
+- [Shopify Checkout UI Extensions](https://shopify.dev/docs/api/checkout-ui-extensions) — For building server-side UTM capture (Shopify Plus)
+
+## Related resources
+
+<CardGroup cols={2}>
+  <Card title="UTM Setup" icon="bullseye" href="/help-center/core-concepts/attribution/utm-setup">
+    What UTMs are and how to implement them across channels.
+  </Card>
+  <Card title="Attribution Health" icon="heart-pulse" href="/data-inputs/attribution-health/index">
+    Find and fix tracking gaps that reduce first-party coverage.
+  </Card>
+  <Card title="MTA Overview" icon="sitemap" href="/mta/mta-overview">
+    How SourceMedium builds multi-touch attribution from first-party purchase journeys.
+  </Card>
+  <Card title="GA4 Common Failures" icon="info" href="/data-inputs/platform-supporting-resources/ga4/google-analytics-common-failures">
+    Troubleshoot common analytics issues that impact event-based attribution.
+  </Card>
+  <Card title="Backfilling UTM Attribution via Order Attributes" icon="code" href="/data-inputs/platform-supporting-resources/shopify/backfilling-utm-attribution-via-checkout-attributes">
+    Shopify Plus developer guide for capturing UTMs at checkout.
+  </Card>
+</CardGroup>
