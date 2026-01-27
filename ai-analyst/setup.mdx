@@ -9,38 +9,37 @@ The AI Analyst queries your data in BigQuery through Slack. Before you can use i
 
 ## How It Works
 
-```
-┌─────────────────────────────────────────────────────────────────────┐
-│                        YOUR DATA SOURCES                            │
-│  Shopify · Google Ads · Meta Ads · GA4 · Klaviyo · ReCharge · ...   │
-└───────────────────────────────┬─────────────────────────────────────┘
-                                │
-                                ▼
-┌─────────────────────────────────────────────────────────────────────┐
-│                     SOURCEMEDIUM PIPELINE                           │
-│           Ingest → Transform → Load into BigQuery                   │
-└───────────────────────────────┬─────────────────────────────────────┘
-                                │
-                                ▼
-┌─────────────────────────────────────────────────────────────────────┐
-│                    YOUR BIGQUERY WAREHOUSE                          │
-│                      sm_transformed_v2                              │
-│   ┌──────────────┐  ┌──────────────┐  ┌──────────────┐              │
-│   │  obt_orders  │  │ dim_customers│  │ rpt_ad_perf  │  ...         │
-│   └──────────────┘  └──────────────┘  └──────────────┘              │
-└───────────────────────────────┬─────────────────────────────────────┘
-                                │
-                ┌───────────────┴───────────────┐
-                │                               │
-                ▼                               ▼
-┌───────────────────────────┐   ┌───────────────────────────┐
-│      LOOKER STUDIO        │   │       AI ANALYST          │
-│    Dashboards & Reports   │   │   Natural Language SQL    │
-│                           │   │      via Slack            │
-└───────────────────────────┘   └───────────────────────────┘
+```mermaid
+flowchart TB
+    subgraph sources["Your Data Sources"]
+        S1[Shopify]
+        S2[Google Ads]
+        S3[Meta Ads]
+        S4[GA4]
+        S5[Klaviyo]
+        S6[...]
+    end
+
+    subgraph pipeline["SourceMedium Pipeline"]
+        P1[Ingest & Transform]
+    end
+
+    subgraph warehouse["Your BigQuery Warehouse"]
+        W1[(sm_transformed_v2)]
+    end
+
+    subgraph access["Access Your Data"]
+        A1[Looker Studio<br/>Dashboards]
+        A2[AI Analyst<br/>via Slack]
+    end
+
+    sources --> pipeline
+    pipeline --> warehouse
+    warehouse --> A1
+    warehouse --> A2
 ```
 
-The AI Analyst and your Looker Studio dashboards query the same underlying data — they're just different ways to access it.
+The AI Analyst and your Looker Studio dashboards query the same underlying data — they're just different interfaces.
 
 ---
 
