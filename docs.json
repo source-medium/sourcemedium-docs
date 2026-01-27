@@ -421,6 +421,7 @@
             "group": "Core Concepts",
             "pages": [
               "data-transformations/philosophy",
+              "help-center/core-concepts/data-health",
               "help-center/core-concepts/data-transformation/transformation-vs-cleaning",
               "help-center/core-concepts/data-transformation/data-freshness",
               "data-transformations/data-cleaning",
