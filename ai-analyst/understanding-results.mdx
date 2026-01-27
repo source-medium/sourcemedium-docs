@@ -80,7 +80,7 @@ Every data response includes the SQL query used. This is useful for:
 - **Iteration** — Copy and modify the query in BigQuery for deeper follow-up analysis
 
 <Tip>
-**Use the AI as a SQL tutor.** If you are learning BigQuery, comparing the generated SQL against our [Table Schemas](/onboarding/data-docs/dimensions) is the fastest way to master your data structure. You can copy any query directly into the BigQuery console to test your own modifications.
+**Use the AI as a SQL tutor.** If you're learning BigQuery, comparing the generated SQL against our [Table Schemas](/data-activation/data-tables/sm_transformed_v2/index) is the fastest way to master your data structure. You can copy any query directly into the [BigQuery console](/onboarding/analytics-tools/bigquery-essentials) to test your own modifications.
 </Tip>
 
 **Example:**
@@ -135,6 +135,26 @@ If results don't match your expectations:
   </Step>
 </Steps>
 
-<Card title="Troubleshooting" icon="wrench" href="/ai-analyst/troubleshooting">
-  Common issues and how to resolve them.
-</Card>
+<CardGroup cols={2}>
+  <Card title="Troubleshooting" icon="wrench" href="/ai-analyst/troubleshooting">
+    Common issues and how to resolve them.
+  </Card>
+  <Card title="Data Health Check" icon="stethoscope" href="/ai-analyst/diagnostics/data-health">
+    Verify your data is fresh before querying.
+  </Card>
+</CardGroup>
+
+---
+
+## Going Deeper
+
+Once you have results, you can explore further:
+
+<CardGroup cols={2}>
+  <Card title="BigQuery Essentials" icon="database" href="/onboarding/analytics-tools/bigquery-essentials">
+    Learn to run and modify queries directly in BigQuery.
+  </Card>
+  <Card title="Looker Studio Guide" icon="chart-pie" href="/onboarding/analytics-tools/looker-studio-guide">
+    Build custom visualizations from your data.
+  </Card>
+</CardGroup>
