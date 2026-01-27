@@ -1,0 +1,131 @@
+---
+title: "Analysis Workflows"
+sidebarTitle: "Workflows"
+description: "How the AI Analyst handles different types of questions with specialized workflows"
+icon: "diagram-project"
+---
+
+The AI Analyst uses different workflows depending on what you're asking. Each workflow is optimized for its type of question — from quick knowledge lookups to comprehensive multi-perspective analyses.
+
+---
+
+## How Questions Are Routed
+
+When you send a message, the AI Analyst classifies it into one of three categories:
+
+| Question Type | Workflow |
+|--------------|----------|
+| **Specific data requests** | [Standard Analysis](/ai-analyst/workflows/standard) |
+| **Open-ended / strategic** | [Deep Analysis](/ai-analyst/workflows/deep-analysis) |
+| **Definitions & concepts** | [Knowledge Retrieval](/ai-analyst/workflows/knowledge) |
+
+The classification happens automatically based on the question's structure and intent.
+
+---
+
+## Workflow Overview
+
+<CardGroup cols={3}>
+  <Card title="Standard Analysis" icon="bolt" href="/ai-analyst/workflows/standard">
+    Single-path SQL analysis for specific metrics and time ranges. One question, one query, one answer.
+  </Card>
+  <Card title="Deep Analysis" icon="brain" href="/ai-analyst/workflows/deep-analysis">
+    Multi-perspective analysis for strategic questions. Runs multiple Standard Analyses in parallel and synthesizes insights.
+  </Card>
+  <Card title="Knowledge Retrieval" icon="book" href="/ai-analyst/workflows/knowledge">
+    Instant answers about metrics, tables, and concepts. Draws from SourceMedium documentation and metadata.
+  </Card>
+</CardGroup>
+
+---
+
+## Choosing the Right Approach
+
+### For Data Answers
+
+Ask specific, bounded questions:
+
+```
+What was our revenue last week?
+Top 10 products by units sold this month
+What's our ROAS by channel for the past 30 days?
+```
+
+These trigger **Standard Analysis** for quick results.
+
+### For Strategic Insights
+
+Ask open-ended, exploratory questions:
+
+```
+How can we improve our marketing performance?
+What trends should we be watching?
+Why are our metrics declining?
+```
+
+These trigger **Deep Thinking** for comprehensive analysis.
+
+### For Definitions & Concepts
+
+Ask about metrics, tables, or how things work:
+
+```
+What is LTV?
+How is ROAS calculated?
+Which table has order data?
+```
+
+These trigger **Knowledge Retrieval** for instant documentation-backed answers.
+
+---
+
+## Workflow Comparison
+
+| Feature | Standard | Deep Thinking | Knowledge |
+|---------|----------|---------------|-----------|
+| **Data Source** | BigQuery | BigQuery | Docs + Metadata |
+| **SQL Queries** | 1 | 2–4 | 0 (usually) |
+| **Parallel Execution** | No | Yes | No |
+| **Charts** | Yes | Yes | No |
+| **Best For** | Specific metrics | Strategic questions | Learning concepts |
+
+---
+
+## How Classification Works
+
+The AI uses contextual signals to determine the right workflow:
+
+**Standard Analysis triggers:**
+- Specific time ranges ("last week", "in January")
+- Named metrics with data requests ("revenue", "orders", "ROAS")
+- Rankings and comparisons ("top 10", "vs last month")
+- Computed results ("by channel", "trend over time")
+
+**Deep Thinking triggers:**
+- "How can we improve..." questions
+- "What should we focus on..." questions
+- Trend analysis without specific bounds
+- Strategy and optimization requests
+
+**Knowledge Retrieval triggers:**
+- "What is..." or "What does...mean"
+- "How is X calculated?"
+- "Which table has..." or "What columns..."
+- Data health and attribution health questions
+
+<Tip>
+If you want to override the classification, be explicit. "Just give me the revenue numbers" will use Standard Analysis even if your phrasing might otherwise trigger Deep Thinking.
+</Tip>
+
+---
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="Understanding Results" icon="chart-simple" href="/ai-analyst/understanding-results">
+    How to read responses, charts, and SQL output.
+  </Card>
+  <Card title="Example Questions" icon="lightbulb" href="/ai-analyst/what-you-can-ask">
+    See examples across all domains and workflows.
+  </Card>
+</CardGroup>

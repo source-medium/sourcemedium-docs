@@ -1,0 +1,151 @@
+---
+title: "Deep Analysis"
+sidebarTitle: "Deep Analysis"
+description: "How the AI Analyst handles complex, open-ended questions with multi-perspective analysis"
+icon: "brain"
+---
+
+When you ask a strategic or exploratory question, the AI Analyst automatically activates **Deep Analysis** — a thorough approach that runs multiple analyses in parallel before synthesizing a comprehensive answer.
+
+---
+
+## When Deep Analysis Activates
+
+Deep Analysis is triggered automatically for **open-ended questions** — questions that don't have a single, specific answer and benefit from exploring multiple perspectives.
+
+### Questions That Trigger Deep Analysis
+
+```
+How can we improve our marketing performance?
+What trends should we be paying attention to?
+Why are our metrics declining?
+What opportunities am I missing?
+How is our business performing overall?
+What should we focus on to grow revenue?
+```
+
+These questions require the AI to:
+- Consider multiple dimensions of your data
+- Compare across time periods, channels, and segments
+- Identify patterns that might not be obvious from a single query
+- Synthesize findings into actionable insights
+
+### Questions That Use Standard Analysis
+
+```
+What was our revenue last week?
+Top 10 products by units sold
+How many new customers in January?
+What's our ROAS by channel?
+```
+
+Specific questions with clear metrics and time ranges use the faster [Standard Analysis](/ai-analyst/workflows/standard) workflow.
+
+---
+
+## How It Works
+
+Deep Analysis is essentially **multiple Standard Analyses running in parallel**, with a synthesis step at the end:
+
+<Steps>
+  <Step title="Generate Strategic Questions">
+    The AI breaks your open-ended question into 2–3 specific analytical questions that together address your original query from different angles.
+
+    **Example:** For "How can we improve marketing performance?", the AI might generate:
+    - "Which channels have the best ROAS and how has that changed recently?"
+    - "Which campaigns are driving new customers vs. repeat customers?"
+    - "Where are we overspending relative to attributed revenue?"
+  </Step>
+  <Step title="Parallel Analysis">
+    The AI runs multiple Standard Analyses simultaneously — one for your original question plus each strategic question. Each follows the full workflow: identifying tables, writing SQL, executing queries, and analyzing results.
+  </Step>
+  <Step title="Synthesize Insights">
+    After all analyses complete, the AI synthesizes the findings into a cohesive response:
+    - Key insights from each perspective
+    - Patterns that emerged across the analyses
+    - Specific recommendations backed by data
+    - Relevant charts and data tables
+  </Step>
+</Steps>
+
+---
+
+## What You'll See
+
+When Deep Analysis is active, the AI Analyst shows progress through each phase:
+
+| Status | What's Happening |
+|--------|------------------|
+| 🔍 Understanding your question | Classifying and determining the analysis approach |
+| 🧠 Deep Analysis activated | Open-ended question detected, entering multi-perspective mode |
+| 🧠 Generating strategic questions | Breaking down your question into analytical angles |
+| 🔄 Running parallel analyses | Executing multiple SQL queries simultaneously |
+| ✨ Synthesizing insights | Combining results into a comprehensive answer |
+
+<Note>
+Deep Analysis takes longer than Standard Analysis but provides richer, more actionable insights.
+</Note>
+
+---
+
+## Example: Deep Analysis in Action
+
+**Question:** "How can we improve our marketing performance?"
+
+**What Deep Analysis Does:**
+
+1. **Generates strategic sub-questions:**
+   - "Which channels have the highest and lowest ROAS over the past 30 days?"
+   - "What's the new customer acquisition cost by channel?"
+   - "Which campaigns are underperforming relative to spend?"
+
+2. **Runs parallel analyses** for each question, querying:
+   - Ad performance data by channel
+   - Customer acquisition metrics
+   - Campaign-level ROAS and spend
+
+3. **Synthesizes findings:**
+   > "Your Meta campaigns are delivering 3.2x ROAS, outperforming Google Ads at 1.8x. However, Google is driving 40% of new customer acquisitions at a lower CAC ($32 vs $45). Consider reallocating 15% of Meta budget to Google's top-performing campaigns to balance immediate ROAS with customer acquisition."
+
+---
+
+## Tips for Better Results
+
+<AccordionGroup>
+  <Accordion title="Be genuinely open-ended">
+    Deep Analysis works best when your question truly requires exploration. "What should I focus on?" is better than "Show me revenue" for triggering multi-perspective analysis.
+  </Accordion>
+  <Accordion title="Add context when helpful">
+    "How can we improve Q1 performance given we're launching a new product line?" gives the AI useful context for generating relevant strategic questions.
+  </Accordion>
+  <Accordion title="Follow up in the thread">
+    After a Deep Analysis, ask follow-up questions in the same thread. The AI retains context and can dive deeper into specific findings.
+  </Accordion>
+  <Accordion title="Trust the process">
+    Deep Analysis takes longer but surfaces insights you might not get from a single query. The synthesis phase is where the real value emerges.
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Limitations
+
+- **Scope:** Currently limited to 2–3 parallel analyses to balance depth with speed
+- **Visualizations:** Charts are generated for the synthesized response, not each individual analysis
+
+<Info>
+If you need a quick, specific answer, phrase your question to avoid Deep Analysis. "What was our Meta ROAS last month?" will return faster than "How is Meta performing?"
+</Info>
+
+---
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="Standard Analysis" icon="bolt" href="/ai-analyst/workflows/standard">
+    How specific data queries are handled.
+  </Card>
+  <Card title="Knowledge Retrieval" icon="book" href="/ai-analyst/workflows/knowledge">
+    How definition and schema questions work.
+  </Card>
+</CardGroup>

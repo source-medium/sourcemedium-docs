@@ -653,6 +653,15 @@
             ]
           },
           {
+            "group": "Workflows",
+            "pages": [
+              "ai-analyst/workflows/index",
+              "ai-analyst/workflows/standard",
+              "ai-analyst/workflows/deep-analysis",
+              "ai-analyst/workflows/knowledge"
+            ]
+          },
+          {
             "group": "Diagnostics",
             "pages": [
               "ai-analyst/diagnostics/index",

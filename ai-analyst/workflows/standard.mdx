@@ -1,0 +1,128 @@
+---
+title: "Standard Analysis"
+sidebarTitle: "Standard Analysis"
+description: "How the AI Analyst handles specific data questions with fast, focused queries"
+icon: "bolt"
+---
+
+For questions with specific metrics and time ranges, the AI Analyst uses **Standard Analysis** — a streamlined workflow that quickly retrieves your data and generates insights.
+
+---
+
+## When Standard Analysis Is Used
+
+Standard Analysis handles **specific questions** — questions that can be answered with a single SQL query against your data.
+
+### Examples
+
+```
+What was our revenue last week?
+Top 10 products by units sold this month
+How many new customers in January?
+What's our ROAS by channel for the past 30 days?
+Show me daily orders for the past 2 weeks
+Which campaigns had the best performance yesterday?
+```
+
+These questions share key characteristics:
+- **Specific metrics** (revenue, orders, customers, ROAS)
+- **Clear time bounds** (last week, this month, past 30 days)
+- **Focused scope** (one dimension or ranking)
+
+---
+
+## How It Works
+
+Standard Analysis follows a four-step pipeline:
+
+<Steps>
+  <Step title="Identify Tables">
+    The AI determines which BigQuery tables contain the data you need. For an orders question, it routes to `obt_orders`; for campaign metrics, it uses `rpt_ad_performance_daily`.
+  </Step>
+  <Step title="Generate SQL">
+    Using your question and the relevant table schemas, the AI writes a SQL query. This includes appropriate filters, aggregations, and ordering.
+  </Step>
+  <Step title="Execute Query">
+    The query runs against your BigQuery warehouse. Results are validated and any data quality issues are flagged.
+  </Step>
+  <Step title="Generate Response">
+    The AI creates a natural language summary, determines if a chart would be helpful, and packages everything into a Slack response.
+  </Step>
+</Steps>
+
+---
+
+## What You'll See
+
+During Standard Analysis, the AI shows progress through each phase:
+
+| Status | What's Happening |
+|--------|------------------|
+| 🔍 Understanding your question | Classifying the question type |
+| 📊 Identifying relevant tables | Finding the right data sources |
+| ✍️ Writing SQL query | Generating the query |
+| ⚡ Executing query | Running against BigQuery |
+| 📈 Generating chart | Creating visualization (if applicable) |
+| ✅ Results ready | Response complete |
+
+
+---
+
+## Response Components
+
+A Standard Analysis response includes:
+
+| Component | Description |
+|-----------|-------------|
+| **Summary** | Natural language answer to your question |
+| **Data Table** | The actual numbers, limited for readability |
+| **Chart** | Visual representation (when appropriate) |
+| **SQL Query** | The exact query used (downloadable) |
+| **CSV Export** | Full data export (downloadable) |
+
+---
+
+## Tips for Best Results
+
+<AccordionGroup>
+  <Accordion title="Specify time ranges explicitly">
+    "Last 30 days" is clearer than "recently." The AI handles relative dates well: "yesterday," "last week," "past quarter," "YTD."
+  </Accordion>
+  <Accordion title="Name the exact metric">
+    "Revenue" is clearer than "sales." "Orders" is clearer than "transactions." Use terminology from your dashboards.
+  </Accordion>
+  <Accordion title="Use 'top N' for rankings">
+    "Top 10 products by revenue" gives a focused answer. "Best products" is ambiguous and may trigger Deep Analysis.
+  </Accordion>
+  <Accordion title="One question at a time">
+    "What was revenue and how did AOV change?" works better as two separate questions. Keep each query focused.
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## When to Use Standard vs. Deep Analysis
+
+| Standard Analysis | Deep Analysis |
+|------------------|---------------|
+| What was revenue last week? | How can we improve revenue? |
+| Top 10 campaigns by ROAS | Why is our marketing underperforming? |
+| New customer count by month | What customer trends should we focus on? |
+| AOV by channel | How should we optimize our channel mix? |
+
+<Info>
+If you phrase a question specifically, it stays in Standard Analysis. "What was our Meta ROAS last month?" is faster than "How is Meta performing?"
+</Info>
+
+---
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="Deep Analysis" icon="brain" href="/ai-analyst/workflows/deep-analysis">
+    How open-ended questions trigger multi-perspective analysis.
+  </Card>
+  <Card title="Knowledge Retrieval" icon="book" href="/ai-analyst/workflows/knowledge">
+    How definition and schema questions are handled.
+  </Card>
+</CardGroup>

@@ -1,0 +1,169 @@
+---
+title: "Knowledge Retrieval"
+sidebarTitle: "Knowledge Retrieval"
+description: "How the AI Analyst answers definition, schema, and conceptual questions"
+icon: "book"
+---
+
+For questions about metrics, tables, and how SourceMedium works, the AI Analyst uses **Knowledge Retrieval** — providing instant answers from documentation and metadata without querying your warehouse.
+
+---
+
+## When Knowledge Retrieval Is Used
+
+Knowledge Retrieval handles questions about **definitions, concepts, and schema** — anything that can be answered from SourceMedium documentation rather than your warehouse data.
+
+### Examples
+
+```
+What is LTV?
+How is ROAS calculated?
+What does conversion rate mean?
+Which table has order data?
+What columns are in the customers table?
+How does attribution work?
+What's the difference between first-click and last-click?
+How do I set up UTM tracking?
+```
+
+These questions share key characteristics:
+- **"What is" / "How does"** phrasing
+- **Metric definitions** (LTV, ROAS, AOV)
+- **Schema questions** (tables, columns)
+- **How SourceMedium works**
+
+---
+
+## How It Works
+
+<Steps>
+  <Step title="Classify Question">
+    The AI recognizes that your question is about concepts or schema, not about querying data.
+  </Step>
+  <Step title="Search Knowledge Base">
+    The question is matched against SourceMedium documentation and metadata.
+  </Step>
+  <Step title="Generate Answer">
+    The AI synthesizes a clear answer from the relevant sources, formatted for Slack.
+  </Step>
+</Steps>
+
+---
+
+## What You'll See
+
+Knowledge Retrieval responses include:
+
+| Component | Description |
+|-----------|-------------|
+| **Answer** | Clear explanation of the concept or term |
+| **Source** | Links to relevant documentation pages |
+| **Context** | Related concepts you might want to explore |
+
+<Note>
+No SQL is generated for Knowledge Retrieval questions. The answer comes directly from documentation and metadata.
+</Note>
+
+---
+
+## Question Categories
+
+### Metric Definitions
+
+```
+What is LTV?
+How is ROAS calculated?
+What does AOV mean?
+How is conversion rate defined?
+```
+
+The AI explains what the metric measures, how it's calculated, and where you can find it in your data.
+
+### Schema & Tables
+
+```
+Which table has order data?
+What columns are in obt_orders?
+Where do I find customer information?
+What's the difference between dim_orders and obt_orders?
+```
+
+The AI describes table purposes, key columns, and when to use each table.
+
+### SourceMedium Concepts
+
+```
+How does attribution work?
+What's the difference between first-click and last-click?
+How do I set up UTM tracking?
+What is the attribution source hierarchy?
+```
+
+The AI explains SourceMedium-specific methodology and configuration.
+
+### Data Structures
+
+```
+What are the possible values for order_type?
+How is sales_channel determined?
+What does sm_default_channel mean?
+```
+
+The AI explains dimension values, enums, and how data is categorized.
+
+---
+
+## Tips for Knowledge Questions
+
+<AccordionGroup>
+  <Accordion title="Ask 'what is' for definitions">
+    "What is LTV?" triggers Knowledge Retrieval. "What was our LTV last month?" triggers Standard Analysis.
+  </Accordion>
+  <Accordion title="Ask about 'which table' for schema">
+    Schema questions are answered from documentation, not by querying metadata.
+  </Accordion>
+  <Accordion title="Follow up for more detail">
+    After getting a definition, you can ask follow-up questions: "How do I calculate that in SQL?" or "Show me an example."
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## From Knowledge to Analysis
+
+After understanding a concept, you can immediately apply it:
+
+**Knowledge:** "What is ROAS?"
+> ROAS (Return on Ad Spend) is calculated as attributed revenue divided by ad spend...
+
+**Follow-up:** "What was our ROAS by channel last month?"
+> The AI now runs a Standard Analysis query to get your actual ROAS data.
+
+<Tip>
+The AI retains conversation context. If you ask about a concept and then want to see your data, it connects the two.
+</Tip>
+
+---
+
+## Knowledge Sources
+
+Knowledge Retrieval draws from:
+
+- **Data Dictionary** — Metrics and dimensions
+- **Table Schemas** — Column definitions and relationships
+- **Core Concepts** — Attribution, data transformations
+- **Integration Guides** — Platform-specific information
+- **FAQs** — Common questions and troubleshooting
+
+---
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="Standard Analysis" icon="bolt" href="/ai-analyst/workflows/standard">
+    How specific data queries are handled.
+  </Card>
+  <Card title="Deep Analysis" icon="brain" href="/ai-analyst/workflows/deep-analysis">
+    How open-ended questions trigger multi-perspective analysis.
+  </Card>
+</CardGroup>
