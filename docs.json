@@ -647,13 +647,8 @@
             "group": "Getting Started",
             "pages": [
               "ai-analyst/index",
+              "ai-analyst/what-you-can-ask",
               "ai-analyst/setup",
-              "ai-analyst/what-you-can-ask"
-            ]
-          },
-          {
-            "group": "Using the AI Analyst",
-            "pages": [
               "ai-analyst/understanding-results"
             ]
           },
@@ -666,7 +661,7 @@
             ]
           },
           {
-            "group": "Help",
+            "group": "Reference",
             "pages": [
               "ai-analyst/troubleshooting",
               "ai-analyst/roadmap"
