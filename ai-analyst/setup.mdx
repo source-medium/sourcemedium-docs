@@ -10,36 +10,14 @@ The AI Analyst queries your data in BigQuery through Slack. Before you can use i
 ## How It Works
 
 ```mermaid
-flowchart TB
-    subgraph sources["Your Data Sources"]
-        S1[Shopify]
-        S2[Google Ads]
-        S3[Meta Ads]
-        S4[GA4]
-        S5[Klaviyo]
-        S6[...]
-    end
-
-    subgraph pipeline["SourceMedium Pipeline"]
-        P1[Ingest & Transform]
-    end
-
-    subgraph warehouse["Your BigQuery Warehouse"]
-        W1[(sm_transformed_v2)]
-    end
-
-    subgraph access["Access Your Data"]
-        A1[Looker Studio<br/>Dashboards]
-        A2[AI Analyst<br/>via Slack]
-    end
-
-    sources --> pipeline
-    pipeline --> warehouse
-    warehouse --> A1
-    warehouse --> A2
+flowchart LR
+    A[Your Data Sources] --> B[SourceMedium Pipeline]
+    B --> C[(BigQuery)]
+    C --> D[Looker Studio]
+    C --> E[AI Analyst]
 ```
 
-The AI Analyst and your Looker Studio dashboards query the same underlying data — they're just different interfaces.
+Your data flows from connected platforms (Shopify, Google Ads, Meta, GA4, etc.) through the SourceMedium pipeline into your BigQuery warehouse. The AI Analyst and Looker Studio dashboards both query the same underlying data — they're just different interfaces.
 
 ---
 
