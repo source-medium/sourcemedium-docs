@@ -104,9 +104,17 @@ Navigation note (v0):
   - **Core, stable tables** only (`sm_transformed_v2`): `rpt_ad_performance_daily`, `rpt_executive_summary_daily`, `obt_orders`, `obt_order_lines`.
   - **Low QA risk**: minimal joins, clear grains, and metrics align with uni2 routing rules (platform ROAS from ad performance tables; unique new customers from executive summary; last-click marketing channel from `sm_utm_source_medium`).
   - **Complements Batch 1** by adding time-series + refunds + channel-mix + “new customer product” patterns without introducing MTA/experimental tables.
- - Validation status:
-   - Static schema/column validation: done (0 issues for the canonical page’s SQL blocks).
-   - Live BigQuery dry-run validation (`bq query --dry_run ...`): pending engineering gate.
+  - Validation status:
+    - Static schema/column validation: done (0 issues for the canonical page’s SQL blocks).
+    - Live BigQuery dry-run validation (`bq query --dry_run ...`): pending engineering gate.
+
+### Batch 3 (shipped to docs; pending dry-run gate)
+- Canonical page: `sourcemedium-docs/data-activation/template-resources/sql-query-library.mdx`
+- Batch 3 queries added (stumper templates): Q029, Q041, Q019, Q007, Q018
+- Why these queries:
+  - They force the most common “gotchas”: cohort denominators, first-valid-order anchoring, and choosing cohort-table vs dynamic LTV.
+  - They reuse canonical, documented tables (`sm_transformed_v2`) and keep logic explicit (no implicit “subscription” inference via LIKE).
+  - They’re the patterns most likely to improve analyst self-serve and reduce AI Analyst failure modes on LTV/retention.
 
 ## Query Entry Format (Canonical Metadata)
 
@@ -237,7 +245,7 @@ Batch size flexibility:
 Expected normalization notes for Batch 1:
 - Q021/Q060 involve UTMs / source-medium dimensions; ensure uni2-safe categorical handling (avoid LIKE/REGEXP; consider a discovery-first pattern if needed).
 
-## Batch 2 (up next)
+## Batch 2 (shipped)
 
 Target: add time-series + refunds + product discovery patterns with minimal QA risk.
 
@@ -255,13 +263,15 @@ Notes (what we changed vs eval artifacts):
 - Q081/Q082 eval artifacts referenced non-canonical datasets (`sm_experimental.*`, `sm_views.*`). We rewrote to canonical `sm_transformed_v2` tables that match uni2 routing rules.
 - Q062 eval artifact used `sm_channel` for “marketing channel”. We rewrote to use `sm_utm_source_medium` (last-click) per uni2 attribution semantics.
 
-## Batch 3 (candidate pool — “stumper queries”)
+## Batch 3 (shipped — “stumper queries”)
 
 Target: expand coverage to questions that routinely stump analysts because they require:
 - first-valid-order anchoring,
 - careful cohort definitions / denominators,
 - choosing between **precomputed cohort tables** vs **dynamic LTV** from `obt_orders`/`obt_order_lines`,
 - subscription retention semantics (customer-level retention proxy, not subscription-billing-system churn).
+
+Status: shipped to docs; pending validation gate (static + dry-run).
 
 Batch size: 5–10, but expect higher QA effort per query.
 
@@ -318,6 +328,16 @@ Batch size: 5–10, but expect higher QA effort per query.
 ### Reference guidance (useful, but uni2 wins on conflicts)
 - Uni2 authoritative routing + rules: `src/agent_core/agents/prompts.py`
 - Cohort-table cautions (double-counting; dimensions): `uni-training/.claude/shared/MODEL_KNOWLEDGE.md`
+
+## Batch 4 (candidate pool)
+
+Target: deepen LTV/retention coverage with table-appropriate variants.
+
+Candidate themes (pick 5–10):
+- Dynamic 30/60/90‑day LTV by first-order source/medium (orders-only variant).
+- Dynamic product-category LTV (requires explicit handling for NULL `product_type` and/or a fallback dimension).
+- Payback proxy (cohort LTV + CAC scalar) for acquisition dimensions where the cohort table is authoritative.
+- Subscription “retention proxy” by first subscription SKU (requires an explicit definition of cohorting for subscriptions).
 
 ## Handling “Discovery-First” Without Breaking uni2 Rules
 
