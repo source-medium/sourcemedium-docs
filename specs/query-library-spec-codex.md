@@ -131,6 +131,31 @@ Navigation note (v0):
 - Static schema/column validation: done for the SQL Query Library page.
 - Live BigQuery dry-run validation: pending engineering gate.
 
+### Batch 6 (planned — advanced retention/LTV stumpers)
+
+Target: common “hard questions” that typically stump people because they require:
+- correct first-valid-order cohorting (`sm_valid_order_index = 1`),
+- careful time-windowing (30/60/90-day horizons),
+- knowing when to use **cohort tables** (CAC + payback) vs **dynamic** order/order-line logic,
+- subscription retention/churn **proxies** (behavioral retention, not billing-system churn).
+
+Proposed queries (5–10; likely 7):
+1) **Payback period by acquisition source/medium** (cohort table; uses `cost_per_acquisition`)
+2) **LTV:CAC ratio by acquisition source/medium** (cohort table; 6m net LTV vs CAC)
+3) **Repeat purchase rate (paid orders only) within 30/60/90 days by acquisition source/medium** (dynamic; `obt_orders`, filters repeat orders to `order_net_revenue > 0`)
+4) **Repeat purchase rate (paid orders only) within 30/60/90 days by subscription vs one-time first order** (dynamic; `obt_orders`, filters repeat orders to `order_net_revenue > 0`)
+5) **90-day LTV by first-order product_type (primary first-order attribute)** (dynamic; `obt_order_lines` + `obt_orders`)
+6) **90-day LTV by first-order product_vendor (primary first-order attribute)** (dynamic; `obt_order_lines` + `obt_orders`)
+7) **Repeat purchase rate (paid orders only) within 30/60/90 days by first-order AOV bucket** (dynamic; `obt_orders`, filters repeat orders to `order_net_revenue > 0`)
+
+Why these queries:
+- They are “stumpers” that drive frequent confusion and AI Analyst failure modes (cohort anchoring + double counting + horizon logic).
+- They are broadly reusable templates across brands without tenant-specific enumerations.
+- They intentionally exercise the key scalable tables:
+  - cohort table for CAC/payback (`rpt_cohort_ltv_by_first_valid_purchase_attribute_no_product_filters`)
+  - order-level analysis (`obt_orders`)
+  - product attribute analysis at scale (`obt_order_lines`)
+
 ## Query Entry Format (Canonical Metadata)
 
 Each query should have consistent metadata so it can be searched, deduped, and QA’d.

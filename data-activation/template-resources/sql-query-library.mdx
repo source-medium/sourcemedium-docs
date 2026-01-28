@@ -505,6 +505,99 @@ ORDER BY 1;
     ```
   </Accordion>
 
+  <Accordion title="Payback period by acquisition source/medium (cohort table, last 12 cohort months)">
+    **What you'll learn:** Roughly how many **months** it takes for each acquisition source/medium cohort to “pay back” its CAC (when cohort cumulative net revenue per customer first exceeds `cost_per_acquisition`). Only interpret rows where your cohort model populates CAC for that cohort.
+
+    ```sql
+    -- Assumptions: timeframe=last_12_cohort_months | metric=payback_months | grain=source_medium | scope=cohort_table_all_orders
+    WITH base AS (
+      SELECT
+        acquisition_order_filter_dimension_value AS source_medium,
+        cohort_month,
+        months_since_first_order,
+        cohort_size,
+        cost_per_acquisition,
+        cumulative_order_net_revenue
+      FROM `your_project.sm_transformed_v2.rpt_cohort_ltv_by_first_valid_purchase_attribute_no_product_filters`
+      WHERE acquisition_order_filter_dimension = 'source/medium'
+        AND sm_order_line_type = 'all_orders'
+        AND cohort_month >= DATE_SUB(DATE_TRUNC(CURRENT_DATE(), MONTH), INTERVAL 12 MONTH)
+        AND months_since_first_order BETWEEN 0 AND 12
+        AND cost_per_acquisition IS NOT NULL
+        AND cost_per_acquisition > 0
+    ),
+    per_cohort AS (
+      SELECT
+        source_medium,
+        cohort_month,
+        ANY_VALUE(cohort_size) AS cohort_size,
+        ANY_VALUE(cost_per_acquisition) AS cac_per_customer,
+        MIN(
+          IF(
+            SAFE_DIVIDE(cumulative_order_net_revenue, NULLIF(cohort_size, 0)) >= cost_per_acquisition,
+            months_since_first_order,
+            NULL
+          )
+        ) AS payback_months
+      FROM base
+      GROUP BY 1, 2
+    )
+    SELECT
+      source_medium,
+      SUM(cohort_size) AS cohort_customers,
+      SAFE_DIVIDE(
+        SUM(CAST(payback_months AS FLOAT64) * cohort_size),
+        NULLIF(SUM(CASE WHEN payback_months IS NOT NULL THEN cohort_size ELSE 0 END), 0)
+      ) AS avg_payback_months_weighted,
+      SAFE_DIVIDE(
+        SUM(CASE WHEN payback_months IS NOT NULL THEN cohort_size ELSE 0 END),
+        NULLIF(SUM(cohort_size), 0)
+      ) AS pct_customers_in_cohorts_with_payback_within_12m
+    FROM per_cohort
+    GROUP BY 1
+    HAVING cohort_customers >= 200
+    ORDER BY avg_payback_months_weighted ASC;
+    ```
+  </Accordion>
+
+  <Accordion title="LTV:CAC ratio by acquisition source/medium (6m net LTV vs CAC, last 12 cohort months)">
+    **What you'll learn:** Whether you’re getting enough 6‑month net revenue per acquired customer relative to CAC (a simple **LTV:CAC** sanity check). Only interpret rows where your cohort model populates CAC for that cohort.
+
+    ```sql
+    -- Assumptions: timeframe=last_12_cohort_months | metric=ltv_to_cac_ratio_6m | grain=source_medium | scope=cohort_table_all_orders
+    WITH per_cohort AS (
+      SELECT
+        acquisition_order_filter_dimension_value AS source_medium,
+        cohort_month,
+        ANY_VALUE(cohort_size) AS cohort_size,
+        ANY_VALUE(cost_per_acquisition) AS cac_per_customer,
+        MAX(IF(months_since_first_order = 6, cumulative_order_net_revenue, NULL)) AS cumulative_order_net_revenue_m6
+      FROM `your_project.sm_transformed_v2.rpt_cohort_ltv_by_first_valid_purchase_attribute_no_product_filters`
+      WHERE acquisition_order_filter_dimension = 'source/medium'
+        AND sm_order_line_type = 'all_orders'
+        AND cohort_month >= DATE_SUB(DATE_TRUNC(CURRENT_DATE(), MONTH), INTERVAL 12 MONTH)
+        AND months_since_first_order = 6
+        AND cost_per_acquisition IS NOT NULL
+        AND cost_per_acquisition > 0
+      GROUP BY 1, 2
+    )
+    SELECT
+      source_medium,
+      SUM(cohort_size) AS cohort_customers,
+      SAFE_DIVIDE(SUM(cumulative_order_net_revenue_m6), NULLIF(SUM(cohort_size), 0)) AS ltv_net_per_customer_m6,
+      SAFE_DIVIDE(SUM(cac_per_customer * cohort_size), NULLIF(SUM(cohort_size), 0)) AS cac_per_customer_weighted,
+      SAFE_DIVIDE(
+        SAFE_DIVIDE(SUM(cumulative_order_net_revenue_m6), NULLIF(SUM(cohort_size), 0)),
+        NULLIF(SAFE_DIVIDE(SUM(cac_per_customer * cohort_size), NULLIF(SUM(cohort_size), 0)), 0)
+      ) AS ltv_to_cac_ratio_m6
+    FROM per_cohort
+    GROUP BY 1
+    HAVING cohort_customers >= 200
+    ORDER BY ltv_to_cac_ratio_m6 DESC
+    LIMIT 25;
+    ```
+  </Accordion>
+
   <Accordion title="Top discount-code cohorts by 6m retention + 12m LTV (last 12 cohort months)">
     **What you'll learn:** Which discount codes attract customers who stick around and spend more over time. Identify promo codes that bring loyal buyers vs. one-time bargain hunters.
 
@@ -578,6 +671,185 @@ ORDER BY 1;
     ```
   </Accordion>
 
+  <Accordion title="Repeat purchase rate (paid orders only) within 30/60/90 days by acquisition source/medium (first valid orders in last 12 months)">
+    **What you'll learn:** How quickly customers come back to buy again after their first valid purchase, broken out by acquisition source/medium. This version counts only repeat orders with `order_net_revenue > 0` (so $0 replacements/comp orders don’t inflate “purchase” rates).
+
+    ```sql
+    -- Assumptions: timeframe=first_valid_orders_last_12_months | metric=repeat_rate_30_60_90 | grain=source_medium | scope=valid_paid_orders_only
+    WITH first_valid_orders AS (
+      SELECT
+        sm_customer_key,
+        order_processed_at_local_datetime AS first_order_at_local_datetime,
+        COALESCE(NULLIF(LOWER(TRIM(sm_utm_source_medium)), ''), '(none) / (none)') AS source_medium
+      FROM `your_project.sm_transformed_v2.obt_orders`
+      WHERE is_order_sm_valid = TRUE
+        AND order_cancelled_at IS NULL
+        AND sm_customer_key IS NOT NULL
+        AND sm_valid_order_index = 1
+        AND DATE(order_processed_at_local_datetime) >= DATE_SUB(CURRENT_DATE(), INTERVAL 365 DAY)
+    ),
+    per_customer AS (
+      SELECT
+        fo.source_medium,
+        fo.sm_customer_key,
+        MIN(DATETIME_DIFF(o.order_processed_at_local_datetime, fo.first_order_at_local_datetime, DAY)) AS first_repeat_day,
+        COUNT(DISTINCT o.sm_order_key) AS repeat_orders_90d,
+        COALESCE(SUM(o.order_net_revenue), 0) AS repeat_revenue_90d
+      FROM first_valid_orders fo
+      LEFT JOIN `your_project.sm_transformed_v2.obt_orders` o
+        ON o.sm_customer_key = fo.sm_customer_key
+        AND o.is_order_sm_valid = TRUE
+        AND o.order_cancelled_at IS NULL
+        AND o.order_net_revenue > 0
+        AND o.order_processed_at_local_datetime > fo.first_order_at_local_datetime
+        AND o.order_processed_at_local_datetime < DATETIME_ADD(fo.first_order_at_local_datetime, INTERVAL 90 DAY)
+      GROUP BY 1, 2
+    )
+    SELECT
+      source_medium,
+      COUNT(*) AS customers,
+      COUNTIF(first_repeat_day IS NOT NULL AND first_repeat_day <= 30) AS customers_repeat_30d,
+      SAFE_DIVIDE(COUNTIF(first_repeat_day IS NOT NULL AND first_repeat_day <= 30), NULLIF(COUNT(*), 0)) AS repeat_rate_30d,
+      COUNTIF(first_repeat_day IS NOT NULL AND first_repeat_day <= 60) AS customers_repeat_60d,
+      SAFE_DIVIDE(COUNTIF(first_repeat_day IS NOT NULL AND first_repeat_day <= 60), NULLIF(COUNT(*), 0)) AS repeat_rate_60d,
+      COUNTIF(first_repeat_day IS NOT NULL AND first_repeat_day <= 90) AS customers_repeat_90d,
+      SAFE_DIVIDE(COUNTIF(first_repeat_day IS NOT NULL AND first_repeat_day <= 90), NULLIF(COUNT(*), 0)) AS repeat_rate_90d,
+      AVG(repeat_orders_90d) AS avg_repeat_orders_90d,
+      AVG(repeat_revenue_90d) AS avg_repeat_revenue_90d
+    FROM per_customer
+    GROUP BY 1
+    HAVING customers >= 200
+    ORDER BY repeat_rate_90d DESC
+    LIMIT 25;
+    ```
+  </Accordion>
+
+  <Accordion title="Repeat purchase rate (paid orders only) within 30/60/90 days by subscription vs one-time first order (first valid orders in last 12 months)">
+    **What you'll learn:** A practical retention proxy for subscription programs: customers whose **first valid order** was subscription vs one-time, and how quickly they return to buy again. This version counts only repeat orders with `order_net_revenue > 0`.
+
+    ```sql
+    -- Assumptions: timeframe=first_valid_orders_last_12_months | metric=repeat_rate_30_60_90 | grain=first_order_type | scope=valid_paid_orders_only
+    WITH first_valid_orders AS (
+      SELECT
+        sm_customer_key,
+        order_processed_at_local_datetime AS first_order_at_local_datetime,
+        CASE
+          WHEN is_subscription_order = TRUE THEN 'subscription_first_order'
+          ELSE 'one_time_first_order'
+        END AS first_order_type
+      FROM `your_project.sm_transformed_v2.obt_orders`
+      WHERE is_order_sm_valid = TRUE
+        AND order_cancelled_at IS NULL
+        AND sm_customer_key IS NOT NULL
+        AND sm_valid_order_index = 1
+        AND DATE(order_processed_at_local_datetime) >= DATE_SUB(CURRENT_DATE(), INTERVAL 365 DAY)
+    ),
+    per_customer AS (
+      SELECT
+        fo.first_order_type,
+        fo.sm_customer_key,
+        MIN(DATETIME_DIFF(o.order_processed_at_local_datetime, fo.first_order_at_local_datetime, DAY)) AS first_repeat_day,
+        COUNT(DISTINCT o.sm_order_key) AS repeat_orders_90d,
+        COALESCE(SUM(o.order_net_revenue), 0) AS repeat_revenue_90d
+      FROM first_valid_orders fo
+      LEFT JOIN `your_project.sm_transformed_v2.obt_orders` o
+        ON o.sm_customer_key = fo.sm_customer_key
+        AND o.is_order_sm_valid = TRUE
+        AND o.order_cancelled_at IS NULL
+        AND o.order_net_revenue > 0
+        AND o.order_processed_at_local_datetime > fo.first_order_at_local_datetime
+        AND o.order_processed_at_local_datetime < DATETIME_ADD(fo.first_order_at_local_datetime, INTERVAL 90 DAY)
+      GROUP BY 1, 2
+    )
+    SELECT
+      first_order_type,
+      COUNT(*) AS customers,
+      COUNTIF(first_repeat_day IS NOT NULL AND first_repeat_day <= 30) AS customers_repeat_30d,
+      SAFE_DIVIDE(COUNTIF(first_repeat_day IS NOT NULL AND first_repeat_day <= 30), NULLIF(COUNT(*), 0)) AS repeat_rate_30d,
+      COUNTIF(first_repeat_day IS NOT NULL AND first_repeat_day <= 60) AS customers_repeat_60d,
+      SAFE_DIVIDE(COUNTIF(first_repeat_day IS NOT NULL AND first_repeat_day <= 60), NULLIF(COUNT(*), 0)) AS repeat_rate_60d,
+      COUNTIF(first_repeat_day IS NOT NULL AND first_repeat_day <= 90) AS customers_repeat_90d,
+      SAFE_DIVIDE(COUNTIF(first_repeat_day IS NOT NULL AND first_repeat_day <= 90), NULLIF(COUNT(*), 0)) AS repeat_rate_90d,
+      AVG(repeat_orders_90d) AS avg_repeat_orders_90d,
+      AVG(repeat_revenue_90d) AS avg_repeat_revenue_90d
+    FROM per_customer
+    GROUP BY 1
+    HAVING customers >= 200
+    ORDER BY repeat_rate_90d DESC;
+    ```
+  </Accordion>
+
+  <Accordion title="Repeat purchase rate (paid orders only) within 30/60/90 days by first-order AOV bucket (first valid orders in last 12 months)">
+    **What you'll learn:** Whether high-AOV first purchases actually translate into better short-term retention. This version counts only repeat orders with `order_net_revenue > 0` so that $0 orders don’t inflate “purchase” rates.
+
+    ```sql
+    -- Assumptions: timeframe=first_valid_orders_last_12_months | metric=repeat_rate_30_60_90 | grain=first_order_aov_bucket | scope=valid_paid_orders_only
+    WITH first_valid_orders AS (
+      SELECT
+        sm_customer_key,
+        order_processed_at_local_datetime AS first_order_at_local_datetime,
+        order_net_revenue AS first_order_net_revenue
+      FROM `your_project.sm_transformed_v2.obt_orders`
+      WHERE is_order_sm_valid = TRUE
+        AND order_cancelled_at IS NULL
+        AND sm_customer_key IS NOT NULL
+        AND sm_valid_order_index = 1
+        AND DATE(order_processed_at_local_datetime) >= DATE_SUB(CURRENT_DATE(), INTERVAL 365 DAY)
+    ),
+    bucketed AS (
+      SELECT
+        sm_customer_key,
+        first_order_at_local_datetime,
+        CASE
+          WHEN first_order_net_revenue < 25 THEN '$0–$25'
+          WHEN first_order_net_revenue < 50 THEN '$25–$50'
+          WHEN first_order_net_revenue < 100 THEN '$50–$100'
+          WHEN first_order_net_revenue < 200 THEN '$100–$200'
+          ELSE '$200+'
+        END AS first_order_aov_bucket
+      FROM first_valid_orders
+    ),
+    per_customer AS (
+      SELECT
+        b.first_order_aov_bucket,
+        b.sm_customer_key,
+        MIN(DATETIME_DIFF(o.order_processed_at_local_datetime, b.first_order_at_local_datetime, DAY)) AS first_repeat_day,
+        COUNT(DISTINCT o.sm_order_key) AS repeat_orders_90d,
+        COALESCE(SUM(o.order_net_revenue), 0) AS repeat_revenue_90d
+      FROM bucketed b
+      LEFT JOIN `your_project.sm_transformed_v2.obt_orders` o
+        ON o.sm_customer_key = b.sm_customer_key
+        AND o.is_order_sm_valid = TRUE
+        AND o.order_cancelled_at IS NULL
+        AND o.order_net_revenue > 0
+        AND o.order_processed_at_local_datetime > b.first_order_at_local_datetime
+        AND o.order_processed_at_local_datetime < DATETIME_ADD(b.first_order_at_local_datetime, INTERVAL 90 DAY)
+      GROUP BY 1, 2
+    )
+    SELECT
+      first_order_aov_bucket,
+      COUNT(*) AS customers,
+      COUNTIF(first_repeat_day IS NOT NULL AND first_repeat_day <= 30) AS customers_repeat_30d,
+      SAFE_DIVIDE(COUNTIF(first_repeat_day IS NOT NULL AND first_repeat_day <= 30), NULLIF(COUNT(*), 0)) AS repeat_rate_30d,
+      COUNTIF(first_repeat_day IS NOT NULL AND first_repeat_day <= 60) AS customers_repeat_60d,
+      SAFE_DIVIDE(COUNTIF(first_repeat_day IS NOT NULL AND first_repeat_day <= 60), NULLIF(COUNT(*), 0)) AS repeat_rate_60d,
+      COUNTIF(first_repeat_day IS NOT NULL AND first_repeat_day <= 90) AS customers_repeat_90d,
+      SAFE_DIVIDE(COUNTIF(first_repeat_day IS NOT NULL AND first_repeat_day <= 90), NULLIF(COUNT(*), 0)) AS repeat_rate_90d,
+      AVG(repeat_orders_90d) AS avg_repeat_orders_90d,
+      AVG(repeat_revenue_90d) AS avg_repeat_revenue_90d
+    FROM per_customer
+    GROUP BY 1
+    ORDER BY CASE first_order_aov_bucket
+      WHEN '$0–$25' THEN 1
+      WHEN '$25–$50' THEN 2
+      WHEN '$50–$100' THEN 3
+      WHEN '$100–$200' THEN 4
+      WHEN '$200+' THEN 5
+      ELSE 99
+    END;
+    ```
+  </Accordion>
+
   <Accordion title="Which initial products lead to the highest 90‑day LTV? (primary first‑order SKU, last 12 months)">
     **What you'll learn:** Which **primary first‑order SKU** (one SKU per customer, chosen as the highest net‑revenue line item on the first valid order) is associated with higher 90‑day LTV. Use this to identify “starter products” to feature in acquisition campaigns and new customer bundles.
 
@@ -637,6 +909,130 @@ ORDER BY 1;
       ON pos.sm_customer_key = ltv.sm_customer_key
     GROUP BY 1, 2
     HAVING customers >= 20
+    ORDER BY avg_ltv_90d DESC
+    LIMIT 25;
+    ```
+  </Accordion>
+
+  <Accordion title="90‑day LTV by first-order product type (primary first‑order attribute, last 12 months)">
+    **What you'll learn:** Which **product types** tend to create higher 90‑day customer value when they appear as the “primary” first-order item (one product type per customer, selected by highest first-order net revenue). This is a scalable alternative to SKU-level LTV.
+
+    ```sql
+    -- Assumptions: timeframe=first_valid_orders_last_12_months | metric=90d_LTV | grain=primary_first_product_type | scope=valid_orders_only
+    WITH first_valid_orders AS (
+      SELECT
+        sm_customer_key,
+        sm_order_key,
+        order_processed_at_local_datetime AS first_order_at_local_datetime
+      FROM `your_project.sm_transformed_v2.obt_orders`
+      WHERE is_order_sm_valid = TRUE
+        AND order_cancelled_at IS NULL
+        AND sm_customer_key IS NOT NULL
+        AND sm_valid_order_index = 1
+        AND DATE(order_processed_at_local_datetime) >= DATE_SUB(CURRENT_DATE(), INTERVAL 365 DAY)
+    ),
+    first_order_primary_product_type AS (
+      SELECT
+        fo.sm_customer_key,
+        COALESCE(NULLIF(LOWER(TRIM(ol.product_type)), ''), '(unknown)') AS product_type,
+        SUM(ol.order_line_net_revenue) AS first_order_type_net_revenue
+      FROM first_valid_orders fo
+      INNER JOIN `your_project.sm_transformed_v2.obt_order_lines` ol
+        ON ol.sm_order_key = fo.sm_order_key
+      WHERE ol.is_order_sm_valid = TRUE
+        AND ol.product_type IS NOT NULL
+        AND NOT REGEXP_CONTAINS(ol.product_title, r'(?i)(shipping protection|not a product|service fee|processing fee)')
+      GROUP BY 1, 2
+      QUALIFY ROW_NUMBER() OVER (
+        PARTITION BY fo.sm_customer_key
+        ORDER BY first_order_type_net_revenue DESC
+      ) = 1
+    ),
+    customer_90d_ltv AS (
+      SELECT
+        fo.sm_customer_key,
+        SUM(o.order_net_revenue) AS ltv_90d
+      FROM first_valid_orders fo
+      INNER JOIN `your_project.sm_transformed_v2.obt_orders` o
+        ON o.sm_customer_key = fo.sm_customer_key
+      WHERE o.is_order_sm_valid = TRUE
+        AND o.order_cancelled_at IS NULL
+        AND o.order_processed_at_local_datetime >= fo.first_order_at_local_datetime
+        AND o.order_processed_at_local_datetime < DATETIME_ADD(fo.first_order_at_local_datetime, INTERVAL 90 DAY)
+      GROUP BY 1
+    )
+    SELECT
+      pt.product_type,
+      COUNT(*) AS customers,
+      AVG(ltv_90d) AS avg_ltv_90d,
+      SUM(ltv_90d) AS total_ltv_90d
+    FROM first_order_primary_product_type pt
+    INNER JOIN customer_90d_ltv ltv
+      ON pt.sm_customer_key = ltv.sm_customer_key
+    GROUP BY 1
+    HAVING customers >= 50
+    ORDER BY avg_ltv_90d DESC
+    LIMIT 25;
+    ```
+  </Accordion>
+
+  <Accordion title="90‑day LTV by first-order product vendor (primary first‑order attribute, last 12 months)">
+    **What you'll learn:** Which **vendors** tend to create higher 90‑day customer value when they appear as the “primary” first-order item (one vendor per customer, selected by highest first-order net revenue). Useful for wholesale/brand partnerships and merchandising.
+
+    ```sql
+    -- Assumptions: timeframe=first_valid_orders_last_12_months | metric=90d_LTV | grain=primary_first_product_vendor | scope=valid_orders_only
+    WITH first_valid_orders AS (
+      SELECT
+        sm_customer_key,
+        sm_order_key,
+        order_processed_at_local_datetime AS first_order_at_local_datetime
+      FROM `your_project.sm_transformed_v2.obt_orders`
+      WHERE is_order_sm_valid = TRUE
+        AND order_cancelled_at IS NULL
+        AND sm_customer_key IS NOT NULL
+        AND sm_valid_order_index = 1
+        AND DATE(order_processed_at_local_datetime) >= DATE_SUB(CURRENT_DATE(), INTERVAL 365 DAY)
+    ),
+    first_order_primary_vendor AS (
+      SELECT
+        fo.sm_customer_key,
+        COALESCE(NULLIF(LOWER(TRIM(ol.product_vendor)), ''), '(unknown)') AS product_vendor,
+        SUM(ol.order_line_net_revenue) AS first_order_vendor_net_revenue
+      FROM first_valid_orders fo
+      INNER JOIN `your_project.sm_transformed_v2.obt_order_lines` ol
+        ON ol.sm_order_key = fo.sm_order_key
+      WHERE ol.is_order_sm_valid = TRUE
+        AND ol.product_vendor IS NOT NULL
+        AND NOT REGEXP_CONTAINS(ol.product_title, r'(?i)(shipping protection|not a product|service fee|processing fee)')
+      GROUP BY 1, 2
+      QUALIFY ROW_NUMBER() OVER (
+        PARTITION BY fo.sm_customer_key
+        ORDER BY first_order_vendor_net_revenue DESC
+      ) = 1
+    ),
+    customer_90d_ltv AS (
+      SELECT
+        fo.sm_customer_key,
+        SUM(o.order_net_revenue) AS ltv_90d
+      FROM first_valid_orders fo
+      INNER JOIN `your_project.sm_transformed_v2.obt_orders` o
+        ON o.sm_customer_key = fo.sm_customer_key
+      WHERE o.is_order_sm_valid = TRUE
+        AND o.order_cancelled_at IS NULL
+        AND o.order_processed_at_local_datetime >= fo.first_order_at_local_datetime
+        AND o.order_processed_at_local_datetime < DATETIME_ADD(fo.first_order_at_local_datetime, INTERVAL 90 DAY)
+      GROUP BY 1
+    )
+    SELECT
+      v.product_vendor,
+      COUNT(*) AS customers,
+      AVG(ltv_90d) AS avg_ltv_90d,
+      SUM(ltv_90d) AS total_ltv_90d
+    FROM first_order_primary_vendor v
+    INNER JOIN customer_90d_ltv ltv
+      ON v.sm_customer_key = ltv.sm_customer_key
+    GROUP BY 1
+    HAVING customers >= 50
     ORDER BY avg_ltv_90d DESC
     LIMIT 25;
     ```
