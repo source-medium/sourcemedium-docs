@@ -578,6 +578,12 @@
             ]
           },
           {
+            "group": "Metadata Tables",
+            "pages": [
+              "data-activation/data-tables/sm_metadata/dim_data_dictionary"
+            ]
+          },
+          {
             "group": "Experimental Tables",
             "pages": [
               "data-activation/data-tables/sm_experimental/index",

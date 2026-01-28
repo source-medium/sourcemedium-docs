@@ -1,8 +1,8 @@
 # Query Library (AI Analyst) — Spec (Codex)
 
-Status: In progress (Batch 1 shipped)  
-Owner: TBD (Docs + AI Analyst)  
-Last updated: 2026-01-27
+Status: In progress (Batches 1–5 shipped)  
+Owner: Docs (Data Activation) + AI Analyst  
+Last updated: 2026-01-28
 
 ## Background
 
@@ -118,8 +118,18 @@ Navigation note (v0):
   - They're the patterns most likely to improve analyst self-serve and reduce AI Analyst failure modes on LTV/retention.
 - Validation status:
   - Live BigQuery execution validation: **done** (2026-01-27, `sm-irestore4`)
-  - All 18 queries executed successfully and returned plausible results.
+  - Batch 3 SQL templates executed successfully and returned plausible results.
   - Issue found and fixed: Product Combinations query was missing `sku IS NOT NULL` and product-title exclusion filter, causing "Order Specific Details - Not a Product" to pollute results. Fixed by adding standard exclusion pattern.
+
+### Batch 4 (shipped to docs; pending dry-run gate)
+- Added “Attribution & Data Health (diagnostics)” queries DQ01–DQ06.
+- Static schema/column validation: done for the SQL Query Library page (includes `sm_metadata` + `sm_transformed_v2` examples).
+- Live BigQuery dry-run validation: pending engineering gate.
+
+### Batch 5 (shipped to docs; pending dry-run gate)
+- Added “attribution stumpers” queries DQ07–DQ12 (discovery → trend → segmentation → proxy breakouts).
+- Static schema/column validation: done for the SQL Query Library page.
+- Live BigQuery dry-run validation: pending engineering gate.
 
 ## Query Entry Format (Canonical Metadata)
 
@@ -254,7 +264,7 @@ Expected normalization notes for Batch 1:
 
 Target: add time-series + refunds + product discovery patterns with minimal QA risk.
 
-Status: drafted in docs; pending validation gate (static + dry-run).
+Status: shipped; live BQ validation passed (2026-01-28, `sm-irestore4`).
 
 Candidates shipped as Batch 2:
 - Q081 — ROAS trends over time (Marketing & Ads; `rpt_ad_performance_daily`)
@@ -276,7 +286,7 @@ Target: expand coverage to questions that routinely stump analysts because they 
 - choosing between **precomputed cohort tables** vs **dynamic LTV** from `obt_orders`/`obt_order_lines`,
 - subscription retention semantics (customer-level retention proxy, not subscription-billing-system churn).
 
-Status: shipped to docs; pending validation gate (static + dry-run).
+Status: shipped; live BQ validation passed (2026-01-28, `sm-irestore4`).
 
 Batch size: 5–10, but expect higher QA effort per query.
 
@@ -334,42 +344,29 @@ Batch size: 5–10, but expect higher QA effort per query.
 - Uni2 authoritative routing + rules: `src/agent_core/agents/prompts.py`
 - Cohort-table cautions (double-counting; dimensions): `uni-training/.claude/shared/MODEL_KNOWLEDGE.md`
 
-## Batch 4 (reviewed — attribution + data health diagnostics)
+## Batch 4 + 5 (merged, shipped — attribution + data health)
 
-Target: attribution coverage + data health probing (the “why is everything direct / missing?” queries).
+Status: shipped; live BQ validation passed (2026-01-28, `sm-irestore4`).
 
-Why these queries:
-- They answer the gating questions analysts need before trusting attribution breakouts.
-- They reduce guesswork by combining **metadata-first** freshness/coverage signals with **orders-first** reality checks.
+Target: attribution coverage + data health diagnostics ("why is everything direct / missing?") plus actionable follow-up patterns.
 
 Notes:
 - `dim_data_dictionary` lives in `your_project.sm_metadata.dim_data_dictionary` (not `sm_transformed_v2`).
-- We added schema docs for `sm_metadata.dim_data_dictionary` and extended the docs column validator to cover `sm_metadata` so these examples can be statically checked.
+- We removed redundant queries (DQ03/DQ07 source/medium snapshots redundant with DQ06 trend view).
+- Fixed click-id coverage query to exclude `'(none)'` placeholder values.
+- Removed DQ## prefixes from titles for readability.
 
-Batch 4 queries included:
-- DQ01 — Table freshness / stale tables (`sm_metadata.dim_data_dictionary`)
-- DQ02 — Attribution column coverage on `obt_orders` (`sm_metadata.dim_data_dictionary`)
-- DQ03 — Orders by `sm_utm_source_medium` + overall UTM coverage (`obt_orders`)
-- DQ04 — Fallback attribution signals when UTMs missing (`obt_orders`)
-- DQ05 — Top referrer domains among orders missing UTMs (`obt_orders`)
-- DQ06 — Join-key completeness (orders missing `sm_customer_key`, lines missing `sku`) (`obt_orders` + `obt_order_lines`)
-
-## Batch 5 (drafted — attribution stumpers)
-
-Target: answer the “what do I do next?” questions that follow Batch 4 diagnostics.
-
-Why these queries:
-- They turn “coverage” into “action”: discovery → trend → segmentation → proxy breakouts.
-- They are the exact patterns analysts reach for when they see high direct/unattributed share.
-- They avoid uni2 anti-patterns (no LIKE/REGEXP on categorical dims; discovery-first, then exact matches).
-
-Batch 5 queries drafted:
-- DQ07 — UTM source/medium discovery (top values by net revenue) (`obt_orders`)
-- DQ08 — Attribution health trend (weekly UTM/direct/unattributed share) (`obt_orders`)
-- DQ09 — Attribution health by store and sales channel (unattributed share) (`obt_orders`)
-- DQ10 — Discount code parsing (top codes by net revenue; non-strict attribution note) (`obt_orders`)
-- DQ11 — Top landing pages for orders missing UTMs (host + path buckets) (`obt_orders`)
-- DQ12 — Click-id coverage vs UTM coverage (gclid/fbclid, weekly) (`obt_orders`)
+Final queries shipped (10 data health queries):
+1. Which tables are stale or missing data? (`sm_metadata.dim_data_dictionary`)
+2. Attribution column coverage on orders (`sm_metadata.dim_data_dictionary`)
+3. When UTMs are missing, what other attribution signals exist? (`obt_orders`)
+4. Top referrer domains for orders missing UTMs (`obt_orders`)
+5. Key join-key completeness (customers + SKU coverage) (`obt_orders` + `obt_order_lines`)
+6. Attribution health trend (weekly) (`obt_orders`)
+7. Attribution health by store and sales channel (`obt_orders`)
+8. Discount code parsing (top codes by revenue) (`obt_orders`)
+9. Top landing pages for orders missing UTMs (`obt_orders`)
+10. Click-id coverage vs UTM coverage (gclid/fbclid) (`obt_orders`)
 
 ## Handling “Discovery-First” Without Breaking uni2 Rules
 

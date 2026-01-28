@@ -31,7 +31,7 @@ Most examples default to the last 30 days for performance and “current state�
 ### Marketing & Ads
 
 <AccordionGroup>
-  <Accordion title="Q011 — Average CAC (last 30 days)">
+  <Accordion title="Average CAC (last 30 days)">
     ```sql
     -- Assumptions: timeframe=last_30_days | metric=CAC=ad_spend/new_customer_count | grain=sm_channel | scope=all_channels
     WITH channel_rollup AS (
@@ -76,7 +76,7 @@ Most examples default to the last 30 days for performance and “current state�
     ```
   </Accordion>
 
-  <Accordion title="Q001 — Highest ROAS by platform + campaign type (last 30 days)">
+  <Accordion title="Highest ROAS by platform + campaign type (last 30 days)">
     ```sql
     -- Assumptions: timeframe=last_30_days | metric=ROAS=platform_reported_revenue/ad_spend | grain=platform+campaign_type | scope=all_stores
     SELECT
@@ -95,7 +95,7 @@ Most examples default to the last 30 days for performance and “current state�
     ```
   </Accordion>
 
-  <Accordion title="Q081 — ROAS trends over time (monthly, last 6 months)">
+  <Accordion title="ROAS trends over time (monthly, last 6 months)">
     ```sql
     -- Assumptions: timeframe=last_6_months | metric=ROAS=platform_reported_revenue/ad_spend | grain=month+platform | scope=all_stores
     WITH monthly AS (
@@ -125,7 +125,7 @@ Most examples default to the last 30 days for performance and “current state�
 ### Customers & Retention
 
 <AccordionGroup>
-  <Accordion title="Q022 — First-time vs repeat orders (last 30 days)">
+  <Accordion title="First-time vs repeat orders (last 30 days)">
     ```sql
     -- Assumptions: timeframe=last_30_days | metric=orders+customers+net_revenue | grain=first_vs_repeat | scope=valid_orders_only
     SELECT
@@ -141,7 +141,7 @@ Most examples default to the last 30 days for performance and “current state�
     ```
   </Accordion>
 
-  <Accordion title="Q021 — Which source/mediums drive repeat purchases? (cohorted on first order in last 12 months)">
+  <Accordion title="Which source/mediums drive repeat purchases? (cohorted on first order in last 12 months)">
     ```sql
     -- Assumptions: timeframe=first_orders_last_12_months | metric=repeat_rate=customers_with_2+_orders/customers | grain=first_order_source_medium | scope=valid_orders_only
     WITH valid_orders AS (
@@ -182,7 +182,7 @@ Most examples default to the last 30 days for performance and “current state�
     ```
   </Accordion>
 
-  <Accordion title="Q003 — New vs repeat customer ratio trend (weekly, YTD)">
+  <Accordion title="New vs repeat customer ratio trend (weekly, YTD)">
     ```sql
     -- Assumptions: timeframe=year_to_date | metric=new_to_repeat_ratio=new_customer_count/repeat_customer_count | grain=week | scope=all_channels
     WITH weekly AS (
@@ -204,7 +204,7 @@ Most examples default to the last 30 days for performance and “current state�
     ```
   </Accordion>
 
-  <Accordion title="Q082 — Customer acquisition trend (monthly new customers, last 12 months)">
+  <Accordion title="Customer acquisition trend (monthly new customers, last 12 months)">
     ```sql
     -- Assumptions: timeframe=last_12_months | metric=new_customers | grain=month | scope=all_channels
     WITH monthly AS (
@@ -232,7 +232,7 @@ Most examples default to the last 30 days for performance and “current state�
 ### Products
 
 <AccordionGroup>
-  <Accordion title="Q119 — Top 10 products by net revenue (last 30 days)">
+  <Accordion title="Top 10 products by net revenue (last 30 days)">
     ```sql
     -- Assumptions: timeframe=last_30_days | metric=net_revenue=SUM(order_line_net_revenue) | grain=sku | scope=valid_orders_only
     SELECT
@@ -252,7 +252,7 @@ Most examples default to the last 30 days for performance and “current state�
     ```
   </Accordion>
 
-  <Accordion title="Q083 — Top products by units sold (last 30 days)">
+  <Accordion title="Top products by units sold (last 30 days)">
     ```sql
     -- Assumptions: timeframe=last_30_days | metric=units_sold=SUM(order_line_quantity) | grain=sku | scope=valid_orders_only
     SELECT
@@ -272,7 +272,7 @@ Most examples default to the last 30 days for performance and “current state�
     ```
   </Accordion>
 
-  <Accordion title="Q017 — Products most common with new customers (first valid orders, last 90 days)">
+  <Accordion title="Products most common with new customers (first valid orders, last 90 days)">
     ```sql
     -- Assumptions: timeframe=first_valid_orders_last_90_days | metric=units_sold=SUM(order_line_quantity) | grain=product_title | scope=new_customers_valid_orders_only
     WITH first_valid_orders AS (
@@ -305,7 +305,7 @@ Most examples default to the last 30 days for performance and “current state�
 ### Orders & revenue
 
 <AccordionGroup>
-  <Accordion title="Q060 — Average order value (AOV) by marketing channel (last 30 days)">
+  <Accordion title="Average order value (AOV) by marketing channel (last 30 days)">
     ```sql
     -- Assumptions: timeframe=last_30_days | metric=AOV=SUM(order_net_revenue)/orders | grain=sm_utm_source_medium | scope=valid_orders_only
     WITH base AS (
@@ -332,7 +332,7 @@ Most examples default to the last 30 days for performance and “current state�
     ```
   </Accordion>
 
-  <Accordion title="Q023 — Revenue in the last 30 days from customers who have ever had a subscription">
+  <Accordion title="Revenue in the last 30 days from customers who have ever had a subscription">
     ```sql
     -- Assumptions: timeframe=last_30_days | metric=net_revenue=SUM(order_net_revenue) | grain=overall | scope=customers_with_any_subscription_history
     WITH subscription_customers AS (
@@ -366,7 +366,7 @@ Most examples default to the last 30 days for performance and “current state�
     ```
   </Accordion>
 
-  <Accordion title="Q062 — Refund rate by marketing channel (last 90 days)">
+  <Accordion title="Refund rate by marketing channel (last 90 days)">
     ```sql
     -- Assumptions: timeframe=last_90_days | metric=refund_rate | grain=sm_utm_source_medium | scope=valid_orders_only
     WITH base AS (
@@ -396,7 +396,7 @@ Most examples default to the last 30 days for performance and “current state�
     ```
   </Accordion>
 
-  <Accordion title="Q115 — Distribution of orders and revenue by sales channel (last 30 days)">
+  <Accordion title="Distribution of orders and revenue by sales channel (last 30 days)">
     ```sql
     -- Assumptions: timeframe=last_30_days | metric=orders+net_revenue+share | grain=sm_channel | scope=valid_orders_only
     SELECT
@@ -437,7 +437,7 @@ ORDER BY 1;
 ```
 
 <AccordionGroup>
-  <Accordion title="Q029 — 3m/6m retention + 6m LTV by acquisition source/medium (last 12 cohort months)">
+  <Accordion title="3m/6m retention + 6m LTV by acquisition source/medium (last 12 cohort months)">
     ```sql
     -- Assumptions: timeframe=last_12_cohort_months | metric=retention_pct+ltv_6m | grain=source_medium | scope=cohort_table_all_orders
     WITH pivoted AS (
@@ -469,7 +469,7 @@ ORDER BY 1;
     ```
   </Accordion>
 
-  <Accordion title="Q041 — Top discount-code cohorts by 6m retention + 12m LTV (last 12 cohort months)">
+  <Accordion title="Top discount-code cohorts by 6m retention + 12m LTV (last 12 cohort months)">
     ```sql
     -- Assumptions: timeframe=last_12_cohort_months | metric=retention_m6+ltv_12m | grain=discount_code | scope=cohort_table_all_orders
     WITH pivoted AS (
@@ -509,7 +509,7 @@ ORDER BY 1;
     ```
   </Accordion>
 
-  <Accordion title="Q019 — Subscription vs one-time cohorts: 6m retention + 12m LTV (last 12 cohort months)">
+  <Accordion title="Subscription vs one-time cohorts: 6m retention + 12m LTV (last 12 cohort months)">
     ```sql
     -- Assumptions: timeframe=last_12_cohort_months | metric=retention_m6+ltv_12m | grain=first_order_type | scope=cohort_table_all_orders
     WITH pivoted AS (
@@ -538,7 +538,7 @@ ORDER BY 1;
     ```
   </Accordion>
 
-  <Accordion title="Q007 — Which initial products lead to the highest 90‑day LTV? (primary first‑order SKU, last 12 months)">
+  <Accordion title="Which initial products lead to the highest 90‑day LTV? (primary first‑order SKU, last 12 months)">
     ```sql
     -- Assumptions: timeframe=first_valid_orders_last_12_months | metric=90d_LTV=SUM(order_net_revenue_90d) | grain=primary_first_sku | scope=valid_orders_only
     WITH first_valid_orders AS (
@@ -600,7 +600,7 @@ ORDER BY 1;
     ```
   </Accordion>
 
-  <Accordion title="Q018 — Typical time between orders for non-subscription customers (last 12 months)">
+  <Accordion title="Typical time between orders for non-subscription customers (last 12 months)">
     ```sql
     -- Assumptions: timeframe=last_12_months | metric=days_between_orders_distribution | grain=days_between_orders | scope=non_subscription_customers_only
     WITH subscription_customers AS (
