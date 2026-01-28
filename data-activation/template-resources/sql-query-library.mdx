@@ -912,6 +912,274 @@ If you use the cohort LTV table (`rpt_cohort_ltv_by_first_valid_purchase_attribu
     ```
   </Accordion>
 
+  <Accordion title="90‑day LTV by first-order source/medium (dynamic, last 12 months)">
+    **What you'll learn:** Which acquisition source/mediums produce higher 90‑day LTV (including the first order). This is a dynamic alternative to cohort tables when you want a strict “first purchase → next 90 days” window.
+
+    ```sql
+    -- Assumptions: timeframe=first_valid_orders_last_12_months | metric=90d_LTV | grain=first_order_source_medium | scope=valid_orders_only
+    WITH first_valid_orders AS (
+      SELECT
+        sm_customer_key,
+        order_processed_at_local_datetime AS first_order_at_local_datetime,
+        COALESCE(NULLIF(LOWER(TRIM(sm_utm_source_medium)), ''), '(none) / (none)') AS first_order_source_medium
+      FROM `your_project.sm_transformed_v2.obt_orders`
+      WHERE is_order_sm_valid = TRUE
+        AND order_cancelled_at IS NULL
+        AND sm_customer_key IS NOT NULL
+        AND sm_valid_order_index = 1
+        AND DATE(order_processed_at_local_datetime) >= DATE_SUB(CURRENT_DATE(), INTERVAL 365 DAY)
+    ),
+    customer_90d_ltv AS (
+      SELECT
+        fo.first_order_source_medium,
+        fo.sm_customer_key,
+        SUM(o.order_net_revenue) AS ltv_90d
+      FROM first_valid_orders fo
+      INNER JOIN `your_project.sm_transformed_v2.obt_orders` o
+        ON o.sm_customer_key = fo.sm_customer_key
+      WHERE o.is_order_sm_valid = TRUE
+        AND o.order_cancelled_at IS NULL
+        AND o.order_processed_at_local_datetime >= fo.first_order_at_local_datetime
+        AND o.order_processed_at_local_datetime < DATETIME_ADD(fo.first_order_at_local_datetime, INTERVAL 90 DAY)
+      GROUP BY 1, 2
+    )
+    SELECT
+      first_order_source_medium AS source_medium,
+      COUNT(*) AS customers,
+      AVG(ltv_90d) AS avg_ltv_90d,
+      SUM(ltv_90d) AS total_ltv_90d
+    FROM customer_90d_ltv
+    GROUP BY 1
+    HAVING customers >= 200
+    ORDER BY avg_ltv_90d DESC
+    LIMIT 25;
+    ```
+  </Accordion>
+
+  <Accordion title="90‑day LTV by first-order discount code (single-code only + no-code baseline, last 12 months)">
+    **What you'll learn:** How 90‑day LTV differs for customers whose first valid order used **exactly one** discount code vs no code. Customers whose first order has multiple codes are excluded to avoid ambiguity/double counting. Use the “Multiple discount codes prevalence” diagnostic before interpreting results.
+
+    ```sql
+    -- Assumptions: timeframe=first_valid_orders_last_12_months | metric=90d_LTV | grain=first_order_discount_code | scope=valid_orders_only_single_or_no_code
+    WITH first_valid_orders AS (
+      SELECT
+        sm_customer_key,
+        order_processed_at_local_datetime AS first_order_at_local_datetime,
+        order_discount_codes_csv
+      FROM `your_project.sm_transformed_v2.obt_orders`
+      WHERE is_order_sm_valid = TRUE
+        AND order_cancelled_at IS NULL
+        AND sm_customer_key IS NOT NULL
+        AND sm_valid_order_index = 1
+        AND DATE(order_processed_at_local_datetime) >= DATE_SUB(CURRENT_DATE(), INTERVAL 365 DAY)
+    ),
+    parsed_codes AS (
+      SELECT
+        sm_customer_key,
+        first_order_at_local_datetime,
+        ARRAY(
+          SELECT LOWER(TRIM(code_raw))
+          FROM UNNEST(SPLIT(COALESCE(order_discount_codes_csv, ''), ',')) AS code_raw
+          WHERE TRIM(code_raw) != ''
+            AND LOWER(TRIM(code_raw)) NOT IN ('(none)')
+        ) AS codes
+      FROM first_valid_orders
+    ),
+    cohort AS (
+      SELECT
+        sm_customer_key,
+        first_order_at_local_datetime,
+        ARRAY_LENGTH(codes) AS code_count,
+        IF(ARRAY_LENGTH(codes) = 1, codes[OFFSET(0)], '(no_code)') AS first_order_discount_code
+      FROM parsed_codes
+      WHERE ARRAY_LENGTH(codes) IN (0, 1)
+    ),
+    customer_90d_ltv AS (
+      SELECT
+        c.first_order_discount_code,
+        c.sm_customer_key,
+        SUM(o.order_net_revenue) AS ltv_90d
+      FROM cohort c
+      INNER JOIN `your_project.sm_transformed_v2.obt_orders` o
+        ON o.sm_customer_key = c.sm_customer_key
+      WHERE o.is_order_sm_valid = TRUE
+        AND o.order_cancelled_at IS NULL
+        AND o.order_processed_at_local_datetime >= c.first_order_at_local_datetime
+        AND o.order_processed_at_local_datetime < DATETIME_ADD(c.first_order_at_local_datetime, INTERVAL 90 DAY)
+      GROUP BY 1, 2
+    )
+    SELECT
+      first_order_discount_code AS discount_code,
+      COUNT(*) AS customers,
+      AVG(ltv_90d) AS avg_ltv_90d,
+      SUM(ltv_90d) AS total_ltv_90d
+    FROM customer_90d_ltv
+    GROUP BY 1
+    HAVING customers >= 50
+    ORDER BY avg_ltv_90d DESC
+    LIMIT 25;
+    ```
+  </Accordion>
+
+  <Accordion title="First-order refund rate by acquisition source/medium (first valid orders in last 12 months)">
+    **What you'll learn:** Which acquisition source/mediums produce higher refund rates on the **first valid order** (by order count and by revenue). This is a common “traffic quality” question and helps spot channels driving mismatched expectations.
+
+    ```sql
+    -- Assumptions: timeframe=first_valid_orders_last_12_months | metric=first_order_refund_rate | grain=first_order_source_medium | scope=valid_orders_only
+    WITH first_valid_orders AS (
+      SELECT
+        sm_customer_key,
+        sm_order_key,
+        COALESCE(NULLIF(LOWER(TRIM(sm_utm_source_medium)), ''), '(none) / (none)') AS first_order_source_medium,
+        order_total_refunds,
+        order_net_revenue_before_refunds
+      FROM `your_project.sm_transformed_v2.obt_orders`
+      WHERE is_order_sm_valid = TRUE
+        AND order_cancelled_at IS NULL
+        AND sm_customer_key IS NOT NULL
+        AND sm_valid_order_index = 1
+        AND DATE(order_processed_at_local_datetime) >= DATE_SUB(CURRENT_DATE(), INTERVAL 365 DAY)
+    )
+    SELECT
+      first_order_source_medium AS source_medium,
+      COUNT(DISTINCT sm_order_key) AS first_orders,
+      COUNTIF(ABS(order_total_refunds) > 0) AS refunded_first_orders,
+      SAFE_DIVIDE(COUNTIF(ABS(order_total_refunds) > 0), NULLIF(COUNT(DISTINCT sm_order_key), 0)) AS refund_rate_orders,
+      ABS(SUM(order_total_refunds)) AS refund_amount,
+      SUM(order_net_revenue_before_refunds) AS revenue_before_refunds,
+      SAFE_DIVIDE(ABS(SUM(order_total_refunds)), NULLIF(SUM(order_net_revenue_before_refunds), 0)) AS refund_rate_revenue
+    FROM first_valid_orders
+    GROUP BY 1
+    HAVING first_orders >= 200
+    ORDER BY refund_rate_revenue DESC
+    LIMIT 25;
+    ```
+  </Accordion>
+
+  <Accordion title="90‑day LTV by first-order source system and sales channel (last 12 months)">
+    **What you'll learn:** How 90‑day LTV differs by the commerce platform (`source_system`) and sales channel (`sm_channel`) of the first valid order. This helps separate marketplace/POS behavior from online DTC without mixing attribution concepts.
+
+    ```sql
+    -- Assumptions: timeframe=first_valid_orders_last_12_months | metric=90d_LTV | grain=first_order_source_system+sm_channel | scope=valid_orders_only
+    WITH first_valid_orders AS (
+      SELECT
+        sm_customer_key,
+        order_processed_at_local_datetime AS first_order_at_local_datetime,
+        COALESCE(NULLIF(LOWER(TRIM(source_system)), ''), '(unknown)') AS first_order_source_system,
+        COALESCE(NULLIF(LOWER(TRIM(sm_channel)), ''), '(unknown)') AS first_order_sm_channel
+      FROM `your_project.sm_transformed_v2.obt_orders`
+      WHERE is_order_sm_valid = TRUE
+        AND order_cancelled_at IS NULL
+        AND sm_customer_key IS NOT NULL
+        AND sm_valid_order_index = 1
+        AND DATE(order_processed_at_local_datetime) >= DATE_SUB(CURRENT_DATE(), INTERVAL 365 DAY)
+    ),
+    customer_90d_ltv AS (
+      SELECT
+        fo.first_order_source_system,
+        fo.first_order_sm_channel,
+        fo.sm_customer_key,
+        SUM(o.order_net_revenue) AS ltv_90d
+      FROM first_valid_orders fo
+      INNER JOIN `your_project.sm_transformed_v2.obt_orders` o
+        ON o.sm_customer_key = fo.sm_customer_key
+      WHERE o.is_order_sm_valid = TRUE
+        AND o.order_cancelled_at IS NULL
+        AND o.order_processed_at_local_datetime >= fo.first_order_at_local_datetime
+        AND o.order_processed_at_local_datetime < DATETIME_ADD(fo.first_order_at_local_datetime, INTERVAL 90 DAY)
+      GROUP BY 1, 2, 3
+    )
+    SELECT
+      first_order_source_system AS source_system,
+      first_order_sm_channel AS sm_channel,
+      COUNT(*) AS customers,
+      AVG(ltv_90d) AS avg_ltv_90d,
+      SUM(ltv_90d) AS total_ltv_90d
+    FROM customer_90d_ltv
+    GROUP BY 1, 2
+    HAVING customers >= 200
+    ORDER BY avg_ltv_90d DESC
+    LIMIT 50;
+    ```
+  </Accordion>
+
+  <Accordion title="Cohort-table vs dynamic reconciliation (6m vs 180d) for source/medium (last 6 cohort months)">
+    **What you'll learn:** A sanity check to reconcile precomputed cohort-table LTV (month-offset based) with a dynamic 180-day LTV window from `obt_orders`. Differences can indicate mismatched cohort definitions or expectation gaps (month buckets vs day windows).
+
+    ```sql
+    -- Assumptions: timeframe=last_6_cohort_months | metric=ltv_reconciliation | grain=cohort_month+source_medium | scope=cohort_table_vs_dynamic
+    WITH cohort_table AS (
+      SELECT
+        cohort_month,
+        COALESCE(NULLIF(LOWER(TRIM(acquisition_order_filter_dimension_value)), ''), '(none) / (none)') AS source_medium,
+        ANY_VALUE(cohort_size) AS cohort_size,
+        MAX(IF(months_since_first_order = 6, cumulative_order_net_revenue, NULL)) AS cumulative_order_net_revenue_m6
+      FROM `your_project.sm_transformed_v2.rpt_cohort_ltv_by_first_valid_purchase_attribute_no_product_filters`
+      WHERE acquisition_order_filter_dimension = 'source/medium'
+        AND sm_order_line_type = 'all_orders'
+        AND cohort_month >= DATE_SUB(DATE_TRUNC(CURRENT_DATE(), MONTH), INTERVAL 6 MONTH)
+        AND months_since_first_order = 6
+      GROUP BY 1, 2
+    ),
+    first_valid_orders AS (
+      SELECT
+        sm_customer_key,
+        order_processed_at_local_datetime AS first_order_at_local_datetime,
+        DATE_TRUNC(DATE(order_processed_at_local_datetime), MONTH) AS cohort_month,
+        COALESCE(NULLIF(LOWER(TRIM(sm_utm_source_medium)), ''), '(none) / (none)') AS source_medium
+      FROM `your_project.sm_transformed_v2.obt_orders`
+      WHERE is_order_sm_valid = TRUE
+        AND order_cancelled_at IS NULL
+        AND sm_customer_key IS NOT NULL
+        AND sm_valid_order_index = 1
+        AND DATE(order_processed_at_local_datetime) >= DATE_SUB(DATE_TRUNC(CURRENT_DATE(), MONTH), INTERVAL 6 MONTH)
+    ),
+    dynamic_180d AS (
+      SELECT
+        fo.cohort_month,
+        fo.source_medium,
+        fo.sm_customer_key,
+        SUM(o.order_net_revenue) AS ltv_180d
+      FROM first_valid_orders fo
+      INNER JOIN `your_project.sm_transformed_v2.obt_orders` o
+        ON o.sm_customer_key = fo.sm_customer_key
+      WHERE o.is_order_sm_valid = TRUE
+        AND o.order_cancelled_at IS NULL
+        AND o.order_processed_at_local_datetime >= fo.first_order_at_local_datetime
+        AND o.order_processed_at_local_datetime < DATETIME_ADD(fo.first_order_at_local_datetime, INTERVAL 180 DAY)
+      GROUP BY 1, 2, 3
+    ),
+    dynamic_rollup AS (
+      SELECT
+        cohort_month,
+        source_medium,
+        COUNT(*) AS cohort_customers_dynamic,
+        AVG(ltv_180d) AS ltv_net_per_customer_180d
+      FROM dynamic_180d
+      GROUP BY 1, 2
+    )
+    SELECT
+      d.cohort_month,
+      d.source_medium,
+      d.cohort_customers_dynamic,
+      d.ltv_net_per_customer_180d,
+      c.cohort_size AS cohort_customers_table,
+      SAFE_DIVIDE(c.cumulative_order_net_revenue_m6, NULLIF(c.cohort_size, 0)) AS ltv_net_per_customer_m6,
+      d.ltv_net_per_customer_180d - SAFE_DIVIDE(c.cumulative_order_net_revenue_m6, NULLIF(c.cohort_size, 0)) AS diff_dynamic_minus_table,
+      SAFE_DIVIDE(
+        d.ltv_net_per_customer_180d - SAFE_DIVIDE(c.cumulative_order_net_revenue_m6, NULLIF(c.cohort_size, 0)),
+        NULLIF(SAFE_DIVIDE(c.cumulative_order_net_revenue_m6, NULLIF(c.cohort_size, 0)), 0)
+      ) AS pct_diff_dynamic_vs_table
+    FROM dynamic_rollup d
+    LEFT JOIN cohort_table c
+      ON d.cohort_month = c.cohort_month
+      AND d.source_medium = c.source_medium
+    WHERE d.cohort_customers_dynamic >= 200
+    ORDER BY ABS(pct_diff_dynamic_vs_table) DESC
+    LIMIT 50;
+    ```
+  </Accordion>
+
   <Accordion title="Which initial products lead to the highest 90‑day LTV? (primary first‑order SKU, last 12 months)">
     **What you'll learn:** Which **primary first‑order SKU** (one SKU per customer, chosen as the highest net‑revenue line item on the first valid order) is associated with higher 90‑day LTV. Use this to identify “starter products” to feature in acquisition campaigns and new customer bundles.
 

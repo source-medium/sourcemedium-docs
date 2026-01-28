@@ -174,6 +174,22 @@ Why these queries:
 - They are reusable across tenants and avoid hard-coded campaign/source mappings (discovery-first instead).
 - They explicitly surface edge cases that skew analysis (e.g., $0 replacement orders; multiple discount codes).
 
+### Batch 8 (planned — LTV × attribution intersections)
+
+Target: the “hard but common” questions where people mix up attribution dimensions, cohort anchors, and LTV windows (especially when they need order-level + order-line context without double counting).
+
+Proposed queries (5–7; likely 5):
+1) **90‑day LTV by first-order source/medium (dynamic)** (`obt_orders`)
+2) **90‑day LTV by first-order discount code (single-code only + no-code baseline)** (`obt_orders`)
+3) **First-order refund rate by acquisition source/medium** (`obt_orders`)
+4) **90‑day LTV by first-order source system + sales channel** (`obt_orders`)
+5) **Cohort-table vs dynamic reconciliation (6m vs 180d) for source/medium** (cohort table + `obt_orders`)
+
+Why these queries:
+- They answer exec-level questions customers ask (“which channels bring valuable customers?”) while being explicit about anchors and time windows.
+- They reduce a common failure mode: confusing `source_system` vs `sm_channel` vs `sm_utm_source_medium`.
+- They include a reconciliation template to prevent subtle misreads between precomputed cohort tables and dynamic windowed LTV.
+
 ## Query Entry Format (Canonical Metadata)
 
 Each query should have consistent metadata so it can be searched, deduped, and QA’d.
