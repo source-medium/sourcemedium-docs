@@ -30,7 +30,7 @@ If you're not sure which table to use, start with: [`obt_orders`](/data-activati
 | [Products](#products) | Top products by revenue/units, gateway products, product combos |
 | [Orders & Revenue](#orders--revenue) | AOV by channel, subscription revenue, refund rates, sales channel mix |
 | [LTV & Retention](#ltv--retention) | Cohort LTV, payback period, LTV:CAC, repeat purchase rates, 90-day LTV by product |
-| [Attribution & Data Health](#attribution--data-health) | Table freshness, UTM coverage, fallback signals, click-id coverage |
+| [Attribution & Data Health](#attribution--data-health) | Table freshness, UTM coverage, fallback signals, click-id coverage, tracking regressions |
 
 ---
 
@@ -1516,6 +1516,300 @@ If you want table-level freshness/coverage metadata, start with: [`dim_data_dict
     FROM base
     GROUP BY 1
     ORDER BY week_start;
+    ```
+  </Accordion>
+</AccordionGroup>
+
+<Info>
+These are deeper-dive investigations for when attribution looks “weird” (too much direct/unattributed), or when downstream metrics are being skewed by edge-case orders.
+</Info>
+
+<AccordionGroup>
+  <Accordion title="$0 / negative net-revenue order share by source/medium (last 90 days)">
+    **What you'll learn:** Which source/mediums have an unusually high share of valid orders with `order_net_revenue = 0` (or negative). This often indicates replacements/comp orders or heavy discounts that can skew repeat/retention metrics.
+
+    ```sql
+    -- Assumptions: timeframe=last_90_days | metric=paid_vs_zero_vs_negative_order_share | grain=source_medium | scope=valid_orders_only
+    WITH base AS (
+      SELECT
+        COALESCE(NULLIF(LOWER(TRIM(sm_utm_source_medium)), ''), '(none) / (none)') AS source_medium,
+        sm_order_key,
+        order_net_revenue
+      FROM `your_project.sm_transformed_v2.obt_orders`
+      WHERE is_order_sm_valid = TRUE
+        AND order_cancelled_at IS NULL
+        AND DATE(order_processed_at_local_datetime) >= DATE_SUB(CURRENT_DATE(), INTERVAL 90 DAY)
+    )
+    SELECT
+      source_medium,
+      COUNT(DISTINCT sm_order_key) AS orders,
+      SUM(order_net_revenue) AS order_net_revenue,
+      COUNTIF(order_net_revenue > 0) AS paid_orders,
+      SAFE_DIVIDE(COUNTIF(order_net_revenue > 0), NULLIF(COUNT(DISTINCT sm_order_key), 0)) AS pct_paid_orders,
+      COUNTIF(order_net_revenue = 0) AS zero_net_revenue_orders,
+      SAFE_DIVIDE(COUNTIF(order_net_revenue = 0), NULLIF(COUNT(DISTINCT sm_order_key), 0)) AS pct_zero_net_revenue_orders,
+      COUNTIF(order_net_revenue < 0) AS negative_net_revenue_orders,
+      SAFE_DIVIDE(COUNTIF(order_net_revenue < 0), NULLIF(COUNT(DISTINCT sm_order_key), 0)) AS pct_negative_net_revenue_orders
+    FROM base
+    GROUP BY 1
+    HAVING orders >= 200
+    ORDER BY pct_zero_net_revenue_orders DESC, orders DESC
+    LIMIT 50;
+    ```
+  </Accordion>
+
+  <Accordion title="Unattributed share by source system and sales channel (last 90 days)">
+    **What you'll learn:** Where unattributed orders are coming from by commerce platform (`source_system`) and sales channel (`sm_channel`). Some channels (e.g., marketplaces or POS) naturally have lower UTM coverage—this helps separate “expected” vs “broken tracking.”
+
+    ```sql
+    -- Assumptions: timeframe=last_90_days | metric=unattributed_share | grain=source_system+sm_channel | scope=valid_orders_only
+    WITH base AS (
+      SELECT
+        source_system,
+        sm_channel,
+        COALESCE(NULLIF(LOWER(TRIM(sm_utm_source_medium)), ''), '(none) / (none)') AS source_medium,
+        sm_order_key,
+        order_net_revenue
+      FROM `your_project.sm_transformed_v2.obt_orders`
+      WHERE is_order_sm_valid = TRUE
+        AND order_cancelled_at IS NULL
+        AND DATE(order_processed_at_local_datetime) >= DATE_SUB(CURRENT_DATE(), INTERVAL 90 DAY)
+        AND source_system IS NOT NULL
+        AND sm_channel IS NOT NULL
+    )
+    SELECT
+      source_system,
+      sm_channel,
+      COUNT(DISTINCT sm_order_key) AS orders,
+      SUM(order_net_revenue) AS order_net_revenue,
+      COUNTIF(source_medium = '(none) / (none)') AS unattributed_orders,
+      SAFE_DIVIDE(COUNTIF(source_medium = '(none) / (none)'), NULLIF(COUNT(DISTINCT sm_order_key), 0)) AS pct_orders_unattributed,
+      SAFE_DIVIDE(
+        SUM(CASE WHEN source_medium = '(none) / (none)' THEN order_net_revenue ELSE 0 END),
+        NULLIF(SUM(order_net_revenue), 0)
+      ) AS pct_revenue_unattributed
+    FROM base
+    GROUP BY 1, 2
+    HAVING orders >= 200
+    ORDER BY pct_revenue_unattributed DESC, orders DESC
+    LIMIT 100;
+    ```
+  </Accordion>
+
+  <Accordion title="Top landing pages for direct traffic orders (last 90 days)">
+    **What you'll learn:** Which landing pages are most associated with “direct” orders (based on `sm_utm_source_medium`)—and whether landing page capture is missing. This helps diagnose tracking gaps (e.g., missing UTMs or missing landing-page capture on key entry flows).
+
+    ```sql
+    -- Assumptions: timeframe=last_90_days | metric=orders+net_revenue | grain=landing_host+landing_path | scope=valid_orders_only_direct
+    WITH base AS (
+      SELECT
+        sm_order_key,
+        order_net_revenue,
+        NULLIF(TRIM(sm_order_landing_page), '') AS sm_order_landing_page
+      FROM `your_project.sm_transformed_v2.obt_orders`
+      WHERE is_order_sm_valid = TRUE
+        AND order_cancelled_at IS NULL
+        AND DATE(order_processed_at_local_datetime) >= DATE_SUB(CURRENT_DATE(), INTERVAL 90 DAY)
+        AND COALESCE(NULLIF(LOWER(TRIM(sm_utm_source_medium)), ''), '(none) / (none)') IN ('(direct) / (none)', 'direct / (none)')
+    ),
+    parsed AS (
+      SELECT
+        sm_order_key,
+        order_net_revenue,
+        REGEXP_EXTRACT(sm_order_landing_page, r'^(?:https?://)?([^/?#]+)') AS landing_host,
+        REGEXP_EXTRACT(sm_order_landing_page, r'^(?:https?://)?[^/?#]+(/[^?#]*)') AS landing_path
+      FROM base
+    )
+    SELECT
+      COALESCE(NULLIF(LOWER(TRIM(landing_host)), ''), '(missing_landing_page)') AS landing_host,
+      COALESCE(NULLIF(landing_path, ''), '(missing_landing_page)') AS landing_path,
+      COUNT(DISTINCT sm_order_key) AS orders,
+      SUM(order_net_revenue) AS order_net_revenue
+    FROM parsed
+    GROUP BY 1, 2
+    HAVING orders >= 25
+    ORDER BY order_net_revenue DESC
+    LIMIT 50;
+    ```
+  </Accordion>
+
+  <Accordion title="Attribution health trend with week-over-week deltas (weekly)">
+    **What you'll learn:** A “tracking regression detector”: week-over-week changes in unattributed/direct order share and revenue share. Sudden jumps typically indicate tagging/measurement changes.
+
+    ```sql
+    -- Assumptions: timeframe=last_26_weeks | metric=utm_coverage+direct_share+unattributed_share+wow_deltas | grain=week | scope=valid_orders_only
+    WITH base AS (
+      SELECT
+        DATE_TRUNC(DATE(order_processed_at_local_datetime), WEEK(MONDAY)) AS week_start,
+        COALESCE(NULLIF(LOWER(TRIM(sm_utm_source_medium)), ''), '(none) / (none)') AS source_medium,
+        sm_order_key,
+        order_net_revenue
+      FROM `your_project.sm_transformed_v2.obt_orders`
+      WHERE is_order_sm_valid = TRUE
+        AND order_cancelled_at IS NULL
+        AND DATE(order_processed_at_local_datetime) >= DATE_SUB(CURRENT_DATE(), INTERVAL 182 DAY)
+    ),
+    weekly AS (
+      SELECT
+        week_start,
+        COUNT(DISTINCT sm_order_key) AS orders,
+        SUM(order_net_revenue) AS order_net_revenue,
+        COUNTIF(source_medium = '(none) / (none)') AS unattributed_orders,
+        SUM(CASE WHEN source_medium = '(none) / (none)' THEN order_net_revenue ELSE 0 END) AS unattributed_revenue,
+        COUNTIF(source_medium IN ('(direct) / (none)', 'direct / (none)')) AS direct_orders,
+        SUM(CASE WHEN source_medium IN ('(direct) / (none)', 'direct / (none)') THEN order_net_revenue ELSE 0 END) AS direct_revenue,
+        COUNTIF(source_medium != '(none) / (none)') AS orders_with_utm_source_medium
+      FROM base
+      GROUP BY 1
+    ),
+    metrics AS (
+      SELECT
+        week_start,
+        orders,
+        order_net_revenue,
+        SAFE_DIVIDE(orders_with_utm_source_medium, NULLIF(orders, 0)) AS pct_orders_with_utm_source_medium,
+        SAFE_DIVIDE(unattributed_orders, NULLIF(orders, 0)) AS pct_orders_unattributed,
+        SAFE_DIVIDE(unattributed_revenue, NULLIF(order_net_revenue, 0)) AS pct_revenue_unattributed,
+        SAFE_DIVIDE(direct_orders, NULLIF(orders, 0)) AS pct_orders_direct,
+        SAFE_DIVIDE(direct_revenue, NULLIF(order_net_revenue, 0)) AS pct_revenue_direct
+      FROM weekly
+    )
+    SELECT
+      week_start,
+      orders,
+      order_net_revenue,
+      pct_orders_with_utm_source_medium,
+      pct_orders_unattributed,
+      pct_orders_unattributed - LAG(pct_orders_unattributed) OVER (ORDER BY week_start) AS delta_pct_orders_unattributed,
+      pct_revenue_unattributed,
+      pct_revenue_unattributed - LAG(pct_revenue_unattributed) OVER (ORDER BY week_start) AS delta_pct_revenue_unattributed,
+      pct_orders_direct,
+      pct_orders_direct - LAG(pct_orders_direct) OVER (ORDER BY week_start) AS delta_pct_orders_direct,
+      pct_revenue_direct,
+      pct_revenue_direct - LAG(pct_revenue_direct) OVER (ORDER BY week_start) AS delta_pct_revenue_direct
+    FROM metrics
+    ORDER BY week_start;
+    ```
+  </Accordion>
+
+  <Accordion title="UTM source/medium discovery (top normalized values, last 90 days)">
+    **What you'll learn:** What your UTM `source/medium` values actually look like in practice (normalized with `LOWER(TRIM())`). Use this to discover the exact strings you should filter on—without guessing.
+
+    ```sql
+    -- Assumptions: timeframe=last_90_days | metric=orders+net_revenue | grain=source_medium | scope=valid_orders_only
+    WITH base AS (
+      SELECT
+        COALESCE(NULLIF(LOWER(TRIM(sm_utm_source_medium)), ''), '(none) / (none)') AS source_medium,
+        sm_order_key,
+        order_net_revenue
+      FROM `your_project.sm_transformed_v2.obt_orders`
+      WHERE is_order_sm_valid = TRUE
+        AND order_cancelled_at IS NULL
+        AND DATE(order_processed_at_local_datetime) >= DATE_SUB(CURRENT_DATE(), INTERVAL 90 DAY)
+    )
+    SELECT
+      source_medium,
+      COUNT(DISTINCT sm_order_key) AS orders,
+      SUM(order_net_revenue) AS order_net_revenue,
+      SAFE_DIVIDE(COUNT(DISTINCT sm_order_key), NULLIF(SUM(COUNT(DISTINCT sm_order_key)) OVER (), 0)) AS pct_orders,
+      SAFE_DIVIDE(SUM(order_net_revenue), NULLIF(SUM(SUM(order_net_revenue)) OVER (), 0)) AS pct_revenue
+    FROM base
+    GROUP BY 1
+    ORDER BY orders DESC
+    LIMIT 50;
+    ```
+  </Accordion>
+
+  <Accordion title="Join-key coverage trend (weekly missing customer keys + missing SKUs)">
+    **What you'll learn:** Whether key join fields are getting worse over time. Spikes in missing `sm_customer_key` (orders) or missing `sku` (order lines) will break customer-level and product-level analysis.
+
+    ```sql
+    -- Assumptions: timeframe=last_26_weeks | metric=missing_key_trends | grain=week | scope=valid_orders_only
+    WITH orders_weekly AS (
+      SELECT
+        DATE_TRUNC(DATE(order_processed_at_local_datetime), WEEK(MONDAY)) AS week_start,
+        COUNT(*) AS orders_total,
+        COUNTIF(sm_customer_key IS NULL) AS orders_missing_customer_key
+      FROM `your_project.sm_transformed_v2.obt_orders`
+      WHERE is_order_sm_valid = TRUE
+        AND order_cancelled_at IS NULL
+        AND DATE(order_processed_at_local_datetime) >= DATE_SUB(CURRENT_DATE(), INTERVAL 182 DAY)
+      GROUP BY 1
+    ),
+    lines_weekly AS (
+      SELECT
+        DATE_TRUNC(DATE(order_processed_at_local_datetime), WEEK(MONDAY)) AS week_start,
+        COUNT(*) AS lines_total,
+        COUNTIF(sku IS NULL OR TRIM(sku) = '' OR sku = 'Missing SKU') AS lines_missing_sku
+      FROM `your_project.sm_transformed_v2.obt_order_lines`
+      WHERE is_order_sm_valid = TRUE
+        AND DATE(order_processed_at_local_datetime) >= DATE_SUB(CURRENT_DATE(), INTERVAL 182 DAY)
+      GROUP BY 1
+    )
+    SELECT
+      o.week_start,
+      o.orders_total,
+      o.orders_missing_customer_key,
+      SAFE_DIVIDE(o.orders_missing_customer_key, NULLIF(o.orders_total, 0)) AS pct_orders_missing_customer_key,
+      l.lines_total,
+      l.lines_missing_sku,
+      SAFE_DIVIDE(l.lines_missing_sku, NULLIF(l.lines_total, 0)) AS pct_lines_missing_sku
+    FROM orders_weekly o
+    LEFT JOIN lines_weekly l
+      USING (week_start)
+    ORDER BY o.week_start;
+    ```
+  </Accordion>
+
+  <Accordion title="Multiple discount codes prevalence (double-counting risk, last 90 days)">
+    **What you'll learn:** How often orders have multiple discount codes applied. This matters because any “revenue by discount code” view will double-count revenue across codes when multiple codes exist.
+
+    ```sql
+    -- Assumptions: timeframe=last_90_days | metric=discount_code_multiplicity | grain=code_count_bucket | scope=valid_orders_only
+    WITH base AS (
+      SELECT
+        sm_order_key,
+        order_net_revenue,
+        order_discount_codes_csv
+      FROM `your_project.sm_transformed_v2.obt_orders`
+      WHERE is_order_sm_valid = TRUE
+        AND order_cancelled_at IS NULL
+        AND DATE(order_processed_at_local_datetime) >= DATE_SUB(CURRENT_DATE(), INTERVAL 90 DAY)
+        AND order_discount_codes_csv IS NOT NULL
+        AND TRIM(order_discount_codes_csv) NOT IN ('', '(none)')
+    ),
+    code_counts AS (
+      SELECT
+        sm_order_key,
+        order_net_revenue,
+        ARRAY_LENGTH(
+          ARRAY(
+            SELECT TRIM(code_raw)
+            FROM UNNEST(SPLIT(order_discount_codes_csv, ',')) AS code_raw
+            WHERE TRIM(code_raw) != ''
+          )
+        ) AS code_count
+      FROM base
+    ),
+    bucketed AS (
+      SELECT
+        sm_order_key,
+        order_net_revenue,
+        LEAST(code_count, 5) AS code_count_bucket
+      FROM code_counts
+    )
+    SELECT
+      CASE code_count_bucket
+        WHEN 5 THEN '5+'
+        ELSE CAST(code_count_bucket AS STRING)
+      END AS code_count_bucket,
+      COUNT(DISTINCT sm_order_key) AS orders,
+      SAFE_DIVIDE(COUNT(DISTINCT sm_order_key), NULLIF(SUM(COUNT(DISTINCT sm_order_key)) OVER (), 0)) AS pct_orders,
+      SUM(order_net_revenue) AS order_net_revenue,
+      SAFE_DIVIDE(SUM(order_net_revenue), NULLIF(SUM(SUM(order_net_revenue)) OVER (), 0)) AS pct_revenue
+    FROM bucketed
+    GROUP BY 1, code_count_bucket
+    ORDER BY code_count_bucket;
     ```
   </Accordion>
 </AccordionGroup>

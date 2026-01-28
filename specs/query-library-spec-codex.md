@@ -156,6 +156,24 @@ Why these queries:
   - order-level analysis (`obt_orders`)
   - product attribute analysis at scale (`obt_order_lines`)
 
+### Batch 7 (planned — attribution + data health stumpers)
+
+Target: high-signal investigations that commonly stump analysts when attribution looks “broken” (too much direct/unattributed), or when downstream metrics are skewed by edge-case orders.
+
+Proposed queries (6–8; likely 7):
+1) **$0 / negative net-revenue order share by source/medium** (diagnostic; `obt_orders`)
+2) **Unattributed share by `source_system` + `sm_channel`** (diagnostic; `obt_orders`)
+3) **Top landing pages for direct traffic orders** (investigation; `obt_orders`)
+4) **Attribution health trend with week-over-week deltas** (regression detector; `obt_orders`)
+5) **UTM source/medium discovery (top normalized values, last 90 days)** (exploration; `obt_orders`)
+6) **Join-key coverage trend (weekly missing `sm_customer_key` + missing SKU)** (data health; `obt_orders` + `obt_order_lines`)
+7) **Multiple discount codes prevalence (double-counting risk)** (diagnostic; `obt_orders`)
+
+Why these queries:
+- They cover the “what changed?” and “why is attribution weird?” workflows that dashboards usually don’t answer.
+- They are reusable across tenants and avoid hard-coded campaign/source mappings (discovery-first instead).
+- They explicitly surface edge cases that skew analysis (e.g., $0 replacement orders; multiple discount codes).
+
 ## Query Entry Format (Canonical Metadata)
 
 Each query should have consistent metadata so it can be searched, deduped, and QA’d.
