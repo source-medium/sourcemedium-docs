@@ -62,7 +62,7 @@ Your data point of contact should **independently validate** each result:
 -- 4. Verify the time ranges and filters match your intent
 
 SELECT
-  SUM(sm_last_touch_revenue) / NULLIF(SUM(ad_spend), 0) AS roas
+  SAFE_DIVIDE(SUM(sm_last_touch_revenue), SUM(ad_spend)) AS roas
 FROM `your_project.sm_experimental.rpt_ad_attribution_performance_daily`
 WHERE sm_store_id = 'your-sm_store_id'
   AND date BETWEEN DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY) AND CURRENT_DATE()
@@ -113,8 +113,14 @@ Once your core questions are validated, establish clear guidelines:
 ### Feedback
 Every AI Analyst response includes a feedback button. Use it to report incorrect answers or flag issues—we review all feedback and use it to improve the system. See [Feedback](/ai-analyst#feedback) for details.
 
-### Automated Evaluation (Coming Soon)
-We're building tooling to automatically run your canonical questions on a schedule and alert you to changes in results.
+### Automate Re-validation Today (DIY)
+If you want automated evaluation now, you can build a lightweight workflow using existing tools:
+
+1. **Save your canonical question set** — Copy the validated SQL from AI Analyst into a shared doc or version-controlled repo (one query per question).
+2. **Schedule re-runs** — Use BigQuery Scheduled Queries (or your existing orchestrator) to run those queries daily/weekly and write outputs into a small `ai_analyst_eval_runs` table.
+3. **Review drift** — Track changes across runs and re-validate when results move materially (often caused by upstream data backfills, attribution configuration changes, or logic updates).
+
+The goal of automation is not to “prove correctness forever,” but to catch drift early so your team re-validates before numbers make it into reports.
 
 ## Summary
 
