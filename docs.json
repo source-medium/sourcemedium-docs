@@ -516,7 +516,7 @@
                 ]
               },
               {
-                "group": "SQL Recipes",
+                "group": "SQL Query Library",
                 "pages": [
                   "data-activation/template-resources/sql-query-library"
                 ]
@@ -661,7 +661,6 @@
             "pages": [
               "ai-analyst/index",
               "ai-analyst/what-you-can-ask",
-              "ai-analyst/query-library/index",
               "ai-analyst/setup",
               "ai-analyst/understanding-results",
               "ai-analyst/building-trust"
