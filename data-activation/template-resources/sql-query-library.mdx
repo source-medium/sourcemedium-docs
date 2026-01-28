@@ -653,7 +653,7 @@ These templates help you assess attribution coverage and basic data health befor
 If you want table-level freshness/coverage metadata, start with: [`dim_data_dictionary`](/data-activation/data-tables/sm_metadata/dim_data_dictionary).
 
 <AccordionGroup>
-  <Accordion title="DQ01 — Which tables are stale or missing data? (last known data date)">
+  <Accordion title="Which tables are stale or missing data?">
     ```sql
     -- Assumptions: timeframe=all_time | metric=table_freshness | grain=dataset+table | scope=sm_metadata
     SELECT
@@ -673,7 +673,7 @@ If you want table-level freshness/coverage metadata, start with: [`dim_data_dict
     ```
   </Accordion>
 
-  <Accordion title="DQ02 — Attribution column coverage on orders (UTMs, discount codes, zero-party, landing/referrer)">
+  <Accordion title="Attribution column coverage on orders">
     ```sql
     -- Assumptions: timeframe=all_time | metric=column_coverage | grain=column | scope=sm_metadata_obt_orders
     WITH cols AS (
@@ -709,49 +709,7 @@ If you want table-level freshness/coverage metadata, start with: [`dim_data_dict
     ```
   </Accordion>
 
-  <Accordion title="DQ03 — Orders by source/medium (UTM coverage + direct/missing share, last 30 days)">
-    ```sql
-    -- Assumptions: timeframe=last_30_days | metric=orders+net_revenue+utm_coverage | grain=sm_utm_source_medium | scope=valid_orders_only
-    WITH base AS (
-      SELECT
-        COALESCE(NULLIF(LOWER(TRIM(sm_utm_source_medium)), ''), '(none) / (none)') AS source_medium,
-        sm_order_key,
-        order_net_revenue
-      FROM `your_project.sm_transformed_v2.obt_orders`
-      WHERE is_order_sm_valid = TRUE
-        AND order_cancelled_at IS NULL
-        AND DATE(order_processed_at_local_datetime) >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)
-    ),
-    agg AS (
-      SELECT
-        source_medium,
-        COUNT(DISTINCT sm_order_key) AS orders,
-        SUM(order_net_revenue) AS order_net_revenue
-      FROM base
-      GROUP BY 1
-    ),
-    totals AS (
-      SELECT
-        COUNT(DISTINCT sm_order_key) AS total_orders,
-        SUM(order_net_revenue) AS total_revenue,
-        COUNTIF(source_medium != '(none) / (none)') AS orders_with_utm_source_medium
-      FROM base
-    )
-    SELECT
-      a.source_medium,
-      a.orders,
-      a.order_net_revenue,
-      SAFE_DIVIDE(a.orders, NULLIF(t.total_orders, 0)) AS pct_orders,
-      SAFE_DIVIDE(a.order_net_revenue, NULLIF(t.total_revenue, 0)) AS pct_revenue,
-      SAFE_DIVIDE(t.orders_with_utm_source_medium, NULLIF(t.total_orders, 0)) AS overall_utm_coverage_orders
-    FROM agg a
-    CROSS JOIN totals t
-    ORDER BY a.order_net_revenue DESC
-    LIMIT 50;
-    ```
-  </Accordion>
-
-  <Accordion title="DQ04 — When UTMs are missing, what other attribution signals exist? (last 90 days)">
+  <Accordion title="When UTMs are missing, what other attribution signals exist?">
     ```sql
     -- Assumptions: timeframe=last_90_days | metric=fallback_coverage | grain=overall | scope=valid_orders_only_missing_utms
     WITH missing_utms AS (
@@ -795,7 +753,7 @@ If you want table-level freshness/coverage metadata, start with: [`dim_data_dict
     ```
   </Accordion>
 
-  <Accordion title="DQ05 — Top referrer domains for orders missing UTMs (last 90 days)">
+  <Accordion title="Top referrer domains for orders missing UTMs">
     ```sql
     -- Assumptions: timeframe=last_90_days | metric=orders+net_revenue | grain=referrer_domain | scope=valid_orders_only_missing_utms
     WITH base AS (
@@ -821,7 +779,7 @@ If you want table-level freshness/coverage metadata, start with: [`dim_data_dict
     ```
   </Accordion>
 
-  <Accordion title="DQ06 — Key join-key completeness (customers + SKU coverage, last 30 days)">
+  <Accordion title="Key join-key completeness (customers + SKU coverage)">
     ```sql
     -- Assumptions: timeframe=last_30_days | metric=null_rate_checks | grain=overall | scope=valid_orders_only
     WITH orders AS (
@@ -850,6 +808,190 @@ If you want table-level freshness/coverage metadata, start with: [`dim_data_dict
       SAFE_DIVIDE(lines_missing_sku, NULLIF(lines_total, 0)) AS pct_lines_missing_sku
     FROM orders
     CROSS JOIN lines;
+    ```
+  </Accordion>
+
+  <Accordion title="Attribution health trend (weekly)">
+    ```sql
+    -- Assumptions: timeframe=last_26_weeks | metric=utm_coverage+direct_share+unattributed_share | grain=week | scope=valid_orders_only
+    WITH base AS (
+      SELECT
+        DATE_TRUNC(DATE(order_processed_at_local_datetime), WEEK(MONDAY)) AS week_start,
+        COALESCE(NULLIF(LOWER(TRIM(sm_utm_source_medium)), ''), '(none) / (none)') AS source_medium,
+        sm_order_key,
+        order_net_revenue
+      FROM `your_project.sm_transformed_v2.obt_orders`
+      WHERE is_order_sm_valid = TRUE
+        AND order_cancelled_at IS NULL
+        AND DATE(order_processed_at_local_datetime) >= DATE_SUB(CURRENT_DATE(), INTERVAL 182 DAY)
+    ),
+    weekly AS (
+      SELECT
+        week_start,
+        COUNT(DISTINCT sm_order_key) AS orders,
+        SUM(order_net_revenue) AS order_net_revenue,
+        COUNTIF(source_medium = '(none) / (none)') AS unattributed_orders,
+        SUM(CASE WHEN source_medium = '(none) / (none)' THEN order_net_revenue ELSE 0 END) AS unattributed_revenue,
+        COUNTIF(source_medium IN ('(direct) / (none)', 'direct / (none)')) AS direct_orders,
+        SUM(CASE WHEN source_medium IN ('(direct) / (none)', 'direct / (none)') THEN order_net_revenue ELSE 0 END) AS direct_revenue,
+        COUNTIF(source_medium != '(none) / (none)') AS orders_with_utm_source_medium
+      FROM base
+      GROUP BY 1
+    )
+    SELECT
+      week_start,
+      orders,
+      order_net_revenue,
+      SAFE_DIVIDE(orders_with_utm_source_medium, NULLIF(orders, 0)) AS pct_orders_with_utm_source_medium,
+      SAFE_DIVIDE(unattributed_orders, NULLIF(orders, 0)) AS pct_orders_unattributed,
+      SAFE_DIVIDE(unattributed_revenue, NULLIF(order_net_revenue, 0)) AS pct_revenue_unattributed,
+      SAFE_DIVIDE(direct_orders, NULLIF(orders, 0)) AS pct_orders_direct,
+      SAFE_DIVIDE(direct_revenue, NULLIF(order_net_revenue, 0)) AS pct_revenue_direct
+    FROM weekly
+    ORDER BY week_start;
+    ```
+  </Accordion>
+
+  <Accordion title="Attribution health by store and sales channel">
+    ```sql
+    -- Assumptions: timeframe=last_30_days | metric=unattributed_share | grain=sm_store_id+sm_channel | scope=valid_orders_only
+    WITH base AS (
+      SELECT
+        sm_store_id,
+        sm_channel,
+        COALESCE(NULLIF(LOWER(TRIM(sm_utm_source_medium)), ''), '(none) / (none)') AS source_medium,
+        sm_order_key,
+        order_net_revenue
+      FROM `your_project.sm_transformed_v2.obt_orders`
+      WHERE is_order_sm_valid = TRUE
+        AND order_cancelled_at IS NULL
+        AND DATE(order_processed_at_local_datetime) >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)
+        AND sm_channel IS NOT NULL
+    )
+    SELECT
+      sm_store_id,
+      sm_channel,
+      COUNT(DISTINCT sm_order_key) AS orders,
+      SUM(order_net_revenue) AS order_net_revenue,
+      SAFE_DIVIDE(COUNTIF(source_medium = '(none) / (none)'), NULLIF(COUNT(DISTINCT sm_order_key), 0)) AS pct_orders_unattributed,
+      SAFE_DIVIDE(
+        SUM(CASE WHEN source_medium = '(none) / (none)' THEN order_net_revenue ELSE 0 END),
+        NULLIF(SUM(order_net_revenue), 0)
+      ) AS pct_revenue_unattributed
+    FROM base
+    GROUP BY 1, 2
+    HAVING orders >= 50
+    ORDER BY pct_revenue_unattributed DESC, orders DESC
+    LIMIT 100;
+    ```
+  </Accordion>
+
+  <Accordion title="Discount code parsing (top codes by revenue)">
+    ```sql
+    -- Assumptions: timeframe=last_90_days | metric=orders+net_revenue | grain=discount_code | scope=valid_orders_only
+    -- Note: If an order has multiple discount codes, its revenue will be counted under each code (this is a code-usage view, not strict attribution).
+    WITH orders_with_codes AS (
+      SELECT
+        sm_order_key,
+        order_net_revenue,
+        order_discount_codes_csv
+      FROM `your_project.sm_transformed_v2.obt_orders`
+      WHERE is_order_sm_valid = TRUE
+        AND order_cancelled_at IS NULL
+        AND DATE(order_processed_at_local_datetime) >= DATE_SUB(CURRENT_DATE(), INTERVAL 90 DAY)
+        AND order_discount_codes_csv IS NOT NULL
+        AND TRIM(order_discount_codes_csv) != ''
+    ),
+    exploded AS (
+      SELECT
+        sm_order_key,
+        order_net_revenue,
+        TRIM(code_raw) AS discount_code
+      FROM orders_with_codes,
+      UNNEST(SPLIT(order_discount_codes_csv, ',')) AS code_raw
+      WHERE TRIM(code_raw) != ''
+    )
+    SELECT
+      discount_code,
+      COUNT(DISTINCT sm_order_key) AS orders,
+      SUM(order_net_revenue) AS order_net_revenue,
+      SAFE_DIVIDE(SUM(order_net_revenue), NULLIF(COUNT(DISTINCT sm_order_key), 0)) AS aov
+    FROM exploded
+    GROUP BY 1
+    HAVING orders >= 25
+    ORDER BY order_net_revenue DESC
+    LIMIT 50;
+    ```
+  </Accordion>
+
+  <Accordion title="Top landing pages for orders missing UTMs">
+    ```sql
+    -- Assumptions: timeframe=last_90_days | metric=orders+net_revenue | grain=landing_host+landing_path | scope=valid_orders_only_missing_utms
+    WITH base AS (
+      SELECT
+        sm_order_key,
+        order_net_revenue,
+        sm_order_landing_page
+      FROM `your_project.sm_transformed_v2.obt_orders`
+      WHERE is_order_sm_valid = TRUE
+        AND order_cancelled_at IS NULL
+        AND DATE(order_processed_at_local_datetime) >= DATE_SUB(CURRENT_DATE(), INTERVAL 90 DAY)
+        AND COALESCE(NULLIF(LOWER(TRIM(sm_utm_source_medium)), ''), '(none) / (none)') = '(none) / (none)'
+        AND sm_order_landing_page IS NOT NULL
+        AND TRIM(sm_order_landing_page) != ''
+    ),
+    parsed AS (
+      SELECT
+        sm_order_key,
+        order_net_revenue,
+        REGEXP_EXTRACT(sm_order_landing_page, r'^(?:https?://)?([^/?#]+)') AS landing_host,
+        REGEXP_EXTRACT(sm_order_landing_page, r'^(?:https?://)?[^/?#]+(/[^?#]*)') AS landing_path
+      FROM base
+    )
+    SELECT
+      COALESCE(NULLIF(LOWER(TRIM(landing_host)), ''), '(unknown)') AS landing_host,
+      COALESCE(NULLIF(landing_path, ''), '/') AS landing_path,
+      COUNT(DISTINCT sm_order_key) AS orders,
+      SUM(order_net_revenue) AS order_net_revenue
+    FROM parsed
+    GROUP BY 1, 2
+    HAVING orders >= 25
+    ORDER BY order_net_revenue DESC
+    LIMIT 50;
+    ```
+  </Accordion>
+
+  <Accordion title="Click-id coverage vs UTM coverage (gclid/fbclid)">
+    ```sql
+    -- Assumptions: timeframe=last_90_days | metric=utm_coverage+click_id_coverage | grain=week | scope=valid_orders_only
+    WITH base AS (
+      SELECT
+        DATE_TRUNC(DATE(order_processed_at_local_datetime), WEEK(MONDAY)) AS week_start,
+        sm_order_key,
+        order_net_revenue,
+        COALESCE(NULLIF(LOWER(TRIM(sm_utm_source_medium)), ''), '(none) / (none)') AS source_medium,
+        sm_gclid,
+        sm_fbclid
+      FROM `your_project.sm_transformed_v2.obt_orders`
+      WHERE is_order_sm_valid = TRUE
+        AND order_cancelled_at IS NULL
+        AND DATE(order_processed_at_local_datetime) >= DATE_SUB(CURRENT_DATE(), INTERVAL 90 DAY)
+    )
+    SELECT
+      week_start,
+      COUNT(DISTINCT sm_order_key) AS orders,
+      SUM(order_net_revenue) AS order_net_revenue,
+      COUNTIF(source_medium != '(none) / (none)') AS orders_with_utm_source_medium,
+      SAFE_DIVIDE(COUNTIF(source_medium != '(none) / (none)'), NULLIF(COUNT(DISTINCT sm_order_key), 0)) AS pct_orders_with_utm_source_medium,
+      COUNTIF(sm_gclid IS NOT NULL AND sm_gclid NOT IN ('', '(none)')) AS orders_with_gclid,
+      SAFE_DIVIDE(COUNTIF(sm_gclid IS NOT NULL AND sm_gclid NOT IN ('', '(none)')), NULLIF(COUNT(DISTINCT sm_order_key), 0)) AS pct_orders_with_gclid,
+      COUNTIF(sm_fbclid IS NOT NULL AND sm_fbclid NOT IN ('', '(none)')) AS orders_with_fbclid,
+      SAFE_DIVIDE(COUNTIF(sm_fbclid IS NOT NULL AND sm_fbclid NOT IN ('', '(none)')), NULLIF(COUNT(DISTINCT sm_order_key), 0)) AS pct_orders_with_fbclid,
+      COUNTIF(source_medium = '(none) / (none)' AND sm_gclid IS NOT NULL AND sm_gclid NOT IN ('', '(none)')) AS utm_missing_but_gclid_orders,
+      COUNTIF(source_medium = '(none) / (none)' AND sm_fbclid IS NOT NULL AND sm_fbclid NOT IN ('', '(none)')) AS utm_missing_but_fbclid_orders
+    FROM base
+    GROUP BY 1
+    ORDER BY week_start;
     ```
   </Accordion>
 </AccordionGroup>

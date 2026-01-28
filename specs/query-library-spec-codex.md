@@ -334,7 +334,7 @@ Batch size: 5–10, but expect higher QA effort per query.
 - Uni2 authoritative routing + rules: `src/agent_core/agents/prompts.py`
 - Cohort-table cautions (double-counting; dimensions): `uni-training/.claude/shared/MODEL_KNOWLEDGE.md`
 
-## Batch 4 (shipped — attribution + data health diagnostics)
+## Batch 4 (reviewed — attribution + data health diagnostics)
 
 Target: attribution coverage + data health probing (the “why is everything direct / missing?” queries).
 
@@ -346,13 +346,30 @@ Notes:
 - `dim_data_dictionary` lives in `your_project.sm_metadata.dim_data_dictionary` (not `sm_transformed_v2`).
 - We added schema docs for `sm_metadata.dim_data_dictionary` and extended the docs column validator to cover `sm_metadata` so these examples can be statically checked.
 
-Batch 4 queries shipped:
+Batch 4 queries included:
 - DQ01 — Table freshness / stale tables (`sm_metadata.dim_data_dictionary`)
 - DQ02 — Attribution column coverage on `obt_orders` (`sm_metadata.dim_data_dictionary`)
 - DQ03 — Orders by `sm_utm_source_medium` + overall UTM coverage (`obt_orders`)
 - DQ04 — Fallback attribution signals when UTMs missing (`obt_orders`)
 - DQ05 — Top referrer domains among orders missing UTMs (`obt_orders`)
 - DQ06 — Join-key completeness (orders missing `sm_customer_key`, lines missing `sku`) (`obt_orders` + `obt_order_lines`)
+
+## Batch 5 (drafted — attribution stumpers)
+
+Target: answer the “what do I do next?” questions that follow Batch 4 diagnostics.
+
+Why these queries:
+- They turn “coverage” into “action”: discovery → trend → segmentation → proxy breakouts.
+- They are the exact patterns analysts reach for when they see high direct/unattributed share.
+- They avoid uni2 anti-patterns (no LIKE/REGEXP on categorical dims; discovery-first, then exact matches).
+
+Batch 5 queries drafted:
+- DQ07 — UTM source/medium discovery (top values by net revenue) (`obt_orders`)
+- DQ08 — Attribution health trend (weekly UTM/direct/unattributed share) (`obt_orders`)
+- DQ09 — Attribution health by store and sales channel (unattributed share) (`obt_orders`)
+- DQ10 — Discount code parsing (top codes by net revenue; non-strict attribution note) (`obt_orders`)
+- DQ11 — Top landing pages for orders missing UTMs (host + path buckets) (`obt_orders`)
+- DQ12 — Click-id coverage vs UTM coverage (gclid/fbclid, weekly) (`obt_orders`)
 
 ## Handling “Discovery-First” Without Breaking uni2 Rules
 
