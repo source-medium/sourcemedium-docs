@@ -32,6 +32,8 @@ Most examples default to the last 30 days for performance and â€œcurrent stateâ€
 
 <AccordionGroup>
   <Accordion title="Average CAC (last 30 days)">
+    **What you'll learn:** How much you're spending to acquire each new customer, broken down by channel. Use this to identify which channels are most cost-efficient and where you might be overspending on acquisition.
+
     ```sql
     -- Assumptions: timeframe=last_30_days | metric=CAC=ad_spend/new_customer_count | grain=sm_channel | scope=all_channels
     WITH channel_rollup AS (
@@ -77,6 +79,8 @@ Most examples default to the last 30 days for performance and â€œcurrent stateâ€
   </Accordion>
 
   <Accordion title="Highest ROAS by platform + campaign type (last 30 days)">
+    **What you'll learn:** Which ad platform and campaign type combinations are generating the best return on ad spend. Helps you decide where to allocate more budget and which underperforming campaigns to optimize or cut.
+
     ```sql
     -- Assumptions: timeframe=last_30_days | metric=ROAS=platform_reported_revenue/ad_spend | grain=platform+campaign_type | scope=all_stores
     SELECT
@@ -96,6 +100,8 @@ Most examples default to the last 30 days for performance and â€œcurrent stateâ€
   </Accordion>
 
   <Accordion title="ROAS trends over time (monthly, last 6 months)">
+    **What you'll learn:** How your ad efficiency has changed month-over-month by platform. Spot seasonal patterns, detect declining performance early, or confirm that recent optimizations are working.
+
     ```sql
     -- Assumptions: timeframe=last_6_months | metric=ROAS=platform_reported_revenue/ad_spend | grain=month+platform | scope=all_stores
     WITH monthly AS (
@@ -126,6 +132,8 @@ Most examples default to the last 30 days for performance and â€œcurrent stateâ€
 
 <AccordionGroup>
   <Accordion title="First-time vs repeat orders (last 30 days)">
+    **What you'll learn:** The split between first-time and repeat purchases in terms of order count, unique customers, and revenue. A healthy business typically sees growing repeat order share over time.
+
     ```sql
     -- Assumptions: timeframe=last_30_days | metric=orders+customers+net_revenue | grain=first_vs_repeat | scope=valid_orders_only
     SELECT
@@ -142,6 +150,8 @@ Most examples default to the last 30 days for performance and â€œcurrent stateâ€
   </Accordion>
 
   <Accordion title="Which source/mediums drive repeat purchases? (cohorted on first order in last 12 months)">
+    **What you'll learn:** Which acquisition channels bring in customers who come back to buy again. Identify your best sources for long-term customer value versus one-time buyers.
+
     ```sql
     -- Assumptions: timeframe=first_orders_last_12_months | metric=repeat_rate=customers_with_2+_orders/customers | grain=first_order_source_medium | scope=valid_orders_only
     WITH valid_orders AS (
@@ -183,6 +193,8 @@ Most examples default to the last 30 days for performance and â€œcurrent stateâ€
   </Accordion>
 
   <Accordion title="New vs repeat customer ratio trend (weekly, YTD)">
+    **What you'll learn:** How your balance between new and returning customers has shifted week-over-week this year. A declining ratio may signal you're over-relying on existing customers; a rising ratio could mean retention needs attention.
+
     ```sql
     -- Assumptions: timeframe=year_to_date | metric=new_to_repeat_ratio=new_customer_count/repeat_customer_count | grain=week | scope=all_channels
     WITH weekly AS (
@@ -205,6 +217,8 @@ Most examples default to the last 30 days for performance and â€œcurrent stateâ€
   </Accordion>
 
   <Accordion title="Customer acquisition trend (monthly new customers, last 12 months)">
+    **What you'll learn:** Your month-over-month new customer growth including order count, revenue, and average order value from first-time buyers. Use this to track whether your acquisition efforts are scaling.
+
     ```sql
     -- Assumptions: timeframe=last_12_months | metric=new_customers | grain=month | scope=all_channels
     WITH monthly AS (
@@ -233,6 +247,8 @@ Most examples default to the last 30 days for performance and â€œcurrent stateâ€
 
 <AccordionGroup>
   <Accordion title="Top 10 products by net revenue (last 30 days)">
+    **What you'll learn:** Your highest revenue-generating products with units sold and order counts. Use this to identify your cash cows and prioritize inventory, marketing, and merchandising decisions.
+
     ```sql
     -- Assumptions: timeframe=last_30_days | metric=net_revenue=SUM(order_line_net_revenue) | grain=sku | scope=valid_orders_only
     SELECT
@@ -253,6 +269,8 @@ Most examples default to the last 30 days for performance and â€œcurrent stateâ€
   </Accordion>
 
   <Accordion title="Top products by units sold (last 30 days)">
+    **What you'll learn:** Your most popular products by volume, which may differ from your top revenue generators. Useful for forecasting demand, managing inventory levels, and identifying viral or gateway products.
+
     ```sql
     -- Assumptions: timeframe=last_30_days | metric=units_sold=SUM(order_line_quantity) | grain=sku | scope=valid_orders_only
     SELECT
@@ -273,6 +291,8 @@ Most examples default to the last 30 days for performance and â€œcurrent stateâ€
   </Accordion>
 
   <Accordion title="Products most common with new customers (first valid orders, last 90 days)">
+    **What you'll learn:** Which products are most often the entry point for new customers. These "gateway products" are key to acquisition strategyâ€”consider featuring them in ads, bundles, or welcome offers.
+
     ```sql
     -- Assumptions: timeframe=first_valid_orders_last_90_days | metric=units_sold=SUM(order_line_quantity) | grain=product_title | scope=new_customers_valid_orders_only
     WITH first_valid_orders AS (
@@ -306,6 +326,8 @@ Most examples default to the last 30 days for performance and â€œcurrent stateâ€
 
 <AccordionGroup>
   <Accordion title="Average order value (AOV) by marketing channel (last 30 days)">
+    **What you'll learn:** Which marketing channels drive higher-value orders. Channels with high AOV may warrant more budget even if volume is lower; low-AOV channels might need different offer strategies.
+
     ```sql
     -- Assumptions: timeframe=last_30_days | metric=AOV=SUM(order_net_revenue)/orders | grain=sm_utm_source_medium | scope=valid_orders_only
     WITH base AS (
@@ -333,6 +355,8 @@ Most examples default to the last 30 days for performance and â€œcurrent stateâ€
   </Accordion>
 
   <Accordion title="Revenue in the last 30 days from customers who have ever had a subscription">
+    **What you'll learn:** How much of your recent revenue comes from customers with subscription history (even if they're not currently subscribed). Helps quantify the long-term value of your subscription program.
+
     ```sql
     -- Assumptions: timeframe=last_30_days | metric=net_revenue=SUM(order_net_revenue) | grain=overall | scope=customers_with_any_subscription_history
     WITH subscription_customers AS (
@@ -367,6 +391,8 @@ Most examples default to the last 30 days for performance and â€œcurrent stateâ€
   </Accordion>
 
   <Accordion title="Refund rate by marketing channel (last 90 days)">
+    **What you'll learn:** Which marketing channels have higher refund ratesâ€”by order count and by revenue. High refund rates may indicate mismatched expectations from certain ad campaigns or audiences.
+
     ```sql
     -- Assumptions: timeframe=last_90_days | metric=refund_rate | grain=sm_utm_source_medium | scope=valid_orders_only
     WITH base AS (
@@ -397,6 +423,8 @@ Most examples default to the last 30 days for performance and â€œcurrent stateâ€
   </Accordion>
 
   <Accordion title="Distribution of orders and revenue by sales channel (last 30 days)">
+    **What you'll learn:** How your orders and revenue are distributed across different sales channels (online, POS, wholesale, etc.). Useful for understanding channel mix and identifying growth opportunities.
+
     ```sql
     -- Assumptions: timeframe=last_30_days | metric=orders+net_revenue+share | grain=sm_channel | scope=valid_orders_only
     SELECT
@@ -438,6 +466,8 @@ ORDER BY 1;
 
 <AccordionGroup>
   <Accordion title="3m/6m retention + 6m LTV by acquisition source/medium (last 12 cohort months)">
+    **What you'll learn:** Which acquisition sources produce customers with the best retention and lifetime value at the 3 and 6 month marks. Use this to optimize ad spend toward channels that deliver long-term value, not just initial conversions.
+
     ```sql
     -- Assumptions: timeframe=last_12_cohort_months | metric=retention_pct+ltv_6m | grain=source_medium | scope=cohort_table_all_orders
     WITH pivoted AS (
@@ -470,6 +500,8 @@ ORDER BY 1;
   </Accordion>
 
   <Accordion title="Top discount-code cohorts by 6m retention + 12m LTV (last 12 cohort months)">
+    **What you'll learn:** Which discount codes attract customers who stick around and spend more over time. Identify promo codes that bring loyal buyers vs. one-time bargain hunters.
+
     ```sql
     -- Assumptions: timeframe=last_12_cohort_months | metric=retention_m6+ltv_12m | grain=discount_code | scope=cohort_table_all_orders
     WITH pivoted AS (
@@ -510,6 +542,8 @@ ORDER BY 1;
   </Accordion>
 
   <Accordion title="Subscription vs one-time cohorts: 6m retention + 12m LTV (last 12 cohort months)">
+    **What you'll learn:** How customers who start with a subscription compare to one-time buyers in terms of retention and lifetime value. Quantify the LTV advantage (or disadvantage) of your subscription program.
+
     ```sql
     -- Assumptions: timeframe=last_12_cohort_months | metric=retention_m6+ltv_12m | grain=first_order_type | scope=cohort_table_all_orders
     WITH pivoted AS (
@@ -539,6 +573,8 @@ ORDER BY 1;
   </Accordion>
 
   <Accordion title="Which initial products lead to the highest 90â€‘day LTV? (primary firstâ€‘order SKU, last 12 months)">
+    **What you'll learn:** Which products in a customer's first order correlate with higher 90-day LTV. These are your best "starter products" to feature in acquisition campaigns and new customer bundles.
+
     ```sql
     -- Assumptions: timeframe=first_valid_orders_last_12_months | metric=90d_LTV=SUM(order_net_revenue_90d) | grain=primary_first_sku | scope=valid_orders_only
     WITH first_valid_orders AS (
@@ -601,6 +637,8 @@ ORDER BY 1;
   </Accordion>
 
   <Accordion title="Typical time between orders for non-subscription customers (last 12 months)">
+    **What you'll learn:** The distribution of days between repeat purchases for non-subscription customers. Use this to time your re-engagement emails and identify the optimal window for replenishment reminders.
+
     ```sql
     -- Assumptions: timeframe=last_12_months | metric=days_between_orders_distribution | grain=days_between_orders | scope=non_subscription_customers_only
     WITH subscription_customers AS (
@@ -654,6 +692,8 @@ If you want table-level freshness/coverage metadata, start with: [`dim_data_dict
 
 <AccordionGroup>
   <Accordion title="Which tables are stale or missing data?">
+    **What you'll learn:** Which tables in your data warehouse haven't been updated recently or are missing data entirely. Run this first to identify pipeline issues before diving into analysis.
+
     ```sql
     -- Assumptions: timeframe=all_time | metric=table_freshness | grain=dataset+table | scope=sm_metadata
     SELECT
@@ -674,6 +714,8 @@ If you want table-level freshness/coverage metadata, start with: [`dim_data_dict
   </Accordion>
 
   <Accordion title="Attribution column coverage on orders">
+    **What you'll learn:** How complete your attribution data isâ€”what percentage of orders have UTM source, zero-party attribution, discount codes, landing pages, and referrer domains. Low coverage in key columns signals tracking gaps.
+
     ```sql
     -- Assumptions: timeframe=all_time | metric=column_coverage | grain=column | scope=sm_metadata_obt_orders
     WITH cols AS (
@@ -710,6 +752,8 @@ If you want table-level freshness/coverage metadata, start with: [`dim_data_dict
   </Accordion>
 
   <Accordion title="When UTMs are missing, what other attribution signals exist?">
+    **What you'll learn:** For orders without UTM tracking, what fallback attribution data is available (zero-party surveys, discount codes, landing pages, referrer domains). Helps you understand how much attribution you can recover.
+
     ```sql
     -- Assumptions: timeframe=last_90_days | metric=fallback_coverage | grain=overall | scope=valid_orders_only_missing_utms
     WITH missing_utms AS (
@@ -754,6 +798,8 @@ If you want table-level freshness/coverage metadata, start with: [`dim_data_dict
   </Accordion>
 
   <Accordion title="Top referrer domains for orders missing UTMs">
+    **What you'll learn:** Which external sites are sending you traffic that isn't tagged with UTMs. Use this to identify partners, affiliates, or organic sources that need proper tracking or attribution rules.
+
     ```sql
     -- Assumptions: timeframe=last_90_days | metric=orders+net_revenue | grain=referrer_domain | scope=valid_orders_only_missing_utms
     WITH base AS (
@@ -780,6 +826,8 @@ If you want table-level freshness/coverage metadata, start with: [`dim_data_dict
   </Accordion>
 
   <Accordion title="Key join-key completeness (customers + SKU coverage)">
+    **What you'll learn:** The percentage of orders missing customer keys and order lines missing SKUs. Critical for data integrityâ€”high null rates here break customer-level analysis and product reporting.
+
     ```sql
     -- Assumptions: timeframe=last_30_days | metric=null_rate_checks | grain=overall | scope=valid_orders_only
     WITH orders AS (
@@ -812,6 +860,8 @@ If you want table-level freshness/coverage metadata, start with: [`dim_data_dict
   </Accordion>
 
   <Accordion title="Attribution health trend (weekly)">
+    **What you'll learn:** How your attribution coverage has changed week-over-weekâ€”UTM coverage, unattributed orders, and direct traffic share. Spot tracking regressions or improvements over time.
+
     ```sql
     -- Assumptions: timeframe=last_26_weeks | metric=utm_coverage+direct_share+unattributed_share | grain=week | scope=valid_orders_only
     WITH base AS (
@@ -853,6 +903,8 @@ If you want table-level freshness/coverage metadata, start with: [`dim_data_dict
   </Accordion>
 
   <Accordion title="Attribution health by store and sales channel">
+    **What you'll learn:** How attribution coverage varies across your stores and sales channels (online vs. POS vs. wholesale). Some channels naturally have lower attributionâ€”this helps set expectations.
+
     ```sql
     -- Assumptions: timeframe=last_30_days | metric=unattributed_share | grain=sm_store_id+sm_channel | scope=valid_orders_only
     WITH base AS (
@@ -887,6 +939,8 @@ If you want table-level freshness/coverage metadata, start with: [`dim_data_dict
   </Accordion>
 
   <Accordion title="Discount code parsing (top codes by revenue)">
+    **What you'll learn:** Your most-used discount codes ranked by revenue, with order counts and AOV. Use this to evaluate promo effectiveness and identify codes that might be over-used or under-attributed.
+
     ```sql
     -- Assumptions: timeframe=last_90_days | metric=orders+net_revenue | grain=discount_code | scope=valid_orders_only
     -- Note: If an order has multiple discount codes, its revenue will be counted under each code (this is a code-usage view, not strict attribution).
@@ -925,6 +979,8 @@ If you want table-level freshness/coverage metadata, start with: [`dim_data_dict
   </Accordion>
 
   <Accordion title="Top landing pages for orders missing UTMs">
+    **What you'll learn:** Which pages customers land on when they arrive without UTM tracking. Useful for identifying organic entry points and pages that need better tracking implementation.
+
     ```sql
     -- Assumptions: timeframe=last_90_days | metric=orders+net_revenue | grain=landing_host+landing_path | scope=valid_orders_only_missing_utms
     WITH base AS (
@@ -962,6 +1018,8 @@ If you want table-level freshness/coverage metadata, start with: [`dim_data_dict
   </Accordion>
 
   <Accordion title="Click-id coverage vs UTM coverage (gclid/fbclid)">
+    **What you'll learn:** The overlap between UTM tracking and ad-platform click IDs (gclid for Google, fbclid for Meta). Reveals orders where click IDs exist but UTMs don'tâ€”potential attribution recovery opportunities.
+
     ```sql
     -- Assumptions: timeframe=last_90_days | metric=utm_coverage+click_id_coverage | grain=week | scope=valid_orders_only
     WITH base AS (
@@ -999,6 +1057,8 @@ If you want table-level freshness/coverage metadata, start with: [`dim_data_dict
 ## Product Insights
 <AccordionGroup>
     <Accordion title='Most commonly ordered product combinations'>
+        **What you'll learn:** Which products are frequently purchased together in the same order. Use this for bundle recommendations, cross-sell strategies, and merchandising decisions.
+
         ```sql
         -- Assumptions: timeframe=all_time | metric=order_frequency | grain=product_combination | scope=valid_orders_only
         WITH RECURSIVE product_combos AS (
