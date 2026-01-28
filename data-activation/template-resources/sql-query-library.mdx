@@ -12,6 +12,7 @@ Use these queries as starting points for analysis in BigQuery. Replace `your_pro
 <Tip>
 **Query Standards:**
 - Always include `is_order_sm_valid = TRUE` for order-based analyses
+- If you have multiple stores, add `sm_store_id = 'your-sm_store_id'` to filter for a specific store's data
 - Use `your_project.sm_transformed_v2.*` for standard tables
 - Use `your_project.sm_experimental.*` for MTA tables
 </Tip>
@@ -778,24 +779,24 @@ If you want table-level freshness/coverage metadata, start with: [`dim_data_dict
     SELECT
       COUNT(DISTINCT sm_order_key) AS orders_missing_utms,
       SUM(order_net_revenue) AS order_net_revenue_missing_utms,
-      COUNTIF(sm_zero_party_attribution_source IS NOT NULL AND TRIM(sm_zero_party_attribution_source) != '') AS orders_with_zero_party,
+      COUNTIF(sm_zero_party_attribution_source IS NOT NULL AND TRIM(sm_zero_party_attribution_source) NOT IN ('', '(none)')) AS orders_with_zero_party,
       SAFE_DIVIDE(
-        COUNTIF(sm_zero_party_attribution_source IS NOT NULL AND TRIM(sm_zero_party_attribution_source) != ''),
+        COUNTIF(sm_zero_party_attribution_source IS NOT NULL AND TRIM(sm_zero_party_attribution_source) NOT IN ('', '(none)')),
         NULLIF(COUNT(DISTINCT sm_order_key), 0)
       ) AS pct_with_zero_party,
-      COUNTIF(order_discount_codes_csv IS NOT NULL AND TRIM(order_discount_codes_csv) != '') AS orders_with_discount_code,
+      COUNTIF(order_discount_codes_csv IS NOT NULL AND TRIM(order_discount_codes_csv) NOT IN ('', '(none)')) AS orders_with_discount_code,
       SAFE_DIVIDE(
-        COUNTIF(order_discount_codes_csv IS NOT NULL AND TRIM(order_discount_codes_csv) != ''),
+        COUNTIF(order_discount_codes_csv IS NOT NULL AND TRIM(order_discount_codes_csv) NOT IN ('', '(none)')),
         NULLIF(COUNT(DISTINCT sm_order_key), 0)
       ) AS pct_with_discount_code,
-      COUNTIF(sm_order_landing_page IS NOT NULL AND TRIM(sm_order_landing_page) != '') AS orders_with_landing_page,
+      COUNTIF(sm_order_landing_page IS NOT NULL AND TRIM(sm_order_landing_page) NOT IN ('', '(none)')) AS orders_with_landing_page,
       SAFE_DIVIDE(
-        COUNTIF(sm_order_landing_page IS NOT NULL AND TRIM(sm_order_landing_page) != ''),
+        COUNTIF(sm_order_landing_page IS NOT NULL AND TRIM(sm_order_landing_page) NOT IN ('', '(none)')),
         NULLIF(COUNT(DISTINCT sm_order_key), 0)
       ) AS pct_with_landing_page,
-      COUNTIF(sm_order_referrer_domain IS NOT NULL AND TRIM(sm_order_referrer_domain) != '') AS orders_with_referrer_domain,
+      COUNTIF(sm_order_referrer_domain IS NOT NULL AND TRIM(sm_order_referrer_domain) NOT IN ('', '(none)')) AS orders_with_referrer_domain,
       SAFE_DIVIDE(
-        COUNTIF(sm_order_referrer_domain IS NOT NULL AND TRIM(sm_order_referrer_domain) != ''),
+        COUNTIF(sm_order_referrer_domain IS NOT NULL AND TRIM(sm_order_referrer_domain) NOT IN ('', '(none)')),
         NULLIF(COUNT(DISTINCT sm_order_key), 0)
       ) AS pct_with_referrer_domain
     FROM missing_utms;
@@ -809,7 +810,7 @@ If you want table-level freshness/coverage metadata, start with: [`dim_data_dict
     -- Assumptions: timeframe=last_90_days | metric=orders+net_revenue | grain=referrer_domain | scope=valid_orders_only_missing_utms
     WITH base AS (
       SELECT
-        COALESCE(NULLIF(LOWER(TRIM(sm_order_referrer_domain)), ''), '(none)') AS referrer_domain,
+        LOWER(TRIM(sm_order_referrer_domain)) AS referrer_domain,
         sm_order_key,
         order_net_revenue
       FROM `your_project.sm_transformed_v2.obt_orders`
@@ -817,6 +818,8 @@ If you want table-level freshness/coverage metadata, start with: [`dim_data_dict
         AND order_cancelled_at IS NULL
         AND DATE(order_processed_at_local_datetime) >= DATE_SUB(CURRENT_DATE(), INTERVAL 90 DAY)
         AND COALESCE(NULLIF(LOWER(TRIM(sm_utm_source_medium)), ''), '(none) / (none)') = '(none) / (none)'
+        AND sm_order_referrer_domain IS NOT NULL
+        AND TRIM(sm_order_referrer_domain) NOT IN ('', '(none)')
     )
     SELECT
       referrer_domain,
@@ -999,7 +1002,7 @@ If you want table-level freshness/coverage metadata, start with: [`dim_data_dict
         AND DATE(order_processed_at_local_datetime) >= DATE_SUB(CURRENT_DATE(), INTERVAL 90 DAY)
         AND COALESCE(NULLIF(LOWER(TRIM(sm_utm_source_medium)), ''), '(none) / (none)') = '(none) / (none)'
         AND sm_order_landing_page IS NOT NULL
-        AND TRIM(sm_order_landing_page) != ''
+        AND TRIM(sm_order_landing_page) NOT IN ('', '(none)')
     ),
     parsed AS (
       SELECT
