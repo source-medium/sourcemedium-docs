@@ -26,11 +26,14 @@ If you're not sure which table to use, start with: [`obt_orders`](/data-activati
 | Section | What's inside |
 |---------|---------------|
 | [Marketing & Ads](#marketing--ads) | CAC, ROAS by platform, ROAS trends |
+| [Messaging](#messaging) | Email/SMS performance, flows vs campaigns, list growth |
+| [Funnel](#funnel) | Funnel step counts, conversion rates, top converting pages |
 | [Customers & Retention](#customers--retention) | First vs repeat orders, repeat rates by source, new vs repeat trends |
 | [Products](#products) | Top products by revenue/units, gateway products, product combos |
 | [Orders & Revenue](#orders--revenue) | AOV by channel, subscription revenue, refund rates, sales channel mix |
 | [LTV & Retention](#ltv--retention) | Cohort LTV, payback period, LTV:CAC, repeat purchase rates, 90-day LTV by product |
 | [Attribution & Data Health](#attribution--data-health) | Table freshness, UTM coverage, fallback signals, click-id coverage, tracking regressions |
+| [Customer Support](#customer-support) | Ticket volume, one-touch rate, resolution time, CSAT |
 
 ---
 
@@ -135,6 +138,186 @@ Most examples default to the last 30 days for performance and "current state" an
     FROM monthly
     ORDER BY platform, month_start;
     ```
+  </Accordion>
+</AccordionGroup>
+
+## Messaging
+
+<AccordionGroup>
+  <Accordion title="Messaging performance by channel + message type (last 30 days)">
+    **What you'll learn:** How email/SMS/push performance differs between **campaigns** and **flows**, including deliverability, engagement, list growth, and platform-attributed orders/revenue. Use this to quickly identify which message types are driving the most value (and where engagement or unsubscribes are trending poorly).
+
+    ```sql
+    -- Assumptions: timeframe=last_30_days | metric=engagement+platform_attributed_orders_revenue | grain=channel+message_type | scope=all_messages
+    SELECT
+      COALESCE(sm_message_channel, '(unknown)') AS sm_message_channel,
+      COALESCE(message_type, '(unknown)') AS message_type,
+      SUM(message_unique_receives) AS receives,
+      SUM(message_unique_opens) AS opens,
+      SUM(message_unique_clicks) AS clicks,
+      SUM(message_unique_bounces) AS bounces,
+      SUM(message_unique_drops) AS drops,
+      SUM(list_subscribes) AS list_subscribes,
+      SUM(list_unsubscribes) AS list_unsubscribes,
+      SUM(platform_reported_orders) AS platform_reported_orders,
+      SUM(platform_reported_order_revenue) AS platform_reported_order_revenue,
+      SAFE_DIVIDE(SUM(message_unique_opens), NULLIF(SUM(message_unique_receives), 0)) AS open_rate,
+      SAFE_DIVIDE(SUM(message_unique_clicks), NULLIF(SUM(message_unique_receives), 0)) AS click_rate,
+      SAFE_DIVIDE(SUM(list_unsubscribes), NULLIF(SUM(message_unique_receives), 0)) AS unsubscribe_rate_per_receive
+    FROM `your_project.sm_transformed_v2.rpt_outbound_message_performance_daily`
+    WHERE date >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)
+    GROUP BY 1, 2
+    ORDER BY platform_reported_order_revenue DESC;
+    ```
+
+    <Info>
+    `platform_reported_*` metrics are **platform-attributed**, not incremental lift. Use them for directional comparisons and monitoring, not causal claims.
+    </Info>
+  </Accordion>
+
+  <Accordion title="Top campaigns by platform-attributed order revenue (last 30 days)">
+    **What you'll learn:** Which **campaigns** are driving the most platform-attributed revenue and orders in the last 30 days. Use this to spot your best-performing sends and quickly triage underperformers.
+
+    ```sql
+    -- Assumptions: timeframe=last_30_days | metric=platform_attributed_orders_revenue | grain=campaign | scope=campaigns_only
+    SELECT
+      sm_message_channel,
+      source_system,
+      campaign_id,
+      campaign_name,
+      SUM(message_unique_receives) AS receives,
+      SUM(message_unique_opens) AS opens,
+      SUM(message_unique_clicks) AS clicks,
+      SUM(platform_reported_orders) AS platform_reported_orders,
+      SUM(platform_reported_order_revenue) AS platform_reported_order_revenue,
+      SAFE_DIVIDE(SUM(message_unique_opens), NULLIF(SUM(message_unique_receives), 0)) AS open_rate,
+      SAFE_DIVIDE(SUM(message_unique_clicks), NULLIF(SUM(message_unique_receives), 0)) AS click_rate
+    FROM `your_project.sm_transformed_v2.rpt_outbound_message_performance_daily`
+    WHERE date >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)
+      AND LOWER(message_type) = 'campaign'
+    GROUP BY 1, 2, 3, 4
+    ORDER BY platform_reported_order_revenue DESC
+    LIMIT 25;
+    ```
+  </Accordion>
+
+  <Accordion title="List subscribes vs unsubscribes trend by channel (weekly, last 12 weeks)">
+    **What you'll learn:** How list growth is trending week-over-week by channel using message-attributed subscribes and unsubscribes. Use this to detect periods of churn (high unsubscribes) and measure whether list acquisition is keeping up.
+
+    ```sql
+    -- Assumptions: timeframe=last_12_weeks | metric=list_subscribes_unsubscribes_net | grain=week+channel | scope=all_messages
+    SELECT
+      DATE_TRUNC(date, WEEK(MONDAY)) AS week_start,
+      COALESCE(sm_message_channel, '(unknown)') AS sm_message_channel,
+      SUM(list_subscribes) AS list_subscribes,
+      SUM(list_unsubscribes) AS list_unsubscribes,
+      SUM(list_subscribes) - SUM(list_unsubscribes) AS net_list_growth,
+      SAFE_DIVIDE(SUM(list_unsubscribes), NULLIF(SUM(list_subscribes), 0)) AS unsubscribe_per_subscribe
+    FROM `your_project.sm_transformed_v2.rpt_outbound_message_performance_daily`
+    WHERE date >= DATE_SUB(CURRENT_DATE(), INTERVAL 84 DAY)
+    GROUP BY 1, 2
+    ORDER BY week_start, sm_message_channel;
+    ```
+  </Accordion>
+</AccordionGroup>
+
+## Funnel
+
+<AccordionGroup>
+  <Accordion title="Daily funnel step counts + conversion rates (last 30 days)">
+    **What you'll learn:** The daily volume of key funnel events (view item → add to cart → begin checkout → purchase) and conversion rates between steps. Use this for near-real-time monitoring and to detect sudden tracking or conversion drops.
+
+    ```sql
+    -- Assumptions: timeframe=last_30_days | metric=funnel_step_counts+event_based_conversion_rates | grain=date | scope=all_sources
+    WITH daily AS (
+      SELECT
+        DATE(event_local_datetime) AS date,
+        SUM(view_item_event_count) AS view_item_events,
+        SUM(add_to_cart_event_count) AS add_to_cart_events,
+        SUM(begin_checkout_event_count) AS begin_checkout_events,
+        SUM(purchase_event_count) AS purchase_events,
+        SUM(event_order_revenue) AS event_order_revenue
+      FROM `your_project.sm_transformed_v2.rpt_funnel_events_performance_hourly`
+      WHERE DATE(event_local_datetime) >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)
+      GROUP BY 1
+    )
+    SELECT
+      date,
+      view_item_events,
+      add_to_cart_events,
+      begin_checkout_events,
+      purchase_events,
+      event_order_revenue,
+      SAFE_DIVIDE(add_to_cart_events, NULLIF(view_item_events, 0)) AS add_to_cart_per_view_item,
+      SAFE_DIVIDE(begin_checkout_events, NULLIF(add_to_cart_events, 0)) AS begin_checkout_per_add_to_cart,
+      SAFE_DIVIDE(purchase_events, NULLIF(begin_checkout_events, 0)) AS purchase_per_begin_checkout,
+      SAFE_DIVIDE(purchase_events, NULLIF(view_item_events, 0)) AS purchase_per_view_item
+    FROM daily
+    ORDER BY date;
+    ```
+
+    <Info>
+    These are **event-based** conversion rates (not sessions/users). For causal conversion analysis, pair this with your owned analytics tool’s session/user denominators.
+    </Info>
+  </Accordion>
+
+  <Accordion title="Top pages by add-to-cart rate (last 7 days)">
+    **What you'll learn:** Which pages are generating add-to-cart events relative to page views. Use this to identify high-performing product pages/collections and to debug low-converting pages.
+
+    ```sql
+    -- Assumptions: timeframe=last_7_days | metric=add_to_cart_rate=add_to_cart_events/page_views | grain=page_path | scope=non_null_paths
+    SELECT
+      event_page_path,
+      SUM(page_view_event_count) AS page_views,
+      SUM(add_to_cart_event_count) AS add_to_cart_events,
+      SAFE_DIVIDE(SUM(add_to_cart_event_count), NULLIF(SUM(page_view_event_count), 0)) AS add_to_cart_rate
+    FROM `your_project.sm_transformed_v2.rpt_funnel_events_performance_hourly`
+    WHERE DATE(event_local_datetime) >= DATE_SUB(CURRENT_DATE(), INTERVAL 7 DAY)
+      AND event_page_path IS NOT NULL
+      AND TRIM(event_page_path) != ''
+    GROUP BY 1
+    HAVING page_views >= 500
+    ORDER BY add_to_cart_rate DESC
+    LIMIT 25;
+    ```
+  </Accordion>
+
+  <Accordion title="Funnel conversion by UTM source/medium (last 30 days)">
+    **What you'll learn:** How different acquisition sources/mediums perform through the funnel (event-based). Use this for directional comparisons and to spot sources with strong traffic but weak downstream conversion.
+
+    ```sql
+    -- Assumptions: timeframe=last_30_days | metric=funnel_steps+event_based_purchase_rate | grain=utm_source_medium | scope=top_sources_only
+    WITH base AS (
+      SELECT
+        COALESCE(NULLIF(LOWER(TRIM(event_utm_source)), ''), '(none)') AS utm_source,
+        COALESCE(NULLIF(LOWER(TRIM(event_utm_medium)), ''), '(none)') AS utm_medium,
+        SUM(view_item_event_count) AS view_item_events,
+        SUM(add_to_cart_event_count) AS add_to_cart_events,
+        SUM(begin_checkout_event_count) AS begin_checkout_events,
+        SUM(purchase_event_count) AS purchase_events,
+        SUM(event_order_revenue) AS event_order_revenue
+      FROM `your_project.sm_transformed_v2.rpt_funnel_events_performance_hourly`
+      WHERE DATE(event_local_datetime) >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)
+      GROUP BY 1, 2
+    )
+    SELECT
+      CONCAT(utm_source, ' / ', utm_medium) AS utm_source_medium,
+      view_item_events,
+      add_to_cart_events,
+      begin_checkout_events,
+      purchase_events,
+      event_order_revenue,
+      SAFE_DIVIDE(purchase_events, NULLIF(view_item_events, 0)) AS purchase_per_view_item,
+      SAFE_DIVIDE(purchase_events, NULLIF(begin_checkout_events, 0)) AS purchase_events_per_begin_checkout_event
+    FROM base
+    WHERE view_item_events >= 500
+    ORDER BY purchase_per_view_item DESC
+    LIMIT 25;
+    ```
+
+    <Info>
+    These are **event-based** ratios. Intermediate steps (like `begin_checkout_event_count`) can be under-tracked, so ratios like purchases per begin-checkout can exceed 1. Treat these as directional monitoring signals.
+    </Info>
   </Accordion>
 </AccordionGroup>
 
@@ -2078,6 +2261,56 @@ These are deeper-dive investigations for when attribution looks “weird” (too
     FROM bucketed
     GROUP BY 1, code_count_bucket
     ORDER BY code_count_bucket;
+    ```
+  </Accordion>
+</AccordionGroup>
+
+## Customer Support
+
+<AccordionGroup>
+  <Accordion title="Ticket volume + one-touch rate by communication channel (last 30 days)">
+    **What you'll learn:** How ticket volume and one-touch resolution varies by support channel (email, chat, Instagram DM, etc.). Use this to identify which channels are driving the most workload and where your team is resolving issues efficiently.
+
+    ```sql
+    -- Assumptions: timeframe=last_30_days | metric=ticket_volume+one_touch_rate | grain=communication_channel | scope=exclude_spam
+    SELECT
+      COALESCE(NULLIF(ticket_communication_channel, ''), '(unknown)') AS ticket_communication_channel,
+      COUNT(DISTINCT sm_ticket_key) AS tickets,
+      COUNTIF(ticket_status IS NOT NULL AND LOWER(ticket_status) = 'open') AS open_tickets,
+      COUNTIF(ticket_status IS NOT NULL AND LOWER(ticket_status) = 'closed') AS closed_tickets,
+      COUNTIF(is_ticket_one_touch = TRUE) AS one_touch_tickets,
+      SAFE_DIVIDE(COUNTIF(is_ticket_one_touch = TRUE), NULLIF(COUNT(DISTINCT sm_ticket_key), 0)) AS one_touch_rate
+    FROM `your_project.sm_transformed_v2.obt_customer_support_tickets`
+    WHERE is_ticket_spam = FALSE
+      AND DATE(ticket_created_at_local_datetime) >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)
+    GROUP BY 1
+    ORDER BY tickets DESC;
+    ```
+  </Accordion>
+
+  <Accordion title="Resolution time + CSAT coverage by assignee team (last 90 days)">
+    **What you'll learn:** Which teams are closing tickets fastest and how complete your CSAT data is by team. Use this for staffing, training, and process improvement.
+
+    ```sql
+    -- Assumptions: timeframe=last_90_days | metric=resolution_time_hours+csat_coverage | grain=assignee_team | scope=closed_tickets_exclude_spam
+    SELECT
+      COALESCE(NULLIF(ticket_assignee_team_name, ''), '(unassigned)') AS ticket_assignee_team_name,
+      COUNT(DISTINCT sm_ticket_key) AS closed_tickets,
+      AVG(ticket_resolution_time_hours) AS avg_resolution_time_hours,
+      APPROX_QUANTILES(ticket_resolution_time_hours, 101)[OFFSET(50)] AS p50_resolution_time_hours,
+      APPROX_QUANTILES(ticket_resolution_time_hours, 101)[OFFSET(90)] AS p90_resolution_time_hours,
+      COUNTIF(ticket_csat_score IS NOT NULL) AS csat_responses,
+      SAFE_DIVIDE(COUNTIF(ticket_csat_score IS NOT NULL), NULLIF(COUNT(DISTINCT sm_ticket_key), 0)) AS csat_response_rate,
+      AVG(ticket_csat_score) AS avg_csat_score
+    FROM `your_project.sm_transformed_v2.obt_customer_support_tickets`
+    WHERE is_ticket_spam = FALSE
+      AND ticket_resolution_time_hours IS NOT NULL
+      AND ticket_status IS NOT NULL
+      AND LOWER(ticket_status) = 'closed'
+      AND DATE(ticket_created_at_local_datetime) >= DATE_SUB(CURRENT_DATE(), INTERVAL 90 DAY)
+    GROUP BY 1
+    HAVING closed_tickets >= 25
+    ORDER BY avg_resolution_time_hours ASC;
     ```
   </Accordion>
 </AccordionGroup>

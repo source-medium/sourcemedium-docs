@@ -1,6 +1,6 @@
 # Query Library (AI Analyst) — Spec (Codex)
 
-Status: In progress (Batches 1–5 shipped)  
+Status: In progress (Batches 1–9 shipped)  
 Owner: Docs (Data Activation) + AI Analyst  
 Last updated: 2026-01-28
 
@@ -131,7 +131,9 @@ Navigation note (v0):
 - Static schema/column validation: done for the SQL Query Library page.
 - Live BigQuery dry-run validation: pending engineering gate.
 
-### Batch 6 (planned — advanced retention/LTV stumpers)
+### Batch 6 (shipped to docs; validated 2026-01-28)
+
+- Shipped in: `4e70af3` (2026-01-28)
 
 Target: common “hard questions” that typically stump people because they require:
 - correct first-valid-order cohorting (`sm_valid_order_index = 1`),
@@ -139,14 +141,12 @@ Target: common “hard questions” that typically stump people because they req
 - knowing when to use **cohort tables** (CAC + payback) vs **dynamic** order/order-line logic,
 - subscription retention/churn **proxies** (behavioral retention, not billing-system churn).
 
-Proposed queries (5–10; likely 7):
+Batch 6 templates shipped (5):
 1) **Payback period by acquisition source/medium** (cohort table; uses `cost_per_acquisition`)
 2) **LTV:CAC ratio by acquisition source/medium** (cohort table; 6m net LTV vs CAC)
 3) **Repeat purchase rate (paid orders only) within 30/60/90 days by acquisition source/medium** (dynamic; `obt_orders`, filters repeat orders to `order_net_revenue > 0`)
 4) **Repeat purchase rate (paid orders only) within 30/60/90 days by subscription vs one-time first order** (dynamic; `obt_orders`, filters repeat orders to `order_net_revenue > 0`)
-5) **90-day LTV by first-order product_type (primary first-order attribute)** (dynamic; `obt_order_lines` + `obt_orders`)
-6) **90-day LTV by first-order product_vendor (primary first-order attribute)** (dynamic; `obt_order_lines` + `obt_orders`)
-7) **Repeat purchase rate (paid orders only) within 30/60/90 days by first-order AOV bucket** (dynamic; `obt_orders`, filters repeat orders to `order_net_revenue > 0`)
+5) **Repeat purchase rate (paid orders only) within 30/60/90 days by first-order AOV bucket** (dynamic; `obt_orders`, filters repeat orders to `order_net_revenue > 0`)
 
 Why these queries:
 - They are “stumpers” that drive frequent confusion and AI Analyst failure modes (cohort anchoring + double counting + horizon logic).
@@ -154,41 +154,90 @@ Why these queries:
 - They intentionally exercise the key scalable tables:
   - cohort table for CAC/payback (`rpt_cohort_ltv_by_first_valid_purchase_attribute_no_product_filters`)
   - order-level analysis (`obt_orders`)
-  - product attribute analysis at scale (`obt_order_lines`)
+  - order-level analysis (`obt_orders`)
 
-### Batch 7 (planned — attribution + data health stumpers)
+### Batch 7 (shipped to docs; validated 2026-01-28)
+
+- Shipped in: `4b4e2ac` (2026-01-28)
 
 Target: high-signal investigations that commonly stump analysts when attribution looks “broken” (too much direct/unattributed), or when downstream metrics are skewed by edge-case orders.
 
-Proposed queries (6–8; likely 7):
+Batch 7 templates shipped (7):
 1) **$0 / negative net-revenue order share by source/medium** (diagnostic; `obt_orders`)
-2) **Unattributed share by `source_system` + `sm_channel`** (diagnostic; `obt_orders`)
+2) **Unattributed share by source system and sales channel** (diagnostic; `obt_orders`)
 3) **Top landing pages for direct traffic orders** (investigation; `obt_orders`)
-4) **Attribution health trend with week-over-week deltas** (regression detector; `obt_orders`)
+4) **Attribution health trend with week-over-week deltas (weekly)** (regression detector; `obt_orders`)
 5) **UTM source/medium discovery (top normalized values, last 90 days)** (exploration; `obt_orders`)
-6) **Join-key coverage trend (weekly missing `sm_customer_key` + missing SKU)** (data health; `obt_orders` + `obt_order_lines`)
-7) **Multiple discount codes prevalence (double-counting risk)** (diagnostic; `obt_orders`)
+6) **Join-key coverage trend (weekly missing customer keys + missing SKUs)** (data health; `obt_orders` + `obt_order_lines`)
+7) **Multiple discount codes prevalence (double-counting risk, last 90 days)** (diagnostic; `obt_orders`)
 
 Why these queries:
 - They cover the “what changed?” and “why is attribution weird?” workflows that dashboards usually don’t answer.
 - They are reusable across tenants and avoid hard-coded campaign/source mappings (discovery-first instead).
 - They explicitly surface edge cases that skew analysis (e.g., $0 replacement orders; multiple discount codes).
 
-### Batch 8 (planned — LTV × attribution intersections)
+### Batch 8 (shipped to docs; validated 2026-01-28)
+
+- Shipped in: `0d7acfa` (2026-01-28)
 
 Target: the “hard but common” questions where people mix up attribution dimensions, cohort anchors, and LTV windows (especially when they need order-level + order-line context without double counting).
 
-Proposed queries (5–7; likely 5):
+Batch 8 templates shipped (8):
 1) **90‑day LTV by first-order source/medium (dynamic)** (`obt_orders`)
 2) **90‑day LTV by first-order discount code (single-code only + no-code baseline)** (`obt_orders`)
 3) **First-order refund rate by acquisition source/medium** (`obt_orders`)
 4) **90‑day LTV by first-order source system + sales channel** (`obt_orders`)
 5) **Cohort-table vs dynamic reconciliation (6m vs 180d) for source/medium** (cohort table + `obt_orders`)
+6) **Which initial products lead to the highest 90‑day LTV? (primary first‑order SKU)** (`obt_order_lines` + `obt_orders`)
+7) **90‑day LTV by first-order product type (primary first‑order attribute)** (`obt_order_lines` + `obt_orders`)
+8) **90‑day LTV by first-order product vendor (primary first‑order attribute)** (`obt_order_lines` + `obt_orders`)
 
 Why these queries:
 - They answer exec-level questions customers ask (“which channels bring valuable customers?”) while being explicit about anchors and time windows.
 - They reduce a common failure mode: confusing `source_system` vs `sm_channel` vs `sm_utm_source_medium`.
 - They include a reconciliation template to prevent subtle misreads between precomputed cohort tables and dynamic windowed LTV.
+
+### Batch 9 (shipped to docs; validated 2026-01-28)
+
+- Shipped in: (docs update) 2026-01-28
+- Validation status:
+  - Static schema/column validation: done (`scripts/docs_column_accuracy.py` on `sql-query-library.mdx`)
+  - Live BigQuery dry-run validation: done (2026-01-28, `sm-democo`)
+  - Live BigQuery execution validation: done (2026-01-28, `sm-irestore4` + `sm-piquetea`)
+
+Target: templates for lifecycle messaging analysis, onsite funnel monitoring, and support operations. These are common “who owns this metric?” stumpers because the definitions are platform-specific, event-count based, and often mistaken for causal attribution.
+
+Batch 9 templates shipped (8):
+**Messaging (`rpt_outbound_message_performance_daily`)**
+1) Messaging performance by channel + message type (last 30 days)
+2) Top campaigns by platform-attributed order revenue (last 30 days)
+3) List subscribes vs unsubscribes trend by channel (weekly, last 12 weeks)
+
+**Funnel (`rpt_funnel_events_performance_hourly`)**
+4) Daily funnel step counts + conversion rates (last 30 days)
+5) Top pages by add-to-cart rate (last 7 days)
+6) Funnel conversion by UTM source/medium (last 30 days)
+
+**Customer Support (`obt_customer_support_tickets`)**
+7) Ticket volume + one-touch rate by communication channel (last 30 days)
+8) Resolution time + CSAT coverage by assignee team (last 90 days)
+
+Why these queries:
+- They cover frequently requested operational questions that aren’t answered by the core orders/cohort tables.
+- They force correct interpretation of “platform-attributed” vs “incremental” (messaging) and “events” vs “sessions/users” (funnel).
+- They avoid tenant-specific mappings by using discovery-first and stable dimensions (channel/type/source).
+
+### Batch 10 (planned — messaging + funnel + support stumpers, deeper)
+
+Target: the “definitions + monitoring” questions that cause churn because teams disagree on what the metric means (and because tracking steps are often missing).
+
+Proposed templates (6–8; likely 6):
+1) **Messaging performance by provider (`source_system`) + channel** (deliverability + engagement + platform-attributed outcomes)
+2) **Flow vs campaign trend (weekly) with unsubscribes per receive** (messaging hygiene)
+3) **Funnel tracking health by `source_system` (missing step ratios, last 30 days)** (diagnostic)
+4) **Hourly funnel anomaly detector (hour-over-hour deltas, last 7 days)** (monitoring)
+5) **Support backlog aging (open ticket age buckets) by team/channel** (ops)
+6) **Unread ticket share by channel + team** (ops)
 
 ## Query Entry Format (Canonical Metadata)
 
