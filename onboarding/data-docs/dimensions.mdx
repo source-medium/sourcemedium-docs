@@ -14,7 +14,7 @@ For full column documentation, see [Data Tables Reference](/data-activation/data
 
 | Dimension | Definition | Example Values |
 |-----------|------------|----------------|
-| `sm_channel` | Primary channel classification for orders and marketing | `Online DTC`, `Amazon`, `TikTok Shop`, `Retail` |
+| `sm_channel` | Primary channel classification for orders and marketing | `online_dtc`, `amazon`, `retail`, `wholesale` |
 | `sm_sub_channel` | Granular breakdown within a channel (config-sheet or platform-derived; falls back to channel) | `Fulfilled by Amazon`, `Fulfilled by Merchant`, `Online DTC` |
 | `sm_utm_source` | UTM source (when available) | `facebook`, `google`, `klaviyo`, `direct` |
 | `sm_utm_medium` | UTM medium (when available) | `cpc`, `email`, `organic`, `referral` |
@@ -67,7 +67,7 @@ For full column documentation, see [Data Tables Reference](/data-activation/data
 
 | Dimension | Definition | Example Values |
 |-----------|------------|----------------|
-| `source_system` | Advertising platform source | `Meta`, `Google Ads`, `TikTok` |
+| `source_system` | Advertising platform source | `meta_ads`, `google_ads`, `tiktok` |
 | `ad_campaign_name` | Campaign name from ad platform | `Prospecting - Lookalike` |
 | `ad_group_name` | Ad group/ad set name | `Interest - Fitness` |
 | `ad_name` | Individual ad name | `Video - Testimonial v2` |
@@ -76,23 +76,34 @@ For full column documentation, see [Data Tables Reference](/data-activation/data
 
 ### Filter to valid orders
 ```sql
-WHERE is_order_sm_valid = TRUE
+SELECT COUNT(*) AS valid_orders
+FROM `your_project.sm_transformed_v2.obt_orders`
+WHERE is_order_sm_valid = TRUE;
 ```
 
 ### Filter by channel
 ```sql
-WHERE sm_channel = 'Online DTC'
+SELECT COUNT(*) AS valid_orders
+FROM `your_project.sm_transformed_v2.obt_orders`
+WHERE is_order_sm_valid = TRUE
+  AND sm_channel = 'online_dtc';
 ```
 
 ### Filter by date range
 ```sql
-WHERE order_created_at >= '2026-01-01'
-  AND order_created_at < '2026-02-01'
+SELECT COUNT(*) AS valid_orders
+FROM `your_project.sm_transformed_v2.obt_orders`
+WHERE is_order_sm_valid = TRUE
+  AND order_created_at >= '2026-01-01'
+  AND order_created_at < '2026-02-01';
 ```
 
 ### Filter by customer type
 ```sql
-WHERE sm_valid_order_index = 1
+SELECT COUNT(*) AS first_valid_orders
+FROM `your_project.sm_transformed_v2.obt_orders`
+WHERE is_order_sm_valid = TRUE
+  AND sm_valid_order_index = 1;
 ```
 
 ## Related Resources

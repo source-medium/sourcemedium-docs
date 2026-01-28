@@ -101,19 +101,19 @@ LIMIT 20
 ```sql
 -- Email performance metrics with last-touch attribution
 -- (only for customers with Email/SMS last-touch enabled)
-SELECT
-  r.campaign_name,
-  COUNT(DISTINCT r.message_id) as message_count,
-  SUM(r.message_unique_sends) as sends,
-  SUM(r.message_unique_opens) as opens,
-  SUM(r.message_unique_clicks) as clicks,
-  SUM(a.last_touch_revenue) as last_touch_revenue,
-  SAFE_DIVIDE(SUM(a.last_touch_revenue), SUM(r.message_unique_sends)) as revenue_per_send
-FROM `your_project.sm_transformed_v2.rpt_outbound_message_performance_daily` r
-LEFT JOIN (
-  SELECT
-    dimension_value.email_sms as message_id,
-    SUM(last_touch_revenue_impact.email_sms) as last_touch_revenue
+	SELECT
+	  r.campaign_name,
+	  COUNT(DISTINCT r.message_id) as message_count,
+	  SUM(r.message_unique_receives) as deliveries,
+	  SUM(r.message_unique_opens) as opens,
+	  SUM(r.message_unique_clicks) as clicks,
+	  SUM(a.last_touch_revenue) as last_touch_revenue,
+	  SAFE_DIVIDE(SUM(a.last_touch_revenue), NULLIF(SUM(r.message_unique_receives), 0)) as revenue_per_delivery
+	FROM `your_project.sm_transformed_v2.rpt_outbound_message_performance_daily` r
+	LEFT JOIN (
+	  SELECT
+	    dimension_value.email_sms as message_id,
+	    SUM(last_touch_revenue_impact.email_sms) as last_touch_revenue
   FROM `your_project.sm_experimental.obt_purchase_journeys_with_mta_models`
   WHERE
     sm_store_id = 'your-sm_store_id'

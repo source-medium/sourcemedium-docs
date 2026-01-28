@@ -207,7 +207,7 @@ This model is particularly useful when analyzing the Email/SMS dimension in the 
 SELECT
   r.campaign_name,
   r.message_name,
-  SUM(r.message_unique_sends) as sends,
+  SUM(r.message_unique_receives) as deliveries,
   SUM(r.message_unique_opens) as opens,
   SUM(r.message_unique_clicks) as clicks,
   SUM(a.last_touch_revenue) as last_touch_revenue

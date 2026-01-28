@@ -18,18 +18,16 @@ This is one of the most important dimensions for segmenting your business perfor
 
 | Channel | Description |
 |---------|-------------|
-| `Online DTC` | Direct-to-consumer orders from your online store |
-| `Amazon` | Orders from Amazon Seller Central (direct integration) |
-| `Amazon via Shopify` | Amazon orders flowing through Shopify |
-| `TikTok Shop` | Orders from TikTok Shop (direct integration) |
-| `TikTok Shop via Shopify` | TikTok Shop orders flowing through Shopify |
-| `Retail` | Point-of-sale and physical retail orders |
-| `Wholesale` | B2B and bulk orders |
-| `Partners / Affiliates` | GRIN and affiliate platform orders |
-| `Mirakl` | Marketplace orders via Mirakl |
-| `Exchanged` | Exchange and replacement orders |
-| `Draft Orders` | Manually created draft orders |
-| `Excluded` | Orders tagged with `sm-exclude-order` |
+| `online_dtc` | Direct-to-consumer orders from your online store |
+| `amazon` | Orders from Amazon Seller Central (direct integration) |
+| `amazon_via_shopify` | Amazon orders flowing through Shopify |
+| `amazon_multi_channel_fulfillment` | Amazon MCF fulfillment orders (when present) |
+| `retail` | Point-of-sale and physical retail orders |
+| `wholesale` | B2B and bulk orders |
+| `partners_/_affiliates` | GRIN and affiliate platform orders |
+| `exchanged` | Exchange and replacement orders |
+| `draft_orders` | Manually created draft orders |
+| `excluded` | Orders tagged with `sm-exclude-order` |
 
 ## Channel Determination Hierarchy
 
@@ -41,7 +39,14 @@ Orders with the `sm-exclude-order` tag are always assigned to the **Excluded** c
 
 ```sql
 -- This tag takes absolute precedence
-WHERE order_tags CONTAINS 'sm-exclude-order' → 'Excluded'
+SELECT
+  sm_order_key,
+  sm_channel,
+  order_tags_csv
+FROM `your_project.sm_transformed_v2.obt_orders`
+WHERE is_order_sm_valid = TRUE
+  AND REGEXP_CONTAINS(LOWER(order_tags_csv), r'(^|,\\s*)sm-exclude-order(\\s*,|$)')
+LIMIT 50;
 ```
 
 <Warning>

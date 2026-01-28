@@ -109,31 +109,47 @@ Linear attribution now implements **session-based deduplication** to ensure mark
 
 #### How It Works
 
-1. **Session Identification**: Each touchpoint is associated with a user session via `event_user_session_id`
-2. **First Occurrence Tracking**: Within each session, only the first occurrence of a dimension value receives attribution
+1. **User Identification**: Each touchpoint is associated with a user via `event_user_id`
+2. **First Occurrence Tracking**: Within each purchase journey, only the first occurrence of a dimension value receives attribution
 3. **Credit Distribution**: The linear multiplier is calculated based on unique dimension values, not total touches
 
 #### Implementation Details
 
 ```sql
 -- Deduplication logic in obt_purchase_journeys_with_mta_models
-case 
-    when row_number() over (
-        partition by purchase_order_id, source_system, event_user_session_id, dimension_value.marketing_channel
-        order by event_local_datetime
-    ) = 1 then true
-    else false
-end as is_first_occurrence_marketing_channel
+SELECT
+  purchase_order_id,
+  source_system,
+  event_user_id,
+  dimension_value.marketing_channel,
+  event_local_datetime,
+  CASE
+    WHEN ROW_NUMBER() OVER (
+      PARTITION BY purchase_order_id, source_system, event_user_id, dimension_value.marketing_channel
+      ORDER BY event_local_datetime
+    ) = 1 THEN TRUE
+    ELSE FALSE
+  END AS is_first_occurrence_marketing_channel
+FROM `your_project.sm_experimental.obt_purchase_journeys_with_mta_models`
+WHERE sm_store_id = 'your-sm_store_id'
+  AND sm_event_name = 'purchase'
+  AND dimension_value.marketing_channel IS NOT NULL
+LIMIT 10;
 ```
 
 #### Multiplier Calculation
 
 ```sql
--- CORRECT: Uses unique dimension value count
-linear_multiplier = 1.0 / unique_dimension_value_count.marketing_channels
-
--- INCORRECT (old method): Used total touch count
--- linear_multiplier = 1.0 / valid_touch_count.marketing_channels
+-- Uses unique dimension value count
+SELECT
+  purchase_order_id,
+  unique_dimension_value_count.marketing_channels AS unique_marketing_channels,
+  SAFE_DIVIDE(1.0, unique_dimension_value_count.marketing_channels) AS linear_multiplier_marketing_channel
+FROM `your_project.sm_experimental.obt_purchase_journeys_with_mta_models`
+WHERE sm_store_id = 'your-sm_store_id'
+  AND sm_event_name = 'purchase'
+  AND unique_dimension_value_count.marketing_channels IS NOT NULL
+LIMIT 10;
 ```
 
 #### Example Scenario

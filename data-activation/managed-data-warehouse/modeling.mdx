@@ -95,7 +95,9 @@ Always filter by `sm_store_id` (SourceMedium store identifier) when working acro
 Always include `is_order_sm_valid = TRUE` to exclude test orders, cancelled orders, and other invalid transactions:
 
 ```sql
-WHERE is_order_sm_valid = TRUE
+SELECT COUNT(*) AS valid_orders
+FROM `your_project.sm_transformed_v2.obt_orders`
+WHERE is_order_sm_valid = TRUE;
 ```
 
 ### Use consistent revenue definitions
@@ -106,7 +108,7 @@ Pick one and stick with it across your models:
 ### Partition and cluster your models
 If creating persistent tables, optimize for query performance:
 
-```sql
+```text
 CREATE TABLE `your_project.your_dataset.custom_model`
 PARTITION BY DATE(order_created_at)
 CLUSTER BY sm_store_id, sm_channel
@@ -123,6 +125,7 @@ Add descriptions so others (and future you) understand the logic:
 -- Purpose: Weekly cohort LTV for finance reporting
 -- Owner: analytics@yourcompany.com
 -- Last updated: 2026-01-15
+SELECT 1 AS ok;
 ```
 
 ## Common patterns

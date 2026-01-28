@@ -11,10 +11,9 @@ The `sm_order_type` field classifies whether an order is a subscription or one-t
 
 | Value | Description |
 |-------|-------------|
-| `Subscription` | Recurring subscription order |
-| `One-time` | Non-subscription purchase |
-| `Subscription - Prepaid` | Prepaid subscription (multiple periods paid upfront) |
-| `Subscription & One-time` | Mixed order containing both subscription and one-time items |
+| `subscription` | Recurring subscription order |
+| `one_time` | Non-subscription purchase |
+| `subscription_&_one_time` | Mixed order containing both subscription and one-time items |
 
 ## How Order Type is Determined
 
@@ -64,7 +63,12 @@ When you have a direct integration with a subscription platform, line-level data
 A boolean convenience field derived from `sm_order_type`:
 
 ```sql
-is_subscription_order = (sm_order_type = 'Subscription')
+SELECT
+  sm_order_type,
+  sm_order_type = 'subscription' AS is_subscription_order
+FROM `your_project.sm_transformed_v2.dim_orders`
+WHERE sm_order_type IS NOT NULL
+LIMIT 10;
 ```
 
 ### order_sequence
@@ -91,9 +95,15 @@ Subscription-specific lifecycle classification:
 ### Filter to Subscription Orders
 
 ```sql
-WHERE sm_order_type = 'Subscription'
+SELECT COUNT(*) AS subscription_orders
+FROM `your_project.sm_transformed_v2.obt_orders`
+WHERE is_order_sm_valid = TRUE
+  AND sm_order_type = 'subscription';
 -- or equivalently
-WHERE is_subscription_order = TRUE
+SELECT COUNT(*) AS subscription_orders
+FROM `your_project.sm_transformed_v2.obt_orders`
+WHERE is_order_sm_valid = TRUE
+  AND is_subscription_order = TRUE;
 ```
 
 ### Separate Subscription vs One-time Metrics
@@ -103,7 +113,7 @@ SELECT
   sm_order_type,
   COUNT(*) as order_count,
   SUM(order_net_revenue) as revenue
-FROM your_project.sm_transformed_v2.obt_orders
+FROM `your_project.sm_transformed_v2.obt_orders`
 WHERE is_order_sm_valid = TRUE
 GROUP BY sm_order_type
 ```
@@ -117,7 +127,7 @@ SELECT
   DATE_TRUNC(order_processed_at, MONTH) as cohort_month,
   subscription_order_sequence,
   COUNT(DISTINCT sm_customer_key) as customers
-FROM your_project.sm_transformed_v2.obt_orders
+FROM `your_project.sm_transformed_v2.obt_orders`
 WHERE is_order_sm_valid = TRUE
   AND is_subscription_order = TRUE
 GROUP BY 1, 2

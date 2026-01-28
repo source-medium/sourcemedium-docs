@@ -26,40 +26,42 @@ The following data should be provided via the metadata in each charge in JSON fo
 
 <Accordion title = "Example of complete metadata (in JSON form) for a given charge with refunds">
 
-```sql
+```json
 {
-"order_id": "order-id-123", # as order_id_secondary
-  "subscription_id": "subscription-id-123", # if applicable
-  "order_type": "onetime|first_sub_order|recurring_sub_order", # required
+  "order_id": "order-id-123",
+  "subscription_id": "subscription-id-123",
+  "order_type": "onetime|first_sub_order|recurring_sub_order",
   "line_items": [
-		{
-		  "line_item_id": "order-line-id-123", # required
-			"sku": "SKU123", # required
-			"product_title": "Awesome Product", # optional
-			"variant_title": "2 Pack", # optional
-			"price": 12, # required
-			"quantity": 2, # required
-			"gross_revenue": 24, # 12 * 2
-			"net_revenue": 20, # gross - discounts - refunds 
-			"total_discounts": 4 # required
-		}
-  ], # required
-  "refund_line_items": [ # ONLY relevant if there's a refund on this charge.
-    "line_item_id": "order-line-id-123", # required
-    "subtotal": "{{ REFUNDED AMOUNT }}" # required
-  	],
-	"discount_code": "WELCOME15", 
-	"shipping_city": "{{CITY}}", 
-	"shipping_state": "{{STATE}}", 
-	"shipping_country": "{{COUNTRY}}",
-	"shipping_zip": "{{ZIP}}", 
-  "zero_party_attribution": "YouTube - Ads - {{ Account Name }}", 
-	"utm_source": "{{ utm_source }}", 
-	"utm_medium": "{{ utm_medium }}", 
-	"utm_campaign": "{{ utm_campaign }}", 
-	"utm_term": "{{ utm_term }}", 
-	"utm_content": "{{ utm_content }}", 
-	"tags": "tag1, tag2, tag3"
+    {
+      "line_item_id": "order-line-id-123",
+      "sku": "SKU123",
+      "product_title": "Awesome Product",
+      "variant_title": "2 Pack",
+      "price": 12,
+      "quantity": 2,
+      "gross_revenue": 24,
+      "net_revenue": 20,
+      "total_discounts": 4
+    }
+  ],
+  "refund_line_items": [
+    {
+      "line_item_id": "order-line-id-123",
+      "subtotal": "{{REFUNDED_AMOUNT}}"
+    }
+  ],
+  "discount_code": "WELCOME15",
+  "shipping_city": "{{CITY}}",
+  "shipping_state": "{{STATE}}",
+  "shipping_country": "{{COUNTRY}}",
+  "shipping_zip": "{{ZIP}}",
+  "zero_party_attribution": "youtube - ads - {{ACCOUNT_NAME}}",
+  "utm_source": "{{UTM_SOURCE}}",
+  "utm_medium": "{{UTM_MEDIUM}}",
+  "utm_campaign": "{{UTM_CAMPAIGN}}",
+  "utm_term": "{{UTM_TERM}}",
+  "utm_content": "{{UTM_CONTENT}}",
+  "tags": "tag1, tag2, tag3"
 }
 ```
 
