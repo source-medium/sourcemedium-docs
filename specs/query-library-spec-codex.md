@@ -108,13 +108,18 @@ Navigation note (v0):
     - Static schema/column validation: done (0 issues for the canonical page’s SQL blocks).
     - Live BigQuery dry-run validation (`bq query --dry_run ...`): pending engineering gate.
 
-### Batch 3 (shipped to docs; pending dry-run gate)
+### Batch 3 (shipped to docs; validated 2026-01-27)
 - Canonical page: `sourcemedium-docs/data-activation/template-resources/sql-query-library.mdx`
 - Batch 3 queries added (stumper templates): Q029, Q041, Q019, Q007, Q018
+- Also includes Product Insights section with recursive CTE product combinations query.
 - Why these queries:
-  - They force the most common “gotchas”: cohort denominators, first-valid-order anchoring, and choosing cohort-table vs dynamic LTV.
-  - They reuse canonical, documented tables (`sm_transformed_v2`) and keep logic explicit (no implicit “subscription” inference via LIKE).
-  - They’re the patterns most likely to improve analyst self-serve and reduce AI Analyst failure modes on LTV/retention.
+  - They force the most common "gotchas": cohort denominators, first-valid-order anchoring, and choosing cohort-table vs dynamic LTV.
+  - They reuse canonical, documented tables (`sm_transformed_v2`) and keep logic explicit (no implicit "subscription" inference via LIKE).
+  - They're the patterns most likely to improve analyst self-serve and reduce AI Analyst failure modes on LTV/retention.
+- Validation status:
+  - Live BigQuery execution validation: **done** (2026-01-27, `sm-irestore4`)
+  - All 18 queries executed successfully and returned plausible results.
+  - Issue found and fixed: Product Combinations query was missing `sku IS NOT NULL` and product-title exclusion filter, causing "Order Specific Details - Not a Product" to pollute results. Fixed by adding standard exclusion pattern.
 
 ## Query Entry Format (Canonical Metadata)
 

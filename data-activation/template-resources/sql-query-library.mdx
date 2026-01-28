@@ -650,6 +650,7 @@ ORDER BY 1;
 <AccordionGroup>
     <Accordion title='Most commonly ordered product combinations'>
         ```sql
+        -- Assumptions: timeframe=all_time | metric=order_frequency | grain=product_combination | scope=valid_orders_only
         WITH RECURSIVE product_combos AS (
             -- Anchor: Start with individual products per order
             SELECT
@@ -661,6 +662,8 @@ ORDER BY 1;
             FROM `your_project.sm_transformed_v2.obt_order_lines` AS ol
             WHERE ol.sm_store_id = 'your-sm_store_id'
               AND ol.is_order_sm_valid = TRUE
+              AND ol.sku IS NOT NULL
+              AND NOT REGEXP_CONTAINS(ol.product_title, r'(?i)(shipping protection|not a product|service fee|processing fee|order specific)')
 
             UNION ALL
 
@@ -677,6 +680,8 @@ ORDER BY 1;
                 AND CONCAT(ol.product_title, ' - ', ol.product_variant_title) > pc.last_item
             WHERE pc.combo_length < 5
               AND ol.is_order_sm_valid = TRUE
+              AND ol.sku IS NOT NULL
+              AND NOT REGEXP_CONTAINS(ol.product_title, r'(?i)(shipping protection|not a product|service fee|processing fee|order specific)')
         )
 
         SELECT
