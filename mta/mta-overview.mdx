@@ -1,23 +1,23 @@
 ---
-title: "Source Medium Multi-Touch Attribution Overview"
+title: "SourceMedium Multi-Touch Attribution Overview"
 sidebarTitle: "MTA Overview"
-description: "Learn the basics of Source Medium Multi-Touch Attribution"
+description: "Learn the basics of SourceMedium Multi-Touch Attribution"
 icon: "sitemap"
 iconType: "solid"
 ---
 
-### <Icon icon="sitemap" iconType="solid" size={32}/>  What is Source Medium Multi-Touch Attribution (MTA)?
+### <Icon icon="sitemap" iconType="solid" size={32}/>  What is SourceMedium Multi-Touch Attribution (MTA)?
 
 Our model provides a comprehensive view of how various marketing efforts contribute to customer purchases. 
 By unifying data from multiple sources of first party data you already own, we construct detailed purchase journeys that help you understand the impact of different marketing channels, landing pages, and ad creatives.
 
-In the sections below, this document will provide everything you need to know to get started with Source Medium 
+In the sections below, this document will provide everything you need to know to get started with SourceMedium 
 MTA.
 
 <Note>If you have a specific question and you’d like to skip the overview guide, check out our [MTA FAQs](/mta/mta-faqs) or use the AI-enabled search bar above to 
 quickly find what you’re looking for.</Note>
 
-<Note>If you’re already familiar with Source Medium MTA data and you’d like to explore how to use our built-in reporting, skip ahead to Section 3. 
+<Note>If you’re already familiar with SourceMedium MTA data and you’d like to explore how to use our built-in reporting, skip ahead to Section 3. 
 For a verbose technical explanation, skip ahead to our [MTA Advanced Documentation](/mta/mta-advanced-documentation).</Note>
 
 <Steps titleSize="h2">
@@ -30,21 +30,21 @@ For a verbose technical explanation, skip ahead to our [MTA Advanced Documentati
       <Tab title="Touch Points">
         - A **touch point** is an event, occurring before a purchase, where an interaction with a customer is made and touch point data is captured
         - **Touch point data** must contain at least one of the following to be considered valid: a landing page, an ad creative, or a marketing channel (mapped UTM data)
-        - Add to carts, purchases, and confirmations are touch points, but they are not the primary focus of the Source Medium MTA model as they do not provide attribution insights
+        - Add to carts, purchases, and confirmations are touch points, but they are not the primary focus of the SourceMedium MTA model as they do not provide attribution insights
         - Touch points are only valid within the **lookback window**, which is 120 days before the customer makes their purchase
       </Tab>
 
       <Tab title="Purchase Journey">
         - A **purchase journey** includes all recorded touch points leading up to a purchase made by a customer, an example is displayed in the figure below
-        - Source Medium MTA standardizes purchase journeys to the [GA4 E-Commerce Event Schema](https://support.google.com/analytics/answer/9267735?hl=en) that you may already be familiar with
-        - There are often many data sources reporting many purchase journeys for each purchase, Source Medium MTA selects the highest quality purchase journey available by number of valid touch points—read more on this in the modeling section below
+        - SourceMedium MTA standardizes purchase journeys to the [GA4 E-Commerce Event Schema](https://support.google.com/analytics/answer/9267735?hl=en) that you may already be familiar with
+        - There are often many data sources reporting many purchase journeys for each purchase, SourceMedium MTA selects the highest quality purchase journey available by number of valid touch points—read more on this in the modeling section below
         
         <img src="/images/article-imgs/mta/purchase_journey.png" />
       </Tab>
 
       <Tab title="Multi-Touch Attribution Dataset">
         - With the best purchase journey selected for each customer purchase, the collection of these journeys tells a detailed story of how marketing efforts bring in business
-        - You can interact with the Source Medium MTA dataset through pre-built analysis modules and even by building your own charts or BI solutions directly on top of the modeled dataset—read more on this in the reporting section below
+        - You can interact with the SourceMedium MTA dataset through pre-built analysis modules and even by building your own charts or BI solutions directly on top of the modeled dataset—read more on this in the reporting section below
 
         <img src="/images/article-imgs/mta/dash_linear_chart.png" />
       </Tab>
@@ -54,20 +54,20 @@ For a verbose technical explanation, skip ahead to our [MTA Advanced Documentati
   </Step>
 
   <Step title="Where Does Multi-Touch Attribution Data Come From, and How is it Modeled?">
-    Source Medium MTA takes multiple data sources reporting many customer journeys, unifies them into a single schema and assesses their quality, then combines the best of those purchase journeys with Marketing Data, Orders Data, Customer Data, and User Inputs to create a Unified Purchase Journey Dataset. View this process in the figure below.
+    SourceMedium MTA takes multiple data sources reporting many customer journeys, unifies them into a single schema and assesses their quality, then combines the best of those purchase journeys with Marketing Data, Orders Data, Customer Data, and User Inputs to create a Unified Purchase Journey Dataset. View this process in the figure below.
 
     <img src="/images/article-imgs/mta/mta_architecture.png" />
 
     <Tabs>
 
       <Tab title="MTA Architecture">
-      1. Source Medium integrates first-party purchase funnel data from a variety of **data sources**, you’ll see them listed and categorized on the left-hand side of the chart above
+      1. SourceMedium integrates first-party purchase funnel data from a variety of **data sources**, you’ll see them listed and categorized on the left-hand side of the chart above
       2. The purchase journeys from all data sources are assessed for quality by number of valid touch points and the best are selected, this creates the **Unified Event Schema** you’ll see in the middle of the chart
       3. The Unified event Schema is combined with Marketing Data, Orders Data, Customer Data, and User Inputs using the appropriate identifier matching for each to create a set of **Unified Purchase Journeys** which you’ll see on the right-hand side of the chart
       </Tab>
 
       <Tab title="Attribution Modeling">
-      Source Medium models attribution in three key ways:
+      SourceMedium models attribution in three key ways:
       1. **First Touch Attribution:** 
         - Assigns all credit to the first valid touch point in the purchase journey
         - Ideal for understanding initial customer acquisition channels
@@ -90,17 +90,17 @@ For a verbose technical explanation, skip ahead to our [MTA Advanced Documentati
 
   </Step>
 
-  <Step title="How can I Analyze Source Medium Multi-Touch Data?">
-    Source Medium MTA data architecture and modeling powers a robust suite of detailed reports to help you analyze and optimize your marketing efforts. If desired, you can customize these MTA reports for your use case—and you can even build custom BI solutions or train machine learning models directly on top of the Unified Purchase Journey MTA data from your managed data warehouse. 
+  <Step title="How can I Analyze SourceMedium Multi-Touch Data?">
+    SourceMedium MTA data architecture and modeling powers a robust suite of detailed reports to help you analyze and optimize your marketing efforts. If desired, you can customize these MTA reports for your use case—and you can even build custom BI solutions or train machine learning models directly on top of the Unified Purchase Journey MTA data from your managed data warehouse. 
 
-    <Note>If you're already familiar with Source Medium MTA, or you'd like to just get started with analysis, feel free to skip the Reporting Definitions below and move ahead to the MTA Built-in Reports section.</Note>
+    <Note>If you're already familiar with SourceMedium MTA, or you'd like to just get started with analysis, feel free to skip the Reporting Definitions below and move ahead to the MTA Built-in Reports section.</Note>
 
     <AccordionGroup>
 
       <Accordion title="Key MTA Reporting Definitions">
         **Model Dimension**
-        - In the specific case of Source Medium MTA, model dimension refers to the type of touch point being analyzed
-        - There are 3 model dimension types used in Source Medium MTA:
+        - In the specific case of SourceMedium MTA, model dimension refers to the type of touch point being analyzed
+        - There are 3 model dimension types used in SourceMedium MTA:
           - **Marketing Channels (mapped UTM)**
           - **Ads**
           - **Landing Pages**
@@ -125,7 +125,7 @@ For a verbose technical explanation, skip ahead to our [MTA Advanced Documentati
         <Tip>_Example:_ A **Minimum Distinct Dimension Values** setting of 3 for the Landing Pages model dimension will filter out all purchase journeys with less than 3 distinct landing pages recorded</Tip> 
 
         **Attribution Type**
-        - Source Medium MTA modeling enables three different attribution types:
+        - SourceMedium MTA modeling enables three different attribution types:
           - **First Touch:** Assigns all credit to the first valid touch point in the purchase journey
           - **Last Touch:** Assigns all credit to the last valid touch point before the purchase
           - **Linear:** Distributes credit equally among all valid touch points
@@ -145,21 +145,21 @@ For a verbose technical explanation, skip ahead to our [MTA Advanced Documentati
         <Tip>_Examples:_ Google Analytics, Elevar, and Blotout are **Source Systems** used by Source medium MTA</Tip> 
       </Accordion>
 
-      <Accordion title="Source Medium MTA Built-in Reports">
-        Source Medium MTA built-in reports are part of a standalone dashboard separate from your main Source Medium dash. After MTA is enabled for your account, the dashboard link will be pinned to your shared Slack channel or sent via email/gchat if you do not use Slack. The sections below describe each of the default modules and their functionality.
+      <Accordion title="SourceMedium MTA Built-in Reports">
+        SourceMedium MTA built-in reports are part of a standalone dashboard separate from your main SourceMedium dash. After MTA is enabled for your account, the dashboard link will be pinned to your shared Slack channel or sent via email/gchat if you do not use Slack. The sections below describe each of the default modules and their functionality.
 
         <Tabs>
 
           <Tab title="Attribution Health">
-            This module provides an overview of how complete your business data is for use with Source Medium MTA. If you find your attribution rates to be low, the [MTA Advanced Documentation](/mta/mta-advanced-documentation) provides common solutions to this problem in the Attribution Improvement section. You’ll also find a video overview at the top of this module if you’d prefer watching a guide instead of the written format shown here. 
+            This module provides an overview of how complete your business data is for use with SourceMedium MTA. If you find your attribution rates to be low, the [MTA Advanced Documentation](/mta/mta-advanced-documentation) provides common solutions to this problem in the Attribution Improvement section. You’ll also find a video overview at the top of this module if you’d prefer watching a guide instead of the written format shown here. 
 
-            <Note>_User Interactions:_ <br/><br/>Select a **date range** to display data from—complete purchase journeys will be included if their associated purchase date is within the date range, touch points are not excluded by the date setting<br/><br/>_This filter is present on all Source Medium MTA modules_</Note>
+            <Note>_User Interactions:_ <br/><br/>Select a **date range** to display data from—complete purchase journeys will be included if their associated purchase date is within the date range, touch points are not excluded by the date setting<br/><br/>_This filter is present on all SourceMedium MTA modules_</Note>
 
             <img src="/images/article-imgs/mta/dash_attribution_health.png" />
           </Tab>
 
           <Tab title="MTA Analysis">
-            This module is the heart of Source Medium MTA reporting. Here you’ll find aggregates of all your MTA data for each of the three attribution types, across all three model dimensions. 
+            This module is the heart of SourceMedium MTA reporting. Here you’ll find aggregates of all your MTA data for each of the three attribution types, across all three model dimensions. 
 
             <Note>_User Interactions:_ <br/><br/>Choose a **Model Dimension** to select the type of touch points you’d like to analyze<br/><br/>Set the **Minimum Dimension Values** to filter the number of touch points per purchase journey<br/><br/>Choose **Dimension Value(s)** to select which specific Marketing Channels, Ads, or Landing Pages you’d like to analyze touch points from<br/><br/>Select the **first and/or last touch dimension value** to set a specific beginning and/or end to the customer journeys you are analyzing</Note>
 
@@ -186,8 +186,8 @@ For a verbose technical explanation, skip ahead to our [MTA Advanced Documentati
 
       </Accordion>
 
-      <Accordion title="Source Medium MTA Custom Reporting">
-        To customize the Source Medium MTA dashboard, such as changing visualizations or swapping metrics, you can use the edit mode in Looker Studio as you would on your main dashboard. For more information on how to do this, see our Looker Studio Customization Guide (in progress, link coming).
+      <Accordion title="SourceMedium MTA Custom Reporting">
+        To customize the SourceMedium MTA dashboard, such as changing visualizations or swapping metrics, you can use the edit mode in Looker Studio as you would on your main dashboard. For more information on how to do this, see our Looker Studio Customization Guide (in progress, link coming).
 
         To access the MTA data directly within your managed data warehouse for custom BI solutions or ML modeling, or for more advanced usage and customization information, view the Warehouse Data section of our [MTA Advanced Documentation](/mta/mta-advanced-documentation).
       </Accordion>
