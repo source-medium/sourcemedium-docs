@@ -29,12 +29,12 @@ version: 2
 models:
   - name: rpt_ad_attribution_performance_daily
     description: >
-      Daily ad performance with waterfall MTA attribution. Grain: One row per smcid + date + source_system + waterfall_level + ad hierarchy.
+      Daily ad performance with waterfall MTA attribution. Grain: One row per sm_store_id + date + source_system + waterfall_level + ad hierarchy.
       Date field: date. Critical filters: waterfall_level for aggregation granularity; ad_campaign_tactic for brand exclusion.
     columns:
-      - name: smcid
+      - name: sm_store_id
         description: >
-          SourceMedium customer identifier (brand/workspace).
+          SourceMedium store identifier (brand/workspace).
 
       - name: date
         description: >

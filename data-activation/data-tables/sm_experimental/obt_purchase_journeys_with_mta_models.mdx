@@ -29,9 +29,9 @@ models:
       Grain: One row per touchpoint (sm_touch_id). Date field: event_local_datetime.
       Critical filters: sm_event_name = 'purchase' for conversion rows; is_valid_touch.* for dimension-specific valid touches.
     columns:
-      - name: smcid
+      - name: sm_store_id
         description: >
-          SourceMedium customer identifier (brand/workspace).
+          SourceMedium store identifier (brand/workspace).
 
       - name: source_system
         description: >

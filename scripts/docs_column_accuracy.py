@@ -31,6 +31,10 @@ SCHEMA_DOCS_DIRS: tuple[tuple[str, Path], ...] = (
         "sm_transformed_v2",
         REPO_ROOT / "data-activation" / "data-tables" / "sm_transformed_v2",
     ),
+    (
+        "sm_experimental",
+        REPO_ROOT / "data-activation" / "data-tables" / "sm_experimental",
+    ),
     ("sm_metadata", REPO_ROOT / "data-activation" / "data-tables" / "sm_metadata"),
 )
 
@@ -43,11 +47,13 @@ SQL_BLOCK_RE = re.compile(r"```sql\s*\n(.*?)\n```", re.DOTALL | re.IGNORECASE)
 # FROM `your_project.sm_transformed_v2.obt_orders` o
 # FROM `your_project.sm_metadata.dim_data_dictionary` d
 TABLE_REF_RE = re.compile(
-    r"`[^`]*?\.(sm_transformed_v2|sm_metadata)\.([A-Za-z0-9_]+)`(?:\s+(?:AS\s+)?([A-Za-z_][A-Za-z0-9_]*))?",
+    r"`[^`]*?\.(sm_transformed_v2|sm_experimental|sm_metadata)\.([A-Za-z0-9_]+)`(?:\s+(?:AS\s+)?([A-Za-z_][A-Za-z0-9_]*))?",
     re.IGNORECASE,
 )
 QUALIFIED_COL_RE = re.compile(r"\b([A-Za-z_][A-Za-z0-9_]*)\.([A-Za-z_][A-Za-z0-9_]*)\b")
-UNQUALIFIED_IDENT_RE = re.compile(r"\b([a-z][a-z0-9_]{2,})\b")
+# Avoid matching tokens that are clearly the RHS of a dotted identifier (e.g., "dimension_value.email_sms")
+# or segments inside a dotted table path (e.g., "`your_project.sm_experimental.table`").
+UNQUALIFIED_IDENT_RE = re.compile(r"(?<!\.)\b([a-z][a-z0-9_]{2,})\b")
 AS_ALIAS_RE = re.compile(r"\bAS\s+([A-Za-z_][A-Za-z0-9_]*)\b", re.IGNORECASE)
 CTE_NAME_RE = re.compile(r"(?:\bWITH\s+|,\s*)([A-Za-z_][A-Za-z0-9_]*)\s+AS\s*\(", re.IGNORECASE)
 
@@ -110,6 +116,7 @@ SQL_IGNORE_FUNCTIONS = {
     "avg",
     "min",
     "max",
+    "round",
     "lag",
     "lead",
     "safe_divide",
@@ -118,9 +125,17 @@ SQL_IGNORE_FUNCTIONS = {
     "coalesce",
     "current_date",
     "current_timestamp",
+    "date",
     "date_sub",
     "date_add",
+    "date_trunc",
     "cast",
+    "concat",
+    "format",
+    "regexp_contains",
+    "string_agg",
+    "lower",
+    "trim",
 }
 
 
