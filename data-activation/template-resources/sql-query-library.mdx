@@ -131,18 +131,19 @@ Most examples default to the last 30 days for performance and “current state�
 ### Customers & Retention
 
 <AccordionGroup>
-  <Accordion title="First-time vs repeat orders (last 30 days)">
-    **What you'll learn:** The split between first-time and repeat purchases in terms of order count, unique customers, and revenue. A healthy business typically sees growing repeat order share over time.
+  <Accordion title="First valid vs repeat orders (last 30 days)">
+    **What you'll learn:** The split between customers’ **first valid order** vs repeat valid orders in terms of order count, unique customers, and net revenue. Track this over time to understand how much revenue comes from retention vs new customer acquisition.
 
     ```sql
     -- Assumptions: timeframe=last_30_days | metric=orders+customers+net_revenue | grain=first_vs_repeat | scope=valid_orders_only
     SELECT
-      CASE WHEN order_index = 1 THEN 'first_order' ELSE 'repeat_order' END AS order_type,
+      CASE WHEN sm_valid_order_index = 1 THEN 'first_valid_order' ELSE 'repeat_valid_order' END AS order_type,
       COUNT(DISTINCT sm_order_key) AS orders,
       COUNT(DISTINCT sm_customer_key) AS customers,
       SUM(order_net_revenue) AS order_net_revenue
     FROM `your_project.sm_transformed_v2.obt_orders`
     WHERE is_order_sm_valid = TRUE
+      AND order_cancelled_at IS NULL
       AND DATE(order_processed_at_local_datetime) >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)
     GROUP BY 1
     ORDER BY orders DESC;
@@ -166,6 +167,7 @@ Most examples default to the last 30 days for performance and “current state�
         ) AS rn
       FROM `your_project.sm_transformed_v2.obt_orders`
       WHERE is_order_sm_valid = TRUE
+        AND order_cancelled_at IS NULL
         AND sm_customer_key IS NOT NULL
     ),
     customer_summary AS (
@@ -193,7 +195,7 @@ Most examples default to the last 30 days for performance and “current state�
   </Accordion>
 
   <Accordion title="New vs repeat customer ratio trend (weekly, YTD)">
-    **What you'll learn:** How your balance between new and returning customers has shifted week-over-week this year. A declining ratio may signal you're over-relying on existing customers; a rising ratio could mean retention needs attention.
+    **What you'll learn:** How your balance between new and returning customers has shifted week-over-week this year. Use this to see whether acquisition is outpacing repeat purchasing (or vice versa), and to spot meaningful shifts after campaigns or seasonality.
 
     ```sql
     -- Assumptions: timeframe=year_to_date | metric=new_to_repeat_ratio=new_customer_count/repeat_customer_count | grain=week | scope=all_channels
@@ -338,6 +340,7 @@ Most examples default to the last 30 days for performance and “current state�
         order_net_revenue
       FROM `your_project.sm_transformed_v2.obt_orders`
       WHERE is_order_sm_valid = TRUE
+        AND order_cancelled_at IS NULL
         AND DATE(order_processed_at_local_datetime) >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)
     )
     SELECT
@@ -364,6 +367,7 @@ Most examples default to the last 30 days for performance and “current state�
         sm_customer_key
       FROM `your_project.sm_transformed_v2.obt_orders`
       WHERE is_order_sm_valid = TRUE
+        AND order_cancelled_at IS NULL
         AND is_subscription_order = TRUE
         AND sm_customer_key IS NOT NULL
     ),
@@ -374,6 +378,7 @@ Most examples default to the last 30 days for performance and “current state�
         order_net_revenue
       FROM `your_project.sm_transformed_v2.obt_orders`
       WHERE is_order_sm_valid = TRUE
+        AND order_cancelled_at IS NULL
         AND DATE(order_processed_at_local_datetime) >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)
         AND sm_customer_key IS NOT NULL
     )
@@ -573,7 +578,7 @@ ORDER BY 1;
   </Accordion>
 
   <Accordion title="Which initial products lead to the highest 90‑day LTV? (primary first‑order SKU, last 12 months)">
-    **What you'll learn:** Which products in a customer's first order correlate with higher 90-day LTV. These are your best "starter products" to feature in acquisition campaigns and new customer bundles.
+    **What you'll learn:** Which **primary first‑order SKU** (one SKU per customer, chosen as the highest net‑revenue line item on the first valid order) is associated with higher 90‑day LTV. Use this to identify “starter products” to feature in acquisition campaigns and new customer bundles.
 
     ```sql
     -- Assumptions: timeframe=first_valid_orders_last_12_months | metric=90d_LTV=SUM(order_net_revenue_90d) | grain=primary_first_sku | scope=valid_orders_only
@@ -798,7 +803,7 @@ If you want table-level freshness/coverage metadata, start with: [`dim_data_dict
   </Accordion>
 
   <Accordion title="Top referrer domains for orders missing UTMs">
-    **What you'll learn:** Which external sites are sending you traffic that isn't tagged with UTMs. Use this to identify partners, affiliates, or organic sources that need proper tracking or attribution rules.
+    **What you'll learn:** Which external sites are sending you traffic that isn't tagged with UTMs. Use this to identify partners, affiliates, or other untracked sources that need proper tracking or attribution rules.
 
     ```sql
     -- Assumptions: timeframe=last_90_days | metric=orders+net_revenue | grain=referrer_domain | scope=valid_orders_only_missing_utms
@@ -939,7 +944,7 @@ If you want table-level freshness/coverage metadata, start with: [`dim_data_dict
   </Accordion>
 
   <Accordion title="Discount code parsing (top codes by revenue)">
-    **What you'll learn:** Your most-used discount codes ranked by revenue, with order counts and AOV. Use this to evaluate promo effectiveness and identify codes that might be over-used or under-attributed.
+    **What you'll learn:** Your top discount codes ranked by revenue, with order counts and AOV. Use this to evaluate promo effectiveness and identify codes that might be over-used or under-attributed.
 
     ```sql
     -- Assumptions: timeframe=last_90_days | metric=orders+net_revenue | grain=discount_code | scope=valid_orders_only
@@ -979,7 +984,7 @@ If you want table-level freshness/coverage metadata, start with: [`dim_data_dict
   </Accordion>
 
   <Accordion title="Top landing pages for orders missing UTMs">
-    **What you'll learn:** Which pages customers land on when they arrive without UTM tracking. Useful for identifying organic entry points and pages that need better tracking implementation.
+    **What you'll learn:** Which pages customers land on when they arrive without UTM tracking. Useful for identifying untracked entry points and pages that need better tracking implementation.
 
     ```sql
     -- Assumptions: timeframe=last_90_days | metric=orders+net_revenue | grain=landing_host+landing_path | scope=valid_orders_only_missing_utms
