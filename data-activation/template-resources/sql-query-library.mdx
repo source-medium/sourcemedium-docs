@@ -646,6 +646,214 @@ ORDER BY 1;
   </Accordion>
 </AccordionGroup>
 
+## Attribution & Data Health (diagnostics)
+
+These templates help you assess attribution coverage and basic data health before doing deeper analysis.
+
+If you want table-level freshness/coverage metadata, start with: [`dim_data_dictionary`](/data-activation/data-tables/sm_metadata/dim_data_dictionary).
+
+<AccordionGroup>
+  <Accordion title="DQ01 — Which tables are stale or missing data? (last known data date)">
+    ```sql
+    -- Assumptions: timeframe=all_time | metric=table_freshness | grain=dataset+table | scope=sm_metadata
+    SELECT
+      dataset_name,
+      table_name,
+      MAX(CAST(table_has_data AS INT64)) > 0 AS table_has_data,
+      MAX(CAST(table_has_fresh_data_14d AS INT64)) > 0 AS table_has_fresh_data_14d,
+      MAX(table_last_data_date) AS table_last_data_date,
+      ANY_VALUE(table_description) AS table_description
+    FROM `your_project.sm_metadata.dim_data_dictionary`
+    WHERE dataset_name IN ('sm_transformed_v2', 'sm_experimental')
+      AND dataset_name IS NOT NULL
+      AND table_name IS NOT NULL
+    GROUP BY 1, 2
+    ORDER BY table_has_fresh_data_14d ASC, table_has_data ASC, table_last_data_date ASC, dataset_name, table_name
+    LIMIT 200;
+    ```
+  </Accordion>
+
+  <Accordion title="DQ02 — Attribution column coverage on orders (UTMs, discount codes, zero-party, landing/referrer)">
+    ```sql
+    -- Assumptions: timeframe=all_time | metric=column_coverage | grain=column | scope=sm_metadata_obt_orders
+    WITH cols AS (
+      SELECT 'sm_utm_source' AS column_name UNION ALL
+      SELECT 'sm_utm_medium' UNION ALL
+      SELECT 'sm_utm_source_medium' UNION ALL
+      SELECT 'sm_zero_party_attribution_source' UNION ALL
+      SELECT 'order_discount_codes_csv' UNION ALL
+      SELECT 'sm_order_landing_page' UNION ALL
+      SELECT 'sm_order_referrer_domain'
+    )
+    SELECT
+      d.table_name,
+      d.column_name,
+      ROUND(100 - d.column_null_percentage, 1) AS non_null_pct,
+      d.column_distinct_count,
+      (
+        SELECT STRING_AGG(
+          CONCAT(v.value, ' (', FORMAT('%.1f', v.pct), '%)'),
+          ', '
+          ORDER BY v.pct DESC
+          LIMIT 8
+        )
+        FROM UNNEST(IFNULL(d.categorical_value_distribution, [])) AS v
+        WHERE v.value IS NOT NULL AND v.pct IS NOT NULL
+      ) AS top_values
+    FROM `your_project.sm_metadata.dim_data_dictionary` d
+    INNER JOIN cols c
+      ON d.column_name = c.column_name
+    WHERE d.dataset_name = 'sm_transformed_v2'
+      AND d.table_name = 'obt_orders'
+    ORDER BY non_null_pct DESC, d.column_distinct_count DESC, d.column_name;
+    ```
+  </Accordion>
+
+  <Accordion title="DQ03 — Orders by source/medium (UTM coverage + direct/missing share, last 30 days)">
+    ```sql
+    -- Assumptions: timeframe=last_30_days | metric=orders+net_revenue+utm_coverage | grain=sm_utm_source_medium | scope=valid_orders_only
+    WITH base AS (
+      SELECT
+        COALESCE(NULLIF(LOWER(TRIM(sm_utm_source_medium)), ''), '(none) / (none)') AS source_medium,
+        sm_order_key,
+        order_net_revenue
+      FROM `your_project.sm_transformed_v2.obt_orders`
+      WHERE is_order_sm_valid = TRUE
+        AND order_cancelled_at IS NULL
+        AND DATE(order_processed_at_local_datetime) >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)
+    ),
+    agg AS (
+      SELECT
+        source_medium,
+        COUNT(DISTINCT sm_order_key) AS orders,
+        SUM(order_net_revenue) AS order_net_revenue
+      FROM base
+      GROUP BY 1
+    ),
+    totals AS (
+      SELECT
+        COUNT(DISTINCT sm_order_key) AS total_orders,
+        SUM(order_net_revenue) AS total_revenue,
+        COUNTIF(source_medium != '(none) / (none)') AS orders_with_utm_source_medium
+      FROM base
+    )
+    SELECT
+      a.source_medium,
+      a.orders,
+      a.order_net_revenue,
+      SAFE_DIVIDE(a.orders, NULLIF(t.total_orders, 0)) AS pct_orders,
+      SAFE_DIVIDE(a.order_net_revenue, NULLIF(t.total_revenue, 0)) AS pct_revenue,
+      SAFE_DIVIDE(t.orders_with_utm_source_medium, NULLIF(t.total_orders, 0)) AS overall_utm_coverage_orders
+    FROM agg a
+    CROSS JOIN totals t
+    ORDER BY a.order_net_revenue DESC
+    LIMIT 50;
+    ```
+  </Accordion>
+
+  <Accordion title="DQ04 — When UTMs are missing, what other attribution signals exist? (last 90 days)">
+    ```sql
+    -- Assumptions: timeframe=last_90_days | metric=fallback_coverage | grain=overall | scope=valid_orders_only_missing_utms
+    WITH missing_utms AS (
+      SELECT
+        sm_order_key,
+        order_net_revenue,
+        sm_zero_party_attribution_source,
+        order_discount_codes_csv,
+        sm_order_landing_page,
+        sm_order_referrer_domain
+      FROM `your_project.sm_transformed_v2.obt_orders`
+      WHERE is_order_sm_valid = TRUE
+        AND order_cancelled_at IS NULL
+        AND DATE(order_processed_at_local_datetime) >= DATE_SUB(CURRENT_DATE(), INTERVAL 90 DAY)
+        AND COALESCE(NULLIF(LOWER(TRIM(sm_utm_source_medium)), ''), '(none) / (none)') = '(none) / (none)'
+    )
+    SELECT
+      COUNT(DISTINCT sm_order_key) AS orders_missing_utms,
+      SUM(order_net_revenue) AS order_net_revenue_missing_utms,
+      COUNTIF(sm_zero_party_attribution_source IS NOT NULL AND TRIM(sm_zero_party_attribution_source) != '') AS orders_with_zero_party,
+      SAFE_DIVIDE(
+        COUNTIF(sm_zero_party_attribution_source IS NOT NULL AND TRIM(sm_zero_party_attribution_source) != ''),
+        NULLIF(COUNT(DISTINCT sm_order_key), 0)
+      ) AS pct_with_zero_party,
+      COUNTIF(order_discount_codes_csv IS NOT NULL AND TRIM(order_discount_codes_csv) != '') AS orders_with_discount_code,
+      SAFE_DIVIDE(
+        COUNTIF(order_discount_codes_csv IS NOT NULL AND TRIM(order_discount_codes_csv) != ''),
+        NULLIF(COUNT(DISTINCT sm_order_key), 0)
+      ) AS pct_with_discount_code,
+      COUNTIF(sm_order_landing_page IS NOT NULL AND TRIM(sm_order_landing_page) != '') AS orders_with_landing_page,
+      SAFE_DIVIDE(
+        COUNTIF(sm_order_landing_page IS NOT NULL AND TRIM(sm_order_landing_page) != ''),
+        NULLIF(COUNT(DISTINCT sm_order_key), 0)
+      ) AS pct_with_landing_page,
+      COUNTIF(sm_order_referrer_domain IS NOT NULL AND TRIM(sm_order_referrer_domain) != '') AS orders_with_referrer_domain,
+      SAFE_DIVIDE(
+        COUNTIF(sm_order_referrer_domain IS NOT NULL AND TRIM(sm_order_referrer_domain) != ''),
+        NULLIF(COUNT(DISTINCT sm_order_key), 0)
+      ) AS pct_with_referrer_domain
+    FROM missing_utms;
+    ```
+  </Accordion>
+
+  <Accordion title="DQ05 — Top referrer domains for orders missing UTMs (last 90 days)">
+    ```sql
+    -- Assumptions: timeframe=last_90_days | metric=orders+net_revenue | grain=referrer_domain | scope=valid_orders_only_missing_utms
+    WITH base AS (
+      SELECT
+        COALESCE(NULLIF(LOWER(TRIM(sm_order_referrer_domain)), ''), '(none)') AS referrer_domain,
+        sm_order_key,
+        order_net_revenue
+      FROM `your_project.sm_transformed_v2.obt_orders`
+      WHERE is_order_sm_valid = TRUE
+        AND order_cancelled_at IS NULL
+        AND DATE(order_processed_at_local_datetime) >= DATE_SUB(CURRENT_DATE(), INTERVAL 90 DAY)
+        AND COALESCE(NULLIF(LOWER(TRIM(sm_utm_source_medium)), ''), '(none) / (none)') = '(none) / (none)'
+    )
+    SELECT
+      referrer_domain,
+      COUNT(DISTINCT sm_order_key) AS orders,
+      SUM(order_net_revenue) AS order_net_revenue
+    FROM base
+    GROUP BY 1
+    HAVING orders >= 25
+    ORDER BY order_net_revenue DESC
+    LIMIT 50;
+    ```
+  </Accordion>
+
+  <Accordion title="DQ06 — Key join-key completeness (customers + SKU coverage, last 30 days)">
+    ```sql
+    -- Assumptions: timeframe=last_30_days | metric=null_rate_checks | grain=overall | scope=valid_orders_only
+    WITH orders AS (
+      SELECT
+        COUNT(*) AS orders_total,
+        COUNTIF(sm_customer_key IS NULL) AS orders_missing_customer_key
+      FROM `your_project.sm_transformed_v2.obt_orders`
+      WHERE is_order_sm_valid = TRUE
+        AND order_cancelled_at IS NULL
+        AND DATE(order_processed_at_local_datetime) >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)
+    ),
+    lines AS (
+      SELECT
+        COUNT(*) AS lines_total,
+        COUNTIF(sku IS NULL OR TRIM(sku) = '' OR sku = 'Missing SKU') AS lines_missing_sku
+      FROM `your_project.sm_transformed_v2.obt_order_lines`
+      WHERE is_order_sm_valid = TRUE
+        AND DATE(order_processed_at_local_datetime) >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)
+    )
+    SELECT
+      orders_total,
+      orders_missing_customer_key,
+      SAFE_DIVIDE(orders_missing_customer_key, NULLIF(orders_total, 0)) AS pct_orders_missing_customer_key,
+      lines_total,
+      lines_missing_sku,
+      SAFE_DIVIDE(lines_missing_sku, NULLIF(lines_total, 0)) AS pct_lines_missing_sku
+    FROM orders
+    CROSS JOIN lines;
+    ```
+  </Accordion>
+</AccordionGroup>
+
 ## Product Insights
 <AccordionGroup>
     <Accordion title='Most commonly ordered product combinations'>

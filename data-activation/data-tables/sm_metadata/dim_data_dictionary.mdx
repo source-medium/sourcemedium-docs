@@ -1,0 +1,62 @@
+---
+title: 'dim_data_dictionary'
+description: 'Metadata table for table availability, freshness, and column coverage used by SourceMedium.'
+icon: "table"
+---
+
+```yaml
+version: 2
+
+models:
+  - name: dim_data_dictionary
+    description: >
+      Metadata table used for table availability, data freshness, and column coverage hints. It is queried by SourceMedium systems to determine which tables are present and whether they have recent data. Grain varies by row: table-level availability fields can appear alongside column-level coverage fields.
+    columns:
+      - name: dataset_name
+        description: >
+          Dataset containing the table (e.g., 'sm_transformed_v2').
+
+      - name: table_name
+        description: >
+          Table name (e.g., 'obt_orders').
+
+      - name: table_has_data
+        description: >
+          Boolean indicating whether the table has data for at least one store.
+
+      - name: table_has_fresh_data_14d
+        description: >
+          Boolean indicating whether the table has had data in the last 14 days for at least one store.
+
+      - name: table_last_data_date
+        description: >
+          Most recent date with data for the table (best-effort).
+
+      - name: table_description
+        description: >
+          Human-readable table description, when available.
+
+      - name: column_name
+        description: >
+          Column name within the table, when the row contains column-level metadata.
+
+      - name: column_null_percentage
+        description: >
+          Percent of rows where the column is null (0–100), when available.
+
+      - name: column_distinct_count
+        description: >
+          Number of distinct values observed for the column (best-effort), when available.
+
+      - name: categorical_value_distribution
+        description: >
+          Array of structs describing top categorical values and their distribution, when available.
+
+      - name: categorical_value_distribution.value
+        description: >
+          Categorical value.
+
+      - name: categorical_value_distribution.pct
+        description: >
+          Percent share for the categorical value.
+```

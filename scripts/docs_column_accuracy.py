@@ -26,7 +26,13 @@ from typing import Iterable
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
-SCHEMA_DOCS_DIR = REPO_ROOT / "data-activation" / "data-tables" / "sm_transformed_v2"
+SCHEMA_DOCS_DIRS: tuple[tuple[str, Path], ...] = (
+    (
+        "sm_transformed_v2",
+        REPO_ROOT / "data-activation" / "data-tables" / "sm_transformed_v2",
+    ),
+    ("sm_metadata", REPO_ROOT / "data-activation" / "data-tables" / "sm_metadata"),
+)
 
 
 YAML_BLOCK_RE = re.compile(r"```yaml\s*\n(.*?)\n```", re.DOTALL)
@@ -35,8 +41,9 @@ SQL_BLOCK_RE = re.compile(r"```sql\s*\n(.*?)\n```", re.DOTALL | re.IGNORECASE)
 
 # Table refs in example SQL blocks typically look like:
 # FROM `your_project.sm_transformed_v2.obt_orders` o
+# FROM `your_project.sm_metadata.dim_data_dictionary` d
 TABLE_REF_RE = re.compile(
-    r"`[^`]*?\.sm_transformed_v2\.([A-Za-z0-9_]+)`(?:\s+(?:AS\s+)?([A-Za-z_][A-Za-z0-9_]*))?",
+    r"`[^`]*?\.(sm_transformed_v2|sm_metadata)\.([A-Za-z0-9_]+)`(?:\s+(?:AS\s+)?([A-Za-z_][A-Za-z0-9_]*))?",
     re.IGNORECASE,
 )
 QUALIFIED_COL_RE = re.compile(r"\b([A-Za-z_][A-Za-z0-9_]*)\.([A-Za-z_][A-Za-z0-9_]*)\b")
@@ -147,21 +154,22 @@ def extract_yaml_block(text: str) -> str | None:
 
 def build_table_columns_from_schema_docs() -> dict[str, set[str]]:
     table_to_columns: dict[str, set[str]] = {}
-    for path in iter_mdx_files(SCHEMA_DOCS_DIR):
-        table_name = path.stem
-        text = path.read_text(encoding="utf-8", errors="ignore")
-        yaml_block = extract_yaml_block(text)
-        if not yaml_block:
-            continue
-        names = YAML_NAME_RE.findall(yaml_block)
-        if not names:
-            continue
-        # First "- name:" is the model name itself; the remainder are column names.
-        if names and names[0] == table_name:
-            names = names[1:]
-        cols = {n for n in names if n != table_name}
-        if cols:
-            table_to_columns[table_name] = cols
+    for dataset_name, schema_dir in SCHEMA_DOCS_DIRS:
+        for path in iter_mdx_files(schema_dir):
+            table_name = path.stem
+            text = path.read_text(encoding="utf-8", errors="ignore")
+            yaml_block = extract_yaml_block(text)
+            if not yaml_block:
+                continue
+            names = YAML_NAME_RE.findall(yaml_block)
+            if not names:
+                continue
+            # First "- name:" is the model name itself; the remainder are column names.
+            if names and names[0] == table_name:
+                names = names[1:]
+            cols = {n for n in names if n != table_name}
+            if cols:
+                table_to_columns[f"{dataset_name}.{table_name}"] = cols
     return table_to_columns
 
 
@@ -191,11 +199,13 @@ def validate_sql_blocks(
         alias_to_table: dict[str, str] = {}
         referenced_tables: set[str] = set()
 
-        for table, alias in TABLE_REF_RE.findall(sql_norm):
-            referenced_tables.add(table)
+        for dataset, table, alias in TABLE_REF_RE.findall(sql_norm):
+            dataset = dataset.lower()
+            table_key = f"{dataset}.{table}"
+            referenced_tables.add(table_key)
             if alias:
-                alias_to_table[alias] = table
-            alias_to_table.setdefault(table, table)
+                alias_to_table[alias] = table_key
+            alias_to_table.setdefault(table, table_key)
 
         known_tables = {t for t in referenced_tables if t in table_to_columns}
 
@@ -207,7 +217,12 @@ def validate_sql_blocks(
             if table not in table_to_columns:
                 continue
             if col not in table_to_columns[table]:
-                issues.append(Issue(path, f"unknown column `{qualifier}.{col}` for table `{table}` in sql block"))
+                issues.append(
+                    Issue(
+                        path,
+                        f"unknown column `{qualifier}.{col}` for table `{table}` in sql block",
+                    )
+                )
 
         # 2) Unqualified identifiers: validate only when the SQL references exactly one known table.
         if len(known_tables) != 1:

@@ -334,15 +334,25 @@ Batch size: 5–10, but expect higher QA effort per query.
 - Uni2 authoritative routing + rules: `src/agent_core/agents/prompts.py`
 - Cohort-table cautions (double-counting; dimensions): `uni-training/.claude/shared/MODEL_KNOWLEDGE.md`
 
-## Batch 4 (candidate pool)
+## Batch 4 (shipped — attribution + data health diagnostics)
 
-Target: deepen LTV/retention coverage with table-appropriate variants.
+Target: attribution coverage + data health probing (the “why is everything direct / missing?” queries).
 
-Candidate themes (pick 5–10):
-- Dynamic 30/60/90‑day LTV by first-order source/medium (orders-only variant).
-- Dynamic product-category LTV (requires explicit handling for NULL `product_type` and/or a fallback dimension).
-- Payback proxy (cohort LTV + CAC scalar) for acquisition dimensions where the cohort table is authoritative.
-- Subscription “retention proxy” by first subscription SKU (requires an explicit definition of cohorting for subscriptions).
+Why these queries:
+- They answer the gating questions analysts need before trusting attribution breakouts.
+- They reduce guesswork by combining **metadata-first** freshness/coverage signals with **orders-first** reality checks.
+
+Notes:
+- `dim_data_dictionary` lives in `your_project.sm_metadata.dim_data_dictionary` (not `sm_transformed_v2`).
+- We added schema docs for `sm_metadata.dim_data_dictionary` and extended the docs column validator to cover `sm_metadata` so these examples can be statically checked.
+
+Batch 4 queries shipped:
+- DQ01 — Table freshness / stale tables (`sm_metadata.dim_data_dictionary`)
+- DQ02 — Attribution column coverage on `obt_orders` (`sm_metadata.dim_data_dictionary`)
+- DQ03 — Orders by `sm_utm_source_medium` + overall UTM coverage (`obt_orders`)
+- DQ04 — Fallback attribution signals when UTMs missing (`obt_orders`)
+- DQ05 — Top referrer domains among orders missing UTMs (`obt_orders`)
+- DQ06 — Join-key completeness (orders missing `sm_customer_key`, lines missing `sku`) (`obt_orders` + `obt_order_lines`)
 
 ## Handling “Discovery-First” Without Breaking uni2 Rules
 
