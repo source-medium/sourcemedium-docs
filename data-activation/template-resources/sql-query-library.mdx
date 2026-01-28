@@ -5,7 +5,7 @@ description: "Copy/paste BigQuery SQL templates to answer common questions using
 icon: "code"
 ---
 
-### Overview
+## Overview
 
 Use these queries as starting points for analysis in BigQuery. Replace `your_project` with your BigQuery project ID (e.g., `sm-yourcompany`) and `your-sm_store_id` with your store identifier.
 
@@ -21,15 +21,24 @@ If you're not sure which table to use, start with: [`obt_orders`](/data-activati
 
 ---
 
-## AI Analyst query templates (v0)
+## Quick Links
 
-These templates are derived from real AI Analyst evaluation questions and normalized for reuse in BigQuery.
+| Section | What's inside |
+|---------|---------------|
+| [Marketing & Ads](#marketing--ads) | CAC, ROAS by platform, ROAS trends |
+| [Customers & Retention](#customers--retention) | First vs repeat orders, repeat rates by source, new vs repeat trends |
+| [Products](#products) | Top products by revenue/units, gateway products, product combos |
+| [Orders & Revenue](#orders--revenue) | AOV by channel, subscription revenue, refund rates, sales channel mix |
+| [LTV & Retention](#ltv--retention) | Cohort LTV, payback period, LTV:CAC, repeat purchase rates, 90-day LTV by product |
+| [Attribution & Data Health](#attribution--data-health) | Table freshness, UTM coverage, fallback signals, click-id coverage |
+
+---
 
 <Info>
-Most examples default to the last 30 days for performance and “current state” analysis. Adjust the timeframe and add `sm_store_id` scoping when needed.
+Most examples default to the last 30 days for performance and "current state" analysis. Adjust the timeframe and add `sm_store_id` scoping when needed.
 </Info>
 
-### Marketing & Ads
+## Marketing & Ads
 
 <AccordionGroup>
   <Accordion title="Average CAC (last 30 days)">
@@ -129,7 +138,7 @@ Most examples default to the last 30 days for performance and “current state�
   </Accordion>
 </AccordionGroup>
 
-### Customers & Retention
+## Customers & Retention
 
 <AccordionGroup>
   <Accordion title="First valid vs repeat orders (last 30 days)">
@@ -246,7 +255,7 @@ Most examples default to the last 30 days for performance and “current state�
   </Accordion>
 </AccordionGroup>
 
-### Products
+## Products
 
 <AccordionGroup>
   <Accordion title="Top 10 products by net revenue (last 30 days)">
@@ -323,9 +332,60 @@ Most examples default to the last 30 days for performance and “current state�
     LIMIT 25;
     ```
   </Accordion>
+
+  <Accordion title="Most commonly ordered product combinations">
+    **What you'll learn:** Which products are frequently purchased together in the same order. Use this for bundle recommendations, cross-sell strategies, and merchandising decisions.
+
+    ```sql
+    -- Assumptions: timeframe=all_time | metric=order_frequency | grain=product_combination | scope=valid_orders_only
+    WITH RECURSIVE product_combos AS (
+        -- Anchor: Start with individual products per order
+        SELECT
+            ol.sm_store_id,
+            ol.sm_order_key,
+            1 AS combo_length,
+            CONCAT(ol.product_title, ' - ', ol.product_variant_title) AS combo,
+            CONCAT(ol.product_title, ' - ', ol.product_variant_title) AS last_item
+        FROM `your_project.sm_transformed_v2.obt_order_lines` AS ol
+        WHERE ol.sm_store_id = 'your-sm_store_id'
+          AND ol.is_order_sm_valid = TRUE
+          AND ol.sku IS NOT NULL
+          AND NOT REGEXP_CONTAINS(ol.product_title, r'(?i)(shipping protection|not a product|service fee|processing fee|order specific)')
+
+        UNION ALL
+
+        -- Recursive: Build combinations up to 5 products
+        SELECT
+            ol.sm_store_id,
+            ol.sm_order_key,
+            pc.combo_length + 1,
+            CONCAT(pc.combo, ', ', CONCAT(ol.product_title, ' - ', ol.product_variant_title)),
+            CONCAT(ol.product_title, ' - ', ol.product_variant_title)
+        FROM product_combos AS pc
+        INNER JOIN `your_project.sm_transformed_v2.obt_order_lines` AS ol
+            ON ol.sm_order_key = pc.sm_order_key
+            AND CONCAT(ol.product_title, ' - ', ol.product_variant_title) > pc.last_item
+        WHERE pc.combo_length < 5
+          AND ol.is_order_sm_valid = TRUE
+          AND ol.sku IS NOT NULL
+          AND NOT REGEXP_CONTAINS(ol.product_title, r'(?i)(shipping protection|not a product|service fee|processing fee|order specific)')
+    )
+
+    SELECT
+        combo AS product_combinations,
+        COUNT(DISTINCT sm_order_key) AS order_frequency,
+        combo_length AS num_products
+    FROM product_combos
+    WHERE combo_length >= 2
+    GROUP BY combo, combo_length
+    HAVING order_frequency >= 100
+    ORDER BY order_frequency DESC, combo ASC
+    LIMIT 100;
+    ```
+  </Accordion>
 </AccordionGroup>
 
-### Orders & revenue
+## Orders & Revenue
 
 <AccordionGroup>
   <Accordion title="Average order value (AOV) by marketing channel (last 30 days)">
@@ -450,9 +510,9 @@ Most examples default to the last 30 days for performance and “current state�
   </Accordion>
 </AccordionGroup>
 
-## LTV & Retention (advanced)
+## LTV & Retention
 
-These are higher-effort templates that require careful cohort definitions and denominators.
+These templates cover cohort analysis, payback periods, and repeat purchase behavior. Some use the pre-aggregated cohort table for efficiency.
 
 <Info>
 If you use the cohort LTV table (`rpt_cohort_ltv_by_first_valid_purchase_attribute_no_product_filters`):
@@ -460,17 +520,19 @@ If you use the cohort LTV table (`rpt_cohort_ltv_by_first_valid_purchase_attribu
 - Always include `sm_order_line_type = 'all_orders'` unless you explicitly want a subset
 </Info>
 
-### Cohort table discovery
-
-```sql
--- Assumptions: timeframe=all_time | metric=discovery | grain=acquisition_order_filter_dimension | scope=cohort_table_only
-SELECT DISTINCT
-  acquisition_order_filter_dimension
-FROM `your_project.sm_transformed_v2.rpt_cohort_ltv_by_first_valid_purchase_attribute_no_product_filters`
-ORDER BY 1;
-```
-
 <AccordionGroup>
+  <Accordion title="Cohort table: available dimensions">
+    **What you'll learn:** Which cohort dimensions are available in the LTV table. Run this first to see what you can filter by (e.g., `source/medium`, `discount_code`, `order_type_(sub_vs._one_time)`).
+
+    ```sql
+    -- Assumptions: timeframe=all_time | metric=discovery | grain=acquisition_order_filter_dimension | scope=cohort_table_only
+    SELECT DISTINCT
+      acquisition_order_filter_dimension
+    FROM `your_project.sm_transformed_v2.rpt_cohort_ltv_by_first_valid_purchase_attribute_no_product_filters`
+    ORDER BY 1;
+    ```
+  </Accordion>
+
   <Accordion title="3m/6m retention + 6m LTV by acquisition source/medium (last 12 cohort months)">
     **What you'll learn:** Which acquisition sources produce customers with the best retention and lifetime value at the 3 and 6 month marks. Use this to optimize ad spend toward channels that deliver long-term value, not just initial conversions.
 
@@ -1086,7 +1148,7 @@ ORDER BY 1;
   </Accordion>
 </AccordionGroup>
 
-## Attribution & Data Health (diagnostics)
+## Attribution & Data Health
 
 These templates help you assess attribution coverage and basic data health before doing deeper analysis.
 
@@ -1458,61 +1520,8 @@ If you want table-level freshness/coverage metadata, start with: [`dim_data_dict
   </Accordion>
 </AccordionGroup>
 
-## Product Insights
-<AccordionGroup>
-    <Accordion title='Most commonly ordered product combinations'>
-        **What you'll learn:** Which products are frequently purchased together in the same order. Use this for bundle recommendations, cross-sell strategies, and merchandising decisions.
+---
 
-        ```sql
-        -- Assumptions: timeframe=all_time | metric=order_frequency | grain=product_combination | scope=valid_orders_only
-        WITH RECURSIVE product_combos AS (
-            -- Anchor: Start with individual products per order
-            SELECT
-                ol.sm_store_id,
-                ol.sm_order_key,
-                1 AS combo_length,
-                CONCAT(ol.product_title, ' - ', ol.product_variant_title) AS combo,
-                CONCAT(ol.product_title, ' - ', ol.product_variant_title) AS last_item
-            FROM `your_project.sm_transformed_v2.obt_order_lines` AS ol
-            WHERE ol.sm_store_id = 'your-sm_store_id'
-              AND ol.is_order_sm_valid = TRUE
-              AND ol.sku IS NOT NULL
-              AND NOT REGEXP_CONTAINS(ol.product_title, r'(?i)(shipping protection|not a product|service fee|processing fee|order specific)')
+## Request a Query
 
-            UNION ALL
-
-            -- Recursive: Build combinations up to 5 products
-            SELECT
-                ol.sm_store_id,
-                ol.sm_order_key,
-                pc.combo_length + 1,
-                CONCAT(pc.combo, ', ', CONCAT(ol.product_title, ' - ', ol.product_variant_title)),
-                CONCAT(ol.product_title, ' - ', ol.product_variant_title)
-            FROM product_combos AS pc
-            INNER JOIN `your_project.sm_transformed_v2.obt_order_lines` AS ol
-                ON ol.sm_order_key = pc.sm_order_key
-                AND CONCAT(ol.product_title, ' - ', ol.product_variant_title) > pc.last_item
-            WHERE pc.combo_length < 5
-              AND ol.is_order_sm_valid = TRUE
-              AND ol.sku IS NOT NULL
-              AND NOT REGEXP_CONTAINS(ol.product_title, r'(?i)(shipping protection|not a product|service fee|processing fee|order specific)')
-        )
-
-        SELECT
-            combo AS product_combinations,
-            COUNT(DISTINCT sm_order_key) AS order_frequency,
-            combo_length AS num_products
-        FROM product_combos
-        WHERE combo_length >= 2
-        GROUP BY combo, combo_length
-        HAVING order_frequency >= 100
-        ORDER BY order_frequency DESC, combo ASC
-        LIMIT 100;
-        ```
-
-    </Accordion>
-</AccordionGroup>
-
-## More recipes
-
-We regularly add new recipes. If there’s a query you’d like added (subscription churn, cohort LTV curves, creative performance, etc.), reach out to your SourceMedium team and include the business question and the table(s) you’re using.
+Have a question that's not covered here? We regularly add new queries. If there's a template you'd like added (subscription churn, cohort LTV curves, creative performance, etc.), reach out to your SourceMedium team and include the business question and the table(s) you're using.
