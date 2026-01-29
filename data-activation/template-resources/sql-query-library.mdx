@@ -2002,7 +2002,7 @@ If you want table-level freshness/coverage metadata, start with: [`dim_data_dict
     lines AS (
       SELECT
         COUNT(*) AS lines_total,
-        COUNTIF(sku IS NULL OR TRIM(sku) = '' OR sku = 'Missing SKU') AS lines_missing_sku
+        COUNTIF(sku IS NULL OR TRIM(sku) = '' OR LOWER(sku) = 'missing sku') AS lines_missing_sku
       FROM `your_project.sm_transformed_v2.obt_order_lines`
       WHERE is_order_sm_valid = TRUE
         AND DATE(order_processed_at_local_datetime) >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)
@@ -2434,7 +2434,7 @@ These are deeper-dive investigations for when attribution looks “weird” (too
       SELECT
         DATE_TRUNC(DATE(order_processed_at_local_datetime), WEEK(MONDAY)) AS week_start,
         COUNT(*) AS lines_total,
-        COUNTIF(sku IS NULL OR TRIM(sku) = '' OR sku = 'Missing SKU') AS lines_missing_sku
+        COUNTIF(sku IS NULL OR TRIM(sku) = '' OR LOWER(sku) = 'missing sku') AS lines_missing_sku
       FROM `your_project.sm_transformed_v2.obt_order_lines`
       WHERE is_order_sm_valid = TRUE
         AND DATE(order_processed_at_local_datetime) >= DATE_SUB(CURRENT_DATE(), INTERVAL 182 DAY)
