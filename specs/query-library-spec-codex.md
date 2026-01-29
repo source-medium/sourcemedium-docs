@@ -1,6 +1,6 @@
 # Query Library (AI Analyst) — Spec (Codex)
 
-Status: In progress (Batches 1–11 shipped)  
+Status: In progress (Batches 1–12 shipped)  
 Owner: Docs (Data Activation) + AI Analyst  
 Last updated: 2026-01-29
 
@@ -262,6 +262,25 @@ Batch 11 templates shipped (6):
 4) **Cart drop-off signals (add-to-cart vs remove-from-cart vs checkout) trend (daily)** (`rpt_funnel_events_performance_hourly`)
 5) **Top support tags by volume + one-touch + resolution time** (`obt_customer_support_tickets`)
 6) **Support workload by priority × channel × team** (`obt_customer_support_tickets`)
+
+### Batch 12 (shipped to docs; validated 2026-01-29)
+
+- Shipped in: (docs update) 2026-01-29
+- Validation status:
+  - Static schema/column validation: done (`scripts/docs_column_accuracy.py` on `sql-query-library.mdx`)
+  - Live BigQuery execution validation: done (2026-01-29, `sm-irestore4` + `sm-piquetea`)
+
+Target: lead capture + purchase journey stumpers (event-level lead capture timing + purchase-journey attribution context).
+
+Batch 12 templates shipped (8):
+1) **Lead capture event discovery (top event names, last 30 days)** (`obt_funnel_event_history`)
+2) **Lead capture → first purchase timing (hours) by lead UTM source/medium (last 90 days)** (`obt_funnel_event_history`)
+3) **Lead capture → purchase conversion rate (last 90 days)** (`obt_funnel_event_history`)
+4) **MTA: First-touch vs last-touch marketing channel mix (purchases, last 30 days)** (`sm_experimental.obt_purchase_journeys_with_mta_models`)
+5) **MTA: Time to conversion (days) by first-touch marketing channel (purchases, last 30 days)** (`sm_experimental.obt_purchase_journeys_with_mta_models`)
+6) **MTA landing pages: Top first-touch landing pages by attributed revenue (purchases, last 30 days)** (`sm_experimental.obt_purchase_journeys_with_mta_models`)
+7) **Zero-party attribution: Revenue by post-purchase survey source (new vs repeat, subscription sequence, last 90 days)** (`obt_orders`)
+8) **Last-touch Klaviyo orders: New vs repeat × subscription sequence (last 90 days)** (`obt_orders`)
 
 ## Query Entry Format (Canonical Metadata)
 

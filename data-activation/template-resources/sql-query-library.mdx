@@ -28,6 +28,7 @@ If you're not sure which table to use, start with: [`obt_orders`](/data-activati
 | [Marketing & Ads](#marketing--ads) | CAC, ROAS by platform, ROAS trends |
 | [Messaging](#messaging) | Email/SMS performance, flows vs campaigns, list growth |
 | [Funnel](#funnel) | Funnel step counts, conversion rates, top converting pages |
+| [Journeys & Lead Capture](#journeys--lead-capture) | Lead capture → purchase timing, landing pages, first vs last touch (MTA) |
 | [Customers & Retention](#customers--retention) | First vs repeat orders, repeat rates by source, new vs repeat trends |
 | [Products](#products) | Top products by revenue/units, gateway products, product combos |
 | [Orders & Revenue](#orders--revenue) | AOV by channel, subscription revenue, refund rates, sales channel mix |
@@ -560,6 +561,242 @@ Most examples default to the last 30 days for performance and "current state" an
 
     <Info>
     Remove-from-cart can exceed add-to-cart in event terms (multi-item carts, repeated events). Focus on trend changes, not absolute levels.
+    </Info>
+  </Accordion>
+</AccordionGroup>
+
+## Journeys & Lead Capture
+
+<Info>
+These templates use:
+- `sm_transformed_v2.obt_funnel_event_history` for event-level lead capture + timing analysis, and
+- `sm_experimental.obt_purchase_journeys_with_mta_models` for purchase-journey first-touch vs last-touch analysis (MTA).
+
+The MTA tables are **experimental**: treat results as directional and validate against your owned analytics + business context.
+</Info>
+
+<AccordionGroup>
+  <Accordion title="Lead capture event discovery (top event names, last 30 days)">
+    **What you'll learn:** Which normalized funnel events are present in your tenant so you can pick the correct lead-capture event names (email signup, subscribe, generate lead, etc.) without guessing.
+
+    ```sql
+    -- Assumptions: timeframe=last_30_days | metric=event_counts | grain=event_name | scope=discovery
+    SELECT
+      COALESCE(sm_event_name, '(null)') AS sm_event_name,
+      COUNT(*) AS events
+    FROM `your_project.sm_transformed_v2.obt_funnel_event_history`
+    WHERE DATE(event_local_datetime) >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)
+    GROUP BY 1
+    ORDER BY events DESC
+    LIMIT 50;
+    ```
+  </Accordion>
+
+  <Accordion title="Lead capture → first purchase timing (hours) by lead UTM source/medium (last 90 days)">
+    **What you'll learn:** For users who have a lead capture event and later a purchase event, how long it takes to convert (p50/p90 hours), broken out by the UTM source/medium at the lead event.
+
+    ```sql
+    -- Assumptions: timeframe=last_90_days | metric=lead_to_purchase_timing_hours | grain=lead_utm_source_medium | scope=event_user_id_non_null
+    -- Update this list after running the discovery query above:
+    --   lead_event_names = ('generate_lead', 'sign_up')
+    WITH lead_events AS (
+      SELECT
+        event_user_id,
+        event_local_datetime,
+        COALESCE(NULLIF(LOWER(TRIM(event_utm_source)), ''), '(none)') AS event_utm_source,
+        COALESCE(NULLIF(LOWER(TRIM(event_utm_medium)), ''), '(none)') AS event_utm_medium
+      FROM `your_project.sm_transformed_v2.obt_funnel_event_history`
+      WHERE event_user_id IS NOT NULL
+        AND DATE(event_local_datetime) >= DATE_SUB(CURRENT_DATE(), INTERVAL 90 DAY)
+        AND sm_event_name IN ('generate_lead', 'sign_up')
+    ),
+    first_lead AS (
+      SELECT
+        event_user_id,
+        ARRAY_AGG(STRUCT(event_local_datetime, event_utm_source, event_utm_medium) ORDER BY event_local_datetime ASC LIMIT 1)[OFFSET(0)] AS lead
+      FROM lead_events
+      GROUP BY 1
+    ),
+    first_purchase AS (
+      SELECT
+        event_user_id,
+        MIN(event_local_datetime) AS first_purchase_at
+      FROM `your_project.sm_transformed_v2.obt_funnel_event_history`
+      WHERE event_user_id IS NOT NULL
+        AND DATE(event_local_datetime) >= DATE_SUB(CURRENT_DATE(), INTERVAL 90 DAY)
+        AND sm_event_name = 'purchase'
+      GROUP BY 1
+    ),
+    joined AS (
+      SELECT
+        CONCAT(lead.event_utm_source, ' / ', lead.event_utm_medium) AS lead_utm_source_medium,
+        lead.event_local_datetime AS first_lead_at,
+        p.first_purchase_at,
+        DATETIME_DIFF(p.first_purchase_at, lead.event_local_datetime, HOUR) AS hours_to_first_purchase
+      FROM first_lead l
+      JOIN first_purchase p
+        USING (event_user_id)
+      WHERE p.first_purchase_at >= l.lead.event_local_datetime
+    )
+    SELECT
+      lead_utm_source_medium,
+      COUNT(*) AS purchasers_with_lead_event,
+      APPROX_QUANTILES(hours_to_first_purchase, 101)[OFFSET(50)] AS p50_hours_to_first_purchase,
+      APPROX_QUANTILES(hours_to_first_purchase, 101)[OFFSET(90)] AS p90_hours_to_first_purchase
+    FROM joined
+    GROUP BY 1
+    HAVING purchasers_with_lead_event >= 50
+    ORDER BY purchasers_with_lead_event DESC
+    LIMIT 50;
+    ```
+  </Accordion>
+
+  <Accordion title="Lead capture → purchase conversion rate (last 90 days)">
+    **What you'll learn:** What share of users with a lead capture event later have a purchase event (event-based, using `event_user_id`). Useful for directional lead-to-purchase monitoring.
+
+    ```sql
+    -- Assumptions: timeframe=last_90_days | metric=lead_to_purchase_rate | grain=all_leads | scope=event_user_id_non_null
+    -- Update this list after running the discovery query above:
+    --   lead_event_names = ('generate_lead', 'sign_up')
+    WITH lead_users AS (
+      SELECT DISTINCT
+        event_user_id
+      FROM `your_project.sm_transformed_v2.obt_funnel_event_history`
+      WHERE event_user_id IS NOT NULL
+        AND DATE(event_local_datetime) >= DATE_SUB(CURRENT_DATE(), INTERVAL 90 DAY)
+        AND sm_event_name IN ('generate_lead', 'sign_up')
+    ),
+    purchase_users AS (
+      SELECT DISTINCT
+        event_user_id
+      FROM `your_project.sm_transformed_v2.obt_funnel_event_history`
+      WHERE event_user_id IS NOT NULL
+        AND DATE(event_local_datetime) >= DATE_SUB(CURRENT_DATE(), INTERVAL 90 DAY)
+        AND sm_event_name = 'purchase'
+    )
+    SELECT
+      COUNT(DISTINCT l.event_user_id) AS lead_users,
+      COUNT(DISTINCT p.event_user_id) AS purchasers_from_leads,
+      SAFE_DIVIDE(COUNT(DISTINCT p.event_user_id), NULLIF(COUNT(DISTINCT l.event_user_id), 0)) AS lead_to_purchase_rate
+    FROM lead_users l
+    LEFT JOIN purchase_users p
+      USING (event_user_id);
+    ```
+
+    <Info>
+    This is event-identity based (tracking-user-based), not customer-based. Coverage depends on your tracking setup and identity stitching.
+    </Info>
+  </Accordion>
+
+  <Accordion title="MTA: First-touch vs last-touch marketing channel mix (purchases, last 30 days)">
+    **What you'll learn:** For purchases, what the **first-touch** vs **last-touch** marketing channels were (journey-level). Useful for quantifying “what brings users in” vs “what closes”.
+
+    ```sql
+    -- Assumptions: timeframe=last_30_days | metric=purchase_revenue_by_first_last_touch_channel | grain=first_touch+last_touch | scope=mta_purchase_rows_only
+    SELECT
+      COALESCE(first_touch_dimension_value.marketing_channel, '(unknown)') AS first_touch_marketing_channel,
+      COALESCE(last_touch_dimension_value.marketing_channel, '(unknown)') AS last_touch_marketing_channel,
+      COUNT(DISTINCT purchase_order_id) AS orders,
+      SUM(purchase_order_revenue) AS purchase_order_revenue
+    FROM `your_project.sm_experimental.obt_purchase_journeys_with_mta_models`
+    WHERE sm_event_name = 'purchase'
+      AND DATE(purchase_local_datetime) >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)
+    GROUP BY 1, 2
+    ORDER BY purchase_order_revenue DESC
+    LIMIT 50;
+    ```
+  </Accordion>
+
+  <Accordion title="MTA: Time to conversion (days) by first-touch marketing channel (purchases, last 30 days)">
+    **What you'll learn:** How long it takes to convert by acquisition channel, using MTA-derived days-to-conversion (journey-level).
+
+    ```sql
+    -- Assumptions: timeframe=last_30_days | metric=days_to_conversion | grain=first_touch_marketing_channel | scope=mta_purchase_rows_only
+    WITH purchases AS (
+      SELECT
+        COALESCE(first_touch_dimension_value.marketing_channel, '(unknown)') AS first_touch_marketing_channel,
+        CAST(days_to_conversion.marketing_channel AS INT64) AS days_to_conversion_marketing_channel
+      FROM `your_project.sm_experimental.obt_purchase_journeys_with_mta_models`
+      WHERE sm_event_name = 'purchase'
+        AND DATE(purchase_local_datetime) >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)
+        AND days_to_conversion.marketing_channel IS NOT NULL
+    )
+    SELECT
+      first_touch_marketing_channel,
+      COUNT(*) AS purchases,
+      AVG(days_to_conversion_marketing_channel) AS avg_days_to_conversion,
+      APPROX_QUANTILES(days_to_conversion_marketing_channel, 101)[OFFSET(50)] AS p50_days_to_conversion,
+      APPROX_QUANTILES(days_to_conversion_marketing_channel, 101)[OFFSET(90)] AS p90_days_to_conversion
+    FROM purchases
+    GROUP BY 1
+    HAVING purchases >= 100
+    ORDER BY purchases DESC;
+    ```
+  </Accordion>
+
+  <Accordion title="MTA landing pages: Top first-touch landing pages by attributed revenue (purchases, last 30 days)">
+    **What you'll learn:** Which landing pages most often appear as the **first-touch landing page** for purchases, and the associated revenue impact (directional).
+
+    ```sql
+    -- Assumptions: timeframe=last_30_days | metric=first_touch_landing_page_revenue | grain=landing_page | scope=mta_purchase_rows_only
+    SELECT
+      COALESCE(NULLIF(dimension_value.landing_page, ''), '(unknown)') AS first_touch_landing_page,
+      COUNT(DISTINCT purchase_order_id) AS orders,
+      SUM(purchase_order_revenue) AS purchase_order_revenue,
+      SUM(first_touch_revenue_impact.landing_page) AS first_touch_attributed_revenue_landing_page
+    FROM `your_project.sm_experimental.obt_purchase_journeys_with_mta_models`
+    WHERE DATE(purchase_local_datetime) >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)
+      AND first_touch_revenue_impact.landing_page > 0
+    GROUP BY 1
+    ORDER BY first_touch_attributed_revenue_landing_page DESC
+    LIMIT 50;
+    ```
+  </Accordion>
+
+  <Accordion title="Zero-party attribution: Revenue by post-purchase survey source (new vs repeat, last 90 days)">
+    **What you'll learn:** What customers say drove their purchase (post‑purchase survey tags), and how it differs for new vs repeat orders and subscription orders.
+
+    ```sql
+    -- Assumptions: timeframe=last_90_days | metric=orders+net_revenue | grain=zero_party_source+new_repeat+subscription_sequence | scope=valid_orders_only
+    SELECT
+      COALESCE(NULLIF(LOWER(TRIM(sm_zero_party_attribution_source)), ''), '(none)') AS sm_zero_party_attribution_source,
+      sm_valid_order_sequence,
+      subscription_order_sequence,
+      COUNT(DISTINCT sm_order_key) AS orders,
+      SUM(order_net_revenue) AS order_net_revenue
+    FROM `your_project.sm_transformed_v2.obt_orders`
+    WHERE is_order_sm_valid = TRUE
+      AND order_cancelled_at IS NULL
+      AND DATE(order_processed_at_local_datetime) >= DATE_SUB(CURRENT_DATE(), INTERVAL 90 DAY)
+    GROUP BY 1, 2, 3
+    ORDER BY order_net_revenue DESC
+    LIMIT 100;
+    ```
+  </Accordion>
+
+  <Accordion title="Last-touch Klaviyo orders: New vs repeat × subscription sequence (last 90 days)">
+    **What you'll learn:** How last-click orders attributed to Klaviyo perform, segmented by new vs repeat and subscription sequence. This uses `sm_utm_source/sm_utm_medium` (last-click) from the order attribution hierarchy.
+
+    ```sql
+    -- Assumptions: timeframe=last_90_days | metric=orders+net_revenue | grain=utm_medium+new_repeat+subscription_sequence | scope=valid_orders_only_last_click_utm
+    SELECT
+      COALESCE(NULLIF(LOWER(TRIM(sm_utm_medium)), ''), '(none)') AS sm_utm_medium,
+      sm_valid_order_sequence,
+      subscription_order_sequence,
+      COUNT(DISTINCT sm_order_key) AS orders,
+      SUM(order_net_revenue) AS order_net_revenue
+    FROM `your_project.sm_transformed_v2.obt_orders`
+    WHERE is_order_sm_valid = TRUE
+      AND order_cancelled_at IS NULL
+      AND DATE(order_processed_at_local_datetime) >= DATE_SUB(CURRENT_DATE(), INTERVAL 90 DAY)
+      AND LOWER(TRIM(sm_utm_source)) = 'klaviyo'
+      AND LOWER(TRIM(sm_utm_medium)) IN ('email', 'sms')
+    GROUP BY 1, 2, 3
+    ORDER BY order_net_revenue DESC;
+    ```
+
+    <Info>
+    If you don’t see `sm_utm_source = 'klaviyo'` in your tenant, run the “UTM source/medium discovery” template and choose the exact source values for your messaging stack.
     </Info>
   </Accordion>
 </AccordionGroup>
