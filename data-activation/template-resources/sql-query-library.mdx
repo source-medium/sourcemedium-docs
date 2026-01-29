@@ -2306,7 +2306,7 @@ If you want table-level freshness/coverage metadata, start with: [`dim_data_dict
     WITH base AS (
       SELECT
         sm_store_id,
-        sm_channel,
+        COALESCE(NULLIF(LOWER(TRIM(sm_channel)), ''), '(unknown)') AS sm_channel,
         COALESCE(NULLIF(LOWER(TRIM(sm_utm_source_medium)), ''), '(none) / (none)') AS source_medium,
         sm_order_key,
         order_net_revenue
@@ -2314,7 +2314,7 @@ If you want table-level freshness/coverage metadata, start with: [`dim_data_dict
       WHERE is_order_sm_valid = TRUE
         AND order_cancelled_at IS NULL
         AND DATE(order_processed_at_local_datetime) >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)
-        AND sm_channel IS NOT NULL
+        AND NULLIF(LOWER(TRIM(sm_channel)), '') IS NOT NULL
     )
     SELECT
       sm_store_id,
@@ -2773,7 +2773,7 @@ These are deeper-dive investigations for when attribution looks “weird” (too
     ```sql
     -- Assumptions: timeframe=last_90_days | metric=resolution_time_hours+csat_coverage | grain=assignee_team | scope=closed_tickets_exclude_spam
     SELECT
-      COALESCE(NULLIF(ticket_assignee_team_name, ''), '(unassigned)') AS ticket_assignee_team_name,
+      COALESCE(NULLIF(TRIM(ticket_assignee_team_name), ''), '(unassigned)') AS ticket_assignee_team_name,
       COUNT(DISTINCT sm_ticket_key) AS closed_tickets,
       AVG(ticket_resolution_time_hours) AS avg_resolution_time_hours,
       APPROX_QUANTILES(ticket_resolution_time_hours, 101)[OFFSET(50)] AS p50_resolution_time_hours,
@@ -2800,8 +2800,8 @@ These are deeper-dive investigations for when attribution looks “weird” (too
     -- Assumptions: timeframe=current_state | metric=open_ticket_age_buckets | grain=team+channel | scope=open_tickets_exclude_spam
     WITH open_tickets AS (
       SELECT
-        COALESCE(NULLIF(ticket_assignee_team_name, ''), '(unassigned)') AS ticket_assignee_team_name,
-        COALESCE(NULLIF(ticket_communication_channel, ''), '(unknown)') AS ticket_communication_channel,
+        COALESCE(NULLIF(TRIM(ticket_assignee_team_name), ''), '(unassigned)') AS ticket_assignee_team_name,
+        COALESCE(NULLIF(LOWER(TRIM(ticket_communication_channel)), ''), '(unknown)') AS ticket_communication_channel,
         DATE_DIFF(CURRENT_DATE(), DATE(ticket_created_at_local_datetime), DAY) AS ticket_age_days
       FROM `your_project.sm_transformed_v2.obt_customer_support_tickets`
       WHERE is_ticket_spam = FALSE
@@ -2833,8 +2833,8 @@ These are deeper-dive investigations for when attribution looks “weird” (too
     ```sql
     -- Assumptions: timeframe=current_state | metric=unread_open_ticket_share | grain=team+channel | scope=open_tickets_exclude_spam
     SELECT
-      COALESCE(NULLIF(ticket_assignee_team_name, ''), '(unassigned)') AS ticket_assignee_team_name,
-      COALESCE(NULLIF(ticket_communication_channel, ''), '(unknown)') AS ticket_communication_channel,
+      COALESCE(NULLIF(TRIM(ticket_assignee_team_name), ''), '(unassigned)') AS ticket_assignee_team_name,
+      COALESCE(NULLIF(LOWER(TRIM(ticket_communication_channel)), ''), '(unknown)') AS ticket_communication_channel,
       COUNT(DISTINCT sm_ticket_key) AS open_tickets,
       COUNTIF(is_ticket_unread = TRUE) AS unread_open_tickets,
       SAFE_DIVIDE(COUNTIF(is_ticket_unread = TRUE), NULLIF(COUNT(DISTINCT sm_ticket_key), 0)) AS unread_open_ticket_rate
@@ -2905,7 +2905,7 @@ These are deeper-dive investigations for when attribution looks “weird” (too
     SELECT
       COALESCE(NULLIF(LOWER(TRIM(ticket_priority)), ''), '(unknown)') AS ticket_priority,
       COALESCE(NULLIF(LOWER(TRIM(ticket_communication_channel)), ''), '(unknown)') AS ticket_communication_channel,
-      COALESCE(NULLIF(ticket_assignee_team_name, ''), '(unassigned)') AS ticket_assignee_team_name,
+      COALESCE(NULLIF(TRIM(ticket_assignee_team_name), ''), '(unassigned)') AS ticket_assignee_team_name,
       COUNT(DISTINCT sm_ticket_key) AS tickets,
       COUNTIF(ticket_status IS NOT NULL AND LOWER(ticket_status) = 'open') AS open_tickets,
       COUNTIF(ticket_status IS NOT NULL AND LOWER(ticket_status) = 'closed') AS closed_tickets,
