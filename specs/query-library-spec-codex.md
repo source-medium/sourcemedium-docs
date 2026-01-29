@@ -1,6 +1,6 @@
 # Query Library (AI Analyst) — Spec (Codex)
 
-Status: In progress (Batches 1–10 shipped)  
+Status: In progress (Batches 1–11 shipped)  
 Owner: Docs (Data Activation) + AI Analyst  
 Last updated: 2026-01-29
 
@@ -244,6 +244,24 @@ Batch 10 templates shipped (6):
 4) **Hourly funnel anomaly detector (hour-over-hour deltas)** (`rpt_funnel_events_performance_hourly`)
 5) **Support backlog aging by team and channel (open tickets)** (`obt_customer_support_tickets`)
 6) **Unread open-ticket share by team and channel** (`obt_customer_support_tickets`)
+
+### Batch 11 (shipped to docs; validated 2026-01-29)
+
+- Shipped in: (docs update) 2026-01-29
+- Validation status:
+  - Static schema/column validation: done (`scripts/docs_column_accuracy.py` on `sql-query-library.mdx`)
+  - Live BigQuery dry-run validation: done (2026-01-29, `sm-democo`)
+  - Live BigQuery execution validation: done (2026-01-29, `sm-irestore4` + `sm-piquetea`)
+
+Target: “meaningfully actionable next questions” after Batches 9–10 (messaging/funnel/support), focused on deliverability diagnostics, creative outliers, and support categorization.
+
+Batch 11 templates shipped (6):
+1) **Deliverability health (bounce + drop rates) by provider and channel (weekly)** (`rpt_outbound_message_performance_daily`)
+2) **Highest click-rate messages (min receives threshold)** (`rpt_outbound_message_performance_daily`)
+3) **Lead-gen to purchase (email signups vs purchases) by UTM source/medium** (`rpt_funnel_events_performance_hourly`)
+4) **Cart drop-off signals (add-to-cart vs remove-from-cart vs checkout) trend (daily)** (`rpt_funnel_events_performance_hourly`)
+5) **Top support tags by volume + one-touch + resolution time** (`obt_customer_support_tickets`)
+6) **Support workload by priority × channel × team** (`obt_customer_support_tickets`)
 
 ## Query Entry Format (Canonical Metadata)
 
