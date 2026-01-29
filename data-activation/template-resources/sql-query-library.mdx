@@ -51,7 +51,7 @@ Most examples default to the last 30 days for performance and "current state" an
     -- Assumptions: timeframe=last_30_days | metric=CAC=ad_spend/new_customer_count | grain=sm_channel | scope=all_channels
     WITH channel_rollup AS (
       SELECT
-        sm_channel,
+        COALESCE(NULLIF(LOWER(TRIM(sm_channel)), ''), '(unknown)') AS sm_channel,
         SUM(ABS(ad_spend)) AS ad_spend,
         SUM(new_customer_count) AS new_customers
       FROM `your_project.sm_transformed_v2.rpt_executive_summary_daily`
@@ -98,8 +98,8 @@ Most examples default to the last 30 days for performance and "current state" an
     -- Assumptions: timeframe=last_30_days | metric=ROAS=platform_reported_revenue/ad_spend | grain=platform+campaign_type | scope=all_stores
     SELECT
       sm_store_id,
-      source_system AS platform,
-      ad_campaign_type AS campaign_type,
+      COALESCE(NULLIF(LOWER(TRIM(source_system)), ''), '(unknown)') AS platform,
+      COALESCE(NULLIF(LOWER(TRIM(ad_campaign_type)), ''), '(unknown)') AS campaign_type,
       SUM(ad_platform_reported_revenue) AS platform_reported_revenue,
       SUM(ad_spend) AS ad_spend,
       SAFE_DIVIDE(SUM(ad_platform_reported_revenue), NULLIF(SUM(ad_spend), 0)) AS roas
@@ -120,7 +120,7 @@ Most examples default to the last 30 days for performance and "current state" an
     WITH monthly AS (
       SELECT
         DATE_TRUNC(date, MONTH) AS month_start,
-        source_system AS platform,
+        COALESCE(NULLIF(LOWER(TRIM(source_system)), ''), '(unknown)') AS platform,
         SUM(ad_platform_reported_revenue) AS platform_reported_revenue,
         SUM(ad_spend) AS ad_spend
       FROM `your_project.sm_transformed_v2.rpt_ad_performance_daily`
@@ -150,8 +150,8 @@ Most examples default to the last 30 days for performance and "current state" an
     ```sql
     -- Assumptions: timeframe=last_30_days | metric=engagement+platform_attributed_orders_revenue | grain=channel+message_type | scope=all_messages
     SELECT
-      COALESCE(sm_message_channel, '(unknown)') AS sm_message_channel,
-      COALESCE(message_type, '(unknown)') AS message_type,
+      COALESCE(NULLIF(LOWER(TRIM(sm_message_channel)), ''), '(unknown)') AS sm_message_channel,
+      COALESCE(NULLIF(LOWER(TRIM(message_type)), ''), '(unknown)') AS message_type,
       SUM(message_unique_receives) AS receives,
       SUM(message_unique_opens) AS opens,
       SUM(message_unique_clicks) AS clicks,
@@ -181,10 +181,10 @@ Most examples default to the last 30 days for performance and "current state" an
     ```sql
     -- Assumptions: timeframe=last_30_days | metric=platform_attributed_orders_revenue | grain=campaign | scope=campaigns_only
     SELECT
-      sm_message_channel,
-      source_system,
+      COALESCE(NULLIF(LOWER(TRIM(sm_message_channel)), ''), '(unknown)') AS sm_message_channel,
+      COALESCE(NULLIF(LOWER(TRIM(source_system)), ''), '(unknown)') AS source_system,
       campaign_id,
-      campaign_name,
+      ANY_VALUE(campaign_name) AS campaign_name,
       SUM(message_unique_receives) AS receives,
       SUM(message_unique_opens) AS opens,
       SUM(message_unique_clicks) AS clicks,
@@ -195,7 +195,7 @@ Most examples default to the last 30 days for performance and "current state" an
     FROM `your_project.sm_transformed_v2.rpt_outbound_message_performance_daily`
     WHERE date >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)
       AND LOWER(message_type) = 'campaign'
-    GROUP BY 1, 2, 3, 4
+    GROUP BY 1, 2, 3
     ORDER BY platform_reported_order_revenue DESC
     LIMIT 25;
     ```
@@ -208,7 +208,7 @@ Most examples default to the last 30 days for performance and "current state" an
     -- Assumptions: timeframe=last_12_weeks | metric=list_subscribes_unsubscribes_net | grain=week+channel | scope=all_messages
     SELECT
       DATE_TRUNC(date, WEEK(MONDAY)) AS week_start,
-      COALESCE(sm_message_channel, '(unknown)') AS sm_message_channel,
+      COALESCE(NULLIF(LOWER(TRIM(sm_message_channel)), ''), '(unknown)') AS sm_message_channel,
       SUM(list_subscribes) AS list_subscribes,
       SUM(list_unsubscribes) AS list_unsubscribes,
       SUM(list_subscribes) - SUM(list_unsubscribes) AS net_list_growth,
@@ -226,9 +226,9 @@ Most examples default to the last 30 days for performance and "current state" an
     ```sql
     -- Assumptions: timeframe=last_30_days | metric=engagement+platform_attributed_orders_revenue | grain=provider+channel+message_type | scope=message_sends_only
     SELECT
-      COALESCE(source_system, '(unknown)') AS source_system,
-      COALESCE(sm_message_channel, '(unknown)') AS sm_message_channel,
-      COALESCE(message_type, '(unknown)') AS message_type,
+      COALESCE(NULLIF(LOWER(TRIM(source_system)), ''), '(unknown)') AS source_system,
+      COALESCE(NULLIF(LOWER(TRIM(sm_message_channel)), ''), '(unknown)') AS sm_message_channel,
+      COALESCE(NULLIF(LOWER(TRIM(message_type)), ''), '(unknown)') AS message_type,
       SUM(message_unique_receives) AS receives,
       SUM(message_unique_opens) AS opens,
       SUM(message_unique_clicks) AS clicks,
@@ -280,9 +280,9 @@ Most examples default to the last 30 days for performance and "current state" an
     -- Assumptions: timeframe=last_12_weeks | metric=bounce_rate+drop_rate | grain=week+provider+channel+message_type | scope=message_sends_only
     SELECT
       DATE_TRUNC(date, WEEK(MONDAY)) AS week_start,
-      COALESCE(source_system, '(unknown)') AS source_system,
-      COALESCE(sm_message_channel, '(unknown)') AS sm_message_channel,
-      COALESCE(message_type, '(unknown)') AS message_type,
+      COALESCE(NULLIF(LOWER(TRIM(source_system)), ''), '(unknown)') AS source_system,
+      COALESCE(NULLIF(LOWER(TRIM(sm_message_channel)), ''), '(unknown)') AS sm_message_channel,
+      COALESCE(NULLIF(LOWER(TRIM(message_type)), ''), '(unknown)') AS message_type,
       SUM(message_unique_receives) AS receives,
       SUM(message_unique_bounces) AS bounces,
       SUM(message_unique_drops) AS drops,
@@ -303,14 +303,14 @@ Most examples default to the last 30 days for performance and "current state" an
     ```sql
     -- Assumptions: timeframe=last_30_days | metric=click_rate+platform_attributed_outcomes | grain=message | scope=min_receives_threshold
     SELECT
-      COALESCE(source_system, '(unknown)') AS source_system,
-      COALESCE(sm_message_channel, '(unknown)') AS sm_message_channel,
-      COALESCE(message_type, '(unknown)') AS message_type,
+      COALESCE(NULLIF(LOWER(TRIM(source_system)), ''), '(unknown)') AS source_system,
+      COALESCE(NULLIF(LOWER(TRIM(sm_message_channel)), ''), '(unknown)') AS sm_message_channel,
+      COALESCE(NULLIF(LOWER(TRIM(message_type)), ''), '(unknown)') AS message_type,
       message_id,
-      message_name,
-      message_subject,
+      ANY_VALUE(message_name) AS message_name,
+      ANY_VALUE(message_subject) AS message_subject,
       campaign_id,
-      campaign_name,
+      ANY_VALUE(campaign_name) AS campaign_name,
       SUM(message_unique_receives) AS receives,
       SUM(message_unique_opens) AS opens,
       SUM(message_unique_clicks) AS clicks,
@@ -320,7 +320,7 @@ Most examples default to the last 30 days for performance and "current state" an
     FROM `your_project.sm_transformed_v2.rpt_outbound_message_performance_daily`
     WHERE date >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)
       AND message_id IS NOT NULL
-    GROUP BY 1, 2, 3, 4, 5, 6, 7, 8
+    GROUP BY 1, 2, 3, 4, 7
     HAVING receives >= 10000
     ORDER BY click_rate DESC, receives DESC
     LIMIT 25;
@@ -433,7 +433,7 @@ Most examples default to the last 30 days for performance and "current state" an
     ```sql
     -- Assumptions: timeframe=last_30_days | metric=funnel_step_ratios | grain=source_system | scope=event_based_monitoring
     SELECT
-      COALESCE(source_system, '(unknown)') AS source_system,
+      COALESCE(NULLIF(LOWER(TRIM(source_system)), ''), '(unknown)') AS source_system,
       SUM(page_view_event_count) AS page_views,
       SUM(view_item_event_count) AS view_item_events,
       SUM(add_to_cart_event_count) AS add_to_cart_events,
@@ -459,7 +459,7 @@ Most examples default to the last 30 days for performance and "current state" an
     WITH hourly AS (
       SELECT
         event_local_datetime AS hour_start,
-        COALESCE(source_system, '(unknown)') AS source_system,
+        COALESCE(NULLIF(LOWER(TRIM(source_system)), ''), '(unknown)') AS source_system,
         SUM(purchase_event_count) AS purchase_events,
         SUM(event_order_revenue) AS event_order_revenue
       FROM `your_project.sm_transformed_v2.rpt_funnel_events_performance_hourly`
@@ -920,7 +920,7 @@ Most examples default to the last 30 days for performance and "current state" an
     ```sql
     -- Assumptions: timeframe=last_30_days | metric=orders+net_revenue+share | grain=sm_channel | scope=valid_orders_only
     SELECT
-      sm_channel,
+      COALESCE(NULLIF(LOWER(TRIM(sm_channel)), ''), '(unknown)') AS sm_channel,
       COUNT(*) AS orders,
       SUM(order_net_revenue) AS order_net_revenue,
       SAFE_DIVIDE(COUNT(*), NULLIF(SUM(COUNT(*)) OVER (), 0)) AS pct_orders,
@@ -929,7 +929,6 @@ Most examples default to the last 30 days for performance and "current state" an
     WHERE is_order_sm_valid = TRUE
       AND order_cancelled_at IS NULL
       AND DATE(order_processed_at_local_datetime) >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)
-      AND sm_channel IS NOT NULL
     GROUP BY 1
     ORDER BY orders DESC;
     ```
@@ -2259,8 +2258,8 @@ These are deeper-dive investigations for when attribution looks “weird” (too
     -- Assumptions: timeframe=last_90_days | metric=unattributed_share | grain=source_system+sm_channel | scope=valid_orders_only
     WITH base AS (
       SELECT
-        source_system,
-        sm_channel,
+        COALESCE(NULLIF(LOWER(TRIM(source_system)), ''), '(unknown)') AS source_system,
+        COALESCE(NULLIF(LOWER(TRIM(sm_channel)), ''), '(unknown)') AS sm_channel,
         COALESCE(NULLIF(LOWER(TRIM(sm_utm_source_medium)), ''), '(none) / (none)') AS source_medium,
         sm_order_key,
         order_net_revenue
@@ -2268,8 +2267,8 @@ These are deeper-dive investigations for when attribution looks “weird” (too
       WHERE is_order_sm_valid = TRUE
         AND order_cancelled_at IS NULL
         AND DATE(order_processed_at_local_datetime) >= DATE_SUB(CURRENT_DATE(), INTERVAL 90 DAY)
-        AND source_system IS NOT NULL
-        AND sm_channel IS NOT NULL
+        AND NULLIF(LOWER(TRIM(source_system)), '') IS NOT NULL
+        AND NULLIF(LOWER(TRIM(sm_channel)), '') IS NOT NULL
     )
     SELECT
       source_system,
@@ -2517,7 +2516,7 @@ These are deeper-dive investigations for when attribution looks “weird” (too
     ```sql
     -- Assumptions: timeframe=last_30_days | metric=ticket_volume+one_touch_rate | grain=communication_channel | scope=exclude_spam
     SELECT
-      COALESCE(NULLIF(ticket_communication_channel, ''), '(unknown)') AS ticket_communication_channel,
+      COALESCE(NULLIF(LOWER(TRIM(ticket_communication_channel)), ''), '(unknown)') AS ticket_communication_channel,
       COUNT(DISTINCT sm_ticket_key) AS tickets,
       COUNTIF(ticket_status IS NOT NULL AND LOWER(ticket_status) = 'open') AS open_tickets,
       COUNTIF(ticket_status IS NOT NULL AND LOWER(ticket_status) = 'closed') AS closed_tickets,
@@ -2667,8 +2666,8 @@ These are deeper-dive investigations for when attribution looks “weird” (too
     ```sql
     -- Assumptions: timeframe=last_30_days | metric=ticket_volume+resolution_time | grain=priority+channel+team | scope=exclude_spam
     SELECT
-      COALESCE(NULLIF(ticket_priority, ''), '(unknown)') AS ticket_priority,
-      COALESCE(NULLIF(ticket_communication_channel, ''), '(unknown)') AS ticket_communication_channel,
+      COALESCE(NULLIF(LOWER(TRIM(ticket_priority)), ''), '(unknown)') AS ticket_priority,
+      COALESCE(NULLIF(LOWER(TRIM(ticket_communication_channel)), ''), '(unknown)') AS ticket_communication_channel,
       COALESCE(NULLIF(ticket_assignee_team_name, ''), '(unassigned)') AS ticket_assignee_team_name,
       COUNT(DISTINCT sm_ticket_key) AS tickets,
       COUNTIF(ticket_status IS NOT NULL AND LOWER(ticket_status) = 'open') AS open_tickets,
