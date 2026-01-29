@@ -1,8 +1,8 @@
 # Query Library (AI Analyst) — Spec (Codex)
 
-Status: In progress (Batches 1–9 shipped)  
+Status: In progress (Batches 1–10 shipped)  
 Owner: Docs (Data Activation) + AI Analyst  
-Last updated: 2026-01-28
+Last updated: 2026-01-29
 
 ## Background
 
@@ -227,17 +227,23 @@ Why these queries:
 - They force correct interpretation of “platform-attributed” vs “incremental” (messaging) and “events” vs “sessions/users” (funnel).
 - They avoid tenant-specific mappings by using discovery-first and stable dimensions (channel/type/source).
 
-### Batch 10 (planned — messaging + funnel + support stumpers, deeper)
+### Batch 10 (shipped to docs; validated 2026-01-29)
+
+- Shipped in: (docs update) 2026-01-29
+- Validation status:
+  - Static schema/column validation: done (`scripts/docs_column_accuracy.py` on `sql-query-library.mdx`)
+  - Live BigQuery dry-run validation: done (2026-01-29, `sm-democo`)
+  - Live BigQuery execution validation: done (2026-01-29, `sm-irestore4` + `sm-piquetea`)
 
 Target: the “definitions + monitoring” questions that cause churn because teams disagree on what the metric means (and because tracking steps are often missing).
 
-Proposed templates (6–8; likely 6):
-1) **Messaging performance by provider (`source_system`) + channel** (deliverability + engagement + platform-attributed outcomes)
-2) **Flow vs campaign trend (weekly) with unsubscribes per receive** (messaging hygiene)
-3) **Funnel tracking health by `source_system` (missing step ratios, last 30 days)** (diagnostic)
-4) **Hourly funnel anomaly detector (hour-over-hour deltas, last 7 days)** (monitoring)
-5) **Support backlog aging (open ticket age buckets) by team/channel** (ops)
-6) **Unread ticket share by channel + team** (ops)
+Batch 10 templates shipped (6):
+1) **Messaging performance by provider + channel + message type** (`rpt_outbound_message_performance_daily`)
+2) **Flow vs campaign performance trend (weekly)** (`rpt_outbound_message_performance_daily`)
+3) **Funnel tracking health by event source system** (`rpt_funnel_events_performance_hourly`)
+4) **Hourly funnel anomaly detector (hour-over-hour deltas)** (`rpt_funnel_events_performance_hourly`)
+5) **Support backlog aging by team and channel (open tickets)** (`obt_customer_support_tickets`)
+6) **Unread open-ticket share by team and channel** (`obt_customer_support_tickets`)
 
 ## Query Entry Format (Canonical Metadata)
 

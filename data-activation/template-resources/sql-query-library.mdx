@@ -219,6 +219,59 @@ Most examples default to the last 30 days for performance and "current state" an
     ORDER BY week_start, sm_message_channel;
     ```
   </Accordion>
+
+  <Accordion title="Messaging performance by provider + channel + message type (last 30 days)">
+    **What you'll learn:** Which messaging providers (Klaviyo, Postscript, Attentive, etc.) are driving the best engagement and platform-attributed outcomes, broken out by channel and message type. Useful when you run multiple providers or want to audit performance differences across tools.
+
+    ```sql
+    -- Assumptions: timeframe=last_30_days | metric=engagement+platform_attributed_orders_revenue | grain=provider+channel+message_type | scope=message_sends_only
+    SELECT
+      COALESCE(source_system, '(unknown)') AS source_system,
+      COALESCE(sm_message_channel, '(unknown)') AS sm_message_channel,
+      COALESCE(message_type, '(unknown)') AS message_type,
+      SUM(message_unique_receives) AS receives,
+      SUM(message_unique_opens) AS opens,
+      SUM(message_unique_clicks) AS clicks,
+      SUM(platform_reported_orders) AS platform_reported_orders,
+      SUM(platform_reported_order_revenue) AS platform_reported_order_revenue,
+      SAFE_DIVIDE(SUM(message_unique_opens), NULLIF(SUM(message_unique_receives), 0)) AS open_rate,
+      SAFE_DIVIDE(SUM(message_unique_clicks), NULLIF(SUM(message_unique_receives), 0)) AS click_rate
+    FROM `your_project.sm_transformed_v2.rpt_outbound_message_performance_daily`
+    WHERE date >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)
+      AND message_type IS NOT NULL
+    GROUP BY 1, 2, 3
+    ORDER BY platform_reported_order_revenue DESC
+    LIMIT 50;
+    ```
+  </Accordion>
+
+  <Accordion title="Flow vs campaign performance trend (weekly, last 12 weeks)">
+    **What you'll learn:** Whether your weekly performance is being driven by flows or campaigns, including engagement and unsubscribes per receive. Helpful for diagnosing list fatigue or “campaign heavy” weeks that spike churn.
+
+    ```sql
+    -- Assumptions: timeframe=last_12_weeks | metric=engagement+platform_attributed_revenue+unsubscribe_rate | grain=week+message_type | scope=flow_vs_campaign_only
+    SELECT
+      DATE_TRUNC(date, WEEK(MONDAY)) AS week_start,
+      LOWER(message_type) AS message_type,
+      SUM(message_unique_receives) AS receives,
+      SUM(message_unique_opens) AS opens,
+      SUM(message_unique_clicks) AS clicks,
+      SUM(list_unsubscribes) AS list_unsubscribes,
+      SUM(platform_reported_order_revenue) AS platform_reported_order_revenue,
+      SAFE_DIVIDE(SUM(message_unique_opens), NULLIF(SUM(message_unique_receives), 0)) AS open_rate,
+      SAFE_DIVIDE(SUM(message_unique_clicks), NULLIF(SUM(message_unique_receives), 0)) AS click_rate,
+      SAFE_DIVIDE(SUM(list_unsubscribes), NULLIF(SUM(message_unique_receives), 0)) AS unsubscribe_rate_per_receive
+    FROM `your_project.sm_transformed_v2.rpt_outbound_message_performance_daily`
+    WHERE date >= DATE_SUB(CURRENT_DATE(), INTERVAL 84 DAY)
+      AND LOWER(message_type) IN ('flow', 'campaign')
+    GROUP BY 1, 2
+    ORDER BY week_start, message_type;
+    ```
+
+    <Info>
+    This is a directional trend view. If your providers attribute list subscribes/unsubscribes separately from message sends, keep using the dedicated “List subscribes vs unsubscribes” template for net list growth.
+    </Info>
+  </Accordion>
 </AccordionGroup>
 
 ## Funnel
@@ -318,6 +371,74 @@ Most examples default to the last 30 days for performance and "current state" an
     <Info>
     These are **event-based** ratios. Intermediate steps (like `begin_checkout_event_count`) can be under-tracked, so ratios like purchases per begin-checkout can exceed 1. Treat these as directional monitoring signals.
     </Info>
+  </Accordion>
+
+  <Accordion title="Funnel tracking health by event source system (last 30 days)">
+    **What you'll learn:** Whether one tracking source (`source_system`) appears to be missing critical steps (e.g., begin checkout) relative to other sources. This is a fast “do we have tracking regressions?” check.
+
+    ```sql
+    -- Assumptions: timeframe=last_30_days | metric=funnel_step_ratios | grain=source_system | scope=event_based_monitoring
+    SELECT
+      COALESCE(source_system, '(unknown)') AS source_system,
+      SUM(page_view_event_count) AS page_views,
+      SUM(view_item_event_count) AS view_item_events,
+      SUM(add_to_cart_event_count) AS add_to_cart_events,
+      SUM(begin_checkout_event_count) AS begin_checkout_events,
+      SUM(purchase_event_count) AS purchase_events,
+      SAFE_DIVIDE(SUM(view_item_event_count), NULLIF(SUM(page_view_event_count), 0)) AS view_item_per_page_view,
+      SAFE_DIVIDE(SUM(add_to_cart_event_count), NULLIF(SUM(view_item_event_count), 0)) AS add_to_cart_per_view_item,
+      SAFE_DIVIDE(SUM(begin_checkout_event_count), NULLIF(SUM(add_to_cart_event_count), 0)) AS begin_checkout_per_add_to_cart,
+      SAFE_DIVIDE(SUM(purchase_event_count), NULLIF(SUM(begin_checkout_event_count), 0)) AS purchase_events_per_begin_checkout_event
+    FROM `your_project.sm_transformed_v2.rpt_funnel_events_performance_hourly`
+    WHERE DATE(event_local_datetime) >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)
+    GROUP BY 1
+    HAVING page_views >= 5000
+    ORDER BY page_views DESC;
+    ```
+  </Accordion>
+
+  <Accordion title="Hourly funnel anomaly detector (hour-over-hour deltas, last 7 days)">
+    **What you'll learn:** Which tracking sources have unusually large hour-over-hour spikes/drops in purchases. Useful for catching instrumentation outages, batch backfills, or sudden traffic changes.
+
+    ```sql
+    -- Assumptions: timeframe=last_7_days | metric=hour_over_hour_purchase_deltas | grain=hour+source_system | scope=anomaly_triage
+    WITH hourly AS (
+      SELECT
+        event_local_datetime AS hour_start,
+        COALESCE(source_system, '(unknown)') AS source_system,
+        SUM(purchase_event_count) AS purchase_events,
+        SUM(event_order_revenue) AS event_order_revenue
+      FROM `your_project.sm_transformed_v2.rpt_funnel_events_performance_hourly`
+      WHERE DATE(event_local_datetime) >= DATE_SUB(CURRENT_DATE(), INTERVAL 7 DAY)
+      GROUP BY 1, 2
+    ),
+    scored AS (
+      SELECT
+        source_system,
+        hour_start,
+        purchase_events,
+        LAG(purchase_events) OVER (PARTITION BY source_system ORDER BY hour_start) AS prev_purchase_events,
+        purchase_events - LAG(purchase_events) OVER (PARTITION BY source_system ORDER BY hour_start) AS delta_purchase_events,
+        SAFE_DIVIDE(
+          purchase_events - LAG(purchase_events) OVER (PARTITION BY source_system ORDER BY hour_start),
+          NULLIF(LAG(purchase_events) OVER (PARTITION BY source_system ORDER BY hour_start), 0)
+        ) AS pct_change_purchase_events,
+        event_order_revenue
+      FROM hourly
+    )
+    SELECT
+      source_system,
+      hour_start,
+      prev_purchase_events,
+      purchase_events,
+      delta_purchase_events,
+      pct_change_purchase_events,
+      event_order_revenue
+    FROM scored
+    WHERE prev_purchase_events >= 10
+    ORDER BY ABS(pct_change_purchase_events) DESC
+    LIMIT 50;
+    ```
   </Accordion>
 </AccordionGroup>
 
@@ -2311,6 +2432,61 @@ These are deeper-dive investigations for when attribution looks “weird” (too
     GROUP BY 1
     HAVING closed_tickets >= 25
     ORDER BY avg_resolution_time_hours ASC;
+    ```
+  </Accordion>
+
+  <Accordion title="Support backlog aging by team and channel (open tickets)">
+    **What you'll learn:** How old your open ticket backlog is (age buckets + p50/p90) broken out by team and channel. Useful for backlog management and escalation.
+
+    ```sql
+    -- Assumptions: timeframe=current_state | metric=open_ticket_age_buckets | grain=team+channel | scope=open_tickets_exclude_spam
+    WITH open_tickets AS (
+      SELECT
+        COALESCE(NULLIF(ticket_assignee_team_name, ''), '(unassigned)') AS ticket_assignee_team_name,
+        COALESCE(NULLIF(ticket_communication_channel, ''), '(unknown)') AS ticket_communication_channel,
+        DATE_DIFF(CURRENT_DATE(), DATE(ticket_created_at_local_datetime), DAY) AS ticket_age_days
+      FROM `your_project.sm_transformed_v2.obt_customer_support_tickets`
+      WHERE is_ticket_spam = FALSE
+        AND ticket_status IS NOT NULL
+        AND LOWER(ticket_status) = 'open'
+        AND ticket_created_at_local_datetime IS NOT NULL
+    )
+    SELECT
+      ticket_assignee_team_name,
+      ticket_communication_channel,
+      COUNT(*) AS open_tickets,
+      COUNTIF(ticket_age_days = 0) AS age_0d,
+      COUNTIF(ticket_age_days BETWEEN 1 AND 2) AS age_1_2d,
+      COUNTIF(ticket_age_days BETWEEN 3 AND 6) AS age_3_6d,
+      COUNTIF(ticket_age_days BETWEEN 7 AND 13) AS age_7_13d,
+      COUNTIF(ticket_age_days >= 14) AS age_14d_plus,
+      APPROX_QUANTILES(ticket_age_days, 101)[OFFSET(50)] AS p50_ticket_age_days,
+      APPROX_QUANTILES(ticket_age_days, 101)[OFFSET(90)] AS p90_ticket_age_days
+    FROM open_tickets
+    GROUP BY 1, 2
+    HAVING COUNT(*) >= 25
+    ORDER BY open_tickets DESC;
+    ```
+  </Accordion>
+
+  <Accordion title="Unread open-ticket share by team and channel (ops triage)">
+    **What you'll learn:** Which teams/channels have the highest unread share of open tickets. Useful for triage and staffing.
+
+    ```sql
+    -- Assumptions: timeframe=current_state | metric=unread_open_ticket_share | grain=team+channel | scope=open_tickets_exclude_spam
+    SELECT
+      COALESCE(NULLIF(ticket_assignee_team_name, ''), '(unassigned)') AS ticket_assignee_team_name,
+      COALESCE(NULLIF(ticket_communication_channel, ''), '(unknown)') AS ticket_communication_channel,
+      COUNT(DISTINCT sm_ticket_key) AS open_tickets,
+      COUNTIF(is_ticket_unread = TRUE) AS unread_open_tickets,
+      SAFE_DIVIDE(COUNTIF(is_ticket_unread = TRUE), NULLIF(COUNT(DISTINCT sm_ticket_key), 0)) AS unread_open_ticket_rate
+    FROM `your_project.sm_transformed_v2.obt_customer_support_tickets`
+    WHERE is_ticket_spam = FALSE
+      AND ticket_status IS NOT NULL
+      AND LOWER(ticket_status) = 'open'
+    GROUP BY 1, 2
+    HAVING COUNT(DISTINCT sm_ticket_key) >= 25
+    ORDER BY unread_open_ticket_rate DESC, open_tickets DESC;
     ```
   </Accordion>
 </AccordionGroup>
