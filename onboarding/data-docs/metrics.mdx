@@ -4,7 +4,11 @@ description: "Definitions for SourceMedium metrics used across dashboards and th
 icon: "chart-line"
 ---
 
-This reference documents the metrics available in SourceMedium dashboards and the semantic layer. Metrics are organized by category.
+This reference documents the key metrics available in SourceMedium dashboards and the semantic layer. Metrics are organized by category.
+
+<Info>
+**Complete Metric Reference**: For a comprehensive, always-current list of all 180+ metrics, query the [`dim_semantic_metric_catalog`](/data-activation/data-tables/sm_metadata/dim_semantic_metric_catalog) table in your warehouse. This page provides a curated overview of the most commonly used metrics.
+</Info>
 
 <Note>
 Metrics marked as "Alias" are legacy names maintained for backward compatibility. Use the preferred metric name for new queries.
@@ -16,12 +20,12 @@ Metrics marked as "Alias" are legacy names maintained for backward compatibility
 |--------|-------------|------|
 | **Average Order Value (AOV) - Net** | Average net revenue per order | Ratio |
 | **Average Order Value (AOV) - Gross** | Average gross revenue per order | Ratio |
-| **Average Order Value (AOV) - Total** | Average total revenue per order (before refunds/discounts) | Ratio |
-| **Order Net Revenue** | Revenue after refunds and discounts | Simple |
-| **Order Gross Revenue** | Revenue after refunds, before discounts | Simple |
-| **Order Total Revenue** | Total revenue before any deductions | Simple |
-| **New Customer Revenue** | Net revenue from first-time customers | Simple |
-| **Repeat Customer Revenue** | Net revenue from returning customers | Simple |
+| **Average Order Value (AOV) - Total** | Average total revenue per order (including shipping/taxes) | Ratio |
+| **Order Net Revenue** | Net revenue after discounts and refunds | Simple |
+| **Order Gross Revenue** | Gross revenue before discounts and refunds | Simple |
+| **Order Total Revenue** | Total revenue including shipping and taxes | Simple |
+| **New Customer Net Revenue** | Net revenue from first-time customers | Simple |
+| **Repeat Customer Net Revenue** | Net revenue from repeat customers | Simple |
 | **Gross Profit** | Revenue minus cost of goods sold | Simple |
 | **Gross Margin %** | Gross profit as percentage of net revenue | Ratio |
 | **Total Discounts** | Total discount amount applied to orders | Simple |
@@ -97,23 +101,88 @@ Metrics marked as "Alias" are legacy names maintained for backward compatibility
 
 ## Legacy Aliases
 
-These metric names are maintained for backward compatibility. Use the preferred name for new implementations.
+These metric names are maintained for backward compatibility. **Always use the preferred name for new implementations.**
+
+### Core Aliases
+
+| Alias | Preferred Metric | Description |
+|-------|------------------|-------------|
+| `aov` | `average_order_value_net` | Average Order Value |
+| `mer` | `marketing_efficiency_ratio` | Marketing Efficiency Ratio |
+| `cac` | `customer_acquisition_cost` | Customer Acquisition Cost |
+| `cpc` | `cost_per_click` | Cost Per Click |
+| `cpm` | `cost_per_thousand_impressions` | Cost Per Mille |
+| `roas` | `return_on_ad_spend` | Return on Ad Spend |
+| `ctr` | `click_through_rate` | Click-Through Rate |
+| `cpo` | `cost_per_order` | Cost Per Order |
+| `cvr` | `conversion_rate` | Conversion Rate |
+| `cpa` | `customer_acquisition_cost` | Cost Per Acquisition (same as CAC) |
+
+### AOV Variants
 
 | Alias | Preferred Metric |
-|-------|-----------------|
-| `aov` | `average_order_value_net` |
-| `mer` | `marketing_efficiency_ratio` |
-| `cac` | `customer_acquisition_cost` |
-| `cpc` | `cost_per_click` |
-| `cpm` | `cost_per_thousand_impressions` |
-| `roas` | `return_on_ad_spend` |
-| `ctr` | `click_through_rate` |
-| `cpo` | `cost_per_order` |
-| `cvr` | `conversion_rate` |
+|-------|------------------|
+| `aov_gross` | `average_order_value_gross` |
+| `aov_net_revenue` | `average_order_value_net` |
+| `aov_gross_revenue` | `average_order_value_gross` |
+| `aov_total_revenue` | `average_order_value_total` |
+| `aov_new_customers` | `average_order_value_new_customer_net` |
+| `aov_new_customer_net_revenue` | `average_order_value_new_customer_net` |
+| `aov_new_customer_gross_revenue` | `average_order_value_new_customer_gross` |
+| `aov_new_customer_total_revenue` | `average_order_value_new_customer_total` |
+| `aov_repeat_customer_net_revenue` | `average_order_value_repeat_customer_net` |
+| `aov_repeat_customer_gross_revenue` | `average_order_value_repeat_customer_gross` |
+| `aov_repeat_customer_total_revenue` | `average_order_value_repeat_customer_total` |
+
+### Marketing Variants
+
+| Alias | Preferred Metric |
+|-------|------------------|
+| `mer_new_customers` | `marketing_efficiency_ratio_new_customers` |
+| `cvr_new_customers` | `conversion_rate_new_customers` |
+| `platform_roas` | `platform_return_on_ad_spend` |
+| `platform_mer` | `platform_marketing_efficiency_ratio` |
+| `platform_cpc` | `platform_cost_per_conversion` |
+| `platform_rpc` | `platform_revenue_per_conversion` |
+| `platform_rpm` | `platform_revenue_per_thousand_impressions` |
+| `cpo_platform` | `cost_per_platform_conversion` |
+| `cpa_marketing` | `cost_per_platform_conversion` |
+
+<Tip>
+Query `dim_semantic_metric_catalog` with `WHERE is_abbreviation = true` to see all available aliases in your warehouse.
+</Tip>
 
 ## Metric Types
 
 - **Simple**: Direct aggregation of a measure (e.g., SUM of revenue)
 - **Ratio**: Division of two metrics (e.g., revenue / orders = AOV)
-- **Derived**: Calculation involving other metrics (e.g., MoM change)
+- **Derived**: Calculation involving other metrics with custom expressions
 - **Cumulative**: Running total over a time period (e.g., MTD revenue)
+
+## Discovering More Metrics
+
+The semantic layer includes 180+ metrics across all categories. To explore the complete list:
+
+```sql
+-- List all metrics by category
+SELECT
+    metric_category,
+    metric_name,
+    metric_label,
+    metric_type
+FROM `your_project.sm_metadata.dim_semantic_metric_catalog`
+ORDER BY metric_category, metric_name
+```
+
+```sql
+-- Find metrics matching a keyword
+SELECT
+    metric_name,
+    metric_description,
+    calculation
+FROM `your_project.sm_metadata.dim_semantic_metric_catalog`
+WHERE LOWER(metric_name) LIKE '%revenue%'
+   OR LOWER(metric_description) LIKE '%revenue%'
+```
+
+See the [dim_semantic_metric_catalog documentation](/data-activation/data-tables/sm_metadata/dim_semantic_metric_catalog) for more query examples and detailed schema information.

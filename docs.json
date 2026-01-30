@@ -593,7 +593,8 @@
           {
             "group": "Metadata Tables",
             "pages": [
-              "data-activation/data-tables/sm_metadata/dim_data_dictionary"
+              "data-activation/data-tables/sm_metadata/dim_data_dictionary",
+              "data-activation/data-tables/sm_metadata/dim_semantic_metric_catalog"
             ]
           },
           {

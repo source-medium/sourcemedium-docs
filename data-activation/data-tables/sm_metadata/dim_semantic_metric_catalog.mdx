@@ -1,0 +1,356 @@
+---
+title: 'dim_semantic_metric_catalog'
+description: 'Self-documenting catalog of all semantic layer metrics with their calculations, categories, and dependencies.'
+icon: "book-open"
+---
+
+The `dim_semantic_metric_catalog` table provides a comprehensive, always-current reference for all metrics available in the SourceMedium semantic layer. Unlike static documentation, this table is dynamically generated from the actual metric definitions, ensuring it always reflects the current state of your metrics.
+
+<Info>
+This is the **source of truth** for metric definitions. The catalog currently contains 180+ metrics. Query this table to discover available metrics, understand their calculations, and find the right metric for your analysis.
+</Info>
+
+## Use Cases
+
+- **Metric Discovery**: Find all available metrics and filter by category or type
+- **Understanding Calculations**: See exactly how each metric is calculated
+- **Dependency Tracking**: Identify which metrics depend on other metrics
+- **Alias Resolution**: Map abbreviated metric names (like `aov`) to their full descriptive names
+- **Documentation**: Generate metric documentation for your team
+
+## Schema
+
+```yaml
+version: 2
+
+models:
+  - name: dim_semantic_metric_catalog
+    description: >
+      A clean, user-friendly catalog of all semantic layer metrics with parsed configurations.
+      Dynamically generated from dbt metric definitions at build time.
+    columns:
+      - name: metric_name
+        description: >
+          Unique identifier for the metric (e.g., 'order_net_revenue', 'average_order_value_net').
+          This is the name you use when querying the semantic layer.
+
+      - name: metric_label
+        description: >
+          Human-readable display name (e.g., "Order Net Revenue", "Average Order Value (AOV) - Net").
+          Use this for dashboard labels and reports.
+
+      - name: metric_description
+        description: >
+          Detailed explanation of what the metric measures and how it should be interpreted.
+
+      - name: metric_type
+        description: >
+          Type of metric calculation. One of:
+          - `simple`: Direct aggregation of a measure (SUM, COUNT)
+          - `ratio`: Division of two metrics (e.g., revenue / orders = AOV)
+          - `derived`: Calculation combining multiple metrics with custom expressions
+          - `cumulative`: Running totals over time (MTD, QTD, YTD, trailing windows)
+
+      - name: metric_category
+        description: >
+          Business category for grouping related metrics:
+          - `revenue`: AOV, revenue totals, profit metrics
+          - `customer`: Customer counts, acquisition, retention metrics
+          - `conversion`: Conversion rates, funnel metrics
+          - `marketing`: Ad spend, efficiency ratios (MER, CAC, CPO, ROAS)
+          - `product`: Product/SKU counts, inventory metrics
+          - `cumulative`: Time-based cumulative metrics (MTD, QTD, YTD)
+          - `period_comparison`: MoM, YoY comparison metrics
+          - `other`: Uncategorized metrics
+
+      - name: calculation
+        description: >
+          Readable calculation formula showing how the metric is computed:
+          - Simple: "SUM(order_net_revenue) WHERE [filter applied]", "SUM(valid_order_count)"
+          - Ratio: "order_net_revenue / order_count"
+          - Derived: Custom expression combining metrics
+          - Cumulative: "CUMULATIVE_SUM(order_net_revenue)"
+
+      - name: has_filter
+        description: >
+          Boolean flag indicating whether the metric has a filter condition applied.
+          TRUE if the metric filters data (e.g., only valid orders, only new customers).
+
+      - name: filter_condition
+        description: >
+          The actual filter condition applied to the metric, if any.
+          NULL if no filter is applied.
+
+      - name: metric_time_grains
+        description: >
+          Available time granularities for this metric.
+          Default: "day, week, month, quarter, year"
+
+      - name: cumulative_settings
+        description: >
+          Configuration for cumulative metrics:
+          - "month", "quarter", "year" for grain-to-date (MTD, QTD, YTD)
+          - "30 day", "90 day", "365 day" for trailing windows
+          - "all_time" for unbounded cumulative from the beginning
+          - NULL for non-cumulative metrics
+
+      - name: semantic_model_name
+        description: >
+          The semantic model that defines this metric's measures.
+          Common values: 'orders', 'customers', 'ad_performance', 'funnel_events', 'products', 'executive_summary'.
+          Special values: 'Multiple' (uses multiple models), 'Derived' (uses other metrics), 'None'.
+
+      - name: underlying_model
+        description: >
+          The dbt model(s) containing the actual data for this metric.
+          Examples: 'obt_orders', 'obt_customers', 'rpt_ad_performance_daily'.
+          Can be 'Multiple models' for metrics spanning multiple data sources.
+
+      - name: dependent_metrics
+        description: >
+          Comma-separated list of metrics this metric depends on.
+          Populated for ratio and derived metrics.
+          Example: "total_ad_clicks, total_ad_impressions" for click_through_rate.
+
+      - name: dependent_metric_count
+        description: >
+          Number of metrics this metric depends on.
+          0 for simple metrics, 2 for ratio metrics, varies for derived metrics.
+
+      - name: is_abbreviation
+        description: >
+          Boolean flag indicating if this is an abbreviated/alias metric name.
+          TRUE for metrics like 'aov', 'mer', 'cac' that have full descriptive equivalents.
+          Use the full name for new implementations.
+
+      - name: preferred_metric_name
+        description: >
+          For abbreviation metrics, the full descriptive metric name to use instead.
+          Example: 'aov' -> 'average_order_value_net', 'mer' -> 'marketing_efficiency_ratio'.
+          NULL for primary metrics.
+
+      - name: abbreviations_list
+        description: >
+          For primary metrics, a comma-separated list of abbreviations that map to this metric.
+          Example: 'average_order_value_net' has abbreviations 'aov, aov_net_revenue'.
+          NULL for abbreviation metrics.
+
+      - name: catalog_updated_at
+        description: >
+          Timestamp when this catalog entry was last refreshed.
+          All rows share the same timestamp from the most recent build.
+```
+
+## Example Queries
+
+### Find All Revenue Metrics
+
+```sql
+SELECT
+    metric_name,
+    metric_label,
+    metric_type,
+    calculation
+FROM `your_project.sm_metadata.dim_semantic_metric_catalog`
+WHERE metric_category = 'revenue'
+ORDER BY metric_name
+```
+
+### Discover Marketing Efficiency Metrics
+
+```sql
+SELECT
+    metric_name,
+    metric_description,
+    calculation,
+    dependent_metrics
+FROM `your_project.sm_metadata.dim_semantic_metric_catalog`
+WHERE metric_category = 'marketing'
+  AND metric_type = 'ratio'
+ORDER BY metric_name
+```
+
+### Resolve an Abbreviated Metric Name
+
+```sql
+-- What is "aov" actually measuring?
+SELECT
+    metric_name,
+    preferred_metric_name,
+    metric_description,
+    calculation
+FROM `your_project.sm_metadata.dim_semantic_metric_catalog`
+WHERE metric_name = 'aov'
+```
+
+### Find All Abbreviations for a Metric
+
+```sql
+-- What abbreviations exist for average_order_value_net?
+SELECT
+    metric_name,
+    abbreviations_list
+FROM `your_project.sm_metadata.dim_semantic_metric_catalog`
+WHERE metric_name = 'average_order_value_net'
+   OR preferred_metric_name = 'average_order_value_net'
+```
+
+### List All Cumulative (MTD/QTD/YTD) Metrics
+
+```sql
+SELECT
+    metric_name,
+    metric_label,
+    cumulative_settings,
+    calculation
+FROM `your_project.sm_metadata.dim_semantic_metric_catalog`
+WHERE metric_type = 'cumulative'
+ORDER BY cumulative_settings, metric_name
+```
+
+### Find Metrics by Underlying Data Source
+
+```sql
+-- What metrics can I get from the orders data?
+SELECT
+    metric_name,
+    metric_type,
+    metric_category
+FROM `your_project.sm_metadata.dim_semantic_metric_catalog`
+WHERE semantic_model_name = 'orders'
+ORDER BY metric_category, metric_name
+```
+
+### Explore Metric Dependencies
+
+```sql
+-- Which metrics depend on order_net_revenue?
+SELECT
+    metric_name,
+    metric_type,
+    dependent_metrics
+FROM `your_project.sm_metadata.dim_semantic_metric_catalog`
+WHERE dependent_metrics LIKE '%order_net_revenue%'
+ORDER BY metric_name
+```
+
+### Get Canonical Metric Names (Resolving Aliases)
+
+```sql
+-- Always use the preferred (non-abbreviated) metric name
+SELECT
+    metric_name AS requested_name,
+    COALESCE(preferred_metric_name, metric_name) AS canonical_name,
+    metric_description
+FROM `your_project.sm_metadata.dim_semantic_metric_catalog`
+WHERE metric_name IN ('aov', 'mer', 'cac', 'average_order_value_net')
+```
+
+## Metric Types Explained
+
+<AccordionGroup>
+  <Accordion title="Simple Metrics">
+    Direct aggregations of a single measure. These are the building blocks for other metric types.
+
+    **Examples:**
+    - `order_net_revenue` = SUM(order_net_revenue)
+    - `order_count` = SUM(valid_order_count)
+    - `new_customers` = SUM(customer_count) with filter
+
+    **Calculation column shows:** `SUM(measure_name)` or `SUM(measure_name) WHERE [filter applied]`
+  </Accordion>
+
+  <Accordion title="Ratio Metrics">
+    Division of two metrics, typically used for averages and rates.
+
+    **Examples:**
+    - `average_order_value_net` = order_net_revenue / order_count
+    - `customer_acquisition_cost` = total_ad_spend / new_customer_order_count
+    - `click_through_rate` = total_ad_clicks / total_ad_impressions
+
+    **Calculation column shows:** `numerator_metric / denominator_metric`
+  </Accordion>
+
+  <Accordion title="Derived Metrics">
+    Custom calculations combining multiple metrics with expressions.
+
+    **Examples:**
+    - `cost_per_thousand_impressions` = total_ad_spend * 1000 / total_ad_impressions
+    - `gross_margin` = gross_profit / order_net_revenue
+
+    **Calculation pattern:** Custom SQL expression
+  </Accordion>
+
+  <Accordion title="Cumulative Metrics">
+    Running totals that accumulate over time periods.
+
+    **Grain-to-date:**
+    - `mtd_net_revenue` = Month-to-date net revenue (resets each month)
+    - `qtd_net_revenue` = Quarter-to-date net revenue
+    - `ytd_net_revenue` = Year-to-date net revenue
+
+    **Trailing windows:**
+    - `trailing_30d_revenue` = Revenue for the last 30 days
+    - `trailing_90d_revenue` = Revenue for the last 90 days
+
+    **Calculation column shows:** `CUMULATIVE_SUM(measure_name)`
+  </Accordion>
+</AccordionGroup>
+
+## Metric Categories
+
+| Category | Description | Example Metrics |
+|----------|-------------|-----------------|
+| `revenue` | Revenue, profit, and average order value metrics | `order_net_revenue`, `average_order_value_net`, `gross_profit` |
+| `customer` | Customer counts and acquisition metrics | `new_customers`, `new_customer_order_count`, `total_customers` |
+| `conversion` | Conversion rates and funnel metrics | `conversion_rate`, `add_to_cart_rate`, `checkout_completion_rate` |
+| `marketing` | Ad spend and efficiency metrics | `total_ad_spend`, `marketing_efficiency_ratio`, `cost_per_click` |
+| `product` | Product and inventory metrics | `total_products`, `total_skus`, `product_page_views` |
+| `cumulative` | Time-based running totals | `mtd_net_revenue`, `ytd_order_count`, `trailing_30d_revenue` |
+| `period_comparison` | Period-over-period comparisons | `order_count_mom_change`, `order_count_yoy_change` |
+
+## Common Aliases Reference
+
+The semantic layer supports abbreviated metric names for convenience. Always use the full descriptive name for new implementations.
+
+| Alias | Preferred Metric | Description |
+|-------|------------------|-------------|
+| `aov` | `average_order_value_net` | Average Order Value |
+| `mer` | `marketing_efficiency_ratio` | Marketing Efficiency Ratio (blended ROAS) |
+| `cac` | `customer_acquisition_cost` | Customer Acquisition Cost |
+| `cpc` | `cost_per_click` | Cost Per Click |
+| `cpm` | `cost_per_thousand_impressions` | Cost Per Mille (thousand impressions) |
+| `cpo` | `cost_per_order` | Cost Per Order |
+| `roas` | `return_on_ad_spend` | Return on Ad Spend |
+| `ctr` | `click_through_rate` | Click-Through Rate |
+| `cvr` | `conversion_rate` | Conversion Rate |
+| `cpa` | `customer_acquisition_cost` | Cost Per Acquisition (same as CAC) |
+
+<Tip>
+Query the catalog with `WHERE is_abbreviation = true` to see all available aliases and their preferred metric names.
+</Tip>
+
+## Best Practices
+
+<Steps>
+  <Step title="Use Full Metric Names">
+    For new dashboards and queries, always use the full descriptive metric name (e.g., `average_order_value_net` instead of `aov`). This improves readability and maintainability.
+  </Step>
+
+  <Step title="Check Dependencies Before Filtering">
+    When filtering metrics, check the `dependent_metrics` column to understand what underlying data will be affected. Ratio and derived metrics may behave unexpectedly with certain dimension filters.
+  </Step>
+
+  <Step title="Match Semantic Models for Joins">
+    When combining metrics in a query, prefer metrics from the same `semantic_model_name` for consistent dimension availability. Mixing metrics from different semantic models may limit available dimensions.
+  </Step>
+
+  <Step title="Use Cumulative Metrics for Period Totals">
+    For MTD, QTD, or YTD reporting, use the pre-built cumulative metrics instead of writing custom window functions. They handle edge cases like partial periods correctly.
+  </Step>
+</Steps>
+
+## Related Resources
+
+- [Metric Definitions](/onboarding/data-docs/metrics) - Curated list of key metrics with descriptions
+- [dim_data_dictionary](/data-activation/data-tables/sm_metadata/dim_data_dictionary) - Table availability and column metadata
