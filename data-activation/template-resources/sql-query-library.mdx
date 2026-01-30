@@ -332,99 +332,156 @@ Most examples default to the last 30 days for performance and "current state" an
 ## Funnel
 
 <AccordionGroup>
-  <Accordion title="Daily funnel step counts + conversion rates (last 30 days)">
-    **What you'll learn:** The daily volume of key funnel events (view item → add to cart → begin checkout → purchase) and conversion rates between steps. Use this for near-real-time monitoring and to detect sudden tracking or conversion drops.
+  <Accordion title="Daily session-based funnel conversion (last 30 days)">
+    **What you'll learn:** Daily session-level funnel conversion rates (view item → add to cart → begin checkout → purchase) using distinct-session denominators. Use this for “conversion rate” questions.
 
     ```sql
-    -- Assumptions: timeframe=last_30_days | metric=funnel_step_counts+event_based_conversion_rates | grain=date | scope=all_sources
-    WITH daily AS (
+    -- Assumptions: timeframe=last_30_days | metric=session_funnel_conversion_rates | grain=date | scope=sessions_with_any_funnel_activity
+    WITH events AS (
       SELECT
         DATE(event_local_datetime) AS date,
-        SUM(view_item_event_count) AS view_item_events,
-        SUM(add_to_cart_event_count) AS add_to_cart_events,
-        SUM(begin_checkout_event_count) AS begin_checkout_events,
-        SUM(purchase_event_count) AS purchase_events,
-        SUM(event_order_revenue) AS event_order_revenue
-      FROM `your_project.sm_transformed_v2.rpt_funnel_events_performance_hourly`
+        COALESCE(event_user_session_id, event_session_id) AS session_id,
+        sm_event_name
+      FROM `your_project.sm_transformed_v2.obt_funnel_event_history`
       WHERE DATE(event_local_datetime) >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)
-      GROUP BY 1
+        AND DATE(event_local_datetime) < CURRENT_DATE()
+        AND (event_user_session_id IS NOT NULL OR event_session_id IS NOT NULL)
+        AND sm_event_name IN ('view_item', 'add_to_cart', 'begin_checkout', 'purchase')
+    ),
+    session_daily AS (
+      SELECT
+        date,
+        session_id,
+        MAX(IF(sm_event_name = 'view_item', 1, 0)) AS has_view_item,
+        MAX(IF(sm_event_name = 'add_to_cart', 1, 0)) AS has_add_to_cart,
+        MAX(IF(sm_event_name = 'begin_checkout', 1, 0)) AS has_begin_checkout,
+        MAX(IF(sm_event_name = 'purchase', 1, 0)) AS has_purchase
+      FROM events
+      GROUP BY 1, 2
     )
     SELECT
       date,
-      view_item_events,
-      add_to_cart_events,
-      begin_checkout_events,
-      purchase_events,
-      event_order_revenue,
-      SAFE_DIVIDE(add_to_cart_events, NULLIF(view_item_events, 0)) AS add_to_cart_per_view_item,
-      SAFE_DIVIDE(begin_checkout_events, NULLIF(add_to_cart_events, 0)) AS begin_checkout_per_add_to_cart,
-      SAFE_DIVIDE(purchase_events, NULLIF(begin_checkout_events, 0)) AS purchase_per_begin_checkout,
-      SAFE_DIVIDE(purchase_events, NULLIF(view_item_events, 0)) AS purchase_per_view_item
-    FROM daily
+      COUNT(*) AS sessions,
+      SUM(has_view_item) AS sessions_with_view_item,
+      SUM(has_add_to_cart) AS sessions_with_add_to_cart,
+      SUM(has_begin_checkout) AS sessions_with_begin_checkout,
+      SUM(has_purchase) AS sessions_with_purchase,
+      SAFE_DIVIDE(SUM(has_add_to_cart), NULLIF(SUM(has_view_item), 0)) AS view_to_cart_rate,
+      SAFE_DIVIDE(SUM(has_begin_checkout), NULLIF(SUM(has_add_to_cart), 0)) AS cart_to_checkout_rate,
+      SAFE_DIVIDE(SUM(has_purchase), NULLIF(SUM(has_begin_checkout), 0)) AS checkout_to_purchase_rate,
+      SAFE_DIVIDE(SUM(has_purchase), NULLIF(COUNT(*), 0)) AS session_conversion_rate
+    FROM session_daily
     ORDER BY date;
     ```
-
-    <Info>
-    These are **event-based** conversion rates (not sessions/users). For causal conversion analysis, pair this with your owned analytics tool’s session/user denominators.
-    </Info>
   </Accordion>
 
-  <Accordion title="Top pages by add-to-cart rate (last 7 days)">
-    **What you'll learn:** Which pages are generating add-to-cart events relative to page views. Use this to identify high-performing product pages/collections and to debug low-converting pages.
+  <Accordion title="Top pages by on-page add-to-cart session rate (last 7 days)">
+    **What you'll learn:** Which pages have the highest share of sessions that triggered an add-to-cart event on that same page path. Useful for identifying strong product pages/collections and debugging low-performing pages.
 
     ```sql
-    -- Assumptions: timeframe=last_7_days | metric=add_to_cart_rate=add_to_cart_events/page_views | grain=page_path | scope=non_null_paths
+    -- Assumptions: timeframe=last_7_days | metric=on_page_add_to_cart_session_rate | grain=event_page_path | scope=sessions_with_page_path
+    WITH base AS (
+      SELECT
+        event_page_path,
+        COALESCE(event_user_session_id, event_session_id) AS session_id,
+        sm_event_name
+      FROM `your_project.sm_transformed_v2.obt_funnel_event_history`
+      WHERE DATE(event_local_datetime) >= DATE_SUB(CURRENT_DATE(), INTERVAL 7 DAY)
+        AND DATE(event_local_datetime) < CURRENT_DATE()
+        AND event_page_path IS NOT NULL
+        AND TRIM(event_page_path) != ''
+        AND (event_user_session_id IS NOT NULL OR event_session_id IS NOT NULL)
+        AND sm_event_name IN ('page_view', 'add_to_cart')
+    )
     SELECT
       event_page_path,
-      SUM(page_view_event_count) AS page_views,
-      SUM(add_to_cart_event_count) AS add_to_cart_events,
-      SAFE_DIVIDE(SUM(add_to_cart_event_count), NULLIF(SUM(page_view_event_count), 0)) AS add_to_cart_rate
-    FROM `your_project.sm_transformed_v2.rpt_funnel_events_performance_hourly`
-    WHERE DATE(event_local_datetime) >= DATE_SUB(CURRENT_DATE(), INTERVAL 7 DAY)
-      AND event_page_path IS NOT NULL
-      AND TRIM(event_page_path) != ''
+      COUNT(DISTINCT IF(sm_event_name = 'page_view', session_id, NULL)) AS sessions_with_page_view,
+      COUNT(DISTINCT IF(sm_event_name = 'add_to_cart', session_id, NULL)) AS sessions_with_add_to_cart_on_page,
+      SAFE_DIVIDE(
+        COUNT(DISTINCT IF(sm_event_name = 'add_to_cart', session_id, NULL)),
+        NULLIF(COUNT(DISTINCT IF(sm_event_name = 'page_view', session_id, NULL)), 0)
+      ) AS add_to_cart_session_rate
+    FROM base
     GROUP BY 1
-    HAVING page_views >= 500
-    ORDER BY add_to_cart_rate DESC
+    HAVING sessions_with_page_view >= 500
+    ORDER BY add_to_cart_session_rate DESC
     LIMIT 25;
     ```
   </Accordion>
 
   <Accordion title="Funnel conversion by UTM source/medium (last 30 days)">
-    **What you'll learn:** How different acquisition sources/mediums perform through the funnel (event-based). Use this for directional comparisons and to spot sources with strong traffic but weak downstream conversion.
+    **What you'll learn:** How different acquisition sources/mediums perform through a session-based funnel (distinct-session denominators). This is the recommended pattern for “conversion rate by channel” questions.
 
     ```sql
-    -- Assumptions: timeframe=last_30_days | metric=funnel_steps+event_based_purchase_rate | grain=utm_source_medium | scope=top_sources_only
-    WITH base AS (
+    -- Assumptions: timeframe=last_30_days | metric=session_funnel_conversion_rates | grain=utm_source_medium | scope=sessions_with_any_funnel_activity
+    -- Notes:
+    -- - Uses DISTINCT sessions (not event-count ratios)
+    -- - UTM source/medium is attributed to the session using the earliest event in that session
+    WITH events AS (
       SELECT
+        event_local_datetime,
+        COALESCE(event_user_session_id, event_session_id) AS session_id,
         COALESCE(NULLIF(LOWER(TRIM(event_utm_source)), ''), '(none)') AS utm_source,
         COALESCE(NULLIF(LOWER(TRIM(event_utm_medium)), ''), '(none)') AS utm_medium,
-        SUM(view_item_event_count) AS view_item_events,
-        SUM(add_to_cart_event_count) AS add_to_cart_events,
-        SUM(begin_checkout_event_count) AS begin_checkout_events,
-        SUM(purchase_event_count) AS purchase_events,
-        SUM(event_order_revenue) AS event_order_revenue
-      FROM `your_project.sm_transformed_v2.rpt_funnel_events_performance_hourly`
+        sm_event_name,
+        event_order_revenue
+      FROM `your_project.sm_transformed_v2.obt_funnel_event_history`
       WHERE DATE(event_local_datetime) >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)
-      GROUP BY 1, 2
+        AND DATE(event_local_datetime) < CURRENT_DATE()
+        AND (event_user_session_id IS NOT NULL OR event_session_id IS NOT NULL)
+    ),
+    session_utm AS (
+      SELECT
+        session_id,
+        ARRAY_AGG(utm_source ORDER BY event_local_datetime ASC LIMIT 1)[OFFSET(0)] AS utm_source,
+        ARRAY_AGG(utm_medium ORDER BY event_local_datetime ASC LIMIT 1)[OFFSET(0)] AS utm_medium
+      FROM events
+      GROUP BY 1
+    ),
+    session_steps AS (
+      SELECT
+        session_id,
+        MAX(IF(sm_event_name = 'view_item', 1, 0)) AS has_view_item,
+        MAX(IF(sm_event_name = 'add_to_cart', 1, 0)) AS has_add_to_cart,
+        MAX(IF(sm_event_name = 'begin_checkout', 1, 0)) AS has_begin_checkout,
+        MAX(IF(sm_event_name = 'purchase', 1, 0)) AS has_purchase,
+        SUM(IF(sm_event_name = 'purchase', COALESCE(event_order_revenue, 0), 0)) AS purchase_revenue
+      FROM events
+      GROUP BY 1
+    ),
+    by_channel AS (
+      SELECT
+        CONCAT(u.utm_source, ' / ', u.utm_medium) AS utm_source_medium,
+        s.has_view_item,
+        s.has_add_to_cart,
+        s.has_begin_checkout,
+        s.has_purchase,
+        s.purchase_revenue
+      FROM session_steps s
+      JOIN session_utm u USING (session_id)
     )
     SELECT
-      CONCAT(utm_source, ' / ', utm_medium) AS utm_source_medium,
-      view_item_events,
-      add_to_cart_events,
-      begin_checkout_events,
-      purchase_events,
-      event_order_revenue,
-      SAFE_DIVIDE(purchase_events, NULLIF(view_item_events, 0)) AS purchase_per_view_item,
-      SAFE_DIVIDE(purchase_events, NULLIF(begin_checkout_events, 0)) AS purchase_events_per_begin_checkout_event
-    FROM base
-    WHERE view_item_events >= 500
-    ORDER BY purchase_per_view_item DESC
+      utm_source_medium,
+      COUNT(*) AS sessions,
+      SUM(has_view_item) AS sessions_with_view_item,
+      SUM(has_add_to_cart) AS sessions_with_add_to_cart,
+      SUM(has_begin_checkout) AS sessions_with_begin_checkout,
+      SUM(has_purchase) AS sessions_with_purchase,
+      SAFE_DIVIDE(SUM(has_add_to_cart), NULLIF(SUM(has_view_item), 0)) AS view_to_cart_rate,
+      SAFE_DIVIDE(SUM(has_begin_checkout), NULLIF(SUM(has_add_to_cart), 0)) AS cart_to_checkout_rate,
+      SAFE_DIVIDE(SUM(has_purchase), NULLIF(SUM(has_begin_checkout), 0)) AS checkout_to_purchase_rate,
+      SAFE_DIVIDE(SUM(has_purchase), NULLIF(COUNT(*), 0)) AS session_conversion_rate,
+      SUM(purchase_revenue) AS total_revenue
+    FROM by_channel
+    WHERE has_view_item = 1 OR has_add_to_cart = 1 OR has_begin_checkout = 1 OR has_purchase = 1
+    GROUP BY 1
+    HAVING sessions >= 100
+    ORDER BY sessions_with_purchase DESC
     LIMIT 25;
     ```
 
     <Info>
-    These are **event-based** ratios. Intermediate steps (like `begin_checkout_event_count`) can be under-tracked, so ratios like purchases per begin-checkout can exceed 1. Treat these as directional monitoring signals.
+    This is a **session-based** funnel. If you want near-real-time monitoring (hourly/daily step volumes and event-based ratios), use [`rpt_funnel_events_performance_hourly`](/data-activation/data-tables/sm_transformed_v2/rpt_funnel_events_performance_hourly).
     </Info>
   </Accordion>
 
@@ -432,18 +489,14 @@ Most examples default to the last 30 days for performance and "current state" an
     **What you'll learn:** Whether one tracking source (`source_system`) appears to be missing critical steps (e.g., begin checkout) relative to other sources. This is a fast “do we have tracking regressions?” check.
 
     ```sql
-    -- Assumptions: timeframe=last_30_days | metric=funnel_step_ratios | grain=source_system | scope=event_based_monitoring
+    -- Assumptions: timeframe=last_30_days | metric=funnel_step_event_counts | grain=source_system | scope=monitoring
     SELECT
       COALESCE(NULLIF(LOWER(TRIM(source_system)), ''), '(unknown)') AS source_system,
       SUM(page_view_event_count) AS page_views,
       SUM(view_item_event_count) AS view_item_events,
       SUM(add_to_cart_event_count) AS add_to_cart_events,
       SUM(begin_checkout_event_count) AS begin_checkout_events,
-      SUM(purchase_event_count) AS purchase_events,
-      SAFE_DIVIDE(SUM(view_item_event_count), NULLIF(SUM(page_view_event_count), 0)) AS view_item_per_page_view,
-      SAFE_DIVIDE(SUM(add_to_cart_event_count), NULLIF(SUM(view_item_event_count), 0)) AS add_to_cart_per_view_item,
-      SAFE_DIVIDE(SUM(begin_checkout_event_count), NULLIF(SUM(add_to_cart_event_count), 0)) AS begin_checkout_per_add_to_cart,
-      SAFE_DIVIDE(SUM(purchase_event_count), NULLIF(SUM(begin_checkout_event_count), 0)) AS purchase_events_per_begin_checkout_event
+      SUM(purchase_event_count) AS purchase_events
     FROM `your_project.sm_transformed_v2.rpt_funnel_events_performance_hourly`
     WHERE DATE(event_local_datetime) >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)
     GROUP BY 1
@@ -517,7 +570,6 @@ Most examples default to the last 30 days for performance and "current state" an
       email_signups,
       purchase_events,
       event_order_revenue,
-      SAFE_DIVIDE(purchase_events, NULLIF(email_signups, 0)) AS purchase_events_per_email_signup,
       SAFE_DIVIDE(event_order_revenue, NULLIF(purchase_events, 0)) AS revenue_per_purchase_event
     FROM base
     WHERE email_signups >= 100
@@ -551,10 +603,7 @@ Most examples default to the last 30 days for performance and "current state" an
       add_to_cart_events,
       remove_from_cart_events,
       begin_checkout_events,
-      purchase_events,
-      SAFE_DIVIDE(remove_from_cart_events, NULLIF(add_to_cart_events, 0)) AS remove_from_cart_per_add_to_cart,
-      SAFE_DIVIDE(begin_checkout_events, NULLIF(add_to_cart_events, 0)) AS begin_checkout_per_add_to_cart,
-      SAFE_DIVIDE(purchase_events, NULLIF(add_to_cart_events, 0)) AS purchase_per_add_to_cart
+      purchase_events
     FROM daily
     ORDER BY date;
     ```
@@ -652,7 +701,7 @@ The MTA tables are **experimental**: treat results as directional and validate a
   </Accordion>
 
   <Accordion title="Lead capture → purchase conversion rate (last 90 days)">
-    **What you'll learn:** What share of users with a lead capture event later have a purchase event (event-based, using `event_user_id`). Useful for directional lead-to-purchase monitoring.
+    **What you'll learn:** What share of tracked users with a lead capture event later have a purchase event (identity-based, using DISTINCT `event_user_id`). Useful for directional lead-to-purchase monitoring.
 
     ```sql
     -- Assumptions: timeframe=last_90_days | metric=lead_to_purchase_rate | grain=all_leads | scope=event_user_id_non_null
