@@ -371,6 +371,7 @@ Most examples default to the last 30 days for performance and "current state" an
       SAFE_DIVIDE(SUM(has_purchase), NULLIF(SUM(has_begin_checkout), 0)) AS checkout_to_purchase_rate,
       SAFE_DIVIDE(SUM(has_purchase), NULLIF(COUNT(*), 0)) AS session_conversion_rate
     FROM session_daily
+    GROUP BY 1
     ORDER BY date;
     ```
   </Accordion>
