@@ -1,0 +1,64 @@
+---
+title: "Revenue Fields (Net vs Gross vs Total)"
+description: "How SourceMedium defines gross, net, and total revenue, and how discounts and refunds affect each."
+sidebarTitle: "Revenue Fields"
+icon: "currency-dollar"
+---
+
+SourceMedium exposes multiple revenue fields because “revenue” can mean different things depending on the question you’re answering.
+
+This page focuses on the **order-level** revenue fields you’ll see most often in:
+- `your_project.sm_transformed_v2.obt_orders`
+- `your_project.sm_transformed_v2.rpt_executive_summary_daily`
+- Many [SQL Query Library](/data-activation/template-resources/sql-query-library) recipes
+
+## Key fields (order-level)
+
+These are the canonical order-level fields in `obt_orders`:
+- `order_gross_revenue`: line-item revenue before discounts, excluding gift card purchases
+- `order_discounts`: discounts applied (see sign convention below)
+- `order_refunds`: refunds applied (see sign convention below)
+- `order_net_revenue`: gross revenue after discounts and refunds
+- `order_net_revenue_before_refunds`: gross revenue after discounts, before refunds
+- `order_total_revenue`: net revenue with shipping and taxes included (after discounts/refunds)
+
+## Important sign convention (discounts + refunds)
+
+In most SourceMedium tables, **discounts and refunds are stored as negative numbers** (or `0`).
+
+That means net revenue is additive:
+
+```sql
+-- Conceptual relationship
+order_net_revenue = order_gross_revenue + order_discounts + order_refunds
+```
+
+<Note>
+If you see positive refunds in your data, treat it as a data-quality edge case (some platforms can emit adjustments that violate the expected sign conventions).
+</Note>
+
+## Quick sanity-check query
+
+```sql
+SELECT
+  sm_store_id,
+  SUM(order_gross_revenue) AS gross_revenue,
+  SUM(order_discounts) AS discounts,
+  SUM(order_refunds) AS refunds,
+  SUM(order_net_revenue) AS net_revenue,
+  SUM(order_net_revenue_before_refunds) AS net_revenue_before_refunds,
+  SUM(order_total_revenue) AS total_revenue
+FROM `your_project.sm_transformed_v2.obt_orders`
+WHERE is_order_sm_valid = TRUE
+  AND order_processed_at_local_datetime >= TIMESTAMP_SUB(CURRENT_TIMESTAMP(), INTERVAL 30 DAY)
+GROUP BY 1
+ORDER BY net_revenue DESC
+LIMIT 50;
+```
+
+## Related resources
+
+- [Refund Logic](/help-center/core-concepts/data-definitions/refund-logic)
+- [`obt_orders` column docs](/data-activation/data-tables/sm_transformed_v2/obt_orders)
+- [Metric Definitions](/onboarding/data-docs/metrics)
+

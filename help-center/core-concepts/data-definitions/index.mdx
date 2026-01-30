@@ -1,0 +1,39 @@
+---
+title: "Data Definitions"
+description: "Canonical definitions for the fields and business rules that show up across SourceMedium tables, dashboards, and recipes."
+sidebarTitle: "Data Definitions"
+icon: "book-open"
+---
+
+These pages document the **definitions that matter** across SourceMedium:
+
+- The fields that appear across many tables (and therefore many dashboards + recipes)
+- The business rules behind how we normalize, map, and dedupe data
+- The “gotchas” that most often cause analysis to drift
+
+If you’re here for SQL examples, the fastest starting point is the [SQL Query Library](/data-activation/template-resources/sql-query-library).
+
+<CardGroup cols={2}>
+  <Card title="Valid Orders" icon="shield-check" href="/help-center/core-concepts/data-definitions/is-order-sm-valid">
+    How to filter orders correctly using `is_order_sm_valid`.
+  </Card>
+  <Card title="Revenue Fields" icon="currency-dollar" href="/help-center/core-concepts/data-definitions/revenue-fields">
+    Net vs gross vs total revenue (and how refunds/discounts flow through).
+  </Card>
+  <Card title="Refund Logic" icon="arrow-uturn-left" href="/help-center/core-concepts/data-definitions/refund-logic">
+    Refund components, sign conventions, and common refund-rate patterns.
+  </Card>
+  <Card title="Subscription Flags" icon="repeat" href="/help-center/core-concepts/data-definitions/subscription-flags">
+    Subscription classification fields and “first vs recurring” flags.
+  </Card>
+  <Card title="Channel Mapping" icon="map" href="/help-center/core-concepts/data-definitions/channel-mapping">
+    How `sm_channel` and `sm_sub_channel` are assigned (and how overrides work).
+  </Card>
+  <Card title="UTM Normalization" icon="tag" href="/help-center/core-concepts/data-definitions/utm-normalization">
+    How UTM fields are normalized and how to query them safely.
+  </Card>
+  <Card title="Event + Journey Deduping" icon="fingerprint" href="/help-center/core-concepts/data-definitions/event-and-journey-deduping">
+    How we avoid double-counting when multiple event streams exist.
+  </Card>
+</CardGroup>
+

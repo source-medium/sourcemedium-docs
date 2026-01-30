@@ -1,0 +1,44 @@
+---
+title: "Subscription Flags"
+description: "How SourceMedium classifies subscription orders and how to use first vs recurring subscription fields."
+sidebarTitle: "Subscription Flags"
+icon: "repeat"
+---
+
+Subscription reporting depends on consistent classification at the order (and sometimes line) level. SourceMedium provides several fields that work together:
+
+## Core fields
+
+Common subscription-related fields in `your_project.sm_transformed_v2.obt_orders` and `your_project.sm_transformed_v2.dim_orders`:
+- `sm_order_type`: order classification (subscription vs one-time)
+- `is_subscription_order`: boolean convenience field
+- `subscription_order_sequence`: first vs recurring subscription classification
+- `subscription_order_index`: sequential index of subscription orders per customer (when available)
+- `is_first_subscription_order`: convenience flag derived from `subscription_order_sequence`
+- `is_order_recurring_subscription`: convenience flag derived from `subscription_order_sequence`
+
+<Note>
+These fields are most reliable when you have a direct subscription-platform integration (or consistent subscription tagging in Shopify).
+</Note>
+
+## Recommended query pattern
+
+```sql
+SELECT
+  DATE_TRUNC(DATE(order_processed_at_local_datetime), MONTH) AS month_start,
+  subscription_order_sequence,
+  COUNT(*) AS order_count,
+  SUM(order_net_revenue) AS net_revenue
+FROM `your_project.sm_transformed_v2.obt_orders`
+WHERE is_order_sm_valid = TRUE
+  AND is_subscription_order = TRUE
+  AND order_processed_at_local_datetime >= TIMESTAMP_SUB(CURRENT_TIMESTAMP(), INTERVAL 365 DAY)
+GROUP BY 1, 2
+ORDER BY month_start DESC, subscription_order_sequence;
+```
+
+## Related resources
+
+- [Order Type (sm_order_type)](/data-transformations/order-segmentation/order-type)
+- [`obt_orders` column docs](/data-activation/data-tables/sm_transformed_v2/obt_orders)
+

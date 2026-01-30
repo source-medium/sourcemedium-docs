@@ -1,0 +1,48 @@
+---
+title: "UTM Normalization"
+description: "How SourceMedium normalizes UTM fields and how to query UTM-based dimensions safely."
+sidebarTitle: "UTM Normalization"
+icon: "tag"
+---
+
+UTM fields are used across SourceMedium for segmentation, channel mapping, and conversion analysis. In many places, SourceMedium **already normalizes** these fields (lowercase, trimmed, and cleaned).
+
+<Tip>
+If you’re joining or filtering on user-supplied strings (e.g., config sheet inputs, custom uploads), normalize on the fly:
+`LOWER(TRIM(value))`.
+</Tip>
+
+## Canonical UTM fields
+
+You’ll commonly see:
+- `sm_utm_source`
+- `sm_utm_medium`
+- `sm_utm_campaign`
+- `sm_utm_content`
+- `sm_utm_term`
+- `sm_utm_source_medium` (combined convenience field)
+
+These fields appear in order tables and funnel tables, depending on data availability and attribution source.
+
+## Recommended query pattern (categorical-safe)
+
+```sql
+SELECT
+  COALESCE(NULLIF(LOWER(TRIM(sm_utm_source)), ''), '(unknown)') AS sm_utm_source,
+  COALESCE(NULLIF(LOWER(TRIM(sm_utm_medium)), ''), '(unknown)') AS sm_utm_medium,
+  COUNT(*) AS order_count,
+  SUM(order_net_revenue) AS net_revenue
+FROM `your_project.sm_transformed_v2.obt_orders`
+WHERE is_order_sm_valid = TRUE
+  AND order_processed_at_local_datetime >= TIMESTAMP_SUB(CURRENT_TIMESTAMP(), INTERVAL 30 DAY)
+GROUP BY 1, 2
+ORDER BY net_revenue DESC
+LIMIT 200;
+```
+
+## Related resources
+
+- [Attribution in SourceMedium](/help-center/core-concepts/attribution/attribution-in-sourcemedium)
+- [UTM Setup](/help-center/core-concepts/attribution/utm-setup)
+- [SQL Query Library](/data-activation/template-resources/sql-query-library)
+

@@ -1,0 +1,83 @@
+---
+title: "How to Use Metrics (Semantic Layer)"
+sidebarTitle: "Metrics"
+description: "How SourceMedium defines metrics once and uses them consistently across dashboards, recipes, and (when enabled) the dbt Semantic Layer."
+icon: "chart-bar"
+---
+
+SourceMedium supports multiple “levels” of querying, depending on what you’re trying to do:
+
+- **Report tables (`rpt_*`)**: fastest for common dashboard-style questions
+- **One Big Tables (`obt_*`)**: flexible analysis with pre-modeled joins and business logic
+- **Semantic metrics**: a single “metric definition layer” so the *same* metrics power dashboards and saved queries
+
+This page focuses on the **semantic metric layer** and how it connects to:
+- Managed BI dashboard tiles
+- The [SQL Query Library](/data-activation/template-resources/sql-query-library)
+
+## Metric definitions (single source of truth)
+
+Metric definitions are documented in:
+- [Metric Definitions](/onboarding/data-docs/metrics)
+
+In the dbt project, semantic layer definitions live under `models/semantic/` (semantic models + metrics + saved queries).
+
+## When to use semantic metrics vs raw tables
+
+Use semantic metrics when you need:
+- Consistent metric logic across tools (dashboards, ad-hoc analysis, exports)
+- Standardized naming (no “two versions” of CAC/ROAS/net revenue)
+- The ability to group metrics by dimensions without re-writing business logic
+
+Use raw tables (OBT/RPT) when you need:
+- Custom fields not covered by metrics
+- Deep row-level inspection and debugging
+
+## Saved queries (recommended starting points)
+
+The semantic layer includes a set of **saved queries** designed to match common “dashboard tile” questions.
+If you’re using the Query Library, these saved queries also map cleanly to sections/recipes.
+
+| Saved query | Best for | Commonly maps to | Query Library section |
+|------------|----------|------------------|-----------------------|
+| `executive_metrics_daily` | Core order KPIs by day | Executive Summary | Orders & Revenue |
+| `simple_executive_metrics_daily` | Fast channel comparisons (pre-aggregated) | Executive Summary / Marketing Overview | Marketing & Ads / Orders & Revenue |
+| `marketing_performance_daily` | Ad spend + platform-reported performance | Marketing Overview / platform modules | Marketing & Ads |
+| `revenue_breakdown_daily` | Full daily revenue breakdown (incl. discounts/refunds) | Executive Summary | Orders & Revenue |
+| `revenue_cumulative_daily` | MTD/QTD/YTD + trailing periods | Executive Summary | Orders & Revenue |
+| `customer_metrics_daily` | New vs repeat behavior and revenue | LTV & Retention / New Customer Analysis | Customers & Retention / LTV & Retention |
+| `product_performance_daily` | Product catalog & mix monitoring | Product Performance | Products |
+| `simple_conversion_metrics_daily` | High-level conversion rates by channel | Traffic Deep Dive / Executive | Funnel |
+| `channel_conversion_metrics_daily` | Conversion + MER by channel | Marketing Overview / Executive | Funnel / Marketing & Ads |
+| `detailed_conversion_metrics_daily` | UTM-level conversion analysis | Traffic Deep Dive | Funnel |
+| `conversion_metrics_detailed_daily` | Landing page + UTM conversion deep dive | Traffic Deep Dive | Funnel |
+
+<Note>
+“Dashboard tile” mappings above are intended as practical starting points, not hard guarantees. Not every brand has every integration, and coverage can vary by source system.
+</Note>
+
+## How this relates to the SQL Query Library
+
+If you prefer writing SQL directly in BigQuery, the Query Library recipes are pre-built around the same core concepts:
+- Valid order filtering (`is_order_sm_valid = TRUE`)
+- Stable “analysis tables” (`obt_*` and `rpt_*`)
+- Lowercased categorical groupings for safe aggregation
+
+Start here:
+- [SQL Query Library](/data-activation/template-resources/sql-query-library)
+- [`obt_orders`](/data-activation/data-tables/sm_transformed_v2/obt_orders)
+- [`rpt_executive_summary_daily`](/data-activation/data-tables/sm_transformed_v2/rpt_executive_summary_daily)
+
+## (Optional) Querying via dbt Semantic Layer
+
+If you have dbt Semantic Layer tooling enabled (e.g., MetricFlow), you can query metrics using a CLI interface instead of writing SQL.
+
+```bash
+# Example (dbt CLI / Semantic Layer):
+dbt sl query order_net_revenue --group-by "TimeDimension('metric_time', 'day')" --limit 30
+```
+
+<Info>
+If you don’t have Semantic Layer tooling enabled, use the SQL Query Library + OBT/RPT tables instead.
+</Info>
+

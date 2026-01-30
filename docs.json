@@ -424,7 +424,20 @@
               "help-center/core-concepts/data-transformation/transformation-vs-cleaning",
               "help-center/core-concepts/data-transformation/data-freshness",
               "data-transformations/data-cleaning",
-              "data-transformations/data-enrichment"
+              "data-transformations/data-enrichment",
+              {
+                "group": "Data Definitions",
+                "pages": [
+                  "help-center/core-concepts/data-definitions/index",
+                  "help-center/core-concepts/data-definitions/is-order-sm-valid",
+                  "help-center/core-concepts/data-definitions/revenue-fields",
+                  "help-center/core-concepts/data-definitions/refund-logic",
+                  "help-center/core-concepts/data-definitions/subscription-flags",
+                  "help-center/core-concepts/data-definitions/channel-mapping",
+                  "help-center/core-concepts/data-definitions/utm-normalization",
+                  "help-center/core-concepts/data-definitions/event-and-journey-deduping"
+                ]
+              }
             ]
           },
           {
@@ -498,7 +511,8 @@
             "pages": [
               "data-activation/managed-data-warehouse/overview",
               "data-activation/managed-data-warehouse/modeling",
-              "data-activation/managed-data-warehouse/bi-tools"
+              "data-activation/managed-data-warehouse/bi-tools",
+              "data-activation/managed-data-warehouse/metrics-and-semantic-layer"
             ]
           },
           {

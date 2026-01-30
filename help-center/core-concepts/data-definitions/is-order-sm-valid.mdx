@@ -1,0 +1,45 @@
+---
+title: "Valid Orders (is_order_sm_valid)"
+description: "What is_order_sm_valid means, why it matters, and how to use it correctly in queries."
+sidebarTitle: "Valid Orders"
+icon: "shield-check"
+---
+
+`is_order_sm_valid` is the **primary filter** for order-based analysis. It tells you whether an order should be included in reporting.
+
+<Tip>
+If you’re querying any order-based table (`obt_orders`, `obt_order_lines`, or most `rpt_*` revenue tables), start with:
+`WHERE is_order_sm_valid = TRUE`.
+</Tip>
+
+## What it means
+
+At a high level:
+- `TRUE`: include the order in revenue / order-count reporting
+- `FALSE`: exclude the order (e.g., cancelled/voided/draft/uncollectible and other non-reportable states)
+
+SourceMedium computes this at the order-line level and rolls it up to orders, so an order is considered valid if it has at least one valid order line.
+
+## Why it matters
+
+Most “why don’t my numbers match” issues come from one of these:
+- Missing the `is_order_sm_valid = TRUE` filter
+- Mixing valid + invalid orders across joined tables
+- Comparing valid-order metrics to external exports that include cancelled/test orders
+
+## Recommended query pattern
+
+```sql
+SELECT
+  COUNT(*) AS valid_order_count,
+  SUM(order_net_revenue) AS net_revenue
+FROM `your_project.sm_transformed_v2.obt_orders`
+WHERE is_order_sm_valid = TRUE
+  AND order_processed_at_local_datetime >= TIMESTAMP_SUB(CURRENT_TIMESTAMP(), INTERVAL 30 DAY);
+```
+
+## Related resources
+
+- [SQL Query Library](/data-activation/template-resources/sql-query-library)
+- [`obt_orders`](/data-activation/data-tables/sm_transformed_v2/obt_orders)
+

@@ -1,0 +1,51 @@
+---
+title: "Event + Journey Deduping"
+description: "How SourceMedium prevents double-counting when multiple event streams exist, and what “multi-source dedupe” means."
+sidebarTitle: "Event + Journey Deduping"
+icon: "fingerprint"
+---
+
+Some brands have multiple event sources (GA4, Snowplow, Heap, Elevar, Blotout, etc.). Those sources can record the *same* touchpoint within seconds of each other, creating the risk of double-counting.
+
+For multi-source customers, SourceMedium uses **deduplication rules** to merge streams into a canonical view that preserves richness while preventing over-counting.
+
+## High-level approach
+
+For multi-source data, we consider touchpoints duplicates when core attributes match within a small time window. The dedupe fingerprint typically includes:
+- Timestamp (rounded to seconds, in UTC)
+- Standardized event name
+- UTM source / medium / campaign (with NULL normalized)
+
+Fields like `utm_content`, `utm_term`, and click IDs are preserved as enrichment but don’t always participate in the fingerprint (so you can still do creative-level analysis without inflating counts).
+
+## Where this shows up
+
+These patterns are most relevant when you query MTA / journey tables, like:
+- `your_project.sm_experimental.obt_purchase_journeys_with_mta_models`
+
+## Recommended analysis patterns
+
+### Verify you’re not double-counting purchases
+```sql
+SELECT
+  COUNT(DISTINCT purchase_order_id) AS distinct_orders,
+  COUNTIF(sm_event_name = 'purchase') AS purchase_event_rows
+FROM `your_project.sm_experimental.obt_purchase_journeys_with_mta_models`
+WHERE event_local_datetime >= TIMESTAMP_SUB(CURRENT_TIMESTAMP(), INTERVAL 30 DAY);
+```
+
+### Compare touchpoint volumes by source system
+```sql
+SELECT
+  COALESCE(NULLIF(LOWER(TRIM(source_system)), ''), '(unknown)') AS source_system,
+  COUNT(*) AS touchpoints
+FROM `your_project.sm_experimental.obt_purchase_journeys_with_mta_models`
+WHERE event_local_datetime >= TIMESTAMP_SUB(CURRENT_TIMESTAMP(), INTERVAL 30 DAY)
+GROUP BY 1
+ORDER BY touchpoints DESC;
+```
+
+<Info>
+Single-source customers should remain unchanged; multi-source dedupe is only applied when multiple sources exist for the same order/journey.
+</Info>
+
