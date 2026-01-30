@@ -78,8 +78,9 @@ models:
 
       - name: filter_condition
         description: >
-          The actual filter condition applied to the metric, if any.
-          NULL if no filter is applied.
+          Filter condition applied to the metric, if any.
+          Extracted from MetricFlow/dbt metric definitions.
+          NULL if no filter is applied (or if the filter cannot be extracted).
 
       - name: metric_time_grains
         description: >
@@ -90,7 +91,7 @@ models:
         description: >
           Configuration for cumulative metrics:
           - "month", "quarter", "year" for grain-to-date (MTD, QTD, YTD)
-          - "30 day", "90 day", "365 day" for trailing windows
+          - "30 days", "90 days", "365 days" for trailing windows
           - "all_time" for unbounded cumulative from the beginning
           - NULL for non-cumulative metrics
 

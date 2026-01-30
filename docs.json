@@ -598,6 +598,15 @@
             ]
           },
           {
+            "group": "Utility Tables",
+            "pages": [
+              "data-activation/data-tables/sm_utils/index",
+              "data-activation/data-tables/sm_utils/dim_dates",
+              "data-activation/data-tables/sm_utils/currency_conversion_rates_daily",
+              "data-activation/data-tables/sm_utils/geo_countries"
+            ]
+          },
+          {
             "group": "Experimental Tables",
             "pages": [
               "data-activation/data-tables/sm_experimental/index",
