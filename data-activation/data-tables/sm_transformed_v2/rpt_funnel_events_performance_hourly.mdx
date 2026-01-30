@@ -1,6 +1,6 @@
 ---
 title: 'rpt_funnel_events_performance_hourly'
-description: 'Hourly funnel event aggregation for near-real-time conversion monitoring.'
+description: 'Hourly funnel event aggregation for monitoring funnel volumes and event-based ratios (directional).'
 icon: "table"
 ---
 ```yaml
@@ -9,7 +9,7 @@ version: 2
 models:
   - name: rpt_funnel_events_performance_hourly
     description: >
-      Hourly funnel event aggregation for near-real-time conversion monitoring. Grain: One row per (hour x event dimension). Date field: event_local_datetime. Critical filters: event_local_datetime for hourly/daily time windows. Key joins: none; drill down to obt_funnel_event_history using event dimensions and time window filters.
+      Hourly funnel event aggregation for monitoring funnel volumes and event-based ratios (directional). Grain: One row per (hour x event dimension). Date field: event_local_datetime. Critical filters: event_local_datetime for hourly/daily time windows. Key joins: none; drill down to obt_funnel_event_history using event dimensions and time window filters. Note: This table is aggregated at the event level. Ratios computed from *_event_count columns are event-based and directional (not distinct-session conversion rates).
     columns:
       - name: account_sign_up_event_count
         description: >
