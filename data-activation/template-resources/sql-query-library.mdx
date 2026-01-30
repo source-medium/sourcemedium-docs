@@ -366,9 +366,19 @@ Most examples default to the last 30 days for performance and "current state" an
       SUM(has_add_to_cart) AS sessions_with_add_to_cart,
       SUM(has_begin_checkout) AS sessions_with_begin_checkout,
       SUM(has_purchase) AS sessions_with_purchase,
-      SAFE_DIVIDE(SUM(has_add_to_cart), NULLIF(SUM(has_view_item), 0)) AS view_to_cart_rate,
-      SAFE_DIVIDE(SUM(has_begin_checkout), NULLIF(SUM(has_add_to_cart), 0)) AS cart_to_checkout_rate,
-      SAFE_DIVIDE(SUM(has_purchase), NULLIF(SUM(has_begin_checkout), 0)) AS checkout_to_purchase_rate,
+      -- Step conversion rates use *session intersections* so they stay within [0, 1] even if intermediate events are under-tracked.
+      SAFE_DIVIDE(
+        SUM(IF(has_view_item = 1 AND has_add_to_cart = 1, 1, 0)),
+        NULLIF(SUM(has_view_item), 0)
+      ) AS view_to_cart_rate,
+      SAFE_DIVIDE(
+        SUM(IF(has_add_to_cart = 1 AND has_begin_checkout = 1, 1, 0)),
+        NULLIF(SUM(has_add_to_cart), 0)
+      ) AS cart_to_checkout_rate,
+      SAFE_DIVIDE(
+        SUM(IF(has_begin_checkout = 1 AND has_purchase = 1, 1, 0)),
+        NULLIF(SUM(has_begin_checkout), 0)
+      ) AS checkout_to_purchase_rate,
       SAFE_DIVIDE(SUM(has_purchase), NULLIF(COUNT(*), 0)) AS session_conversion_rate
     FROM session_daily
     GROUP BY 1
@@ -393,16 +403,25 @@ Most examples default to the last 30 days for performance and "current state" an
         AND TRIM(event_page_path) != ''
         AND (event_user_session_id IS NOT NULL OR event_session_id IS NOT NULL)
         AND sm_event_name IN ('page_view', 'add_to_cart')
+    ),
+    page_session AS (
+      SELECT
+        event_page_path,
+        session_id,
+        MAX(IF(sm_event_name = 'page_view', 1, 0)) AS has_page_view,
+        MAX(IF(sm_event_name = 'add_to_cart', 1, 0)) AS has_add_to_cart
+      FROM base
+      GROUP BY 1, 2
     )
     SELECT
       event_page_path,
-      COUNT(DISTINCT IF(sm_event_name = 'page_view', session_id, NULL)) AS sessions_with_page_view,
-      COUNT(DISTINCT IF(sm_event_name = 'add_to_cart', session_id, NULL)) AS sessions_with_add_to_cart_on_page,
+      COUNTIF(has_page_view = 1) AS sessions_with_page_view,
+      COUNTIF(has_page_view = 1 AND has_add_to_cart = 1) AS sessions_with_add_to_cart_on_page,
       SAFE_DIVIDE(
-        COUNT(DISTINCT IF(sm_event_name = 'add_to_cart', session_id, NULL)),
-        NULLIF(COUNT(DISTINCT IF(sm_event_name = 'page_view', session_id, NULL)), 0)
+        COUNTIF(has_page_view = 1 AND has_add_to_cart = 1),
+        NULLIF(COUNTIF(has_page_view = 1), 0)
       ) AS add_to_cart_session_rate
-    FROM base
+    FROM page_session
     GROUP BY 1
     HAVING sessions_with_page_view >= 500
     ORDER BY add_to_cart_session_rate DESC
@@ -468,9 +487,19 @@ Most examples default to the last 30 days for performance and "current state" an
       SUM(has_add_to_cart) AS sessions_with_add_to_cart,
       SUM(has_begin_checkout) AS sessions_with_begin_checkout,
       SUM(has_purchase) AS sessions_with_purchase,
-      SAFE_DIVIDE(SUM(has_add_to_cart), NULLIF(SUM(has_view_item), 0)) AS view_to_cart_rate,
-      SAFE_DIVIDE(SUM(has_begin_checkout), NULLIF(SUM(has_add_to_cart), 0)) AS cart_to_checkout_rate,
-      SAFE_DIVIDE(SUM(has_purchase), NULLIF(SUM(has_begin_checkout), 0)) AS checkout_to_purchase_rate,
+      -- Step conversion rates use *session intersections* so they stay within [0, 1] even if intermediate events are under-tracked.
+      SAFE_DIVIDE(
+        SUM(IF(has_view_item = 1 AND has_add_to_cart = 1, 1, 0)),
+        NULLIF(SUM(has_view_item), 0)
+      ) AS view_to_cart_rate,
+      SAFE_DIVIDE(
+        SUM(IF(has_add_to_cart = 1 AND has_begin_checkout = 1, 1, 0)),
+        NULLIF(SUM(has_add_to_cart), 0)
+      ) AS cart_to_checkout_rate,
+      SAFE_DIVIDE(
+        SUM(IF(has_begin_checkout = 1 AND has_purchase = 1, 1, 0)),
+        NULLIF(SUM(has_begin_checkout), 0)
+      ) AS checkout_to_purchase_rate,
       SAFE_DIVIDE(SUM(has_purchase), NULLIF(COUNT(*), 0)) AS session_conversion_rate,
       SUM(purchase_revenue) AS total_revenue
     FROM by_channel
