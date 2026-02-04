@@ -160,7 +160,7 @@ fetch_tenant() {
   local tenant_id="$1"
   local outfile="$TMPDIR/${tenant_id}.json"
 
-  bq query --use_legacy_sql=false --format=json "
+  bq query --use_legacy_sql=false --format=json --max_rows=1000 "
   WITH latest_snapshot AS (
     SELECT *,
       ROW_NUMBER() OVER (
