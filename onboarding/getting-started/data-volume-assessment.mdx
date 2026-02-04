@@ -1,0 +1,180 @@
+---
+title: "Assess Your Data Volume Before Onboarding"
+sidebarTitle: "Data Volume Assessment"
+description: "Run a quick ShopifyQL query to understand your historical data volume and set expectations for onboarding timeline"
+icon: "gauge-high"
+---
+
+Before starting your SourceMedium integration, it's helpful to understand your Shopify store's historical data volume. This helps us set accurate expectations for your onboarding timeline and plan the best ingestion strategy.
+
+<Info>
+**Why does data volume matter?**
+
+SourceMedium ingests your complete historical data to power accurate LTV calculations, cohort analysis, and customer journey insights. Larger data volumes take longer to process—and for very large stores, we may recommend a phased approach to get you up and running faster.
+</Info>
+
+## What You'll Need
+
+- **Shopify Admin access** with permissions to view Analytics/Reports
+- **5 minutes** to run a simple query and share the results
+
+## Step-by-Step Instructions
+
+<Steps>
+
+<Step title="Open the ShopifyQL Editor">
+
+1. Log into your **Shopify Admin** at `https://your-store.myshopify.com/admin`
+2. Click **Analytics** in the left sidebar
+3. Click the **Reports** tab (or go to **Analytics → Reports**)
+4. Click **Create custom report** (or look for "Explore" / "New exploration")
+
+<Tip>
+The ShopifyQL Editor is available in Shopify Admin under Analytics → Reports. The exact UI may vary depending on your Shopify plan and permissions.
+</Tip>
+
+</Step>
+
+<Step title="Copy and Paste the Query">
+
+Copy this entire query and paste it into the ShopifyQL Editor:
+
+```sql
+FROM sales
+SHOW
+  orders AS "Order Count",
+  units_sold AS "Units Sold",
+  customers AS "Customer Count"
+TIMESERIES year
+SINCE 2010-01-01
+UNTIL today
+```
+
+<Note>
+**About the `SINCE` date:** We use 2010 to capture most stores' full history. If your store is older, adjust to an earlier date. ShopifyQL will only return data from when your store actually started.
+</Note>
+
+</Step>
+
+<Step title="Run the Query">
+
+Click the **Run** button (or press `Cmd/Ctrl + Enter`) to execute the query.
+
+You'll see a table with one row per year showing:
+- **Order Count** — Number of orders placed that year
+- **Units Sold** — Total quantity of items sold (e.g., an order with 2 shirts and 1 hat = 3 units)
+- **Customer Count** — Number of unique customers that year
+
+**Example output:**
+
+| Year | Order Count | Units Sold | Customer Count |
+|------|-------------|------------|----------------|
+| 2019 | 45,000 | 95,000 | 32,000 |
+| 2020 | 120,000 | 260,000 | 85,000 |
+| 2021 | 180,000 | 400,000 | 125,000 |
+| ... | ... | ... | ... |
+| Current year (YTD) | 85,000 | 190,000 | 60,000 |
+
+Sum up the Order Count column to get your total.
+
+</Step>
+
+<Step title="Share the Results">
+
+Take a screenshot of the table or copy the numbers and share them with your SourceMedium onboarding contact via Slack or email.
+
+A screenshot of the results works great, or just copy/paste the table. Include:
+- The year-by-year breakdown
+- Your total order count
+- When your store launched (first year with data)
+
+</Step>
+
+</Steps>
+
+---
+
+## What Happens With Your Results
+
+Once you share your data volume, your SourceMedium contact will confirm your expected onboarding timeline.
+
+**We always prefer full historical ingestion** — it gives you the most accurate LTV calculations, complete cohort analysis, and reliable year-over-year comparisons.
+
+For very high-volume stores (think: 10+ years of history, millions of orders), full ingestion may take longer. If you have a specific go-live deadline, let us know and we can discuss options—such as starting with recent data while full history loads in the background.
+
+<Info>
+**Why does historical data matter?**
+
+Lifetime Value (LTV) calculations depend on seeing a customer's complete purchase history. If we only load 2 years of data, a customer who first purchased 5 years ago will appear as a "new" customer—which understates their true LTV.
+
+Once full history is loaded, all calculations automatically update to reflect complete customer journeys.
+</Info>
+
+---
+
+## Frequently Asked Questions
+
+<AccordionGroup>
+
+<Accordion title="What if I don't see the ShopifyQL Editor?">
+
+The exact location varies by Shopify plan and UI version. Try:
+
+- Go to **Analytics → Reports** and look for "Create custom report" or "Explore"
+- Go directly to: `https://your-store.myshopify.com/admin/reports`
+
+If you still can't find it, take a screenshot of what you see under Analytics and share it with us—we'll help.
+
+</Accordion>
+
+<Accordion title="The query gives an error—what should I do?">
+
+Common issues:
+
+1. **"Syntax error"** — Make sure you copied the entire query exactly, including the line breaks.
+
+2. **"No data returned"** — Your store may be very new. That's fine—just let us know.
+
+3. **"Access denied"** — You may need different permissions. Ask your store owner to run it, or share what you see and we'll help.
+
+</Accordion>
+
+<Accordion title="Can I see a breakdown by quarter instead?">
+
+Yes — change `TIMESERIES year` to `TIMESERIES quarter` in the query. This is helpful if you want to see seasonal patterns.
+
+</Accordion>
+
+<Accordion title="Why do these counts matter?">
+
+These counts determine how long data ingestion takes:
+
+- **Orders** — The primary driver of ingestion time
+- **Units Sold** — Shows data density; more units per order means more data per order
+- **Customers** — Used for LTV calculations, cohort analysis, and customer journey insights
+
+Order count is the best single predictor of ingestion time, but units sold gives us a sense of how much data each order contains.
+
+</Accordion>
+
+<Accordion title="What if I need my dashboard live sooner?">
+
+If you have a specific go-live deadline and your data volume is high, let your SourceMedium contact know during onboarding. We can discuss options like starting with recent data while full history loads in the background.
+
+</Accordion>
+
+</AccordionGroup>
+
+---
+
+## What Happens Next
+
+After sharing your data volume assessment:
+
+1. **We'll confirm your onboarding timeline** — Based on your volume, we'll set realistic expectations
+2. **You'll receive integration instructions** — Follow our [Shopify Integration Guide](/data-inputs/platform-integration-instructions/shopify-integration) to grant access
+3. **Data ingestion begins** — We'll start pulling your data and notify you when it's ready for review
+
+<Card title="Ready to integrate?" icon="plug" href="/data-inputs/platform-integration-instructions/shopify-integration">
+  Continue to Shopify Integration Instructions →
+</Card>

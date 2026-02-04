@@ -18,6 +18,7 @@
             "pages": [
               "index",
               "onboarding/getting-started/getting-started-checklist",
+              "onboarding/getting-started/data-volume-assessment",
               "onboarding/getting-started/cold-start/how-your-data-gets-from-point-a-to-b",
               "onboarding/getting-started/level-1-data-checklist",
               "onboarding/getting-started/level-2-data-checklist",
@@ -791,6 +792,7 @@
             "group": "Troubleshooting",
             "pages": [
               "help-center/faq/data-faqs/data-faqs-home",
+              "help-center/faq/data-faqs/why-is-my-data-taking-so-long-to-load",
               "help-center/faq/account-management-faqs/what-is-last-click-attribution",
               "help-center/faq/data-faqs/why-would-external-reports-not-match-the-sourcemedium-dashboard",
               "help-center/faq/data-faqs/why-dont-the-executive-summary-and-shopifys-sales-report-match",

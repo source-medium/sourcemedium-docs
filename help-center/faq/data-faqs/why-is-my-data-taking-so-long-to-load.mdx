@@ -1,0 +1,43 @@
+---
+title: "Why is my data taking so long to load?"
+sidebarTitle: "Data taking long to load"
+description: "Understanding why historical data ingestion can take longer for high-volume stores"
+icon: "clock"
+---
+
+If your SourceMedium dashboard isn't showing data yet, or you're waiting longer than expected, here's what's likely happening.
+
+## The short answer
+
+**Data volume determines ingestion time.** The more historical data your store has, the longer full ingestion takes. Your SourceMedium contact can give you a specific estimate based on your data volume.
+
+## What affects ingestion time?
+
+The main factors are:
+
+- **Order count** — The primary driver. More orders = more data to process.
+- **Line items per order** — Stores with high average cart sizes have more data per order.
+- **Customer count** — A large customer database adds to total data volume.
+- **Historical depth** — 10 years of data takes longer than 2 years.
+
+## What can I do?
+
+### Check with your SourceMedium contact
+
+They can give you a status update and estimated completion time.
+
+### Consider a phased approach
+
+If you have a specific go-live deadline and your data volume is very high, we can discuss starting with recent data (e.g., last 1-2 years) while full history loads in the background.
+
+<Warning>
+**Trade-off:** Starting with partial history means LTV calculations will only reflect the loaded period. A customer who first purchased 5 years ago would appear as a "new" customer if we only loaded 2 years. Once full history loads, everything updates automatically.
+</Warning>
+
+### For future onboardings
+
+If you manage multiple stores or brands, running a [Data Volume Assessment](/onboarding/getting-started/data-volume-assessment) before integration helps set accurate timeline expectations upfront.
+
+## Still have questions?
+
+Reach out to your SourceMedium contact via Slack or email support@sourcemedium.com.
