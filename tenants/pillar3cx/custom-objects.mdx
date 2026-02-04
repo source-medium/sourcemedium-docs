@@ -1,16 +1,16 @@
 ---
-title: "Pillar3CX Custom Objects"
+title: "Pillar 3CX Custom Objects"
 sidebarTitle: "Custom Objects"
-description: "Inventory of custom BigQuery objects in the Pillar3CX data warehouse"
+description: "Inventory of custom BigQuery objects in the Pillar 3CX data warehouse"
 icon: "database"
 ---
 
-[← Back to Pillar3CX](/tenants/pillar3cx) | [Open sm-pillar3cx in BigQuery →](https://console.cloud.google.com/bigquery?project=sm-pillar3cx)
+[← Back to Pillar 3CX](/tenants/pillar3cx) | [Open sm-pillar3cx in BigQuery →](https://console.cloud.google.com/bigquery?project=sm-pillar3cx)
 
 
 # Custom Objects Inventory
 
-This page documents active custom BigQuery tables and views (those queried at least once in the past 180 days) created specifically for Pillar3CX, separate from the standard SourceMedium data models.
+This page documents active custom BigQuery tables and views (those queried at least once in the past 180 days) created specifically for Pillar 3CX, separate from the standard SourceMedium data models.
 
 <Info>
 **Last Updated (snapshot_at):** `2026-02-03 19:48 EST`  
@@ -21,7 +21,7 @@ This page documents active custom BigQuery tables and views (those queried at le
 
 | Dataset | Object Count | Total Jobs (180d) |
 |---------|--------------|-------------------|
-| `sm_transformed_v2` | 8 | 2,107 |
+| [`sm_transformed_v2`](https://console.cloud.google.com/bigquery?project=sm-pillar3cx&ws=!1m4!1m3!3m2!1ssm-pillar3cx!2ssm_transformed_v2) | 8 | 2,107 |
 
 ---
 
@@ -32,7 +32,7 @@ This page documents active custom BigQuery tables and views (those queried at le
 <Accordion title="buyfuelmeals_cx_aggregate">
 **Type:** VIEW | **Queries (180d):** 698
 
-Custom data.
+Custom data Key columns: `SELECT`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-pillar3cx&ws=!1m5!1m4!4m3!1ssm-pillar3cx!2ssm_transformed_v2!3sbuyfuelmeals_cx_aggregate)
 
@@ -45,7 +45,7 @@ SELECT * FROM `sm-pillar3cx.sm_transformed_v2.buyfuelmeals_cx_aggregate` LIMIT 1
 <Accordion title="buyfuelmeals_ticket">
 **Type:** BASE TABLE | **Queries (180d):** 680
 
-Custom data. Key columns: `_airbyte_raw_id, _airbyte_generation_id, id`.
+Custom data Key columns: `_airbyte_raw_id, _airbyte_extracted_at, _airbyte_generation_id, uri`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-pillar3cx&ws=!1m5!1m4!4m3!1ssm-pillar3cx!2ssm_transformed_v2!3sbuyfuelmeals_ticket)
 
@@ -58,7 +58,7 @@ SELECT * FROM `sm-pillar3cx.sm_transformed_v2.buyfuelmeals_ticket` LIMIT 10;
 <Accordion title="buyfuelmeals_customer_satisfaction">
 **Type:** BASE TABLE | **Queries (180d):** 588
 
-Customer-level data. Key columns: `_airbyte_raw_id, _airbyte_generation_id, id, ticket_id, customer_id`.
+Customer-level data Key columns: `_airbyte_raw_id, _airbyte_extracted_at, _airbyte_generation_id, uri`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-pillar3cx&ws=!1m5!1m4!4m3!1ssm-pillar3cx!2ssm_transformed_v2!3sbuyfuelmeals_customer_satisfaction)
 
@@ -71,7 +71,7 @@ SELECT * FROM `sm-pillar3cx.sm_transformed_v2.buyfuelmeals_customer_satisfaction
 <Accordion title="buyfuelmeals_defect_category">
 **Type:** VIEW | **Queries (180d):** 100
 
-Custom data.
+Custom data
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-pillar3cx&ws=!1m5!1m4!4m3!1ssm-pillar3cx!2ssm_transformed_v2!3sbuyfuelmeals_defect_category)
 
@@ -84,7 +84,7 @@ SELECT * FROM `sm-pillar3cx.sm_transformed_v2.buyfuelmeals_defect_category` LIMI
 <Accordion title="buyfuelmeals_transpo_defect">
 **Type:** VIEW | **Queries (180d):** 12
 
-Custom data.
+Custom data
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-pillar3cx&ws=!1m5!1m4!4m3!1ssm-pillar3cx!2ssm_transformed_v2!3sbuyfuelmeals_transpo_defect)
 
@@ -97,7 +97,7 @@ SELECT * FROM `sm-pillar3cx.sm_transformed_v2.buyfuelmeals_transpo_defect` LIMIT
 <Accordion title="buyfuelmeals_csat">
 **Type:** VIEW | **Queries (180d):** 11
 
-Custom data.
+Custom data
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-pillar3cx&ws=!1m5!1m4!4m3!1ssm-pillar3cx!2ssm_transformed_v2!3sbuyfuelmeals_csat)
 
@@ -110,7 +110,7 @@ SELECT * FROM `sm-pillar3cx.sm_transformed_v2.buyfuelmeals_csat` LIMIT 10;
 <Accordion title="buyfuelmeals_defect_by_sku_by_day">
 **Type:** VIEW | **Queries (180d):** 10
 
-Product/SKU-level data.
+Product/SKU-level data
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-pillar3cx&ws=!1m5!1m4!4m3!1ssm-pillar3cx!2ssm_transformed_v2!3sbuyfuelmeals_defect_by_sku_by_day)
 
@@ -123,7 +123,7 @@ SELECT * FROM `sm-pillar3cx.sm_transformed_v2.buyfuelmeals_defect_by_sku_by_day`
 <Accordion title="buyfuelmeals_defect_pivot">
 **Type:** VIEW | **Queries (180d):** 8
 
-Custom data.
+Custom data
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-pillar3cx&ws=!1m5!1m4!4m3!1ssm-pillar3cx!2ssm_transformed_v2!3sbuyfuelmeals_defect_pivot)
 
@@ -142,7 +142,7 @@ SELECT * FROM `sm-pillar3cx.sm_transformed_v2.buyfuelmeals_defect_pivot` LIMIT 1
 |----------|-------|
 | **Project ID** | `sm-pillar3cx` |
 | **Standard Dataset** | `sm_transformed_v2` |
-| **Tenant ID** | `pillar3cx` |
+| **Tenant ID** | [`pillar3cx`](https://console.cloud.google.com/bigquery?project=sm-pillar3cx&ws=!1m4!1m3!3m2!1ssm-pillar3cx!2spillar3cx)
 
 ---
 

@@ -33,12 +33,132 @@ This page documents active custom BigQuery tables and views (those queried at le
 
 ## Objects by Dataset
 
+### customized_views
+
+<Accordion title="rpt_executive_summary_daily_customized">
+**Type:** VIEW | **Queries (180d):** 24,042
+
+Aggregated summary
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-irestore4&ws=!1m5!1m4!4m3!1ssm-irestore4!2scustomized_views!3srpt_executive_summary_daily_customized)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-irestore4.customized_views.rpt_executive_summary_daily_customized` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="rpt_product_profit_and_loss">
+**Type:** VIEW | **Queries (180d):** 22,986
+
+Aggregated summary
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-irestore4&ws=!1m5!1m4!4m3!1ssm-irestore4!2scustomized_views!3srpt_product_profit_and_loss)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-irestore4.customized_views.rpt_product_profit_and_loss` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="rpt_ad_performance_with_product_type">
+**Type:** VIEW | **Queries (180d):** 4,508
+
+Aggregated summary
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-irestore4&ws=!1m5!1m4!4m3!1ssm-irestore4!2scustomized_views!3srpt_ad_performance_with_product_type)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-irestore4.customized_views.rpt_ad_performance_with_product_type` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="fulfil_order_lines_wip">
+**Type:** VIEW | **Queries (180d):** 87
+
+Order-level data
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-irestore4&ws=!1m5!1m4!4m3!1ssm-irestore4!2scustomized_views!3sfulfil_order_lines_wip)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-irestore4.customized_views.fulfil_order_lines_wip` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="obt_order_lines_w_cancelled_at">
+**Type:** VIEW | **Queries (180d):** 66
+
+Denormalized "One Big Table" view
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-irestore4&ws=!1m5!1m4!4m3!1ssm-irestore4!2scustomized_views!3sobt_order_lines_w_cancelled_at)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-irestore4.customized_views.obt_order_lines_w_cancelled_at` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="lead_cap_rate_table">
+**Type:** VIEW | **Queries (180d):** 55
+
+Marketing/advertising data
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-irestore4&ws=!1m5!1m4!4m3!1ssm-irestore4!2scustomized_views!3slead_cap_rate_table)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-irestore4.customized_views.lead_cap_rate_table` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="fulfil_missing_lines_check_wip">
+**Type:** VIEW | **Queries (180d):** 34
+
+Custom data
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-irestore4&ws=!1m5!1m4!4m3!1ssm-irestore4!2scustomized_views!3sfulfil_missing_lines_check_wip)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-irestore4.customized_views.fulfil_missing_lines_check_wip` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="fulfil_order_lines_with_cancel_status_wip">
+**Type:** VIEW | **Queries (180d):** 29
+
+Order-level data
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-irestore4&ws=!1m5!1m4!4m3!1ssm-irestore4!2scustomized_views!3sfulfil_order_lines_with_cancel_status_wip)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-irestore4.customized_views.fulfil_order_lines_with_cancel_status_wip` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="fulfil_refund_line_agg_wip">
+**Type:** VIEW | **Queries (180d):** 11
+
+Custom data
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-irestore4&ws=!1m5!1m4!4m3!1ssm-irestore4!2scustomized_views!3sfulfil_refund_line_agg_wip)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-irestore4.customized_views.fulfil_refund_line_agg_wip` LIMIT 10;
+```
+</Accordion>
+
+
 ### arslan_dataset
 
 <Accordion title="SB_SalesData">
 **Type:** BASE TABLE | **Queries (180d):** 36,732
 
-Custom data. Key columns: `Date`.
+Custom data Key columns: `Date, Marketplace, ASIN, SKU, Name`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-irestore4&ws=!1m5!1m4!4m3!1ssm-irestore4!2sarslan_dataset!3sSB_SalesData)
 
@@ -51,7 +171,7 @@ SELECT * FROM `sm-irestore4.arslan_dataset.SB_SalesData` LIMIT 10;
 <Accordion title="SB_Dump_Staging">
 **Type:** EXTERNAL | **Queries (180d):** 529
 
-Custom data.
+Custom data
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-irestore4&ws=!1m5!1m4!4m3!1ssm-irestore4!2sarslan_dataset!3sSB_Dump_Staging)
 
@@ -67,7 +187,7 @@ SELECT * FROM `sm-irestore4.arslan_dataset.SB_Dump_Staging` LIMIT 10;
 <Accordion title="custom_campaign_product_type_map">
 **Type:** EXTERNAL | **Queries (180d):** 34,267
 
-Product/SKU-level data.
+Product/SKU-level data Key columns: `campaign_name, product_type`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-irestore4&ws=!1m5!1m4!4m3!1ssm-irestore4!2ssm_sources!3scustom_campaign_product_type_map)
 
@@ -78,132 +198,12 @@ SELECT * FROM `sm-irestore4.sm_sources.custom_campaign_product_type_map` LIMIT 1
 </Accordion>
 
 
-### customized_views
-
-<Accordion title="rpt_executive_summary_daily_customized">
-**Type:** VIEW | **Queries (180d):** 24,042
-
-Aggregated summary.
-
-[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-irestore4&ws=!1m5!1m4!4m3!1ssm-irestore4!2scustomized_views!3srpt_executive_summary_daily_customized)
-
-```sql
--- Preview data
-SELECT * FROM `sm-irestore4.customized_views.rpt_executive_summary_daily_customized` LIMIT 10;
-```
-</Accordion>
-
-<Accordion title="rpt_product_profit_and_loss">
-**Type:** VIEW | **Queries (180d):** 22,986
-
-Product/SKU-level data.
-
-[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-irestore4&ws=!1m5!1m4!4m3!1ssm-irestore4!2scustomized_views!3srpt_product_profit_and_loss)
-
-```sql
--- Preview data
-SELECT * FROM `sm-irestore4.customized_views.rpt_product_profit_and_loss` LIMIT 10;
-```
-</Accordion>
-
-<Accordion title="rpt_ad_performance_with_product_type">
-**Type:** VIEW | **Queries (180d):** 4,508
-
-Product/SKU-level data.
-
-[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-irestore4&ws=!1m5!1m4!4m3!1ssm-irestore4!2scustomized_views!3srpt_ad_performance_with_product_type)
-
-```sql
--- Preview data
-SELECT * FROM `sm-irestore4.customized_views.rpt_ad_performance_with_product_type` LIMIT 10;
-```
-</Accordion>
-
-<Accordion title="fulfil_order_lines_wip">
-**Type:** VIEW | **Queries (180d):** 87
-
-Order-level data.
-
-[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-irestore4&ws=!1m5!1m4!4m3!1ssm-irestore4!2scustomized_views!3sfulfil_order_lines_wip)
-
-```sql
--- Preview data
-SELECT * FROM `sm-irestore4.customized_views.fulfil_order_lines_wip` LIMIT 10;
-```
-</Accordion>
-
-<Accordion title="obt_order_lines_w_cancelled_at">
-**Type:** VIEW | **Queries (180d):** 66
-
-Order-level data.
-
-[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-irestore4&ws=!1m5!1m4!4m3!1ssm-irestore4!2scustomized_views!3sobt_order_lines_w_cancelled_at)
-
-```sql
--- Preview data
-SELECT * FROM `sm-irestore4.customized_views.obt_order_lines_w_cancelled_at` LIMIT 10;
-```
-</Accordion>
-
-<Accordion title="lead_cap_rate_table">
-**Type:** VIEW | **Queries (180d):** 55
-
-Marketing/advertising data.
-
-[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-irestore4&ws=!1m5!1m4!4m3!1ssm-irestore4!2scustomized_views!3slead_cap_rate_table)
-
-```sql
--- Preview data
-SELECT * FROM `sm-irestore4.customized_views.lead_cap_rate_table` LIMIT 10;
-```
-</Accordion>
-
-<Accordion title="fulfil_missing_lines_check_wip">
-**Type:** VIEW | **Queries (180d):** 34
-
-Custom data.
-
-[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-irestore4&ws=!1m5!1m4!4m3!1ssm-irestore4!2scustomized_views!3sfulfil_missing_lines_check_wip)
-
-```sql
--- Preview data
-SELECT * FROM `sm-irestore4.customized_views.fulfil_missing_lines_check_wip` LIMIT 10;
-```
-</Accordion>
-
-<Accordion title="fulfil_order_lines_with_cancel_status_wip">
-**Type:** VIEW | **Queries (180d):** 29
-
-Order-level data.
-
-[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-irestore4&ws=!1m5!1m4!4m3!1ssm-irestore4!2scustomized_views!3sfulfil_order_lines_with_cancel_status_wip)
-
-```sql
--- Preview data
-SELECT * FROM `sm-irestore4.customized_views.fulfil_order_lines_with_cancel_status_wip` LIMIT 10;
-```
-</Accordion>
-
-<Accordion title="fulfil_refund_line_agg_wip">
-**Type:** VIEW | **Queries (180d):** 11
-
-Custom data.
-
-[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-irestore4&ws=!1m5!1m4!4m3!1ssm-irestore4!2scustomized_views!3sfulfil_refund_line_agg_wip)
-
-```sql
--- Preview data
-SELECT * FROM `sm-irestore4.customized_views.fulfil_refund_line_agg_wip` LIMIT 10;
-```
-</Accordion>
-
-
 ### bi_playground
 
 <Accordion title="rpt_profit_and_loss_without_bundle">
 **Type:** VIEW | **Queries (180d):** 5,750
 
-Reporting view.
+Aggregated summary
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-irestore4&ws=!1m5!1m4!4m3!1ssm-irestore4!2sbi_playground!3srpt_profit_and_loss_without_bundle)
 
@@ -216,7 +216,7 @@ SELECT * FROM `sm-irestore4.bi_playground.rpt_profit_and_loss_without_bundle` LI
 <Accordion title="rpt_profit_and_loss_without_bundle_parts">
 **Type:** VIEW | **Queries (180d):** 1,021
 
-Reporting view.
+Aggregated summary
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-irestore4&ws=!1m5!1m4!4m3!1ssm-irestore4!2sbi_playground!3srpt_profit_and_loss_without_bundle_parts)
 
@@ -232,7 +232,7 @@ SELECT * FROM `sm-irestore4.bi_playground.rpt_profit_and_loss_without_bundle_par
 <Accordion title="unified_order_lines">
 **Type:** BASE TABLE | **Queries (180d):** 267
 
-Order-level data. Key columns: `sm_store_id, sm_order_line_key, sm_order_key, sm_customer_key, sm_product_variant_key`.
+Order-level data Key columns: `sm_store_id, sm_order_line_key, sm_order_key, sm_customer_key, sm_product_variant_key`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-irestore4&ws=!1m5!1m4!4m3!1ssm-irestore4!2scustom_order_lines!3sunified_order_lines)
 
@@ -245,7 +245,7 @@ SELECT * FROM `sm-irestore4.custom_order_lines.unified_order_lines` LIMIT 10;
 <Accordion title="fulfil_order_lines_base">
 **Type:** BASE TABLE | **Queries (180d):** 140
 
-Order-level data. Key columns: `order_sku_id, flt_create_date, source_system, sm_store_id, sm_order_line_key`.
+Order-level data Key columns: `order_sku_id, order_name, flt_create_date, source_system, sm_store_id`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-irestore4&ws=!1m5!1m4!4m3!1ssm-irestore4!2scustom_order_lines!3sfulfil_order_lines_base)
 
@@ -258,7 +258,7 @@ SELECT * FROM `sm-irestore4.custom_order_lines.fulfil_order_lines_base` LIMIT 10
 <Accordion title="sm_ol_with_fulfil_cogs">
 **Type:** BASE TABLE | **Queries (180d):** 76
 
-Custom data. Key columns: `sm_store_id, sm_order_line_key, sm_order_key, sm_customer_key, sm_product_variant_key`.
+Custom data Key columns: `sm_store_id, sm_order_line_key, sm_order_key, sm_customer_key, sm_product_variant_key`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-irestore4&ws=!1m5!1m4!4m3!1ssm-irestore4!2scustom_order_lines!3ssm_ol_with_fulfil_cogs)
 
@@ -274,7 +274,7 @@ SELECT * FROM `sm-irestore4.custom_order_lines.sm_ol_with_fulfil_cogs` LIMIT 10;
 <Accordion title="vw_product_summary">
 **Type:** VIEW | **Queries (180d):** 139
 
-Aggregated summary.
+Product/SKU-level data
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-irestore4&ws=!1m5!1m4!4m3!1ssm-irestore4!2sbi_expandfi_prod!3svw_product_summary)
 
@@ -287,7 +287,7 @@ SELECT * FROM `sm-irestore4.bi_expandfi_prod.vw_product_summary` LIMIT 10;
 <Accordion title="sales">
 **Type:** BASE TABLE | **Queries (180d):** 131
 
-Custom data. Key columns: `amazon_order_item_id, updated_at, merchant_id, amazon_order_id, merchant_order_id`.
+Custom data Key columns: `amazon_order_item_id, created_at, updated_at, merchant_id, amazon_order_id`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-irestore4&ws=!1m5!1m4!4m3!1ssm-irestore4!2sbi_expandfi_prod!3ssales)
 
@@ -300,7 +300,7 @@ SELECT * FROM `sm-irestore4.bi_expandfi_prod.sales` LIMIT 10;
 <Accordion title="upsell_report">
 **Type:** VIEW | **Queries (180d):** 14
 
-Reporting view.
+Custom data
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-irestore4&ws=!1m5!1m4!4m3!1ssm-irestore4!2sbi_expandfi_prod!3supsell_report)
 
@@ -313,7 +313,7 @@ SELECT * FROM `sm-irestore4.bi_expandfi_prod.upsell_report` LIMIT 10;
 <Accordion title="amazon_orders">
 **Type:** BASE TABLE | **Queries (180d):** 11
 
-Order-level data from Amazon. Key columns: `id, amazon_order_id, merchant_order_id, purchase_date, last_updated_date`.
+Order-level data from Amazon Key columns: `amazon_order_id, merchant_order_id, purchase_date, last_updated_date, order_status`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-irestore4&ws=!1m5!1m4!4m3!1ssm-irestore4!2sbi_expandfi_prod!3samazon_orders)
 
@@ -326,7 +326,7 @@ SELECT * FROM `sm-irestore4.bi_expandfi_prod.amazon_orders` LIMIT 10;
 <Accordion title="sales_transformed">
 **Type:** BASE TABLE | **Queries (180d):** 10
 
-Custom data. Key columns: `amazon_order_item_id, updated_at, merchant_id, amazon_order_id, merchant_order_id`.
+Custom data Key columns: `amazon_order_item_id, created_at, updated_at, merchant_id, amazon_order_id`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-irestore4&ws=!1m5!1m4!4m3!1ssm-irestore4!2sbi_expandfi_prod!3ssales_transformed)
 
@@ -339,7 +339,7 @@ SELECT * FROM `sm-irestore4.bi_expandfi_prod.sales_transformed` LIMIT 10;
 <Accordion title="promotions">
 **Type:** BASE TABLE | **Queries (180d):** 10
 
-Custom data. Key columns: `id, updated_at`.
+Custom data Key columns: `name, promotion_type_friendly_name, discount_type, discount, new_subscriber_count`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-irestore4&ws=!1m5!1m4!4m3!1ssm-irestore4!2sbi_expandfi_prod!3spromotions)
 
@@ -355,7 +355,7 @@ SELECT * FROM `sm-irestore4.bi_expandfi_prod.promotions` LIMIT 10;
 <Accordion title="bundle_part_mapping">
 **Type:** EXTERNAL | **Queries (180d):** 56
 
-Custom data.
+Custom data
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-irestore4&ws=!1m5!1m4!4m3!1ssm-irestore4!2scustom_sources!3sbundle_part_mapping)
 
@@ -368,7 +368,7 @@ SELECT * FROM `sm-irestore4.custom_sources.bundle_part_mapping` LIMIT 10;
 <Accordion title="orders_from_shopify">
 **Type:** BASE TABLE | **Queries (180d):** 17
 
-Order-level data from Shopify.
+Order-level data Key columns: `Day, Discounts, Returns`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-irestore4&ws=!1m5!1m4!4m3!1ssm-irestore4!2scustom_sources!3sorders_from_shopify)
 
@@ -387,7 +387,7 @@ SELECT * FROM `sm-irestore4.custom_sources.orders_from_shopify` LIMIT 10;
 |----------|-------|
 | **Project ID** | `sm-irestore4` |
 | **Standard Dataset** | `sm_transformed_v2` |
-| **Tenant ID** | `irestore4` |
+| **Tenant ID** | [`irestore4`](https://console.cloud.google.com/bigquery?project=sm-irestore4&ws=!1m4!1m3!3m2!1ssm-irestore4!2sirestore4)
 
 ---
 

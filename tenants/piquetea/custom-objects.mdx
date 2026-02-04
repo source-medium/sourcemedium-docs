@@ -22,8 +22,8 @@ This page documents active custom BigQuery tables and views (those queried at le
 | Dataset | Object Count | Total Jobs (180d) |
 |---------|--------------|-------------------|
 | [`customized_views`](https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m4!1m3!3m2!1ssm-piquetea!2scustomized_views) | 57 | 174,725 |
-| `sm_transformed_v2` | 1 | 103 |
-| `analytics_311213792` | 3 | 28 |
+| [`sm_transformed_v2`](https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m4!1m3!3m2!1ssm-piquetea!2ssm_transformed_v2) | 1 | 103 |
+| [`analytics_311213792`](https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m4!1m3!3m2!1ssm-piquetea!2sanalytics_311213792) | 3 | 28 |
 
 ---
 
@@ -34,7 +34,7 @@ This page documents active custom BigQuery tables and views (those queried at le
 <Accordion title="obt_orders_device_type_updated">
 **Type:** BASE TABLE | **Queries (180d):** 62,128
 
-Order-level data. Key columns: `sm_store_id, sm_order_key, sm_customer_key, source_system, order_id`.
+Denormalized "One Big Table" view Key columns: `sm_store_id, sm_order_key, sm_customer_key, source_system, order_id`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m5!1m4!4m3!1ssm-piquetea!2scustomized_views!3sobt_orders_device_type_updated)
 
@@ -47,7 +47,7 @@ SELECT * FROM `sm-piquetea.customized_views.obt_orders_device_type_updated` LIMI
 <Accordion title="refersion_fivetran_replacement">
 **Type:** EXTERNAL | **Queries (180d):** 24,152
 
-Custom data. Key columns: `id_key, conversion_date, conversion_id, affiliate_id, offer_id`.
+Custom data Key columns: `id_key, conversion_date, conversion_id, order_no, affiliate_id`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m5!1m4!4m3!1ssm-piquetea!2scustomized_views!3srefersion_fivetran_replacement)
 
@@ -60,7 +60,7 @@ SELECT * FROM `sm-piquetea.customized_views.refersion_fivetran_replacement` LIMI
 <Accordion title="impact_daily_automation">
 **Type:** EXTERNAL | **Queries (180d):** 7,907
 
-Daily aggregation. Key columns: `date, revenue, order_id`.
+Custom data Key columns: `date, customer_status, action_cost, revenue, order_id`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m5!1m4!4m3!1ssm-piquetea!2scustomized_views!3simpact_daily_automation)
 
@@ -73,7 +73,7 @@ SELECT * FROM `sm-piquetea.customized_views.impact_daily_automation` LIMIT 10;
 <Accordion title="refersion_orders_rev">
 **Type:** VIEW | **Queries (180d):** 7,882
 
-Order-level data.
+Order-level data
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m5!1m4!4m3!1ssm-piquetea!2scustomized_views!3srefersion_orders_rev)
 
@@ -86,7 +86,7 @@ SELECT * FROM `sm-piquetea.customized_views.refersion_orders_rev` LIMIT 10;
 <Accordion title="refersion_commission">
 **Type:** VIEW | **Queries (180d):** 7,874
 
-Custom data.
+Custom data
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m5!1m4!4m3!1ssm-piquetea!2scustomized_views!3srefersion_commission)
 
@@ -99,7 +99,7 @@ SELECT * FROM `sm-piquetea.customized_views.refersion_commission` LIMIT 10;
 <Accordion title="sc_sku_breakdown_v4">
 **Type:** VIEW | **Queries (180d):** 7,163
 
-Product/SKU-level data.
+Product/SKU-level data
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m5!1m4!4m3!1ssm-piquetea!2scustomized_views!3ssc_sku_breakdown_v4)
 
@@ -112,7 +112,7 @@ SELECT * FROM `sm-piquetea.customized_views.sc_sku_breakdown_v4` LIMIT 10;
 <Accordion title="daily_data_v5_online_dtc_slice">
 **Type:** VIEW | **Queries (180d):** 4,575
 
-Daily aggregation.
+Custom data
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m5!1m4!4m3!1ssm-piquetea!2scustomized_views!3sdaily_data_v5_online_dtc_slice)
 
@@ -125,7 +125,7 @@ SELECT * FROM `sm-piquetea.customized_views.daily_data_v5_online_dtc_slice` LIMI
 <Accordion title="refersion_impact_table">
 **Type:** EXTERNAL | **Queries (180d):** 4,233
 
-Custom data. Key columns: `Date, YT_Spend, Email_Spend, Podcast_Spend, IG_Spend`.
+Custom data Key columns: `Date, Month, Year, Week, YT_Spend`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m5!1m4!4m3!1ssm-piquetea!2scustomized_views!3srefersion_impact_table)
 
@@ -138,7 +138,7 @@ SELECT * FROM `sm-piquetea.customized_views.refersion_impact_table` LIMIT 10;
 <Accordion title="seven_day_cancels_revision5">
 **Type:** VIEW | **Queries (180d):** 4,067
 
-Custom data.
+Custom data Key columns: `WHEN, WHEN, WHEN, WHERE, WHEN`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m5!1m4!4m3!1ssm-piquetea!2scustomized_views!3sseven_day_cancels_revision5)
 
@@ -151,7 +151,7 @@ SELECT * FROM `sm-piquetea.customized_views.seven_day_cancels_revision5` LIMIT 1
 <Accordion title="refersion_partner_final_v3_0522">
 **Type:** EXTERNAL | **Queries (180d):** 3,940
 
-Custom data. Key columns: `AFFILIATE_ID, ORDER_DATE, NEW_ORDERS, RETURNING_ORDERS, CHANNEL_TAG`.
+Custom data Key columns: `AFFILIATE_ID, AFFILIATE_NAME, UTM_CONTENT_FINAL, ORDER_DATE, COMMISSION_TOTAL`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m5!1m4!4m3!1ssm-piquetea!2scustomized_views!3srefersion_partner_final_v3_0522)
 
@@ -164,7 +164,7 @@ SELECT * FROM `sm-piquetea.customized_views.refersion_partner_final_v3_0522` LIM
 <Accordion title="daily_data_v4_line_spend_slice">
 **Type:** VIEW | **Queries (180d):** 3,737
 
-Daily aggregation.
+Marketing/advertising data
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m5!1m4!4m3!1ssm-piquetea!2scustomized_views!3sdaily_data_v4_line_spend_slice)
 
@@ -177,7 +177,7 @@ SELECT * FROM `sm-piquetea.customized_views.daily_data_v4_line_spend_slice` LIMI
 <Accordion title="daily_data_v5_amazon_slice">
 **Type:** VIEW | **Queries (180d):** 3,735
 
-Daily aggregation from Amazon.
+Custom data from Amazon
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m5!1m4!4m3!1ssm-piquetea!2scustomized_views!3sdaily_data_v5_amazon_slice)
 
@@ -190,7 +190,7 @@ SELECT * FROM `sm-piquetea.customized_views.daily_data_v5_amazon_slice` LIMIT 10
 <Accordion title="refersion_partner_final">
 **Type:** EXTERNAL | **Queries (180d):** 3,553
 
-Custom data. Key columns: `AFFILIATE_ID, ORDER_DATE, NEW_ORDERS, RETURNING_ORDERS, CHANNEL_TAG`.
+Custom data Key columns: `AFFILIATE_ID, AFFILIATE_NAME, UTM_CONTENT_FINAL, ORDER_DATE, COMMISSION_TOTAL`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m5!1m4!4m3!1ssm-piquetea!2scustomized_views!3srefersion_partner_final)
 
@@ -203,7 +203,7 @@ SELECT * FROM `sm-piquetea.customized_views.refersion_partner_final` LIMIT 10;
 <Accordion title="nick_import_v1">
 **Type:** EXTERNAL | **Queries (180d):** 3,404
 
-Custom data. Key columns: `channel, date`.
+Custom data Key columns: `channel, month, date, network, deliverable`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m5!1m4!4m3!1ssm-piquetea!2scustomized_views!3snick_import_v1)
 
@@ -216,7 +216,7 @@ SELECT * FROM `sm-piquetea.customized_views.nick_import_v1` LIMIT 10;
 <Accordion title="rylie_import_v1">
 **Type:** EXTERNAL | **Queries (180d):** 3,398
 
-Custom data. Key columns: `channel, affiliate_id`.
+Custom data Key columns: `channel, year, month, name, handle`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m5!1m4!4m3!1ssm-piquetea!2scustomized_views!3srylie_import_v1)
 
@@ -229,7 +229,7 @@ SELECT * FROM `sm-piquetea.customized_views.rylie_import_v1` LIMIT 10;
 <Accordion title="klaviyo_attentive_reporting">
 **Type:** VIEW | **Queries (180d):** 3,106
 
-Reporting view from Klaviyo, TikTok.
+Custom data
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m5!1m4!4m3!1ssm-piquetea!2scustomized_views!3sklaviyo_attentive_reporting)
 
@@ -242,7 +242,7 @@ SELECT * FROM `sm-piquetea.customized_views.klaviyo_attentive_reporting` LIMIT 1
 <Accordion title="refersion_sessions_temp">
 **Type:** EXTERNAL | **Queries (180d):** 2,273
 
-Custom data. Key columns: `DATE`.
+Custom data Key columns: `DATE, UTM_CONTENT, SESSIONS`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m5!1m4!4m3!1ssm-piquetea!2scustomized_views!3srefersion_sessions_temp)
 
@@ -255,7 +255,7 @@ SELECT * FROM `sm-piquetea.customized_views.refersion_sessions_temp` LIMIT 10;
 <Accordion title="rpt_exec_to_order_test">
 **Type:** VIEW | **Queries (180d):** 1,908
 
-Order-level data.
+Aggregated summary
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m5!1m4!4m3!1ssm-piquetea!2scustomized_views!3srpt_exec_to_order_test)
 
@@ -268,7 +268,7 @@ SELECT * FROM `sm-piquetea.customized_views.rpt_exec_to_order_test` LIMIT 10;
 <Accordion title="all_parnterships_refersion_sessions_temp_v1">
 **Type:** EXTERNAL | **Queries (180d):** 1,842
 
-Custom data.
+Custom data Key columns: `utm_content, day, utm_medium, Sessions`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m5!1m4!4m3!1ssm-piquetea!2scustomized_views!3sall_parnterships_refersion_sessions_temp_v1)
 
@@ -281,7 +281,7 @@ SELECT * FROM `sm-piquetea.customized_views.all_parnterships_refersion_sessions_
 <Accordion title="refersion_partner_spend_podonly_v1">
 **Type:** VIEW | **Queries (180d):** 1,783
 
-Custom data.
+Marketing/advertising data
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m5!1m4!4m3!1ssm-piquetea!2scustomized_views!3srefersion_partner_spend_podonly_v1)
 
@@ -294,7 +294,7 @@ SELECT * FROM `sm-piquetea.customized_views.refersion_partner_spend_podonly_v1` 
 <Accordion title="all_partnerships_refersion_sessions_performanceoverview">
 **Type:** VIEW | **Queries (180d):** 1,739
 
-Custom data.
+Custom data
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m5!1m4!4m3!1ssm-piquetea!2scustomized_views!3sall_partnerships_refersion_sessions_performanceoverview)
 
@@ -307,7 +307,7 @@ SELECT * FROM `sm-piquetea.customized_views.all_partnerships_refersion_sessions_
 <Accordion title="all_channel_partnerships_data_v4">
 **Type:** VIEW | **Queries (180d):** 1,644
 
-Custom data.
+Custom data Key columns: `AND`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m5!1m4!4m3!1ssm-piquetea!2scustomized_views!3sall_channel_partnerships_data_v4)
 
@@ -320,7 +320,7 @@ SELECT * FROM `sm-piquetea.customized_views.all_channel_partnerships_data_v4` LI
 <Accordion title="Rylie_Refersion_Daily_Partner_Level_V2">
 **Type:** VIEW | **Queries (180d):** 1,265
 
-Daily aggregation.
+Custom data
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m5!1m4!4m3!1ssm-piquetea!2scustomized_views!3sRylie_Refersion_Daily_Partner_Level_V2)
 
@@ -333,7 +333,7 @@ SELECT * FROM `sm-piquetea.customized_views.Rylie_Refersion_Daily_Partner_Level_
 <Accordion title="refersion_partner_final_v2_0516">
 **Type:** EXTERNAL | **Queries (180d):** 1,180
 
-Custom data. Key columns: `AFFILIATE_ID, ORDER_DATE, NEW_ORDERS, RETURNING_ORDERS, CHANNEL_TAG`.
+Custom data Key columns: `AFFILIATE_ID, AFFILIATE_NAME, UTM_CONTENT_FINAL, ORDER_DATE, COMMISSION_TOTAL`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m5!1m4!4m3!1ssm-piquetea!2scustomized_views!3srefersion_partner_final_v2_0516)
 
@@ -346,7 +346,7 @@ SELECT * FROM `sm-piquetea.customized_views.refersion_partner_final_v2_0516` LIM
 <Accordion title="Rylie_Partnerships_Sessions_Temp">
 **Type:** VIEW | **Queries (180d):** 1,151
 
-Custom data.
+Custom data
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m5!1m4!4m3!1ssm-piquetea!2scustomized_views!3sRylie_Partnerships_Sessions_Temp)
 
@@ -359,7 +359,7 @@ SELECT * FROM `sm-piquetea.customized_views.Rylie_Partnerships_Sessions_Temp` LI
 <Accordion title="partener_ltv_view_v5_automate_sidetable">
 **Type:** VIEW | **Queries (180d):** 1,077
 
-Lifetime value analysis.
+Custom data Key columns: `WHERE`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m5!1m4!4m3!1ssm-piquetea!2scustomized_views!3spartener_ltv_view_v5_automate_sidetable)
 
@@ -372,7 +372,7 @@ SELECT * FROM `sm-piquetea.customized_views.partener_ltv_view_v5_automate_sideta
 <Accordion title="affiliate_id_mapping_v1">
 **Type:** VIEW | **Queries (180d):** 893
 
-Custom data.
+Custom data
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m5!1m4!4m3!1ssm-piquetea!2scustomized_views!3saffiliate_id_mapping_v1)
 
@@ -385,7 +385,7 @@ SELECT * FROM `sm-piquetea.customized_views.affiliate_id_mapping_v1` LIMIT 10;
 <Accordion title="churn_export_v2">
 **Type:** EXTERNAL | **Queries (180d):** 343
 
-Custom data. Key columns: `date, subscription_orders`.
+Custom data Key columns: `date, week, month, quarter, year`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m5!1m4!4m3!1ssm-piquetea!2scustomized_views!3schurn_export_v2)
 
@@ -398,7 +398,7 @@ SELECT * FROM `sm-piquetea.customized_views.churn_export_v2` LIMIT 10;
 <Accordion title="referral_program_v1">
 **Type:** EXTERNAL | **Queries (180d):** 326
 
-Custom data. Key columns: `date, total_referral_orders, total_ft_referral_orders, total_recurring_referral_orders, total_revenue_rewarded_advocates`.
+Custom data Key columns: `date, total_referral_rev, total_ft_referral_rev, total_recurring_referral_rev, total_rev_shopify`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m5!1m4!4m3!1ssm-piquetea!2scustomized_views!3sreferral_program_v1)
 
@@ -411,7 +411,7 @@ SELECT * FROM `sm-piquetea.customized_views.referral_program_v1` LIMIT 10;
 <Accordion title="partnerships_ltv_v5">
 **Type:** VIEW | **Queries (180d):** 307
 
-Lifetime value analysis.
+Custom data Key columns: `WHERE`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m5!1m4!4m3!1ssm-piquetea!2scustomized_views!3spartnerships_ltv_v5)
 
@@ -421,7 +421,356 @@ SELECT * FROM `sm-piquetea.customized_views.partnerships_ltv_v5` LIMIT 10;
 ```
 </Accordion>
 
-<Note>Showing top 30 of 57 objects in this dataset.</Note>
+<Accordion title="superfiliate_base_orders_rev">
+**Type:** VIEW | **Queries (180d):** 300
+
+Order-level data
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m5!1m4!4m3!1ssm-piquetea!2scustomized_views!3ssuperfiliate_base_orders_rev)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-piquetea.customized_views.superfiliate_base_orders_rev` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="superfiliate_recurring_subs_orders_rev">
+**Type:** VIEW | **Queries (180d):** 294
+
+Order-level data
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m5!1m4!4m3!1ssm-piquetea!2scustomized_views!3ssuperfiliate_recurring_subs_orders_rev)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-piquetea.customized_views.superfiliate_recurring_subs_orders_rev` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="referral_program_v2">
+**Type:** VIEW | **Queries (180d):** 277
+
+Custom data
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m5!1m4!4m3!1ssm-piquetea!2scustomized_views!3sreferral_program_v2)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-piquetea.customized_views.referral_program_v2` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="seven_day_cancellation_channel_revised">
+**Type:** VIEW | **Queries (180d):** 173
+
+Custom data Key columns: `WHEN, WHEN, WHEN, WHERE, WHEN`.
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m5!1m4!4m3!1ssm-piquetea!2scustomized_views!3sseven_day_cancellation_channel_revised)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-piquetea.customized_views.seven_day_cancellation_channel_revised` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="loyaltylion_referrals">
+**Type:** EXTERNAL | **Queries (180d):** 107
+
+Custom data Key columns: `date, direct, email, twitter, facebook`.
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m5!1m4!4m3!1ssm-piquetea!2scustomized_views!3sloyaltylion_referrals)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-piquetea.customized_views.loyaltylion_referrals` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="seven_day_cancels_revision_two">
+**Type:** VIEW | **Queries (180d):** 103
+
+Custom data Key columns: `WHEN, WHEN, WHEN, WHERE, WHEN`.
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m5!1m4!4m3!1ssm-piquetea!2scustomized_views!3sseven_day_cancels_revision_two)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-piquetea.customized_views.seven_day_cancels_revision_two` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="churn_export_v1">
+**Type:** EXTERNAL | **Queries (180d):** 101
+
+Custom data Key columns: `month_date, month_label, active_subscribers, churn_rate`.
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m5!1m4!4m3!1ssm-piquetea!2scustomized_views!3schurn_export_v1)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-piquetea.customized_views.churn_export_v1` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="gwp_obt_orders_v2">
+**Type:** VIEW | **Queries (180d):** 97
+
+Order-level data Key columns: `ON, ON, ON`.
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m5!1m4!4m3!1ssm-piquetea!2scustomized_views!3sgwp_obt_orders_v2)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-piquetea.customized_views.gwp_obt_orders_v2` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="all_partnerships_channel_sessions_v2">
+**Type:** VIEW | **Queries (180d):** 91
+
+Custom data
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m5!1m4!4m3!1ssm-piquetea!2scustomized_views!3sall_partnerships_channel_sessions_v2)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-piquetea.customized_views.all_partnerships_channel_sessions_v2` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="product_tax_codes">
+**Type:** BASE TABLE | **Queries (180d):** 84
+
+Product/SKU-level data Key columns: `product_title, variant_tax_code`.
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m5!1m4!4m3!1ssm-piquetea!2scustomized_views!3sproduct_tax_codes)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-piquetea.customized_views.product_tax_codes` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="superfiliate_go_live_spend">
+**Type:** EXTERNAL | **Queries (180d):** 63
+
+Marketing/advertising data Key columns: `channel, partnerships_lead, campaign_name, superfiliate_code, date`.
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m5!1m4!4m3!1ssm-piquetea!2scustomized_views!3ssuperfiliate_go_live_spend)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-piquetea.customized_views.superfiliate_go_live_spend` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="recurring_subs_over100">
+**Type:** VIEW | **Queries (180d):** 57
+
+Custom data
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m5!1m4!4m3!1ssm-piquetea!2scustomized_views!3srecurring_subs_over100)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-piquetea.customized_views.recurring_subs_over100` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="attentive_table_v1">
+**Type:** EXTERNAL | **Queries (180d):** 52
+
+Custom data Key columns: `message_send_date, message_variant, has_media, deliveries, total_clicks`.
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m5!1m4!4m3!1ssm-piquetea!2scustomized_views!3sattentive_table_v1)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-piquetea.customized_views.attentive_table_v1` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="pique_referral_summary">
+**Type:** EXTERNAL | **Queries (180d):** 43
+
+Aggregated summary Key columns: `AFFILIATE_ID, AFFILIATE_NAME, CHANNEL_TAG, REFERRALS, OTP_ORDERS`.
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m5!1m4!4m3!1ssm-piquetea!2scustomized_views!3spique_referral_summary)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-piquetea.customized_views.pique_referral_summary` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="attentive_data_sync_draft">
+**Type:** BASE TABLE | **Queries (180d):** 38
+
+Custom data Key columns: `message_send_date, message_variant, has_media, deliveries, total_clicks`.
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m5!1m4!4m3!1ssm-piquetea!2scustomized_views!3sattentive_data_sync_draft)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-piquetea.customized_views.attentive_data_sync_draft` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="seven_day_cancels">
+**Type:** VIEW | **Queries (180d):** 36
+
+Custom data Key columns: `WHEN, WHEN, WHEN, WHEN`.
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m5!1m4!4m3!1ssm-piquetea!2scustomized_views!3sseven_day_cancels)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-piquetea.customized_views.seven_day_cancels` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="obt_orders_gwp_updates_v2">
+**Type:** VIEW | **Queries (180d):** 35
+
+Denormalized "One Big Table" view
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m5!1m4!4m3!1ssm-piquetea!2scustomized_views!3sobt_orders_gwp_updates_v2)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-piquetea.customized_views.obt_orders_gwp_updates_v2` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="partnership_ltv_v3">
+**Type:** VIEW | **Queries (180d):** 35
+
+Custom data Key columns: `WHERE`.
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m5!1m4!4m3!1ssm-piquetea!2scustomized_views!3spartnership_ltv_v3)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-piquetea.customized_views.partnership_ltv_v3` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="seven_day_cancels_revision3">
+**Type:** VIEW | **Queries (180d):** 34
+
+Custom data Key columns: `WHEN, WHEN, WHEN, WHERE, WHEN`.
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m5!1m4!4m3!1ssm-piquetea!2scustomized_views!3sseven_day_cancels_revision3)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-piquetea.customized_views.seven_day_cancels_revision3` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="LTV_Retention_AOV_View">
+**Type:** VIEW | **Queries (180d):** 31
+
+Custom data
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m5!1m4!4m3!1ssm-piquetea!2scustomized_views!3sLTV_Retention_AOV_View)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-piquetea.customized_views.LTV_Retention_AOV_View` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="obt_orders_gwp_updates">
+**Type:** VIEW | **Queries (180d):** 30
+
+Denormalized "One Big Table" view
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m5!1m4!4m3!1ssm-piquetea!2scustomized_views!3sobt_orders_gwp_updates)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-piquetea.customized_views.obt_orders_gwp_updates` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="retention_rate_by_product_noncancelled">
+**Type:** VIEW | **Queries (180d):** 23
+
+Product/SKU-level data Key columns: `WHEN, WHEN, WHEN, WHEN, WHEN`.
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m5!1m4!4m3!1ssm-piquetea!2scustomized_views!3sretention_rate_by_product_noncancelled)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-piquetea.customized_views.retention_rate_by_product_noncancelled` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="ga4_events_raw">
+**Type:** BASE TABLE | **Queries (180d):** 12
+
+Custom data Key columns: `event_date, event_timestamp, event_name, event_params, event_previous_timestamp`.
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m5!1m4!4m3!1ssm-piquetea!2scustomized_views!3sga4_events_raw)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-piquetea.customized_views.ga4_events_raw` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="adhoc_zach-012626">
+**Type:** BASE TABLE | **Queries (180d):** 11
+
+Marketing/advertising data Key columns: `sn_order_id, order_id`.
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m5!1m4!4m3!1ssm-piquetea!2scustomized_views!3sadhoc_zach-012626)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-piquetea.customized_views.adhoc_zach-012626` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="traffic_partnerships_adhoc">
+**Type:** BASE TABLE | **Queries (180d):** 9
+
+Marketing/advertising data Key columns: `utm_medium, month, sessions`.
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m5!1m4!4m3!1ssm-piquetea!2scustomized_views!3straffic_partnerships_adhoc)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-piquetea.customized_views.traffic_partnerships_adhoc` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="gwp_obt_orders_totals_v2">
+**Type:** VIEW | **Queries (180d):** 2
+
+Order-level data Key columns: `ON`.
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m5!1m4!4m3!1ssm-piquetea!2scustomized_views!3sgwp_obt_orders_totals_v2)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-piquetea.customized_views.gwp_obt_orders_totals_v2` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="obt_orders_previous_subscriber_updated">
+**Type:** VIEW | **Queries (180d):** 2
+
+Denormalized "One Big Table" view
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m5!1m4!4m3!1ssm-piquetea!2scustomized_views!3sobt_orders_previous_subscriber_updated)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-piquetea.customized_views.obt_orders_previous_subscriber_updated` LIMIT 10;
+```
+</Accordion>
 
 
 ### sm_transformed_v2
@@ -429,7 +778,7 @@ SELECT * FROM `sm-piquetea.customized_views.partnerships_ltv_v5` LIMIT 10;
 <Accordion title="rpt_cohort_ltv_by_first_valid_purchase_attribute_no_product_filters_v1">
 **Type:** BASE TABLE | **Queries (180d):** 103
 
-Cohort analysis from TikTok. Key columns: `sm_store_id, cohort_filter_name_filter_value_month_id, cohort_filter_name_filter_value_id, sm_channel`.
+Aggregated summary Key columns: `sm_store_id, cohort_filter_name_filter_value_month_id, cohort_filter_name_filter_value_id, cohort_month, months_since_first_order`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m5!1m4!4m3!1ssm-piquetea!2ssm_transformed_v2!3srpt_cohort_ltv_by_first_valid_purchase_attribute_no_product_filters_v1)
 
@@ -445,7 +794,7 @@ SELECT * FROM `sm-piquetea.sm_transformed_v2.rpt_cohort_ltv_by_first_valid_purch
 <Accordion title="events_20251022">
 **Type:** BASE TABLE | **Queries (180d):** 11
 
-Event tracking data. Key columns: `event_date, event_bundle_sequence_id, user_id, user_pseudo_id`.
+Custom data Key columns: `event_date, event_timestamp, event_name, event_params, event_previous_timestamp`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m5!1m4!4m3!1ssm-piquetea!2sanalytics_311213792!3sevents_20251022)
 
@@ -458,7 +807,7 @@ SELECT * FROM `sm-piquetea.analytics_311213792.events_20251022` LIMIT 10;
 <Accordion title="events_20250930">
 **Type:** BASE TABLE | **Queries (180d):** 10
 
-Event tracking data. Key columns: `event_date, event_bundle_sequence_id, user_id, user_pseudo_id`.
+Custom data Key columns: `event_date, event_timestamp, event_name, event_params, event_previous_timestamp`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m5!1m4!4m3!1ssm-piquetea!2sanalytics_311213792!3sevents_20250930)
 
@@ -471,7 +820,7 @@ SELECT * FROM `sm-piquetea.analytics_311213792.events_20250930` LIMIT 10;
 <Accordion title="events_20260120">
 **Type:** BASE TABLE | **Queries (180d):** 7
 
-Event tracking data. Key columns: `event_date, event_bundle_sequence_id, user_id, user_pseudo_id`.
+Custom data Key columns: `event_date, event_timestamp, event_name, event_params, event_previous_timestamp`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m5!1m4!4m3!1ssm-piquetea!2sanalytics_311213792!3sevents_20260120)
 

@@ -37,7 +37,7 @@ This page documents active custom BigQuery tables and views (those queried at le
 <Accordion title="snowplow_unified_base_new_event_limits">
 **Type:** BASE TABLE | **Queries (180d):** 9,710
 
-Event tracking data.
+Custom data Key columns: `lower_limit, upper_limit`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-guardianbikes&ws=!1m5!1m4!4m3!1ssm-guardianbikes!2ssp_snowplow_scratch!3ssnowplow_unified_base_new_event_limits)
 
@@ -50,7 +50,7 @@ SELECT * FROM `sm-guardianbikes.sp_snowplow_scratch.snowplow_unified_base_new_ev
 <Accordion title="snowplow_unified_events_this_run">
 **Type:** BASE TABLE | **Queries (180d):** 6,474
 
-Event tracking data. Key columns: `session_identifier, app_id, event_id, txn_id`.
+Custom data Key columns: `session_identifier, app_id, platform, etl_tstamp, collector_tstamp`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-guardianbikes&ws=!1m5!1m4!4m3!1ssm-guardianbikes!2ssp_snowplow_scratch!3ssnowplow_unified_events_this_run)
 
@@ -63,7 +63,7 @@ SELECT * FROM `sm-guardianbikes.sp_snowplow_scratch.snowplow_unified_events_this
 <Accordion title="snowplow_unified_base_sessions_this_run">
 **Type:** BASE TABLE | **Queries (180d):** 4,316
 
-Custom data. Key columns: `session_identifier, user_identifier`.
+Custom data Key columns: `session_identifier, user_identifier, start_tstamp, end_tstamp`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-guardianbikes&ws=!1m5!1m4!4m3!1ssm-guardianbikes!2ssp_snowplow_scratch!3ssnowplow_unified_base_sessions_this_run)
 
@@ -76,7 +76,7 @@ SELECT * FROM `sm-guardianbikes.sp_snowplow_scratch.snowplow_unified_base_sessio
 <Accordion title="snowplow_unified_users_sessions_this_run">
 **Type:** BASE TABLE | **Queries (180d):** 3,234
 
-Custom data. Key columns: `session_identifier, user_id, user_identifier, stitched_user_id, network_userid`.
+Custom data Key columns: `first_event_name, last_event_name, session_identifier, user_id, user_identifier`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-guardianbikes&ws=!1m5!1m4!4m3!1ssm-guardianbikes!2ssp_snowplow_scratch!3ssnowplow_unified_users_sessions_this_run)
 
@@ -89,7 +89,7 @@ SELECT * FROM `sm-guardianbikes.sp_snowplow_scratch.snowplow_unified_users_sessi
 <Accordion title="snowplow_unified_base_events_this_run">
 **Type:** BASE TABLE | **Queries (180d):** 2,158
 
-Event tracking data. Key columns: `session_identifier, app_id, event_id, txn_id`.
+Custom data Key columns: `session_identifier, app_id, platform, etl_tstamp, collector_tstamp`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-guardianbikes&ws=!1m5!1m4!4m3!1ssm-guardianbikes!2ssp_snowplow_scratch!3ssnowplow_unified_base_events_this_run)
 
@@ -102,7 +102,7 @@ SELECT * FROM `sm-guardianbikes.sp_snowplow_scratch.snowplow_unified_base_events
 <Accordion title="snowplow_unified_conversions_this_run">
 **Type:** BASE TABLE | **Queries (180d):** 2,158
 
-Custom data. Key columns: `cv_id, event_id, session_identifier, user_identifier, user_id`.
+Custom data Key columns: `cv_id, event_id, session_identifier, user_identifier, user_id`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-guardianbikes&ws=!1m5!1m4!4m3!1ssm-guardianbikes!2ssp_snowplow_scratch!3ssnowplow_unified_conversions_this_run)
 
@@ -115,7 +115,7 @@ SELECT * FROM `sm-guardianbikes.sp_snowplow_scratch.snowplow_unified_conversions
 <Accordion title="snowplow_unified_users_aggs">
 **Type:** BASE TABLE | **Queries (180d):** 2,156
 
-Custom data. Key columns: `user_identifier, first_session_identifier, last_session_identifier`.
+Custom data Key columns: `user_identifier, start_tstamp, end_tstamp, first_session_identifier, last_session_identifier`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-guardianbikes&ws=!1m5!1m4!4m3!1ssm-guardianbikes!2ssp_snowplow_scratch!3ssnowplow_unified_users_aggs)
 
@@ -128,7 +128,7 @@ SELECT * FROM `sm-guardianbikes.sp_snowplow_scratch.snowplow_unified_users_aggs`
 <Accordion title="snowplow_unified_pv_engaged_time">
 **Type:** BASE TABLE | **Queries (180d):** 1,079
 
-Custom data. Key columns: `view_id, session_identifier`.
+Custom data Key columns: `view_id, session_identifier, end_tstamp, engaged_time_in_s, absolute_time_in_s`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-guardianbikes&ws=!1m5!1m4!4m3!1ssm-guardianbikes!2ssp_snowplow_scratch!3ssnowplow_unified_pv_engaged_time)
 
@@ -141,7 +141,7 @@ SELECT * FROM `sm-guardianbikes.sp_snowplow_scratch.snowplow_unified_pv_engaged_
 <Accordion title="snowplow_unified_views_this_run">
 **Type:** BASE TABLE | **Queries (180d):** 1,079
 
-Custom data. Key columns: `view_id, event_id, session_identifier, user_id, user_identifier`.
+Custom data Key columns: `view_id, event_name, event_id, session_identifier, view_in_session_index`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-guardianbikes&ws=!1m5!1m4!4m3!1ssm-guardianbikes!2ssp_snowplow_scratch!3ssnowplow_unified_views_this_run)
 
@@ -154,7 +154,7 @@ SELECT * FROM `sm-guardianbikes.sp_snowplow_scratch.snowplow_unified_views_this_
 <Accordion title="snowplow_unified_sessions_this_run">
 **Type:** BASE TABLE | **Queries (180d):** 1,079
 
-Custom data. Key columns: `session_identifier, user_id, user_identifier, stitched_user_id, network_userid`.
+Custom data Key columns: `first_event_name, last_event_name, session_identifier, user_id, user_identifier`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-guardianbikes&ws=!1m5!1m4!4m3!1ssm-guardianbikes!2ssp_snowplow_scratch!3ssnowplow_unified_sessions_this_run)
 
@@ -167,7 +167,7 @@ SELECT * FROM `sm-guardianbikes.sp_snowplow_scratch.snowplow_unified_sessions_th
 <Accordion title="snowplow_unified_pv_scroll_depth">
 **Type:** BASE TABLE | **Queries (180d):** 1,079
 
-Custom data. Key columns: `view_id, session_identifier, doc_width, br_viewwidth`.
+Custom data Key columns: `view_id, session_identifier, doc_width, doc_height, br_viewwidth`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-guardianbikes&ws=!1m5!1m4!4m3!1ssm-guardianbikes!2ssp_snowplow_scratch!3ssnowplow_unified_pv_scroll_depth)
 
@@ -180,7 +180,7 @@ SELECT * FROM `sm-guardianbikes.sp_snowplow_scratch.snowplow_unified_pv_scroll_d
 <Accordion title="snowplow_unified_users_this_run">
 **Type:** BASE TABLE | **Queries (180d):** 1,078
 
-Custom data. Key columns: `user_id, user_identifier, network_userid, stitched_user_id`.
+Custom data Key columns: `user_id, user_identifier, network_userid, stitched_user_id, start_tstamp`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-guardianbikes&ws=!1m5!1m4!4m3!1ssm-guardianbikes!2ssp_snowplow_scratch!3ssnowplow_unified_users_this_run)
 
@@ -193,7 +193,7 @@ SELECT * FROM `sm-guardianbikes.sp_snowplow_scratch.snowplow_unified_users_this_
 <Accordion title="snowplow_unified_users_lasts">
 **Type:** BASE TABLE | **Queries (180d):** 1,078
 
-Custom data. Key columns: `user_identifier`.
+Custom data Key columns: `user_identifier, last_platform, last_os_type, last_os_version, last_screen_resolution`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-guardianbikes&ws=!1m5!1m4!4m3!1ssm-guardianbikes!2ssp_snowplow_scratch!3ssnowplow_unified_users_lasts)
 
@@ -204,12 +204,119 @@ SELECT * FROM `sm-guardianbikes.sp_snowplow_scratch.snowplow_unified_users_lasts
 </Accordion>
 
 
+### sp_snowplow_derived
+
+<Accordion title="snowplow_unified_user_mapping">
+**Type:** BASE TABLE | **Queries (180d):** 5,393
+
+Custom data Key columns: `user_identifier, user_id, end_tstamp`.
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-guardianbikes&ws=!1m5!1m4!4m3!1ssm-guardianbikes!2ssp_snowplow_derived!3ssnowplow_unified_user_mapping)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-guardianbikes.sp_snowplow_derived.snowplow_unified_user_mapping` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="snowplow_attribution_paths_to_conversion">
+**Type:** BASE TABLE | **Queries (180d):** 5,392
+
+Custom data Key columns: `cv_id, event_id, customer_id, cv_tstamp, cv_type`.
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-guardianbikes&ws=!1m5!1m4!4m3!1ssm-guardianbikes!2ssp_snowplow_derived!3ssnowplow_attribution_paths_to_conversion)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-guardianbikes.sp_snowplow_derived.snowplow_attribution_paths_to_conversion` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="snowplow_unified_conversions">
+**Type:** BASE TABLE | **Queries (180d):** 4,322
+
+Custom data Key columns: `cv_id, event_id, session_identifier, user_identifier, user_id`.
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-guardianbikes&ws=!1m5!1m4!4m3!1ssm-guardianbikes!2ssp_snowplow_derived!3ssnowplow_unified_conversions)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-guardianbikes.sp_snowplow_derived.snowplow_unified_conversions` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="snowplow_unified_sessions">
+**Type:** BASE TABLE | **Queries (180d):** 3,330
+
+Custom data Key columns: `first_event_name, last_event_name, session_identifier, user_id, user_identifier`.
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-guardianbikes&ws=!1m5!1m4!4m3!1ssm-guardianbikes!2ssp_snowplow_derived!3ssnowplow_unified_sessions)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-guardianbikes.sp_snowplow_derived.snowplow_unified_sessions` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="snowplow_unified_views">
+**Type:** BASE TABLE | **Queries (180d):** 3,260
+
+Custom data Key columns: `view_id, event_name, event_id, session_identifier, view_in_session_index`.
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-guardianbikes&ws=!1m5!1m4!4m3!1ssm-guardianbikes!2ssp_snowplow_derived!3ssnowplow_unified_views)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-guardianbikes.sp_snowplow_derived.snowplow_unified_views` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="snowplow_attribution_campaign_attributions">
+**Type:** BASE TABLE | **Queries (180d):** 3,235
+
+Marketing/advertising data Key columns: `composite_key, cv_id, event_id, customer_id, cv_tstamp`.
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-guardianbikes&ws=!1m5!1m4!4m3!1ssm-guardianbikes!2ssp_snowplow_derived!3ssnowplow_attribution_campaign_attributions)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-guardianbikes.sp_snowplow_derived.snowplow_attribution_campaign_attributions` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="snowplow_attribution_channel_attributions">
+**Type:** BASE TABLE | **Queries (180d):** 2,175
+
+Custom data Key columns: `composite_key, cv_id, event_id, customer_id, cv_tstamp`.
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-guardianbikes&ws=!1m5!1m4!4m3!1ssm-guardianbikes!2ssp_snowplow_derived!3ssnowplow_attribution_channel_attributions)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-guardianbikes.sp_snowplow_derived.snowplow_attribution_channel_attributions` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="snowplow_unified_users">
+**Type:** BASE TABLE | **Queries (180d):** 2,156
+
+Custom data Key columns: `user_id, user_identifier, network_userid, stitched_user_id, start_tstamp`.
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-guardianbikes&ws=!1m5!1m4!4m3!1ssm-guardianbikes!2ssp_snowplow_derived!3ssnowplow_unified_users)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-guardianbikes.sp_snowplow_derived.snowplow_unified_users` LIMIT 10;
+```
+</Accordion>
+
+
 ### sp_snowplow_snowplow_manifest
 
 <Accordion title="snowplow_unified_incremental_manifest">
 **Type:** BASE TABLE | **Queries (180d):** 9,710
 
-Custom data.
+Custom data Key columns: `model, last_success`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-guardianbikes&ws=!1m5!1m4!4m3!1ssm-guardianbikes!2ssp_snowplow_snowplow_manifest!3ssnowplow_unified_incremental_manifest)
 
@@ -222,7 +329,7 @@ SELECT * FROM `sm-guardianbikes.sp_snowplow_snowplow_manifest.snowplow_unified_i
 <Accordion title="snowplow_unified_base_quarantined_sessions">
 **Type:** BASE TABLE | **Queries (180d):** 4,316
 
-Custom data. Key columns: `session_identifier`.
+Custom data Key columns: `session_identifier`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-guardianbikes&ws=!1m5!1m4!4m3!1ssm-guardianbikes!2ssp_snowplow_snowplow_manifest!3ssnowplow_unified_base_quarantined_sessions)
 
@@ -235,7 +342,7 @@ SELECT * FROM `sm-guardianbikes.sp_snowplow_snowplow_manifest.snowplow_unified_b
 <Accordion title="snowplow_unified_base_sessions_lifecycle_manifest">
 **Type:** BASE TABLE | **Queries (180d):** 3,237
 
-Custom data. Key columns: `session_identifier, user_identifier`.
+Custom data Key columns: `session_identifier, user_identifier, start_tstamp, end_tstamp`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-guardianbikes&ws=!1m5!1m4!4m3!1ssm-guardianbikes!2ssp_snowplow_snowplow_manifest!3ssnowplow_unified_base_sessions_lifecycle_manifest)
 
@@ -248,7 +355,7 @@ SELECT * FROM `sm-guardianbikes.sp_snowplow_snowplow_manifest.snowplow_unified_b
 <Accordion title="snowplow_attribution_incremental_manifest">
 **Type:** BASE TABLE | **Queries (180d):** 3,234
 
-Custom data from TikTok. Key columns: `consider_intrasession_channels, channels_to_exclude, channels_to_include`.
+Custom data Key columns: `model, processed_at, conversion_hosts, path_transforms, path_lookback_steps`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-guardianbikes&ws=!1m5!1m4!4m3!1ssm-guardianbikes!2ssp_snowplow_snowplow_manifest!3ssnowplow_attribution_incremental_manifest)
 
@@ -261,7 +368,7 @@ SELECT * FROM `sm-guardianbikes.sp_snowplow_snowplow_manifest.snowplow_attributi
 <Accordion title="snowplow_unified_dim_ga4_source_categories">
 **Type:** BASE TABLE | **Queries (180d):** 2,158
 
-Dimension table from Google. Key columns: `source, source_category`.
+Custom data Key columns: `source, source_category`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-guardianbikes&ws=!1m5!1m4!4m3!1ssm-guardianbikes!2ssp_snowplow_snowplow_manifest!3ssnowplow_unified_dim_ga4_source_categories)
 
@@ -274,7 +381,7 @@ SELECT * FROM `sm-guardianbikes.sp_snowplow_snowplow_manifest.snowplow_unified_d
 <Accordion title="snowplow_unified_dim_geo_country_mapping">
 **Type:** BASE TABLE | **Queries (180d):** 1,079
 
-Dimension table.
+Custom data Key columns: `name, alpha_2, alpha_3, country_code, iso_3166_2`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-guardianbikes&ws=!1m5!1m4!4m3!1ssm-guardianbikes!2ssp_snowplow_snowplow_manifest!3ssnowplow_unified_dim_geo_country_mapping)
 
@@ -287,7 +394,7 @@ SELECT * FROM `sm-guardianbikes.sp_snowplow_snowplow_manifest.snowplow_unified_d
 <Accordion title="snowplow_unified_dim_rfc_5646_language_mapping">
 **Type:** BASE TABLE | **Queries (180d):** 1,079
 
-Dimension table.
+Custom data Key columns: `lang_tag, name`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-guardianbikes&ws=!1m5!1m4!4m3!1ssm-guardianbikes!2ssp_snowplow_snowplow_manifest!3ssnowplow_unified_dim_rfc_5646_language_mapping)
 
@@ -303,7 +410,7 @@ SELECT * FROM `sm-guardianbikes.sp_snowplow_snowplow_manifest.snowplow_unified_d
 <Accordion title="events">
 **Type:** BASE TABLE | **Queries (180d):** 5,400
 
-Event tracking data. Key columns: `app_id, event_id, txn_id`.
+Custom data Key columns: `app_id, platform, etl_tstamp, collector_tstamp, dvce_created_tstamp`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-guardianbikes&ws=!1m5!1m4!4m3!1ssm-guardianbikes!2ssp_snowplow!3sevents)
 
@@ -316,7 +423,7 @@ SELECT * FROM `sm-guardianbikes.sp_snowplow.events` LIMIT 10;
 <Accordion title="session_events_for_transactions">
 **Type:** BASE TABLE | **Queries (180d):** 1,086
 
-Event tracking data. Key columns: `order_id, domain_userid, mkt_source`.
+Custom data Key columns: `order_id, order_name, domain_userid, collector_tstamp, event_name`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-guardianbikes&ws=!1m5!1m4!4m3!1ssm-guardianbikes!2ssp_snowplow!3ssession_events_for_transactions)
 
@@ -327,119 +434,12 @@ SELECT * FROM `sm-guardianbikes.sp_snowplow.session_events_for_transactions` LIM
 </Accordion>
 
 
-### sp_snowplow_derived
-
-<Accordion title="snowplow_unified_user_mapping">
-**Type:** BASE TABLE | **Queries (180d):** 5,393
-
-Custom data. Key columns: `user_identifier, user_id`.
-
-[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-guardianbikes&ws=!1m5!1m4!4m3!1ssm-guardianbikes!2ssp_snowplow_derived!3ssnowplow_unified_user_mapping)
-
-```sql
--- Preview data
-SELECT * FROM `sm-guardianbikes.sp_snowplow_derived.snowplow_unified_user_mapping` LIMIT 10;
-```
-</Accordion>
-
-<Accordion title="snowplow_attribution_paths_to_conversion">
-**Type:** BASE TABLE | **Queries (180d):** 5,392
-
-Custom data from TikTok. Key columns: `cv_id, event_id, customer_id, revenue, channel_path`.
-
-[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-guardianbikes&ws=!1m5!1m4!4m3!1ssm-guardianbikes!2ssp_snowplow_derived!3ssnowplow_attribution_paths_to_conversion)
-
-```sql
--- Preview data
-SELECT * FROM `sm-guardianbikes.sp_snowplow_derived.snowplow_attribution_paths_to_conversion` LIMIT 10;
-```
-</Accordion>
-
-<Accordion title="snowplow_unified_conversions">
-**Type:** BASE TABLE | **Queries (180d):** 4,322
-
-Custom data. Key columns: `cv_id, event_id, session_identifier, user_identifier, user_id`.
-
-[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-guardianbikes&ws=!1m5!1m4!4m3!1ssm-guardianbikes!2ssp_snowplow_derived!3ssnowplow_unified_conversions)
-
-```sql
--- Preview data
-SELECT * FROM `sm-guardianbikes.sp_snowplow_derived.snowplow_unified_conversions` LIMIT 10;
-```
-</Accordion>
-
-<Accordion title="snowplow_unified_sessions">
-**Type:** BASE TABLE | **Queries (180d):** 3,330
-
-Custom data. Key columns: `session_identifier, user_id, user_identifier, stitched_user_id, network_userid`.
-
-[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-guardianbikes&ws=!1m5!1m4!4m3!1ssm-guardianbikes!2ssp_snowplow_derived!3ssnowplow_unified_sessions)
-
-```sql
--- Preview data
-SELECT * FROM `sm-guardianbikes.sp_snowplow_derived.snowplow_unified_sessions` LIMIT 10;
-```
-</Accordion>
-
-<Accordion title="snowplow_unified_views">
-**Type:** BASE TABLE | **Queries (180d):** 3,260
-
-Custom data. Key columns: `view_id, event_id, session_identifier, user_id, user_identifier`.
-
-[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-guardianbikes&ws=!1m5!1m4!4m3!1ssm-guardianbikes!2ssp_snowplow_derived!3ssnowplow_unified_views)
-
-```sql
--- Preview data
-SELECT * FROM `sm-guardianbikes.sp_snowplow_derived.snowplow_unified_views` LIMIT 10;
-```
-</Accordion>
-
-<Accordion title="snowplow_attribution_campaign_attributions">
-**Type:** BASE TABLE | **Queries (180d):** 3,235
-
-Marketing/advertising data from TikTok. Key columns: `composite_key, cv_id, event_id, customer_id, cv_total_revenue`.
-
-[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-guardianbikes&ws=!1m5!1m4!4m3!1ssm-guardianbikes!2ssp_snowplow_derived!3ssnowplow_attribution_campaign_attributions)
-
-```sql
--- Preview data
-SELECT * FROM `sm-guardianbikes.sp_snowplow_derived.snowplow_attribution_campaign_attributions` LIMIT 10;
-```
-</Accordion>
-
-<Accordion title="snowplow_attribution_channel_attributions">
-**Type:** BASE TABLE | **Queries (180d):** 2,175
-
-Custom data from TikTok. Key columns: `composite_key, cv_id, event_id, customer_id, cv_total_revenue`.
-
-[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-guardianbikes&ws=!1m5!1m4!4m3!1ssm-guardianbikes!2ssp_snowplow_derived!3ssnowplow_attribution_channel_attributions)
-
-```sql
--- Preview data
-SELECT * FROM `sm-guardianbikes.sp_snowplow_derived.snowplow_attribution_channel_attributions` LIMIT 10;
-```
-</Accordion>
-
-<Accordion title="snowplow_unified_users">
-**Type:** BASE TABLE | **Queries (180d):** 2,156
-
-Custom data. Key columns: `user_id, user_identifier, network_userid, stitched_user_id`.
-
-[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-guardianbikes&ws=!1m5!1m4!4m3!1ssm-guardianbikes!2ssp_snowplow_derived!3ssnowplow_unified_users)
-
-```sql
--- Preview data
-SELECT * FROM `sm-guardianbikes.sp_snowplow_derived.snowplow_unified_users` LIMIT 10;
-```
-</Accordion>
-
-
 ### sm_custom_models
 
 <Accordion title="obt_funnel_event_history">
 **Type:** BASE TABLE | **Queries (180d):** 1,080
 
-Event tracking data. Key columns: `sm_store_id, source_system, event_id, event_user_id, event_user_session_id`.
+Denormalized "One Big Table" view Key columns: `sm_store_id, source_system, event_id, event_user_id, event_user_session_id`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-guardianbikes&ws=!1m5!1m4!4m3!1ssm-guardianbikes!2ssm_custom_models!3sobt_funnel_event_history)
 
@@ -455,7 +455,7 @@ SELECT * FROM `sm-guardianbikes.sm_custom_models.obt_funnel_event_history` LIMIT
 <Accordion title="order_line_refunds_processed">
 **Type:** VIEW | **Queries (180d):** 6
 
-Order-level data.
+Order-level data
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-guardianbikes&ws=!1m5!1m4!4m3!1ssm-guardianbikes!2scustomized_views!3sorder_line_refunds_processed)
 

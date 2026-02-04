@@ -21,112 +21,31 @@ This page documents active custom BigQuery tables and views (those queried at le
 
 | Dataset | Object Count | Total Jobs (180d) |
 |---------|--------------|-------------------|
-| `n41_mssql_data2` | 13 | 18,241 |
+| [`n41_mssql_data2`](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m4!1m3!3m2!1ssm-xcvi!2sn41_mssql_data2) | 13 | 18,241 |
 | [`sell_through_data`](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m4!1m3!3m2!1ssm-xcvi!2ssell_through_data) | 8 | 15,143 |
-| `n41_data` | 9 | 10,412 |
+| [`n41_data`](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m4!1m3!3m2!1ssm-xcvi!2sn41_data) | 9 | 10,412 |
 | [`so_detail_pipeline`](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m4!1m3!3m2!1ssm-xcvi!2sso_detail_pipeline) | 20 | 10,160 |
-| `n41_mssql_data3` | 7 | 5,672 |
+| [`n41_mssql_data3`](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m4!1m3!3m2!1ssm-xcvi!2sn41_mssql_data3) | 7 | 5,672 |
 | [`customized_views`](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m4!1m3!3m2!1ssm-xcvi!2scustomized_views) | 8 | 5,619 |
 | [`sell_through_pipeline`](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m4!1m3!3m2!1ssm-xcvi!2ssell_through_pipeline) | 12 | 4,417 |
-| `N41_created_reports` | 12 | 3,898 |
+| [`N41_created_reports`](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m4!1m3!3m2!1ssm-xcvi!2sN41_created_reports) | 12 | 3,898 |
 | [`v_inventory_pos_by_wh`](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m4!1m3!3m2!1ssm-xcvi!2sv_inventory_pos_by_wh) | 9 | 3,742 |
 | [`sm_sources`](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m4!1m3!3m2!1ssm-xcvi!2ssm_sources) | 2 | 2,981 |
 | [`snowflake_data`](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m4!1m3!3m2!1ssm-xcvi!2ssnowflake_data) | 7 | 1,972 |
 | [`sm_experimental`](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m4!1m3!3m2!1ssm-xcvi!2ssm_experimental) | 1 | 96 |
-| `n41_transfer_data` | 1 | 91 |
-| `DL_XCVI` | 1 | 10 |
+| [`n41_transfer_data`](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m4!1m3!3m2!1ssm-xcvi!2sn41_transfer_data) | 1 | 91 |
+| [`DL_XCVI`](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m4!1m3!3m2!1ssm-xcvi!2sDL_XCVI) | 1 | 10 |
 
 ---
 
 ## Objects by Dataset
-
-### sell_through_data
-
-<Accordion title="xcvi_final_table">
-**Type:** BASE TABLE | **Queries (180d):** 12,059
-
-Custom data. Key columns: `sm_store_id, transaction_date, order_revenue, refund_revenue`.
-
-[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2ssell_through_data!3sxcvi_final_table)
-
-```sql
--- Preview data
-SELECT * FROM `sm-xcvi.sell_through_data.xcvi_final_table` LIMIT 10;
-```
-</Accordion>
-
-<Accordion title="inventory_spine_v3">
-**Type:** BASE TABLE | **Queries (180d):** 1,733
-
-Custom data. Key columns: `date_index, inventory_item_id, updated_at`.
-
-[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2ssell_through_data!3sinventory_spine_v3)
-
-```sql
--- Preview data
-SELECT * FROM `sm-xcvi.sell_through_data.inventory_spine_v3` LIMIT 10;
-```
-</Accordion>
-
-<Accordion title="ecom_so_qty_latest">
-**Type:** BASE TABLE | **Queries (180d):** 478
-
-Custom data. Key columns: `Order_Date`.
-
-[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2ssell_through_data!3secom_so_qty_latest)
-
-```sql
--- Preview data
-SELECT * FROM `sm-xcvi.sell_through_data.ecom_so_qty_latest` LIMIT 10;
-```
-</Accordion>
-
-<Accordion title="sku_date_combinations">
-**Type:** BASE TABLE | **Queries (180d):** 386
-
-Product/SKU-level data. Key columns: `date_index, inventory_item_id`.
-
-[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2ssell_through_data!3ssku_date_combinations)
-
-```sql
--- Preview data
-SELECT * FROM `sm-xcvi.sell_through_data.sku_date_combinations` LIMIT 10;
-```
-</Accordion>
-
-<Accordion title="transaction_union">
-**Type:** BASE TABLE | **Queries (180d):** 218
-
-Custom data. Key columns: `sm_store_id, transaction_date, order_revenue, refund_revenue`.
-
-[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2ssell_through_data!3stransaction_union)
-
-```sql
--- Preview data
-SELECT * FROM `sm-xcvi.sell_through_data.transaction_union` LIMIT 10;
-```
-</Accordion>
-
-<Accordion title="drop_date_catalog_flag_processing">
-**Type:** BASE TABLE | **Queries (180d):** 211
-
-Custom data. Key columns: `dropdate`.
-
-[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2ssell_through_data!3sdrop_date_catalog_flag_processing)
-
-```sql
--- Preview data
-SELECT * FROM `sm-xcvi.sell_through_data.drop_date_catalog_flag_processing` LIMIT 10;
-```
-</Accordion>
-
 
 ### n41_mssql_data2
 
 <Accordion title="_sdc_primary_keys">
 **Type:** BASE TABLE | **Queries (180d):** 6,215
 
-Custom data.
+Custom data Key columns: `table_name, column_name`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sn41_mssql_data2!3s_sdc_primary_keys)
 
@@ -139,7 +58,7 @@ SELECT * FROM `sm-xcvi.n41_mssql_data2._sdc_primary_keys` LIMIT 10;
 <Accordion title="NVLT_POD">
 **Type:** BASE TABLE | **Queries (180d):** 1,856
 
-Custom data.
+Custom data Key columns: `sono, unit14, unit13, unit9, bundleperbox`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sn41_mssql_data2!3sNVLT_POD)
 
@@ -152,7 +71,7 @@ SELECT * FROM `sm-xcvi.n41_mssql_data2.NVLT_POD` LIMIT 10;
 <Accordion title="NVLT_INVD">
 **Type:** BASE TABLE | **Queries (180d):** 1,588
 
-Custom data. Key columns: `radid`.
+Custom data Key columns: `sono, unit14, radid, invoiceno, extprice`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sn41_mssql_data2!3sNVLT_INVD)
 
@@ -165,7 +84,7 @@ SELECT * FROM `sm-xcvi.n41_mssql_data2.NVLT_INVD` LIMIT 10;
 <Accordion title="NVLT_SOD">
 **Type:** BASE TABLE | **Queries (180d):** 1,425
 
-Custom data. Key columns: `canceldate`.
+Custom data Key columns: `canceldate, unit14, invoiceno, extprice, unit13`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sn41_mssql_data2!3sNVLT_SOD)
 
@@ -178,7 +97,7 @@ SELECT * FROM `sm-xcvi.n41_mssql_data2.NVLT_SOD` LIMIT 10;
 <Accordion title="NVLT_inventory">
 **Type:** BASE TABLE | **Queries (180d):** 1,377
 
-Custom data. Key columns: `inventoryid`.
+Custom data Key columns: `poclunit13, unit14, pr_line, unit13, damagereason`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sn41_mssql_data2!3sNVLT_inventory)
 
@@ -191,7 +110,7 @@ SELECT * FROM `sm-xcvi.n41_mssql_data2.NVLT_inventory` LIMIT 10;
 <Accordion title="NVLT_SOH">
 **Type:** BASE TABLE | **Queries (180d):** 1,119
 
-Custom data. Key columns: `canceldate`.
+Custom data Key columns: `canceldate, dc, memocode, comrate2, cit_app_code`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sn41_mssql_data2!3sNVLT_SOH)
 
@@ -204,7 +123,7 @@ SELECT * FROM `sm-xcvi.n41_mssql_data2.NVLT_SOH` LIMIT 10;
 <Accordion title="NVLT_customer">
 **Type:** BASE TABLE | **Queries (180d):** 941
 
-Customer-level data.
+Customer-level data Key columns: `web_password, fax1, salesrep1rate, memocode, user3`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sn41_mssql_data2!3sNVLT_customer)
 
@@ -217,7 +136,7 @@ SELECT * FROM `sm-xcvi.n41_mssql_data2.NVLT_customer` LIMIT 10;
 <Accordion title="NVLT_INV">
 **Type:** BASE TABLE | **Queries (180d):** 820
 
-Custom data. Key columns: `canceldate, currency_id`.
+Custom data Key columns: `total, canceldate, dc, comrate4, invoiceno`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sn41_mssql_data2!3sNVLT_INV)
 
@@ -230,7 +149,7 @@ SELECT * FROM `sm-xcvi.n41_mssql_data2.NVLT_INV` LIMIT 10;
 <Accordion title="NVLT_pickD">
 **Type:** BASE TABLE | **Queries (180d):** 817
 
-Custom data. Key columns: `sodid`.
+Custom data Key columns: `sono, unit14, unit13, unit9, pickno`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sn41_mssql_data2!3sNVLT_pickD)
 
@@ -243,7 +162,7 @@ SELECT * FROM `sm-xcvi.n41_mssql_data2.NVLT_pickD` LIMIT 10;
 <Accordion title="NVLT_SOSD">
 **Type:** BASE TABLE | **Queries (180d):** 772
 
-Custom data. Key columns: `canceldate, inventoryid, sodid`.
+Custom data Key columns: `canceldate, unit14, invoiceno, extprice, unit13`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sn41_mssql_data2!3sNVLT_SOSD)
 
@@ -256,7 +175,7 @@ SELECT * FROM `sm-xcvi.n41_mssql_data2.NVLT_SOSD` LIMIT 10;
 <Accordion title="NVLT_size">
 **Type:** BASE TABLE | **Queries (180d):** 760
 
-Custom data.
+Custom data Key columns: `size20, size14, size2, size24, size7`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sn41_mssql_data2!3sNVLT_size)
 
@@ -269,7 +188,7 @@ SELECT * FROM `sm-xcvi.n41_mssql_data2.NVLT_size` LIMIT 10;
 <Accordion title="NVLT_cancelReason">
 **Type:** BASE TABLE | **Queries (180d):** 365
 
-Custom data.
+Custom data Key columns: `code, descript, _sdc_received_at, _sdc_sequence, _sdc_batched_at`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sn41_mssql_data2!3sNVLT_cancelReason)
 
@@ -282,7 +201,7 @@ SELECT * FROM `sm-xcvi.n41_mssql_data2.NVLT_cancelReason` LIMIT 10;
 <Accordion title="NVLT_AllocateD">
 **Type:** BASE TABLE | **Queries (180d):** 186
 
-Custom data. Key columns: `sodid`.
+Custom data Key columns: `sono, unit14, unit13, unit9, pickno`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sn41_mssql_data2!3sNVLT_AllocateD)
 
@@ -293,12 +212,119 @@ SELECT * FROM `sm-xcvi.n41_mssql_data2.NVLT_AllocateD` LIMIT 10;
 </Accordion>
 
 
+### sell_through_data
+
+<Accordion title="xcvi_final_table">
+**Type:** BASE TABLE | **Queries (180d):** 12,059
+
+Custom data Key columns: `sm_store_id, transaction_date, sku, order_quantity, order_revenue`.
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2ssell_through_data!3sxcvi_final_table)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.sell_through_data.xcvi_final_table` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="inventory_spine_v3">
+**Type:** BASE TABLE | **Queries (180d):** 1,733
+
+Custom data Key columns: `date_index, sku, inventory_item_id, color, style`.
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2ssell_through_data!3sinventory_spine_v3)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.sell_through_data.inventory_spine_v3` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="ecom_so_qty_latest">
+**Type:** BASE TABLE | **Queries (180d):** 478
+
+Custom data Key columns: `Order_Number, Order_Type, SKU, Line_Number, Style_Code`.
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2ssell_through_data!3secom_so_qty_latest)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.sell_through_data.ecom_so_qty_latest` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="sku_date_combinations">
+**Type:** BASE TABLE | **Queries (180d):** 386
+
+Product/SKU-level data Key columns: `date_index, sku, inventory_item_id, color, style`.
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2ssell_through_data!3ssku_date_combinations)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.sell_through_data.sku_date_combinations` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="transaction_union">
+**Type:** BASE TABLE | **Queries (180d):** 218
+
+Custom data Key columns: `sm_store_id, transaction_date, sku, order_quantity, order_revenue`.
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2ssell_through_data!3stransaction_union)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.sell_through_data.transaction_union` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="drop_date_catalog_flag_processing">
+**Type:** BASE TABLE | **Queries (180d):** 211
+
+Custom data Key columns: `SKU, dropdate, catalog_flag, primary_product_image_url, product_tags`.
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2ssell_through_data!3sdrop_date_catalog_flag_processing)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.sell_through_data.drop_date_catalog_flag_processing` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="final_table_style_aggregate">
+**Type:** BASE TABLE | **Queries (180d):** 47
+
+Custom data Key columns: `inventory_style, sm_store_id, transaction_date, order_quantity, order_revenue`.
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2ssell_through_data!3sfinal_table_style_aggregate)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.sell_through_data.final_table_style_aggregate` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="ecom_inventory_spine">
+**Type:** BASE TABLE | **Queries (180d):** 11
+
+Custom data Key columns: `inventory_item_id, effective_date, available, sku`.
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2ssell_through_data!3secom_inventory_spine)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.sell_through_data.ecom_inventory_spine` LIMIT 10;
+```
+</Accordion>
+
+
 ### n41_data
 
 <Accordion title="_sdc_primary_keys">
 **Type:** BASE TABLE | **Queries (180d):** 4,997
 
-Custom data.
+Custom data Key columns: `table_name, column_name`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sn41_data!3s_sdc_primary_keys)
 
@@ -311,7 +337,7 @@ SELECT * FROM `sm-xcvi.n41_data._sdc_primary_keys` LIMIT 10;
 <Accordion title="NVLT_styleColor">
 **Type:** BASE TABLE | **Queries (180d):** 2,014
 
-Custom data.
+Custom data Key columns: `order4, vendorpart1, rawmattype, pick1, order15`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sn41_data!3sNVLT_styleColor)
 
@@ -324,7 +350,7 @@ SELECT * FROM `sm-xcvi.n41_data.NVLT_styleColor` LIMIT 10;
 <Accordion title="v_size_vertical">
 **Type:** BASE TABLE | **Queries (180d):** 675
 
-Custom data. Key columns: `__sdc_primary_key`.
+Custom data Key columns: `code, size, sorder, __sdc_primary_key, _sdc_received_at`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sn41_data!3sv_size_vertical)
 
@@ -337,7 +363,7 @@ SELECT * FROM `sm-xcvi.n41_data.v_size_vertical` LIMIT 10;
 <Accordion title="NVLT_color">
 **Type:** BASE TABLE | **Queries (180d):** 612
 
-Custom data.
+Custom data Key columns: `vendor, cuser, edi_descript, nrf, vendor_code2`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sn41_data!3sNVLT_color)
 
@@ -350,7 +376,7 @@ SELECT * FROM `sm-xcvi.n41_data.NVLT_color` LIMIT 10;
 <Accordion title="NVLT_UPC">
 **Type:** BASE TABLE | **Queries (180d):** 582
 
-Custom data. Key columns: `id, updateuser`.
+Custom data Key columns: `color_nrf, ptype, _sdc_table_version, style`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sn41_data!3sNVLT_UPC)
 
@@ -363,7 +389,7 @@ SELECT * FROM `sm-xcvi.n41_data.NVLT_UPC` LIMIT 10;
 <Accordion title="NVLT_division">
 **Type:** BASE TABLE | **Queries (180d):** 538
 
-Custom data.
+Custom data Key columns: `f_non_factor_pm, f_non_factor_cm, f_factor_inv, fax1, t_po`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sn41_data!3sNVLT_division)
 
@@ -376,7 +402,7 @@ SELECT * FROM `sm-xcvi.n41_data.NVLT_division` LIMIT 10;
 <Accordion title="NVLT_size">
 **Type:** BASE TABLE | **Queries (180d):** 366
 
-Custom data.
+Custom data Key columns: `size20, size14, size2, size24, size7`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sn41_data!3sNVLT_size)
 
@@ -389,7 +415,7 @@ SELECT * FROM `sm-xcvi.n41_data.NVLT_size` LIMIT 10;
 <Accordion title="NVLT_season">
 **Type:** BASE TABLE | **Queries (180d):** 328
 
-Custom data. Key columns: `todate, fromdate`.
+Custom data Key columns: `sort_code, todate, _sdc_table_version, _sdc_received_at, _sdc_sequence`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sn41_data!3sNVLT_season)
 
@@ -402,7 +428,7 @@ SELECT * FROM `sm-xcvi.n41_data.NVLT_season` LIMIT 10;
 <Accordion title="NVLT_POD">
 **Type:** BASE TABLE | **Queries (180d):** 300
 
-Custom data. Key columns: `sto_invdid, sodid`.
+Custom data Key columns: `sono, unit14, actual_cost_conf, unit13, unit9`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sn41_data!3sNVLT_POD)
 
@@ -413,417 +439,12 @@ SELECT * FROM `sm-xcvi.n41_data.NVLT_POD` LIMIT 10;
 </Accordion>
 
 
-### customized_views
-
-<Accordion title="SKU_RAW_N41">
-**Type:** BASE TABLE | **Queries (180d):** 3,822
-
-Product/SKU-level data. Key columns: `availabledate`.
-
-[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2scustomized_views!3sSKU_RAW_N41)
-
-```sql
--- Preview data
-SELECT * FROM `sm-xcvi.customized_views.SKU_RAW_N41` LIMIT 10;
-```
-</Accordion>
-
-<Accordion title="SKU_master_BQ">
-**Type:** BASE TABLE | **Queries (180d):** 769
-
-Product/SKU-level data. Key columns: `AVAILABLEDATE`.
-
-[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2scustomized_views!3sSKU_master_BQ)
-
-```sql
--- Preview data
-SELECT * FROM `sm-xcvi.customized_views.SKU_master_BQ` LIMIT 10;
-```
-</Accordion>
-
-<Accordion title="N41_Last_PO_Price">
-**Type:** VIEW | **Queries (180d):** 377
-
-Custom data.
-
-[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2scustomized_views!3sN41_Last_PO_Price)
-
-```sql
--- Preview data
-SELECT * FROM `sm-xcvi.customized_views.N41_Last_PO_Price` LIMIT 10;
-```
-</Accordion>
-
-<Accordion title="executive_sheet_source">
-**Type:** VIEW | **Queries (180d):** 232
-
-Custom data.
-
-[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2scustomized_views!3sexecutive_sheet_source)
-
-```sql
--- Preview data
-SELECT * FROM `sm-xcvi.customized_views.executive_sheet_source` LIMIT 10;
-```
-</Accordion>
-
-<Accordion title="N41_product_detail_wringerwear">
-**Type:** VIEW | **Queries (180d):** 186
-
-Product/SKU-level data.
-
-[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2scustomized_views!3sN41_product_detail_wringerwear)
-
-```sql
--- Preview data
-SELECT * FROM `sm-xcvi.customized_views.N41_product_detail_wringerwear` LIMIT 10;
-```
-</Accordion>
-
-<Accordion title="PO_Register_Detail-open-WIP">
-**Type:** BASE TABLE | **Queries (180d):** 174
-
-Custom data. Key columns: `row_uid, orderdate`.
-
-[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2scustomized_views!3sPO_Register_Detail-open-WIP)
-
-```sql
--- Preview data
-SELECT * FROM `sm-xcvi.customized_views.PO_Register_Detail-open-WIP` LIMIT 10;
-```
-</Accordion>
-
-<Accordion title="core_trend_dataset">
-**Type:** VIEW | **Queries (180d):** 52
-
-Custom data.
-
-[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2scustomized_views!3score_trend_dataset)
-
-```sql
--- Preview data
-SELECT * FROM `sm-xcvi.customized_views.core_trend_dataset` LIMIT 10;
-```
-</Accordion>
-
-
-### sm_sources
-
-<Accordion title="xcvi_product_images">
-**Type:** BASE TABLE | **Queries (180d):** 2,564
-
-Product/SKU-level data. Key columns: `sm_store_id`.
-
-[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2ssm_sources!3sxcvi_product_images)
-
-```sql
--- Preview data
-SELECT * FROM `sm-xcvi.sm_sources.xcvi_product_images` LIMIT 10;
-```
-</Accordion>
-
-<Accordion title="sm_inventory_tables">
-**Type:** BASE TABLE | **Queries (180d):** 417
-
-Custom data. Key columns: `smcid, sm_inventory_level_history_id, sm_inventory_level_hash_id, sm_channel, source_system`.
-
-[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2ssm_sources!3ssm_inventory_tables)
-
-```sql
--- Preview data
-SELECT * FROM `sm-xcvi.sm_sources.sm_inventory_tables` LIMIT 10;
-```
-</Accordion>
-
-
-### n41_mssql_data3
-
-<Accordion title="_sdc_primary_keys">
-**Type:** BASE TABLE | **Queries (180d):** 2,511
-
-Custom data.
-
-[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sn41_mssql_data3!3s_sdc_primary_keys)
-
-```sql
--- Preview data
-SELECT * FROM `sm-xcvi.n41_mssql_data3._sdc_primary_keys` LIMIT 10;
-```
-</Accordion>
-
-<Accordion title="NVLT_POH">
-**Type:** BASE TABLE | **Queries (180d):** 1,013
-
-Custom data. Key columns: `bldate, onboarddate, canceldate`.
-
-[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sn41_mssql_data3!3sNVLT_POH)
-
-```sql
--- Preview data
-SELECT * FROM `sm-xcvi.n41_mssql_data3.NVLT_POH` LIMIT 10;
-```
-</Accordion>
-
-<Accordion title="NVLT_INVENTORY_BY_WH">
-**Type:** BASE TABLE | **Queries (180d):** 789
-
-Custom data.
-
-[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sn41_mssql_data3!3sNVLT_INVENTORY_BY_WH)
-
-```sql
--- Preview data
-SELECT * FROM `sm-xcvi.n41_mssql_data3.NVLT_INVENTORY_BY_WH` LIMIT 10;
-```
-</Accordion>
-
-<Accordion title="NVLT_pickH">
-**Type:** BASE TABLE | **Queries (180d):** 603
-
-Custom data. Key columns: `canceldate, lastprintdate`.
-
-[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sn41_mssql_data3!3sNVLT_pickH)
-
-```sql
--- Preview data
-SELECT * FROM `sm-xcvi.n41_mssql_data3.NVLT_pickH` LIMIT 10;
-```
-</Accordion>
-
-<Accordion title="NVLT_SOD_LOG">
-**Type:** BASE TABLE | **Queries (180d):** 366
-
-Custom data. Key columns: `canceldate`.
-
-[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sn41_mssql_data3!3sNVLT_SOD_LOG)
-
-```sql
--- Preview data
-SELECT * FROM `sm-xcvi.n41_mssql_data3.NVLT_SOD_LOG` LIMIT 10;
-```
-</Accordion>
-
-<Accordion title="NVLT_AllocateD">
-**Type:** BASE TABLE | **Queries (180d):** 350
-
-Custom data. Key columns: `sodid`.
-
-[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sn41_mssql_data3!3sNVLT_AllocateD)
-
-```sql
--- Preview data
-SELECT * FROM `sm-xcvi.n41_mssql_data3.NVLT_AllocateD` LIMIT 10;
-```
-</Accordion>
-
-
-### snowflake_data
-
-<Accordion title="SKU_MASTER1">
-**Type:** BASE TABLE | **Queries (180d):** 1,299
-
-Product/SKU-level data. Key columns: `AVAILABLEDATE`.
-
-[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2ssnowflake_data!3sSKU_MASTER1)
-
-```sql
--- Preview data
-SELECT * FROM `sm-xcvi.snowflake_data.SKU_MASTER1` LIMIT 10;
-```
-</Accordion>
-
-<Accordion title="TFT_SKU">
-**Type:** BASE TABLE | **Queries (180d):** 233
-
-Product/SKU-level data. Key columns: `ID, PRODUCT_ID, INV_ID`.
-
-[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2ssnowflake_data!3sTFT_SKU)
-
-```sql
--- Preview data
-SELECT * FROM `sm-xcvi.snowflake_data.TFT_SKU` LIMIT 10;
-```
-</Accordion>
-
-<Accordion title="XC_SHOPIFY_SKU1">
-**Type:** BASE TABLE | **Queries (180d):** 233
-
-Product/SKU-level data from Shopify. Key columns: `ID, PRODUCT_ID, INV_ID`.
-
-[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2ssnowflake_data!3sXC_SHOPIFY_SKU1)
-
-```sql
--- Preview data
-SELECT * FROM `sm-xcvi.snowflake_data.XC_SHOPIFY_SKU1` LIMIT 10;
-```
-</Accordion>
-
-<Accordion title="N41_ECOM_SO">
-**Type:** BASE TABLE | **Queries (180d):** 73
-
-Custom data. Key columns: `ORDERDATE`.
-
-[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2ssnowflake_data!3sN41_ECOM_SO)
-
-```sql
--- Preview data
-SELECT * FROM `sm-xcvi.snowflake_data.N41_ECOM_SO` LIMIT 10;
-```
-</Accordion>
-
-
-### N41_created_reports
-
-<Accordion title="N41_Inventory_Vertical">
-**Type:** BASE TABLE | **Queries (180d):** 1,208
-
-Custom data.
-
-[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sN41_created_reports!3sN41_Inventory_Vertical)
-
-```sql
--- Preview data
-SELECT * FROM `sm-xcvi.N41_created_reports.N41_Inventory_Vertical` LIMIT 10;
-```
-</Accordion>
-
-<Accordion title="v_so_detail_by_wh">
-**Type:** BASE TABLE | **Queries (180d):** 391
-
-Custom data.
-
-[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sN41_created_reports!3sv_so_detail_by_wh)
-
-```sql
--- Preview data
-SELECT * FROM `sm-xcvi.N41_created_reports.v_so_detail_by_wh` LIMIT 10;
-```
-</Accordion>
-
-<Accordion title="v_po_detail_by_wh">
-**Type:** BASE TABLE | **Queries (180d):** 387
-
-Custom data.
-
-[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sN41_created_reports!3sv_po_detail_by_wh)
-
-```sql
--- Preview data
-SELECT * FROM `sm-xcvi.N41_created_reports.v_po_detail_by_wh` LIMIT 10;
-```
-</Accordion>
-
-<Accordion title="v_cm_inventory_wh">
-**Type:** BASE TABLE | **Queries (180d):** 375
-
-Custom data.
-
-[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sN41_created_reports!3sv_cm_inventory_wh)
-
-```sql
--- Preview data
-SELECT * FROM `sm-xcvi.N41_created_reports.v_cm_inventory_wh` LIMIT 10;
-```
-</Accordion>
-
-<Accordion title="v_inv_inventory_wh">
-**Type:** BASE TABLE | **Queries (180d):** 375
-
-Custom data.
-
-[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sN41_created_reports!3sv_inv_inventory_wh)
-
-```sql
--- Preview data
-SELECT * FROM `sm-xcvi.N41_created_reports.v_inv_inventory_wh` LIMIT 10;
-```
-</Accordion>
-
-<Accordion title="v_inventory_position_by_wh">
-**Type:** BASE TABLE | **Queries (180d):** 367
-
-Custom data.
-
-[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sN41_created_reports!3sv_inventory_position_by_wh)
-
-```sql
--- Preview data
-SELECT * FROM `sm-xcvi.N41_created_reports.v_inventory_position_by_wh` LIMIT 10;
-```
-</Accordion>
-
-<Accordion title="v_sales_by_quarter_sotype_division_alldetail">
-**Type:** BASE TABLE | **Queries (180d):** 192
-
-Custom data.
-
-[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sN41_created_reports!3sv_sales_by_quarter_sotype_division_alldetail)
-
-```sql
--- Preview data
-SELECT * FROM `sm-xcvi.N41_created_reports.v_sales_by_quarter_sotype_division_alldetail` LIMIT 10;
-```
-</Accordion>
-
-<Accordion title="v_sos_stylecolor_wh">
-**Type:** BASE TABLE | **Queries (180d):** 181
-
-Custom data.
-
-[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sN41_created_reports!3sv_sos_stylecolor_wh)
-
-```sql
--- Preview data
-SELECT * FROM `sm-xcvi.N41_created_reports.v_sos_stylecolor_wh` LIMIT 10;
-```
-</Accordion>
-
-<Accordion title="v_pick_stylecolor_wh">
-**Type:** BASE TABLE | **Queries (180d):** 181
-
-Custom data.
-
-[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sN41_created_reports!3sv_pick_stylecolor_wh)
-
-```sql
--- Preview data
-SELECT * FROM `sm-xcvi.N41_created_reports.v_pick_stylecolor_wh` LIMIT 10;
-```
-</Accordion>
-
-<Accordion title="v_alloc_stylecolor_wh">
-**Type:** BASE TABLE | **Queries (180d):** 181
-
-Custom data.
-
-[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sN41_created_reports!3sv_alloc_stylecolor_wh)
-
-```sql
--- Preview data
-SELECT * FROM `sm-xcvi.N41_created_reports.v_alloc_stylecolor_wh` LIMIT 10;
-```
-</Accordion>
-
-<Accordion title="Aida_SeasondateV2">
-**Type:** BASE TABLE | **Queries (180d):** 57
-
-Custom data.
-
-[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sN41_created_reports!3sAida_SeasondateV2)
-
-```sql
--- Preview data
-SELECT * FROM `sm-xcvi.N41_created_reports.Aida_SeasondateV2` LIMIT 10;
-```
-</Accordion>
-
-
 ### so_detail_pipeline
 
 <Accordion title="invd">
 **Type:** BASE TABLE | **Queries (180d):** 916
 
-Custom data. Key columns: `radid`.
+Custom data Key columns: `sono, unit14, radid, invoiceno, extprice`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sso_detail_pipeline!3sinvd)
 
@@ -836,7 +457,7 @@ SELECT * FROM `sm-xcvi.so_detail_pipeline.invd` LIMIT 10;
 <Accordion title="sosd">
 **Type:** BASE TABLE | **Queries (180d):** 623
 
-Custom data. Key columns: `canceldate, inventoryid, sodid`.
+Custom data Key columns: `canceldate, unit14, invoiceno, extprice, unit13`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sso_detail_pipeline!3ssosd)
 
@@ -849,7 +470,7 @@ SELECT * FROM `sm-xcvi.so_detail_pipeline.sosd` LIMIT 10;
 <Accordion title="inv">
 **Type:** BASE TABLE | **Queries (180d):** 619
 
-Custom data. Key columns: `canceldate, currency_id`.
+Custom data Key columns: `total, canceldate, dc, comrate4, invoiceno`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sso_detail_pipeline!3sinv)
 
@@ -862,7 +483,7 @@ SELECT * FROM `sm-xcvi.so_detail_pipeline.inv` LIMIT 10;
 <Accordion title="allocated">
 **Type:** BASE TABLE | **Queries (180d):** 613
 
-Custom data. Key columns: `sodid`.
+Custom data Key columns: `sono, unit14, unit13, unit9, pickno`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sso_detail_pipeline!3sallocated)
 
@@ -875,7 +496,7 @@ SELECT * FROM `sm-xcvi.so_detail_pipeline.allocated` LIMIT 10;
 <Accordion title="sod">
 **Type:** BASE TABLE | **Queries (180d):** 472
 
-Custom data. Key columns: `canceldate`.
+Custom data Key columns: `canceldate, unit14, invoiceno, extprice, unit13`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sso_detail_pipeline!3ssod)
 
@@ -888,7 +509,7 @@ SELECT * FROM `sm-xcvi.so_detail_pipeline.sod` LIMIT 10;
 <Accordion title="soh">
 **Type:** BASE TABLE | **Queries (180d):** 469
 
-Custom data. Key columns: `canceldate`.
+Custom data Key columns: `canceldate, dc, memocode, comrate2, cit_app_code`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sso_detail_pipeline!3ssoh)
 
@@ -901,7 +522,7 @@ SELECT * FROM `sm-xcvi.so_detail_pipeline.soh` LIMIT 10;
 <Accordion title="stylecolor">
 **Type:** BASE TABLE | **Queries (180d):** 467
 
-Custom data.
+Custom data Key columns: `order4, vendorpart1, rawmattype, pick1, order15`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sso_detail_pipeline!3sstylecolor)
 
@@ -914,7 +535,7 @@ SELECT * FROM `sm-xcvi.so_detail_pipeline.stylecolor` LIMIT 10;
 <Accordion title="pickh">
 **Type:** BASE TABLE | **Queries (180d):** 463
 
-Custom data. Key columns: `canceldate, lastprintdate`.
+Custom data Key columns: `sono, canceldate, user3, user2, pickno`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sso_detail_pipeline!3spickh)
 
@@ -927,7 +548,7 @@ SELECT * FROM `sm-xcvi.so_detail_pipeline.pickh` LIMIT 10;
 <Accordion title="size_dedup">
 **Type:** BASE TABLE | **Queries (180d):** 463
 
-Custom data.
+Custom data Key columns: `size20, size14, size2, size24, size7`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sso_detail_pipeline!3ssize_dedup)
 
@@ -940,7 +561,7 @@ SELECT * FROM `sm-xcvi.so_detail_pipeline.size_dedup` LIMIT 10;
 <Accordion title="customer">
 **Type:** BASE TABLE | **Queries (180d):** 463
 
-Customer-level data.
+Customer-level data Key columns: `web_password, fax1, salesrep1rate, memocode, user3`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sso_detail_pipeline!3scustomer)
 
@@ -953,7 +574,7 @@ SELECT * FROM `sm-xcvi.so_detail_pipeline.customer` LIMIT 10;
 <Accordion title="so_detail_final">
 **Type:** BASE TABLE | **Queries (180d):** 460
 
-Custom data. Key columns: `orderdate, shipdate, canceldate`.
+Custom data Key columns: `orderno, orderType, division, orderdate, shipdate`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sso_detail_pipeline!3sso_detail_final)
 
@@ -966,7 +587,7 @@ SELECT * FROM `sm-xcvi.so_detail_pipeline.so_detail_final` LIMIT 10;
 <Accordion title="agg_po_metrics">
 **Type:** BASE TABLE | **Queries (180d):** 460
 
-Metrics definitions.
+Metrics definitions Key columns: `pono, style, color, po_qty, po_price`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sso_detail_pipeline!3sagg_po_metrics)
 
@@ -979,7 +600,7 @@ SELECT * FROM `sm-xcvi.so_detail_pipeline.agg_po_metrics` LIMIT 10;
 <Accordion title="agg_invd_by_sod">
 **Type:** BASE TABLE | **Queries (180d):** 459
 
-Custom data. Key columns: `sodid`.
+Custom data Key columns: `sodid, inv_qty, inv_amt`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sso_detail_pipeline!3sagg_invd_by_sod)
 
@@ -992,7 +613,7 @@ SELECT * FROM `sm-xcvi.so_detail_pipeline.agg_invd_by_sod` LIMIT 10;
 <Accordion title="agg_inv_hdr">
 **Type:** BASE TABLE | **Queries (180d):** 459
 
-Custom data. Key columns: `invoicedate`.
+Custom data Key columns: `sono, invoiceno, cmno, invoicedate, inv_status`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sso_detail_pipeline!3sagg_inv_hdr)
 
@@ -1005,7 +626,7 @@ SELECT * FROM `sm-xcvi.so_detail_pipeline.agg_inv_hdr` LIMIT 10;
 <Accordion title="agg_alloc">
 **Type:** BASE TABLE | **Queries (180d):** 459
 
-Custom data. Key columns: `sodid`.
+Custom data Key columns: `sodid, allo_qty`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sso_detail_pipeline!3sagg_alloc)
 
@@ -1018,7 +639,7 @@ SELECT * FROM `sm-xcvi.so_detail_pipeline.agg_alloc` LIMIT 10;
 <Accordion title="agg_ship">
 **Type:** BASE TABLE | **Queries (180d):** 459
 
-Custom data. Key columns: `sodid`.
+Custom data Key columns: `sodid, ship_qty`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sso_detail_pipeline!3sagg_ship)
 
@@ -1031,7 +652,7 @@ SELECT * FROM `sm-xcvi.so_detail_pipeline.agg_ship` LIMIT 10;
 <Accordion title="agg_po_eta">
 **Type:** BASE TABLE | **Queries (180d):** 459
 
-Custom data.
+Custom data Key columns: `style, color, last_open_eta, first_open_eta`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sso_detail_pipeline!3sagg_po_eta)
 
@@ -1044,7 +665,7 @@ SELECT * FROM `sm-xcvi.so_detail_pipeline.agg_po_eta` LIMIT 10;
 <Accordion title="agg_invd_by_sono_sod">
 **Type:** BASE TABLE | **Queries (180d):** 459
 
-Custom data. Key columns: `sodid`.
+Custom data Key columns: `sono, sodid, invUnit1, invUnit2, invUnit3`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sso_detail_pipeline!3sagg_invd_by_sono_sod)
 
@@ -1057,7 +678,7 @@ SELECT * FROM `sm-xcvi.so_detail_pipeline.agg_invd_by_sono_sod` LIMIT 10;
 <Accordion title="agg_pick">
 **Type:** BASE TABLE | **Queries (180d):** 459
 
-Custom data. Key columns: `sodid`.
+Custom data Key columns: `sodid, pick_qty`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sso_detail_pipeline!3sagg_pick)
 
@@ -1070,7 +691,7 @@ SELECT * FROM `sm-xcvi.so_detail_pipeline.agg_pick` LIMIT 10;
 <Accordion title="agg_last_received">
 **Type:** BASE TABLE | **Queries (180d):** 459
 
-Custom data. Key columns: `last_received_date`.
+Custom data Key columns: `style, color, last_received_date`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sso_detail_pipeline!3sagg_last_received)
 
@@ -1081,12 +702,213 @@ SELECT * FROM `sm-xcvi.so_detail_pipeline.agg_last_received` LIMIT 10;
 </Accordion>
 
 
+### n41_mssql_data3
+
+<Accordion title="_sdc_primary_keys">
+**Type:** BASE TABLE | **Queries (180d):** 2,511
+
+Custom data Key columns: `table_name, column_name`.
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sn41_mssql_data3!3s_sdc_primary_keys)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.n41_mssql_data3._sdc_primary_keys` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="NVLT_POH">
+**Type:** BASE TABLE | **Queries (180d):** 1,013
+
+Custom data Key columns: `house_only, sono, bldate, onboarddate, canceldate`.
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sn41_mssql_data3!3sNVLT_POH)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.n41_mssql_data3.NVLT_POH` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="NVLT_INVENTORY_BY_WH">
+**Type:** BASE TABLE | **Queries (180d):** 789
+
+Custom data Key columns: `oh1, recalcupddt, warehouse, inventoryupddt, oh3`.
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sn41_mssql_data3!3sNVLT_INVENTORY_BY_WH)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.n41_mssql_data3.NVLT_INVENTORY_BY_WH` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="NVLT_pickH">
+**Type:** BASE TABLE | **Queries (180d):** 603
+
+Custom data Key columns: `sono, canceldate, user3, user2, pickno`.
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sn41_mssql_data3!3sNVLT_pickH)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.n41_mssql_data3.NVLT_pickH` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="NVLT_SOD_LOG">
+**Type:** BASE TABLE | **Queries (180d):** 366
+
+Custom data Key columns: `canceldate, unit14, invoiceno, extprice, unit13`.
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sn41_mssql_data3!3sNVLT_SOD_LOG)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.n41_mssql_data3.NVLT_SOD_LOG` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="NVLT_AllocateD">
+**Type:** BASE TABLE | **Queries (180d):** 350
+
+Custom data Key columns: `sono, unit14, unit13, unit9, pickno`.
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sn41_mssql_data3!3sNVLT_AllocateD)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.n41_mssql_data3.NVLT_AllocateD` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="NVLT_customer_div">
+**Type:** BASE TABLE | **Queries (180d):** 40
+
+Customer-level data Key columns: `customer, _sdc_table_version, _sdc_received_at, _sdc_sequence, _sdc_batched_at`.
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sn41_mssql_data3!3sNVLT_customer_div)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.n41_mssql_data3.NVLT_customer_div` LIMIT 10;
+```
+</Accordion>
+
+
+### customized_views
+
+<Accordion title="SKU_RAW_N41">
+**Type:** BASE TABLE | **Queries (180d):** 3,822
+
+Product/SKU-level data Key columns: `sku, style, color, color_description, size`.
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2scustomized_views!3sSKU_RAW_N41)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.customized_views.SKU_RAW_N41` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="SKU_master_BQ">
+**Type:** BASE TABLE | **Queries (180d):** 769
+
+Product/SKU-level data Key columns: `SKU, STYLE, COLOR, COLOR_DESCRIPTION, SIZE`.
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2scustomized_views!3sSKU_master_BQ)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.customized_views.SKU_master_BQ` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="N41_Last_PO_Price">
+**Type:** VIEW | **Queries (180d):** 377
+
+Custom data
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2scustomized_views!3sN41_Last_PO_Price)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.customized_views.N41_Last_PO_Price` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="executive_sheet_source">
+**Type:** VIEW | **Queries (180d):** 232
+
+Custom data
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2scustomized_views!3sexecutive_sheet_source)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.customized_views.executive_sheet_source` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="N41_product_detail_wringerwear">
+**Type:** VIEW | **Queries (180d):** 186
+
+Product/SKU-level data
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2scustomized_views!3sN41_product_detail_wringerwear)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.customized_views.N41_product_detail_wringerwear` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="PO_Register_Detail-open-WIP">
+**Type:** BASE TABLE | **Queries (180d):** 174
+
+Custom data Key columns: `row_uid, pono, pod_status, poh_status, orderdate`.
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2scustomized_views!3sPO_Register_Detail-open-WIP)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.customized_views.PO_Register_Detail-open-WIP` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="core_trend_dataset">
+**Type:** VIEW | **Queries (180d):** 52
+
+Custom data
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2scustomized_views!3score_trend_dataset)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.customized_views.core_trend_dataset` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="latest_product_cost_by_sku">
+**Type:** BASE TABLE | **Queries (180d):** 7
+
+Product/SKU-level data Key columns: `sku, inventory_item_id, product_cost`.
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2scustomized_views!3slatest_product_cost_by_sku)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.customized_views.latest_product_cost_by_sku` LIMIT 10;
+```
+</Accordion>
+
+
 ### sell_through_pipeline
 
 <Accordion title="sell_through_pipeline_final_table">
 **Type:** BASE TABLE | **Queries (180d):** 912
 
-Custom data. Key columns: `transaction_date, sm_store_id, order_revenue, refund_revenue`.
+Custom data Key columns: `transaction_date, sku, sm_store_id, order_quantity, order_revenue`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2ssell_through_pipeline!3ssell_through_pipeline_final_table)
 
@@ -1099,7 +921,7 @@ SELECT * FROM `sm-xcvi.sell_through_pipeline.sell_through_pipeline_final_table` 
 <Accordion title="sku_master_BQ_pipeline">
 **Type:** BASE TABLE | **Queries (180d):** 568
 
-Product/SKU-level data. Key columns: `AVAILABLEDATE`.
+Product/SKU-level data Key columns: `SKU, STYLE, COLOR, COLOR_DESCRIPTION, SIZE`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2ssell_through_pipeline!3ssku_master_BQ_pipeline)
 
@@ -1112,7 +934,7 @@ SELECT * FROM `sm-xcvi.sell_through_pipeline.sku_master_BQ_pipeline` LIMIT 10;
 <Accordion title="ecom_inventory_spine">
 **Type:** BASE TABLE | **Queries (180d):** 518
 
-Custom data. Key columns: `date_index, inventory_item_id, updated_at`.
+Custom data Key columns: `date_index, sku, inventory_item_id, color, style`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2ssell_through_pipeline!3secom_inventory_spine)
 
@@ -1125,7 +947,7 @@ SELECT * FROM `sm-xcvi.sell_through_pipeline.ecom_inventory_spine` LIMIT 10;
 <Accordion title="sku_date_combinations">
 **Type:** BASE TABLE | **Queries (180d):** 429
 
-Product/SKU-level data. Key columns: `date_index, inventory_item_id`.
+Product/SKU-level data Key columns: `date_index, sku, inventory_item_id, color, style`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2ssell_through_pipeline!3ssku_date_combinations)
 
@@ -1138,7 +960,7 @@ SELECT * FROM `sm-xcvi.sell_through_pipeline.sku_date_combinations` LIMIT 10;
 <Accordion title="pipeline_transaction_union">
 **Type:** BASE TABLE | **Queries (180d):** 405
 
-Custom data. Key columns: `sm_store_id, transaction_date, order_revenue, refund_revenue`.
+Custom data Key columns: `sm_store_id, transaction_date, sku, order_quantity, order_revenue`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2ssell_through_pipeline!3spipeline_transaction_union)
 
@@ -1151,7 +973,7 @@ SELECT * FROM `sm-xcvi.sell_through_pipeline.pipeline_transaction_union` LIMIT 1
 <Accordion title="drop_date_catalog_processing">
 **Type:** BASE TABLE | **Queries (180d):** 275
 
-Custom data. Key columns: `dropdate`.
+Custom data Key columns: `SKU, dropdate, catalog_flag, primary_product_image_url, product_tags`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2ssell_through_pipeline!3sdrop_date_catalog_processing)
 
@@ -1164,7 +986,7 @@ SELECT * FROM `sm-xcvi.sell_through_pipeline.drop_date_catalog_processing` LIMIT
 <Accordion title="NVLT_UPC_deduped">
 **Type:** BASE TABLE | **Queries (180d):** 263
 
-Custom data. Key columns: `id, updateuser`.
+Custom data Key columns: `color_nrf, ptype, _sdc_table_version, style`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2ssell_through_pipeline!3sNVLT_UPC_deduped)
 
@@ -1177,7 +999,7 @@ SELECT * FROM `sm-xcvi.sell_through_pipeline.NVLT_UPC_deduped` LIMIT 10;
 <Accordion title="NVLT_season_deduped">
 **Type:** BASE TABLE | **Queries (180d):** 260
 
-Custom data. Key columns: `todate, fromdate`.
+Custom data Key columns: `sort_code, todate, _sdc_table_version, _sdc_received_at, _sdc_sequence`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2ssell_through_pipeline!3sNVLT_season_deduped)
 
@@ -1190,7 +1012,7 @@ SELECT * FROM `sm-xcvi.sell_through_pipeline.NVLT_season_deduped` LIMIT 10;
 <Accordion title="nvlt_division_deduped">
 **Type:** BASE TABLE | **Queries (180d):** 260
 
-Custom data.
+Custom data Key columns: `f_non_factor_pm, f_non_factor_cm, f_factor_inv, fax1, t_po`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2ssell_through_pipeline!3snvlt_division_deduped)
 
@@ -1203,7 +1025,7 @@ SELECT * FROM `sm-xcvi.sell_through_pipeline.nvlt_division_deduped` LIMIT 10;
 <Accordion title="sku_raw_n41">
 **Type:** BASE TABLE | **Queries (180d):** 260
 
-Product/SKU-level data. Key columns: `availabledate`.
+Product/SKU-level data Key columns: `sku, style, color, color_description, size`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2ssell_through_pipeline!3ssku_raw_n41)
 
@@ -1216,7 +1038,7 @@ SELECT * FROM `sm-xcvi.sell_through_pipeline.sku_raw_n41` LIMIT 10;
 <Accordion title="v_size_vertical_deduped">
 **Type:** BASE TABLE | **Queries (180d):** 260
 
-Custom data. Key columns: `__sdc_primary_key`.
+Custom data Key columns: `code, size, sorder, __sdc_primary_key, _sdc_received_at`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2ssell_through_pipeline!3sv_size_vertical_deduped)
 
@@ -1226,13 +1048,185 @@ SELECT * FROM `sm-xcvi.sell_through_pipeline.v_size_vertical_deduped` LIMIT 10;
 ```
 </Accordion>
 
+<Accordion title="sku_master_BQ_st_pipeline">
+**Type:** BASE TABLE | **Queries (180d):** 7
+
+Product/SKU-level data Key columns: `SKU, STYLE, COLOR, COLOR_DESCRIPTION, SIZE`.
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2ssell_through_pipeline!3ssku_master_BQ_st_pipeline)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.sell_through_pipeline.sku_master_BQ_st_pipeline` LIMIT 10;
+```
+</Accordion>
+
+
+### N41_created_reports
+
+<Accordion title="N41_Inventory_Vertical">
+**Type:** BASE TABLE | **Queries (180d):** 1,208
+
+Custom data Key columns: `SKU, Style, Color, category, Color_Desc`.
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sN41_created_reports!3sN41_Inventory_Vertical)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.N41_created_reports.N41_Inventory_Vertical` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="v_so_detail_by_wh">
+**Type:** BASE TABLE | **Queries (180d):** 391
+
+Custom data Key columns: `style, color, wh, onorder1, onorder2`.
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sN41_created_reports!3sv_so_detail_by_wh)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.N41_created_reports.v_so_detail_by_wh` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="v_po_detail_by_wh">
+**Type:** BASE TABLE | **Queries (180d):** 387
+
+Custom data Key columns: `style, color, wh, wip1, wip2`.
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sN41_created_reports!3sv_po_detail_by_wh)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.N41_created_reports.v_po_detail_by_wh` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="v_cm_inventory_wh">
+**Type:** BASE TABLE | **Queries (180d):** 375
+
+Custom data Key columns: `style, color, wh, unit1, unit2`.
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sN41_created_reports!3sv_cm_inventory_wh)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.N41_created_reports.v_cm_inventory_wh` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="v_inv_inventory_wh">
+**Type:** BASE TABLE | **Queries (180d):** 375
+
+Custom data Key columns: `style, color, wh, unit1, unit2`.
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sN41_created_reports!3sv_inv_inventory_wh)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.N41_created_reports.v_inv_inventory_wh` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="v_inventory_position_by_wh">
+**Type:** BASE TABLE | **Queries (180d):** 367
+
+Custom data Key columns: `style, color, category, color_desc, price1`.
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sN41_created_reports!3sv_inventory_position_by_wh)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.N41_created_reports.v_inventory_position_by_wh` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="v_sales_by_quarter_sotype_division_alldetail">
+**Type:** BASE TABLE | **Queries (180d):** 192
+
+Custom data Key columns: `customer_code, customer_name, division, so_type, year`.
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sN41_created_reports!3sv_sales_by_quarter_sotype_division_alldetail)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.N41_created_reports.v_sales_by_quarter_sotype_division_alldetail` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="v_sos_stylecolor_wh">
+**Type:** BASE TABLE | **Queries (180d):** 181
+
+Custom data Key columns: `style, color, wh, unit1, unit2`.
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sN41_created_reports!3sv_sos_stylecolor_wh)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.N41_created_reports.v_sos_stylecolor_wh` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="v_pick_stylecolor_wh">
+**Type:** BASE TABLE | **Queries (180d):** 181
+
+Custom data Key columns: `style, color, wh, unit1, unit2`.
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sN41_created_reports!3sv_pick_stylecolor_wh)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.N41_created_reports.v_pick_stylecolor_wh` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="v_alloc_stylecolor_wh">
+**Type:** BASE TABLE | **Queries (180d):** 181
+
+Custom data Key columns: `style, color, wh, unit1, unit2`.
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sN41_created_reports!3sv_alloc_stylecolor_wh)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.N41_created_reports.v_alloc_stylecolor_wh` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="Aida_SeasondateV2">
+**Type:** BASE TABLE | **Queries (180d):** 57
+
+Custom data Key columns: `Contact1, Adress1, State, Dvision, Customer_Type`.
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sN41_created_reports!3sAida_SeasondateV2)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.N41_created_reports.Aida_SeasondateV2` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="v_inv_detail_2_4NORDDROP">
+**Type:** VIEW | **Queries (180d):** 3
+
+Custom data
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sN41_created_reports!3sv_inv_detail_2_4NORDDROP)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.N41_created_reports.v_inv_detail_2_4NORDDROP` LIMIT 10;
+```
+</Accordion>
+
 
 ### v_inventory_pos_by_wh
 
 <Accordion title="v_deduped_stylecolor">
 **Type:** BASE TABLE | **Queries (180d):** 528
 
-Custom data.
+Custom data Key columns: `order4, vendorpart1, rawmattype, pick1, order15`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sv_inventory_pos_by_wh!3sv_deduped_stylecolor)
 
@@ -1245,7 +1239,7 @@ SELECT * FROM `sm-xcvi.v_inventory_pos_by_wh.v_deduped_stylecolor` LIMIT 10;
 <Accordion title="v_deduped_color">
 **Type:** BASE TABLE | **Queries (180d):** 523
 
-Custom data.
+Custom data Key columns: `code, descript, _sdc_batched_at`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sv_inventory_pos_by_wh!3sv_deduped_color)
 
@@ -1258,7 +1252,7 @@ SELECT * FROM `sm-xcvi.v_inventory_pos_by_wh.v_deduped_color` LIMIT 10;
 <Accordion title="v_deduped_inventory_wh">
 **Type:** BASE TABLE | **Queries (180d):** 395
 
-Custom data.
+Custom data Key columns: `oh1, recalcupddt, warehouse, inventoryupddt, oh3`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sv_inventory_pos_by_wh!3sv_deduped_inventory_wh)
 
@@ -1271,7 +1265,7 @@ SELECT * FROM `sm-xcvi.v_inventory_pos_by_wh.v_deduped_inventory_wh` LIMIT 10;
 <Accordion title="v_deduped_size">
 **Type:** BASE TABLE | **Queries (180d):** 395
 
-Custom data.
+Custom data Key columns: `size20, size14, size2, size24, size7`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sv_inventory_pos_by_wh!3sv_deduped_size)
 
@@ -1284,7 +1278,7 @@ SELECT * FROM `sm-xcvi.v_inventory_pos_by_wh.v_deduped_size` LIMIT 10;
 <Accordion title="v_invoice_by_wh">
 **Type:** BASE TABLE | **Queries (180d):** 394
 
-Custom data.
+Custom data Key columns: `style, color, warehouse, inv_unit1, inv_unit2`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sv_inventory_pos_by_wh!3sv_invoice_by_wh)
 
@@ -1297,7 +1291,7 @@ SELECT * FROM `sm-xcvi.v_inventory_pos_by_wh.v_invoice_by_wh` LIMIT 10;
 <Accordion title="v_first_eta">
 **Type:** BASE TABLE | **Queries (180d):** 393
 
-Custom data.
+Custom data Key columns: `style, color, first_eta`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sv_inventory_pos_by_wh!3sv_first_eta)
 
@@ -1310,7 +1304,7 @@ SELECT * FROM `sm-xcvi.v_inventory_pos_by_wh.v_first_eta` LIMIT 10;
 <Accordion title="v_cm_by_wh">
 **Type:** BASE TABLE | **Queries (180d):** 393
 
-Custom data.
+Custom data Key columns: `style, color, warehouse, cm_unit1, cm_unit2`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sv_inventory_pos_by_wh!3sv_cm_by_wh)
 
@@ -1323,7 +1317,7 @@ SELECT * FROM `sm-xcvi.v_inventory_pos_by_wh.v_cm_by_wh` LIMIT 10;
 <Accordion title="v_deduped_pod">
 **Type:** BASE TABLE | **Queries (180d):** 383
 
-Custom data.
+Custom data Key columns: `sono, unit14, unit13, unit9, bundleperbox`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sv_inventory_pos_by_wh!3sv_deduped_pod)
 
@@ -1336,7 +1330,7 @@ SELECT * FROM `sm-xcvi.v_inventory_pos_by_wh.v_deduped_pod` LIMIT 10;
 <Accordion title="v_inventory_pos_by_wh">
 **Type:** BASE TABLE | **Queries (180d):** 338
 
-Custom data.
+Custom data Key columns: `style, color, category, color_desc, price1`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sv_inventory_pos_by_wh!3sv_inventory_pos_by_wh)
 
@@ -1347,12 +1341,135 @@ SELECT * FROM `sm-xcvi.v_inventory_pos_by_wh.v_inventory_pos_by_wh` LIMIT 10;
 </Accordion>
 
 
+### sm_sources
+
+<Accordion title="xcvi_product_images">
+**Type:** BASE TABLE | **Queries (180d):** 2,564
+
+Product/SKU-level data Key columns: `sku, image_url, sm_store_id`.
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2ssm_sources!3sxcvi_product_images)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.sm_sources.xcvi_product_images` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="sm_inventory_tables">
+**Type:** BASE TABLE | **Queries (180d):** 417
+
+Custom data Key columns: `smcid, sm_inventory_level_history_id, sm_inventory_level_hash_id, sm_channel, source_system`.
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2ssm_sources!3ssm_inventory_tables)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.sm_sources.sm_inventory_tables` LIMIT 10;
+```
+</Accordion>
+
+
+### snowflake_data
+
+<Accordion title="SKU_MASTER1">
+**Type:** BASE TABLE | **Queries (180d):** 1,299
+
+Product/SKU-level data Key columns: `SKU, STYLE, COLOR, COLOR_DESCRIPTION, SIZE`.
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2ssnowflake_data!3sSKU_MASTER1)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.snowflake_data.SKU_MASTER1` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="TFT_SKU">
+**Type:** BASE TABLE | **Queries (180d):** 233
+
+Product/SKU-level data Key columns: `ID, SKU, TITLE, BODY_HTML, VENDOR`.
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2ssnowflake_data!3sTFT_SKU)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.snowflake_data.TFT_SKU` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="XC_SHOPIFY_SKU1">
+**Type:** BASE TABLE | **Queries (180d):** 233
+
+Product/SKU-level data Key columns: `ID, SKU, TITLE, BODY_HTML, VENDOR`.
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2ssnowflake_data!3sXC_SHOPIFY_SKU1)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.snowflake_data.XC_SHOPIFY_SKU1` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="N41_ECOM_SO">
+**Type:** BASE TABLE | **Queries (180d):** 73
+
+Custom data Key columns: `ORDERNO, ORDERTYPE, SKU, LINE, STYLE`.
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2ssnowflake_data!3sN41_ECOM_SO)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.snowflake_data.N41_ECOM_SO` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="N41_INV_VERTICAL">
+**Type:** BASE TABLE | **Queries (180d):** 52
+
+Custom data Key columns: `SKU, STYLE, COLOR, CATEGORY, COLOR_DESC`.
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2ssnowflake_data!3sN41_INV_VERTICAL)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.snowflake_data.N41_INV_VERTICAL` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="SKU_MASTER">
+**Type:** BASE TABLE | **Queries (180d):** 52
+
+Product/SKU-level data Key columns: `SKU, STYLE, COLOR, COLOR_DESCRIPTION, SIZE`.
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2ssnowflake_data!3sSKU_MASTER)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.snowflake_data.SKU_MASTER` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="N41_SKU_RAW">
+**Type:** BASE TABLE | **Queries (180d):** 30
+
+Product/SKU-level data Key columns: `SKU, STYLE, COLOR, COLOR_DESCRIPTION, SIZE`.
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2ssnowflake_data!3sN41_SKU_RAW)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.snowflake_data.N41_SKU_RAW` LIMIT 10;
+```
+</Accordion>
+
+
 ### sm_experimental
 
 <Accordion title="shipbob_inventory_data">
 **Type:** BASE TABLE | **Queries (180d):** 96
 
-Custom data.
+Custom data Key columns: `name, sku, total_on_hand_quantity, total_committed_quantity, total_fulfillable_quantity`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2ssm_experimental!3sshipbob_inventory_data)
 
@@ -1368,13 +1485,29 @@ SELECT * FROM `sm-xcvi.sm_experimental.shipbob_inventory_data` LIMIT 10;
 <Accordion title="v_sales_by_quarter_sotype_division_alldetail_v4">
 **Type:** BASE TABLE | **Queries (180d):** 91
 
-Custom data.
+Custom data Key columns: `so_balanced_amount, sku, city, customer_type, cm_`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sn41_transfer_data!3sv_sales_by_quarter_sotype_division_alldetail_v4)
 
 ```sql
 -- Preview data
 SELECT * FROM `sm-xcvi.n41_transfer_data.v_sales_by_quarter_sotype_division_alldetail_v4` LIMIT 10;
+```
+</Accordion>
+
+
+### DL_XCVI
+
+<Accordion title="XCVI_Shopify_Inv_Not_snowflake">
+**Type:** VIEW | **Queries (180d):** 10
+
+Custom data
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sDL_XCVI!3sXCVI_Shopify_Inv_Not_snowflake)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.DL_XCVI.XCVI_Shopify_Inv_Not_snowflake` LIMIT 10;
 ```
 </Accordion>
 

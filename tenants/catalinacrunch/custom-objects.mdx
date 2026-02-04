@@ -32,7 +32,7 @@ This page documents active custom BigQuery tables and views (those queried at le
 <Accordion title="sales_by_flavor">
 **Type:** VIEW | **Queries (180d):** 996
 
-Custom data.
+Custom data
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-catalinacrunch&ws=!1m5!1m4!4m3!1ssm-catalinacrunch!2scustomized_views!3ssales_by_flavor)
 
@@ -45,7 +45,7 @@ SELECT * FROM `sm-catalinacrunch.customized_views.sales_by_flavor` LIMIT 10;
 <Accordion title="sku_categorization">
 **Type:** EXTERNAL | **Queries (180d):** 996
 
-Product/SKU-level data.
+Product/SKU-level data Key columns: `variant_sku, product_type, sub_category, flavor, category`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-catalinacrunch&ws=!1m5!1m4!4m3!1ssm-catalinacrunch!2scustomized_views!3ssku_categorization)
 
@@ -58,7 +58,7 @@ SELECT * FROM `sm-catalinacrunch.customized_views.sku_categorization` LIMIT 10;
 <Accordion title="cogs_opex_by_month">
 **Type:** EXTERNAL | **Queries (180d):** 471
 
-Custom data. Key columns: `start_date, end_date, amz_dtc_spend_allocation`.
+Custom data Key columns: `start_date, end_date, gross_margin, operating_expenses, shipping_cost_per_order`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-catalinacrunch&ws=!1m5!1m4!4m3!1ssm-catalinacrunch!2scustomized_views!3scogs_opex_by_month)
 
@@ -71,7 +71,7 @@ SELECT * FROM `sm-catalinacrunch.customized_views.cogs_opex_by_month` LIMIT 10;
 <Accordion title="profit_and_loss">
 **Type:** VIEW | **Queries (180d):** 471
 
-Custom data.
+Custom data
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-catalinacrunch&ws=!1m5!1m4!4m3!1ssm-catalinacrunch!2scustomized_views!3sprofit_and_loss)
 
@@ -84,7 +84,7 @@ SELECT * FROM `sm-catalinacrunch.customized_views.profit_and_loss` LIMIT 10;
 <Accordion title="dma_zip_codes">
 **Type:** BASE TABLE | **Queries (180d):** 13
 
-Custom data.
+Custom data Key columns: `zip_code, dma_code, dma_nielsen, dma_meta`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-catalinacrunch&ws=!1m5!1m4!4m3!1ssm-catalinacrunch!2scustomized_views!3sdma_zip_codes)
 
@@ -97,7 +97,7 @@ SELECT * FROM `sm-catalinacrunch.customized_views.dma_zip_codes` LIMIT 10;
 <Accordion title="dma_zip_codes_sm">
 **Type:** VIEW | **Queries (180d):** 13
 
-Custom data.
+Custom data Key columns: `SELECT`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-catalinacrunch&ws=!1m5!1m4!4m3!1ssm-catalinacrunch!2scustomized_views!3sdma_zip_codes_sm)
 
@@ -110,7 +110,7 @@ SELECT * FROM `sm-catalinacrunch.customized_views.dma_zip_codes_sm` LIMIT 10;
 <Accordion title="spins_all_cat_markets_mulo_trended_csv">
 **Type:** BASE TABLE | **Queries (180d):** 13
 
-Custom data. Key columns: `sm_channel, time_period_end_date`.
+Custom data Key columns: `spins_market, sm_channel, time_period_end_date, product_level, category`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-catalinacrunch&ws=!1m5!1m4!4m3!1ssm-catalinacrunch!2scustomized_views!3sspins_all_cat_markets_mulo_trended_csv)
 

@@ -36,8 +36,8 @@ Documentation is accessible at:
 | pillar3cx | 8 | `/tenants/pillar3cx/custom-objects` |
 | piquetea | 61 | `/tenants/piquetea/custom-objects` |
 | theperfectjean | 9 | `/tenants/theperfectjean/custom-objects` |
-| xcvi | 100 | `/tenants/xcvi/custom-objects` |
-| zbiotics | 100+ | `/tenants/zbiotics/custom-objects` |
+| xcvi | 110 | `/tenants/xcvi/custom-objects` |
+| zbiotics | 284 | `/tenants/zbiotics/custom-objects` |
 
 ## Data Source
 

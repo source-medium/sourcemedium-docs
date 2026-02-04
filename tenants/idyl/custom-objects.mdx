@@ -22,7 +22,7 @@ This page documents active custom BigQuery tables and views (those queried at le
 | Dataset | Object Count | Total Jobs (180d) |
 |---------|--------------|-------------------|
 | [`sm_consulting`](https://console.cloud.google.com/bigquery?project=sm-idyl&ws=!1m4!1m3!3m2!1ssm-idyl!2ssm_consulting) | 1 | 762 |
-| `tydo_historic_pre_2026` | 7 | 62 |
+| [`tydo_historic_pre_2026`](https://console.cloud.google.com/bigquery?project=sm-idyl&ws=!1m4!1m3!3m2!1ssm-idyl!2stydo_historic_pre_2026) | 7 | 62 |
 | [`src_lucky_orange`](https://console.cloud.google.com/bigquery?project=sm-idyl&ws=!1m4!1m3!3m2!1ssm-idyl!2ssrc_lucky_orange) | 6 | 56 |
 
 ---
@@ -34,7 +34,7 @@ This page documents active custom BigQuery tables and views (those queried at le
 <Accordion title="obt_purchase_journeys_with_mta_models_lo_only_jan_21_2026">
 **Type:** BASE TABLE | **Queries (180d):** 762
 
-One Big Table (denormalized). Key columns: `sm_store_id, source_system, sm_touch_id, event_user_id, event_local_datetime`.
+Denormalized "One Big Table" view Key columns: `sm_store_id, source_system, sm_touch_id, event_user_id, sm_event_name`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-idyl&ws=!1m5!1m4!4m3!1ssm-idyl!2ssm_consulting!3sobt_purchase_journeys_with_mta_models_lo_only_jan_21_2026)
 
@@ -50,7 +50,7 @@ SELECT * FROM `sm-idyl.sm_consulting.obt_purchase_journeys_with_mta_models_lo_on
 <Accordion title="_table_catalog">
 **Type:** BASE TABLE | **Queries (180d):** 32
 
-Custom data. Key columns: `source_project, source_dataset, source_table`.
+Custom data Key columns: `source_project, source_dataset, source_table, dest_project, dest_dataset`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-idyl&ws=!1m5!1m4!4m3!1ssm-idyl!2stydo_historic_pre_2026!3s_table_catalog)
 
@@ -63,7 +63,7 @@ SELECT * FROM `sm-idyl.tydo_historic_pre_2026._table_catalog` LIMIT 10;
 <Accordion title="shopify__idyl__order">
 **Type:** BASE TABLE | **Queries (180d):** 8
 
-Order-level data from Shopify. Key columns: `id, app_id`.
+Order-level data Key columns: `_fivetran_deleted, app_id, billing_address_address_1`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-idyl&ws=!1m5!1m4!4m3!1ssm-idyl!2stydo_historic_pre_2026!3sshopify__idyl__order)
 
@@ -76,7 +76,7 @@ SELECT * FROM `sm-idyl.tydo_historic_pre_2026.shopify__idyl__order` LIMIT 10;
 <Accordion title="facebook_ads__idyl__ad_level_reporting">
 **Type:** BASE TABLE | **Queries (180d):** 5
 
-Marketing/advertising data from Meta/Facebook. Key columns: `_fivetran_id, ad_id, date, account_id, campaign_id`.
+Marketing/advertising data Key columns: `_fivetran_id, ad_id, date, account_id`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-idyl&ws=!1m5!1m4!4m3!1ssm-idyl!2stydo_historic_pre_2026!3sfacebook_ads__idyl__ad_level_reporting)
 
@@ -89,7 +89,7 @@ SELECT * FROM `sm-idyl.tydo_historic_pre_2026.facebook_ads__idyl__ad_level_repor
 <Accordion title="idyl__shopify_order">
 **Type:** BASE TABLE | **Queries (180d):** 5
 
-Order-level data from Shopify. Key columns: `_airbyte_ab_id, id, app_id`.
+Order-level data Key columns: `_airbyte_ab_id, _airbyte_emitted_at, name, note`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-idyl&ws=!1m5!1m4!4m3!1ssm-idyl!2stydo_historic_pre_2026!3sidyl__shopify_order)
 
@@ -102,7 +102,7 @@ SELECT * FROM `sm-idyl.tydo_historic_pre_2026.idyl__shopify_order` LIMIT 10;
 <Accordion title="google_ads__idyl__campaign_hourly_stats">
 **Type:** BASE TABLE | **Queries (180d):** 4
 
-Marketing/advertising data from Google. Key columns: `_fivetran_id, customer_id, date`.
+Marketing/advertising data Key columns: `_fivetran_id, customer_id, date, active_view_cpm`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-idyl&ws=!1m5!1m4!4m3!1ssm-idyl!2stydo_historic_pre_2026!3sgoogle_ads__idyl__campaign_hourly_stats)
 
@@ -115,7 +115,7 @@ SELECT * FROM `sm-idyl.tydo_historic_pre_2026.google_ads__idyl__campaign_hourly_
 <Accordion title="google_analytics_idyl__landing_page_report">
 **Type:** BASE TABLE | **Queries (180d):** 4
 
-Reporting view from Google. Key columns: `_fivetran_id, date, source_medium, transaction_revenue`.
+Custom data Key columns: `_fivetran_id, date, profile, landing_page_path`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-idyl&ws=!1m5!1m4!4m3!1ssm-idyl!2stydo_historic_pre_2026!3sgoogle_analytics_idyl__landing_page_report)
 
@@ -128,7 +128,7 @@ SELECT * FROM `sm-idyl.tydo_historic_pre_2026.google_analytics_idyl__landing_pag
 <Accordion title="idyl__shopify_order_line">
 **Type:** BASE TABLE | **Queries (180d):** 4
 
-Order-level data from Shopify. Key columns: `_airbyte_ab_id, id`.
+Order-level data Key columns: `_airbyte_ab_id, _airbyte_emitted_at, sku, name`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-idyl&ws=!1m5!1m4!4m3!1ssm-idyl!2stydo_historic_pre_2026!3sidyl__shopify_order_line)
 
@@ -144,7 +144,7 @@ SELECT * FROM `sm-idyl.tydo_historic_pre_2026.idyl__shopify_order_line` LIMIT 10
 <Accordion title="historical_sessions_pre_2026_backfilled_sample">
 **Type:** BASE TABLE | **Queries (180d):** 14
 
-Custom data. Key columns: `_source_system_relation, sm_event_key, sm_store_id, source_system, event_id`.
+Custom data Key columns: `_source_system_relation, sm_event_key, sm_store_id, source_system`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-idyl&ws=!1m5!1m4!4m3!1ssm-idyl!2ssrc_lucky_orange!3shistorical_sessions_pre_2026_backfilled_sample)
 
@@ -157,7 +157,7 @@ SELECT * FROM `sm-idyl.src_lucky_orange.historical_sessions_pre_2026_backfilled_
 <Accordion title="stg_purchase_journey_touches">
 **Type:** BASE TABLE | **Queries (180d):** 11
 
-Staging data. Key columns: `sm_store_id, sm_touch_id, source_system, event_id, event_user_id`.
+Staging data Key columns: `sm_store_id, sm_touch_id, source_system, event_id, event_user_id`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-idyl&ws=!1m5!1m4!4m3!1ssm-idyl!2ssrc_lucky_orange!3sstg_purchase_journey_touches)
 
@@ -170,7 +170,7 @@ SELECT * FROM `sm-idyl.src_lucky_orange.stg_purchase_journey_touches` LIMIT 10;
 <Accordion title="historical_sessions_pre_2026">
 **Type:** BASE TABLE | **Queries (180d):** 8
 
-Custom data. Key columns: `_source_system_relation, sm_event_key, sm_store_id, source_system, event_id`.
+Custom data Key columns: `_source_system_relation, sm_event_key, sm_store_id, source_system`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-idyl&ws=!1m5!1m4!4m3!1ssm-idyl!2ssrc_lucky_orange!3shistorical_sessions_pre_2026)
 
@@ -183,7 +183,7 @@ SELECT * FROM `sm-idyl.src_lucky_orange.historical_sessions_pre_2026` LIMIT 10;
 <Accordion title="int_purchase_journey_valid_touches">
 **Type:** BASE TABLE | **Queries (180d):** 8
 
-Intermediate transformation. Key columns: `sm_store_id, sm_touch_id, source_system, event_id, event_user_id`.
+Intermediate transformation Key columns: `sm_store_id, sm_touch_id, source_system, event_id, event_user_id`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-idyl&ws=!1m5!1m4!4m3!1ssm-idyl!2ssrc_lucky_orange!3sint_purchase_journey_valid_touches)
 
@@ -196,7 +196,7 @@ SELECT * FROM `sm-idyl.src_lucky_orange.int_purchase_journey_valid_touches` LIMI
 <Accordion title="purchase_journey_touches_test">
 **Type:** BASE TABLE | **Queries (180d):** 8
 
-Custom data. Key columns: `sm_touch_id, smcid, source_system, event_id, event_user_id`.
+Custom data Key columns: `sm_touch_id, smcid, source_system, event_id, event_user_id`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-idyl&ws=!1m5!1m4!4m3!1ssm-idyl!2ssrc_lucky_orange!3spurchase_journey_touches_test)
 
@@ -209,7 +209,7 @@ SELECT * FROM `sm-idyl.src_lucky_orange.purchase_journey_touches_test` LIMIT 10;
 <Accordion title="int_purchase_journey_purchases">
 **Type:** BASE TABLE | **Queries (180d):** 7
 
-Intermediate transformation. Key columns: `sm_store_id, source_system, event_identifier, purchase_order_id, first_valid_sm_touch_id_landing_page`.
+Intermediate transformation Key columns: `sm_store_id, source_system, event_identifier, purchase_order_id, first_valid_sm_touch_id_landing_page`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-idyl&ws=!1m5!1m4!4m3!1ssm-idyl!2ssrc_lucky_orange!3sint_purchase_journey_purchases)
 

@@ -28,7 +28,7 @@ This page documents active custom BigQuery tables and views (those queried at le
 | [`sm_sources`](https://console.cloud.google.com/bigquery?project=sm-cpap&ws=!1m4!1m3!3m2!1ssm-cpap!2ssm_sources) | 2 | 4,402 |
 | [`cpap_date_in_views`](https://console.cloud.google.com/bigquery?project=sm-cpap&ws=!1m4!1m3!3m2!1ssm-cpap!2scpap_date_in_views) | 3 | 1,002 |
 | [`customized_views`](https://console.cloud.google.com/bigquery?project=sm-cpap&ws=!1m4!1m3!3m2!1ssm-cpap!2scustomized_views) | 1 | 286 |
-| `QA` | 1 | 11 |
+| [`QA`](https://console.cloud.google.com/bigquery?project=sm-cpap&ws=!1m4!1m3!3m2!1ssm-cpap!2sQA) | 1 | 11 |
 
 ---
 
@@ -39,7 +39,7 @@ This page documents active custom BigQuery tables and views (those queried at le
 <Accordion title="orders_agg_custom">
 **Type:** BASE TABLE | **Queries (180d):** 130,049
 
-Order-level data. Key columns: `sm_order_key, order_id, sm_store_id, sm_customer_key, customer_id`.
+Order-level data Key columns: `sm_order_key, order_id, order_number, sm_store_id, sm_customer_key`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-cpap&ws=!1m5!1m4!4m3!1ssm-cpap!2smachine_v_non_pipeline!3sorders_agg_custom)
 
@@ -52,7 +52,7 @@ SELECT * FROM `sm-cpap.machine_v_non_pipeline.orders_agg_custom` LIMIT 10;
 <Accordion title="executive_summary_custom">
 **Type:** BASE TABLE | **Queries (180d):** 107,758
 
-Aggregated summary. Key columns: `sm_channel, date, first_time_orders, repeat_orders, orders`.
+Custom data Key columns: `sm_channel, date, first_time_orders, repeat_orders, orders`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-cpap&ws=!1m5!1m4!4m3!1ssm-cpap!2smachine_v_non_pipeline!3sexecutive_summary_custom)
 
@@ -65,7 +65,7 @@ SELECT * FROM `sm-cpap.machine_v_non_pipeline.executive_summary_custom` LIMIT 10
 <Accordion title="obt_order_lines_custom">
 **Type:** BASE TABLE | **Queries (180d):** 64,850
 
-Order-level data. Key columns: `sm_store_id, sm_order_line_key, sm_order_key, sm_customer_key, sm_product_variant_key`.
+Denormalized "One Big Table" view Key columns: `sm_store_id, sm_order_line_key, sm_order_key, sm_customer_key, sm_product_variant_key`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-cpap&ws=!1m5!1m4!4m3!1ssm-cpap!2smachine_v_non_pipeline!3sobt_order_lines_custom)
 
@@ -78,7 +78,7 @@ SELECT * FROM `sm-cpap.machine_v_non_pipeline.obt_order_lines_custom` LIMIT 10;
 <Accordion title="daily_orders_agg">
 **Type:** BASE TABLE | **Queries (180d):** 62,880
 
-Daily aggregation. Key columns: `sm_channel, date, first_time_orders, repeat_orders, orders`.
+Order-level data Key columns: `sm_channel, date, first_time_orders, repeat_orders, orders`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-cpap&ws=!1m5!1m4!4m3!1ssm-cpap!2smachine_v_non_pipeline!3sdaily_orders_agg)
 
@@ -91,7 +91,7 @@ SELECT * FROM `sm-cpap.machine_v_non_pipeline.daily_orders_agg` LIMIT 10;
 <Accordion title="daily_marketing_agg">
 **Type:** BASE TABLE | **Queries (180d):** 62,867
 
-Daily aggregation. Key columns: `date, ad_spend, sm_channel`.
+Marketing/advertising data Key columns: `date, ad_spend, ad_clicks, ad_impressions, sm_channel`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-cpap&ws=!1m5!1m4!4m3!1ssm-cpap!2smachine_v_non_pipeline!3sdaily_marketing_agg)
 
@@ -104,7 +104,7 @@ SELECT * FROM `sm-cpap.machine_v_non_pipeline.daily_marketing_agg` LIMIT 10;
 <Accordion title="refund_actions_processed">
 **Type:** BASE TABLE | **Queries (180d):** 46,202
 
-Custom data. Key columns: `refunded_date, sm_channel`.
+Custom data Key columns: `refunded_date, sm_channel, total_order_line_refund_quantity, total_shipping_refunds, total_shipping_tax_refunds`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-cpap&ws=!1m5!1m4!4m3!1ssm-cpap!2smachine_v_non_pipeline!3srefund_actions_processed)
 
@@ -117,7 +117,7 @@ SELECT * FROM `sm-cpap.machine_v_non_pipeline.refund_actions_processed` LIMIT 10
 <Accordion title="daily_machine_v_agg">
 **Type:** BASE TABLE | **Queries (180d):** 36,722
 
-Daily aggregation. Key columns: `date, channel, revenue`.
+Custom data Key columns: `date, channel, machine_order_flag, order_count, revenue`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-cpap&ws=!1m5!1m4!4m3!1ssm-cpap!2smachine_v_non_pipeline!3sdaily_machine_v_agg)
 
@@ -130,7 +130,7 @@ SELECT * FROM `sm-cpap.machine_v_non_pipeline.daily_machine_v_agg` LIMIT 10;
 <Accordion title="mc_lineitem_cost_deduped">
 **Type:** BASE TABLE | **Queries (180d):** 91
 
-Custom data. Key columns: `order_line_id, date_out`.
+Custom data Key columns: `order_line_id, product_cost, record_created_at, date_out`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-cpap&ws=!1m5!1m4!4m3!1ssm-cpap!2smachine_v_non_pipeline!3smc_lineitem_cost_deduped)
 
@@ -141,132 +141,12 @@ SELECT * FROM `sm-cpap.machine_v_non_pipeline.mc_lineitem_cost_deduped` LIMIT 10
 </Accordion>
 
 
-### cpap_transformed
-
-<Accordion title="cpap_obt_order_lines">
-**Type:** BASE TABLE | **Queries (180d):** 41,369
-
-Order-level data. Key columns: `sm_store_id, sm_order_line_key, sm_order_key, sm_customer_key, sm_product_variant_key`.
-
-[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-cpap&ws=!1m5!1m4!4m3!1ssm-cpap!2scpap_transformed!3scpap_obt_order_lines)
-
-```sql
--- Preview data
-SELECT * FROM `sm-cpap.cpap_transformed.cpap_obt_order_lines` LIMIT 10;
-```
-</Accordion>
-
-<Accordion title="cpap_outbound_message_performance_sm_daily">
-**Type:** VIEW | **Queries (180d):** 12,821
-
-Daily aggregation.
-
-[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-cpap&ws=!1m5!1m4!4m3!1ssm-cpap!2scpap_transformed!3scpap_outbound_message_performance_sm_daily)
-
-```sql
--- Preview data
-SELECT * FROM `sm-cpap.cpap_transformed.cpap_outbound_message_performance_sm_daily` LIMIT 10;
-```
-</Accordion>
-
-<Accordion title="cpap_rpt_ad_performance_daily">
-**Type:** VIEW | **Queries (180d):** 10,027
-
-Daily aggregation.
-
-[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-cpap&ws=!1m5!1m4!4m3!1ssm-cpap!2scpap_transformed!3scpap_rpt_ad_performance_daily)
-
-```sql
--- Preview data
-SELECT * FROM `sm-cpap.cpap_transformed.cpap_rpt_ad_performance_daily` LIMIT 10;
-```
-</Accordion>
-
-<Accordion title="cpap_rpt_financial_channel_summary_daily">
-**Type:** BASE TABLE | **Queries (180d):** 8,412
-
-Aggregated summary. Key columns: `date, cpap_channel`.
-
-[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-cpap&ws=!1m5!1m4!4m3!1ssm-cpap!2scpap_transformed!3scpap_rpt_financial_channel_summary_daily)
-
-```sql
--- Preview data
-SELECT * FROM `sm-cpap.cpap_transformed.cpap_rpt_financial_channel_summary_daily` LIMIT 10;
-```
-</Accordion>
-
-<Accordion title="rpt_shopify_adjusted_session_start_method__by_day">
-**Type:** BASE TABLE | **Queries (180d):** 7,523
-
-Marketing/advertising data from Shopify. Key columns: `Date`.
-
-[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-cpap&ws=!1m5!1m4!4m3!1ssm-cpap!2scpap_transformed!3srpt_shopify_adjusted_session_start_method__by_day)
-
-```sql
--- Preview data
-SELECT * FROM `sm-cpap.cpap_transformed.rpt_shopify_adjusted_session_start_method__by_day` LIMIT 10;
-```
-</Accordion>
-
-<Accordion title="cpap_order_status">
-**Type:** BASE TABLE | **Queries (180d):** 1,113
-
-Order-level data. Key columns: `order_id, updated_at, valid_from, valid_until`.
-
-[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-cpap&ws=!1m5!1m4!4m3!1ssm-cpap!2scpap_transformed!3scpap_order_status)
-
-```sql
--- Preview data
-SELECT * FROM `sm-cpap.cpap_transformed.cpap_order_status` LIMIT 10;
-```
-</Accordion>
-
-<Accordion title="cpap_rpt_sku_attachment_rate_daily_summary">
-**Type:** BASE TABLE | **Queries (180d):** 150
-
-Aggregated summary from TikTok. Key columns: `sm_channel, order_processed_date, anchor_order_line_gross_revenue`.
-
-[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-cpap&ws=!1m5!1m4!4m3!1ssm-cpap!2scpap_transformed!3scpap_rpt_sku_attachment_rate_daily_summary)
-
-```sql
--- Preview data
-SELECT * FROM `sm-cpap.cpap_transformed.cpap_rpt_sku_attachment_rate_daily_summary` LIMIT 10;
-```
-</Accordion>
-
-<Accordion title="cpap_rpt_division_attachment_rate_daily_summary">
-**Type:** BASE TABLE | **Queries (180d):** 136
-
-Aggregated summary from TikTok. Key columns: `sm_channel, order_processed_date, anchor_order_line_gross_revenue`.
-
-[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-cpap&ws=!1m5!1m4!4m3!1ssm-cpap!2scpap_transformed!3scpap_rpt_division_attachment_rate_daily_summary)
-
-```sql
--- Preview data
-SELECT * FROM `sm-cpap.cpap_transformed.cpap_rpt_division_attachment_rate_daily_summary` LIMIT 10;
-```
-</Accordion>
-
-<Accordion title="cpap_parts_division_daily">
-**Type:** VIEW | **Queries (180d):** 10
-
-Daily aggregation.
-
-[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-cpap&ws=!1m5!1m4!4m3!1ssm-cpap!2scpap_transformed!3scpap_parts_division_daily)
-
-```sql
--- Preview data
-SELECT * FROM `sm-cpap.cpap_transformed.cpap_parts_division_daily` LIMIT 10;
-```
-</Accordion>
-
-
 ### cpap_sources
 
 <Accordion title="mc_lineitem_cost">
 **Type:** BASE TABLE | **Queries (180d):** 37,261
 
-Custom data. Key columns: `shopify_order_id, order_line_id, date_out`.
+Custom data Key columns: `shopify_order_id, shopify_order_name, order_line_id, sku, madcow_order_number`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-cpap&ws=!1m5!1m4!4m3!1ssm-cpap!2scpap_sources!3smc_lineitem_cost)
 
@@ -279,7 +159,7 @@ SELECT * FROM `sm-cpap.cpap_sources.mc_lineitem_cost` LIMIT 10;
 <Accordion title="mc_time_dimension">
 **Type:** BASE TABLE | **Queries (180d):** 35,057
 
-Custom data. Key columns: `date`.
+Custom data Key columns: `date, fiscal_year, fiscal_quarter, fiscal_month, fiscal_week`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-cpap&ws=!1m5!1m4!4m3!1ssm-cpap!2scpap_sources!3smc_time_dimension)
 
@@ -292,7 +172,7 @@ SELECT * FROM `sm-cpap.cpap_sources.mc_time_dimension` LIMIT 10;
 <Accordion title="ga_source_category_map">
 **Type:** EXTERNAL | **Queries (180d):** 31,445
 
-Custom data. Key columns: `source, source_category`.
+Custom data Key columns: `source, source_category`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-cpap&ws=!1m5!1m4!4m3!1ssm-cpap!2scpap_sources!3sga_source_category_map)
 
@@ -305,7 +185,7 @@ SELECT * FROM `sm-cpap.cpap_sources.ga_source_category_map` LIMIT 10;
 <Accordion title="mc_ttd_data">
 **Type:** BASE TABLE | **Queries (180d):** 16,179
 
-Custom data from TikTok. Key columns: `sm_store_id, source_system, sm_channel, date, ad_spend`.
+Custom data Key columns: `sm_store_id, source_system, sm_channel, date, ad_spend`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-cpap&ws=!1m5!1m4!4m3!1ssm-cpap!2scpap_sources!3smc_ttd_data)
 
@@ -318,7 +198,7 @@ SELECT * FROM `sm-cpap.cpap_sources.mc_ttd_data` LIMIT 10;
 <Accordion title="mc_order_cost">
 **Type:** BASE TABLE | **Queries (180d):** 13,272
 
-Order-level data. Key columns: `shopify_order_id, magento_increment_id, magento_order_id`.
+Order-level data Key columns: `shopify_order_id, shopify_order_name, madcow_order_number, magento_increment_id, magento_order_id`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-cpap&ws=!1m5!1m4!4m3!1ssm-cpap!2scpap_sources!3smc_order_cost)
 
@@ -331,7 +211,7 @@ SELECT * FROM `sm-cpap.cpap_sources.mc_order_cost` LIMIT 10;
 <Accordion title="DataformGADailyCompanyMetrics">
 **Type:** BASE TABLE | **Queries (180d):** 7,343
 
-Daily aggregation. Key columns: `Date`.
+Marketing/advertising data Key columns: `Date, Sessions, Orders, Revenue, RevenueGrandTotal`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-cpap&ws=!1m5!1m4!4m3!1ssm-cpap!2scpap_sources!3sDataformGADailyCompanyMetrics)
 
@@ -344,7 +224,7 @@ SELECT * FROM `sm-cpap.cpap_sources.DataformGADailyCompanyMetrics` LIMIT 10;
 <Accordion title="cpap_targets">
 **Type:** EXTERNAL | **Queries (180d):** 6,161
 
-Custom data. Key columns: `date, target_channel`.
+Custom data Key columns: `date, target_type, target_channel, target_value`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-cpap&ws=!1m5!1m4!4m3!1ssm-cpap!2scpap_sources!3scpap_targets)
 
@@ -357,7 +237,7 @@ SELECT * FROM `sm-cpap.cpap_sources.cpap_targets` LIMIT 10;
 <Accordion title="mc_quantity_on_hand">
 **Type:** BASE TABLE | **Queries (180d):** 415
 
-Custom data. Key columns: `log_date`.
+Custom data Key columns: `sku, quantity_on_hand, log_date, record_created_at`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-cpap&ws=!1m5!1m4!4m3!1ssm-cpap!2scpap_sources!3smc_quantity_on_hand)
 
@@ -370,7 +250,7 @@ SELECT * FROM `sm-cpap.cpap_sources.mc_quantity_on_hand` LIMIT 10;
 <Accordion title="shopify_products_8589937895">
 **Type:** BASE TABLE | **Queries (180d):** 10
 
-Product/SKU-level data from Shopify. Key columns: `admin_graphql_api_id, id`.
+Product/SKU-level data Key columns: `_portable_extracted, admin_graphql_api_id, body_html, created_at, handle`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-cpap&ws=!1m5!1m4!4m3!1ssm-cpap!2scpap_sources!3sshopify_products_8589937895)
 
@@ -381,12 +261,132 @@ SELECT * FROM `sm-cpap.cpap_sources.shopify_products_8589937895` LIMIT 10;
 </Accordion>
 
 
+### cpap_transformed
+
+<Accordion title="cpap_obt_order_lines">
+**Type:** BASE TABLE | **Queries (180d):** 41,369
+
+Order-level data Key columns: `sm_store_id, sm_order_line_key, sm_order_key, sm_customer_key, sm_product_variant_key`.
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-cpap&ws=!1m5!1m4!4m3!1ssm-cpap!2scpap_transformed!3scpap_obt_order_lines)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-cpap.cpap_transformed.cpap_obt_order_lines` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="cpap_outbound_message_performance_sm_daily">
+**Type:** VIEW | **Queries (180d):** 12,821
+
+Daily aggregation
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-cpap&ws=!1m5!1m4!4m3!1ssm-cpap!2scpap_transformed!3scpap_outbound_message_performance_sm_daily)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-cpap.cpap_transformed.cpap_outbound_message_performance_sm_daily` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="cpap_rpt_ad_performance_daily">
+**Type:** VIEW | **Queries (180d):** 10,027
+
+Marketing/advertising data
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-cpap&ws=!1m5!1m4!4m3!1ssm-cpap!2scpap_transformed!3scpap_rpt_ad_performance_daily)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-cpap.cpap_transformed.cpap_rpt_ad_performance_daily` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="cpap_rpt_financial_channel_summary_daily">
+**Type:** BASE TABLE | **Queries (180d):** 8,412
+
+Daily aggregation Key columns: `date, day_number, fiscal_week, fiscal_month, fiscal_quarter`.
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-cpap&ws=!1m5!1m4!4m3!1ssm-cpap!2scpap_transformed!3scpap_rpt_financial_channel_summary_daily)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-cpap.cpap_transformed.cpap_rpt_financial_channel_summary_daily` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="rpt_shopify_adjusted_session_start_method__by_day">
+**Type:** BASE TABLE | **Queries (180d):** 7,523
+
+Aggregated summary Key columns: `Date, fiscal_year, fiscal_month, day_number, Sessions`.
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-cpap&ws=!1m5!1m4!4m3!1ssm-cpap!2scpap_transformed!3srpt_shopify_adjusted_session_start_method__by_day)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-cpap.cpap_transformed.rpt_shopify_adjusted_session_start_method__by_day` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="cpap_order_status">
+**Type:** BASE TABLE | **Queries (180d):** 1,113
+
+Order-level data Key columns: `order_id, order_status, payment_status, fulfillment_status, return_status`.
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-cpap&ws=!1m5!1m4!4m3!1ssm-cpap!2scpap_transformed!3scpap_order_status)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-cpap.cpap_transformed.cpap_order_status` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="cpap_rpt_sku_attachment_rate_daily_summary">
+**Type:** BASE TABLE | **Queries (180d):** 150
+
+Product/SKU-level data Key columns: `sm_channel, order_processed_date, anchor_sku, anchor_product_title, anchor_division`.
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-cpap&ws=!1m5!1m4!4m3!1ssm-cpap!2scpap_transformed!3scpap_rpt_sku_attachment_rate_daily_summary)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-cpap.cpap_transformed.cpap_rpt_sku_attachment_rate_daily_summary` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="cpap_rpt_division_attachment_rate_daily_summary">
+**Type:** BASE TABLE | **Queries (180d):** 136
+
+Aggregated summary Key columns: `sm_channel, order_processed_date, anchor_division, attachment_division, anchor_order_line_count`.
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-cpap&ws=!1m5!1m4!4m3!1ssm-cpap!2scpap_transformed!3scpap_rpt_division_attachment_rate_daily_summary)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-cpap.cpap_transformed.cpap_rpt_division_attachment_rate_daily_summary` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="cpap_parts_division_daily">
+**Type:** VIEW | **Queries (180d):** 10
+
+Daily aggregation
+
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-cpap&ws=!1m5!1m4!4m3!1ssm-cpap!2scpap_transformed!3scpap_parts_division_daily)
+
+```sql
+-- Preview data
+SELECT * FROM `sm-cpap.cpap_transformed.cpap_parts_division_daily` LIMIT 10;
+```
+</Accordion>
+
+
 ### cpap_views
 
 <Accordion title="cpap_rpt_ad_performance_daily_metrics_unioned">
 **Type:** VIEW | **Queries (180d):** 14,469
 
-Daily aggregation.
+Marketing/advertising data
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-cpap&ws=!1m5!1m4!4m3!1ssm-cpap!2scpap_views!3scpap_rpt_ad_performance_daily_metrics_unioned)
 
@@ -399,7 +399,7 @@ SELECT * FROM `sm-cpap.cpap_views.cpap_rpt_ad_performance_daily_metrics_unioned`
 <Accordion title="cpap_push_report_weekly">
 **Type:** VIEW | **Queries (180d):** 7,720
 
-Weekly aggregation.
+Weekly aggregation
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-cpap&ws=!1m5!1m4!4m3!1ssm-cpap!2scpap_views!3scpap_push_report_weekly)
 
@@ -412,7 +412,7 @@ SELECT * FROM `sm-cpap.cpap_views.cpap_push_report_weekly` LIMIT 10;
 <Accordion title="cpap_channel_data_live">
 **Type:** VIEW | **Queries (180d):** 5,979
 
-Custom data.
+Custom data
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-cpap&ws=!1m5!1m4!4m3!1ssm-cpap!2scpap_views!3scpap_channel_data_live)
 
@@ -425,7 +425,7 @@ SELECT * FROM `sm-cpap.cpap_views.cpap_channel_data_live` LIMIT 10;
 <Accordion title="theo_obt_orders">
 **Type:** VIEW | **Queries (180d):** 1,468
 
-Order-level data.
+Order-level data
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-cpap&ws=!1m5!1m4!4m3!1ssm-cpap!2scpap_views!3stheo_obt_orders)
 
@@ -438,7 +438,7 @@ SELECT * FROM `sm-cpap.cpap_views.theo_obt_orders` LIMIT 10;
 <Accordion title="Rx_Renewal_Without_Docusign">
 **Type:** VIEW | **Queries (180d):** 1,169
 
-Custom data.
+Custom data
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-cpap&ws=!1m5!1m4!4m3!1ssm-cpap!2scpap_views!3sRx_Renewal_Without_Docusign)
 
@@ -451,7 +451,7 @@ SELECT * FROM `sm-cpap.cpap_views.Rx_Renewal_Without_Docusign` LIMIT 10;
 <Accordion title="parts_category_live">
 **Type:** VIEW | **Queries (180d):** 800
 
-Custom data.
+Custom data
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-cpap&ws=!1m5!1m4!4m3!1ssm-cpap!2scpap_views!3sparts_category_live)
 
@@ -464,7 +464,7 @@ SELECT * FROM `sm-cpap.cpap_views.parts_category_live` LIMIT 10;
 <Accordion title="customer_summary_live">
 **Type:** VIEW | **Queries (180d):** 734
 
-Aggregated summary.
+Customer-level data
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-cpap&ws=!1m5!1m4!4m3!1ssm-cpap!2scpap_views!3scustomer_summary_live)
 
@@ -477,7 +477,7 @@ SELECT * FROM `sm-cpap.cpap_views.customer_summary_live` LIMIT 10;
 <Accordion title="cpap_parts_quantity_channel_live">
 **Type:** VIEW | **Queries (180d):** 620
 
-Custom data.
+Custom data
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-cpap&ws=!1m5!1m4!4m3!1ssm-cpap!2scpap_views!3scpap_parts_quantity_channel_live)
 
@@ -490,7 +490,7 @@ SELECT * FROM `sm-cpap.cpap_views.cpap_parts_quantity_channel_live` LIMIT 10;
 <Accordion title="parts_details_live">
 **Type:** VIEW | **Queries (180d):** 415
 
-Custom data.
+Custom data Key columns: `AND`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-cpap&ws=!1m5!1m4!4m3!1ssm-cpap!2scpap_views!3sparts_details_live)
 
@@ -503,7 +503,7 @@ SELECT * FROM `sm-cpap.cpap_views.parts_details_live` LIMIT 10;
 <Accordion title="cpap_rpt_ad_performance_daily_with_targets">
 **Type:** VIEW | **Queries (180d):** 371
 
-Daily aggregation.
+Marketing/advertising data
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-cpap&ws=!1m5!1m4!4m3!1ssm-cpap!2scpap_views!3scpap_rpt_ad_performance_daily_with_targets)
 
@@ -516,7 +516,7 @@ SELECT * FROM `sm-cpap.cpap_views.cpap_rpt_ad_performance_daily_with_targets` LI
 <Accordion title="cpap_rpt_rx_renewal_daily_envelope_lifecycle">
 **Type:** VIEW | **Queries (180d):** 77
 
-Daily aggregation.
+Custom data Key columns: `BETWEEN`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-cpap&ws=!1m5!1m4!4m3!1ssm-cpap!2scpap_views!3scpap_rpt_rx_renewal_daily_envelope_lifecycle)
 
@@ -529,7 +529,7 @@ SELECT * FROM `sm-cpap.cpap_views.cpap_rpt_rx_renewal_daily_envelope_lifecycle` 
 <Accordion title="date_in_aov_cohorts">
 **Type:** VIEW | **Queries (180d):** 61
 
-Cohort analysis.
+Custom data
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-cpap&ws=!1m5!1m4!4m3!1ssm-cpap!2scpap_views!3sdate_in_aov_cohorts)
 
@@ -542,7 +542,7 @@ SELECT * FROM `sm-cpap.cpap_views.date_in_aov_cohorts` LIMIT 10;
 <Accordion title="cpap_rpt_session_engagement_daily">
 **Type:** VIEW | **Queries (180d):** 37
 
-Daily aggregation.
+Daily aggregation
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-cpap&ws=!1m5!1m4!4m3!1ssm-cpap!2scpap_views!3scpap_rpt_session_engagement_daily)
 
@@ -555,7 +555,7 @@ SELECT * FROM `sm-cpap.cpap_views.cpap_rpt_session_engagement_daily` LIMIT 10;
 <Accordion title="date_in_orders_with_customer_cohorts">
 **Type:** VIEW | **Queries (180d):** 36
 
-Cohort analysis.
+Order-level data
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-cpap&ws=!1m5!1m4!4m3!1ssm-cpap!2scpap_views!3sdate_in_orders_with_customer_cohorts)
 
@@ -568,7 +568,7 @@ SELECT * FROM `sm-cpap.cpap_views.date_in_orders_with_customer_cohorts` LIMIT 10
 <Accordion title="haus_kpi_date_region">
 **Type:** VIEW | **Queries (180d):** 21
 
-Custom data.
+Custom data Key columns: `SELECT`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-cpap&ws=!1m5!1m4!4m3!1ssm-cpap!2scpap_views!3shaus_kpi_date_region)
 
@@ -581,7 +581,7 @@ SELECT * FROM `sm-cpap.cpap_views.haus_kpi_date_region` LIMIT 10;
 <Accordion title="cpap_monthly_revenue">
 **Type:** VIEW | **Queries (180d):** 14
 
-Monthly aggregation.
+Monthly aggregation Key columns: `AND`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-cpap&ws=!1m5!1m4!4m3!1ssm-cpap!2scpap_views!3scpap_monthly_revenue)
 
@@ -594,7 +594,7 @@ SELECT * FROM `sm-cpap.cpap_views.cpap_monthly_revenue` LIMIT 10;
 <Accordion title="cpap_monthly_refund">
 **Type:** VIEW | **Queries (180d):** 12
 
-Monthly aggregation.
+Monthly aggregation Key columns: `select`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-cpap&ws=!1m5!1m4!4m3!1ssm-cpap!2scpap_views!3scpap_monthly_refund)
 
@@ -607,7 +607,7 @@ SELECT * FROM `sm-cpap.cpap_views.cpap_monthly_refund` LIMIT 10;
 <Accordion title="cpap_rpt_rx_renewal_voided_stage_abandoned">
 **Type:** VIEW | **Queries (180d):** 11
 
-Reporting view.
+Custom data
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-cpap&ws=!1m5!1m4!4m3!1ssm-cpap!2scpap_views!3scpap_rpt_rx_renewal_voided_stage_abandoned)
 
@@ -620,7 +620,7 @@ SELECT * FROM `sm-cpap.cpap_views.cpap_rpt_rx_renewal_voided_stage_abandoned` LI
 <Accordion title="cpap_rpt_session_engagement_daily_metrics_unioned">
 **Type:** VIEW | **Queries (180d):** 4
 
-Daily aggregation.
+Metrics definitions
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-cpap&ws=!1m5!1m4!4m3!1ssm-cpap!2scpap_views!3scpap_rpt_session_engagement_daily_metrics_unioned)
 
@@ -633,7 +633,7 @@ SELECT * FROM `sm-cpap.cpap_views.cpap_rpt_session_engagement_daily_metrics_unio
 <Accordion title="active_customers">
 **Type:** VIEW | **Queries (180d):** 3
 
-Customer-level data.
+Customer-level data
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-cpap&ws=!1m5!1m4!4m3!1ssm-cpap!2scpap_views!3sactive_customers)
 
@@ -646,7 +646,7 @@ SELECT * FROM `sm-cpap.cpap_views.active_customers` LIMIT 10;
 <Accordion title="2021_customer_cohort_ltv">
 **Type:** VIEW | **Queries (180d):** 3
 
-Cohort analysis.
+Customer-level data
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-cpap&ws=!1m5!1m4!4m3!1ssm-cpap!2scpap_views!3s2021_customer_cohort_ltv)
 
@@ -662,7 +662,7 @@ SELECT * FROM `sm-cpap.cpap_views.2021_customer_cohort_ltv` LIMIT 10;
 <Accordion title="src_shopify__metafields">
 **Type:** BASE TABLE | **Queries (180d):** 4,330
 
-Custom data from Shopify, Meta/Facebook. Key columns: `_sdc_shop_id, key, id, owner_id, owner_resource`.
+Custom data Key columns: `_sdc_shop_id, key, owner_id, _sdc_table_version`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-cpap&ws=!1m5!1m4!4m3!1ssm-cpap!2ssm_sources!3ssrc_shopify__metafields)
 
@@ -675,7 +675,7 @@ SELECT * FROM `sm-cpap.sm_sources.src_shopify__metafields` LIMIT 10;
 <Accordion title="cpap_rpt_ad_performance_daily_fiscal_year_test">
 **Type:** VIEW | **Queries (180d):** 72
 
-Daily aggregation.
+Marketing/advertising data
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-cpap&ws=!1m5!1m4!4m3!1ssm-cpap!2ssm_sources!3scpap_rpt_ad_performance_daily_fiscal_year_test)
 
@@ -691,7 +691,7 @@ SELECT * FROM `sm-cpap.sm_sources.cpap_rpt_ad_performance_daily_fiscal_year_test
 <Accordion title="rpt_shopify_sales_summary_by_channel_day">
 **Type:** VIEW | **Queries (180d):** 360
 
-Aggregated summary from Shopify.
+Aggregated summary
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-cpap&ws=!1m5!1m4!4m3!1ssm-cpap!2scpap_date_in_views!3srpt_shopify_sales_summary_by_channel_day)
 
@@ -704,7 +704,7 @@ SELECT * FROM `sm-cpap.cpap_date_in_views.rpt_shopify_sales_summary_by_channel_d
 <Accordion title="rpt_shopify_sales_summary_by_customer_day">
 **Type:** VIEW | **Queries (180d):** 360
 
-Aggregated summary from Shopify.
+Aggregated summary Key columns: `SELECT`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-cpap&ws=!1m5!1m4!4m3!1ssm-cpap!2scpap_date_in_views!3srpt_shopify_sales_summary_by_customer_day)
 
@@ -717,7 +717,7 @@ SELECT * FROM `sm-cpap.cpap_date_in_views.rpt_shopify_sales_summary_by_customer_
 <Accordion title="rpt_shopify_sales_summary_by_category_day">
 **Type:** VIEW | **Queries (180d):** 282
 
-Aggregated summary from Shopify.
+Aggregated summary
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-cpap&ws=!1m5!1m4!4m3!1ssm-cpap!2scpap_date_in_views!3srpt_shopify_sales_summary_by_category_day)
 
@@ -733,7 +733,7 @@ SELECT * FROM `sm-cpap.cpap_date_in_views.rpt_shopify_sales_summary_by_category_
 <Accordion title="obt_orders_filtered_gross_profit">
 **Type:** BASE TABLE | **Queries (180d):** 286
 
-Order-level data. Key columns: `sm_store_id, sm_order_key, sm_customer_key, source_system, order_id`.
+Denormalized "One Big Table" view Key columns: `sm_store_id, sm_order_key, sm_customer_key, source_system, order_id`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-cpap&ws=!1m5!1m4!4m3!1ssm-cpap!2scustomized_views!3sobt_orders_filtered_gross_profit)
 
@@ -749,7 +749,7 @@ SELECT * FROM `sm-cpap.customized_views.obt_orders_filtered_gross_profit` LIMIT 
 <Accordion title="mc_QA_data">
 **Type:** BASE TABLE | **Queries (180d):** 11
 
-Custom data. Key columns: `mc_date_out, mc_channel, mc_orders, mc_gross_revenue, mc_net_revenue`.
+Custom data Key columns: `mc_order_number, mg_order_number, mc_date_out, mc_channel, mc_orders`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-cpap&ws=!1m5!1m4!4m3!1ssm-cpap!2sQA!3smc_QA_data)
 

@@ -1,16 +1,16 @@
 ---
-title: "AvenueZ Custom Objects"
+title: "Avenue Z Custom Objects"
 sidebarTitle: "Custom Objects"
-description: "Inventory of custom BigQuery objects in the AvenueZ data warehouse"
+description: "Inventory of custom BigQuery objects in the Avenue Z data warehouse"
 icon: "database"
 ---
 
-[← Back to AvenueZ](/tenants/avenuez) | [Open sm-avenuez in BigQuery →](https://console.cloud.google.com/bigquery?project=sm-avenuez)
+[← Back to Avenue Z](/tenants/avenuez) | [Open sm-avenuez in BigQuery →](https://console.cloud.google.com/bigquery?project=sm-avenuez)
 
 
 # Custom Objects Inventory
 
-This page documents active custom BigQuery tables and views (those queried at least once in the past 180 days) created specifically for AvenueZ, separate from the standard SourceMedium data models.
+This page documents active custom BigQuery tables and views (those queried at least once in the past 180 days) created specifically for Avenue Z, separate from the standard SourceMedium data models.
 
 <Info>
 **Last Updated (snapshot_at):** `2026-02-03 19:45 EST`  
@@ -32,7 +32,7 @@ This page documents active custom BigQuery tables and views (those queried at le
 <Accordion title="rpt_executive_summary_daily_customized">
 **Type:** VIEW | **Queries (180d):** 16,131
 
-Aggregated summary.
+Aggregated summary
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-avenuez&ws=!1m5!1m4!4m3!1ssm-avenuez!2scustomized_views!3srpt_executive_summary_daily_customized)
 
@@ -45,7 +45,7 @@ SELECT * FROM `sm-avenuez.customized_views.rpt_executive_summary_daily_customize
 <Accordion title="avez_exec_custom">
 **Type:** BASE TABLE | **Queries (180d):** 13,420
 
-Custom data. Key columns: `date, sm_store_id, sm_channel, sm_sub_channel`.
+Custom data Key columns: `date, sm_store_id, sm_channel, sm_sub_channel, total_repeat_customer_count`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-avenuez&ws=!1m5!1m4!4m3!1ssm-avenuez!2scustomized_views!3savez_exec_custom)
 
@@ -58,7 +58,7 @@ SELECT * FROM `sm-avenuez.customized_views.avez_exec_custom` LIMIT 10;
 <Accordion title="rpt_ad_performance_daily_customized">
 **Type:** VIEW | **Queries (180d):** 10,726
 
-Daily aggregation.
+Aggregated summary
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-avenuez&ws=!1m5!1m4!4m3!1ssm-avenuez!2scustomized_views!3srpt_ad_performance_daily_customized)
 
@@ -71,7 +71,7 @@ SELECT * FROM `sm-avenuez.customized_views.rpt_ad_performance_daily_customized` 
 <Accordion title="avez_orders_custom">
 **Type:** BASE TABLE | **Queries (180d):** 4,336
 
-Order-level data. Key columns: `sm_store_id, sm_order_key, sm_customer_key, source_system, order_id`.
+Order-level data Key columns: `sm_store_id, sm_order_key, sm_customer_key, source_system, order_id`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-avenuez&ws=!1m5!1m4!4m3!1ssm-avenuez!2scustomized_views!3savez_orders_custom)
 
@@ -84,7 +84,7 @@ SELECT * FROM `sm-avenuez.customized_views.avez_orders_custom` LIMIT 10;
 <Accordion title="avez_marketing_custom">
 **Type:** BASE TABLE | **Queries (180d):** 2,321
 
-Marketing/advertising data. Key columns: `sm_store_id, source_system, sub_channel, date, ad_platform_reported_revenue`.
+Marketing/advertising data Key columns: `sm_store_id, source_system, sub_channel, date, ad_clicks`.
 
 [Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-avenuez&ws=!1m5!1m4!4m3!1ssm-avenuez!2scustomized_views!3savez_marketing_custom)
 
