@@ -45,7 +45,7 @@ This page documents active custom BigQuery tables and views (those queried at le
 
 Order-level data. Key columns: `sm_order_key, sm_customer_key, source_system, channel, sub_channel`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2sdbt!3sorders" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2sdbt!3sorders)
 
 ```sql
 -- Preview data
@@ -58,7 +58,7 @@ SELECT * FROM `sm-zbiotics.dbt.orders` LIMIT 10;
 
 Order-level data. Key columns: `_dbt_source_relation, sm_order_line_key, sm_order_key, sm_customer_key, source_system`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2sdbt!3sorder_lines" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2sdbt!3sorder_lines)
 
 ```sql
 -- Preview data
@@ -71,7 +71,7 @@ SELECT * FROM `sm-zbiotics.dbt.order_lines` LIMIT 10;
 
 Order-level data. Key columns: `sm_order_key, sm_customer_key, order_id, hubspot_company_id, hubspot_retailer_id`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2sdbt!3sint_manual_wholesale_orders" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2sdbt!3sint_manual_wholesale_orders)
 
 ```sql
 -- Preview data
@@ -84,7 +84,7 @@ SELECT * FROM `sm-zbiotics.dbt.int_manual_wholesale_orders` LIMIT 10;
 
 Custom data. Key columns: `sm_order_key, fulfillment_id, shopify_order_id, fulfillment_updated_at, third_party_logistics_provider`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2sdbt!3sfulfillments" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2sdbt!3sfulfillments)
 
 ```sql
 -- Preview data
@@ -97,7 +97,7 @@ SELECT * FROM `sm-zbiotics.dbt.fulfillments` LIMIT 10;
 
 Marketing/advertising data. Key columns: `acquisition_spend, core_acquisition_spend, brand_spend, retention_spend, optimization_spend`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2sdbt!3smarketing_spend" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2sdbt!3smarketing_spend)
 
 ```sql
 -- Preview data
@@ -110,7 +110,7 @@ SELECT * FROM `sm-zbiotics.dbt.marketing_spend` LIMIT 10;
 
 Intermediate transformation. Key columns: `door_id, hubspot_company_id, hubspot_retailer_id, hubspot_parent_company_id, hubspot_door_open_date`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2sdbt!3sint_wholesale_doors" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2sdbt!3sint_wholesale_doors)
 
 ```sql
 -- Preview data
@@ -123,7 +123,7 @@ SELECT * FROM `sm-zbiotics.dbt.int_wholesale_doors` LIMIT 10;
 
 Intermediate transformation. Key columns: `sticker_response_date, customer_id`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2sdbt!3sint_sticker_matching" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2sdbt!3sint_sticker_matching)
 
 ```sql
 -- Preview data
@@ -136,7 +136,7 @@ SELECT * FROM `sm-zbiotics.dbt.int_sticker_matching` LIMIT 10;
 
 Order-level data. Key columns: `sm_store_id, sm_order_line_key, sm_order_key, sm_customer_key, sm_product_variant_key`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2sdbt!3sint_order_lines" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2sdbt!3sint_order_lines)
 
 ```sql
 -- Preview data
@@ -149,7 +149,7 @@ SELECT * FROM `sm-zbiotics.dbt.int_order_lines` LIMIT 10;
 
 Customer-level data. Key columns: `sm_customer_key, source_system`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2sdbt!3scustomers" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2sdbt!3scustomers)
 
 ```sql
 -- Preview data
@@ -162,7 +162,7 @@ SELECT * FROM `sm-zbiotics.dbt.customers` LIMIT 10;
 
 Custom data. Key columns: `denominator_id, hubspot_retailer_id`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2sdbt!3sretail_velocity_denominator" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2sdbt!3sretail_velocity_denominator)
 
 ```sql
 -- Preview data
@@ -175,7 +175,7 @@ SELECT * FROM `sm-zbiotics.dbt.retail_velocity_denominator` LIMIT 10;
 
 Custom data. Key columns: `hubspot_retailer_id, source_system, wholesale_channels, sm_customer_keys, source_customer_id`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2sdbt!3sretailers" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2sdbt!3sretailers)
 
 ```sql
 -- Preview data
@@ -188,7 +188,7 @@ SELECT * FROM `sm-zbiotics.dbt.retailers` LIMIT 10;
 
 Intermediate transformation.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2sdbt!3sint_downweights" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2sdbt!3sint_downweights)
 
 ```sql
 -- Preview data
@@ -201,7 +201,7 @@ SELECT * FROM `sm-zbiotics.dbt.int_downweights` LIMIT 10;
 
 Order-level data. Key columns: `_dbt_source_relation, sm_order_key, sm_customer_key, source_system, customer_id`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2sdbt!3sint_orders" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2sdbt!3sint_orders)
 
 ```sql
 -- Preview data
@@ -214,7 +214,7 @@ SELECT * FROM `sm-zbiotics.dbt.int_orders` LIMIT 10;
 
 Intermediate transformation. Key columns: `ticket_id, ticket_updated_at, external_id, channel`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2sdbt!3sint_tickets" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2sdbt!3sint_tickets)
 
 ```sql
 -- Preview data
@@ -227,7 +227,7 @@ SELECT * FROM `sm-zbiotics.dbt.int_tickets` LIMIT 10;
 
 Custom data. Key columns: `subscription_id, storefront_user_id, subscription_line_ids, origin_order_id`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2sdbt!3ssubscriptions" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2sdbt!3ssubscriptions)
 
 ```sql
 -- Preview data
@@ -240,7 +240,7 @@ SELECT * FROM `sm-zbiotics.dbt.subscriptions` LIMIT 10;
 
 Intermediate transformation. Key columns: `subscription_line_id, subscription_id, updated_at, source_system`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2sdbt!3sint_subscription_lines" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2sdbt!3sint_subscription_lines)
 
 ```sql
 -- Preview data
@@ -253,7 +253,7 @@ SELECT * FROM `sm-zbiotics.dbt.int_subscription_lines` LIMIT 10;
 
 Custom data. Key columns: `ticket_id, ticket_updated_at, external_id`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2sdbt!3stickets" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2sdbt!3stickets)
 
 ```sql
 -- Preview data
@@ -266,7 +266,7 @@ SELECT * FROM `sm-zbiotics.dbt.tickets` LIMIT 10;
 
 Custom data. Key columns: `session_id, source`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2sdbt!3ssurvey_responses" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2sdbt!3ssurvey_responses)
 
 ```sql
 -- Preview data
@@ -279,7 +279,7 @@ SELECT * FROM `sm-zbiotics.dbt.survey_responses` LIMIT 10;
 
 Customer-level data. Key columns: `sm_customer_key, source_system, customer_id, wholesale_channel, hubspot_company_id`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2sdbt!3sint_wholesale_customers" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2sdbt!3sint_wholesale_customers)
 
 ```sql
 -- Preview data
@@ -292,7 +292,7 @@ SELECT * FROM `sm-zbiotics.dbt.int_wholesale_customers` LIMIT 10;
 
 Metrics definitions. Key columns: `date_day`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2sdbt!3smetricflow_time_spine" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2sdbt!3smetricflow_time_spine)
 
 ```sql
 -- Preview data
@@ -305,7 +305,7 @@ SELECT * FROM `sm-zbiotics.dbt.metricflow_time_spine` LIMIT 10;
 
 Intermediate transformation. Key columns: `ticket_id`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2sdbt!3sint_ticket_tags" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2sdbt!3sint_ticket_tags)
 
 ```sql
 -- Preview data
@@ -318,7 +318,7 @@ SELECT * FROM `sm-zbiotics.dbt.int_ticket_tags` LIMIT 10;
 
 Intermediate transformation. Key columns: `session_id, source`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2sdbt!3sint_survey_responses" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2sdbt!3sint_survey_responses)
 
 ```sql
 -- Preview data
@@ -331,7 +331,7 @@ SELECT * FROM `sm-zbiotics.dbt.int_survey_responses` LIMIT 10;
 
 Order-level data. Key columns: `sm_order_key, sm_customer_key, source_system, order_id, customer_id`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2sdbt!3sint_sm_orders" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2sdbt!3sint_sm_orders)
 
 ```sql
 -- Preview data
@@ -347,7 +347,7 @@ SELECT * FROM `sm-zbiotics.dbt.int_sm_orders` LIMIT 10;
 
 Marketing/advertising data. Key columns: `acquisition_spend, brand_spend, retention_spend, optimization_spend, total_spend`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2szb_sources!3smarketing_spend_tracker" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2szb_sources!3smarketing_spend_tracker)
 
 ```sql
 -- Preview data
@@ -360,7 +360,7 @@ SELECT * FROM `sm-zbiotics.zb_sources.marketing_spend_tracker` LIMIT 10;
 
 Custom data from Amazon. Key columns: `sticker_response_date`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2szb_sources!3sraw_amazon_sticker_responses" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2szb_sources!3sraw_amazon_sticker_responses)
 
 ```sql
 -- Preview data
@@ -373,7 +373,7 @@ SELECT * FROM `sm-zbiotics.zb_sources.raw_amazon_sticker_responses` LIMIT 10;
 
 Monthly aggregation. Key columns: `acquisition_spend, core_acquisition_spend, brand_spend, retention_spend, optimization_spend`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2szb_sources!3smarketing_spend_monthly" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2szb_sources!3smarketing_spend_monthly)
 
 ```sql
 -- Preview data
@@ -386,7 +386,7 @@ SELECT * FROM `sm-zbiotics.zb_sources.marketing_spend_monthly` LIMIT 10;
 
 Product/SKU-level data.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2szb_sources!3ssku_lookup" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2szb_sources!3ssku_lookup)
 
 ```sql
 -- Preview data
@@ -402,7 +402,7 @@ SELECT * FROM `sm-zbiotics.zb_sources.sku_lookup` LIMIT 10;
 
 Custom data. Key columns: `property_hs_avatar_filemanager_key, property_notes_last_updated, property_hs_lastmodifieddate, property_hs_date_entered_1358513856, property_hs_date_entered_1358513857`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2shubspot!3scompany" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2shubspot!3scompany)
 
 ```sql
 -- Preview data
@@ -415,7 +415,7 @@ SELECT * FROM `sm-zbiotics.hubspot.company` LIMIT 10;
 
 Custom data. Key columns: `contact_id, company_id, type_id`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2shubspot!3scontact_company" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2shubspot!3scontact_company)
 
 ```sql
 -- Preview data
@@ -428,7 +428,7 @@ SELECT * FROM `sm-zbiotics.hubspot.contact_company` LIMIT 10;
 
 Custom data. Key columns: `property_hs_first_outreach_date, property_notes_last_updated, property_hs_sa_first_engagement_date, id`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2shubspot!3scontact" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2shubspot!3scontact)
 
 ```sql
 -- Preview data
@@ -441,7 +441,7 @@ SELECT * FROM `sm-zbiotics.hubspot.contact` LIMIT 10;
 
 Custom data. Key columns: `id, created_by_id, object_type_id, updated_at, filters_updated_at`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2shubspot!3scontact_list" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2shubspot!3scontact_list)
 
 ```sql
 -- Preview data
@@ -454,7 +454,7 @@ SELECT * FROM `sm-zbiotics.hubspot.contact_list` LIMIT 10;
 
 Custom data. Key columns: `id, role_id, primary_team_id`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2shubspot!3susers" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2shubspot!3susers)
 
 ```sql
 -- Preview data
@@ -467,7 +467,7 @@ SELECT * FROM `sm-zbiotics.hubspot.users` LIMIT 10;
 
 Custom data. Key columns: `id`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2shubspot!3sassociation_type" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2shubspot!3sassociation_type)
 
 ```sql
 -- Preview data
@@ -480,7 +480,7 @@ SELECT * FROM `sm-zbiotics.hubspot.association_type` LIMIT 10;
 
 Monthly aggregation. Key columns: `date, paid_search`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2shubspot!3ssessions_analytics_monthly_report" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2shubspot!3ssessions_analytics_monthly_report)
 
 ```sql
 -- Preview data
@@ -493,7 +493,7 @@ SELECT * FROM `sm-zbiotics.hubspot.sessions_analytics_monthly_report` LIMIT 10;
 
 Weekly aggregation. Key columns: `date`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2shubspot!3stotals_analytics_weekly_report" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2shubspot!3stotals_analytics_weekly_report)
 
 ```sql
 -- Preview data
@@ -506,7 +506,7 @@ SELECT * FROM `sm-zbiotics.hubspot.totals_analytics_weekly_report` LIMIT 10;
 
 Monthly aggregation. Key columns: `date`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2shubspot!3stotals_analytics_monthly_report" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2shubspot!3stotals_analytics_monthly_report)
 
 ```sql
 -- Preview data
@@ -519,7 +519,7 @@ SELECT * FROM `sm-zbiotics.hubspot.totals_analytics_monthly_report` LIMIT 10;
 
 Monthly aggregation. Key columns: `date`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2shubspot!3sgeolocation_analytics_monthly_report" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2shubspot!3sgeolocation_analytics_monthly_report)
 
 ```sql
 -- Preview data
@@ -532,7 +532,7 @@ SELECT * FROM `sm-zbiotics.hubspot.geolocation_analytics_monthly_report` LIMIT 1
 
 Daily aggregation. Key columns: `date`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2shubspot!3stotals_analytics_daily_report" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2shubspot!3stotals_analytics_daily_report)
 
 ```sql
 -- Preview data
@@ -545,7 +545,7 @@ SELECT * FROM `sm-zbiotics.hubspot.totals_analytics_daily_report` LIMIT 10;
 
 Custom data. Key columns: `pipeline_id, updated_at`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2shubspot!3sdeal_pipeline" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2shubspot!3sdeal_pipeline)
 
 ```sql
 -- Preview data
@@ -558,7 +558,7 @@ SELECT * FROM `sm-zbiotics.hubspot.deal_pipeline` LIMIT 10;
 
 Custom data. Key columns: `stage_id, pipeline_id, updated_at`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2shubspot!3sdeal_pipeline_stage" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2shubspot!3sdeal_pipeline_stage)
 
 ```sql
 -- Preview data
@@ -571,7 +571,7 @@ SELECT * FROM `sm-zbiotics.hubspot.deal_pipeline_stage` LIMIT 10;
 
 Weekly aggregation. Key columns: `date`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2shubspot!3sgeolocation_analytics_weekly_report" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2shubspot!3sgeolocation_analytics_weekly_report)
 
 ```sql
 -- Preview data
@@ -584,7 +584,7 @@ SELECT * FROM `sm-zbiotics.hubspot.geolocation_analytics_weekly_report` LIMIT 10
 
 Weekly aggregation. Key columns: `date, customers`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2shubspot!3ssources_analytics_weekly_report" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2shubspot!3ssources_analytics_weekly_report)
 
 ```sql
 -- Preview data
@@ -597,7 +597,7 @@ SELECT * FROM `sm-zbiotics.hubspot.sources_analytics_weekly_report` LIMIT 10;
 
 Daily aggregation. Key columns: `date`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2shubspot!3sgeolocation_analytics_daily_report" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2shubspot!3sgeolocation_analytics_daily_report)
 
 ```sql
 -- Preview data
@@ -610,7 +610,7 @@ SELECT * FROM `sm-zbiotics.hubspot.geolocation_analytics_daily_report` LIMIT 10;
 
 Monthly aggregation. Key columns: `date, customers`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2shubspot!3ssources_analytics_monthly_report" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2shubspot!3ssources_analytics_monthly_report)
 
 ```sql
 -- Preview data
@@ -623,7 +623,7 @@ SELECT * FROM `sm-zbiotics.hubspot.sources_analytics_monthly_report` LIMIT 10;
 
 Custom data. Key columns: `guid, portal_id, follow_up_id`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2shubspot!3sform" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2shubspot!3sform)
 
 ```sql
 -- Preview data
@@ -636,7 +636,7 @@ SELECT * FROM `sm-zbiotics.hubspot.form` LIMIT 10;
 
 Daily aggregation. Key columns: `date, customers`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2shubspot!3ssources_analytics_daily_report" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2shubspot!3ssources_analytics_daily_report)
 
 ```sql
 -- Preview data
@@ -649,7 +649,7 @@ SELECT * FROM `sm-zbiotics.hubspot.sources_analytics_daily_report` LIMIT 10;
 
 Custom data. Key columns: `id, portal_id`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2shubspot!3semail_subscription" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2shubspot!3semail_subscription)
 
 ```sql
 -- Preview data
@@ -662,7 +662,7 @@ SELECT * FROM `sm-zbiotics.hubspot.email_subscription` LIMIT 10;
 
 Custom data. Key columns: `stage_id, pipeline_id, updated_at`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2shubspot!3sticket_pipeline_stage" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2shubspot!3sticket_pipeline_stage)
 
 ```sql
 -- Preview data
@@ -675,7 +675,7 @@ SELECT * FROM `sm-zbiotics.hubspot.ticket_pipeline_stage` LIMIT 10;
 
 Custom data. Key columns: `owner_id, updated_at, user_id_including_inactive, active_user_id`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2shubspot!3sowner" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2shubspot!3sowner)
 
 ```sql
 -- Preview data
@@ -688,7 +688,7 @@ SELECT * FROM `sm-zbiotics.hubspot.owner` LIMIT 10;
 
 Custom data. Key columns: `pipeline_id, updated_at`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2shubspot!3sticket_pipeline" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2shubspot!3sticket_pipeline)
 
 ```sql
 -- Preview data
@@ -701,7 +701,7 @@ SELECT * FROM `sm-zbiotics.hubspot.ticket_pipeline` LIMIT 10;
 
 Daily aggregation. Key columns: `date, paid_search`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2shubspot!3ssessions_analytics_daily_report" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2shubspot!3ssessions_analytics_daily_report)
 
 ```sql
 -- Preview data
@@ -714,7 +714,7 @@ SELECT * FROM `sm-zbiotics.hubspot.sessions_analytics_daily_report` LIMIT 10;
 
 Weekly aggregation. Key columns: `date, paid_search`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2shubspot!3ssessions_analytics_weekly_report" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2shubspot!3ssessions_analytics_weekly_report)
 
 ```sql
 -- Preview data
@@ -727,7 +727,7 @@ SELECT * FROM `sm-zbiotics.hubspot.sessions_analytics_weekly_report` LIMIT 10;
 
 Marketing/advertising data. Key columns: `campaign_id, marketing_email_id`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2shubspot!3smarketing_email_campaign" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2shubspot!3smarketing_email_campaign)
 
 ```sql
 -- Preview data
@@ -743,7 +743,7 @@ SELECT * FROM `sm-zbiotics.hubspot.marketing_email_campaign` LIMIT 10;
 
 Custom data. Key columns: `account_id, end_date, start_date`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2stwilio!3susage_record" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2stwilio!3susage_record)
 
 ```sql
 -- Preview data
@@ -756,7 +756,7 @@ SELECT * FROM `sm-zbiotics.twilio.usage_record` LIMIT 10;
 
 Custom data. Key columns: `id, updated_at, owner_account_id`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2stwilio!3saccount_history" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2stwilio!3saccount_history)
 
 ```sql
 -- Preview data
@@ -769,7 +769,7 @@ SELECT * FROM `sm-zbiotics.twilio.account_history` LIMIT 10;
 
 Custom data. Key columns: `id, validity_period, synchronous_validation`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2stwilio!3smessaging_service" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2stwilio!3smessaging_service)
 
 ```sql
 -- Preview data
@@ -782,7 +782,7 @@ SELECT * FROM `sm-zbiotics.twilio.messaging_service` LIMIT 10;
 
 Custom data. Key columns: `role_id`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2stwilio!3srole_permission" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2stwilio!3srole_permission)
 
 ```sql
 -- Preview data
@@ -795,7 +795,7 @@ SELECT * FROM `sm-zbiotics.twilio.role_permission` LIMIT 10;
 
 Custom data. Key columns: `id, date_sent`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2stwilio!3smessage" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2stwilio!3smessage)
 
 ```sql
 -- Preview data
@@ -808,7 +808,7 @@ SELECT * FROM `sm-zbiotics.twilio.message` LIMIT 10;
 
 Custom data. Key columns: `id, updated_at, account_id`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2stwilio!3sflow_history" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2stwilio!3sflow_history)
 
 ```sql
 -- Preview data
@@ -821,7 +821,7 @@ SELECT * FROM `sm-zbiotics.twilio.flow_history` LIMIT 10;
 
 Custom data. Key columns: `id, account_id, updated_at`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2stwilio!3sservice" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2stwilio!3sservice)
 
 ```sql
 -- Preview data
@@ -834,7 +834,7 @@ SELECT * FROM `sm-zbiotics.twilio.service` LIMIT 10;
 
 Custom data. Key columns: `id, account_id, updated_at, chat_service_id`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2stwilio!3srole" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2stwilio!3srole)
 
 ```sql
 -- Preview data
@@ -850,7 +850,7 @@ SELECT * FROM `sm-zbiotics.twilio.role` LIMIT 10;
 
 Custom data. Key columns: `id, customer_id`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2scin7core!3ssale" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2scin7core!3ssale)
 
 ```sql
 -- Preview data
@@ -863,7 +863,7 @@ SELECT * FROM `sm-zbiotics.cin7core.sale` LIMIT 10;
 
 Customer-level data. Key columns: `id, revenue_account`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2scin7core!3scustomer" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2scin7core!3scustomer)
 
 ```sql
 -- Preview data
@@ -876,7 +876,7 @@ SELECT * FROM `sm-zbiotics.cin7core.customer` LIMIT 10;
 
 Order-level data. Key columns: `sale_id, product_id`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2scin7core!3ssale_order_line" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2scin7core!3ssale_order_line)
 
 ```sql
 -- Preview data
@@ -889,7 +889,7 @@ SELECT * FROM `sm-zbiotics.cin7core.sale_order_line` LIMIT 10;
 
 Custom data. Key columns: `sale_id, id, shipment_date`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2scin7core!3ssale_fullfillment_ship_line" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2scin7core!3ssale_fullfillment_ship_line)
 
 ```sql
 -- Preview data
@@ -902,7 +902,7 @@ SELECT * FROM `sm-zbiotics.cin7core.sale_fullfillment_ship_line` LIMIT 10;
 
 Custom data. Key columns: `sale_id, product_id, location_id`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2scin7core!3ssale_fullfillment_pack_line" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2scin7core!3ssale_fullfillment_pack_line)
 
 ```sql
 -- Preview data
@@ -915,7 +915,7 @@ SELECT * FROM `sm-zbiotics.cin7core.sale_fullfillment_pack_line` LIMIT 10;
 
 Custom data. Key columns: `sale_id, product_id`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2scin7core!3ssale_fullfillment_pick_line" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2scin7core!3ssale_fullfillment_pick_line)
 
 ```sql
 -- Preview data
@@ -928,7 +928,7 @@ SELECT * FROM `sm-zbiotics.cin7core.sale_fullfillment_pick_line` LIMIT 10;
 
 Custom data. Key columns: `sale_credit_note_task_id, sale_id, id`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2scin7core!3ssale_credit_note_refund" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2scin7core!3ssale_credit_note_refund)
 
 ```sql
 -- Preview data
@@ -941,7 +941,7 @@ SELECT * FROM `sm-zbiotics.cin7core.sale_credit_note_refund` LIMIT 10;
 
 Custom data. Key columns: `sale_credit_note_task_id, sale_id, product_id`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2scin7core!3ssale_credit_note_line" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2scin7core!3ssale_credit_note_line)
 
 ```sql
 -- Preview data
@@ -954,7 +954,7 @@ SELECT * FROM `sm-zbiotics.cin7core.sale_credit_note_line` LIMIT 10;
 
 Product/SKU-level data. Key columns: `id, category_id, revenue_account`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2scin7core!3sproduct" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2scin7core!3sproduct)
 
 ```sql
 -- Preview data
@@ -967,7 +967,7 @@ SELECT * FROM `sm-zbiotics.cin7core.product` LIMIT 10;
 
 Custom data. Key columns: `sale_id, product_id, date, task_id`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2scin7core!3ssale_inventory_movement" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2scin7core!3ssale_inventory_movement)
 
 ```sql
 -- Preview data
@@ -980,7 +980,7 @@ SELECT * FROM `sm-zbiotics.cin7core.sale_inventory_movement` LIMIT 10;
 
 Product/SKU-level data from TikTok. Key columns: `product_id, id`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2scin7core!3sproduct_attachment" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2scin7core!3sproduct_attachment)
 
 ```sql
 -- Preview data
@@ -993,7 +993,7 @@ SELECT * FROM `sm-zbiotics.cin7core.product_attachment` LIMIT 10;
 
 Custom data. Key columns: `product_id, component_product_id`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2scin7core!3sbill_of_material_service" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2scin7core!3sbill_of_material_service)
 
 ```sql
 -- Preview data
@@ -1006,7 +1006,7 @@ SELECT * FROM `sm-zbiotics.cin7core.bill_of_material_service` LIMIT 10;
 
 Product/SKU-level data. Key columns: `product_id, component_product_id`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2scin7core!3sbill_of_material_product" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2scin7core!3sbill_of_material_product)
 
 ```sql
 -- Preview data
@@ -1019,7 +1019,7 @@ SELECT * FROM `sm-zbiotics.cin7core.bill_of_material_product` LIMIT 10;
 
 Custom data. Key columns: `sale_id, transaction_id, task_id`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2scin7core!3ssale_transaction" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2scin7core!3ssale_transaction)
 
 ```sql
 -- Preview data
@@ -1032,7 +1032,7 @@ SELECT * FROM `sm-zbiotics.cin7core.sale_transaction` LIMIT 10;
 
 Custom data. Key columns: `sale_id, sale_invoice_task_id, product_id`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2scin7core!3ssale_invoice_line" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2scin7core!3ssale_invoice_line)
 
 ```sql
 -- Preview data
@@ -1045,7 +1045,7 @@ SELECT * FROM `sm-zbiotics.cin7core.sale_invoice_line` LIMIT 10;
 
 Custom data. Key columns: `sale_id, task_id`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2scin7core!3ssale_credit_note" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2scin7core!3ssale_credit_note)
 
 ```sql
 -- Preview data
@@ -1058,7 +1058,7 @@ SELECT * FROM `sm-zbiotics.cin7core.sale_credit_note` LIMIT 10;
 
 Custom data. Key columns: `sale_id, task_id`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2scin7core!3ssale_fullfillment" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2scin7core!3ssale_fullfillment)
 
 ```sql
 -- Preview data
@@ -1071,7 +1071,7 @@ SELECT * FROM `sm-zbiotics.cin7core.sale_fullfillment` LIMIT 10;
 
 Custom data. Key columns: `sale_id, task_id, invoice_date, invoice_due_date`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2scin7core!3ssale_invoice" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2scin7core!3ssale_invoice)
 
 ```sql
 -- Preview data
@@ -1084,7 +1084,7 @@ SELECT * FROM `sm-zbiotics.cin7core.sale_invoice` LIMIT 10;
 
 Custom data from TikTok. Key columns: `sale_id, id`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2scin7core!3ssale_attachment" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2scin7core!3ssale_attachment)
 
 ```sql
 -- Preview data
@@ -1097,7 +1097,7 @@ SELECT * FROM `sm-zbiotics.cin7core.sale_attachment` LIMIT 10;
 
 Custom data. Key columns: `sale_credit_note_task_id, sale_id, product_id`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2scin7core!3ssale_credit_note_restock" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2scin7core!3ssale_credit_note_restock)
 
 ```sql
 -- Preview data
@@ -1110,7 +1110,7 @@ SELECT * FROM `sm-zbiotics.cin7core.sale_credit_note_restock` LIMIT 10;
 
 Product/SKU-level data. Key columns: `product_id`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2scin7core!3sproduct_movement" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2scin7core!3sproduct_movement)
 
 ```sql
 -- Preview data
@@ -1126,7 +1126,7 @@ SELECT * FROM `sm-zbiotics.cin7core.product_movement` LIMIT 10;
 
 Aggregated summary. Key columns: `rpt_date, sm_channel, order_net_revenue, new_customer_order_net_revenue, repeat_customer_order_net_revenue`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2szb_transforms!3srpt_executive_summary_daily" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2szb_transforms!3srpt_executive_summary_daily)
 
 ```sql
 -- Preview data
@@ -1139,7 +1139,7 @@ SELECT * FROM `sm-zbiotics.zb_transforms.rpt_executive_summary_daily` LIMIT 10;
 
 Fact table from Amazon. Key columns: `sticker_response_date, customer_id`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2szb_transforms!3sfct_amazon_sticker_response_matches" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2szb_transforms!3sfct_amazon_sticker_response_matches)
 
 ```sql
 -- Preview data
@@ -1152,7 +1152,7 @@ SELECT * FROM `sm-zbiotics.zb_transforms.fct_amazon_sticker_response_matches` LI
 
 Fact table from Amazon.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2szb_transforms!3sfct_amazon_new_downweights" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2szb_transforms!3sfct_amazon_new_downweights)
 
 ```sql
 -- Preview data
@@ -1165,7 +1165,7 @@ SELECT * FROM `sm-zbiotics.zb_transforms.fct_amazon_new_downweights` LIMIT 10;
 
 Order-level data. Key columns: `sm_store_id, sm_order_key, sm_customer_key, source_system, order_id`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2szb_transforms!3sobt_orders" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2szb_transforms!3sobt_orders)
 
 ```sql
 -- Preview data
@@ -1178,7 +1178,7 @@ SELECT * FROM `sm-zbiotics.zb_transforms.obt_orders` LIMIT 10;
 
 Order-level data. Key columns: `order_line_id, sm_order_key, sm_order_line_key, sm_product_key, source_system`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2szb_transforms!3sdim_order_lines" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2szb_transforms!3sdim_order_lines)
 
 ```sql
 -- Preview data
@@ -1194,7 +1194,7 @@ SELECT * FROM `sm-zbiotics.zb_transforms.dim_order_lines` LIMIT 10;
 
 Custom data. Key columns: `id, fulfillment_id`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2spipe17!3sfulfillment_line_item" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2spipe17!3sfulfillment_line_item)
 
 ```sql
 -- Preview data
@@ -1207,7 +1207,7 @@ SELECT * FROM `sm-zbiotics.pipe17.fulfillment_line_item` LIMIT 10;
 
 Order-level data. Key columns: `orders_id, line_item_id`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2spipe17!3sorder_discount" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2spipe17!3sorder_discount)
 
 ```sql
 -- Preview data
@@ -1220,7 +1220,7 @@ SELECT * FROM `sm-zbiotics.pipe17.order_discount` LIMIT 10;
 
 Custom data. Key columns: `id, actual_ship_date, external_fulfillment_id, external_order_id, updated_at`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2spipe17!3sfulfillment" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2spipe17!3sfulfillment)
 
 ```sql
 -- Preview data
@@ -1233,7 +1233,7 @@ SELECT * FROM `sm-zbiotics.pipe17.fulfillment` LIMIT 10;
 
 Order-level data. Key columns: `custom_var_auto_merge_billing_sub_id, orders_id, custom_var_source, location_id`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2spipe17!3sorder_line_item" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2spipe17!3sorder_line_item)
 
 ```sql
 -- Preview data
@@ -1246,7 +1246,7 @@ SELECT * FROM `sm-zbiotics.pipe17.order_line_item` LIMIT 10;
 
 Custom data. Key columns: `custom_var_auto_merge_billing_sub_id, custom_var_source, custom_var_widget_id, custom_var_upsell_provider, custom_var_swap_back_variant_id`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2spipe17!3sshipment_line_item" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2spipe17!3sshipment_line_item)
 
 ```sql
 -- Preview data
@@ -1259,7 +1259,7 @@ SELECT * FROM `sm-zbiotics.pipe17.shipment_line_item` LIMIT 10;
 
 Order-level data. Key columns: `orders_id`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2spipe17!3sorder_tag" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2spipe17!3sorder_tag)
 
 ```sql
 -- Preview data
@@ -1272,7 +1272,7 @@ SELECT * FROM `sm-zbiotics.pipe17.order_tag` LIMIT 10;
 
 Order-level data. Key columns: `orders_id`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2spipe17!3sorder_payment" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2spipe17!3sorder_payment)
 
 ```sql
 -- Preview data
@@ -1285,7 +1285,7 @@ SELECT * FROM `sm-zbiotics.pipe17.order_payment` LIMIT 10;
 
 Custom data. Key columns: `shipment_id`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2spipe17!3sshipment_tag" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2spipe17!3sshipment_tag)
 
 ```sql
 -- Preview data
@@ -1298,7 +1298,7 @@ SELECT * FROM `sm-zbiotics.pipe17.shipment_tag` LIMIT 10;
 
 Order-level data. Key columns: `id, external_order_api_id`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2spipe17!3sorders" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2spipe17!3sorders)
 
 ```sql
 -- Preview data
@@ -1311,7 +1311,7 @@ SELECT * FROM `sm-zbiotics.pipe17.orders` LIMIT 10;
 
 Custom data. Key columns: `id, external_shipment_id, ship_after_date, external_order_id`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2spipe17!3sshipment" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2spipe17!3sshipment)
 
 ```sql
 -- Preview data
@@ -1327,7 +1327,7 @@ SELECT * FROM `sm-zbiotics.pipe17.shipment` LIMIT 10;
 
 Custom data. Key columns: `id, updatedAt, siteId, platformId`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2sskio!3sStorefrontUser" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2sskio!3sStorefrontUser)
 
 ```sql
 -- Preview data
@@ -1340,7 +1340,7 @@ SELECT * FROM `sm-zbiotics.skio.StorefrontUser` LIMIT 10;
 
 Product/SKU-level data. Key columns: `id, updatedAt, platformId, productId`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2sskio!3sProductVariant" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2sskio!3sProductVariant)
 
 ```sql
 -- Preview data
@@ -1356,7 +1356,7 @@ SELECT * FROM `sm-zbiotics.skio.ProductVariant` LIMIT 10;
 
 Intermediate transformation from Twilio. Key columns: `account_id`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2stwilio_twilio!3sint_twilio__messages" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2stwilio_twilio!3sint_twilio__messages)
 
 ```sql
 -- Preview data

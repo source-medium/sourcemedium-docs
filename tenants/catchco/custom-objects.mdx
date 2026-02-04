@@ -33,7 +33,7 @@ This page documents active custom BigQuery tables and views (those queried at le
 
 Order-level data. Key columns: `sm_store_id, sm_order_key, sm_customer_key, source_system, order_id`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-catchco&ws=!1m5!1m4!4m3!1ssm-catchco!2scustomized_views!3sobt_orders_customized" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-catchco&ws=!1m5!1m4!4m3!1ssm-catchco!2scustomized_views!3sobt_orders_customized)
 
 ```sql
 -- Preview data
@@ -46,7 +46,7 @@ SELECT * FROM `sm-catchco.customized_views.obt_orders_customized` LIMIT 10;
 
 Aggregated summary.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-catchco&ws=!1m5!1m4!4m3!1ssm-catchco!2scustomized_views!3srpt_executive_summary_daily_custom" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-catchco&ws=!1m5!1m4!4m3!1ssm-catchco!2scustomized_views!3srpt_executive_summary_daily_custom)
 
 ```sql
 -- Preview data
@@ -59,7 +59,7 @@ SELECT * FROM `sm-catchco.customized_views.rpt_executive_summary_daily_custom` L
 
 Custom data. Key columns: `channel, date`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-catchco&ws=!1m5!1m4!4m3!1ssm-catchco!2scustomized_views!3scatch_co_target_array" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-catchco&ws=!1m5!1m4!4m3!1ssm-catchco!2scustomized_views!3scatch_co_target_array)
 
 ```sql
 -- Preview data
@@ -72,7 +72,7 @@ SELECT * FROM `sm-catchco.customized_views.catch_co_target_array` LIMIT 10;
 
 Aggregated summary. Key columns: `order_date, sm_channel, sm_store_id, new_subscription_orders, new_subscription_net_revenue`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-catchco&ws=!1m5!1m4!4m3!1ssm-catchco!2scustomized_views!3sobt_summary_with_forecasting" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-catchco&ws=!1m5!1m4!4m3!1ssm-catchco!2scustomized_views!3sobt_summary_with_forecasting)
 
 ```sql
 -- Preview data
@@ -85,7 +85,7 @@ SELECT * FROM `sm-catchco.customized_views.obt_summary_with_forecasting` LIMIT 1
 
 Aggregated summary. Key columns: `order_date, order_date_last_year, sm_channel, sm_store_id, new_orders`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-catchco&ws=!1m5!1m4!4m3!1ssm-catchco!2scustomized_views!3srpt_yoy_executive_summary" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-catchco&ws=!1m5!1m4!4m3!1ssm-catchco!2scustomized_views!3srpt_yoy_executive_summary)
 
 ```sql
 -- Preview data
@@ -98,7 +98,7 @@ SELECT * FROM `sm-catchco.customized_views.rpt_yoy_executive_summary` LIMIT 10;
 
 Weekly aggregation. Key columns: `date, week_start_date, month_start_date, rebill_net_revenue, non_rebill_net_revenue`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-catchco&ws=!1m5!1m4!4m3!1ssm-catchco!2scustomized_views!3sweekly_business_review" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-catchco&ws=!1m5!1m4!4m3!1ssm-catchco!2scustomized_views!3sweekly_business_review)
 
 ```sql
 -- Preview data
@@ -111,7 +111,7 @@ SELECT * FROM `sm-catchco.customized_views.weekly_business_review` LIMIT 10;
 
 One Big Table (denormalized). Key columns: `sm_channel, date, forecasted_total_gross_revenue, forecasted_total_net_revenue, forecasted_total_orders`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-catchco&ws=!1m5!1m4!4m3!1ssm-catchco!2scustomized_views!3sobt_forecasting_amortized" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-catchco&ws=!1m5!1m4!4m3!1ssm-catchco!2scustomized_views!3sobt_forecasting_amortized)
 
 ```sql
 -- Preview data
@@ -124,7 +124,7 @@ SELECT * FROM `sm-catchco.customized_views.obt_forecasting_amortized` LIMIT 10;
 
 Marketing/advertising data. Key columns: `date, sm_channel, source_system, sm_store_id, ad_spend`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-catchco&ws=!1m5!1m4!4m3!1ssm-catchco!2scustomized_views!3srpt_exec_ad_performance" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-catchco&ws=!1m5!1m4!4m3!1ssm-catchco!2scustomized_views!3srpt_exec_ad_performance)
 
 ```sql
 -- Preview data
@@ -137,7 +137,7 @@ SELECT * FROM `sm-catchco.customized_views.rpt_exec_ad_performance` LIMIT 10;
 
 Custom data. Key columns: `channel, date_start, date_end, total_gross_revenue, total_net_revenue`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-catchco&ws=!1m5!1m4!4m3!1ssm-catchco!2scustomized_views!3sforecasting_sheet_src" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-catchco&ws=!1m5!1m4!4m3!1ssm-catchco!2scustomized_views!3sforecasting_sheet_src)
 
 ```sql
 -- Preview data
@@ -150,7 +150,7 @@ SELECT * FROM `sm-catchco.customized_views.forecasting_sheet_src` LIMIT 10;
 
 Order-level data. Key columns: `order_date, sm_channel, prepaid_count, prepaid_revenue, gift_redemption_revenue`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-catchco&ws=!1m5!1m4!4m3!1ssm-catchco!2scustomized_views!3sorders_logic_aggregation" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-catchco&ws=!1m5!1m4!4m3!1ssm-catchco!2scustomized_views!3sorders_logic_aggregation)
 
 ```sql
 -- Preview data
@@ -163,7 +163,7 @@ SELECT * FROM `sm-catchco.customized_views.orders_logic_aggregation` LIMIT 10;
 
 Product/SKU-level data. Key columns: `order_date, order_date_last_year, sm_channel, sm_store_id, new_subscription_orders`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-catchco&ws=!1m5!1m4!4m3!1ssm-catchco!2scustomized_views!3srpt_yoy_non_recurringong_product_comparison" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-catchco&ws=!1m5!1m4!4m3!1ssm-catchco!2scustomized_views!3srpt_yoy_non_recurringong_product_comparison)
 
 ```sql
 -- Preview data
@@ -176,7 +176,7 @@ SELECT * FROM `sm-catchco.customized_views.rpt_yoy_non_recurringong_product_comp
 
 Aggregated summary. Key columns: `date, sm_channel, sm_store_id, new_orders, new_net_revenue`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-catchco&ws=!1m5!1m4!4m3!1ssm-catchco!2scustomized_views!3srpt_contribution_margin_summary" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-catchco&ws=!1m5!1m4!4m3!1ssm-catchco!2scustomized_views!3srpt_contribution_margin_summary)
 
 ```sql
 -- Preview data
@@ -189,7 +189,7 @@ SELECT * FROM `sm-catchco.customized_views.rpt_contribution_margin_summary` LIMI
 
 Order-level data. Key columns: `order_date, prepaid_count`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-catchco&ws=!1m5!1m4!4m3!1ssm-catchco!2scustomized_views!3sobt_orders_aggregated" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-catchco&ws=!1m5!1m4!4m3!1ssm-catchco!2scustomized_views!3sobt_orders_aggregated)
 
 ```sql
 -- Preview data
@@ -205,7 +205,7 @@ SELECT * FROM `sm-catchco.customized_views.obt_orders_aggregated` LIMIT 10;
 
 Custom data. Key columns: `_airbyte_raw_id, _airbyte_generation_id, id, order_id`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-catchco&ws=!1m5!1m4!4m3!1ssm-catchco!2ssm_sources!3smtb_fairing_responses" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-catchco&ws=!1m5!1m4!4m3!1ssm-catchco!2ssm_sources!3smtb_fairing_responses)
 
 ```sql
 -- Preview data
@@ -221,7 +221,7 @@ SELECT * FROM `sm-catchco.sm_sources.mtb_fairing_responses` LIMIT 10;
 
 Custom data.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-catchco&ws=!1m5!1m4!4m3!1ssm-catchco!2ssm_utils!3sforecasting_sheet_ext" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-catchco&ws=!1m5!1m4!4m3!1ssm-catchco!2ssm_utils!3sforecasting_sheet_ext)
 
 ```sql
 -- Preview data

@@ -33,7 +33,7 @@ This page documents active custom BigQuery tables and views (those queried at le
 
 One Big Table (denormalized). Key columns: `sm_store_id, source_system, sm_touch_id, event_user_id, event_local_datetime`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-idyl&ws=!1m5!1m4!4m3!1ssm-idyl!2ssm_consulting!3sobt_purchase_journeys_with_mta_models_lo_only_jan_21_2026" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-idyl&ws=!1m5!1m4!4m3!1ssm-idyl!2ssm_consulting!3sobt_purchase_journeys_with_mta_models_lo_only_jan_21_2026)
 
 ```sql
 -- Preview data
@@ -49,7 +49,7 @@ SELECT * FROM `sm-idyl.sm_consulting.obt_purchase_journeys_with_mta_models_lo_on
 
 Custom data. Key columns: `source_project, source_dataset, source_table`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-idyl&ws=!1m5!1m4!4m3!1ssm-idyl!2stydo_historic_pre_2026!3s_table_catalog" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-idyl&ws=!1m5!1m4!4m3!1ssm-idyl!2stydo_historic_pre_2026!3s_table_catalog)
 
 ```sql
 -- Preview data
@@ -62,7 +62,7 @@ SELECT * FROM `sm-idyl.tydo_historic_pre_2026._table_catalog` LIMIT 10;
 
 Order-level data from Shopify. Key columns: `id, app_id`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-idyl&ws=!1m5!1m4!4m3!1ssm-idyl!2stydo_historic_pre_2026!3sshopify__idyl__order" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-idyl&ws=!1m5!1m4!4m3!1ssm-idyl!2stydo_historic_pre_2026!3sshopify__idyl__order)
 
 ```sql
 -- Preview data
@@ -75,7 +75,7 @@ SELECT * FROM `sm-idyl.tydo_historic_pre_2026.shopify__idyl__order` LIMIT 10;
 
 Marketing/advertising data from Meta/Facebook. Key columns: `_fivetran_id, ad_id, date, account_id, campaign_id`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-idyl&ws=!1m5!1m4!4m3!1ssm-idyl!2stydo_historic_pre_2026!3sfacebook_ads__idyl__ad_level_reporting" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-idyl&ws=!1m5!1m4!4m3!1ssm-idyl!2stydo_historic_pre_2026!3sfacebook_ads__idyl__ad_level_reporting)
 
 ```sql
 -- Preview data
@@ -88,7 +88,7 @@ SELECT * FROM `sm-idyl.tydo_historic_pre_2026.facebook_ads__idyl__ad_level_repor
 
 Order-level data from Shopify. Key columns: `_airbyte_ab_id, id, app_id`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-idyl&ws=!1m5!1m4!4m3!1ssm-idyl!2stydo_historic_pre_2026!3sidyl__shopify_order" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-idyl&ws=!1m5!1m4!4m3!1ssm-idyl!2stydo_historic_pre_2026!3sidyl__shopify_order)
 
 ```sql
 -- Preview data
@@ -101,7 +101,7 @@ SELECT * FROM `sm-idyl.tydo_historic_pre_2026.idyl__shopify_order` LIMIT 10;
 
 Marketing/advertising data from Google. Key columns: `_fivetran_id, customer_id, date`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-idyl&ws=!1m5!1m4!4m3!1ssm-idyl!2stydo_historic_pre_2026!3sgoogle_ads__idyl__campaign_hourly_stats" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-idyl&ws=!1m5!1m4!4m3!1ssm-idyl!2stydo_historic_pre_2026!3sgoogle_ads__idyl__campaign_hourly_stats)
 
 ```sql
 -- Preview data
@@ -114,7 +114,7 @@ SELECT * FROM `sm-idyl.tydo_historic_pre_2026.google_ads__idyl__campaign_hourly_
 
 Reporting view from Google. Key columns: `_fivetran_id, date, source_medium, transaction_revenue`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-idyl&ws=!1m5!1m4!4m3!1ssm-idyl!2stydo_historic_pre_2026!3sgoogle_analytics_idyl__landing_page_report" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-idyl&ws=!1m5!1m4!4m3!1ssm-idyl!2stydo_historic_pre_2026!3sgoogle_analytics_idyl__landing_page_report)
 
 ```sql
 -- Preview data
@@ -127,7 +127,7 @@ SELECT * FROM `sm-idyl.tydo_historic_pre_2026.google_analytics_idyl__landing_pag
 
 Order-level data from Shopify. Key columns: `_airbyte_ab_id, id`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-idyl&ws=!1m5!1m4!4m3!1ssm-idyl!2stydo_historic_pre_2026!3sidyl__shopify_order_line" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-idyl&ws=!1m5!1m4!4m3!1ssm-idyl!2stydo_historic_pre_2026!3sidyl__shopify_order_line)
 
 ```sql
 -- Preview data
@@ -143,7 +143,7 @@ SELECT * FROM `sm-idyl.tydo_historic_pre_2026.idyl__shopify_order_line` LIMIT 10
 
 Custom data. Key columns: `_source_system_relation, sm_event_key, sm_store_id, source_system, event_id`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-idyl&ws=!1m5!1m4!4m3!1ssm-idyl!2ssrc_lucky_orange!3shistorical_sessions_pre_2026_backfilled_sample" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-idyl&ws=!1m5!1m4!4m3!1ssm-idyl!2ssrc_lucky_orange!3shistorical_sessions_pre_2026_backfilled_sample)
 
 ```sql
 -- Preview data
@@ -156,7 +156,7 @@ SELECT * FROM `sm-idyl.src_lucky_orange.historical_sessions_pre_2026_backfilled_
 
 Staging data. Key columns: `sm_store_id, sm_touch_id, source_system, event_id, event_user_id`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-idyl&ws=!1m5!1m4!4m3!1ssm-idyl!2ssrc_lucky_orange!3sstg_purchase_journey_touches" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-idyl&ws=!1m5!1m4!4m3!1ssm-idyl!2ssrc_lucky_orange!3sstg_purchase_journey_touches)
 
 ```sql
 -- Preview data
@@ -169,7 +169,7 @@ SELECT * FROM `sm-idyl.src_lucky_orange.stg_purchase_journey_touches` LIMIT 10;
 
 Custom data. Key columns: `_source_system_relation, sm_event_key, sm_store_id, source_system, event_id`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-idyl&ws=!1m5!1m4!4m3!1ssm-idyl!2ssrc_lucky_orange!3shistorical_sessions_pre_2026" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-idyl&ws=!1m5!1m4!4m3!1ssm-idyl!2ssrc_lucky_orange!3shistorical_sessions_pre_2026)
 
 ```sql
 -- Preview data
@@ -182,7 +182,7 @@ SELECT * FROM `sm-idyl.src_lucky_orange.historical_sessions_pre_2026` LIMIT 10;
 
 Intermediate transformation. Key columns: `sm_store_id, sm_touch_id, source_system, event_id, event_user_id`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-idyl&ws=!1m5!1m4!4m3!1ssm-idyl!2ssrc_lucky_orange!3sint_purchase_journey_valid_touches" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-idyl&ws=!1m5!1m4!4m3!1ssm-idyl!2ssrc_lucky_orange!3sint_purchase_journey_valid_touches)
 
 ```sql
 -- Preview data
@@ -195,7 +195,7 @@ SELECT * FROM `sm-idyl.src_lucky_orange.int_purchase_journey_valid_touches` LIMI
 
 Custom data. Key columns: `sm_touch_id, smcid, source_system, event_id, event_user_id`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-idyl&ws=!1m5!1m4!4m3!1ssm-idyl!2ssrc_lucky_orange!3spurchase_journey_touches_test" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-idyl&ws=!1m5!1m4!4m3!1ssm-idyl!2ssrc_lucky_orange!3spurchase_journey_touches_test)
 
 ```sql
 -- Preview data
@@ -208,7 +208,7 @@ SELECT * FROM `sm-idyl.src_lucky_orange.purchase_journey_touches_test` LIMIT 10;
 
 Intermediate transformation. Key columns: `sm_store_id, source_system, event_identifier, purchase_order_id, first_valid_sm_touch_id_landing_page`.
 
-<a href="https://console.cloud.google.com/bigquery?project=sm-idyl&ws=!1m5!1m4!4m3!1ssm-idyl!2ssrc_lucky_orange!3sint_purchase_journey_purchases" target="_blank">Open in BigQuery Console →</a>
+[Open in BigQuery Console →](https://console.cloud.google.com/bigquery?project=sm-idyl&ws=!1m5!1m4!4m3!1ssm-idyl!2ssrc_lucky_orange!3sint_purchase_journey_purchases)
 
 ```sql
 -- Preview data
