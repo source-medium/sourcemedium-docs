@@ -35,7 +35,7 @@ This page documents active custom BigQuery tables and views (those queried at le
 ### sp_snowplow_scratch
 
 <Accordion title="snowplow_unified_base_new_event_limits">
-**Type:** BASE TABLE | **Usage (180d):** 9,710 queries | **Last Used:** 2026-02-04
+**Type:** BASE TABLE | **Queries (180d):** 9,710
 
 Event tracking data.
 
@@ -48,7 +48,7 @@ SELECT * FROM `sm-guardianbikes.sp_snowplow_scratch.snowplow_unified_base_new_ev
 </Accordion>
 
 <Accordion title="snowplow_unified_events_this_run">
-**Type:** BASE TABLE | **Usage (180d):** 6,474 queries | **Last Used:** 2026-02-04
+**Type:** BASE TABLE | **Queries (180d):** 6,474
 
 Event tracking data. Key columns: `session_identifier, app_id, event_id, txn_id`.
 
@@ -61,7 +61,7 @@ SELECT * FROM `sm-guardianbikes.sp_snowplow_scratch.snowplow_unified_events_this
 </Accordion>
 
 <Accordion title="snowplow_unified_base_sessions_this_run">
-**Type:** BASE TABLE | **Usage (180d):** 4,316 queries | **Last Used:** 2026-02-04
+**Type:** BASE TABLE | **Queries (180d):** 4,316
 
 Custom data. Key columns: `session_identifier, user_identifier`.
 
@@ -74,7 +74,7 @@ SELECT * FROM `sm-guardianbikes.sp_snowplow_scratch.snowplow_unified_base_sessio
 </Accordion>
 
 <Accordion title="snowplow_unified_users_sessions_this_run">
-**Type:** BASE TABLE | **Usage (180d):** 3,234 queries | **Last Used:** 2026-02-04
+**Type:** BASE TABLE | **Queries (180d):** 3,234
 
 Custom data. Key columns: `session_identifier, user_id, user_identifier, stitched_user_id, network_userid`.
 
@@ -87,7 +87,7 @@ SELECT * FROM `sm-guardianbikes.sp_snowplow_scratch.snowplow_unified_users_sessi
 </Accordion>
 
 <Accordion title="snowplow_unified_base_events_this_run">
-**Type:** BASE TABLE | **Usage (180d):** 2,158 queries | **Last Used:** 2026-02-04
+**Type:** BASE TABLE | **Queries (180d):** 2,158
 
 Event tracking data. Key columns: `session_identifier, app_id, event_id, txn_id`.
 
@@ -100,7 +100,7 @@ SELECT * FROM `sm-guardianbikes.sp_snowplow_scratch.snowplow_unified_base_events
 </Accordion>
 
 <Accordion title="snowplow_unified_conversions_this_run">
-**Type:** BASE TABLE | **Usage (180d):** 2,158 queries | **Last Used:** 2026-02-04
+**Type:** BASE TABLE | **Queries (180d):** 2,158
 
 Custom data. Key columns: `cv_id, event_id, session_identifier, user_identifier, user_id`.
 
@@ -113,7 +113,7 @@ SELECT * FROM `sm-guardianbikes.sp_snowplow_scratch.snowplow_unified_conversions
 </Accordion>
 
 <Accordion title="snowplow_unified_users_aggs">
-**Type:** BASE TABLE | **Usage (180d):** 2,156 queries | **Last Used:** 2026-02-04
+**Type:** BASE TABLE | **Queries (180d):** 2,156
 
 Custom data. Key columns: `user_identifier, first_session_identifier, last_session_identifier`.
 
@@ -126,7 +126,7 @@ SELECT * FROM `sm-guardianbikes.sp_snowplow_scratch.snowplow_unified_users_aggs`
 </Accordion>
 
 <Accordion title="snowplow_unified_pv_engaged_time">
-**Type:** BASE TABLE | **Usage (180d):** 1,079 queries | **Last Used:** 2026-02-04
+**Type:** BASE TABLE | **Queries (180d):** 1,079
 
 Custom data. Key columns: `view_id, session_identifier`.
 
@@ -139,7 +139,7 @@ SELECT * FROM `sm-guardianbikes.sp_snowplow_scratch.snowplow_unified_pv_engaged_
 </Accordion>
 
 <Accordion title="snowplow_unified_views_this_run">
-**Type:** BASE TABLE | **Usage (180d):** 1,079 queries | **Last Used:** 2026-02-04
+**Type:** BASE TABLE | **Queries (180d):** 1,079
 
 Custom data. Key columns: `view_id, event_id, session_identifier, user_id, user_identifier`.
 
@@ -152,7 +152,7 @@ SELECT * FROM `sm-guardianbikes.sp_snowplow_scratch.snowplow_unified_views_this_
 </Accordion>
 
 <Accordion title="snowplow_unified_sessions_this_run">
-**Type:** BASE TABLE | **Usage (180d):** 1,079 queries | **Last Used:** 2026-02-04
+**Type:** BASE TABLE | **Queries (180d):** 1,079
 
 Custom data. Key columns: `session_identifier, user_id, user_identifier, stitched_user_id, network_userid`.
 
@@ -165,7 +165,7 @@ SELECT * FROM `sm-guardianbikes.sp_snowplow_scratch.snowplow_unified_sessions_th
 </Accordion>
 
 <Accordion title="snowplow_unified_pv_scroll_depth">
-**Type:** BASE TABLE | **Usage (180d):** 1,079 queries | **Last Used:** 2026-02-04
+**Type:** BASE TABLE | **Queries (180d):** 1,079
 
 Custom data. Key columns: `view_id, session_identifier, doc_width, br_viewwidth`.
 
@@ -178,7 +178,7 @@ SELECT * FROM `sm-guardianbikes.sp_snowplow_scratch.snowplow_unified_pv_scroll_d
 </Accordion>
 
 <Accordion title="snowplow_unified_users_this_run">
-**Type:** BASE TABLE | **Usage (180d):** 1,078 queries | **Last Used:** 2026-02-04
+**Type:** BASE TABLE | **Queries (180d):** 1,078
 
 Custom data. Key columns: `user_id, user_identifier, network_userid, stitched_user_id`.
 
@@ -191,7 +191,7 @@ SELECT * FROM `sm-guardianbikes.sp_snowplow_scratch.snowplow_unified_users_this_
 </Accordion>
 
 <Accordion title="snowplow_unified_users_lasts">
-**Type:** BASE TABLE | **Usage (180d):** 1,078 queries | **Last Used:** 2026-02-04
+**Type:** BASE TABLE | **Queries (180d):** 1,078
 
 Custom data. Key columns: `user_identifier`.
 
@@ -207,7 +207,7 @@ SELECT * FROM `sm-guardianbikes.sp_snowplow_scratch.snowplow_unified_users_lasts
 ### sp_snowplow_snowplow_manifest
 
 <Accordion title="snowplow_unified_incremental_manifest">
-**Type:** BASE TABLE | **Usage (180d):** 9,710 queries | **Last Used:** 2026-02-04
+**Type:** BASE TABLE | **Queries (180d):** 9,710
 
 Custom data.
 
@@ -220,7 +220,7 @@ SELECT * FROM `sm-guardianbikes.sp_snowplow_snowplow_manifest.snowplow_unified_i
 </Accordion>
 
 <Accordion title="snowplow_unified_base_quarantined_sessions">
-**Type:** BASE TABLE | **Usage (180d):** 4,316 queries | **Last Used:** 2026-02-04
+**Type:** BASE TABLE | **Queries (180d):** 4,316
 
 Custom data. Key columns: `session_identifier`.
 
@@ -233,7 +233,7 @@ SELECT * FROM `sm-guardianbikes.sp_snowplow_snowplow_manifest.snowplow_unified_b
 </Accordion>
 
 <Accordion title="snowplow_unified_base_sessions_lifecycle_manifest">
-**Type:** BASE TABLE | **Usage (180d):** 3,237 queries | **Last Used:** 2026-02-04
+**Type:** BASE TABLE | **Queries (180d):** 3,237
 
 Custom data. Key columns: `session_identifier, user_identifier`.
 
@@ -246,7 +246,7 @@ SELECT * FROM `sm-guardianbikes.sp_snowplow_snowplow_manifest.snowplow_unified_b
 </Accordion>
 
 <Accordion title="snowplow_attribution_incremental_manifest">
-**Type:** BASE TABLE | **Usage (180d):** 3,234 queries | **Last Used:** 2026-02-04
+**Type:** BASE TABLE | **Queries (180d):** 3,234
 
 Custom data from TikTok. Key columns: `consider_intrasession_channels, channels_to_exclude, channels_to_include`.
 
@@ -259,7 +259,7 @@ SELECT * FROM `sm-guardianbikes.sp_snowplow_snowplow_manifest.snowplow_attributi
 </Accordion>
 
 <Accordion title="snowplow_unified_dim_ga4_source_categories">
-**Type:** BASE TABLE | **Usage (180d):** 2,158 queries | **Last Used:** 2026-02-04
+**Type:** BASE TABLE | **Queries (180d):** 2,158
 
 Dimension table from Google. Key columns: `source, source_category`.
 
@@ -272,7 +272,7 @@ SELECT * FROM `sm-guardianbikes.sp_snowplow_snowplow_manifest.snowplow_unified_d
 </Accordion>
 
 <Accordion title="snowplow_unified_dim_geo_country_mapping">
-**Type:** BASE TABLE | **Usage (180d):** 1,079 queries | **Last Used:** 2026-02-04
+**Type:** BASE TABLE | **Queries (180d):** 1,079
 
 Dimension table.
 
@@ -285,7 +285,7 @@ SELECT * FROM `sm-guardianbikes.sp_snowplow_snowplow_manifest.snowplow_unified_d
 </Accordion>
 
 <Accordion title="snowplow_unified_dim_rfc_5646_language_mapping">
-**Type:** BASE TABLE | **Usage (180d):** 1,079 queries | **Last Used:** 2026-02-04
+**Type:** BASE TABLE | **Queries (180d):** 1,079
 
 Dimension table.
 
@@ -301,7 +301,7 @@ SELECT * FROM `sm-guardianbikes.sp_snowplow_snowplow_manifest.snowplow_unified_d
 ### sp_snowplow
 
 <Accordion title="events">
-**Type:** BASE TABLE | **Usage (180d):** 5,400 queries | **Last Used:** 2026-02-04
+**Type:** BASE TABLE | **Queries (180d):** 5,400
 
 Event tracking data. Key columns: `app_id, event_id, txn_id`.
 
@@ -314,7 +314,7 @@ SELECT * FROM `sm-guardianbikes.sp_snowplow.events` LIMIT 10;
 </Accordion>
 
 <Accordion title="session_events_for_transactions">
-**Type:** BASE TABLE | **Usage (180d):** 1,086 queries | **Last Used:** 2026-02-04
+**Type:** BASE TABLE | **Queries (180d):** 1,086
 
 Event tracking data. Key columns: `order_id, domain_userid, mkt_source`.
 
@@ -330,7 +330,7 @@ SELECT * FROM `sm-guardianbikes.sp_snowplow.session_events_for_transactions` LIM
 ### sp_snowplow_derived
 
 <Accordion title="snowplow_unified_user_mapping">
-**Type:** BASE TABLE | **Usage (180d):** 5,393 queries | **Last Used:** 2026-02-04
+**Type:** BASE TABLE | **Queries (180d):** 5,393
 
 Custom data. Key columns: `user_identifier, user_id`.
 
@@ -343,7 +343,7 @@ SELECT * FROM `sm-guardianbikes.sp_snowplow_derived.snowplow_unified_user_mappin
 </Accordion>
 
 <Accordion title="snowplow_attribution_paths_to_conversion">
-**Type:** BASE TABLE | **Usage (180d):** 5,392 queries | **Last Used:** 2026-02-04
+**Type:** BASE TABLE | **Queries (180d):** 5,392
 
 Custom data from TikTok. Key columns: `cv_id, event_id, customer_id, revenue, channel_path`.
 
@@ -356,7 +356,7 @@ SELECT * FROM `sm-guardianbikes.sp_snowplow_derived.snowplow_attribution_paths_t
 </Accordion>
 
 <Accordion title="snowplow_unified_conversions">
-**Type:** BASE TABLE | **Usage (180d):** 4,322 queries | **Last Used:** 2026-02-04
+**Type:** BASE TABLE | **Queries (180d):** 4,322
 
 Custom data. Key columns: `cv_id, event_id, session_identifier, user_identifier, user_id`.
 
@@ -369,7 +369,7 @@ SELECT * FROM `sm-guardianbikes.sp_snowplow_derived.snowplow_unified_conversions
 </Accordion>
 
 <Accordion title="snowplow_unified_sessions">
-**Type:** BASE TABLE | **Usage (180d):** 3,330 queries | **Last Used:** 2026-02-04
+**Type:** BASE TABLE | **Queries (180d):** 3,330
 
 Custom data. Key columns: `session_identifier, user_id, user_identifier, stitched_user_id, network_userid`.
 
@@ -382,7 +382,7 @@ SELECT * FROM `sm-guardianbikes.sp_snowplow_derived.snowplow_unified_sessions` L
 </Accordion>
 
 <Accordion title="snowplow_unified_views">
-**Type:** BASE TABLE | **Usage (180d):** 3,260 queries | **Last Used:** 2026-02-04
+**Type:** BASE TABLE | **Queries (180d):** 3,260
 
 Custom data. Key columns: `view_id, event_id, session_identifier, user_id, user_identifier`.
 
@@ -395,7 +395,7 @@ SELECT * FROM `sm-guardianbikes.sp_snowplow_derived.snowplow_unified_views` LIMI
 </Accordion>
 
 <Accordion title="snowplow_attribution_campaign_attributions">
-**Type:** BASE TABLE | **Usage (180d):** 3,235 queries | **Last Used:** 2026-02-04
+**Type:** BASE TABLE | **Queries (180d):** 3,235
 
 Marketing/advertising data from TikTok. Key columns: `composite_key, cv_id, event_id, customer_id, cv_total_revenue`.
 
@@ -408,7 +408,7 @@ SELECT * FROM `sm-guardianbikes.sp_snowplow_derived.snowplow_attribution_campaig
 </Accordion>
 
 <Accordion title="snowplow_attribution_channel_attributions">
-**Type:** BASE TABLE | **Usage (180d):** 2,175 queries | **Last Used:** 2026-02-04
+**Type:** BASE TABLE | **Queries (180d):** 2,175
 
 Custom data from TikTok. Key columns: `composite_key, cv_id, event_id, customer_id, cv_total_revenue`.
 
@@ -421,7 +421,7 @@ SELECT * FROM `sm-guardianbikes.sp_snowplow_derived.snowplow_attribution_channel
 </Accordion>
 
 <Accordion title="snowplow_unified_users">
-**Type:** BASE TABLE | **Usage (180d):** 2,156 queries | **Last Used:** 2026-02-04
+**Type:** BASE TABLE | **Queries (180d):** 2,156
 
 Custom data. Key columns: `user_id, user_identifier, network_userid, stitched_user_id`.
 
@@ -437,7 +437,7 @@ SELECT * FROM `sm-guardianbikes.sp_snowplow_derived.snowplow_unified_users` LIMI
 ### sm_custom_models
 
 <Accordion title="obt_funnel_event_history">
-**Type:** BASE TABLE | **Usage (180d):** 1,080 queries | **Last Used:** 2026-02-04
+**Type:** BASE TABLE | **Queries (180d):** 1,080
 
 Event tracking data. Key columns: `sm_store_id, source_system, event_id, event_user_id, event_user_session_id`.
 
@@ -453,7 +453,7 @@ SELECT * FROM `sm-guardianbikes.sm_custom_models.obt_funnel_event_history` LIMIT
 ### customized_views
 
 <Accordion title="order_line_refunds_processed">
-**Type:** VIEW | **Usage (180d):** 6 queries | **Last Used:** 2025-11-20
+**Type:** VIEW | **Queries (180d):** 6
 
 Order-level data.
 

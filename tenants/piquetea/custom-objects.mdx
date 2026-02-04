@@ -32,7 +32,7 @@ This page documents active custom BigQuery tables and views (those queried at le
 ### customized_views
 
 <Accordion title="obt_orders_device_type_updated">
-**Type:** BASE TABLE | **Usage (180d):** 62,128 queries | **Last Used:** 2026-02-04
+**Type:** BASE TABLE | **Queries (180d):** 62,128
 
 Order-level data. Key columns: `sm_store_id, sm_order_key, sm_customer_key, source_system, order_id`.
 
@@ -45,7 +45,7 @@ SELECT * FROM `sm-piquetea.customized_views.obt_orders_device_type_updated` LIMI
 </Accordion>
 
 <Accordion title="refersion_fivetran_replacement">
-**Type:** EXTERNAL | **Usage (180d):** 24,152 queries | **Last Used:** 2026-02-04
+**Type:** EXTERNAL | **Queries (180d):** 24,152
 
 Custom data. Key columns: `id_key, conversion_date, conversion_id, affiliate_id, offer_id`.
 
@@ -58,7 +58,7 @@ SELECT * FROM `sm-piquetea.customized_views.refersion_fivetran_replacement` LIMI
 </Accordion>
 
 <Accordion title="impact_daily_automation">
-**Type:** EXTERNAL | **Usage (180d):** 7,907 queries | **Last Used:** 2026-02-04
+**Type:** EXTERNAL | **Queries (180d):** 7,907
 
 Daily aggregation. Key columns: `date, revenue, order_id`.
 
@@ -71,7 +71,7 @@ SELECT * FROM `sm-piquetea.customized_views.impact_daily_automation` LIMIT 10;
 </Accordion>
 
 <Accordion title="refersion_orders_rev">
-**Type:** VIEW | **Usage (180d):** 7,882 queries | **Last Used:** 2026-02-04
+**Type:** VIEW | **Queries (180d):** 7,882
 
 Order-level data.
 
@@ -84,7 +84,7 @@ SELECT * FROM `sm-piquetea.customized_views.refersion_orders_rev` LIMIT 10;
 </Accordion>
 
 <Accordion title="refersion_commission">
-**Type:** VIEW | **Usage (180d):** 7,874 queries | **Last Used:** 2026-02-04
+**Type:** VIEW | **Queries (180d):** 7,874
 
 Custom data.
 
@@ -97,7 +97,7 @@ SELECT * FROM `sm-piquetea.customized_views.refersion_commission` LIMIT 10;
 </Accordion>
 
 <Accordion title="sc_sku_breakdown_v4">
-**Type:** VIEW | **Usage (180d):** 7,163 queries | **Last Used:** 2026-02-03
+**Type:** VIEW | **Queries (180d):** 7,163
 
 Product/SKU-level data.
 
@@ -110,7 +110,7 @@ SELECT * FROM `sm-piquetea.customized_views.sc_sku_breakdown_v4` LIMIT 10;
 </Accordion>
 
 <Accordion title="daily_data_v5_online_dtc_slice">
-**Type:** VIEW | **Usage (180d):** 4,575 queries | **Last Used:** 2026-02-03
+**Type:** VIEW | **Queries (180d):** 4,575
 
 Daily aggregation.
 
@@ -123,7 +123,7 @@ SELECT * FROM `sm-piquetea.customized_views.daily_data_v5_online_dtc_slice` LIMI
 </Accordion>
 
 <Accordion title="refersion_impact_table">
-**Type:** EXTERNAL | **Usage (180d):** 4,233 queries | **Last Used:** 2026-02-04
+**Type:** EXTERNAL | **Queries (180d):** 4,233
 
 Custom data. Key columns: `Date, YT_Spend, Email_Spend, Podcast_Spend, IG_Spend`.
 
@@ -136,7 +136,7 @@ SELECT * FROM `sm-piquetea.customized_views.refersion_impact_table` LIMIT 10;
 </Accordion>
 
 <Accordion title="seven_day_cancels_revision5">
-**Type:** VIEW | **Usage (180d):** 4,067 queries | **Last Used:** 2026-02-03
+**Type:** VIEW | **Queries (180d):** 4,067
 
 Custom data.
 
@@ -149,7 +149,7 @@ SELECT * FROM `sm-piquetea.customized_views.seven_day_cancels_revision5` LIMIT 1
 </Accordion>
 
 <Accordion title="refersion_partner_final_v3_0522">
-**Type:** EXTERNAL | **Usage (180d):** 3,940 queries | **Last Used:** 2026-02-02
+**Type:** EXTERNAL | **Queries (180d):** 3,940
 
 Custom data. Key columns: `AFFILIATE_ID, ORDER_DATE, NEW_ORDERS, RETURNING_ORDERS, CHANNEL_TAG`.
 
@@ -162,7 +162,7 @@ SELECT * FROM `sm-piquetea.customized_views.refersion_partner_final_v3_0522` LIM
 </Accordion>
 
 <Accordion title="daily_data_v4_line_spend_slice">
-**Type:** VIEW | **Usage (180d):** 3,737 queries | **Last Used:** 2026-02-03
+**Type:** VIEW | **Queries (180d):** 3,737
 
 Daily aggregation.
 
@@ -175,7 +175,7 @@ SELECT * FROM `sm-piquetea.customized_views.daily_data_v4_line_spend_slice` LIMI
 </Accordion>
 
 <Accordion title="daily_data_v5_amazon_slice">
-**Type:** VIEW | **Usage (180d):** 3,735 queries | **Last Used:** 2026-02-03
+**Type:** VIEW | **Queries (180d):** 3,735
 
 Daily aggregation from Amazon.
 
@@ -188,7 +188,7 @@ SELECT * FROM `sm-piquetea.customized_views.daily_data_v5_amazon_slice` LIMIT 10
 </Accordion>
 
 <Accordion title="refersion_partner_final">
-**Type:** EXTERNAL | **Usage (180d):** 3,553 queries | **Last Used:** 2026-02-02
+**Type:** EXTERNAL | **Queries (180d):** 3,553
 
 Custom data. Key columns: `AFFILIATE_ID, ORDER_DATE, NEW_ORDERS, RETURNING_ORDERS, CHANNEL_TAG`.
 
@@ -201,7 +201,7 @@ SELECT * FROM `sm-piquetea.customized_views.refersion_partner_final` LIMIT 10;
 </Accordion>
 
 <Accordion title="nick_import_v1">
-**Type:** EXTERNAL | **Usage (180d):** 3,404 queries | **Last Used:** 2026-02-02
+**Type:** EXTERNAL | **Queries (180d):** 3,404
 
 Custom data. Key columns: `channel, date`.
 
@@ -214,7 +214,7 @@ SELECT * FROM `sm-piquetea.customized_views.nick_import_v1` LIMIT 10;
 </Accordion>
 
 <Accordion title="rylie_import_v1">
-**Type:** EXTERNAL | **Usage (180d):** 3,398 queries | **Last Used:** 2026-02-02
+**Type:** EXTERNAL | **Queries (180d):** 3,398
 
 Custom data. Key columns: `channel, affiliate_id`.
 
@@ -227,7 +227,7 @@ SELECT * FROM `sm-piquetea.customized_views.rylie_import_v1` LIMIT 10;
 </Accordion>
 
 <Accordion title="klaviyo_attentive_reporting">
-**Type:** VIEW | **Usage (180d):** 3,106 queries | **Last Used:** 2026-02-03
+**Type:** VIEW | **Queries (180d):** 3,106
 
 Reporting view from Klaviyo, TikTok.
 
@@ -240,7 +240,7 @@ SELECT * FROM `sm-piquetea.customized_views.klaviyo_attentive_reporting` LIMIT 1
 </Accordion>
 
 <Accordion title="refersion_sessions_temp">
-**Type:** EXTERNAL | **Usage (180d):** 2,273 queries | **Last Used:** 2026-02-02
+**Type:** EXTERNAL | **Queries (180d):** 2,273
 
 Custom data. Key columns: `DATE`.
 
@@ -253,7 +253,7 @@ SELECT * FROM `sm-piquetea.customized_views.refersion_sessions_temp` LIMIT 10;
 </Accordion>
 
 <Accordion title="rpt_exec_to_order_test">
-**Type:** VIEW | **Usage (180d):** 1,908 queries | **Last Used:** 2026-02-04
+**Type:** VIEW | **Queries (180d):** 1,908
 
 Order-level data.
 
@@ -266,7 +266,7 @@ SELECT * FROM `sm-piquetea.customized_views.rpt_exec_to_order_test` LIMIT 10;
 </Accordion>
 
 <Accordion title="all_parnterships_refersion_sessions_temp_v1">
-**Type:** EXTERNAL | **Usage (180d):** 1,842 queries | **Last Used:** 2026-02-02
+**Type:** EXTERNAL | **Queries (180d):** 1,842
 
 Custom data.
 
@@ -279,7 +279,7 @@ SELECT * FROM `sm-piquetea.customized_views.all_parnterships_refersion_sessions_
 </Accordion>
 
 <Accordion title="refersion_partner_spend_podonly_v1">
-**Type:** VIEW | **Usage (180d):** 1,783 queries | **Last Used:** 2026-01-28
+**Type:** VIEW | **Queries (180d):** 1,783
 
 Custom data.
 
@@ -292,7 +292,7 @@ SELECT * FROM `sm-piquetea.customized_views.refersion_partner_spend_podonly_v1` 
 </Accordion>
 
 <Accordion title="all_partnerships_refersion_sessions_performanceoverview">
-**Type:** VIEW | **Usage (180d):** 1,739 queries | **Last Used:** 2026-01-28
+**Type:** VIEW | **Queries (180d):** 1,739
 
 Custom data.
 
@@ -305,7 +305,7 @@ SELECT * FROM `sm-piquetea.customized_views.all_partnerships_refersion_sessions_
 </Accordion>
 
 <Accordion title="all_channel_partnerships_data_v4">
-**Type:** VIEW | **Usage (180d):** 1,644 queries | **Last Used:** 2025-12-29
+**Type:** VIEW | **Queries (180d):** 1,644
 
 Custom data.
 
@@ -318,7 +318,7 @@ SELECT * FROM `sm-piquetea.customized_views.all_channel_partnerships_data_v4` LI
 </Accordion>
 
 <Accordion title="Rylie_Refersion_Daily_Partner_Level_V2">
-**Type:** VIEW | **Usage (180d):** 1,265 queries | **Last Used:** 2025-09-12
+**Type:** VIEW | **Queries (180d):** 1,265
 
 Daily aggregation.
 
@@ -331,7 +331,7 @@ SELECT * FROM `sm-piquetea.customized_views.Rylie_Refersion_Daily_Partner_Level_
 </Accordion>
 
 <Accordion title="refersion_partner_final_v2_0516">
-**Type:** EXTERNAL | **Usage (180d):** 1,180 queries | **Last Used:** 2026-02-02
+**Type:** EXTERNAL | **Queries (180d):** 1,180
 
 Custom data. Key columns: `AFFILIATE_ID, ORDER_DATE, NEW_ORDERS, RETURNING_ORDERS, CHANNEL_TAG`.
 
@@ -344,7 +344,7 @@ SELECT * FROM `sm-piquetea.customized_views.refersion_partner_final_v2_0516` LIM
 </Accordion>
 
 <Accordion title="Rylie_Partnerships_Sessions_Temp">
-**Type:** VIEW | **Usage (180d):** 1,151 queries | **Last Used:** 2025-09-12
+**Type:** VIEW | **Queries (180d):** 1,151
 
 Custom data.
 
@@ -357,7 +357,7 @@ SELECT * FROM `sm-piquetea.customized_views.Rylie_Partnerships_Sessions_Temp` LI
 </Accordion>
 
 <Accordion title="partener_ltv_view_v5_automate_sidetable">
-**Type:** VIEW | **Usage (180d):** 1,077 queries | **Last Used:** 2026-02-03
+**Type:** VIEW | **Queries (180d):** 1,077
 
 Lifetime value analysis.
 
@@ -370,7 +370,7 @@ SELECT * FROM `sm-piquetea.customized_views.partener_ltv_view_v5_automate_sideta
 </Accordion>
 
 <Accordion title="affiliate_id_mapping_v1">
-**Type:** VIEW | **Usage (180d):** 893 queries | **Last Used:** 2025-09-12
+**Type:** VIEW | **Queries (180d):** 893
 
 Custom data.
 
@@ -383,7 +383,7 @@ SELECT * FROM `sm-piquetea.customized_views.affiliate_id_mapping_v1` LIMIT 10;
 </Accordion>
 
 <Accordion title="churn_export_v2">
-**Type:** EXTERNAL | **Usage (180d):** 343 queries | **Last Used:** 2026-02-03
+**Type:** EXTERNAL | **Queries (180d):** 343
 
 Custom data. Key columns: `date, subscription_orders`.
 
@@ -396,7 +396,7 @@ SELECT * FROM `sm-piquetea.customized_views.churn_export_v2` LIMIT 10;
 </Accordion>
 
 <Accordion title="referral_program_v1">
-**Type:** EXTERNAL | **Usage (180d):** 326 queries | **Last Used:** 2026-02-03
+**Type:** EXTERNAL | **Queries (180d):** 326
 
 Custom data. Key columns: `date, total_referral_orders, total_ft_referral_orders, total_recurring_referral_orders, total_revenue_rewarded_advocates`.
 
@@ -409,7 +409,7 @@ SELECT * FROM `sm-piquetea.customized_views.referral_program_v1` LIMIT 10;
 </Accordion>
 
 <Accordion title="partnerships_ltv_v5">
-**Type:** VIEW | **Usage (180d):** 307 queries | **Last Used:** 2026-02-04
+**Type:** VIEW | **Queries (180d):** 307
 
 Lifetime value analysis.
 
@@ -427,7 +427,7 @@ SELECT * FROM `sm-piquetea.customized_views.partnerships_ltv_v5` LIMIT 10;
 ### sm_transformed_v2
 
 <Accordion title="rpt_cohort_ltv_by_first_valid_purchase_attribute_no_product_filters_v1">
-**Type:** BASE TABLE | **Usage (180d):** 103 queries | **Last Used:** 2026-02-02
+**Type:** BASE TABLE | **Queries (180d):** 103
 
 Cohort analysis from TikTok. Key columns: `sm_store_id, cohort_filter_name_filter_value_month_id, cohort_filter_name_filter_value_id, sm_channel`.
 
@@ -443,7 +443,7 @@ SELECT * FROM `sm-piquetea.sm_transformed_v2.rpt_cohort_ltv_by_first_valid_purch
 ### analytics_311213792
 
 <Accordion title="events_20251022">
-**Type:** BASE TABLE | **Usage (180d):** 11 queries | **Last Used:** 2026-02-02
+**Type:** BASE TABLE | **Queries (180d):** 11
 
 Event tracking data. Key columns: `event_date, event_bundle_sequence_id, user_id, user_pseudo_id`.
 
@@ -456,7 +456,7 @@ SELECT * FROM `sm-piquetea.analytics_311213792.events_20251022` LIMIT 10;
 </Accordion>
 
 <Accordion title="events_20250930">
-**Type:** BASE TABLE | **Usage (180d):** 10 queries | **Last Used:** 2026-02-02
+**Type:** BASE TABLE | **Queries (180d):** 10
 
 Event tracking data. Key columns: `event_date, event_bundle_sequence_id, user_id, user_pseudo_id`.
 
@@ -469,7 +469,7 @@ SELECT * FROM `sm-piquetea.analytics_311213792.events_20250930` LIMIT 10;
 </Accordion>
 
 <Accordion title="events_20260120">
-**Type:** BASE TABLE | **Usage (180d):** 7 queries | **Last Used:** 2026-02-02
+**Type:** BASE TABLE | **Queries (180d):** 7
 
 Event tracking data. Key columns: `event_date, event_bundle_sequence_id, user_id, user_pseudo_id`.
 

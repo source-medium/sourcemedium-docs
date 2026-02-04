@@ -31,7 +31,7 @@ This page documents active custom BigQuery tables and views (those queried at le
 ### customized_views
 
 <Accordion title="rpt_ad_performance_daily_customized">
-**Type:** BASE TABLE | **Usage (180d):** 4,444 queries | **Last Used:** 2026-02-04
+**Type:** BASE TABLE | **Queries (180d):** 4,444
 
 Daily aggregation. Key columns: `sm_store_id, source_system, sub_channel, date, ad_spend`.
 
@@ -44,7 +44,7 @@ SELECT * FROM `sm-peoplebrandco.customized_views.rpt_ad_performance_daily_custom
 </Accordion>
 
 <Accordion title="rpt_executive_summary_daily_customized">
-**Type:** BASE TABLE | **Usage (180d):** 4,296 queries | **Last Used:** 2026-02-04
+**Type:** BASE TABLE | **Queries (180d):** 4,296
 
 Aggregated summary. Key columns: `sm_store_id, sm_channel, sm_sub_channel, date, order_gross_revenue`.
 
@@ -57,7 +57,7 @@ SELECT * FROM `sm-peoplebrandco.customized_views.rpt_executive_summary_daily_cus
 </Accordion>
 
 <Accordion title="custom_orders_table">
-**Type:** BASE TABLE | **Usage (180d):** 1,928 queries | **Last Used:** 2026-02-03
+**Type:** BASE TABLE | **Queries (180d):** 1,928
 
 Order-level data. Key columns: `date, sm_store_id, sm_channel, order_id, repeat_cust_orders`.
 
@@ -70,7 +70,7 @@ SELECT * FROM `sm-peoplebrandco.customized_views.custom_orders_table` LIMIT 10;
 </Accordion>
 
 <Accordion title="rpt_klaviyo_customer_orders">
-**Type:** BASE TABLE | **Usage (180d):** 1,585 queries | **Last Used:** 2026-02-03
+**Type:** BASE TABLE | **Queries (180d):** 1,585
 
 Customer-level data from Klaviyo. Key columns: `date, sm_store_id, sm_channel, repeat_cust_orders, new_cust_orders`.
 
@@ -83,7 +83,7 @@ SELECT * FROM `sm-peoplebrandco.customized_views.rpt_klaviyo_customer_orders` LI
 </Accordion>
 
 <Accordion title="beta_rpt_klaviyo_customer_orders">
-**Type:** BASE TABLE | **Usage (180d):** 474 queries | **Last Used:** 2026-02-02
+**Type:** BASE TABLE | **Queries (180d):** 474
 
 Customer-level data from Klaviyo. Key columns: `date, sm_store_id, sm_channel, repeat_cust_orders, new_cust_orders`.
 
@@ -96,7 +96,7 @@ SELECT * FROM `sm-peoplebrandco.customized_views.beta_rpt_klaviyo_customer_order
 </Accordion>
 
 <Accordion title="rpt_avez_executive_summary_daily_customized">
-**Type:** BASE TABLE | **Usage (180d):** 111 queries | **Last Used:** 2026-02-02
+**Type:** BASE TABLE | **Queries (180d):** 111
 
 Aggregated summary. Key columns: `date, sm_store_id, sm_channel, total_order_gross_revenue, total_order_net_revenue`.
 
@@ -112,7 +112,7 @@ SELECT * FROM `sm-peoplebrandco.customized_views.rpt_avez_executive_summary_dail
 ### sm_sources
 
 <Accordion title="obt_klaviyo_subs_custs_orders">
-**Type:** VIEW | **Usage (180d):** 4,291 queries | **Last Used:** 2026-02-04
+**Type:** VIEW | **Queries (180d):** 4,291
 
 Order-level data from Klaviyo.
 
@@ -125,7 +125,7 @@ SELECT * FROM `sm-peoplebrandco.sm_sources.obt_klaviyo_subs_custs_orders` LIMIT 
 </Accordion>
 
 <Accordion title="src_klaviyo__subscribe_list">
-**Type:** CLONE | **Usage (180d):** 4,291 queries | **Last Used:** 2026-02-04
+**Type:** CLONE | **Queries (180d):** 4,291
 
 Custom data from Klaviyo. Key columns: `id, uuid, datetime`.
 

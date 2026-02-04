@@ -32,7 +32,7 @@ This page documents active custom BigQuery tables and views (those queried at le
 ### customized_views
 
 <Accordion title="obt_orders_customized">
-**Type:** BASE TABLE | **Usage (180d):** 20,889 queries | **Last Used:** 2026-02-04
+**Type:** BASE TABLE | **Queries (180d):** 20,889
 
 Order-level data. Key columns: `sm_store_id, sm_order_key, sm_customer_key, source_system, order_id`.
 
@@ -45,7 +45,7 @@ SELECT * FROM `sm-catchco.customized_views.obt_orders_customized` LIMIT 10;
 </Accordion>
 
 <Accordion title="rpt_executive_summary_daily_custom">
-**Type:** VIEW | **Usage (180d):** 1,882 queries | **Last Used:** 2026-02-04
+**Type:** VIEW | **Queries (180d):** 1,882
 
 Aggregated summary.
 
@@ -58,7 +58,7 @@ SELECT * FROM `sm-catchco.customized_views.rpt_executive_summary_daily_custom` L
 </Accordion>
 
 <Accordion title="catch_co_target_array">
-**Type:** BASE TABLE | **Usage (180d):** 1,092 queries | **Last Used:** 2026-02-03
+**Type:** BASE TABLE | **Queries (180d):** 1,092
 
 Custom data. Key columns: `channel, date`.
 
@@ -71,7 +71,7 @@ SELECT * FROM `sm-catchco.customized_views.catch_co_target_array` LIMIT 10;
 </Accordion>
 
 <Accordion title="obt_summary_with_forecasting">
-**Type:** BASE TABLE | **Usage (180d):** 999 queries | **Last Used:** 2026-02-02
+**Type:** BASE TABLE | **Queries (180d):** 999
 
 Aggregated summary. Key columns: `order_date, sm_channel, sm_store_id, new_subscription_orders, new_subscription_net_revenue`.
 
@@ -84,7 +84,7 @@ SELECT * FROM `sm-catchco.customized_views.obt_summary_with_forecasting` LIMIT 1
 </Accordion>
 
 <Accordion title="rpt_yoy_executive_summary">
-**Type:** BASE TABLE | **Usage (180d):** 852 queries | **Last Used:** 2026-02-02
+**Type:** BASE TABLE | **Queries (180d):** 852
 
 Aggregated summary. Key columns: `order_date, order_date_last_year, sm_channel, sm_store_id, new_orders`.
 
@@ -97,7 +97,7 @@ SELECT * FROM `sm-catchco.customized_views.rpt_yoy_executive_summary` LIMIT 10;
 </Accordion>
 
 <Accordion title="weekly_business_review">
-**Type:** BASE TABLE | **Usage (180d):** 656 queries | **Last Used:** 2026-02-03
+**Type:** BASE TABLE | **Queries (180d):** 656
 
 Weekly aggregation. Key columns: `date, week_start_date, month_start_date, rebill_net_revenue, non_rebill_net_revenue`.
 
@@ -110,7 +110,7 @@ SELECT * FROM `sm-catchco.customized_views.weekly_business_review` LIMIT 10;
 </Accordion>
 
 <Accordion title="obt_forecasting_amortized">
-**Type:** BASE TABLE | **Usage (180d):** 498 queries | **Last Used:** 2026-02-04
+**Type:** BASE TABLE | **Queries (180d):** 498
 
 One Big Table (denormalized). Key columns: `sm_channel, date, forecasted_total_gross_revenue, forecasted_total_net_revenue, forecasted_total_orders`.
 
@@ -123,7 +123,7 @@ SELECT * FROM `sm-catchco.customized_views.obt_forecasting_amortized` LIMIT 10;
 </Accordion>
 
 <Accordion title="rpt_exec_ad_performance">
-**Type:** BASE TABLE | **Usage (180d):** 453 queries | **Last Used:** 2026-02-02
+**Type:** BASE TABLE | **Queries (180d):** 453
 
 Marketing/advertising data. Key columns: `date, sm_channel, source_system, sm_store_id, ad_spend`.
 
@@ -136,7 +136,7 @@ SELECT * FROM `sm-catchco.customized_views.rpt_exec_ad_performance` LIMIT 10;
 </Accordion>
 
 <Accordion title="forecasting_sheet_src">
-**Type:** BASE TABLE | **Usage (180d):** 243 queries | **Last Used:** 2026-02-04
+**Type:** BASE TABLE | **Queries (180d):** 243
 
 Custom data. Key columns: `channel, date_start, date_end, total_gross_revenue, total_net_revenue`.
 
@@ -149,7 +149,7 @@ SELECT * FROM `sm-catchco.customized_views.forecasting_sheet_src` LIMIT 10;
 </Accordion>
 
 <Accordion title="orders_logic_aggregation">
-**Type:** BASE TABLE | **Usage (180d):** 225 queries | **Last Used:** 2026-02-03
+**Type:** BASE TABLE | **Queries (180d):** 225
 
 Order-level data. Key columns: `order_date, sm_channel, prepaid_count, prepaid_revenue, gift_redemption_revenue`.
 
@@ -162,7 +162,7 @@ SELECT * FROM `sm-catchco.customized_views.orders_logic_aggregation` LIMIT 10;
 </Accordion>
 
 <Accordion title="rpt_yoy_non_recurringong_product_comparison">
-**Type:** BASE TABLE | **Usage (180d):** 154 queries | **Last Used:** 2026-02-02
+**Type:** BASE TABLE | **Queries (180d):** 154
 
 Product/SKU-level data. Key columns: `order_date, order_date_last_year, sm_channel, sm_store_id, new_subscription_orders`.
 
@@ -175,7 +175,7 @@ SELECT * FROM `sm-catchco.customized_views.rpt_yoy_non_recurringong_product_comp
 </Accordion>
 
 <Accordion title="rpt_contribution_margin_summary">
-**Type:** BASE TABLE | **Usage (180d):** 137 queries | **Last Used:** 2026-02-02
+**Type:** BASE TABLE | **Queries (180d):** 137
 
 Aggregated summary. Key columns: `date, sm_channel, sm_store_id, new_orders, new_net_revenue`.
 
@@ -188,7 +188,7 @@ SELECT * FROM `sm-catchco.customized_views.rpt_contribution_margin_summary` LIMI
 </Accordion>
 
 <Accordion title="obt_orders_aggregated">
-**Type:** BASE TABLE | **Usage (180d):** 5 queries | **Last Used:** 2026-02-02
+**Type:** BASE TABLE | **Queries (180d):** 5
 
 Order-level data. Key columns: `order_date, prepaid_count`.
 
@@ -204,7 +204,7 @@ SELECT * FROM `sm-catchco.customized_views.obt_orders_aggregated` LIMIT 10;
 ### sm_sources
 
 <Accordion title="mtb_fairing_responses">
-**Type:** BASE TABLE | **Usage (180d):** 1,102 queries | **Last Used:** 2026-02-04
+**Type:** BASE TABLE | **Queries (180d):** 1,102
 
 Custom data. Key columns: `_airbyte_raw_id, _airbyte_generation_id, id, order_id`.
 
@@ -220,7 +220,7 @@ SELECT * FROM `sm-catchco.sm_sources.mtb_fairing_responses` LIMIT 10;
 ### sm_utils
 
 <Accordion title="forecasting_sheet_ext">
-**Type:** EXTERNAL | **Usage (180d):** 243 queries | **Last Used:** 2026-02-04
+**Type:** EXTERNAL | **Queries (180d):** 243
 
 Custom data.
 

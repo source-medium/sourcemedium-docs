@@ -44,7 +44,7 @@ This page documents active custom BigQuery tables and views (those queried at le
 ### dbt
 
 <Accordion title="orders">
-**Type:** BASE TABLE | **Usage (180d):** 28,813 queries | **Last Used:** 2026-02-04
+**Type:** BASE TABLE | **Queries (180d):** 28,813
 
 Order-level data. Key columns: `sm_order_key, sm_customer_key, source_system, channel, sub_channel`.
 
@@ -57,7 +57,7 @@ SELECT * FROM `sm-zbiotics.dbt.orders` LIMIT 10;
 </Accordion>
 
 <Accordion title="order_lines">
-**Type:** BASE TABLE | **Usage (180d):** 9,775 queries | **Last Used:** 2026-02-04
+**Type:** BASE TABLE | **Queries (180d):** 9,775
 
 Order-level data. Key columns: `_dbt_source_relation, sm_order_line_key, sm_order_key, sm_customer_key, source_system`.
 
@@ -70,7 +70,7 @@ SELECT * FROM `sm-zbiotics.dbt.order_lines` LIMIT 10;
 </Accordion>
 
 <Accordion title="int_manual_wholesale_orders">
-**Type:** BASE TABLE | **Usage (180d):** 4,258 queries | **Last Used:** 2026-02-04
+**Type:** BASE TABLE | **Queries (180d):** 4,258
 
 Order-level data. Key columns: `sm_order_key, sm_customer_key, order_id, hubspot_company_id, hubspot_retailer_id`.
 
@@ -83,7 +83,7 @@ SELECT * FROM `sm-zbiotics.dbt.int_manual_wholesale_orders` LIMIT 10;
 </Accordion>
 
 <Accordion title="fulfillments">
-**Type:** BASE TABLE | **Usage (180d):** 4,038 queries | **Last Used:** 2026-02-04
+**Type:** BASE TABLE | **Queries (180d):** 4,038
 
 Custom data. Key columns: `sm_order_key, fulfillment_id, shopify_order_id, fulfillment_updated_at, third_party_logistics_provider`.
 
@@ -96,7 +96,7 @@ SELECT * FROM `sm-zbiotics.dbt.fulfillments` LIMIT 10;
 </Accordion>
 
 <Accordion title="marketing_spend">
-**Type:** BASE TABLE | **Usage (180d):** 3,439 queries | **Last Used:** 2026-02-04
+**Type:** BASE TABLE | **Queries (180d):** 3,439
 
 Marketing/advertising data. Key columns: `acquisition_spend, core_acquisition_spend, brand_spend, retention_spend, optimization_spend`.
 
@@ -109,7 +109,7 @@ SELECT * FROM `sm-zbiotics.dbt.marketing_spend` LIMIT 10;
 </Accordion>
 
 <Accordion title="int_wholesale_doors">
-**Type:** BASE TABLE | **Usage (180d):** 2,913 queries | **Last Used:** 2026-02-04
+**Type:** BASE TABLE | **Queries (180d):** 2,913
 
 Intermediate transformation. Key columns: `door_id, hubspot_company_id, hubspot_retailer_id, hubspot_parent_company_id, hubspot_door_open_date`.
 
@@ -122,7 +122,7 @@ SELECT * FROM `sm-zbiotics.dbt.int_wholesale_doors` LIMIT 10;
 </Accordion>
 
 <Accordion title="int_sticker_matching">
-**Type:** BASE TABLE | **Usage (180d):** 2,801 queries | **Last Used:** 2026-02-04
+**Type:** BASE TABLE | **Queries (180d):** 2,801
 
 Intermediate transformation. Key columns: `sticker_response_date, customer_id`.
 
@@ -135,7 +135,7 @@ SELECT * FROM `sm-zbiotics.dbt.int_sticker_matching` LIMIT 10;
 </Accordion>
 
 <Accordion title="int_order_lines">
-**Type:** BASE TABLE | **Usage (180d):** 2,408 queries | **Last Used:** 2026-02-04
+**Type:** BASE TABLE | **Queries (180d):** 2,408
 
 Order-level data. Key columns: `sm_store_id, sm_order_line_key, sm_order_key, sm_customer_key, sm_product_variant_key`.
 
@@ -148,7 +148,7 @@ SELECT * FROM `sm-zbiotics.dbt.int_order_lines` LIMIT 10;
 </Accordion>
 
 <Accordion title="customers">
-**Type:** BASE TABLE | **Usage (180d):** 2,401 queries | **Last Used:** 2026-02-04
+**Type:** BASE TABLE | **Queries (180d):** 2,401
 
 Customer-level data. Key columns: `sm_customer_key, source_system`.
 
@@ -161,7 +161,7 @@ SELECT * FROM `sm-zbiotics.dbt.customers` LIMIT 10;
 </Accordion>
 
 <Accordion title="retail_velocity_denominator">
-**Type:** BASE TABLE | **Usage (180d):** 2,048 queries | **Last Used:** 2026-02-04
+**Type:** BASE TABLE | **Queries (180d):** 2,048
 
 Custom data. Key columns: `denominator_id, hubspot_retailer_id`.
 
@@ -174,7 +174,7 @@ SELECT * FROM `sm-zbiotics.dbt.retail_velocity_denominator` LIMIT 10;
 </Accordion>
 
 <Accordion title="retailers">
-**Type:** BASE TABLE | **Usage (180d):** 1,948 queries | **Last Used:** 2026-02-04
+**Type:** BASE TABLE | **Queries (180d):** 1,948
 
 Custom data. Key columns: `hubspot_retailer_id, source_system, wholesale_channels, sm_customer_keys, source_customer_id`.
 
@@ -187,7 +187,7 @@ SELECT * FROM `sm-zbiotics.dbt.retailers` LIMIT 10;
 </Accordion>
 
 <Accordion title="int_downweights">
-**Type:** BASE TABLE | **Usage (180d):** 1,941 queries | **Last Used:** 2026-02-04
+**Type:** BASE TABLE | **Queries (180d):** 1,941
 
 Intermediate transformation.
 
@@ -200,7 +200,7 @@ SELECT * FROM `sm-zbiotics.dbt.int_downweights` LIMIT 10;
 </Accordion>
 
 <Accordion title="int_orders">
-**Type:** BASE TABLE | **Usage (180d):** 1,802 queries | **Last Used:** 2026-02-04
+**Type:** BASE TABLE | **Queries (180d):** 1,802
 
 Order-level data. Key columns: `_dbt_source_relation, sm_order_key, sm_customer_key, source_system, customer_id`.
 
@@ -213,7 +213,7 @@ SELECT * FROM `sm-zbiotics.dbt.int_orders` LIMIT 10;
 </Accordion>
 
 <Accordion title="int_tickets">
-**Type:** BASE TABLE | **Usage (180d):** 1,668 queries | **Last Used:** 2026-02-04
+**Type:** BASE TABLE | **Queries (180d):** 1,668
 
 Intermediate transformation. Key columns: `ticket_id, ticket_updated_at, external_id, channel`.
 
@@ -226,7 +226,7 @@ SELECT * FROM `sm-zbiotics.dbt.int_tickets` LIMIT 10;
 </Accordion>
 
 <Accordion title="subscriptions">
-**Type:** BASE TABLE | **Usage (180d):** 1,567 queries | **Last Used:** 2026-02-04
+**Type:** BASE TABLE | **Queries (180d):** 1,567
 
 Custom data. Key columns: `subscription_id, storefront_user_id, subscription_line_ids, origin_order_id`.
 
@@ -239,7 +239,7 @@ SELECT * FROM `sm-zbiotics.dbt.subscriptions` LIMIT 10;
 </Accordion>
 
 <Accordion title="int_subscription_lines">
-**Type:** BASE TABLE | **Usage (180d):** 1,552 queries | **Last Used:** 2026-02-04
+**Type:** BASE TABLE | **Queries (180d):** 1,552
 
 Intermediate transformation. Key columns: `subscription_line_id, subscription_id, updated_at, source_system`.
 
@@ -252,7 +252,7 @@ SELECT * FROM `sm-zbiotics.dbt.int_subscription_lines` LIMIT 10;
 </Accordion>
 
 <Accordion title="tickets">
-**Type:** BASE TABLE | **Usage (180d):** 1,500 queries | **Last Used:** 2026-02-04
+**Type:** BASE TABLE | **Queries (180d):** 1,500
 
 Custom data. Key columns: `ticket_id, ticket_updated_at, external_id`.
 
@@ -265,7 +265,7 @@ SELECT * FROM `sm-zbiotics.dbt.tickets` LIMIT 10;
 </Accordion>
 
 <Accordion title="survey_responses">
-**Type:** BASE TABLE | **Usage (180d):** 1,446 queries | **Last Used:** 2026-02-04
+**Type:** BASE TABLE | **Queries (180d):** 1,446
 
 Custom data. Key columns: `session_id, source`.
 
@@ -278,7 +278,7 @@ SELECT * FROM `sm-zbiotics.dbt.survey_responses` LIMIT 10;
 </Accordion>
 
 <Accordion title="int_wholesale_customers">
-**Type:** BASE TABLE | **Usage (180d):** 1,421 queries | **Last Used:** 2026-02-04
+**Type:** BASE TABLE | **Queries (180d):** 1,421
 
 Customer-level data. Key columns: `sm_customer_key, source_system, customer_id, wholesale_channel, hubspot_company_id`.
 
@@ -291,7 +291,7 @@ SELECT * FROM `sm-zbiotics.dbt.int_wholesale_customers` LIMIT 10;
 </Accordion>
 
 <Accordion title="metricflow_time_spine">
-**Type:** BASE TABLE | **Usage (180d):** 1,393 queries | **Last Used:** 2026-02-04
+**Type:** BASE TABLE | **Queries (180d):** 1,393
 
 Metrics definitions. Key columns: `date_day`.
 
@@ -304,7 +304,7 @@ SELECT * FROM `sm-zbiotics.dbt.metricflow_time_spine` LIMIT 10;
 </Accordion>
 
 <Accordion title="int_ticket_tags">
-**Type:** BASE TABLE | **Usage (180d):** 1,390 queries | **Last Used:** 2026-02-04
+**Type:** BASE TABLE | **Queries (180d):** 1,390
 
 Intermediate transformation. Key columns: `ticket_id`.
 
@@ -317,7 +317,7 @@ SELECT * FROM `sm-zbiotics.dbt.int_ticket_tags` LIMIT 10;
 </Accordion>
 
 <Accordion title="int_survey_responses">
-**Type:** BASE TABLE | **Usage (180d):** 1,164 queries | **Last Used:** 2026-02-04
+**Type:** BASE TABLE | **Queries (180d):** 1,164
 
 Intermediate transformation. Key columns: `session_id, source`.
 
@@ -330,7 +330,7 @@ SELECT * FROM `sm-zbiotics.dbt.int_survey_responses` LIMIT 10;
 </Accordion>
 
 <Accordion title="int_sm_orders">
-**Type:** BASE TABLE | **Usage (180d):** 1,011 queries | **Last Used:** 2026-02-04
+**Type:** BASE TABLE | **Queries (180d):** 1,011
 
 Order-level data. Key columns: `sm_order_key, sm_customer_key, source_system, order_id, customer_id`.
 
@@ -346,7 +346,7 @@ SELECT * FROM `sm-zbiotics.dbt.int_sm_orders` LIMIT 10;
 ### zb_sources
 
 <Accordion title="marketing_spend_tracker">
-**Type:** EXTERNAL | **Usage (180d):** 5,769 queries | **Last Used:** 2026-02-04
+**Type:** EXTERNAL | **Queries (180d):** 5,769
 
 Marketing/advertising data. Key columns: `acquisition_spend, brand_spend, retention_spend, optimization_spend, total_spend`.
 
@@ -359,7 +359,7 @@ SELECT * FROM `sm-zbiotics.zb_sources.marketing_spend_tracker` LIMIT 10;
 </Accordion>
 
 <Accordion title="raw_amazon_sticker_responses">
-**Type:** EXTERNAL | **Usage (180d):** 2,665 queries | **Last Used:** 2026-02-04
+**Type:** EXTERNAL | **Queries (180d):** 2,665
 
 Custom data from Amazon. Key columns: `sticker_response_date`.
 
@@ -372,7 +372,7 @@ SELECT * FROM `sm-zbiotics.zb_sources.raw_amazon_sticker_responses` LIMIT 10;
 </Accordion>
 
 <Accordion title="marketing_spend_monthly">
-**Type:** BASE TABLE | **Usage (180d):** 2,167 queries | **Last Used:** 2026-02-03
+**Type:** BASE TABLE | **Queries (180d):** 2,167
 
 Monthly aggregation. Key columns: `acquisition_spend, core_acquisition_spend, brand_spend, retention_spend, optimization_spend`.
 
@@ -385,7 +385,7 @@ SELECT * FROM `sm-zbiotics.zb_sources.marketing_spend_monthly` LIMIT 10;
 </Accordion>
 
 <Accordion title="sku_lookup">
-**Type:** EXTERNAL | **Usage (180d):** 1,624 queries | **Last Used:** 2026-02-04
+**Type:** EXTERNAL | **Queries (180d):** 1,624
 
 Product/SKU-level data.
 
@@ -401,7 +401,7 @@ SELECT * FROM `sm-zbiotics.zb_sources.sku_lookup` LIMIT 10;
 ### hubspot
 
 <Accordion title="company">
-**Type:** BASE TABLE | **Usage (180d):** 4,615 queries | **Last Used:** 2026-02-04
+**Type:** BASE TABLE | **Queries (180d):** 4,615
 
 Custom data. Key columns: `property_hs_avatar_filemanager_key, property_notes_last_updated, property_hs_lastmodifieddate, property_hs_date_entered_1358513856, property_hs_date_entered_1358513857`.
 
@@ -414,7 +414,7 @@ SELECT * FROM `sm-zbiotics.hubspot.company` LIMIT 10;
 </Accordion>
 
 <Accordion title="contact_company">
-**Type:** BASE TABLE | **Usage (180d):** 2,642 queries | **Last Used:** 2026-02-04
+**Type:** BASE TABLE | **Queries (180d):** 2,642
 
 Custom data. Key columns: `contact_id, company_id, type_id`.
 
@@ -427,7 +427,7 @@ SELECT * FROM `sm-zbiotics.hubspot.contact_company` LIMIT 10;
 </Accordion>
 
 <Accordion title="contact">
-**Type:** BASE TABLE | **Usage (180d):** 2,442 queries | **Last Used:** 2026-02-04
+**Type:** BASE TABLE | **Queries (180d):** 2,442
 
 Custom data. Key columns: `property_hs_first_outreach_date, property_notes_last_updated, property_hs_sa_first_engagement_date, id`.
 
@@ -440,7 +440,7 @@ SELECT * FROM `sm-zbiotics.hubspot.contact` LIMIT 10;
 </Accordion>
 
 <Accordion title="contact_list">
-**Type:** BASE TABLE | **Usage (180d):** 2,309 queries | **Last Used:** 2026-02-03
+**Type:** BASE TABLE | **Queries (180d):** 2,309
 
 Custom data. Key columns: `id, created_by_id, object_type_id, updated_at, filters_updated_at`.
 
@@ -453,7 +453,7 @@ SELECT * FROM `sm-zbiotics.hubspot.contact_list` LIMIT 10;
 </Accordion>
 
 <Accordion title="users">
-**Type:** BASE TABLE | **Usage (180d):** 2,307 queries | **Last Used:** 2026-02-03
+**Type:** BASE TABLE | **Queries (180d):** 2,307
 
 Custom data. Key columns: `id, role_id, primary_team_id`.
 
@@ -466,7 +466,7 @@ SELECT * FROM `sm-zbiotics.hubspot.users` LIMIT 10;
 </Accordion>
 
 <Accordion title="association_type">
-**Type:** BASE TABLE | **Usage (180d):** 2,307 queries | **Last Used:** 2026-02-03
+**Type:** BASE TABLE | **Queries (180d):** 2,307
 
 Custom data. Key columns: `id`.
 
@@ -479,7 +479,7 @@ SELECT * FROM `sm-zbiotics.hubspot.association_type` LIMIT 10;
 </Accordion>
 
 <Accordion title="sessions_analytics_monthly_report">
-**Type:** BASE TABLE | **Usage (180d):** 1,599 queries | **Last Used:** 2026-02-03
+**Type:** BASE TABLE | **Queries (180d):** 1,599
 
 Monthly aggregation. Key columns: `date, paid_search`.
 
@@ -492,7 +492,7 @@ SELECT * FROM `sm-zbiotics.hubspot.sessions_analytics_monthly_report` LIMIT 10;
 </Accordion>
 
 <Accordion title="totals_analytics_weekly_report">
-**Type:** BASE TABLE | **Usage (180d):** 1,597 queries | **Last Used:** 2026-02-03
+**Type:** BASE TABLE | **Queries (180d):** 1,597
 
 Weekly aggregation. Key columns: `date`.
 
@@ -505,7 +505,7 @@ SELECT * FROM `sm-zbiotics.hubspot.totals_analytics_weekly_report` LIMIT 10;
 </Accordion>
 
 <Accordion title="totals_analytics_monthly_report">
-**Type:** BASE TABLE | **Usage (180d):** 1,597 queries | **Last Used:** 2026-02-03
+**Type:** BASE TABLE | **Queries (180d):** 1,597
 
 Monthly aggregation. Key columns: `date`.
 
@@ -518,7 +518,7 @@ SELECT * FROM `sm-zbiotics.hubspot.totals_analytics_monthly_report` LIMIT 10;
 </Accordion>
 
 <Accordion title="geolocation_analytics_monthly_report">
-**Type:** BASE TABLE | **Usage (180d):** 1,597 queries | **Last Used:** 2026-02-03
+**Type:** BASE TABLE | **Queries (180d):** 1,597
 
 Monthly aggregation. Key columns: `date`.
 
@@ -531,7 +531,7 @@ SELECT * FROM `sm-zbiotics.hubspot.geolocation_analytics_monthly_report` LIMIT 1
 </Accordion>
 
 <Accordion title="totals_analytics_daily_report">
-**Type:** BASE TABLE | **Usage (180d):** 1,597 queries | **Last Used:** 2026-02-03
+**Type:** BASE TABLE | **Queries (180d):** 1,597
 
 Daily aggregation. Key columns: `date`.
 
@@ -544,7 +544,7 @@ SELECT * FROM `sm-zbiotics.hubspot.totals_analytics_daily_report` LIMIT 10;
 </Accordion>
 
 <Accordion title="deal_pipeline">
-**Type:** BASE TABLE | **Usage (180d):** 1,597 queries | **Last Used:** 2026-02-03
+**Type:** BASE TABLE | **Queries (180d):** 1,597
 
 Custom data. Key columns: `pipeline_id, updated_at`.
 
@@ -557,7 +557,7 @@ SELECT * FROM `sm-zbiotics.hubspot.deal_pipeline` LIMIT 10;
 </Accordion>
 
 <Accordion title="deal_pipeline_stage">
-**Type:** BASE TABLE | **Usage (180d):** 1,597 queries | **Last Used:** 2026-02-03
+**Type:** BASE TABLE | **Queries (180d):** 1,597
 
 Custom data. Key columns: `stage_id, pipeline_id, updated_at`.
 
@@ -570,7 +570,7 @@ SELECT * FROM `sm-zbiotics.hubspot.deal_pipeline_stage` LIMIT 10;
 </Accordion>
 
 <Accordion title="geolocation_analytics_weekly_report">
-**Type:** BASE TABLE | **Usage (180d):** 1,597 queries | **Last Used:** 2026-02-03
+**Type:** BASE TABLE | **Queries (180d):** 1,597
 
 Weekly aggregation. Key columns: `date`.
 
@@ -583,7 +583,7 @@ SELECT * FROM `sm-zbiotics.hubspot.geolocation_analytics_weekly_report` LIMIT 10
 </Accordion>
 
 <Accordion title="sources_analytics_weekly_report">
-**Type:** BASE TABLE | **Usage (180d):** 1,597 queries | **Last Used:** 2026-02-03
+**Type:** BASE TABLE | **Queries (180d):** 1,597
 
 Weekly aggregation. Key columns: `date, customers`.
 
@@ -596,7 +596,7 @@ SELECT * FROM `sm-zbiotics.hubspot.sources_analytics_weekly_report` LIMIT 10;
 </Accordion>
 
 <Accordion title="geolocation_analytics_daily_report">
-**Type:** BASE TABLE | **Usage (180d):** 1,597 queries | **Last Used:** 2026-02-03
+**Type:** BASE TABLE | **Queries (180d):** 1,597
 
 Daily aggregation. Key columns: `date`.
 
@@ -609,7 +609,7 @@ SELECT * FROM `sm-zbiotics.hubspot.geolocation_analytics_daily_report` LIMIT 10;
 </Accordion>
 
 <Accordion title="sources_analytics_monthly_report">
-**Type:** BASE TABLE | **Usage (180d):** 1,597 queries | **Last Used:** 2026-02-03
+**Type:** BASE TABLE | **Queries (180d):** 1,597
 
 Monthly aggregation. Key columns: `date, customers`.
 
@@ -622,7 +622,7 @@ SELECT * FROM `sm-zbiotics.hubspot.sources_analytics_monthly_report` LIMIT 10;
 </Accordion>
 
 <Accordion title="form">
-**Type:** BASE TABLE | **Usage (180d):** 1,597 queries | **Last Used:** 2026-02-03
+**Type:** BASE TABLE | **Queries (180d):** 1,597
 
 Custom data. Key columns: `guid, portal_id, follow_up_id`.
 
@@ -635,7 +635,7 @@ SELECT * FROM `sm-zbiotics.hubspot.form` LIMIT 10;
 </Accordion>
 
 <Accordion title="sources_analytics_daily_report">
-**Type:** BASE TABLE | **Usage (180d):** 1,597 queries | **Last Used:** 2026-02-03
+**Type:** BASE TABLE | **Queries (180d):** 1,597
 
 Daily aggregation. Key columns: `date, customers`.
 
@@ -648,7 +648,7 @@ SELECT * FROM `sm-zbiotics.hubspot.sources_analytics_daily_report` LIMIT 10;
 </Accordion>
 
 <Accordion title="email_subscription">
-**Type:** BASE TABLE | **Usage (180d):** 1,597 queries | **Last Used:** 2026-02-03
+**Type:** BASE TABLE | **Queries (180d):** 1,597
 
 Custom data. Key columns: `id, portal_id`.
 
@@ -661,7 +661,7 @@ SELECT * FROM `sm-zbiotics.hubspot.email_subscription` LIMIT 10;
 </Accordion>
 
 <Accordion title="ticket_pipeline_stage">
-**Type:** BASE TABLE | **Usage (180d):** 1,597 queries | **Last Used:** 2026-02-03
+**Type:** BASE TABLE | **Queries (180d):** 1,597
 
 Custom data. Key columns: `stage_id, pipeline_id, updated_at`.
 
@@ -674,7 +674,7 @@ SELECT * FROM `sm-zbiotics.hubspot.ticket_pipeline_stage` LIMIT 10;
 </Accordion>
 
 <Accordion title="owner">
-**Type:** BASE TABLE | **Usage (180d):** 1,597 queries | **Last Used:** 2026-02-03
+**Type:** BASE TABLE | **Queries (180d):** 1,597
 
 Custom data. Key columns: `owner_id, updated_at, user_id_including_inactive, active_user_id`.
 
@@ -687,7 +687,7 @@ SELECT * FROM `sm-zbiotics.hubspot.owner` LIMIT 10;
 </Accordion>
 
 <Accordion title="ticket_pipeline">
-**Type:** BASE TABLE | **Usage (180d):** 1,597 queries | **Last Used:** 2026-02-03
+**Type:** BASE TABLE | **Queries (180d):** 1,597
 
 Custom data. Key columns: `pipeline_id, updated_at`.
 
@@ -700,7 +700,7 @@ SELECT * FROM `sm-zbiotics.hubspot.ticket_pipeline` LIMIT 10;
 </Accordion>
 
 <Accordion title="sessions_analytics_daily_report">
-**Type:** BASE TABLE | **Usage (180d):** 1,564 queries | **Last Used:** 2026-02-03
+**Type:** BASE TABLE | **Queries (180d):** 1,564
 
 Daily aggregation. Key columns: `date, paid_search`.
 
@@ -713,7 +713,7 @@ SELECT * FROM `sm-zbiotics.hubspot.sessions_analytics_daily_report` LIMIT 10;
 </Accordion>
 
 <Accordion title="sessions_analytics_weekly_report">
-**Type:** BASE TABLE | **Usage (180d):** 1,564 queries | **Last Used:** 2026-02-03
+**Type:** BASE TABLE | **Queries (180d):** 1,564
 
 Weekly aggregation. Key columns: `date, paid_search`.
 
@@ -726,7 +726,7 @@ SELECT * FROM `sm-zbiotics.hubspot.sessions_analytics_weekly_report` LIMIT 10;
 </Accordion>
 
 <Accordion title="marketing_email_campaign">
-**Type:** BASE TABLE | **Usage (180d):** 1,051 queries | **Last Used:** 2026-02-03
+**Type:** BASE TABLE | **Queries (180d):** 1,051
 
 Marketing/advertising data. Key columns: `campaign_id, marketing_email_id`.
 
@@ -742,7 +742,7 @@ SELECT * FROM `sm-zbiotics.hubspot.marketing_email_campaign` LIMIT 10;
 ### twilio
 
 <Accordion title="usage_record">
-**Type:** BASE TABLE | **Usage (180d):** 3,770 queries | **Last Used:** 2026-02-03
+**Type:** BASE TABLE | **Queries (180d):** 3,770
 
 Custom data. Key columns: `account_id, end_date, start_date`.
 
@@ -755,7 +755,7 @@ SELECT * FROM `sm-zbiotics.twilio.usage_record` LIMIT 10;
 </Accordion>
 
 <Accordion title="account_history">
-**Type:** BASE TABLE | **Usage (180d):** 3,039 queries | **Last Used:** 2026-02-03
+**Type:** BASE TABLE | **Queries (180d):** 3,039
 
 Custom data. Key columns: `id, updated_at, owner_account_id`.
 
@@ -768,7 +768,7 @@ SELECT * FROM `sm-zbiotics.twilio.account_history` LIMIT 10;
 </Accordion>
 
 <Accordion title="messaging_service">
-**Type:** BASE TABLE | **Usage (180d):** 3,014 queries | **Last Used:** 2026-02-03
+**Type:** BASE TABLE | **Queries (180d):** 3,014
 
 Custom data. Key columns: `id, validity_period, synchronous_validation`.
 
@@ -781,7 +781,7 @@ SELECT * FROM `sm-zbiotics.twilio.messaging_service` LIMIT 10;
 </Accordion>
 
 <Accordion title="role_permission">
-**Type:** BASE TABLE | **Usage (180d):** 2,295 queries | **Last Used:** 2026-02-03
+**Type:** BASE TABLE | **Queries (180d):** 2,295
 
 Custom data. Key columns: `role_id`.
 
@@ -794,7 +794,7 @@ SELECT * FROM `sm-zbiotics.twilio.role_permission` LIMIT 10;
 </Accordion>
 
 <Accordion title="message">
-**Type:** BASE TABLE | **Usage (180d):** 2,278 queries | **Last Used:** 2026-02-03
+**Type:** BASE TABLE | **Queries (180d):** 2,278
 
 Custom data. Key columns: `id, date_sent`.
 
@@ -807,7 +807,7 @@ SELECT * FROM `sm-zbiotics.twilio.message` LIMIT 10;
 </Accordion>
 
 <Accordion title="flow_history">
-**Type:** BASE TABLE | **Usage (180d):** 1,639 queries | **Last Used:** 2026-02-03
+**Type:** BASE TABLE | **Queries (180d):** 1,639
 
 Custom data. Key columns: `id, updated_at, account_id`.
 
@@ -820,7 +820,7 @@ SELECT * FROM `sm-zbiotics.twilio.flow_history` LIMIT 10;
 </Accordion>
 
 <Accordion title="service">
-**Type:** BASE TABLE | **Usage (180d):** 1,589 queries | **Last Used:** 2026-02-03
+**Type:** BASE TABLE | **Queries (180d):** 1,589
 
 Custom data. Key columns: `id, account_id, updated_at`.
 
@@ -833,7 +833,7 @@ SELECT * FROM `sm-zbiotics.twilio.service` LIMIT 10;
 </Accordion>
 
 <Accordion title="role">
-**Type:** BASE TABLE | **Usage (180d):** 1,589 queries | **Last Used:** 2026-02-03
+**Type:** BASE TABLE | **Queries (180d):** 1,589
 
 Custom data. Key columns: `id, account_id, updated_at, chat_service_id`.
 
@@ -849,7 +849,7 @@ SELECT * FROM `sm-zbiotics.twilio.role` LIMIT 10;
 ### cin7core
 
 <Accordion title="sale">
-**Type:** BASE TABLE | **Usage (180d):** 3,440 queries | **Last Used:** 2026-02-04
+**Type:** BASE TABLE | **Queries (180d):** 3,440
 
 Custom data. Key columns: `id, customer_id`.
 
@@ -862,7 +862,7 @@ SELECT * FROM `sm-zbiotics.cin7core.sale` LIMIT 10;
 </Accordion>
 
 <Accordion title="customer">
-**Type:** BASE TABLE | **Usage (180d):** 2,604 queries | **Last Used:** 2026-02-04
+**Type:** BASE TABLE | **Queries (180d):** 2,604
 
 Customer-level data. Key columns: `id, revenue_account`.
 
@@ -875,7 +875,7 @@ SELECT * FROM `sm-zbiotics.cin7core.customer` LIMIT 10;
 </Accordion>
 
 <Accordion title="sale_order_line">
-**Type:** BASE TABLE | **Usage (180d):** 2,310 queries | **Last Used:** 2026-02-04
+**Type:** BASE TABLE | **Queries (180d):** 2,310
 
 Order-level data. Key columns: `sale_id, product_id`.
 
@@ -888,7 +888,7 @@ SELECT * FROM `sm-zbiotics.cin7core.sale_order_line` LIMIT 10;
 </Accordion>
 
 <Accordion title="sale_fullfillment_ship_line">
-**Type:** BASE TABLE | **Usage (180d):** 1,679 queries | **Last Used:** 2026-02-03
+**Type:** BASE TABLE | **Queries (180d):** 1,679
 
 Custom data. Key columns: `sale_id, id, shipment_date`.
 
@@ -901,7 +901,7 @@ SELECT * FROM `sm-zbiotics.cin7core.sale_fullfillment_ship_line` LIMIT 10;
 </Accordion>
 
 <Accordion title="sale_fullfillment_pack_line">
-**Type:** BASE TABLE | **Usage (180d):** 1,677 queries | **Last Used:** 2026-02-03
+**Type:** BASE TABLE | **Queries (180d):** 1,677
 
 Custom data. Key columns: `sale_id, product_id, location_id`.
 
@@ -914,7 +914,7 @@ SELECT * FROM `sm-zbiotics.cin7core.sale_fullfillment_pack_line` LIMIT 10;
 </Accordion>
 
 <Accordion title="sale_fullfillment_pick_line">
-**Type:** BASE TABLE | **Usage (180d):** 1,595 queries | **Last Used:** 2026-02-03
+**Type:** BASE TABLE | **Queries (180d):** 1,595
 
 Custom data. Key columns: `sale_id, product_id`.
 
@@ -927,7 +927,7 @@ SELECT * FROM `sm-zbiotics.cin7core.sale_fullfillment_pick_line` LIMIT 10;
 </Accordion>
 
 <Accordion title="sale_credit_note_refund">
-**Type:** BASE TABLE | **Usage (180d):** 1,321 queries | **Last Used:** 2026-02-03
+**Type:** BASE TABLE | **Queries (180d):** 1,321
 
 Custom data. Key columns: `sale_credit_note_task_id, sale_id, id`.
 
@@ -940,7 +940,7 @@ SELECT * FROM `sm-zbiotics.cin7core.sale_credit_note_refund` LIMIT 10;
 </Accordion>
 
 <Accordion title="sale_credit_note_line">
-**Type:** BASE TABLE | **Usage (180d):** 1,308 queries | **Last Used:** 2026-02-03
+**Type:** BASE TABLE | **Queries (180d):** 1,308
 
 Custom data. Key columns: `sale_credit_note_task_id, sale_id, product_id`.
 
@@ -953,7 +953,7 @@ SELECT * FROM `sm-zbiotics.cin7core.sale_credit_note_line` LIMIT 10;
 </Accordion>
 
 <Accordion title="product">
-**Type:** BASE TABLE | **Usage (180d):** 1,215 queries | **Last Used:** 2026-02-04
+**Type:** BASE TABLE | **Queries (180d):** 1,215
 
 Product/SKU-level data. Key columns: `id, category_id, revenue_account`.
 
@@ -966,7 +966,7 @@ SELECT * FROM `sm-zbiotics.cin7core.product` LIMIT 10;
 </Accordion>
 
 <Accordion title="sale_inventory_movement">
-**Type:** BASE TABLE | **Usage (180d):** 1,213 queries | **Last Used:** 2026-02-03
+**Type:** BASE TABLE | **Queries (180d):** 1,213
 
 Custom data. Key columns: `sale_id, product_id, date, task_id`.
 
@@ -979,7 +979,7 @@ SELECT * FROM `sm-zbiotics.cin7core.sale_inventory_movement` LIMIT 10;
 </Accordion>
 
 <Accordion title="product_attachment">
-**Type:** BASE TABLE | **Usage (180d):** 1,195 queries | **Last Used:** 2026-02-03
+**Type:** BASE TABLE | **Queries (180d):** 1,195
 
 Product/SKU-level data from TikTok. Key columns: `product_id, id`.
 
@@ -992,7 +992,7 @@ SELECT * FROM `sm-zbiotics.cin7core.product_attachment` LIMIT 10;
 </Accordion>
 
 <Accordion title="bill_of_material_service">
-**Type:** BASE TABLE | **Usage (180d):** 1,177 queries | **Last Used:** 2026-02-03
+**Type:** BASE TABLE | **Queries (180d):** 1,177
 
 Custom data. Key columns: `product_id, component_product_id`.
 
@@ -1005,7 +1005,7 @@ SELECT * FROM `sm-zbiotics.cin7core.bill_of_material_service` LIMIT 10;
 </Accordion>
 
 <Accordion title="bill_of_material_product">
-**Type:** BASE TABLE | **Usage (180d):** 1,167 queries | **Last Used:** 2026-02-03
+**Type:** BASE TABLE | **Queries (180d):** 1,167
 
 Product/SKU-level data. Key columns: `product_id, component_product_id`.
 
@@ -1018,7 +1018,7 @@ SELECT * FROM `sm-zbiotics.cin7core.bill_of_material_product` LIMIT 10;
 </Accordion>
 
 <Accordion title="sale_transaction">
-**Type:** BASE TABLE | **Usage (180d):** 1,129 queries | **Last Used:** 2026-02-03
+**Type:** BASE TABLE | **Queries (180d):** 1,129
 
 Custom data. Key columns: `sale_id, transaction_id, task_id`.
 
@@ -1031,7 +1031,7 @@ SELECT * FROM `sm-zbiotics.cin7core.sale_transaction` LIMIT 10;
 </Accordion>
 
 <Accordion title="sale_invoice_line">
-**Type:** BASE TABLE | **Usage (180d):** 1,120 queries | **Last Used:** 2026-02-03
+**Type:** BASE TABLE | **Queries (180d):** 1,120
 
 Custom data. Key columns: `sale_id, sale_invoice_task_id, product_id`.
 
@@ -1044,7 +1044,7 @@ SELECT * FROM `sm-zbiotics.cin7core.sale_invoice_line` LIMIT 10;
 </Accordion>
 
 <Accordion title="sale_credit_note">
-**Type:** BASE TABLE | **Usage (180d):** 1,118 queries | **Last Used:** 2026-02-03
+**Type:** BASE TABLE | **Queries (180d):** 1,118
 
 Custom data. Key columns: `sale_id, task_id`.
 
@@ -1057,7 +1057,7 @@ SELECT * FROM `sm-zbiotics.cin7core.sale_credit_note` LIMIT 10;
 </Accordion>
 
 <Accordion title="sale_fullfillment">
-**Type:** BASE TABLE | **Usage (180d):** 1,114 queries | **Last Used:** 2026-02-03
+**Type:** BASE TABLE | **Queries (180d):** 1,114
 
 Custom data. Key columns: `sale_id, task_id`.
 
@@ -1070,7 +1070,7 @@ SELECT * FROM `sm-zbiotics.cin7core.sale_fullfillment` LIMIT 10;
 </Accordion>
 
 <Accordion title="sale_invoice">
-**Type:** BASE TABLE | **Usage (180d):** 1,113 queries | **Last Used:** 2026-02-03
+**Type:** BASE TABLE | **Queries (180d):** 1,113
 
 Custom data. Key columns: `sale_id, task_id, invoice_date, invoice_due_date`.
 
@@ -1083,7 +1083,7 @@ SELECT * FROM `sm-zbiotics.cin7core.sale_invoice` LIMIT 10;
 </Accordion>
 
 <Accordion title="sale_attachment">
-**Type:** BASE TABLE | **Usage (180d):** 1,023 queries | **Last Used:** 2026-02-03
+**Type:** BASE TABLE | **Queries (180d):** 1,023
 
 Custom data from TikTok. Key columns: `sale_id, id`.
 
@@ -1096,7 +1096,7 @@ SELECT * FROM `sm-zbiotics.cin7core.sale_attachment` LIMIT 10;
 </Accordion>
 
 <Accordion title="sale_credit_note_restock">
-**Type:** BASE TABLE | **Usage (180d):** 990 queries | **Last Used:** 2026-02-03
+**Type:** BASE TABLE | **Queries (180d):** 990
 
 Custom data. Key columns: `sale_credit_note_task_id, sale_id, product_id`.
 
@@ -1109,7 +1109,7 @@ SELECT * FROM `sm-zbiotics.cin7core.sale_credit_note_restock` LIMIT 10;
 </Accordion>
 
 <Accordion title="product_movement">
-**Type:** BASE TABLE | **Usage (180d):** 949 queries | **Last Used:** 2026-02-03
+**Type:** BASE TABLE | **Queries (180d):** 949
 
 Product/SKU-level data. Key columns: `product_id`.
 
@@ -1125,7 +1125,7 @@ SELECT * FROM `sm-zbiotics.cin7core.product_movement` LIMIT 10;
 ### zb_transforms
 
 <Accordion title="rpt_executive_summary_daily">
-**Type:** BASE TABLE | **Usage (180d):** 3,242 queries | **Last Used:** 2026-02-03
+**Type:** BASE TABLE | **Queries (180d):** 3,242
 
 Aggregated summary. Key columns: `rpt_date, sm_channel, order_net_revenue, new_customer_order_net_revenue, repeat_customer_order_net_revenue`.
 
@@ -1138,7 +1138,7 @@ SELECT * FROM `sm-zbiotics.zb_transforms.rpt_executive_summary_daily` LIMIT 10;
 </Accordion>
 
 <Accordion title="fct_amazon_sticker_response_matches">
-**Type:** BASE TABLE | **Usage (180d):** 2,644 queries | **Last Used:** 2026-02-04
+**Type:** BASE TABLE | **Queries (180d):** 2,644
 
 Fact table from Amazon. Key columns: `sticker_response_date, customer_id`.
 
@@ -1151,7 +1151,7 @@ SELECT * FROM `sm-zbiotics.zb_transforms.fct_amazon_sticker_response_matches` LI
 </Accordion>
 
 <Accordion title="fct_amazon_new_downweights">
-**Type:** BASE TABLE | **Usage (180d):** 2,168 queries | **Last Used:** 2026-02-03
+**Type:** BASE TABLE | **Queries (180d):** 2,168
 
 Fact table from Amazon.
 
@@ -1164,7 +1164,7 @@ SELECT * FROM `sm-zbiotics.zb_transforms.fct_amazon_new_downweights` LIMIT 10;
 </Accordion>
 
 <Accordion title="obt_orders">
-**Type:** BASE TABLE | **Usage (180d):** 2,168 queries | **Last Used:** 2026-02-03
+**Type:** BASE TABLE | **Queries (180d):** 2,168
 
 Order-level data. Key columns: `sm_store_id, sm_order_key, sm_customer_key, source_system, order_id`.
 
@@ -1177,7 +1177,7 @@ SELECT * FROM `sm-zbiotics.zb_transforms.obt_orders` LIMIT 10;
 </Accordion>
 
 <Accordion title="dim_order_lines">
-**Type:** BASE TABLE | **Usage (180d):** 2,167 queries | **Last Used:** 2026-02-04
+**Type:** BASE TABLE | **Queries (180d):** 2,167
 
 Order-level data. Key columns: `order_line_id, sm_order_key, sm_order_line_key, sm_product_key, source_system`.
 
@@ -1193,7 +1193,7 @@ SELECT * FROM `sm-zbiotics.zb_transforms.dim_order_lines` LIMIT 10;
 ### pipe17
 
 <Accordion title="fulfillment_line_item">
-**Type:** BASE TABLE | **Usage (180d):** 2,429 queries | **Last Used:** 2026-02-04
+**Type:** BASE TABLE | **Queries (180d):** 2,429
 
 Custom data. Key columns: `id, fulfillment_id`.
 
@@ -1206,7 +1206,7 @@ SELECT * FROM `sm-zbiotics.pipe17.fulfillment_line_item` LIMIT 10;
 </Accordion>
 
 <Accordion title="order_discount">
-**Type:** BASE TABLE | **Usage (180d):** 2,330 queries | **Last Used:** 2026-02-03
+**Type:** BASE TABLE | **Queries (180d):** 2,330
 
 Order-level data. Key columns: `orders_id, line_item_id`.
 
@@ -1219,7 +1219,7 @@ SELECT * FROM `sm-zbiotics.pipe17.order_discount` LIMIT 10;
 </Accordion>
 
 <Accordion title="fulfillment">
-**Type:** BASE TABLE | **Usage (180d):** 1,889 queries | **Last Used:** 2026-02-04
+**Type:** BASE TABLE | **Queries (180d):** 1,889
 
 Custom data. Key columns: `id, actual_ship_date, external_fulfillment_id, external_order_id, updated_at`.
 
@@ -1232,7 +1232,7 @@ SELECT * FROM `sm-zbiotics.pipe17.fulfillment` LIMIT 10;
 </Accordion>
 
 <Accordion title="order_line_item">
-**Type:** BASE TABLE | **Usage (180d):** 1,628 queries | **Last Used:** 2026-02-03
+**Type:** BASE TABLE | **Queries (180d):** 1,628
 
 Order-level data. Key columns: `custom_var_auto_merge_billing_sub_id, orders_id, custom_var_source, location_id`.
 
@@ -1245,7 +1245,7 @@ SELECT * FROM `sm-zbiotics.pipe17.order_line_item` LIMIT 10;
 </Accordion>
 
 <Accordion title="shipment_line_item">
-**Type:** BASE TABLE | **Usage (180d):** 1,628 queries | **Last Used:** 2026-02-03
+**Type:** BASE TABLE | **Queries (180d):** 1,628
 
 Custom data. Key columns: `custom_var_auto_merge_billing_sub_id, custom_var_source, custom_var_widget_id, custom_var_upsell_provider, custom_var_swap_back_variant_id`.
 
@@ -1258,7 +1258,7 @@ SELECT * FROM `sm-zbiotics.pipe17.shipment_line_item` LIMIT 10;
 </Accordion>
 
 <Accordion title="order_tag">
-**Type:** BASE TABLE | **Usage (180d):** 1,623 queries | **Last Used:** 2026-02-03
+**Type:** BASE TABLE | **Queries (180d):** 1,623
 
 Order-level data. Key columns: `orders_id`.
 
@@ -1271,7 +1271,7 @@ SELECT * FROM `sm-zbiotics.pipe17.order_tag` LIMIT 10;
 </Accordion>
 
 <Accordion title="order_payment">
-**Type:** BASE TABLE | **Usage (180d):** 1,621 queries | **Last Used:** 2026-02-03
+**Type:** BASE TABLE | **Queries (180d):** 1,621
 
 Order-level data. Key columns: `orders_id`.
 
@@ -1284,7 +1284,7 @@ SELECT * FROM `sm-zbiotics.pipe17.order_payment` LIMIT 10;
 </Accordion>
 
 <Accordion title="shipment_tag">
-**Type:** BASE TABLE | **Usage (180d):** 1,621 queries | **Last Used:** 2026-02-03
+**Type:** BASE TABLE | **Queries (180d):** 1,621
 
 Custom data. Key columns: `shipment_id`.
 
@@ -1297,7 +1297,7 @@ SELECT * FROM `sm-zbiotics.pipe17.shipment_tag` LIMIT 10;
 </Accordion>
 
 <Accordion title="orders">
-**Type:** BASE TABLE | **Usage (180d):** 1,484 queries | **Last Used:** 2026-02-04
+**Type:** BASE TABLE | **Queries (180d):** 1,484
 
 Order-level data. Key columns: `id, external_order_api_id`.
 
@@ -1310,7 +1310,7 @@ SELECT * FROM `sm-zbiotics.pipe17.orders` LIMIT 10;
 </Accordion>
 
 <Accordion title="shipment">
-**Type:** BASE TABLE | **Usage (180d):** 1,482 queries | **Last Used:** 2026-02-04
+**Type:** BASE TABLE | **Queries (180d):** 1,482
 
 Custom data. Key columns: `id, external_shipment_id, ship_after_date, external_order_id`.
 
@@ -1326,7 +1326,7 @@ SELECT * FROM `sm-zbiotics.pipe17.shipment` LIMIT 10;
 ### skio
 
 <Accordion title="StorefrontUser">
-**Type:** BASE TABLE | **Usage (180d):** 2,312 queries | **Last Used:** 2026-02-04
+**Type:** BASE TABLE | **Queries (180d):** 2,312
 
 Custom data. Key columns: `id, updatedAt, siteId, platformId`.
 
@@ -1339,7 +1339,7 @@ SELECT * FROM `sm-zbiotics.skio.StorefrontUser` LIMIT 10;
 </Accordion>
 
 <Accordion title="ProductVariant">
-**Type:** BASE TABLE | **Usage (180d):** 1,357 queries | **Last Used:** 2026-02-04
+**Type:** BASE TABLE | **Queries (180d):** 1,357
 
 Product/SKU-level data. Key columns: `id, updatedAt, platformId, productId`.
 
@@ -1355,7 +1355,7 @@ SELECT * FROM `sm-zbiotics.skio.ProductVariant` LIMIT 10;
 ### twilio_twilio
 
 <Accordion title="int_twilio__messages">
-**Type:** BASE TABLE | **Usage (180d):** 2,100 queries | **Last Used:** 2026-02-03
+**Type:** BASE TABLE | **Queries (180d):** 2,100
 
 Intermediate transformation from Twilio. Key columns: `account_id`.
 

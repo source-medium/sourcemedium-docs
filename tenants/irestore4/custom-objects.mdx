@@ -36,7 +36,7 @@ This page documents active custom BigQuery tables and views (those queried at le
 ### arslan_dataset
 
 <Accordion title="SB_SalesData">
-**Type:** BASE TABLE | **Usage (180d):** 36,732 queries | **Last Used:** 2026-02-03
+**Type:** BASE TABLE | **Queries (180d):** 36,732
 
 Custom data. Key columns: `Date`.
 
@@ -49,7 +49,7 @@ SELECT * FROM `sm-irestore4.arslan_dataset.SB_SalesData` LIMIT 10;
 </Accordion>
 
 <Accordion title="SB_Dump_Staging">
-**Type:** EXTERNAL | **Usage (180d):** 529 queries | **Last Used:** 2026-02-03
+**Type:** EXTERNAL | **Queries (180d):** 529
 
 Custom data.
 
@@ -65,7 +65,7 @@ SELECT * FROM `sm-irestore4.arslan_dataset.SB_Dump_Staging` LIMIT 10;
 ### sm_sources
 
 <Accordion title="custom_campaign_product_type_map">
-**Type:** EXTERNAL | **Usage (180d):** 34,267 queries | **Last Used:** 2026-02-03
+**Type:** EXTERNAL | **Queries (180d):** 34,267
 
 Product/SKU-level data.
 
@@ -81,7 +81,7 @@ SELECT * FROM `sm-irestore4.sm_sources.custom_campaign_product_type_map` LIMIT 1
 ### customized_views
 
 <Accordion title="rpt_executive_summary_daily_customized">
-**Type:** VIEW | **Usage (180d):** 24,042 queries | **Last Used:** 2026-02-03
+**Type:** VIEW | **Queries (180d):** 24,042
 
 Aggregated summary.
 
@@ -94,7 +94,7 @@ SELECT * FROM `sm-irestore4.customized_views.rpt_executive_summary_daily_customi
 </Accordion>
 
 <Accordion title="rpt_product_profit_and_loss">
-**Type:** VIEW | **Usage (180d):** 22,986 queries | **Last Used:** 2026-02-03
+**Type:** VIEW | **Queries (180d):** 22,986
 
 Product/SKU-level data.
 
@@ -107,7 +107,7 @@ SELECT * FROM `sm-irestore4.customized_views.rpt_product_profit_and_loss` LIMIT 
 </Accordion>
 
 <Accordion title="rpt_ad_performance_with_product_type">
-**Type:** VIEW | **Usage (180d):** 4,508 queries | **Last Used:** 2026-01-21
+**Type:** VIEW | **Queries (180d):** 4,508
 
 Product/SKU-level data.
 
@@ -120,7 +120,7 @@ SELECT * FROM `sm-irestore4.customized_views.rpt_ad_performance_with_product_typ
 </Accordion>
 
 <Accordion title="fulfil_order_lines_wip">
-**Type:** VIEW | **Usage (180d):** 87 queries | **Last Used:** 2025-09-19
+**Type:** VIEW | **Queries (180d):** 87
 
 Order-level data.
 
@@ -133,7 +133,7 @@ SELECT * FROM `sm-irestore4.customized_views.fulfil_order_lines_wip` LIMIT 10;
 </Accordion>
 
 <Accordion title="obt_order_lines_w_cancelled_at">
-**Type:** VIEW | **Usage (180d):** 66 queries | **Last Used:** 2026-02-02
+**Type:** VIEW | **Queries (180d):** 66
 
 Order-level data.
 
@@ -146,7 +146,7 @@ SELECT * FROM `sm-irestore4.customized_views.obt_order_lines_w_cancelled_at` LIM
 </Accordion>
 
 <Accordion title="lead_cap_rate_table">
-**Type:** VIEW | **Usage (180d):** 55 queries | **Last Used:** 2026-01-06
+**Type:** VIEW | **Queries (180d):** 55
 
 Marketing/advertising data.
 
@@ -159,7 +159,7 @@ SELECT * FROM `sm-irestore4.customized_views.lead_cap_rate_table` LIMIT 10;
 </Accordion>
 
 <Accordion title="fulfil_missing_lines_check_wip">
-**Type:** VIEW | **Usage (180d):** 34 queries | **Last Used:** 2025-08-27
+**Type:** VIEW | **Queries (180d):** 34
 
 Custom data.
 
@@ -172,7 +172,7 @@ SELECT * FROM `sm-irestore4.customized_views.fulfil_missing_lines_check_wip` LIM
 </Accordion>
 
 <Accordion title="fulfil_order_lines_with_cancel_status_wip">
-**Type:** VIEW | **Usage (180d):** 29 queries | **Last Used:** 2025-08-27
+**Type:** VIEW | **Queries (180d):** 29
 
 Order-level data.
 
@@ -185,7 +185,7 @@ SELECT * FROM `sm-irestore4.customized_views.fulfil_order_lines_with_cancel_stat
 </Accordion>
 
 <Accordion title="fulfil_refund_line_agg_wip">
-**Type:** VIEW | **Usage (180d):** 11 queries | **Last Used:** 2025-08-27
+**Type:** VIEW | **Queries (180d):** 11
 
 Custom data.
 
@@ -201,7 +201,7 @@ SELECT * FROM `sm-irestore4.customized_views.fulfil_refund_line_agg_wip` LIMIT 1
 ### bi_playground
 
 <Accordion title="rpt_profit_and_loss_without_bundle">
-**Type:** VIEW | **Usage (180d):** 5,750 queries | **Last Used:** 2026-01-21
+**Type:** VIEW | **Queries (180d):** 5,750
 
 Reporting view.
 
@@ -214,7 +214,7 @@ SELECT * FROM `sm-irestore4.bi_playground.rpt_profit_and_loss_without_bundle` LI
 </Accordion>
 
 <Accordion title="rpt_profit_and_loss_without_bundle_parts">
-**Type:** VIEW | **Usage (180d):** 1,021 queries | **Last Used:** 2025-09-21
+**Type:** VIEW | **Queries (180d):** 1,021
 
 Reporting view.
 
@@ -230,7 +230,7 @@ SELECT * FROM `sm-irestore4.bi_playground.rpt_profit_and_loss_without_bundle_par
 ### custom_order_lines
 
 <Accordion title="unified_order_lines">
-**Type:** BASE TABLE | **Usage (180d):** 267 queries | **Last Used:** 2026-02-02
+**Type:** BASE TABLE | **Queries (180d):** 267
 
 Order-level data. Key columns: `sm_store_id, sm_order_line_key, sm_order_key, sm_customer_key, sm_product_variant_key`.
 
@@ -243,7 +243,7 @@ SELECT * FROM `sm-irestore4.custom_order_lines.unified_order_lines` LIMIT 10;
 </Accordion>
 
 <Accordion title="fulfil_order_lines_base">
-**Type:** BASE TABLE | **Usage (180d):** 140 queries | **Last Used:** 2026-02-02
+**Type:** BASE TABLE | **Queries (180d):** 140
 
 Order-level data. Key columns: `order_sku_id, flt_create_date, source_system, sm_store_id, sm_order_line_key`.
 
@@ -256,7 +256,7 @@ SELECT * FROM `sm-irestore4.custom_order_lines.fulfil_order_lines_base` LIMIT 10
 </Accordion>
 
 <Accordion title="sm_ol_with_fulfil_cogs">
-**Type:** BASE TABLE | **Usage (180d):** 76 queries | **Last Used:** 2026-02-02
+**Type:** BASE TABLE | **Queries (180d):** 76
 
 Custom data. Key columns: `sm_store_id, sm_order_line_key, sm_order_key, sm_customer_key, sm_product_variant_key`.
 
@@ -272,7 +272,7 @@ SELECT * FROM `sm-irestore4.custom_order_lines.sm_ol_with_fulfil_cogs` LIMIT 10;
 ### bi_expandfi_prod
 
 <Accordion title="vw_product_summary">
-**Type:** VIEW | **Usage (180d):** 139 queries | **Last Used:** 2026-01-28
+**Type:** VIEW | **Queries (180d):** 139
 
 Aggregated summary.
 
@@ -285,7 +285,7 @@ SELECT * FROM `sm-irestore4.bi_expandfi_prod.vw_product_summary` LIMIT 10;
 </Accordion>
 
 <Accordion title="sales">
-**Type:** BASE TABLE | **Usage (180d):** 131 queries | **Last Used:** 2026-02-02
+**Type:** BASE TABLE | **Queries (180d):** 131
 
 Custom data. Key columns: `amazon_order_item_id, updated_at, merchant_id, amazon_order_id, merchant_order_id`.
 
@@ -298,7 +298,7 @@ SELECT * FROM `sm-irestore4.bi_expandfi_prod.sales` LIMIT 10;
 </Accordion>
 
 <Accordion title="upsell_report">
-**Type:** VIEW | **Usage (180d):** 14 queries | **Last Used:** 2025-12-23
+**Type:** VIEW | **Queries (180d):** 14
 
 Reporting view.
 
@@ -311,7 +311,7 @@ SELECT * FROM `sm-irestore4.bi_expandfi_prod.upsell_report` LIMIT 10;
 </Accordion>
 
 <Accordion title="amazon_orders">
-**Type:** BASE TABLE | **Usage (180d):** 11 queries | **Last Used:** 2026-02-02
+**Type:** BASE TABLE | **Queries (180d):** 11
 
 Order-level data from Amazon. Key columns: `id, amazon_order_id, merchant_order_id, purchase_date, last_updated_date`.
 
@@ -324,7 +324,7 @@ SELECT * FROM `sm-irestore4.bi_expandfi_prod.amazon_orders` LIMIT 10;
 </Accordion>
 
 <Accordion title="sales_transformed">
-**Type:** BASE TABLE | **Usage (180d):** 10 queries | **Last Used:** 2026-02-02
+**Type:** BASE TABLE | **Queries (180d):** 10
 
 Custom data. Key columns: `amazon_order_item_id, updated_at, merchant_id, amazon_order_id, merchant_order_id`.
 
@@ -337,7 +337,7 @@ SELECT * FROM `sm-irestore4.bi_expandfi_prod.sales_transformed` LIMIT 10;
 </Accordion>
 
 <Accordion title="promotions">
-**Type:** BASE TABLE | **Usage (180d):** 10 queries | **Last Used:** 2026-02-02
+**Type:** BASE TABLE | **Queries (180d):** 10
 
 Custom data. Key columns: `id, updated_at`.
 
@@ -353,7 +353,7 @@ SELECT * FROM `sm-irestore4.bi_expandfi_prod.promotions` LIMIT 10;
 ### custom_sources
 
 <Accordion title="bundle_part_mapping">
-**Type:** EXTERNAL | **Usage (180d):** 56 queries | **Last Used:** 2026-02-02
+**Type:** EXTERNAL | **Queries (180d):** 56
 
 Custom data.
 
@@ -366,7 +366,7 @@ SELECT * FROM `sm-irestore4.custom_sources.bundle_part_mapping` LIMIT 10;
 </Accordion>
 
 <Accordion title="orders_from_shopify">
-**Type:** BASE TABLE | **Usage (180d):** 17 queries | **Last Used:** 2026-02-02
+**Type:** BASE TABLE | **Queries (180d):** 17
 
 Order-level data from Shopify.
 

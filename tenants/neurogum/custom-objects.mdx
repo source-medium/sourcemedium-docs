@@ -34,7 +34,7 @@ This page documents active custom BigQuery tables and views (those queried at le
 ### customized_views
 
 <Accordion title="orders_and_ads_summary">
-**Type:** BASE TABLE | **Usage (180d):** 53,783 queries | **Last Used:** 2026-02-04
+**Type:** BASE TABLE | **Queries (180d):** 53,783
 
 Aggregated summary. Key columns: `date, sm_channel, new_customers, new_user_revenue, existing_user_orders`.
 
@@ -47,7 +47,7 @@ SELECT * FROM `sm-neurogum.customized_views.orders_and_ads_summary` LIMIT 10;
 </Accordion>
 
 <Accordion title="rpt_ad_performance_daily_with_sleep_core_campaign">
-**Type:** VIEW | **Usage (180d):** 35,409 queries | **Last Used:** 2026-02-04
+**Type:** VIEW | **Queries (180d):** 35,409
 
 Daily aggregation.
 
@@ -60,7 +60,7 @@ SELECT * FROM `sm-neurogum.customized_views.rpt_ad_performance_daily_with_sleep_
 </Accordion>
 
 <Accordion title="dsp_native">
-**Type:** BASE TABLE | **Usage (180d):** 29,721 queries | **Last Used:** 2026-02-04
+**Type:** BASE TABLE | **Queries (180d):** 29,721
 
 Custom data from Amazon. Key columns: `Date, Campaign_ID, Spend`.
 
@@ -73,7 +73,7 @@ SELECT * FROM `sm-neurogum.customized_views.dsp_native` LIMIT 10;
 </Accordion>
 
 <Accordion title="sku_sales_summary">
-**Type:** VIEW | **Usage (180d):** 20,467 queries | **Last Used:** 2026-02-03
+**Type:** VIEW | **Queries (180d):** 20,467
 
 Aggregated summary.
 
@@ -86,7 +86,7 @@ SELECT * FROM `sm-neurogum.customized_views.sku_sales_summary` LIMIT 10;
 </Accordion>
 
 <Accordion title="obt_order_lines_with_sleep_or_core">
-**Type:** VIEW | **Usage (180d):** 8,443 queries | **Last Used:** 2026-02-04
+**Type:** VIEW | **Queries (180d):** 8,443
 
 Order-level data.
 
@@ -99,7 +99,7 @@ SELECT * FROM `sm-neurogum.customized_views.obt_order_lines_with_sleep_or_core` 
 </Accordion>
 
 <Accordion title="podscribe_native">
-**Type:** BASE TABLE | **Usage (180d):** 4,724 queries | **Last Used:** 2026-02-04
+**Type:** BASE TABLE | **Queries (180d):** 4,724
 
 Custom data from Podscribe. Key columns: `DATE, CAMPAIGN_ID, SPEND, REVENUE`.
 
@@ -112,7 +112,7 @@ SELECT * FROM `sm-neurogum.customized_views.podscribe_native` LIMIT 10;
 </Accordion>
 
 <Accordion title="obt_orders_with_product_line">
-**Type:** VIEW | **Usage (180d):** 4,424 queries | **Last Used:** 2026-02-04
+**Type:** VIEW | **Queries (180d):** 4,424
 
 Order-level data.
 
@@ -125,7 +125,7 @@ SELECT * FROM `sm-neurogum.customized_views.obt_orders_with_product_line` LIMIT 
 </Accordion>
 
 <Accordion title="dsp">
-**Type:** EXTERNAL | **Usage (180d):** 4,356 queries | **Last Used:** 2026-02-04
+**Type:** EXTERNAL | **Queries (180d):** 4,356
 
 Custom data from Amazon. Key columns: `Date, Campaign_ID, Spend`.
 
@@ -138,7 +138,7 @@ SELECT * FROM `sm-neurogum.customized_views.dsp` LIMIT 10;
 </Accordion>
 
 <Accordion title="customer_lifetime_aggregates">
-**Type:** BASE TABLE | **Usage (180d):** 3,413 queries | **Last Used:** 2026-02-03
+**Type:** BASE TABLE | **Queries (180d):** 3,413
 
 Lifetime value analysis. Key columns: `sm_channel, unique_customers, total_net_revenue, total_ad_spend`.
 
@@ -151,7 +151,7 @@ SELECT * FROM `sm-neurogum.customized_views.customer_lifetime_aggregates` LIMIT 
 </Accordion>
 
 <Accordion title="cohort_existing_to_target">
-**Type:** BASE TABLE | **Usage (180d):** 2,488 queries | **Last Used:** 2026-02-04
+**Type:** BASE TABLE | **Queries (180d):** 2,488
 
 Cohort analysis. Key columns: `sm_channel, returned_customers, cumulative_customers, cumulative_orders`.
 
@@ -164,7 +164,7 @@ SELECT * FROM `sm-neurogum.customized_views.cohort_existing_to_target` LIMIT 10;
 </Accordion>
 
 <Accordion title="cohort_new_to_target">
-**Type:** BASE TABLE | **Usage (180d):** 2,443 queries | **Last Used:** 2026-02-04
+**Type:** BASE TABLE | **Queries (180d):** 2,443
 
 Cohort analysis. Key columns: `sm_channel, returned_customers, cumulative_customers, cumulative_orders`.
 
@@ -177,7 +177,7 @@ SELECT * FROM `sm-neurogum.customized_views.cohort_new_to_target` LIMIT 10;
 </Accordion>
 
 <Accordion title="customer_lifetime_retention">
-**Type:** VIEW | **Usage (180d):** 2,193 queries | **Last Used:** 2026-01-19
+**Type:** VIEW | **Queries (180d):** 2,193
 
 Retention metrics.
 
@@ -190,7 +190,7 @@ SELECT * FROM `sm-neurogum.customized_views.customer_lifetime_retention` LIMIT 1
 </Accordion>
 
 <Accordion title="week_on_week_mtd">
-**Type:** VIEW | **Usage (180d):** 2,113 queries | **Last Used:** 2026-02-03
+**Type:** VIEW | **Queries (180d):** 2,113
 
 Custom data.
 
@@ -203,7 +203,7 @@ SELECT * FROM `sm-neurogum.customized_views.week_on_week_mtd` LIMIT 10;
 </Accordion>
 
 <Accordion title="week_on_week_performance">
-**Type:** VIEW | **Usage (180d):** 1,632 queries | **Last Used:** 2026-02-03
+**Type:** VIEW | **Queries (180d):** 1,632
 
 Custom data.
 
@@ -216,7 +216,7 @@ SELECT * FROM `sm-neurogum.customized_views.week_on_week_performance` LIMIT 10;
 </Accordion>
 
 <Accordion title="weeklydata_visuals">
-**Type:** VIEW | **Usage (180d):** 957 queries | **Last Used:** 2026-02-03
+**Type:** VIEW | **Queries (180d):** 957
 
 Weekly aggregation.
 
@@ -229,7 +229,7 @@ SELECT * FROM `sm-neurogum.customized_views.weeklydata_visuals` LIMIT 10;
 </Accordion>
 
 <Accordion title="xeanalysis">
-**Type:** VIEW | **Usage (180d):** 636 queries | **Last Used:** 2025-12-10
+**Type:** VIEW | **Queries (180d):** 636
 
 Custom data.
 
@@ -242,7 +242,7 @@ SELECT * FROM `sm-neurogum.customized_views.xeanalysis` LIMIT 10;
 </Accordion>
 
 <Accordion title="rfm_table">
-**Type:** BASE TABLE | **Usage (180d):** 635 queries | **Last Used:** 2026-02-03
+**Type:** BASE TABLE | **Queries (180d):** 635
 
 RFM (Recency, Frequency, Monetary) segmentation. Key columns: `customer_id`.
 
@@ -255,7 +255,7 @@ SELECT * FROM `sm-neurogum.customized_views.rfm_table` LIMIT 10;
 </Accordion>
 
 <Accordion title="monthly_ecomm_summary">
-**Type:** VIEW | **Usage (180d):** 467 queries | **Last Used:** 2025-12-19
+**Type:** VIEW | **Queries (180d):** 467
 
 Aggregated summary.
 
@@ -268,7 +268,7 @@ SELECT * FROM `sm-neurogum.customized_views.monthly_ecomm_summary` LIMIT 10;
 </Accordion>
 
 <Accordion title="sm_wg_analysis">
-**Type:** VIEW | **Usage (180d):** 419 queries | **Last Used:** 2025-10-01
+**Type:** VIEW | **Queries (180d):** 419
 
 Custom data.
 
@@ -281,7 +281,7 @@ SELECT * FROM `sm-neurogum.customized_views.sm_wg_analysis` LIMIT 10;
 </Accordion>
 
 <Accordion title="codev_sku_metrics">
-**Type:** VIEW | **Usage (180d):** 368 queries | **Last Used:** 2026-02-03
+**Type:** VIEW | **Queries (180d):** 368
 
 Product/SKU-level data.
 
@@ -294,7 +294,7 @@ SELECT * FROM `sm-neurogum.customized_views.codev_sku_metrics` LIMIT 10;
 </Accordion>
 
 <Accordion title="customertypecodev">
-**Type:** VIEW | **Usage (180d):** 330 queries | **Last Used:** 2025-12-10
+**Type:** VIEW | **Queries (180d):** 330
 
 Customer-level data.
 
@@ -307,7 +307,7 @@ SELECT * FROM `sm-neurogum.customized_views.customertypecodev` LIMIT 10;
 </Accordion>
 
 <Accordion title="core_metrics">
-**Type:** VIEW | **Usage (180d):** 244 queries | **Last Used:** 2026-02-03
+**Type:** VIEW | **Queries (180d):** 244
 
 Metrics definitions.
 
@@ -320,7 +320,7 @@ SELECT * FROM `sm-neurogum.customized_views.core_metrics` LIMIT 10;
 </Accordion>
 
 <Accordion title="codev_total_metrics">
-**Type:** VIEW | **Usage (180d):** 242 queries | **Last Used:** 2026-01-30
+**Type:** VIEW | **Queries (180d):** 242
 
 Metrics definitions.
 
@@ -333,7 +333,7 @@ SELECT * FROM `sm-neurogum.customized_views.codev_total_metrics` LIMIT 10;
 </Accordion>
 
 <Accordion title="codevasket">
-**Type:** VIEW | **Usage (180d):** 239 queries | **Last Used:** 2025-12-03
+**Type:** VIEW | **Queries (180d):** 239
 
 Custom data.
 
@@ -346,7 +346,7 @@ SELECT * FROM `sm-neurogum.customized_views.codevasket` LIMIT 10;
 </Accordion>
 
 <Accordion title="codevrepurchase">
-**Type:** VIEW | **Usage (180d):** 236 queries | **Last Used:** 2025-12-15
+**Type:** VIEW | **Queries (180d):** 236
 
 Custom data.
 
@@ -359,7 +359,7 @@ SELECT * FROM `sm-neurogum.customized_views.codevrepurchase` LIMIT 10;
 </Accordion>
 
 <Accordion title="cohort_ef_first_time">
-**Type:** VIEW | **Usage (180d):** 215 queries | **Last Used:** 2025-12-10
+**Type:** VIEW | **Queries (180d):** 215
 
 Cohort analysis.
 
@@ -372,7 +372,7 @@ SELECT * FROM `sm-neurogum.customized_views.cohort_ef_first_time` LIMIT 10;
 </Accordion>
 
 <Accordion title="xeanalysis2">
-**Type:** VIEW | **Usage (180d):** 133 queries | **Last Used:** 2025-12-10
+**Type:** VIEW | **Queries (180d):** 133
 
 Custom data.
 
@@ -385,7 +385,7 @@ SELECT * FROM `sm-neurogum.customized_views.xeanalysis2` LIMIT 10;
 </Accordion>
 
 <Accordion title="aovanalysis">
-**Type:** VIEW | **Usage (180d):** 72 queries | **Last Used:** 2025-11-04
+**Type:** VIEW | **Queries (180d):** 72
 
 Custom data.
 
@@ -398,7 +398,7 @@ SELECT * FROM `sm-neurogum.customized_views.aovanalysis` LIMIT 10;
 </Accordion>
 
 <Accordion title="ccretention">
-**Type:** VIEW | **Usage (180d):** 38 queries | **Last Used:** 2025-10-20
+**Type:** VIEW | **Queries (180d):** 38
 
 Retention metrics.
 
@@ -411,7 +411,7 @@ SELECT * FROM `sm-neurogum.customized_views.ccretention` LIMIT 10;
 </Accordion>
 
 <Accordion title="chesspartnership_daily_customers">
-**Type:** VIEW | **Usage (180d):** 26 queries | **Last Used:** 2025-10-24
+**Type:** VIEW | **Queries (180d):** 26
 
 Daily aggregation.
 
@@ -429,7 +429,7 @@ SELECT * FROM `sm-neurogum.customized_views.chesspartnership_daily_customers` LI
 ### klaviyo
 
 <Accordion title="klaviyo_event">
-**Type:** BASE TABLE | **Usage (180d):** 4,530 queries | **Last Used:** 2026-02-02
+**Type:** BASE TABLE | **Queries (180d):** 4,530
 
 Event tracking data from Klaviyo. Key columns: `id`.
 
@@ -442,7 +442,7 @@ SELECT * FROM `sm-neurogum.klaviyo.klaviyo_event` LIMIT 10;
 </Accordion>
 
 <Accordion title="klaviyo_profile">
-**Type:** BASE TABLE | **Usage (180d):** 2,830 queries | **Last Used:** 2026-02-02
+**Type:** BASE TABLE | **Queries (180d):** 2,830
 
 Profile/customer data from Klaviyo. Key columns: `id`.
 
@@ -455,7 +455,7 @@ SELECT * FROM `sm-neurogum.klaviyo.klaviyo_profile` LIMIT 10;
 </Accordion>
 
 <Accordion title="klaviyo_metric">
-**Type:** BASE TABLE | **Usage (180d):** 1,234 queries | **Last Used:** 2026-02-02
+**Type:** BASE TABLE | **Queries (180d):** 1,234
 
 Metrics definitions from Klaviyo. Key columns: `id`.
 
@@ -471,7 +471,7 @@ SELECT * FROM `sm-neurogum.klaviyo.klaviyo_metric` LIMIT 10;
 ### northbeam_data
 
 <Accordion title="ttorders_to_nb">
-**Type:** BASE TABLE | **Usage (180d):** 33 queries | **Last Used:** 2026-02-02
+**Type:** BASE TABLE | **Queries (180d):** 33
 
 Order-level data from TikTok, Northbeam. Key columns: `product_id, order_id, customer_id`.
 
@@ -484,7 +484,7 @@ SELECT * FROM `sm-neurogum.northbeam_data.ttorders_to_nb` LIMIT 10;
 </Accordion>
 
 <Accordion title="orders_to_send">
-**Type:** BASE TABLE | **Usage (180d):** 13 queries | **Last Used:** 2026-02-02
+**Type:** BASE TABLE | **Queries (180d):** 13
 
 Order-level data. Key columns: `order_id, customer_id`.
 
@@ -500,7 +500,7 @@ SELECT * FROM `sm-neurogum.northbeam_data.orders_to_send` LIMIT 10;
 ### sm_experimental
 
 <Accordion title="obt_tiktok_shop_orders">
-**Type:** BASE TABLE | **Usage (180d):** 33 queries | **Last Used:** 2026-02-02
+**Type:** BASE TABLE | **Queries (180d):** 33
 
 Order-level data from TikTok. Key columns: `smcid, sm_order_key, sm_customer_key, source_system, order_id`.
 
@@ -516,7 +516,7 @@ SELECT * FROM `sm-neurogum.sm_experimental.obt_tiktok_shop_orders` LIMIT 10;
 ### sm_transformed_v2
 
 <Accordion title="revised_obt_order_lines">
-**Type:** BASE TABLE | **Usage (180d):** 8 queries | **Last Used:** 2026-02-02
+**Type:** BASE TABLE | **Queries (180d):** 8
 
 Order-level data. Key columns: `sm_store_id, sm_order_line_key, sm_order_key, sm_customer_key, sm_product_variant_key`.
 

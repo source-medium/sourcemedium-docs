@@ -37,7 +37,7 @@ This page documents active custom BigQuery tables and views (those queried at le
 ### machine_v_non_pipeline
 
 <Accordion title="orders_agg_custom">
-**Type:** BASE TABLE | **Usage (180d):** 130,049 queries | **Last Used:** 2026-02-03
+**Type:** BASE TABLE | **Queries (180d):** 130,049
 
 Order-level data. Key columns: `sm_order_key, order_id, sm_store_id, sm_customer_key, customer_id`.
 
@@ -50,7 +50,7 @@ SELECT * FROM `sm-cpap.machine_v_non_pipeline.orders_agg_custom` LIMIT 10;
 </Accordion>
 
 <Accordion title="executive_summary_custom">
-**Type:** BASE TABLE | **Usage (180d):** 107,758 queries | **Last Used:** 2026-02-03
+**Type:** BASE TABLE | **Queries (180d):** 107,758
 
 Aggregated summary. Key columns: `sm_channel, date, first_time_orders, repeat_orders, orders`.
 
@@ -63,7 +63,7 @@ SELECT * FROM `sm-cpap.machine_v_non_pipeline.executive_summary_custom` LIMIT 10
 </Accordion>
 
 <Accordion title="obt_order_lines_custom">
-**Type:** BASE TABLE | **Usage (180d):** 64,850 queries | **Last Used:** 2026-02-03
+**Type:** BASE TABLE | **Queries (180d):** 64,850
 
 Order-level data. Key columns: `sm_store_id, sm_order_line_key, sm_order_key, sm_customer_key, sm_product_variant_key`.
 
@@ -76,7 +76,7 @@ SELECT * FROM `sm-cpap.machine_v_non_pipeline.obt_order_lines_custom` LIMIT 10;
 </Accordion>
 
 <Accordion title="daily_orders_agg">
-**Type:** BASE TABLE | **Usage (180d):** 62,880 queries | **Last Used:** 2026-02-03
+**Type:** BASE TABLE | **Queries (180d):** 62,880
 
 Daily aggregation. Key columns: `sm_channel, date, first_time_orders, repeat_orders, orders`.
 
@@ -89,7 +89,7 @@ SELECT * FROM `sm-cpap.machine_v_non_pipeline.daily_orders_agg` LIMIT 10;
 </Accordion>
 
 <Accordion title="daily_marketing_agg">
-**Type:** BASE TABLE | **Usage (180d):** 62,867 queries | **Last Used:** 2026-02-03
+**Type:** BASE TABLE | **Queries (180d):** 62,867
 
 Daily aggregation. Key columns: `date, ad_spend, sm_channel`.
 
@@ -102,7 +102,7 @@ SELECT * FROM `sm-cpap.machine_v_non_pipeline.daily_marketing_agg` LIMIT 10;
 </Accordion>
 
 <Accordion title="refund_actions_processed">
-**Type:** BASE TABLE | **Usage (180d):** 46,202 queries | **Last Used:** 2026-02-03
+**Type:** BASE TABLE | **Queries (180d):** 46,202
 
 Custom data. Key columns: `refunded_date, sm_channel`.
 
@@ -115,7 +115,7 @@ SELECT * FROM `sm-cpap.machine_v_non_pipeline.refund_actions_processed` LIMIT 10
 </Accordion>
 
 <Accordion title="daily_machine_v_agg">
-**Type:** BASE TABLE | **Usage (180d):** 36,722 queries | **Last Used:** 2026-02-03
+**Type:** BASE TABLE | **Queries (180d):** 36,722
 
 Daily aggregation. Key columns: `date, channel, revenue`.
 
@@ -128,7 +128,7 @@ SELECT * FROM `sm-cpap.machine_v_non_pipeline.daily_machine_v_agg` LIMIT 10;
 </Accordion>
 
 <Accordion title="mc_lineitem_cost_deduped">
-**Type:** BASE TABLE | **Usage (180d):** 91 queries | **Last Used:** 2026-02-03
+**Type:** BASE TABLE | **Queries (180d):** 91
 
 Custom data. Key columns: `order_line_id, date_out`.
 
@@ -144,7 +144,7 @@ SELECT * FROM `sm-cpap.machine_v_non_pipeline.mc_lineitem_cost_deduped` LIMIT 10
 ### cpap_transformed
 
 <Accordion title="cpap_obt_order_lines">
-**Type:** BASE TABLE | **Usage (180d):** 41,369 queries | **Last Used:** 2026-02-04
+**Type:** BASE TABLE | **Queries (180d):** 41,369
 
 Order-level data. Key columns: `sm_store_id, sm_order_line_key, sm_order_key, sm_customer_key, sm_product_variant_key`.
 
@@ -157,7 +157,7 @@ SELECT * FROM `sm-cpap.cpap_transformed.cpap_obt_order_lines` LIMIT 10;
 </Accordion>
 
 <Accordion title="cpap_outbound_message_performance_sm_daily">
-**Type:** VIEW | **Usage (180d):** 12,821 queries | **Last Used:** 2025-12-19
+**Type:** VIEW | **Queries (180d):** 12,821
 
 Daily aggregation.
 
@@ -170,7 +170,7 @@ SELECT * FROM `sm-cpap.cpap_transformed.cpap_outbound_message_performance_sm_dai
 </Accordion>
 
 <Accordion title="cpap_rpt_ad_performance_daily">
-**Type:** VIEW | **Usage (180d):** 10,027 queries | **Last Used:** 2026-02-04
+**Type:** VIEW | **Queries (180d):** 10,027
 
 Daily aggregation.
 
@@ -183,7 +183,7 @@ SELECT * FROM `sm-cpap.cpap_transformed.cpap_rpt_ad_performance_daily` LIMIT 10;
 </Accordion>
 
 <Accordion title="cpap_rpt_financial_channel_summary_daily">
-**Type:** BASE TABLE | **Usage (180d):** 8,412 queries | **Last Used:** 2026-02-03
+**Type:** BASE TABLE | **Queries (180d):** 8,412
 
 Aggregated summary. Key columns: `date, cpap_channel`.
 
@@ -196,7 +196,7 @@ SELECT * FROM `sm-cpap.cpap_transformed.cpap_rpt_financial_channel_summary_daily
 </Accordion>
 
 <Accordion title="rpt_shopify_adjusted_session_start_method__by_day">
-**Type:** BASE TABLE | **Usage (180d):** 7,523 queries | **Last Used:** 2026-02-03
+**Type:** BASE TABLE | **Queries (180d):** 7,523
 
 Marketing/advertising data from Shopify. Key columns: `Date`.
 
@@ -209,7 +209,7 @@ SELECT * FROM `sm-cpap.cpap_transformed.rpt_shopify_adjusted_session_start_metho
 </Accordion>
 
 <Accordion title="cpap_order_status">
-**Type:** BASE TABLE | **Usage (180d):** 1,113 queries | **Last Used:** 2026-02-03
+**Type:** BASE TABLE | **Queries (180d):** 1,113
 
 Order-level data. Key columns: `order_id, updated_at, valid_from, valid_until`.
 
@@ -222,7 +222,7 @@ SELECT * FROM `sm-cpap.cpap_transformed.cpap_order_status` LIMIT 10;
 </Accordion>
 
 <Accordion title="cpap_rpt_sku_attachment_rate_daily_summary">
-**Type:** BASE TABLE | **Usage (180d):** 150 queries | **Last Used:** 2026-02-03
+**Type:** BASE TABLE | **Queries (180d):** 150
 
 Aggregated summary from TikTok. Key columns: `sm_channel, order_processed_date, anchor_order_line_gross_revenue`.
 
@@ -235,7 +235,7 @@ SELECT * FROM `sm-cpap.cpap_transformed.cpap_rpt_sku_attachment_rate_daily_summa
 </Accordion>
 
 <Accordion title="cpap_rpt_division_attachment_rate_daily_summary">
-**Type:** BASE TABLE | **Usage (180d):** 136 queries | **Last Used:** 2026-02-03
+**Type:** BASE TABLE | **Queries (180d):** 136
 
 Aggregated summary from TikTok. Key columns: `sm_channel, order_processed_date, anchor_order_line_gross_revenue`.
 
@@ -248,7 +248,7 @@ SELECT * FROM `sm-cpap.cpap_transformed.cpap_rpt_division_attachment_rate_daily_
 </Accordion>
 
 <Accordion title="cpap_parts_division_daily">
-**Type:** VIEW | **Usage (180d):** 10 queries | **Last Used:** 2025-08-21
+**Type:** VIEW | **Queries (180d):** 10
 
 Daily aggregation.
 
@@ -264,7 +264,7 @@ SELECT * FROM `sm-cpap.cpap_transformed.cpap_parts_division_daily` LIMIT 10;
 ### cpap_sources
 
 <Accordion title="mc_lineitem_cost">
-**Type:** BASE TABLE | **Usage (180d):** 37,261 queries | **Last Used:** 2026-02-04
+**Type:** BASE TABLE | **Queries (180d):** 37,261
 
 Custom data. Key columns: `shopify_order_id, order_line_id, date_out`.
 
@@ -277,7 +277,7 @@ SELECT * FROM `sm-cpap.cpap_sources.mc_lineitem_cost` LIMIT 10;
 </Accordion>
 
 <Accordion title="mc_time_dimension">
-**Type:** BASE TABLE | **Usage (180d):** 35,057 queries | **Last Used:** 2026-02-04
+**Type:** BASE TABLE | **Queries (180d):** 35,057
 
 Custom data. Key columns: `date`.
 
@@ -290,7 +290,7 @@ SELECT * FROM `sm-cpap.cpap_sources.mc_time_dimension` LIMIT 10;
 </Accordion>
 
 <Accordion title="ga_source_category_map">
-**Type:** EXTERNAL | **Usage (180d):** 31,445 queries | **Last Used:** 2026-02-03
+**Type:** EXTERNAL | **Queries (180d):** 31,445
 
 Custom data. Key columns: `source, source_category`.
 
@@ -303,7 +303,7 @@ SELECT * FROM `sm-cpap.cpap_sources.ga_source_category_map` LIMIT 10;
 </Accordion>
 
 <Accordion title="mc_ttd_data">
-**Type:** BASE TABLE | **Usage (180d):** 16,179 queries | **Last Used:** 2026-02-04
+**Type:** BASE TABLE | **Queries (180d):** 16,179
 
 Custom data from TikTok. Key columns: `sm_store_id, source_system, sm_channel, date, ad_spend`.
 
@@ -316,7 +316,7 @@ SELECT * FROM `sm-cpap.cpap_sources.mc_ttd_data` LIMIT 10;
 </Accordion>
 
 <Accordion title="mc_order_cost">
-**Type:** BASE TABLE | **Usage (180d):** 13,272 queries | **Last Used:** 2026-02-04
+**Type:** BASE TABLE | **Queries (180d):** 13,272
 
 Order-level data. Key columns: `shopify_order_id, magento_increment_id, magento_order_id`.
 
@@ -329,7 +329,7 @@ SELECT * FROM `sm-cpap.cpap_sources.mc_order_cost` LIMIT 10;
 </Accordion>
 
 <Accordion title="DataformGADailyCompanyMetrics">
-**Type:** BASE TABLE | **Usage (180d):** 7,343 queries | **Last Used:** 2026-02-04
+**Type:** BASE TABLE | **Queries (180d):** 7,343
 
 Daily aggregation. Key columns: `Date`.
 
@@ -342,7 +342,7 @@ SELECT * FROM `sm-cpap.cpap_sources.DataformGADailyCompanyMetrics` LIMIT 10;
 </Accordion>
 
 <Accordion title="cpap_targets">
-**Type:** EXTERNAL | **Usage (180d):** 6,161 queries | **Last Used:** 2026-02-04
+**Type:** EXTERNAL | **Queries (180d):** 6,161
 
 Custom data. Key columns: `date, target_channel`.
 
@@ -355,7 +355,7 @@ SELECT * FROM `sm-cpap.cpap_sources.cpap_targets` LIMIT 10;
 </Accordion>
 
 <Accordion title="mc_quantity_on_hand">
-**Type:** BASE TABLE | **Usage (180d):** 415 queries | **Last Used:** 2026-02-02
+**Type:** BASE TABLE | **Queries (180d):** 415
 
 Custom data. Key columns: `log_date`.
 
@@ -368,7 +368,7 @@ SELECT * FROM `sm-cpap.cpap_sources.mc_quantity_on_hand` LIMIT 10;
 </Accordion>
 
 <Accordion title="shopify_products_8589937895">
-**Type:** BASE TABLE | **Usage (180d):** 10 queries | **Last Used:** 2026-02-02
+**Type:** BASE TABLE | **Queries (180d):** 10
 
 Product/SKU-level data from Shopify. Key columns: `admin_graphql_api_id, id`.
 
@@ -384,7 +384,7 @@ SELECT * FROM `sm-cpap.cpap_sources.shopify_products_8589937895` LIMIT 10;
 ### cpap_views
 
 <Accordion title="cpap_rpt_ad_performance_daily_metrics_unioned">
-**Type:** VIEW | **Usage (180d):** 14,469 queries | **Last Used:** 2026-02-03
+**Type:** VIEW | **Queries (180d):** 14,469
 
 Daily aggregation.
 
@@ -397,7 +397,7 @@ SELECT * FROM `sm-cpap.cpap_views.cpap_rpt_ad_performance_daily_metrics_unioned`
 </Accordion>
 
 <Accordion title="cpap_push_report_weekly">
-**Type:** VIEW | **Usage (180d):** 7,720 queries | **Last Used:** 2026-02-03
+**Type:** VIEW | **Queries (180d):** 7,720
 
 Weekly aggregation.
 
@@ -410,7 +410,7 @@ SELECT * FROM `sm-cpap.cpap_views.cpap_push_report_weekly` LIMIT 10;
 </Accordion>
 
 <Accordion title="cpap_channel_data_live">
-**Type:** VIEW | **Usage (180d):** 5,979 queries | **Last Used:** 2026-02-03
+**Type:** VIEW | **Queries (180d):** 5,979
 
 Custom data.
 
@@ -423,7 +423,7 @@ SELECT * FROM `sm-cpap.cpap_views.cpap_channel_data_live` LIMIT 10;
 </Accordion>
 
 <Accordion title="theo_obt_orders">
-**Type:** VIEW | **Usage (180d):** 1,468 queries | **Last Used:** 2026-02-04
+**Type:** VIEW | **Queries (180d):** 1,468
 
 Order-level data.
 
@@ -436,7 +436,7 @@ SELECT * FROM `sm-cpap.cpap_views.theo_obt_orders` LIMIT 10;
 </Accordion>
 
 <Accordion title="Rx_Renewal_Without_Docusign">
-**Type:** VIEW | **Usage (180d):** 1,169 queries | **Last Used:** 2025-09-25
+**Type:** VIEW | **Queries (180d):** 1,169
 
 Custom data.
 
@@ -449,7 +449,7 @@ SELECT * FROM `sm-cpap.cpap_views.Rx_Renewal_Without_Docusign` LIMIT 10;
 </Accordion>
 
 <Accordion title="parts_category_live">
-**Type:** VIEW | **Usage (180d):** 800 queries | **Last Used:** 2026-02-03
+**Type:** VIEW | **Queries (180d):** 800
 
 Custom data.
 
@@ -462,7 +462,7 @@ SELECT * FROM `sm-cpap.cpap_views.parts_category_live` LIMIT 10;
 </Accordion>
 
 <Accordion title="customer_summary_live">
-**Type:** VIEW | **Usage (180d):** 734 queries | **Last Used:** 2026-02-03
+**Type:** VIEW | **Queries (180d):** 734
 
 Aggregated summary.
 
@@ -475,7 +475,7 @@ SELECT * FROM `sm-cpap.cpap_views.customer_summary_live` LIMIT 10;
 </Accordion>
 
 <Accordion title="cpap_parts_quantity_channel_live">
-**Type:** VIEW | **Usage (180d):** 620 queries | **Last Used:** 2026-02-03
+**Type:** VIEW | **Queries (180d):** 620
 
 Custom data.
 
@@ -488,7 +488,7 @@ SELECT * FROM `sm-cpap.cpap_views.cpap_parts_quantity_channel_live` LIMIT 10;
 </Accordion>
 
 <Accordion title="parts_details_live">
-**Type:** VIEW | **Usage (180d):** 415 queries | **Last Used:** 2025-10-28
+**Type:** VIEW | **Queries (180d):** 415
 
 Custom data.
 
@@ -501,7 +501,7 @@ SELECT * FROM `sm-cpap.cpap_views.parts_details_live` LIMIT 10;
 </Accordion>
 
 <Accordion title="cpap_rpt_ad_performance_daily_with_targets">
-**Type:** VIEW | **Usage (180d):** 371 queries | **Last Used:** 2026-02-03
+**Type:** VIEW | **Queries (180d):** 371
 
 Daily aggregation.
 
@@ -514,7 +514,7 @@ SELECT * FROM `sm-cpap.cpap_views.cpap_rpt_ad_performance_daily_with_targets` LI
 </Accordion>
 
 <Accordion title="cpap_rpt_rx_renewal_daily_envelope_lifecycle">
-**Type:** VIEW | **Usage (180d):** 77 queries | **Last Used:** 2025-11-24
+**Type:** VIEW | **Queries (180d):** 77
 
 Daily aggregation.
 
@@ -527,7 +527,7 @@ SELECT * FROM `sm-cpap.cpap_views.cpap_rpt_rx_renewal_daily_envelope_lifecycle` 
 </Accordion>
 
 <Accordion title="date_in_aov_cohorts">
-**Type:** VIEW | **Usage (180d):** 61 queries | **Last Used:** 2026-01-12
+**Type:** VIEW | **Queries (180d):** 61
 
 Cohort analysis.
 
@@ -540,7 +540,7 @@ SELECT * FROM `sm-cpap.cpap_views.date_in_aov_cohorts` LIMIT 10;
 </Accordion>
 
 <Accordion title="cpap_rpt_session_engagement_daily">
-**Type:** VIEW | **Usage (180d):** 37 queries | **Last Used:** 2025-11-20
+**Type:** VIEW | **Queries (180d):** 37
 
 Daily aggregation.
 
@@ -553,7 +553,7 @@ SELECT * FROM `sm-cpap.cpap_views.cpap_rpt_session_engagement_daily` LIMIT 10;
 </Accordion>
 
 <Accordion title="date_in_orders_with_customer_cohorts">
-**Type:** VIEW | **Usage (180d):** 36 queries | **Last Used:** 2025-10-29
+**Type:** VIEW | **Queries (180d):** 36
 
 Cohort analysis.
 
@@ -566,7 +566,7 @@ SELECT * FROM `sm-cpap.cpap_views.date_in_orders_with_customer_cohorts` LIMIT 10
 </Accordion>
 
 <Accordion title="haus_kpi_date_region">
-**Type:** VIEW | **Usage (180d):** 21 queries | **Last Used:** 2026-01-27
+**Type:** VIEW | **Queries (180d):** 21
 
 Custom data.
 
@@ -579,7 +579,7 @@ SELECT * FROM `sm-cpap.cpap_views.haus_kpi_date_region` LIMIT 10;
 </Accordion>
 
 <Accordion title="cpap_monthly_revenue">
-**Type:** VIEW | **Usage (180d):** 14 queries | **Last Used:** 2026-02-02
+**Type:** VIEW | **Queries (180d):** 14
 
 Monthly aggregation.
 
@@ -592,7 +592,7 @@ SELECT * FROM `sm-cpap.cpap_views.cpap_monthly_revenue` LIMIT 10;
 </Accordion>
 
 <Accordion title="cpap_monthly_refund">
-**Type:** VIEW | **Usage (180d):** 12 queries | **Last Used:** 2026-01-05
+**Type:** VIEW | **Queries (180d):** 12
 
 Monthly aggregation.
 
@@ -605,7 +605,7 @@ SELECT * FROM `sm-cpap.cpap_views.cpap_monthly_refund` LIMIT 10;
 </Accordion>
 
 <Accordion title="cpap_rpt_rx_renewal_voided_stage_abandoned">
-**Type:** VIEW | **Usage (180d):** 11 queries | **Last Used:** 2025-11-24
+**Type:** VIEW | **Queries (180d):** 11
 
 Reporting view.
 
@@ -618,7 +618,7 @@ SELECT * FROM `sm-cpap.cpap_views.cpap_rpt_rx_renewal_voided_stage_abandoned` LI
 </Accordion>
 
 <Accordion title="cpap_rpt_session_engagement_daily_metrics_unioned">
-**Type:** VIEW | **Usage (180d):** 4 queries | **Last Used:** 2025-08-29
+**Type:** VIEW | **Queries (180d):** 4
 
 Daily aggregation.
 
@@ -631,7 +631,7 @@ SELECT * FROM `sm-cpap.cpap_views.cpap_rpt_session_engagement_daily_metrics_unio
 </Accordion>
 
 <Accordion title="active_customers">
-**Type:** VIEW | **Usage (180d):** 3 queries | **Last Used:** 2025-12-22
+**Type:** VIEW | **Queries (180d):** 3
 
 Customer-level data.
 
@@ -644,7 +644,7 @@ SELECT * FROM `sm-cpap.cpap_views.active_customers` LIMIT 10;
 </Accordion>
 
 <Accordion title="2021_customer_cohort_ltv">
-**Type:** VIEW | **Usage (180d):** 3 queries | **Last Used:** 2025-12-22
+**Type:** VIEW | **Queries (180d):** 3
 
 Cohort analysis.
 
@@ -660,7 +660,7 @@ SELECT * FROM `sm-cpap.cpap_views.2021_customer_cohort_ltv` LIMIT 10;
 ### sm_sources
 
 <Accordion title="src_shopify__metafields">
-**Type:** BASE TABLE | **Usage (180d):** 4,330 queries | **Last Used:** 2026-02-04
+**Type:** BASE TABLE | **Queries (180d):** 4,330
 
 Custom data from Shopify, Meta/Facebook. Key columns: `_sdc_shop_id, key, id, owner_id, owner_resource`.
 
@@ -673,7 +673,7 @@ SELECT * FROM `sm-cpap.sm_sources.src_shopify__metafields` LIMIT 10;
 </Accordion>
 
 <Accordion title="cpap_rpt_ad_performance_daily_fiscal_year_test">
-**Type:** VIEW | **Usage (180d):** 72 queries | **Last Used:** 2025-12-22
+**Type:** VIEW | **Queries (180d):** 72
 
 Daily aggregation.
 
@@ -689,7 +689,7 @@ SELECT * FROM `sm-cpap.sm_sources.cpap_rpt_ad_performance_daily_fiscal_year_test
 ### cpap_date_in_views
 
 <Accordion title="rpt_shopify_sales_summary_by_channel_day">
-**Type:** VIEW | **Usage (180d):** 360 queries | **Last Used:** 2026-02-03
+**Type:** VIEW | **Queries (180d):** 360
 
 Aggregated summary from Shopify.
 
@@ -702,7 +702,7 @@ SELECT * FROM `sm-cpap.cpap_date_in_views.rpt_shopify_sales_summary_by_channel_d
 </Accordion>
 
 <Accordion title="rpt_shopify_sales_summary_by_customer_day">
-**Type:** VIEW | **Usage (180d):** 360 queries | **Last Used:** 2026-02-03
+**Type:** VIEW | **Queries (180d):** 360
 
 Aggregated summary from Shopify.
 
@@ -715,7 +715,7 @@ SELECT * FROM `sm-cpap.cpap_date_in_views.rpt_shopify_sales_summary_by_customer_
 </Accordion>
 
 <Accordion title="rpt_shopify_sales_summary_by_category_day">
-**Type:** VIEW | **Usage (180d):** 282 queries | **Last Used:** 2026-02-03
+**Type:** VIEW | **Queries (180d):** 282
 
 Aggregated summary from Shopify.
 
@@ -731,7 +731,7 @@ SELECT * FROM `sm-cpap.cpap_date_in_views.rpt_shopify_sales_summary_by_category_
 ### customized_views
 
 <Accordion title="obt_orders_filtered_gross_profit">
-**Type:** BASE TABLE | **Usage (180d):** 286 queries | **Last Used:** 2026-02-02
+**Type:** BASE TABLE | **Queries (180d):** 286
 
 Order-level data. Key columns: `sm_store_id, sm_order_key, sm_customer_key, source_system, order_id`.
 
@@ -747,7 +747,7 @@ SELECT * FROM `sm-cpap.customized_views.obt_orders_filtered_gross_profit` LIMIT 
 ### QA
 
 <Accordion title="mc_QA_data">
-**Type:** BASE TABLE | **Usage (180d):** 11 queries | **Last Used:** 2026-02-02
+**Type:** BASE TABLE | **Queries (180d):** 11
 
 Custom data. Key columns: `mc_date_out, mc_channel, mc_orders, mc_gross_revenue, mc_net_revenue`.
 
