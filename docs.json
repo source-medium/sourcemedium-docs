@@ -730,19 +730,20 @@
           }
         ]
       },
-      {
-        "tab": "FAQs",
-        "groups": [
-          {
-            "group": "Getting Help",
-            "pages": [
-              "help-center/faq/cold-start-guide-home",
-              "onboarding/data-docs/data-hygeine/importance-of-good-data-hygeine"
-            ]
-          },
-          {
-            "group": "FAQs",
-            "pages": [
+	      {
+	        "tab": "FAQs",
+	        "groups": [
+	          {
+	            "group": "Getting Help",
+	            "pages": [
+	              "faq",
+	              "help-center/faq/cold-start-guide-home",
+	              "onboarding/data-docs/data-hygeine/importance-of-good-data-hygeine"
+	            ]
+	          },
+	          {
+	            "group": "FAQs",
+	            "pages": [
               {
                 "group": "Dashboard Functionality",
                 "pages": [
