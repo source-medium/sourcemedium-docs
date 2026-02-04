@@ -5,7 +5,7 @@ description: "Inventory of custom BigQuery objects in the Neurogum data warehous
 icon: "database"
 ---
 
-[← Back to Neurogum Overview](/tenants/neurogum)
+[← Back to Neurogum Overview](/tenants/neurogum) | [Open sm-neurogum in BigQuery →](https://console.cloud.google.com/bigquery?project=sm-neurogum)
 
 
 # Custom Objects Inventory
@@ -13,7 +13,7 @@ icon: "database"
 This page documents active custom BigQuery tables and views (those queried at least once in the past 180 days) created specifically for Neurogum, separate from the standard SourceMedium data models.
 
 <Info>
-**Last Updated (snapshot_at):** `2026-02-04 00:46:50 UTC`  
+**Last Updated (snapshot_at):** `2026-02-03 19:46 EST`  
 **Data Source:** Auto-generated from `sm_metadata.dim_tenant_custom_objects`. Only objects with at least 1 query in the past 180 days are included.
 </Info>
 
@@ -21,10 +21,10 @@ This page documents active custom BigQuery tables and views (those queried at le
 
 | Dataset | Object Count | Total Jobs (180d) |
 |---------|--------------|-------------------|
-| `customized_views` | 39 | 181,004 |
-| `klaviyo` | 3 | 8,594 |
-| `northbeam_data` | 2 | 46 |
-| `sm_experimental` | 1 | 33 |
+| [`customized_views`](https://console.cloud.google.com/bigquery?project=sm-neurogum&ws=!1m4!1m3!3m2!1ssm-neurogum!2scustomized_views) | 39 | 181,004 |
+| [`klaviyo`](https://console.cloud.google.com/bigquery?project=sm-neurogum&ws=!1m4!1m3!3m2!1ssm-neurogum!2sklaviyo) | 3 | 8,594 |
+| [`northbeam_data`](https://console.cloud.google.com/bigquery?project=sm-neurogum&ws=!1m4!1m3!3m2!1ssm-neurogum!2snorthbeam_data) | 2 | 46 |
+| [`sm_experimental`](https://console.cloud.google.com/bigquery?project=sm-neurogum&ws=!1m4!1m3!3m2!1ssm-neurogum!2ssm_experimental) | 1 | 33 |
 | `sm_transformed_v2` | 1 | 8 |
 
 ---
@@ -537,7 +537,7 @@ SELECT * FROM `sm-neurogum.sm_transformed_v2.revised_obt_order_lines` LIMIT 10;
 |----------|-------|
 | **Project ID** | `sm-neurogum` |
 | **Standard Dataset** | `sm_transformed_v2` |
-| **Tenant ID** | `neurogum` |
+| **Tenant ID** | [`neurogum`](https://console.cloud.google.com/bigquery?project=sm-neurogum&ws=!1m4!1m3!3m2!1ssm-neurogum!2sneurogum)
 
 ---
 

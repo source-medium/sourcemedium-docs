@@ -5,7 +5,7 @@ description: "Inventory of custom BigQuery objects in the Cpap data warehouse"
 icon: "database"
 ---
 
-[← Back to Cpap Overview](/tenants/cpap)
+[← Back to Cpap Overview](/tenants/cpap) | [Open sm-cpap in BigQuery →](https://console.cloud.google.com/bigquery?project=sm-cpap)
 
 
 # Custom Objects Inventory
@@ -13,7 +13,7 @@ icon: "database"
 This page documents active custom BigQuery tables and views (those queried at least once in the past 180 days) created specifically for Cpap, separate from the standard SourceMedium data models.
 
 <Info>
-**Last Updated (snapshot_at):** `2026-02-04 00:46:41 UTC`  
+**Last Updated (snapshot_at):** `2026-02-03 19:46 EST`  
 **Data Source:** Auto-generated from `sm_metadata.dim_tenant_custom_objects`. Only objects with at least 1 query in the past 180 days are included.
 </Info>
 
@@ -21,13 +21,13 @@ This page documents active custom BigQuery tables and views (those queried at le
 
 | Dataset | Object Count | Total Jobs (180d) |
 |---------|--------------|-------------------|
-| `machine_v_non_pipeline` | 8 | 511,419 |
-| `cpap_sources` | 9 | 147,143 |
-| `cpap_transformed` | 9 | 81,561 |
-| `cpap_views` | 21 | 34,024 |
-| `sm_sources` | 2 | 4,402 |
-| `cpap_date_in_views` | 3 | 1,002 |
-| `customized_views` | 1 | 286 |
+| [`machine_v_non_pipeline`](https://console.cloud.google.com/bigquery?project=sm-cpap&ws=!1m4!1m3!3m2!1ssm-cpap!2smachine_v_non_pipeline) | 8 | 511,419 |
+| [`cpap_sources`](https://console.cloud.google.com/bigquery?project=sm-cpap&ws=!1m4!1m3!3m2!1ssm-cpap!2scpap_sources) | 9 | 147,143 |
+| [`cpap_transformed`](https://console.cloud.google.com/bigquery?project=sm-cpap&ws=!1m4!1m3!3m2!1ssm-cpap!2scpap_transformed) | 9 | 81,561 |
+| [`cpap_views`](https://console.cloud.google.com/bigquery?project=sm-cpap&ws=!1m4!1m3!3m2!1ssm-cpap!2scpap_views) | 21 | 34,024 |
+| [`sm_sources`](https://console.cloud.google.com/bigquery?project=sm-cpap&ws=!1m4!1m3!3m2!1ssm-cpap!2ssm_sources) | 2 | 4,402 |
+| [`cpap_date_in_views`](https://console.cloud.google.com/bigquery?project=sm-cpap&ws=!1m4!1m3!3m2!1ssm-cpap!2scpap_date_in_views) | 3 | 1,002 |
+| [`customized_views`](https://console.cloud.google.com/bigquery?project=sm-cpap&ws=!1m4!1m3!3m2!1ssm-cpap!2scustomized_views) | 1 | 286 |
 | `QA` | 1 | 11 |
 
 ---
@@ -768,7 +768,7 @@ SELECT * FROM `sm-cpap.QA.mc_QA_data` LIMIT 10;
 |----------|-------|
 | **Project ID** | `sm-cpap` |
 | **Standard Dataset** | `sm_transformed_v2` |
-| **Tenant ID** | `cpap` |
+| **Tenant ID** | [`cpap`](https://console.cloud.google.com/bigquery?project=sm-cpap&ws=!1m4!1m3!3m2!1ssm-cpap!2scpap)
 
 ---
 

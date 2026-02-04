@@ -5,7 +5,7 @@ description: "Inventory of custom BigQuery objects in the Xcvi data warehouse"
 icon: "database"
 ---
 
-[← Back to Xcvi Overview](/tenants/xcvi)
+[← Back to Xcvi Overview](/tenants/xcvi) | [Open sm-xcvi in BigQuery →](https://console.cloud.google.com/bigquery?project=sm-xcvi)
 
 
 # Custom Objects Inventory
@@ -13,7 +13,7 @@ icon: "database"
 This page documents active custom BigQuery tables and views (those queried at least once in the past 180 days) created specifically for Xcvi, separate from the standard SourceMedium data models.
 
 <Info>
-**Last Updated (snapshot_at):** `2026-02-04 00:47:36 UTC`  
+**Last Updated (snapshot_at):** `2026-02-03 19:47 EST`  
 **Data Source:** Auto-generated from `sm_metadata.dim_tenant_custom_objects`. Only objects with at least 1 query in the past 180 days are included.
 </Info>
 
@@ -22,17 +22,17 @@ This page documents active custom BigQuery tables and views (those queried at le
 | Dataset | Object Count | Total Jobs (180d) |
 |---------|--------------|-------------------|
 | `n41_mssql_data2` | 13 | 18,241 |
-| `sell_through_data` | 8 | 15,143 |
+| [`sell_through_data`](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m4!1m3!3m2!1ssm-xcvi!2ssell_through_data) | 8 | 15,143 |
 | `n41_data` | 9 | 10,412 |
-| `so_detail_pipeline` | 20 | 10,160 |
+| [`so_detail_pipeline`](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m4!1m3!3m2!1ssm-xcvi!2sso_detail_pipeline) | 20 | 10,160 |
 | `n41_mssql_data3` | 7 | 5,672 |
-| `customized_views` | 8 | 5,619 |
-| `sell_through_pipeline` | 12 | 4,417 |
+| [`customized_views`](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m4!1m3!3m2!1ssm-xcvi!2scustomized_views) | 8 | 5,619 |
+| [`sell_through_pipeline`](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m4!1m3!3m2!1ssm-xcvi!2ssell_through_pipeline) | 12 | 4,417 |
 | `N41_created_reports` | 12 | 3,898 |
-| `v_inventory_pos_by_wh` | 9 | 3,742 |
-| `sm_sources` | 2 | 2,981 |
-| `snowflake_data` | 7 | 1,972 |
-| `sm_experimental` | 1 | 96 |
+| [`v_inventory_pos_by_wh`](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m4!1m3!3m2!1ssm-xcvi!2sv_inventory_pos_by_wh) | 9 | 3,742 |
+| [`sm_sources`](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m4!1m3!3m2!1ssm-xcvi!2ssm_sources) | 2 | 2,981 |
+| [`snowflake_data`](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m4!1m3!3m2!1ssm-xcvi!2ssnowflake_data) | 7 | 1,972 |
+| [`sm_experimental`](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m4!1m3!3m2!1ssm-xcvi!2ssm_experimental) | 1 | 96 |
 | `n41_transfer_data` | 1 | 91 |
 | `DL_XCVI` | 1 | 10 |
 
@@ -1387,7 +1387,7 @@ SELECT * FROM `sm-xcvi.n41_transfer_data.v_sales_by_quarter_sotype_division_alld
 |----------|-------|
 | **Project ID** | `sm-xcvi` |
 | **Standard Dataset** | `sm_transformed_v2` |
-| **Tenant ID** | `xcvi` |
+| **Tenant ID** | [`xcvi`](https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m4!1m3!3m2!1ssm-xcvi!2sxcvi)
 
 ---
 

@@ -5,7 +5,7 @@ description: "Inventory of custom BigQuery objects in the Zbiotics data warehous
 icon: "database"
 ---
 
-[← Back to Zbiotics Overview](/tenants/zbiotics)
+[← Back to Zbiotics Overview](/tenants/zbiotics) | [Open sm-zbiotics in BigQuery →](https://console.cloud.google.com/bigquery?project=sm-zbiotics)
 
 
 # Custom Objects Inventory
@@ -13,7 +13,7 @@ icon: "database"
 This page documents active custom BigQuery tables and views (those queried at least once in the past 180 days) created specifically for Zbiotics, separate from the standard SourceMedium data models.
 
 <Info>
-**Last Updated (snapshot_at):** `2026-02-04 00:47:01 UTC`  
+**Last Updated (snapshot_at):** `2026-02-03 19:47 EST`  
 **Data Source:** Auto-generated from `sm_metadata.dim_tenant_custom_objects`. Only objects with at least 1 query in the past 180 days are included.
 </Info>
 
@@ -21,21 +21,21 @@ This page documents active custom BigQuery tables and views (those queried at le
 
 | Dataset | Object Count | Total Jobs (180d) |
 |---------|--------------|-------------------|
-| `dbt` | 49 | 87,814 |
-| `hubspot` | 49 | 60,159 |
+| [`dbt`](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m4!1m3!3m2!1ssm-zbiotics!2sdbt) | 49 | 87,814 |
+| [`hubspot`](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m4!1m3!3m2!1ssm-zbiotics!2shubspot) | 49 | 60,159 |
 | `cin7core` | 30 | 34,737 |
-| `twilio` | 13 | 23,583 |
+| [`twilio`](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m4!1m3!3m2!1ssm-zbiotics!2stwilio) | 13 | 23,583 |
 | `pipe17` | 22 | 21,139 |
-| `zb_sources` | 12 | 15,760 |
-| `zb_transforms` | 9 | 12,955 |
-| `dbt_smathur` | 42 | 7,338 |
-| `fivetran_metadata` | 13 | 6,364 |
-| `skio` | 4 | 5,485 |
-| `twilio_twilio_source` | 4 | 2,800 |
-| `twilio_twilio` | 1 | 2,100 |
-| `dbt_jkeane` | 33 | 1,872 |
-| `sm_sources` | 2 | 1,822 |
-| `zb_static` | 1 | 1 |
+| [`zb_sources`](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m4!1m3!3m2!1ssm-zbiotics!2szb_sources) | 12 | 15,760 |
+| [`zb_transforms`](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m4!1m3!3m2!1ssm-zbiotics!2szb_transforms) | 9 | 12,955 |
+| [`dbt_smathur`](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m4!1m3!3m2!1ssm-zbiotics!2sdbt_smathur) | 42 | 7,338 |
+| [`fivetran_metadata`](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m4!1m3!3m2!1ssm-zbiotics!2sfivetran_metadata) | 13 | 6,364 |
+| [`skio`](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m4!1m3!3m2!1ssm-zbiotics!2sskio) | 4 | 5,485 |
+| [`twilio_twilio_source`](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m4!1m3!3m2!1ssm-zbiotics!2stwilio_twilio_source) | 4 | 2,800 |
+| [`twilio_twilio`](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m4!1m3!3m2!1ssm-zbiotics!2stwilio_twilio) | 1 | 2,100 |
+| [`dbt_jkeane`](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m4!1m3!3m2!1ssm-zbiotics!2sdbt_jkeane) | 33 | 1,872 |
+| [`sm_sources`](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m4!1m3!3m2!1ssm-zbiotics!2ssm_sources) | 2 | 1,822 |
+| [`zb_static`](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m4!1m3!3m2!1ssm-zbiotics!2szb_static) | 1 | 1 |
 
 ---
 
@@ -1376,7 +1376,7 @@ SELECT * FROM `sm-zbiotics.twilio_twilio.int_twilio__messages` LIMIT 10;
 |----------|-------|
 | **Project ID** | `sm-zbiotics` |
 | **Standard Dataset** | `sm_transformed_v2` |
-| **Tenant ID** | `zbiotics` |
+| **Tenant ID** | [`zbiotics`](https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m4!1m3!3m2!1ssm-zbiotics!2szbiotics)
 
 ---
 

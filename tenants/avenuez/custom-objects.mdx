@@ -5,7 +5,7 @@ description: "Inventory of custom BigQuery objects in the Avenuez data warehouse
 icon: "database"
 ---
 
-[← Back to Avenuez Overview](/tenants/avenuez)
+[← Back to Avenuez Overview](/tenants/avenuez) | [Open sm-avenuez in BigQuery →](https://console.cloud.google.com/bigquery?project=sm-avenuez)
 
 
 # Custom Objects Inventory
@@ -13,7 +13,7 @@ icon: "database"
 This page documents active custom BigQuery tables and views (those queried at least once in the past 180 days) created specifically for Avenuez, separate from the standard SourceMedium data models.
 
 <Info>
-**Last Updated (snapshot_at):** `2026-02-04 00:45:47 UTC`  
+**Last Updated (snapshot_at):** `2026-02-03 19:45 EST`  
 **Data Source:** Auto-generated from `sm_metadata.dim_tenant_custom_objects`. Only objects with at least 1 query in the past 180 days are included.
 </Info>
 
@@ -21,7 +21,7 @@ This page documents active custom BigQuery tables and views (those queried at le
 
 | Dataset | Object Count | Total Jobs (180d) |
 |---------|--------------|-------------------|
-| `customized_views` | 5 | 46,934 |
+| [`customized_views`](https://console.cloud.google.com/bigquery?project=sm-avenuez&ws=!1m4!1m3!3m2!1ssm-avenuez!2scustomized_views) | 5 | 46,934 |
 
 ---
 
@@ -103,7 +103,7 @@ SELECT * FROM `sm-avenuez.customized_views.avez_marketing_custom` LIMIT 10;
 |----------|-------|
 | **Project ID** | `sm-avenuez` |
 | **Standard Dataset** | `sm_transformed_v2` |
-| **Tenant ID** | `avenuez` |
+| **Tenant ID** | [`avenuez`](https://console.cloud.google.com/bigquery?project=sm-avenuez&ws=!1m4!1m3!3m2!1ssm-avenuez!2savenuez)
 
 ---
 

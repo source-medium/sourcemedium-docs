@@ -5,7 +5,7 @@ description: "Inventory of custom BigQuery objects in the Idyl data warehouse"
 icon: "database"
 ---
 
-[← Back to Idyl Overview](/tenants/idyl)
+[← Back to Idyl Overview](/tenants/idyl) | [Open sm-idyl in BigQuery →](https://console.cloud.google.com/bigquery?project=sm-idyl)
 
 
 # Custom Objects Inventory
@@ -13,7 +13,7 @@ icon: "database"
 This page documents active custom BigQuery tables and views (those queried at least once in the past 180 days) created specifically for Idyl, separate from the standard SourceMedium data models.
 
 <Info>
-**Last Updated (snapshot_at):** `2026-02-04 00:49:12 UTC`  
+**Last Updated (snapshot_at):** `2026-02-03 19:49 EST`  
 **Data Source:** Auto-generated from `sm_metadata.dim_tenant_custom_objects`. Only objects with at least 1 query in the past 180 days are included.
 </Info>
 
@@ -21,9 +21,9 @@ This page documents active custom BigQuery tables and views (those queried at le
 
 | Dataset | Object Count | Total Jobs (180d) |
 |---------|--------------|-------------------|
-| `sm_consulting` | 1 | 762 |
+| [`sm_consulting`](https://console.cloud.google.com/bigquery?project=sm-idyl&ws=!1m4!1m3!3m2!1ssm-idyl!2ssm_consulting) | 1 | 762 |
 | `tydo_historic_pre_2026` | 7 | 62 |
-| `src_lucky_orange` | 6 | 56 |
+| [`src_lucky_orange`](https://console.cloud.google.com/bigquery?project=sm-idyl&ws=!1m4!1m3!3m2!1ssm-idyl!2ssrc_lucky_orange) | 6 | 56 |
 
 ---
 
@@ -228,7 +228,7 @@ SELECT * FROM `sm-idyl.src_lucky_orange.int_purchase_journey_purchases` LIMIT 10
 |----------|-------|
 | **Project ID** | `sm-idyl` |
 | **Standard Dataset** | `sm_transformed_v2` |
-| **Tenant ID** | `idyl` |
+| **Tenant ID** | [`idyl`](https://console.cloud.google.com/bigquery?project=sm-idyl&ws=!1m4!1m3!3m2!1ssm-idyl!2sidyl)
 
 ---
 

@@ -1,27 +1,45 @@
 ---
-title: "Neurogum Data Documentation"
-sidebarTitle: "Overview"
-description: "Tenant-specific documentation for Neurogum's SourceMedium data warehouse"
-icon: "book"
+title: "Neurogum"
+sidebarTitle: "Neurogum"
+description: "Data documentation for Neurogum"
+icon: "building"
 ---
 
-# Neurogum Data Documentation
-
-Welcome to Neurogum's tenant-specific data documentation. This section contains information about custom objects, configurations, and data specific to your SourceMedium implementation.
-
 <Info>
-This documentation is not publicly listed and is accessible only via direct URL.  
-**Custom Objects Inventory Last Updated (snapshot_at):** `2026-02-04 00:46:50 UTC`
+This documentation is not publicly listed and is accessible only via direct URL.
 </Info>
 
-## Quick Links
+## Quick Access
 
 <CardGroup cols={2}>
-  <Card title="Custom Objects" icon="database" href="/tenants/neurogum/custom-objects">
-    Inventory of custom tables and views in your data warehouse
+  <Card title="BigQuery Project" icon="database" href="https://console.cloud.google.com/bigquery?project=sm-neurogum">
+    Open sm-neurogum in BigQuery Console
   </Card>
-  <Card title="Standard Documentation" icon="book" href="/data-activation/data-tables/sm_transformed_v2">
-    SourceMedium standard table documentation
+  <Card title="Custom Objects" icon="table" href="/tenants/neurogum/custom-objects">
+    View custom tables and views
+  </Card>
+  <Card title="Standard Tables" icon="book" href="/data-activation/data-tables/sm_transformed_v2">
+    sm_transformed_v2 documentation
+  </Card>
+  <Card title="Onboarding Guide" icon="rocket" href="/onboarding/getting-started">
+    Platform setup and configuration
+  </Card>
+</CardGroup>
+
+## Resources
+
+<CardGroup cols={2}>
+  <Card title="Configuration Sheet" icon="gear" href="/data-inputs/configuration-sheet">
+    Customize channel mapping, attribution, and more
+  </Card>
+  <Card title="Dashboard Guide" icon="chart-line" href="/data-activation/managed-bi-v1/modules">
+    Looker Studio module documentation
+  </Card>
+  <Card title="Attribution Health" icon="heart-pulse" href="/ai-analyst/diagnostics/attribution-health">
+    Diagnose and improve tracking coverage
+  </Card>
+  <Card title="Help Center" icon="question" href="/help-center/faq">
+    FAQs and troubleshooting
   </Card>
 </CardGroup>
 
@@ -29,10 +47,6 @@ This documentation is not publicly listed and is accessible only via direct URL.
 
 | Property | Value |
 |----------|-------|
-| **Project ID** | `sm-neurogum` |
-| **Standard Dataset** | `sm_transformed_v2` |
+| **Project ID** | [`sm-neurogum`](https://console.cloud.google.com/bigquery?project=sm-neurogum) |
+| **Standard Dataset** | [`sm_transformed_v2`](https://console.cloud.google.com/bigquery?project=sm-neurogum&ws=!1m4!1m3!3m2!1ssm-neurogum!2ssm_transformed_v2) |
 | **Tenant ID** | `neurogum` |
-
-## Support
-
-For questions about your data or custom objects, please reach out to your SourceMedium representative.

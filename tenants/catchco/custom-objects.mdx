@@ -5,7 +5,7 @@ description: "Inventory of custom BigQuery objects in the Catchco data warehouse
 icon: "database"
 ---
 
-[← Back to Catchco Overview](/tenants/catchco)
+[← Back to Catchco Overview](/tenants/catchco) | [Open sm-catchco in BigQuery →](https://console.cloud.google.com/bigquery?project=sm-catchco)
 
 
 # Custom Objects Inventory
@@ -13,7 +13,7 @@ icon: "database"
 This page documents active custom BigQuery tables and views (those queried at least once in the past 180 days) created specifically for Catchco, separate from the standard SourceMedium data models.
 
 <Info>
-**Last Updated (snapshot_at):** `2026-02-04 00:48:09 UTC`  
+**Last Updated (snapshot_at):** `2026-02-03 19:48 EST`  
 **Data Source:** Auto-generated from `sm_metadata.dim_tenant_custom_objects`. Only objects with at least 1 query in the past 180 days are included.
 </Info>
 
@@ -21,9 +21,9 @@ This page documents active custom BigQuery tables and views (those queried at le
 
 | Dataset | Object Count | Total Jobs (180d) |
 |---------|--------------|-------------------|
-| `customized_views` | 13 | 28,085 |
-| `sm_sources` | 1 | 1,102 |
-| `sm_utils` | 1 | 243 |
+| [`customized_views`](https://console.cloud.google.com/bigquery?project=sm-catchco&ws=!1m4!1m3!3m2!1ssm-catchco!2scustomized_views) | 13 | 28,085 |
+| [`sm_sources`](https://console.cloud.google.com/bigquery?project=sm-catchco&ws=!1m4!1m3!3m2!1ssm-catchco!2ssm_sources) | 1 | 1,102 |
+| [`sm_utils`](https://console.cloud.google.com/bigquery?project=sm-catchco&ws=!1m4!1m3!3m2!1ssm-catchco!2ssm_utils) | 1 | 243 |
 
 ---
 
@@ -241,7 +241,7 @@ SELECT * FROM `sm-catchco.sm_utils.forecasting_sheet_ext` LIMIT 10;
 |----------|-------|
 | **Project ID** | `sm-catchco` |
 | **Standard Dataset** | `sm_transformed_v2` |
-| **Tenant ID** | `catchco` |
+| **Tenant ID** | [`catchco`](https://console.cloud.google.com/bigquery?project=sm-catchco&ws=!1m4!1m3!3m2!1ssm-catchco!2scatchco)
 
 ---
 

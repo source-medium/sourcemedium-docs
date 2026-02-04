@@ -5,7 +5,7 @@ description: "Inventory of custom BigQuery objects in the Fluencyfirm data wareh
 icon: "database"
 ---
 
-[← Back to Fluencyfirm Overview](/tenants/fluencyfirm)
+[← Back to Fluencyfirm Overview](/tenants/fluencyfirm) | [Open sm-fluencyfirm in BigQuery →](https://console.cloud.google.com/bigquery?project=sm-fluencyfirm)
 
 
 # Custom Objects Inventory
@@ -13,7 +13,7 @@ icon: "database"
 This page documents active custom BigQuery tables and views (those queried at least once in the past 180 days) created specifically for Fluencyfirm, separate from the standard SourceMedium data models.
 
 <Info>
-**Last Updated (snapshot_at):** `2026-02-04 00:45:56 UTC`  
+**Last Updated (snapshot_at):** `2026-02-03 19:45 EST`  
 **Data Source:** Auto-generated from `sm_metadata.dim_tenant_custom_objects`. Only objects with at least 1 query in the past 180 days are included.
 </Info>
 
@@ -21,7 +21,7 @@ This page documents active custom BigQuery tables and views (those queried at le
 
 | Dataset | Object Count | Total Jobs (180d) |
 |---------|--------------|-------------------|
-| `customized_views` | 10 | 383,665 |
+| [`customized_views`](https://console.cloud.google.com/bigquery?project=sm-fluencyfirm&ws=!1m4!1m3!3m2!1ssm-fluencyfirm!2scustomized_views) | 10 | 383,665 |
 
 ---
 
@@ -168,7 +168,7 @@ SELECT * FROM `sm-fluencyfirm.customized_views.obt_config_sheet_links` LIMIT 10;
 |----------|-------|
 | **Project ID** | `sm-fluencyfirm` |
 | **Standard Dataset** | `sm_transformed_v2` |
-| **Tenant ID** | `fluencyfirm` |
+| **Tenant ID** | [`fluencyfirm`](https://console.cloud.google.com/bigquery?project=sm-fluencyfirm&ws=!1m4!1m3!3m2!1ssm-fluencyfirm!2sfluencyfirm)
 
 ---
 

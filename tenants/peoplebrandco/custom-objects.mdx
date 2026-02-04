@@ -5,7 +5,7 @@ description: "Inventory of custom BigQuery objects in the Peoplebrandco data war
 icon: "database"
 ---
 
-[← Back to Peoplebrandco Overview](/tenants/peoplebrandco)
+[← Back to Peoplebrandco Overview](/tenants/peoplebrandco) | [Open sm-peoplebrandco in BigQuery →](https://console.cloud.google.com/bigquery?project=sm-peoplebrandco)
 
 
 # Custom Objects Inventory
@@ -13,7 +13,7 @@ icon: "database"
 This page documents active custom BigQuery tables and views (those queried at least once in the past 180 days) created specifically for Peoplebrandco, separate from the standard SourceMedium data models.
 
 <Info>
-**Last Updated (snapshot_at):** `2026-02-04 00:47:17 UTC`  
+**Last Updated (snapshot_at):** `2026-02-03 19:47 EST`  
 **Data Source:** Auto-generated from `sm_metadata.dim_tenant_custom_objects`. Only objects with at least 1 query in the past 180 days are included.
 </Info>
 
@@ -21,8 +21,8 @@ This page documents active custom BigQuery tables and views (those queried at le
 
 | Dataset | Object Count | Total Jobs (180d) |
 |---------|--------------|-------------------|
-| `customized_views` | 6 | 12,838 |
-| `sm_sources` | 2 | 8,582 |
+| [`customized_views`](https://console.cloud.google.com/bigquery?project=sm-peoplebrandco&ws=!1m4!1m3!3m2!1ssm-peoplebrandco!2scustomized_views) | 6 | 12,838 |
+| [`sm_sources`](https://console.cloud.google.com/bigquery?project=sm-peoplebrandco&ws=!1m4!1m3!3m2!1ssm-peoplebrandco!2ssm_sources) | 2 | 8,582 |
 
 ---
 
@@ -146,7 +146,7 @@ SELECT * FROM `sm-peoplebrandco.sm_sources.src_klaviyo__subscribe_list` LIMIT 10
 |----------|-------|
 | **Project ID** | `sm-peoplebrandco` |
 | **Standard Dataset** | `sm_transformed_v2` |
-| **Tenant ID** | `peoplebrandco` |
+| **Tenant ID** | [`peoplebrandco`](https://console.cloud.google.com/bigquery?project=sm-peoplebrandco&ws=!1m4!1m3!3m2!1ssm-peoplebrandco!2speoplebrandco)
 
 ---
 
