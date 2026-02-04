@@ -14,7 +14,8 @@ If you see “too many orders in online_dtc” or “TikTok Shop isn’t separat
 Key fields:
 - `sm_channel`: primary channel classification
 - `sm_sub_channel`: optional secondary breakdown
-- `channel_map_debug`: debug payload explaining what inputs were evaluated and what rule matched
+- `sm_default_channel`: the fallback channel that would apply if no override rules match
+- `sm_order_sales_channel`: source-system sales channel (when available) used as an input to mapping
 
 ## Override inputs (high level)
 
@@ -42,11 +43,13 @@ SELECT
   sm_order_key,
   sm_channel,
   sm_sub_channel,
-  channel_map_debug
+  sm_default_channel,
+  sm_order_sales_channel,
+  source_system_sales_channel,
+  sm_utm_source_medium
 FROM `your_project.sm_transformed_v2.obt_orders`
 WHERE is_order_sm_valid = TRUE
-  AND order_processed_at_local_datetime >= TIMESTAMP_SUB(CURRENT_TIMESTAMP(), INTERVAL 30 DAY)
+  AND order_processed_at_local_datetime >= DATETIME_SUB(CURRENT_DATETIME(), INTERVAL 30 DAY)
 ORDER BY order_processed_at_local_datetime DESC
 LIMIT 200;
 ```
-

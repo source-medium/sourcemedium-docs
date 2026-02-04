@@ -1,0 +1,76 @@
+---title: "Idyl Custom Objects"
+sidebarTitle: "Custom Objects"
+description: "Inventory of custom BigQuery objects in the Idyl data warehouse"
+icon: "database"
+---
+
+# Custom Objects Inventory
+
+This page documents active custom BigQuery tables and views (those queried at least once in the past 180 days) created specifically for Idyl, separate from the standard SourceMedium data models.
+
+<Info>
+**Last Updated (snapshot_at):** `2026-02-04 00:49:12 UTC`  
+**Data Source:** Auto-generated from `sm_metadata.dim_tenant_custom_objects`. Only objects with at least 1 query in the past 180 days are included.
+</Info>
+
+## Summary
+
+| Dataset | Object Count | Total Jobs (180d) |
+|---------|--------------|-------------------|
+| `sm_consulting` | 1 | 762 |
+| `tydo_historic_pre_2026` | 7 | 62 |
+| `src_lucky_orange` | 6 | 56 |
+
+---
+
+## Objects by Dataset
+
+### sm_consulting
+
+| Object | Type | Usage (180d) | Last Used |
+|--------|------|--------------|-----------|
+| `obt_purchase_journeys_with_mta_models_lo_only_jan_21_2026` | BASE TABLE | 762 | 2026-02-02 |
+
+### tydo_historic_pre_2026
+
+| Object | Type | Usage (180d) | Last Used |
+|--------|------|--------------|-----------|
+| `_table_catalog` | BASE TABLE | 32 | 2026-02-02 |
+| `shopify__idyl__order` | BASE TABLE | 8 | 2026-02-02 |
+| `facebook_ads__idyl__ad_level_reporting` | BASE TABLE | 5 | 2026-02-02 |
+| `idyl__shopify_order` | BASE TABLE | 5 | 2026-02-02 |
+| `google_ads__idyl__campaign_hourly_stats` | BASE TABLE | 4 | 2026-02-02 |
+| `google_analytics_idyl__landing_page_report` | BASE TABLE | 4 | 2026-02-02 |
+| `idyl__shopify_order_line` | BASE TABLE | 4 | 2026-02-02 |
+
+### src_lucky_orange
+
+| Object | Type | Usage (180d) | Last Used |
+|--------|------|--------------|-----------|
+| `historical_sessions_pre_2026_backfilled_sample` | BASE TABLE | 14 | 2026-02-02 |
+| `stg_purchase_journey_touches` | BASE TABLE | 11 | 2026-02-02 |
+| `historical_sessions_pre_2026` | BASE TABLE | 8 | 2026-02-02 |
+| `int_purchase_journey_valid_touches` | BASE TABLE | 8 | 2026-02-02 |
+| `purchase_journey_touches_test` | BASE TABLE | 8 | 2026-02-02 |
+| `int_purchase_journey_purchases` | BASE TABLE | 7 | 2026-02-02 |
+
+---
+
+## Your Data Warehouse
+
+| Property | Value |
+|----------|-------|
+| **Project ID** | `sm-idyl` |
+| **Standard Dataset** | `sm_transformed_v2` |
+| **Tenant ID** | `idyl` |
+
+---
+
+## Notes
+
+- **Usage counts** reflect BigQuery job executions, including scheduled queries, dashboard refreshes, and ad-hoc queries.
+- Objects with low usage may be candidates for cleanup.
+
+<Info>
+For questions about these custom objects or to request modifications, please contact your SourceMedium representative.
+</Info>

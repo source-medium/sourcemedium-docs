@@ -1,0 +1,65 @@
+---title: "Theperfectjean Custom Objects"
+sidebarTitle: "Custom Objects"
+description: "Inventory of custom BigQuery objects in the Theperfectjean data warehouse"
+icon: "database"
+---
+
+# Custom Objects Inventory
+
+This page documents active custom BigQuery tables and views (those queried at least once in the past 180 days) created specifically for Theperfectjean, separate from the standard SourceMedium data models.
+
+<Info>
+**Last Updated (snapshot_at):** `2026-02-04 00:46:19 UTC`  
+**Data Source:** Auto-generated from `sm_metadata.dim_tenant_custom_objects`. Only objects with at least 1 query in the past 180 days are included.
+</Info>
+
+## Summary
+
+| Dataset | Object Count | Total Jobs (180d) |
+|---------|--------------|-------------------|
+| `customized_views` | 8 | 54 |
+| `sm_views` | 1 | 13 |
+
+---
+
+## Objects by Dataset
+
+### customized_views
+
+| Object | Type | Usage (180d) | Last Used |
+|--------|------|--------------|-----------|
+| `sessions_rev_by_country` | VIEW | 15 | 2025-11-20 |
+| `josh_module_logic1` | VIEW | 13 | 2025-11-20 |
+| `josh_module_logic_2` | VIEW | 9 | 2025-11-20 |
+| `shirt_unbundler_v2` | VIEW | 6 | 2025-11-20 |
+| `shirt_unbundler_v1` | VIEW | 4 | 2025-11-20 |
+| `order_by_types_week` | VIEW | 3 | 2025-11-20 |
+| `types_per_order` | VIEW | 2 | 2025-11-20 |
+| `types_per_order_month` | VIEW | 2 | 2025-11-20 |
+
+### sm_views
+
+| Object | Type | Usage (180d) | Last Used |
+|--------|------|--------------|-----------|
+| `okendo_data` | BASE TABLE | 13 | 2026-02-02 |
+
+---
+
+## Your Data Warehouse
+
+| Property | Value |
+|----------|-------|
+| **Project ID** | `sm-theperfectjean` |
+| **Standard Dataset** | `sm_transformed_v2` |
+| **Tenant ID** | `theperfectjean` |
+
+---
+
+## Notes
+
+- **Usage counts** reflect BigQuery job executions, including scheduled queries, dashboard refreshes, and ad-hoc queries.
+- Objects with low usage may be candidates for cleanup.
+
+<Info>
+For questions about these custom objects or to request modifications, please contact your SourceMedium representative.
+</Info>

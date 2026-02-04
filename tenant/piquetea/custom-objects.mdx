@@ -1,0 +1,124 @@
+---title: "Piquetea Custom Objects"
+sidebarTitle: "Custom Objects"
+description: "Inventory of custom BigQuery objects in the Piquetea data warehouse"
+icon: "database"
+---
+
+# Custom Objects Inventory
+
+This page documents active custom BigQuery tables and views (those queried at least once in the past 180 days) created specifically for Piquetea, separate from the standard SourceMedium data models.
+
+<Info>
+**Last Updated (snapshot_at):** `2026-02-04 00:47:58 UTC`  
+**Data Source:** Auto-generated from `sm_metadata.dim_tenant_custom_objects`. Only objects with at least 1 query in the past 180 days are included.
+</Info>
+
+## Summary
+
+| Dataset | Object Count | Total Jobs (180d) |
+|---------|--------------|-------------------|
+| `customized_views` | 57 | 174,725 |
+| `sm_transformed_v2` | 1 | 103 |
+| `analytics_311213792` | 3 | 28 |
+
+---
+
+## Objects by Dataset
+
+<Info>
+This section lists **all active** custom objects grouped by dataset, ordered by 180-day usage.
+</Info>
+
+### analytics_311213792
+
+| Object | Type | Usage (180d) | Last Used |
+|--------|------|--------------|-----------|
+| `events_20251022` | BASE TABLE | 11 | 2026-02-02 |
+| `events_20250930` | BASE TABLE | 10 | 2026-02-02 |
+| `events_20260120` | BASE TABLE | 7 | 2026-02-02 |
+
+### customized_views
+
+| Object | Type | Usage (180d) | Last Used |
+|--------|------|--------------|-----------|
+| `obt_orders_device_type_updated` | BASE TABLE | 62,128 | 2026-02-04 |
+| `refersion_fivetran_replacement` | EXTERNAL | 24,152 | 2026-02-04 |
+| `impact_daily_automation` | EXTERNAL | 7,907 | 2026-02-04 |
+| `refersion_orders_rev` | VIEW | 7,882 | 2026-02-04 |
+| `refersion_commission` | VIEW | 7,874 | 2026-02-04 |
+| `sc_sku_breakdown_v4` | VIEW | 7,163 | 2026-02-03 |
+| `daily_data_v5_online_dtc_slice` | VIEW | 4,575 | 2026-02-03 |
+| `refersion_impact_table` | EXTERNAL | 4,233 | 2026-02-04 |
+| `seven_day_cancels_revision5` | VIEW | 4,067 | 2026-02-03 |
+| `refersion_partner_final_v3_0522` | EXTERNAL | 3,940 | 2026-02-02 |
+| `daily_data_v4_line_spend_slice` | VIEW | 3,737 | 2026-02-03 |
+| `daily_data_v5_amazon_slice` | VIEW | 3,735 | 2026-02-03 |
+| `refersion_partner_final` | EXTERNAL | 3,553 | 2026-02-02 |
+| `nick_import_v1` | EXTERNAL | 3,404 | 2026-02-02 |
+| `rylie_import_v1` | EXTERNAL | 3,398 | 2026-02-02 |
+| `klaviyo_attentive_reporting` | VIEW | 3,106 | 2026-02-03 |
+| `refersion_sessions_temp` | EXTERNAL | 2,273 | 2026-02-02 |
+| `rpt_exec_to_order_test` | VIEW | 1,908 | 2026-02-04 |
+| `all_parnterships_refersion_sessions_temp_v1` | EXTERNAL | 1,842 | 2026-02-02 |
+| `refersion_partner_spend_podonly_v1` | VIEW | 1,783 | 2026-01-28 |
+| `all_partnerships_refersion_sessions_performanceoverview` | VIEW | 1,739 | 2026-01-28 |
+| `all_channel_partnerships_data_v4` | VIEW | 1,644 | 2025-12-29 |
+| `Rylie_Refersion_Daily_Partner_Level_V2` | VIEW | 1,265 | 2025-09-12 |
+| `refersion_partner_final_v2_0516` | EXTERNAL | 1,180 | 2026-02-02 |
+| `Rylie_Partnerships_Sessions_Temp` | VIEW | 1,151 | 2025-09-12 |
+| `partener_ltv_view_v5_automate_sidetable` | VIEW | 1,077 | 2026-02-03 |
+| `affiliate_id_mapping_v1` | VIEW | 893 | 2025-09-12 |
+| `churn_export_v2` | EXTERNAL | 343 | 2026-02-03 |
+| `referral_program_v1` | EXTERNAL | 326 | 2026-02-03 |
+| `partnerships_ltv_v5` | VIEW | 307 | 2026-02-04 |
+| `superfiliate_base_orders_rev` | VIEW | 300 | 2026-02-04 |
+| `superfiliate_recurring_subs_orders_rev` | VIEW | 294 | 2026-02-04 |
+| `referral_program_v2` | VIEW | 277 | 2026-02-03 |
+| `seven_day_cancellation_channel_revised` | VIEW | 173 | 2026-01-12 |
+| `loyaltylion_referrals` | EXTERNAL | 107 | 2026-02-02 |
+| `seven_day_cancels_revision_two` | VIEW | 103 | 2026-01-12 |
+| `churn_export_v1` | EXTERNAL | 101 | 2026-02-03 |
+| `gwp_obt_orders_v2` | VIEW | 97 | 2026-01-12 |
+| `all_partnerships_channel_sessions_v2` | VIEW | 91 | 2025-09-10 |
+| `product_tax_codes` | BASE TABLE | 84 | 2026-02-02 |
+| `superfiliate_go_live_spend` | EXTERNAL | 63 | 2026-02-02 |
+| `recurring_subs_over100` | VIEW | 57 | 2026-01-12 |
+| `attentive_table_v1` | EXTERNAL | 52 | 2026-02-03 |
+| `pique_referral_summary` | EXTERNAL | 43 | 2026-02-02 |
+| `attentive_data_sync_draft` | BASE TABLE | 38 | 2026-02-03 |
+| `seven_day_cancels` | VIEW | 36 | 2026-01-12 |
+| `obt_orders_gwp_updates_v2` | VIEW | 35 | 2025-09-04 |
+| `partnership_ltv_v3` | VIEW | 35 | 2026-02-04 |
+| `seven_day_cancels_revision3` | VIEW | 34 | 2026-01-12 |
+| `LTV_Retention_AOV_View` | VIEW | 31 | 2026-01-12 |
+| `obt_orders_gwp_updates` | VIEW | 30 | 2025-09-03 |
+| `retention_rate_by_product_noncancelled` | VIEW | 23 | 2026-01-12 |
+| `ga4_events_raw` | BASE TABLE | 12 | 2026-02-02 |
+| `adhoc_zach-012626` | BASE TABLE | 11 | 2026-01-26 |
+| `traffic_partnerships_adhoc` | BASE TABLE | 9 | 2026-02-02 |
+| `gwp_obt_orders_totals_v2` | VIEW | 2 | 2025-09-04 |
+| `obt_orders_previous_subscriber_updated` | VIEW | 2 | 2025-09-03 |
+
+### sm_transformed_v2
+
+| Object | Type | Usage (180d) | Last Used |
+|--------|------|--------------|-----------|
+| `rpt_cohort_ltv_by_first_valid_purchase_attribute_no_product_filters_v1` | BASE TABLE | 103 | 2026-02-02 |
+## Your Data Warehouse
+
+| Property | Value |
+|----------|-------|
+| **Project ID** | `sm-piquetea` |
+| **Standard Dataset** | `sm_transformed_v2` |
+| **Tenant ID** | `piquetea` |
+
+---
+
+## Notes
+
+- **Usage counts** reflect BigQuery job executions, including scheduled queries, dashboard refreshes, and ad-hoc queries.
+- Objects with low usage may be candidates for cleanup.
+
+<Info>
+For questions about these custom objects or to request modifications, please contact your SourceMedium representative.
+</Info>

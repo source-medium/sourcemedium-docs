@@ -1,0 +1,60 @@
+---title: "Fluencyfirm Custom Objects"
+sidebarTitle: "Custom Objects"
+description: "Inventory of custom BigQuery objects in the Fluencyfirm data warehouse"
+icon: "database"
+---
+
+# Custom Objects Inventory
+
+This page documents active custom BigQuery tables and views (those queried at least once in the past 180 days) created specifically for Fluencyfirm, separate from the standard SourceMedium data models.
+
+<Info>
+**Last Updated (snapshot_at):** `2026-02-04 00:45:56 UTC`  
+**Data Source:** Auto-generated from `sm_metadata.dim_tenant_custom_objects`. Only objects with at least 1 query in the past 180 days are included.
+</Info>
+
+## Summary
+
+| Dataset | Object Count | Total Jobs (180d) |
+|---------|--------------|-------------------|
+| `customized_views` | 10 | 383,665 |
+
+---
+
+## Objects by Dataset
+
+### customized_views
+
+| Object | Type | Usage (180d) | Last Used |
+|--------|------|--------------|-----------|
+| `rpt_executive_summary_converted` | BASE TABLE | 172,835 | 2026-02-04 |
+| `rpt_ad_performance_daily_corrected` | BASE TABLE | 103,625 | 2026-02-04 |
+| `obt_order_lines_converted` | BASE TABLE | 42,308 | 2026-02-04 |
+| `obt_orders_converted` | BASE TABLE | 40,895 | 2026-02-04 |
+| `custom_blended_kpi_view` | BASE TABLE | 15,496 | 2026-02-04 |
+| `custom_blended_kpi_view_refunds_changed` | BASE TABLE | 3,275 | 2026-02-02 |
+| `rpt_customers_first_and_last_order_summary_converted` | BASE TABLE | 2,875 | 2026-02-03 |
+| `ff_config_sheet_links` | EXTERNAL | 2,144 | 2026-02-03 |
+| `order_indexes_corrected` | BASE TABLE | 145 | 2026-02-04 |
+| `obt_config_sheet_links` | BASE TABLE | 67 | 2026-02-03 |
+
+---
+
+## Your Data Warehouse
+
+| Property | Value |
+|----------|-------|
+| **Project ID** | `sm-fluencyfirm` |
+| **Standard Dataset** | `sm_transformed_v2` |
+| **Tenant ID** | `fluencyfirm` |
+
+---
+
+## Notes
+
+- **Usage counts** reflect BigQuery job executions, including scheduled queries, dashboard refreshes, and ad-hoc queries.
+- Objects with low usage may be candidates for cleanup.
+
+<Info>
+For questions about these custom objects or to request modifications, please contact your SourceMedium representative.
+</Info>

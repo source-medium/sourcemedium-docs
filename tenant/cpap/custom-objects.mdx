@@ -1,0 +1,147 @@
+---title: "Cpap Custom Objects"
+sidebarTitle: "Custom Objects"
+description: "Inventory of custom BigQuery objects in the Cpap data warehouse"
+icon: "database"
+---
+
+# Custom Objects Inventory
+
+This page documents active custom BigQuery tables and views (those queried at least once in the past 180 days) created specifically for Cpap, separate from the standard SourceMedium data models.
+
+<Info>
+**Last Updated (snapshot_at):** `2026-02-04 00:46:41 UTC`  
+**Data Source:** Auto-generated from `sm_metadata.dim_tenant_custom_objects`. Only objects with at least 1 query in the past 180 days are included.
+</Info>
+
+## Summary
+
+| Dataset | Object Count | Total Jobs (180d) |
+|---------|--------------|-------------------|
+| `machine_v_non_pipeline` | 8 | 511,419 |
+| `cpap_sources` | 9 | 147,143 |
+| `cpap_transformed` | 9 | 81,561 |
+| `cpap_views` | 21 | 34,024 |
+| `sm_sources` | 2 | 4,402 |
+| `cpap_date_in_views` | 3 | 1,002 |
+| `customized_views` | 1 | 286 |
+| `QA` | 1 | 11 |
+
+---
+
+## Objects by Dataset
+
+<Info>
+This section lists **all active** custom objects grouped by dataset, ordered by 180-day usage.
+</Info>
+
+### cpap_date_in_views
+
+| Object | Type | Usage (180d) | Last Used |
+|--------|------|--------------|-----------|
+| `rpt_shopify_sales_summary_by_channel_day` | VIEW | 360 | 2026-02-03 |
+| `rpt_shopify_sales_summary_by_customer_day` | VIEW | 360 | 2026-02-03 |
+| `rpt_shopify_sales_summary_by_category_day` | VIEW | 282 | 2026-02-03 |
+
+### cpap_sources
+
+| Object | Type | Usage (180d) | Last Used |
+|--------|------|--------------|-----------|
+| `mc_lineitem_cost` | BASE TABLE | 37,261 | 2026-02-04 |
+| `mc_time_dimension` | BASE TABLE | 35,057 | 2026-02-04 |
+| `ga_source_category_map` | EXTERNAL | 31,445 | 2026-02-03 |
+| `mc_ttd_data` | BASE TABLE | 16,179 | 2026-02-04 |
+| `mc_order_cost` | BASE TABLE | 13,272 | 2026-02-04 |
+| `DataformGADailyCompanyMetrics` | BASE TABLE | 7,343 | 2026-02-04 |
+| `cpap_targets` | EXTERNAL | 6,161 | 2026-02-04 |
+| `mc_quantity_on_hand` | BASE TABLE | 415 | 2026-02-02 |
+| `shopify_products_8589937895` | BASE TABLE | 10 | 2026-02-02 |
+
+### cpap_transformed
+
+| Object | Type | Usage (180d) | Last Used |
+|--------|------|--------------|-----------|
+| `cpap_obt_order_lines` | BASE TABLE | 41,369 | 2026-02-04 |
+| `cpap_outbound_message_performance_sm_daily` | VIEW | 12,821 | 2025-12-19 |
+| `cpap_rpt_ad_performance_daily` | VIEW | 10,027 | 2026-02-04 |
+| `cpap_rpt_financial_channel_summary_daily` | BASE TABLE | 8,412 | 2026-02-03 |
+| `rpt_shopify_adjusted_session_start_method__by_day` | BASE TABLE | 7,523 | 2026-02-03 |
+| `cpap_order_status` | BASE TABLE | 1,113 | 2026-02-03 |
+| `cpap_rpt_sku_attachment_rate_daily_summary` | BASE TABLE | 150 | 2026-02-03 |
+| `cpap_rpt_division_attachment_rate_daily_summary` | BASE TABLE | 136 | 2026-02-03 |
+| `cpap_parts_division_daily` | VIEW | 10 | 2025-08-21 |
+
+### cpap_views
+
+| Object | Type | Usage (180d) | Last Used |
+|--------|------|--------------|-----------|
+| `cpap_rpt_ad_performance_daily_metrics_unioned` | VIEW | 14,469 | 2026-02-03 |
+| `cpap_push_report_weekly` | VIEW | 7,720 | 2026-02-03 |
+| `cpap_channel_data_live` | VIEW | 5,979 | 2026-02-03 |
+| `theo_obt_orders` | VIEW | 1,468 | 2026-02-04 |
+| `Rx_Renewal_Without_Docusign` | VIEW | 1,169 | 2025-09-25 |
+| `parts_category_live` | VIEW | 800 | 2026-02-03 |
+| `customer_summary_live` | VIEW | 734 | 2026-02-03 |
+| `cpap_parts_quantity_channel_live` | VIEW | 620 | 2026-02-03 |
+| `parts_details_live` | VIEW | 415 | 2025-10-28 |
+| `cpap_rpt_ad_performance_daily_with_targets` | VIEW | 371 | 2026-02-03 |
+| `cpap_rpt_rx_renewal_daily_envelope_lifecycle` | VIEW | 77 | 2025-11-24 |
+| `date_in_aov_cohorts` | VIEW | 61 | 2026-01-12 |
+| `cpap_rpt_session_engagement_daily` | VIEW | 37 | 2025-11-20 |
+| `date_in_orders_with_customer_cohorts` | VIEW | 36 | 2025-10-29 |
+| `haus_kpi_date_region` | VIEW | 21 | 2026-01-27 |
+| `cpap_monthly_revenue` | VIEW | 14 | 2026-02-02 |
+| `cpap_monthly_refund` | VIEW | 12 | 2026-01-05 |
+| `cpap_rpt_rx_renewal_voided_stage_abandoned` | VIEW | 11 | 2025-11-24 |
+| `cpap_rpt_session_engagement_daily_metrics_unioned` | VIEW | 4 | 2025-08-29 |
+| `2021_customer_cohort_ltv` | VIEW | 3 | 2025-12-22 |
+| `active_customers` | VIEW | 3 | 2025-12-22 |
+
+### customized_views
+
+| Object | Type | Usage (180d) | Last Used |
+|--------|------|--------------|-----------|
+| `obt_orders_filtered_gross_profit` | BASE TABLE | 286 | 2026-02-02 |
+
+### machine_v_non_pipeline
+
+| Object | Type | Usage (180d) | Last Used |
+|--------|------|--------------|-----------|
+| `orders_agg_custom` | BASE TABLE | 130,049 | 2026-02-03 |
+| `executive_summary_custom` | BASE TABLE | 107,758 | 2026-02-03 |
+| `obt_order_lines_custom` | BASE TABLE | 64,850 | 2026-02-03 |
+| `daily_orders_agg` | BASE TABLE | 62,880 | 2026-02-03 |
+| `daily_marketing_agg` | BASE TABLE | 62,867 | 2026-02-03 |
+| `refund_actions_processed` | BASE TABLE | 46,202 | 2026-02-03 |
+| `daily_machine_v_agg` | BASE TABLE | 36,722 | 2026-02-03 |
+| `mc_lineitem_cost_deduped` | BASE TABLE | 91 | 2026-02-03 |
+
+### QA
+
+| Object | Type | Usage (180d) | Last Used |
+|--------|------|--------------|-----------|
+| `mc_QA_data` | BASE TABLE | 11 | 2026-02-02 |
+
+### sm_sources
+
+| Object | Type | Usage (180d) | Last Used |
+|--------|------|--------------|-----------|
+| `src_shopify__metafields` | BASE TABLE | 4,330 | 2026-02-04 |
+| `cpap_rpt_ad_performance_daily_fiscal_year_test` | VIEW | 72 | 2025-12-22 |
+## Your Data Warehouse
+
+| Property | Value |
+|----------|-------|
+| **Project ID** | `sm-cpap` |
+| **Standard Dataset** | `sm_transformed_v2` |
+| **Tenant ID** | `cpap` |
+
+---
+
+## Notes
+
+- **Usage counts** reflect BigQuery job executions, including scheduled queries, dashboard refreshes, and ad-hoc queries.
+- Objects with low usage may be candidates for cleanup.
+
+<Info>
+For questions about these custom objects or to request modifications, please contact your SourceMedium representative.
+</Info>

@@ -1,0 +1,64 @@
+---title: "Peoplebrandco Custom Objects"
+sidebarTitle: "Custom Objects"
+description: "Inventory of custom BigQuery objects in the Peoplebrandco data warehouse"
+icon: "database"
+---
+
+# Custom Objects Inventory
+
+This page documents active custom BigQuery tables and views (those queried at least once in the past 180 days) created specifically for Peoplebrandco, separate from the standard SourceMedium data models.
+
+<Info>
+**Last Updated (snapshot_at):** `2026-02-04 00:47:17 UTC`  
+**Data Source:** Auto-generated from `sm_metadata.dim_tenant_custom_objects`. Only objects with at least 1 query in the past 180 days are included.
+</Info>
+
+## Summary
+
+| Dataset | Object Count | Total Jobs (180d) |
+|---------|--------------|-------------------|
+| `customized_views` | 6 | 12,838 |
+| `sm_sources` | 2 | 8,582 |
+
+---
+
+## Objects by Dataset
+
+### customized_views
+
+| Object | Type | Usage (180d) | Last Used |
+|--------|------|--------------|-----------|
+| `rpt_ad_performance_daily_customized` | BASE TABLE | 4,444 | 2026-02-04 |
+| `rpt_executive_summary_daily_customized` | BASE TABLE | 4,296 | 2026-02-04 |
+| `custom_orders_table` | BASE TABLE | 1,928 | 2026-02-03 |
+| `rpt_klaviyo_customer_orders` | BASE TABLE | 1,585 | 2026-02-03 |
+| `beta_rpt_klaviyo_customer_orders` | BASE TABLE | 474 | 2026-02-02 |
+| `rpt_avez_executive_summary_daily_customized` | BASE TABLE | 111 | 2026-02-02 |
+
+### sm_sources
+
+| Object | Type | Usage (180d) | Last Used |
+|--------|------|--------------|-----------|
+| `obt_klaviyo_subs_custs_orders` | VIEW | 4,291 | 2026-02-04 |
+| `src_klaviyo__subscribe_list` | CLONE | 4,291 | 2026-02-04 |
+
+---
+
+## Your Data Warehouse
+
+| Property | Value |
+|----------|-------|
+| **Project ID** | `sm-peoplebrandco` |
+| **Standard Dataset** | `sm_transformed_v2` |
+| **Tenant ID** | `peoplebrandco` |
+
+---
+
+## Notes
+
+- **Usage counts** reflect BigQuery job executions, including scheduled queries, dashboard refreshes, and ad-hoc queries.
+- Objects with low usage may be candidates for cleanup.
+
+<Info>
+For questions about these custom objects or to request modifications, please contact your SourceMedium representative.
+</Info>

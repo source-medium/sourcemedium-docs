@@ -1,0 +1,111 @@
+---title: "Irestore4 Custom Objects"
+sidebarTitle: "Custom Objects"
+description: "Inventory of custom BigQuery objects in the Irestore4 data warehouse"
+icon: "database"
+---
+
+# Custom Objects Inventory
+
+This page documents active custom BigQuery tables and views (those queried at least once in the past 180 days) created specifically for Irestore4, separate from the standard SourceMedium data models.
+
+<Info>
+**Last Updated (snapshot_at):** `2026-02-04 00:46:30 UTC`  
+**Data Source:** Auto-generated from `sm_metadata.dim_tenant_custom_objects`. Only objects with at least 1 query in the past 180 days are included.
+</Info>
+
+## Summary
+
+| Dataset | Object Count | Total Jobs (180d) |
+|---------|--------------|-------------------|
+| `customized_views` | 9 | 51,818 |
+| `arslan_dataset` | 2 | 37,261 |
+| `sm_sources` | 1 | 34,267 |
+| `bi_playground` | 2 | 6,771 |
+| `custom_order_lines` | 3 | 483 |
+| `bi_expandfi_prod` | 6 | 315 |
+| `custom_sources` | 2 | 73 |
+
+---
+
+## Objects by Dataset
+
+### arslan_dataset
+
+| Object | Type | Usage (180d) | Last Used |
+|--------|------|--------------|-----------|
+| `SB_SalesData` | BASE TABLE | 36,732 | 2026-02-03 |
+| `SB_Dump_Staging` | EXTERNAL | 529 | 2026-02-03 |
+
+### sm_sources
+
+| Object | Type | Usage (180d) | Last Used |
+|--------|------|--------------|-----------|
+| `custom_campaign_product_type_map` | EXTERNAL | 34,267 | 2026-02-03 |
+
+### customized_views
+
+| Object | Type | Usage (180d) | Last Used |
+|--------|------|--------------|-----------|
+| `rpt_executive_summary_daily_customized` | VIEW | 24,042 | 2026-02-03 |
+| `rpt_product_profit_and_loss` | VIEW | 22,986 | 2026-02-03 |
+| `rpt_ad_performance_with_product_type` | VIEW | 4,508 | 2026-01-21 |
+| `fulfil_order_lines_wip` | VIEW | 87 | 2025-09-19 |
+| `obt_order_lines_w_cancelled_at` | VIEW | 66 | 2026-02-02 |
+| `lead_cap_rate_table` | VIEW | 55 | 2026-01-06 |
+| `fulfil_missing_lines_check_wip` | VIEW | 34 | 2025-08-27 |
+| `fulfil_order_lines_with_cancel_status_wip` | VIEW | 29 | 2025-08-27 |
+| `fulfil_refund_line_agg_wip` | VIEW | 11 | 2025-08-27 |
+
+### bi_playground
+
+| Object | Type | Usage (180d) | Last Used |
+|--------|------|--------------|-----------|
+| `rpt_profit_and_loss_without_bundle` | VIEW | 5,750 | 2026-01-21 |
+| `rpt_profit_and_loss_without_bundle_parts` | VIEW | 1,021 | 2025-09-21 |
+
+### custom_order_lines
+
+| Object | Type | Usage (180d) | Last Used |
+|--------|------|--------------|-----------|
+| `unified_order_lines` | BASE TABLE | 267 | 2026-02-02 |
+| `fulfil_order_lines_base` | BASE TABLE | 140 | 2026-02-02 |
+| `sm_ol_with_fulfil_cogs` | BASE TABLE | 76 | 2026-02-02 |
+
+### bi_expandfi_prod
+
+| Object | Type | Usage (180d) | Last Used |
+|--------|------|--------------|-----------|
+| `vw_product_summary` | VIEW | 139 | 2026-01-28 |
+| `sales` | BASE TABLE | 131 | 2026-02-02 |
+| `upsell_report` | VIEW | 14 | 2025-12-23 |
+| `amazon_orders` | BASE TABLE | 11 | 2026-02-02 |
+| `sales_transformed` | BASE TABLE | 10 | 2026-02-02 |
+| `promotions` | BASE TABLE | 10 | 2026-02-02 |
+
+### custom_sources
+
+| Object | Type | Usage (180d) | Last Used |
+|--------|------|--------------|-----------|
+| `bundle_part_mapping` | EXTERNAL | 56 | 2026-02-02 |
+| `orders_from_shopify` | BASE TABLE | 17 | 2026-02-02 |
+
+---
+
+## Your Data Warehouse
+
+| Property | Value |
+|----------|-------|
+| **Project ID** | `sm-irestore4` |
+| **Standard Dataset** | `sm_transformed_v2` |
+| **Tenant ID** | `irestore4` |
+
+---
+
+## Notes
+
+- **Usage counts** reflect BigQuery job executions, including scheduled queries, dashboard refreshes, and ad-hoc queries.
+- Objects with low usage may be candidates for cleanup.
+
+<Info>
+For questions about these custom objects or to request modifications, please contact your SourceMedium representative.
+</Info>

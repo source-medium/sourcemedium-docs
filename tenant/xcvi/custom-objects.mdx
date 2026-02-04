@@ -1,0 +1,239 @@
+---title: "Xcvi Custom Objects"
+sidebarTitle: "Custom Objects"
+description: "Inventory of custom BigQuery objects in the Xcvi data warehouse"
+icon: "database"
+---
+
+# Custom Objects Inventory
+
+This page documents active custom BigQuery tables and views (those queried at least once in the past 180 days) created specifically for Xcvi, separate from the standard SourceMedium data models.
+
+<Info>
+**Last Updated (snapshot_at):** `2026-02-04 00:47:36 UTC`  
+**Data Source:** Auto-generated from `sm_metadata.dim_tenant_custom_objects`. Only objects with at least 1 query in the past 180 days are included.
+</Info>
+
+## Summary
+
+| Dataset | Object Count | Total Jobs (180d) |
+|---------|--------------|-------------------|
+| `n41_mssql_data2` | 13 | 18,241 |
+| `sell_through_data` | 8 | 15,143 |
+| `n41_data` | 9 | 10,412 |
+| `so_detail_pipeline` | 20 | 10,160 |
+| `n41_mssql_data3` | 7 | 5,672 |
+| `customized_views` | 8 | 5,619 |
+| `sell_through_pipeline` | 12 | 4,417 |
+| `N41_created_reports` | 12 | 3,898 |
+| `v_inventory_pos_by_wh` | 9 | 3,742 |
+| `sm_sources` | 2 | 2,981 |
+| `snowflake_data` | 7 | 1,972 |
+| `sm_experimental` | 1 | 96 |
+| `n41_transfer_data` | 1 | 91 |
+| `DL_XCVI` | 1 | 10 |
+
+---
+
+## Objects by Dataset
+
+<Info>
+This section lists **all active** custom objects grouped by dataset, ordered by 180-day usage.
+</Info>
+
+### customized_views
+
+| Object | Type | Usage (180d) | Last Used |
+|--------|------|--------------|-----------|
+| `SKU_RAW_N41` | BASE TABLE | 3,822 | 2026-02-03 |
+| `SKU_master_BQ` | BASE TABLE | 769 | 2026-02-03 |
+| `N41_Last_PO_Price` | VIEW | 377 | 2026-02-03 |
+| `executive_sheet_source` | VIEW | 232 | 2026-02-03 |
+| `N41_product_detail_wringerwear` | VIEW | 186 | 2025-12-13 |
+| `PO_Register_Detail-open-WIP` | BASE TABLE | 174 | 2026-01-30 |
+| `core_trend_dataset` | VIEW | 52 | 2026-02-02 |
+| `latest_product_cost_by_sku` | BASE TABLE | 7 | 2026-02-02 |
+
+### DL_XCVI
+
+| Object | Type | Usage (180d) | Last Used |
+|--------|------|--------------|-----------|
+| `XCVI_Shopify_Inv_Not_snowflake` | VIEW | 10 | 2025-11-20 |
+
+### N41_created_reports
+
+| Object | Type | Usage (180d) | Last Used |
+|--------|------|--------------|-----------|
+| `N41_Inventory_Vertical` | BASE TABLE | 1,208 | 2026-02-03 |
+| `v_so_detail_by_wh` | BASE TABLE | 391 | 2026-02-03 |
+| `v_po_detail_by_wh` | BASE TABLE | 387 | 2026-02-03 |
+| `v_cm_inventory_wh` | BASE TABLE | 375 | 2026-02-03 |
+| `v_inv_inventory_wh` | BASE TABLE | 375 | 2026-02-03 |
+| `v_inventory_position_by_wh` | BASE TABLE | 367 | 2026-02-03 |
+| `v_sales_by_quarter_sotype_division_alldetail` | BASE TABLE | 192 | 2026-02-03 |
+| `v_alloc_stylecolor_wh` | BASE TABLE | 181 | 2026-02-03 |
+| `v_pick_stylecolor_wh` | BASE TABLE | 181 | 2026-02-03 |
+| `v_sos_stylecolor_wh` | BASE TABLE | 181 | 2026-02-03 |
+| `Aida_SeasondateV2` | BASE TABLE | 57 | 2026-02-02 |
+| `v_inv_detail_2_4NORDDROP` | VIEW | 3 | 2025-09-18 |
+
+### n41_data
+
+| Object | Type | Usage (180d) | Last Used |
+|--------|------|--------------|-----------|
+| `_sdc_primary_keys` | BASE TABLE | 4,997 | 2026-02-03 |
+| `NVLT_styleColor` | BASE TABLE | 2,014 | 2026-02-03 |
+| `v_size_vertical` | BASE TABLE | 675 | 2026-02-03 |
+| `NVLT_color` | BASE TABLE | 612 | 2026-02-03 |
+| `NVLT_UPC` | BASE TABLE | 582 | 2026-02-03 |
+| `NVLT_division` | BASE TABLE | 538 | 2026-02-03 |
+| `NVLT_size` | BASE TABLE | 366 | 2026-02-03 |
+| `NVLT_season` | BASE TABLE | 328 | 2026-02-03 |
+| `NVLT_POD` | BASE TABLE | 300 | 2026-02-03 |
+
+### n41_mssql_data2
+
+| Object | Type | Usage (180d) | Last Used |
+|--------|------|--------------|-----------|
+| `_sdc_primary_keys` | BASE TABLE | 6,215 | 2026-02-03 |
+| `NVLT_POD` | BASE TABLE | 1,856 | 2026-02-03 |
+| `NVLT_INVD` | BASE TABLE | 1,588 | 2026-02-03 |
+| `NVLT_SOD` | BASE TABLE | 1,425 | 2026-02-03 |
+| `NVLT_inventory` | BASE TABLE | 1,377 | 2026-02-03 |
+| `NVLT_SOH` | BASE TABLE | 1,119 | 2026-02-03 |
+| `NVLT_customer` | BASE TABLE | 941 | 2026-02-03 |
+| `NVLT_INV` | BASE TABLE | 820 | 2026-02-03 |
+| `NVLT_pickD` | BASE TABLE | 817 | 2026-02-03 |
+| `NVLT_SOSD` | BASE TABLE | 772 | 2026-02-03 |
+| `NVLT_size` | BASE TABLE | 760 | 2026-02-03 |
+| `NVLT_cancelReason` | BASE TABLE | 365 | 2026-02-03 |
+| `NVLT_AllocateD` | BASE TABLE | 186 | 2026-02-03 |
+
+### n41_mssql_data3
+
+| Object | Type | Usage (180d) | Last Used |
+|--------|------|--------------|-----------|
+| `_sdc_primary_keys` | BASE TABLE | 2,511 | 2026-02-03 |
+| `NVLT_POH` | BASE TABLE | 1,013 | 2026-02-03 |
+| `NVLT_INVENTORY_BY_WH` | BASE TABLE | 789 | 2026-02-03 |
+| `NVLT_pickH` | BASE TABLE | 603 | 2026-02-03 |
+| `NVLT_SOD_LOG` | BASE TABLE | 366 | 2026-02-03 |
+| `NVLT_AllocateD` | BASE TABLE | 350 | 2026-02-03 |
+| `NVLT_customer_div` | BASE TABLE | 40 | 2026-02-03 |
+
+### n41_transfer_data
+
+| Object | Type | Usage (180d) | Last Used |
+|--------|------|--------------|-----------|
+| `v_sales_by_quarter_sotype_division_alldetail_v4` | BASE TABLE | 91 | 2026-02-02 |
+
+### sell_through_data
+
+| Object | Type | Usage (180d) | Last Used |
+|--------|------|--------------|-----------|
+| `xcvi_final_table` | BASE TABLE | 12,059 | 2026-02-03 |
+| `inventory_spine_v3` | BASE TABLE | 1,733 | 2026-02-03 |
+| `ecom_so_qty_latest` | BASE TABLE | 478 | 2026-02-03 |
+| `sku_date_combinations` | BASE TABLE | 386 | 2026-02-03 |
+| `transaction_union` | BASE TABLE | 218 | 2026-02-03 |
+| `drop_date_catalog_flag_processing` | BASE TABLE | 211 | 2026-02-03 |
+| `final_table_style_aggregate` | BASE TABLE | 47 | 2026-02-02 |
+| `ecom_inventory_spine` | BASE TABLE | 11 | 2026-02-02 |
+
+### sell_through_pipeline
+
+| Object | Type | Usage (180d) | Last Used |
+|--------|------|--------------|-----------|
+| `sell_through_pipeline_final_table` | BASE TABLE | 912 | 2026-02-03 |
+| `sku_master_BQ_pipeline` | BASE TABLE | 568 | 2026-02-03 |
+| `ecom_inventory_spine` | BASE TABLE | 518 | 2026-02-03 |
+| `sku_date_combinations` | BASE TABLE | 429 | 2026-02-03 |
+| `pipeline_transaction_union` | BASE TABLE | 405 | 2026-02-03 |
+| `drop_date_catalog_processing` | BASE TABLE | 275 | 2026-02-03 |
+| `NVLT_UPC_deduped` | BASE TABLE | 263 | 2026-02-03 |
+| `NVLT_season_deduped` | BASE TABLE | 260 | 2026-02-03 |
+| `nvlt_division_deduped` | BASE TABLE | 260 | 2026-02-03 |
+| `sku_raw_n41` | BASE TABLE | 260 | 2026-02-03 |
+| `v_size_vertical_deduped` | BASE TABLE | 260 | 2026-02-03 |
+| `sku_master_BQ_st_pipeline` | BASE TABLE | 7 | 2026-02-02 |
+
+### sm_experimental
+
+| Object | Type | Usage (180d) | Last Used |
+|--------|------|--------------|-----------|
+| `shipbob_inventory_data` | BASE TABLE | 96 | 2026-02-04 |
+
+### sm_sources
+
+| Object | Type | Usage (180d) | Last Used |
+|--------|------|--------------|-----------|
+| `xcvi_product_images` | BASE TABLE | 2,564 | 2026-02-03 |
+| `sm_inventory_tables` | BASE TABLE | 417 | 2026-02-03 |
+
+### snowflake_data
+
+| Object | Type | Usage (180d) | Last Used |
+|--------|------|--------------|-----------|
+| `SKU_MASTER1` | BASE TABLE | 1,299 | 2026-02-03 |
+| `TFT_SKU` | BASE TABLE | 233 | 2026-02-03 |
+| `XC_SHOPIFY_SKU1` | BASE TABLE | 233 | 2026-02-03 |
+| `N41_ECOM_SO` | BASE TABLE | 73 | 2026-02-02 |
+| `N41_INV_VERTICAL` | BASE TABLE | 52 | 2026-02-02 |
+| `SKU_MASTER` | BASE TABLE | 52 | 2026-02-02 |
+| `N41_SKU_RAW` | BASE TABLE | 30 | 2026-02-02 |
+
+### so_detail_pipeline
+
+| Object | Type | Usage (180d) | Last Used |
+|--------|------|--------------|-----------|
+| `invd` | BASE TABLE | 916 | 2026-02-03 |
+| `sosd` | BASE TABLE | 623 | 2026-02-03 |
+| `inv` | BASE TABLE | 619 | 2026-02-03 |
+| `allocated` | BASE TABLE | 613 | 2026-02-03 |
+| `sod` | BASE TABLE | 472 | 2026-02-03 |
+| `soh` | BASE TABLE | 469 | 2026-02-03 |
+| `stylecolor` | BASE TABLE | 467 | 2026-02-03 |
+| `customer` | BASE TABLE | 463 | 2026-02-03 |
+| `pickh` | BASE TABLE | 463 | 2026-02-03 |
+| `size_dedup` | BASE TABLE | 463 | 2026-02-03 |
+| `agg_po_metrics` | BASE TABLE | 460 | 2026-02-03 |
+| `so_detail_final` | BASE TABLE | 460 | 2026-02-04 |
+| `agg_alloc` | BASE TABLE | 459 | 2026-02-03 |
+| `agg_inv_hdr` | BASE TABLE | 459 | 2026-02-03 |
+| `agg_invd_by_sod` | BASE TABLE | 459 | 2026-02-03 |
+| `agg_invd_by_sono_sod` | BASE TABLE | 459 | 2026-02-03 |
+| `agg_last_received` | BASE TABLE | 459 | 2026-02-03 |
+| `agg_pick` | BASE TABLE | 459 | 2026-02-03 |
+| `agg_po_eta` | BASE TABLE | 459 | 2026-02-03 |
+| `agg_ship` | BASE TABLE | 459 | 2026-02-03 |
+
+### v_inventory_pos_by_wh
+
+| Object | Type | Usage (180d) | Last Used |
+|--------|------|--------------|-----------|
+| `v_deduped_stylecolor` | BASE TABLE | 528 | 2026-02-03 |
+| `v_deduped_color` | BASE TABLE | 523 | 2026-02-03 |
+| `v_deduped_inventory_wh` | BASE TABLE | 395 | 2026-02-03 |
+| `v_deduped_size` | BASE TABLE | 395 | 2026-02-03 |
+| `v_invoice_by_wh` | BASE TABLE | 394 | 2026-02-03 |
+| `v_cm_by_wh` | BASE TABLE | 393 | 2026-02-03 |
+| `v_first_eta` | BASE TABLE | 393 | 2026-02-03 |
+| `v_deduped_pod` | BASE TABLE | 383 | 2026-02-03 |
+| `v_inventory_pos_by_wh` | BASE TABLE | 338 | 2026-02-03 |
+## Your Data Warehouse
+
+| Property | Value |
+|----------|-------|
+| **Project ID** | `sm-xcvi` |
+| **Standard Dataset** | `sm_transformed_v2` |
+| **Tenant ID** | `xcvi` |
+
+---
+
+## Notes
+
+- **Usage counts** reflect BigQuery job executions, including scheduled queries, dashboard refreshes, and ad-hoc queries.
+- Objects with low usage may be candidates for cleanup.
+
+<Info>
+For questions about these custom objects or to request modifications, please contact your SourceMedium representative.
+</Info>

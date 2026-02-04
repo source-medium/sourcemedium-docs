@@ -1,0 +1,419 @@
+---title: "Zbiotics Custom Objects"
+sidebarTitle: "Custom Objects"
+description: "Inventory of custom BigQuery objects in the Zbiotics data warehouse"
+icon: "database"
+---
+
+# Custom Objects Inventory
+
+This page documents active custom BigQuery tables and views (those queried at least once in the past 180 days) created specifically for Zbiotics, separate from the standard SourceMedium data models.
+
+<Info>
+**Last Updated (snapshot_at):** `2026-02-04 00:47:01 UTC`  
+**Data Source:** Auto-generated from `sm_metadata.dim_tenant_custom_objects`. Only objects with at least 1 query in the past 180 days are included.
+</Info>
+
+## Summary
+
+| Dataset | Object Count | Total Jobs (180d) |
+|---------|--------------|-------------------|
+| `dbt` | 49 | 87,814 |
+| `hubspot` | 49 | 60,159 |
+| `cin7core` | 30 | 34,737 |
+| `twilio` | 13 | 23,583 |
+| `pipe17` | 22 | 21,139 |
+| `zb_sources` | 12 | 15,760 |
+| `zb_transforms` | 9 | 12,955 |
+| `dbt_smathur` | 42 | 7,338 |
+| `fivetran_metadata` | 13 | 6,364 |
+| `skio` | 4 | 5,485 |
+| `twilio_twilio_source` | 4 | 2,800 |
+| `twilio_twilio` | 1 | 2,100 |
+| `dbt_jkeane` | 33 | 1,872 |
+| `sm_sources` | 2 | 1,822 |
+| `zb_static` | 1 | 1 |
+
+---
+
+## Objects by Dataset
+
+<Info>
+This section lists **all active** custom objects grouped by dataset, ordered by 180-day usage.
+</Info>
+
+### cin7core
+
+| Object | Type | Usage (180d) | Last Used |
+|--------|------|--------------|-----------|
+| `sale` | BASE TABLE | 3,440 | 2026-02-04 |
+| `customer` | BASE TABLE | 2,604 | 2026-02-04 |
+| `sale_order_line` | BASE TABLE | 2,310 | 2026-02-04 |
+| `sale_fullfillment_ship_line` | BASE TABLE | 1,679 | 2026-02-03 |
+| `sale_fullfillment_pack_line` | BASE TABLE | 1,677 | 2026-02-03 |
+| `sale_fullfillment_pick_line` | BASE TABLE | 1,595 | 2026-02-03 |
+| `sale_credit_note_refund` | BASE TABLE | 1,321 | 2026-02-03 |
+| `sale_credit_note_line` | BASE TABLE | 1,308 | 2026-02-03 |
+| `product` | BASE TABLE | 1,215 | 2026-02-04 |
+| `sale_inventory_movement` | BASE TABLE | 1,213 | 2026-02-03 |
+| `product_attachment` | BASE TABLE | 1,195 | 2026-02-03 |
+| `bill_of_material_service` | BASE TABLE | 1,177 | 2026-02-03 |
+| `bill_of_material_product` | BASE TABLE | 1,167 | 2026-02-03 |
+| `sale_transaction` | BASE TABLE | 1,129 | 2026-02-03 |
+| `sale_invoice_line` | BASE TABLE | 1,120 | 2026-02-03 |
+| `sale_credit_note` | BASE TABLE | 1,118 | 2026-02-03 |
+| `sale_fullfillment` | BASE TABLE | 1,114 | 2026-02-03 |
+| `sale_invoice` | BASE TABLE | 1,113 | 2026-02-03 |
+| `sale_attachment` | BASE TABLE | 1,023 | 2026-02-03 |
+| `sale_credit_note_restock` | BASE TABLE | 990 | 2026-02-03 |
+| `product_movement` | BASE TABLE | 949 | 2026-02-03 |
+| `product_markup_price` | BASE TABLE | 889 | 2026-02-03 |
+| `customer_contacts` | BASE TABLE | 560 | 2026-02-03 |
+| `sale_invoice_additional_charge` | BASE TABLE | 538 | 2026-02-03 |
+| `sale_order_additional_charge` | BASE TABLE | 537 | 2026-02-03 |
+| `sale_credit_note_additional_charge` | BASE TABLE | 463 | 2026-02-03 |
+| `customer_address` | BASE TABLE | 424 | 2026-02-03 |
+| `customer_product_price` | BASE TABLE | 404 | 2026-02-03 |
+| `product_custom_price` | BASE TABLE | 344 | 2026-02-03 |
+| `product_availability` | BASE TABLE | 121 | 2026-02-03 |
+
+### dbt
+
+| Object | Type | Usage (180d) | Last Used |
+|--------|------|--------------|-----------|
+| `orders` | BASE TABLE | 28,813 | 2026-02-04 |
+| `order_lines` | BASE TABLE | 9,775 | 2026-02-04 |
+| `int_manual_wholesale_orders` | BASE TABLE | 4,258 | 2026-02-04 |
+| `fulfillments` | BASE TABLE | 4,038 | 2026-02-04 |
+| `marketing_spend` | BASE TABLE | 3,439 | 2026-02-04 |
+| `int_wholesale_doors` | BASE TABLE | 2,913 | 2026-02-04 |
+| `int_sticker_matching` | BASE TABLE | 2,801 | 2026-02-04 |
+| `int_order_lines` | BASE TABLE | 2,408 | 2026-02-04 |
+| `customers` | BASE TABLE | 2,401 | 2026-02-04 |
+| `retail_velocity_denominator` | BASE TABLE | 2,048 | 2026-02-04 |
+| `retailers` | BASE TABLE | 1,948 | 2026-02-04 |
+| `int_downweights` | BASE TABLE | 1,941 | 2026-02-04 |
+| `int_orders` | BASE TABLE | 1,802 | 2026-02-04 |
+| `int_tickets` | BASE TABLE | 1,668 | 2026-02-04 |
+| `subscriptions` | BASE TABLE | 1,567 | 2026-02-04 |
+| `int_subscription_lines` | BASE TABLE | 1,552 | 2026-02-04 |
+| `tickets` | BASE TABLE | 1,500 | 2026-02-04 |
+| `survey_responses` | BASE TABLE | 1,446 | 2026-02-04 |
+| `int_wholesale_customers` | BASE TABLE | 1,421 | 2026-02-04 |
+| `metricflow_time_spine` | BASE TABLE | 1,393 | 2026-02-04 |
+| `int_ticket_tags` | BASE TABLE | 1,390 | 2026-02-04 |
+| `int_survey_responses` | BASE TABLE | 1,164 | 2026-02-04 |
+| `int_sm_orders` | BASE TABLE | 1,011 | 2026-02-04 |
+| `int_manual_wholesale_order_lines` | BASE TABLE | 828 | 2026-02-04 |
+| `int_subscriptions` | BASE TABLE | 776 | 2026-02-04 |
+| `int_wholesale_retailers` | BASE TABLE | 648 | 2026-02-04 |
+| `int_fulfillments` | BASE TABLE | 390 | 2026-02-04 |
+| `int_ticket_messages` | BASE TABLE | 388 | 2026-02-04 |
+| `int_customers` | BASE TABLE | 370 | 2026-02-04 |
+| `gsh_historical_cartograph_survey_responses` | BASE TABLE | 356 | 2026-02-04 |
+| `gsh_intelligems_experiments` | BASE TABLE | 337 | 2026-02-02 |
+| `retail_velocity` | BASE TABLE | 300 | 2026-02-02 |
+| `cin7_sale` | VIEW | 124 | 2026-02-03 |
+| `cin7_customer` | VIEW | 116 | 2026-02-03 |
+| `cin7_ecomm_aggregated_sale_order_line` | BASE TABLE | 116 | 2026-02-04 |
+| `retail_velocity_numerator` | VIEW | 114 | 2026-02-03 |
+| `int_daily_sku_cost` | BASE TABLE | 68 | 2026-02-04 |
+| `hubspot_company` | VIEW | 44 | 2025-08-21 |
+| `int_accounting_sales_lines_order_lines_lkup` | BASE TABLE | 43 | 2026-02-02 |
+| `int_accounting_sales_orders_lkup` | BASE TABLE | 43 | 2026-02-02 |
+| `pipe17_fulfillment` | VIEW | 16 | 2025-10-24 |
+| `pipe17_location` | VIEW | 12 | 2025-10-24 |
+| `gsh_balance_sheet` | BASE TABLE | 11 | 2026-02-02 |
+| `hubspot_company_contact` | VIEW | 6 | 2025-08-19 |
+| `cin7_sale_order_line` | VIEW | 5 | 2025-11-05 |
+| `cin7_wholesale_sale` | VIEW | 2 | 2026-01-08 |
+| `gsh_marketing_spend_monthly` | VIEW | 2 | 2025-12-02 |
+| `cin7_wholesale_sale_order_line` | VIEW | 1 | 2026-01-08 |
+| `twilio_survey_responses` | VIEW | 1 | 2025-08-09 |
+
+### dbt_jkeane
+
+| Object | Type | Usage (180d) | Last Used |
+|--------|------|--------------|-----------|
+| `int_manual_wholesale_orders` | BASE TABLE | 194 | 2026-02-02 |
+| `int_sticker_matching` | BASE TABLE | 126 | 2026-02-02 |
+| `int_wholesale_doors` | BASE TABLE | 108 | 2026-02-02 |
+| `int_order_lines` | BASE TABLE | 107 | 2026-02-02 |
+| `marketing_spend` | BASE TABLE | 105 | 2026-02-02 |
+| `int_tickets` | BASE TABLE | 100 | 2026-02-02 |
+| `int_downweights` | BASE TABLE | 91 | 2026-02-02 |
+| `int_subscription_lines` | BASE TABLE | 88 | 2026-02-02 |
+| `int_wholesale_customers` | BASE TABLE | 68 | 2026-02-02 |
+| `subscriptions` | BASE TABLE | 68 | 2026-02-02 |
+| `int_survey_responses` | BASE TABLE | 66 | 2026-02-02 |
+| `tickets` | BASE TABLE | 66 | 2026-02-02 |
+| `orders` | BASE TABLE | 65 | 2026-02-02 |
+| `survey_responses` | BASE TABLE | 60 | 2026-02-02 |
+| `retailers` | BASE TABLE | 54 | 2026-02-02 |
+| `int_orders` | BASE TABLE | 52 | 2026-02-02 |
+| `int_manual_wholesale_order_lines` | BASE TABLE | 44 | 2026-02-02 |
+| `int_subscriptions` | BASE TABLE | 44 | 2026-02-02 |
+| `retail_velocity_denominator` | BASE TABLE | 42 | 2026-02-02 |
+| `customers` | BASE TABLE | 40 | 2026-02-02 |
+| `retail_velocity` | BASE TABLE | 39 | 2026-02-02 |
+| `order_lines` | BASE TABLE | 31 | 2026-02-02 |
+| `gsh_historical_cartograph_survey_responses` | BASE TABLE | 29 | 2026-02-02 |
+| `int_fulfillments` | BASE TABLE | 29 | 2026-02-02 |
+| `int_wholesale_retailers` | BASE TABLE | 27 | 2026-02-02 |
+| `int_ticket_tags` | BASE TABLE | 26 | 2026-02-02 |
+| `int_sm_orders` | BASE TABLE | 23 | 2026-02-02 |
+| `int_ticket_messages` | BASE TABLE | 22 | 2026-02-02 |
+| `int_customers` | BASE TABLE | 18 | 2026-02-02 |
+| `metricflow_time_spine` | BASE TABLE | 17 | 2026-02-02 |
+| `fulfillments` | BASE TABLE | 11 | 2026-02-02 |
+| `gsh_balance_sheet` | BASE TABLE | 11 | 2026-02-02 |
+| `gsh_mcf_estimated_fees` | VIEW | 1 | 2025-08-11 |
+
+### dbt_smathur
+
+| Object | Type | Usage (180d) | Last Used |
+|--------|------|--------------|-----------|
+| `orders` | BASE TABLE | 744 | 2026-02-03 |
+| `int_manual_wholesale_orders` | BASE TABLE | 598 | 2026-02-02 |
+| `int_subscription_lines` | BASE TABLE | 461 | 2026-02-04 |
+| `int_subscriptions` | BASE TABLE | 461 | 2026-02-04 |
+| `order_lines` | BASE TABLE | 390 | 2026-02-02 |
+| `int_wholesale_doors` | BASE TABLE | 376 | 2026-02-02 |
+| `int_order_lines` | BASE TABLE | 362 | 2026-02-02 |
+| `retail_velocity_denominator` | BASE TABLE | 361 | 2026-02-02 |
+| `int_sticker_matching` | BASE TABLE | 351 | 2026-02-02 |
+| `int_downweights` | BASE TABLE | 297 | 2026-02-02 |
+| `int_sm_orders` | BASE TABLE | 278 | 2026-02-03 |
+| `retailers` | BASE TABLE | 266 | 2026-02-02 |
+| `metricflow_time_spine` | BASE TABLE | 213 | 2026-02-02 |
+| `marketing_spend` | BASE TABLE | 197 | 2026-02-02 |
+| `int_wholesale_customers` | BASE TABLE | 191 | 2026-02-02 |
+| `subscriptions` | BASE TABLE | 185 | 2026-02-02 |
+| `int_orders` | BASE TABLE | 167 | 2026-02-02 |
+| `retail_velocity` | BASE TABLE | 150 | 2026-02-02 |
+| `customers` | BASE TABLE | 147 | 2026-02-02 |
+| `int_survey_responses` | BASE TABLE | 147 | 2026-02-02 |
+| `survey_responses` | BASE TABLE | 141 | 2026-02-02 |
+| `int_tickets` | BASE TABLE | 124 | 2026-02-02 |
+| `tickets` | BASE TABLE | 120 | 2026-02-02 |
+| `int_manual_wholesale_order_lines` | BASE TABLE | 112 | 2026-02-02 |
+| `int_wholesale_retailers` | BASE TABLE | 106 | 2026-02-02 |
+| `cin7_ecomm_aggregated_sale_order_line` | BASE TABLE | 55 | 2026-02-02 |
+| `int_customers` | BASE TABLE | 55 | 2026-02-02 |
+| `gsh_historical_cartograph_survey_responses` | BASE TABLE | 43 | 2026-02-02 |
+| `int_daily_sku_cost` | BASE TABLE | 41 | 2026-02-02 |
+| `int_fulfillments` | BASE TABLE | 34 | 2026-02-02 |
+| `int_ticket_messages` | BASE TABLE | 31 | 2026-02-02 |
+| `int_ticket_tags` | BASE TABLE | 31 | 2026-02-02 |
+| `fulfillments` | BASE TABLE | 25 | 2026-02-02 |
+| `int_accounting_sales_orders_lkup` | BASE TABLE | 15 | 2026-02-02 |
+| `int_accounting_sales_lines_order_lines_lkup` | BASE TABLE | 14 | 2026-02-02 |
+| `int_sku_cost_scd` | BASE TABLE | 12 | 2026-02-02 |
+| `int_daily_source_sku_cost_observations` | BASE TABLE | 11 | 2026-02-02 |
+| `retail_velocity_numerator` | VIEW | 11 | 2025-08-29 |
+| `hubspot_company_contact` | VIEW | 7 | 2025-08-19 |
+| `hubspot_company` | VIEW | 5 | 2025-08-20 |
+| `obt_customers` | VIEW | 2 | 2025-09-02 |
+| `cin7_customer` | VIEW | 1 | 2026-01-27 |
+
+### fivetran_metadata
+
+| Object | Type | Usage (180d) | Last Used |
+|--------|------|--------------|-----------|
+| `resource_membership` | BASE TABLE | 708 | 2026-02-03 |
+| `role_permission` | BASE TABLE | 708 | 2026-02-03 |
+| `transformation_runs` | BASE TABLE | 701 | 2026-02-03 |
+| `incremental_mar` | BASE TABLE | 688 | 2026-02-03 |
+| `connection` | BASE TABLE | 535 | 2026-02-03 |
+| `log` | BASE TABLE | 535 | 2026-02-03 |
+| `user` | BASE TABLE | 535 | 2026-02-03 |
+| `role` | BASE TABLE | 531 | 2026-02-03 |
+| `account` | BASE TABLE | 356 | 2026-02-03 |
+| `connector_type` | BASE TABLE | 356 | 2026-02-03 |
+| `destination` | BASE TABLE | 356 | 2026-02-03 |
+| `usage_cost` | BASE TABLE | 190 | 2026-02-03 |
+| `connector` | BASE TABLE | 165 | 2026-02-02 |
+
+### hubspot
+
+| Object | Type | Usage (180d) | Last Used |
+|--------|------|--------------|-----------|
+| `company` | BASE TABLE | 4,615 | 2026-02-04 |
+| `contact_company` | BASE TABLE | 2,642 | 2026-02-04 |
+| `contact` | BASE TABLE | 2,442 | 2026-02-04 |
+| `contact_list` | BASE TABLE | 2,309 | 2026-02-03 |
+| `association_type` | BASE TABLE | 2,307 | 2026-02-03 |
+| `users` | BASE TABLE | 2,307 | 2026-02-03 |
+| `sessions_analytics_monthly_report` | BASE TABLE | 1,599 | 2026-02-03 |
+| `deal_pipeline` | BASE TABLE | 1,597 | 2026-02-03 |
+| `deal_pipeline_stage` | BASE TABLE | 1,597 | 2026-02-03 |
+| `email_subscription` | BASE TABLE | 1,597 | 2026-02-03 |
+| `form` | BASE TABLE | 1,597 | 2026-02-03 |
+| `geolocation_analytics_daily_report` | BASE TABLE | 1,597 | 2026-02-03 |
+| `geolocation_analytics_monthly_report` | BASE TABLE | 1,597 | 2026-02-03 |
+| `geolocation_analytics_weekly_report` | BASE TABLE | 1,597 | 2026-02-03 |
+| `owner` | BASE TABLE | 1,597 | 2026-02-03 |
+| `sources_analytics_daily_report` | BASE TABLE | 1,597 | 2026-02-03 |
+| `sources_analytics_monthly_report` | BASE TABLE | 1,597 | 2026-02-03 |
+| `sources_analytics_weekly_report` | BASE TABLE | 1,597 | 2026-02-03 |
+| `ticket_pipeline` | BASE TABLE | 1,597 | 2026-02-03 |
+| `ticket_pipeline_stage` | BASE TABLE | 1,597 | 2026-02-03 |
+| `totals_analytics_daily_report` | BASE TABLE | 1,597 | 2026-02-03 |
+| `totals_analytics_monthly_report` | BASE TABLE | 1,597 | 2026-02-03 |
+| `totals_analytics_weekly_report` | BASE TABLE | 1,597 | 2026-02-03 |
+| `sessions_analytics_daily_report` | BASE TABLE | 1,564 | 2026-02-03 |
+| `sessions_analytics_weekly_report` | BASE TABLE | 1,564 | 2026-02-03 |
+| `marketing_email_campaign` | BASE TABLE | 1,051 | 2026-02-03 |
+| `property` | BASE TABLE | 890 | 2026-02-03 |
+| `property_option` | BASE TABLE | 890 | 2026-02-03 |
+| `sessions_analytics_overall_report` | BASE TABLE | 889 | 2026-02-03 |
+| `geolocation_analytics_overall_report` | BASE TABLE | 887 | 2026-02-03 |
+| `sources_analytics_overall_report` | BASE TABLE | 887 | 2026-02-03 |
+| `utm_analytics_overall_report` | BASE TABLE | 887 | 2026-02-03 |
+| `company_property_history` | BASE TABLE | 800 | 2026-02-03 |
+| `contact_property_history` | BASE TABLE | 772 | 2026-02-03 |
+| `company_company` | BASE TABLE | 752 | 2026-02-03 |
+| `engagement_company` | BASE TABLE | 602 | 2026-02-03 |
+| `engagement_property_history` | BASE TABLE | 589 | 2026-02-03 |
+| `contact_contact` | BASE TABLE | 550 | 2026-02-03 |
+| `engagement` | BASE TABLE | 488 | 2026-02-03 |
+| `marketing_email` | BASE TABLE | 434 | 2026-02-02 |
+| `engagement_meeting` | BASE TABLE | 413 | 2026-02-03 |
+| `contact_form_submission` | BASE TABLE | 372 | 2026-02-03 |
+| `event` | BASE TABLE | 289 | 2026-02-03 |
+| `engagement_contact` | BASE TABLE | 232 | 2026-02-03 |
+| `engagement_email` | BASE TABLE | 170 | 2026-02-02 |
+| `submission_response` | BASE TABLE | 150 | 2026-02-03 |
+| `engagement_task` | BASE TABLE | 129 | 2026-02-03 |
+| `contact_list_member` | BASE TABLE | 112 | 2026-02-02 |
+| `engagement_note` | BASE TABLE | 23 | 2026-02-02 |
+
+### pipe17
+
+| Object | Type | Usage (180d) | Last Used |
+|--------|------|--------------|-----------|
+| `fulfillment_line_item` | BASE TABLE | 2,429 | 2026-02-04 |
+| `order_discount` | BASE TABLE | 2,330 | 2026-02-03 |
+| `fulfillment` | BASE TABLE | 1,889 | 2026-02-04 |
+| `order_line_item` | BASE TABLE | 1,628 | 2026-02-03 |
+| `shipment_line_item` | BASE TABLE | 1,628 | 2026-02-03 |
+| `order_tag` | BASE TABLE | 1,623 | 2026-02-03 |
+| `order_payment` | BASE TABLE | 1,621 | 2026-02-03 |
+| `shipment_tag` | BASE TABLE | 1,621 | 2026-02-03 |
+| `orders` | BASE TABLE | 1,484 | 2026-02-04 |
+| `shipment` | BASE TABLE | 1,482 | 2026-02-04 |
+| `location` | BASE TABLE | 928 | 2026-02-04 |
+| `inventory` | BASE TABLE | 913 | 2026-02-03 |
+| `product_tag` | BASE TABLE | 249 | 2026-02-02 |
+| `product_variant_option` | BASE TABLE | 241 | 2026-02-02 |
+| `product_price` | BASE TABLE | 226 | 2026-02-02 |
+| `product_published` | BASE TABLE | 226 | 2026-02-02 |
+| `product_type` | BASE TABLE | 226 | 2026-02-02 |
+| `inventory_rule` | BASE TABLE | 195 | 2026-02-02 |
+| `product` | BASE TABLE | 157 | 2026-02-02 |
+| `shipping_method` | BASE TABLE | 18 | 2026-02-02 |
+| `shipping_method_mapped_method` | BASE TABLE | 18 | 2026-02-02 |
+| `location_external_system` | BASE TABLE | 7 | 2026-02-02 |
+
+### skio
+
+| Object | Type | Usage (180d) | Last Used |
+|--------|------|--------------|-----------|
+| `StorefrontUser` | BASE TABLE | 2,312 | 2026-02-04 |
+| `ProductVariant` | BASE TABLE | 1,357 | 2026-02-04 |
+| `Subscription` | BASE TABLE | 910 | 2026-02-04 |
+| `SubscriptionLine` | BASE TABLE | 906 | 2026-02-04 |
+
+### sm_sources
+
+| Object | Type | Usage (180d) | Last Used |
+|--------|------|--------------|-----------|
+| `zbiotics_gorgias_tickets_raw` | BASE TABLE | 911 | 2026-02-04 |
+| `zbiotics_ticket_message_data` | BASE TABLE | 911 | 2026-02-04 |
+
+### twilio
+
+| Object | Type | Usage (180d) | Last Used |
+|--------|------|--------------|-----------|
+| `usage_record` | BASE TABLE | 3,770 | 2026-02-03 |
+| `account_history` | BASE TABLE | 3,039 | 2026-02-03 |
+| `messaging_service` | BASE TABLE | 3,014 | 2026-02-03 |
+| `role_permission` | BASE TABLE | 2,295 | 2026-02-03 |
+| `message` | BASE TABLE | 2,278 | 2026-02-03 |
+| `flow_history` | BASE TABLE | 1,639 | 2026-02-03 |
+| `role` | BASE TABLE | 1,589 | 2026-02-03 |
+| `service` | BASE TABLE | 1,589 | 2026-02-03 |
+| `address` | BASE TABLE | 908 | 2026-02-03 |
+| `incoming_phone_number` | BASE TABLE | 908 | 2026-02-03 |
+| `outgoing_caller_id` | BASE TABLE | 908 | 2026-02-03 |
+| `execution` | BASE TABLE | 823 | 2026-02-03 |
+| `execution_step` | BASE TABLE | 823 | 2026-02-03 |
+
+### twilio_twilio
+
+| Object | Type | Usage (180d) | Last Used |
+|--------|------|--------------|-----------|
+| `int_twilio__messages` | BASE TABLE | 2,100 | 2026-02-03 |
+
+### twilio_twilio_source
+
+| Object | Type | Usage (180d) | Last Used |
+|--------|------|--------------|-----------|
+| `stg_twilio__account_history` | BASE TABLE | 700 | 2026-02-03 |
+| `stg_twilio__message` | BASE TABLE | 700 | 2026-02-03 |
+| `stg_twilio__messaging_service` | BASE TABLE | 700 | 2026-02-03 |
+| `stg_twilio__usage_record` | BASE TABLE | 700 | 2026-02-03 |
+
+### zb_sources
+
+| Object | Type | Usage (180d) | Last Used |
+|--------|------|--------------|-----------|
+| `marketing_spend_tracker` | EXTERNAL | 5,769 | 2026-02-04 |
+| `raw_amazon_sticker_responses` | EXTERNAL | 2,665 | 2026-02-04 |
+| `marketing_spend_monthly` | BASE TABLE | 2,167 | 2026-02-03 |
+| `sku_lookup` | EXTERNAL | 1,624 | 2026-02-04 |
+| `mcf_estimated_fees` | EXTERNAL | 775 | 2026-02-04 |
+| `historical_cartograph_survey_responses` | EXTERNAL | 460 | 2026-02-04 |
+| `zb_employees` | EXTERNAL | 455 | 2026-02-04 |
+| `holidays` | EXTERNAL | 451 | 2026-02-04 |
+| `intelligems_experiment_data` | EXTERNAL | 451 | 2026-02-04 |
+| `quickbooks_balance_sheet` | EXTERNAL | 450 | 2026-02-04 |
+| `quickbooks_profit_loss` | EXTERNAL | 450 | 2026-02-04 |
+| `zip_code_coords` | BASE TABLE | 43 | 2026-02-02 |
+
+### zb_static
+
+| Object | Type | Usage (180d) | Last Used |
+|--------|------|--------------|-----------|
+| `jan26_orders_asof_20260202` | BASE TABLE | 1 | 2026-02-02 |
+
+### zb_transforms
+
+| Object | Type | Usage (180d) | Last Used |
+|--------|------|--------------|-----------|
+| `rpt_executive_summary_daily` | BASE TABLE | 3,242 | 2026-02-03 |
+| `fct_amazon_sticker_response_matches` | BASE TABLE | 2,644 | 2026-02-04 |
+| `fct_amazon_new_downweights` | BASE TABLE | 2,168 | 2026-02-03 |
+| `obt_orders` | BASE TABLE | 2,168 | 2026-02-03 |
+| `dim_order_lines` | BASE TABLE | 2,167 | 2026-02-04 |
+| `rpt_executive_summary_monthly` | BASE TABLE | 484 | 2026-02-03 |
+| `cogs_per_order` | BASE TABLE | 36 | 2026-02-02 |
+| `cogs_per_order_db` | BASE TABLE | 26 | 2026-02-02 |
+| `order_number_map` | BASE TABLE | 20 | 2026-02-02 |
+## Your Data Warehouse
+
+| Property | Value |
+|----------|-------|
+| **Project ID** | `sm-zbiotics` |
+| **Standard Dataset** | `sm_transformed_v2` |
+| **Tenant ID** | `zbiotics` |
+
+---
+
+## Notes
+
+- **Usage counts** reflect BigQuery job executions, including scheduled queries, dashboard refreshes, and ad-hoc queries.
+- Objects with low usage may be candidates for cleanup.
+
+<Info>
+For questions about these custom objects or to request modifications, please contact your SourceMedium representative.
+</Info>

@@ -120,13 +120,26 @@ Sub-channels are most commonly used to segment Online DTC orders by marketing so
 
 ## Debugging Channel Assignment
 
-Each order includes a `channel_map_debug` field that shows:
+To understand why an order landed in a specific channel, start by pulling the mapping outputs and the most common inputs that influence mapping (sales channel + UTMs).
 
-1. **Input values** - The UTMs, tags, and other attributes evaluated
-2. **Matched rule** - Which config sheet rule (if any) was applied
-3. **Output** - The resulting channel, sub_channel, and vendor
+```sql
+SELECT
+  sm_order_key,
+  sm_channel,
+  sm_sub_channel,
+  sm_default_channel,
+  sm_order_sales_channel,
+  source_system_sales_channel,
+  sm_utm_source_medium,
+  sm_utm_campaign
+FROM `your_project.sm_transformed_v2.obt_orders`
+WHERE is_order_sm_valid = TRUE
+  AND order_processed_at_local_datetime >= DATETIME_SUB(CURRENT_DATETIME(), INTERVAL 30 DAY)
+ORDER BY order_processed_at_local_datetime DESC
+LIMIT 200;
+```
 
-This is useful for troubleshooting why an order was assigned to a particular channel.
+If the inputs don’t line up with your expectations, that typically points to missing UTMs or an override rule that needs to be added/updated.
 
 ## Best Practices
 

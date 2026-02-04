@@ -264,7 +264,8 @@
                 "group": "Google Analytics - 4 (GA4)",
                 "pages": [
                   "data-inputs/platform-integration-instructions/ga4-integration",
-                  "data-inputs/platform-supporting-resources/ga4/google-analytics-common-failures"
+                  "data-inputs/platform-supporting-resources/ga4/google-analytics-common-failures",
+                  "data-inputs/platform-supporting-resources/ga4/improving-last-click-attribution"
                 ]
               },
                   {

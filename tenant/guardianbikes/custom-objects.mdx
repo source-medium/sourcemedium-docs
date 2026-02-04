@@ -1,0 +1,112 @@
+---title: "Guardianbikes Custom Objects"
+sidebarTitle: "Custom Objects"
+description: "Inventory of custom BigQuery objects in the Guardianbikes data warehouse"
+icon: "database"
+---
+
+# Custom Objects Inventory
+
+This page documents active custom BigQuery tables and views (those queried at least once in the past 180 days) created specifically for Guardianbikes, separate from the standard SourceMedium data models.
+
+<Info>
+**Last Updated (snapshot_at):** `2026-02-04 00:47:27 UTC`  
+**Data Source:** Auto-generated from `sm_metadata.dim_tenant_custom_objects`. Only objects with at least 1 query in the past 180 days are included.
+</Info>
+
+## Summary
+
+| Dataset | Object Count | Total Jobs (180d) |
+|---------|--------------|-------------------|
+| `sp_snowplow_scratch` | 13 | 36,678 |
+| `sp_snowplow_derived` | 8 | 29,263 |
+| `sp_snowplow_snowplow_manifest` | 7 | 24,813 |
+| `sp_snowplow` | 2 | 6,486 |
+| `sm_custom_models` | 1 | 1,080 |
+| `customized_views` | 1 | 6 |
+
+---
+
+## Objects by Dataset
+
+### sp_snowplow_scratch
+
+| Object | Type | Usage (180d) | Last Used |
+|--------|------|--------------|-----------|
+| `snowplow_unified_base_new_event_limits` | BASE TABLE | 9,710 | 2026-02-04 |
+| `snowplow_unified_events_this_run` | BASE TABLE | 6,474 | 2026-02-04 |
+| `snowplow_unified_base_sessions_this_run` | BASE TABLE | 4,316 | 2026-02-04 |
+| `snowplow_unified_users_sessions_this_run` | BASE TABLE | 3,234 | 2026-02-04 |
+| `snowplow_unified_base_events_this_run` | BASE TABLE | 2,158 | 2026-02-04 |
+| `snowplow_unified_conversions_this_run` | BASE TABLE | 2,158 | 2026-02-04 |
+| `snowplow_unified_users_aggs` | BASE TABLE | 2,156 | 2026-02-04 |
+| `snowplow_unified_pv_engaged_time` | BASE TABLE | 1,079 | 2026-02-04 |
+| `snowplow_unified_views_this_run` | BASE TABLE | 1,079 | 2026-02-04 |
+| `snowplow_unified_sessions_this_run` | BASE TABLE | 1,079 | 2026-02-04 |
+| `snowplow_unified_pv_scroll_depth` | BASE TABLE | 1,079 | 2026-02-04 |
+| `snowplow_unified_users_this_run` | BASE TABLE | 1,078 | 2026-02-04 |
+| `snowplow_unified_users_lasts` | BASE TABLE | 1,078 | 2026-02-04 |
+
+### sp_snowplow_snowplow_manifest
+
+| Object | Type | Usage (180d) | Last Used |
+|--------|------|--------------|-----------|
+| `snowplow_unified_incremental_manifest` | BASE TABLE | 9,710 | 2026-02-04 |
+| `snowplow_unified_base_quarantined_sessions` | BASE TABLE | 4,316 | 2026-02-04 |
+| `snowplow_unified_base_sessions_lifecycle_manifest` | BASE TABLE | 3,237 | 2026-02-04 |
+| `snowplow_attribution_incremental_manifest` | BASE TABLE | 3,234 | 2026-02-04 |
+| `snowplow_unified_dim_ga4_source_categories` | BASE TABLE | 2,158 | 2026-02-04 |
+| `snowplow_unified_dim_geo_country_mapping` | BASE TABLE | 1,079 | 2026-02-04 |
+| `snowplow_unified_dim_rfc_5646_language_mapping` | BASE TABLE | 1,079 | 2026-02-04 |
+
+### sp_snowplow
+
+| Object | Type | Usage (180d) | Last Used |
+|--------|------|--------------|-----------|
+| `events` | BASE TABLE | 5,400 | 2026-02-04 |
+| `session_events_for_transactions` | BASE TABLE | 1,086 | 2026-02-04 |
+
+### sp_snowplow_derived
+
+| Object | Type | Usage (180d) | Last Used |
+|--------|------|--------------|-----------|
+| `snowplow_unified_user_mapping` | BASE TABLE | 5,393 | 2026-02-04 |
+| `snowplow_attribution_paths_to_conversion` | BASE TABLE | 5,392 | 2026-02-04 |
+| `snowplow_unified_conversions` | BASE TABLE | 4,322 | 2026-02-04 |
+| `snowplow_unified_sessions` | BASE TABLE | 3,330 | 2026-02-04 |
+| `snowplow_unified_views` | BASE TABLE | 3,260 | 2026-02-04 |
+| `snowplow_attribution_campaign_attributions` | BASE TABLE | 3,235 | 2026-02-04 |
+| `snowplow_attribution_channel_attributions` | BASE TABLE | 2,175 | 2026-02-04 |
+| `snowplow_unified_users` | BASE TABLE | 2,156 | 2026-02-04 |
+
+### sm_custom_models
+
+| Object | Type | Usage (180d) | Last Used |
+|--------|------|--------------|-----------|
+| `obt_funnel_event_history` | BASE TABLE | 1,080 | 2026-02-04 |
+
+### customized_views
+
+| Object | Type | Usage (180d) | Last Used |
+|--------|------|--------------|-----------|
+| `order_line_refunds_processed` | VIEW | 6 | 2025-11-20 |
+
+---
+
+## Your Data Warehouse
+
+| Property | Value |
+|----------|-------|
+| **Project ID** | `sm-guardianbikes` |
+| **Standard Dataset** | `sm_transformed_v2` |
+| **Tenant ID** | `guardianbikes` |
+
+---
+
+## Notes
+
+- **Usage counts** reflect BigQuery job executions, including scheduled queries, dashboard refreshes, and ad-hoc queries.
+- Objects with low usage may be candidates for cleanup.
+
+<Info>
+For questions about these custom objects or to request modifications, please contact your SourceMedium representative.
+</Info>

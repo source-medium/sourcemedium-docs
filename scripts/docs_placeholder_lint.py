@@ -39,6 +39,11 @@ PATTERNS: list[Pattern] = [
     Pattern("tablestakes_typo", re.compile(r"\btablestakes\b", re.IGNORECASE)),
 ]
 
+ALLOWLIST: dict[str, set[Path]] = {
+    # Product roadmap legitimately uses status labels like "Coming Soon".
+    "coming_soon": {Path("ai-analyst/roadmap.mdx")},
+}
+
 
 def is_excluded(rel: Path) -> bool:
     if any(part.startswith(".") for part in rel.parts):
@@ -68,6 +73,8 @@ def main() -> int:
             for pattern in PATTERNS:
                 if pattern.regex.search(line):
                     rel = path.relative_to(REPO_ROOT)
+                    if rel in ALLOWLIST.get(pattern.name, set()):
+                        continue
                     matches.append(f"{rel}:{i}: {pattern.name}")
 
     if matches:
@@ -84,4 +91,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

@@ -1,0 +1,342 @@
+---title: "Neurogum Custom Objects"
+sidebarTitle: "Custom Objects"
+description: "Inventory of custom BigQuery objects in the Neurogum data warehouse"
+icon: "database"
+---
+
+# Custom Objects Inventory
+
+This page documents active custom BigQuery tables and views (those queried at least once in the past 180 days) created specifically for Neurogum, separate from the standard SourceMedium data models.
+
+<Info>
+**Last Updated (snapshot_at):** `2026-02-04 00:46:50 UTC`  
+**Data Source:** Auto-generated from `sm_metadata.dim_tenant_custom_objects`. Only objects with at least 1 query in the past 180 days are included.
+</Info>
+
+## Summary
+
+| Dataset | Object Count | Description |
+|---------|--------------|-------------|
+| `customized_views` | 39 | Custom views and tables for reporting |
+| `klaviyo` | 3 | Klaviyo email/SMS marketing data |
+| `northbeam_data` | 2 | Northbeam attribution integration |
+| `sm_experimental` | 1 | Experimental SourceMedium models |
+| `sm_transformed_v2` | 1 | Custom modifications to standard models |
+
+---
+
+## High-Usage Objects
+
+These objects are queried most frequently and are critical to your reporting infrastructure.
+
+### orders_and_ads_summary
+
+<Accordion title="Table Details">
+**Dataset:** `customized_views`
+**Type:** BASE TABLE
+**Usage (180d):** 53,783 queries
+**Last Used:** 2026-02-04
+
+**Purpose:** Consolidated daily summary combining order metrics with advertising performance by channel and product line.
+
+**Schema:**
+```sql
+CREATE TABLE `sm-neurogum.customized_views.orders_and_ads_summary`
+(
+  date DATE,
+  sm_channel STRING,
+  product_line STRING,
+  new_customers NUMERIC,
+  new_user_revenue NUMERIC,
+  existing_user_orders NUMERIC,
+  existing_user_revenue NUMERIC,
+  total_orders NUMERIC,
+  total_revenue NUMERIC,
+  gross_revenue NUMERIC,
+  total_gross_margin FLOAT64,
+  total_shipping_cost NUMERIC,
+  total_discounts NUMERIC,
+  total_refunds NUMERIC,
+  avg_shipping_cost NUMERIC,
+  first_time_subscribers INT64,
+  returning_customers INT64,
+  ad_revenue FLOAT64,
+  ad_spend FLOAT64
+);
+```
+</Accordion>
+
+### rpt_ad_performance_daily_with_sleep_core_campaign
+
+<Accordion title="View Details">
+**Dataset:** `customized_views`
+**Type:** VIEW
+**Usage (180d):** 35,409 queries
+**Last Used:** 2026-02-04
+
+**Purpose:** Extended ad performance report that incorporates DSP, Podscribe, and standard ad platforms with Sleep/Core product line classification.
+
+**Key Features:**
+- Combines multiple data sources (DSP, Podscribe, standard ad platforms)
+- Adds `product_line` classification based on campaign naming conventions
+- Supports Twitch campaign identification
+</Accordion>
+
+### dsp_native
+
+<Accordion title="Table Details">
+**Dataset:** `customized_views`
+**Type:** BASE TABLE
+**Usage (180d):** 29,721 queries
+**Last Used:** 2026-02-04
+
+**Purpose:** Native Amazon DSP data for programmatic advertising metrics.
+</Accordion>
+
+### sku_sales_summary
+
+<Accordion title="View Details">
+**Dataset:** `customized_views`
+**Type:** VIEW
+**Usage (180d):** 20,467 queries
+**Last Used:** 2026-02-03
+
+**Purpose:** SKU-level sales aggregation for product performance analysis.
+</Accordion>
+
+---
+
+## Product Line Analysis Objects
+
+Objects specifically designed for Sleep vs Core product segmentation.
+
+| Object | Type | Usage (180d) | Description |
+|--------|------|--------------|-------------|
+| `obt_order_lines_with_sleep_or_core` | VIEW | 8,443 | Order lines with product line classification |
+| `obt_orders_with_product_line` | VIEW | 4,424 | Orders aggregated by product line |
+
+---
+
+## Cohort Analysis Objects
+
+Objects for customer cohort and retention analysis.
+
+| Object | Type | Usage (180d) | Description |
+|--------|------|--------------|-------------|
+| `customer_lifetime_aggregates` | BASE TABLE | 3,413 | Aggregated customer lifetime metrics |
+| `cohort_existing_to_target` | BASE TABLE | 2,488 | Existing customer cohort targeting |
+| `cohort_new_to_target` | BASE TABLE | 2,443 | New customer cohort targeting |
+| `customer_lifetime_retention` | VIEW | 2,193 | Customer retention metrics |
+| `cohort_ef_first_time` | VIEW | 215 | First-time customer cohorts |
+
+---
+
+## External Data Integrations
+
+### Klaviyo Dataset
+
+Raw Klaviyo data for email/SMS marketing analysis.
+
+| Object | Type | Usage (180d) | Description |
+|--------|------|--------------|-------------|
+| `klaviyo_event` | BASE TABLE | 4,530 | Raw event data from Klaviyo |
+| `klaviyo_profile` | BASE TABLE | 2,830 | Customer profile data from Klaviyo |
+| `klaviyo_metric` | BASE TABLE | 1,234 | Metric definitions from Klaviyo |
+
+### Podscribe Integration
+
+<Accordion title="podscribe_native">
+**Dataset:** `customized_views`
+**Type:** BASE TABLE
+**Usage (180d):** 4,724 queries
+
+**Purpose:** Native Podscribe podcast attribution data.
+</Accordion>
+
+### DSP Integration
+
+<Accordion title="dsp (External Table)">
+**Dataset:** `customized_views`
+**Type:** EXTERNAL
+**Usage (180d):** 4,356 queries
+
+**Purpose:** External table connection to Amazon DSP data source.
+</Accordion>
+
+### Northbeam Integration
+
+| Object | Type | Usage (180d) | Description |
+|--------|------|--------------|-------------|
+| `ttorders_to_nb` | BASE TABLE | 33 | TikTok orders export for Northbeam |
+| `orders_to_send` | BASE TABLE | 13 | General orders export for Northbeam |
+
+---
+
+## Weekly/Monthly Reporting Objects
+
+| Object | Type | Usage (180d) | Description |
+|--------|------|--------------|-------------|
+| `week_on_week_mtd` | VIEW | 2,113 | Month-to-date week-over-week comparison |
+| `week_on_week_performance` | VIEW | 1,632 | Weekly performance trends |
+| `weeklydata_visuals` | VIEW | 957 | Weekly data formatted for visualizations |
+| `monthly_ecomm_summary` | VIEW | 467 | Monthly e-commerce summary |
+
+---
+
+## Code V Analysis Objects
+
+Objects for Code V promotional campaign analysis.
+
+| Object | Type | Usage (180d) | Description |
+|--------|------|--------------|-------------|
+| `codev_sku_metrics` | VIEW | 368 | SKU metrics for Code V campaigns |
+| `customertypecodev` | VIEW | 330 | Customer type segmentation for Code V |
+| `core_metrics` | VIEW | 244 | Core performance metrics |
+| `codev_total_metrics` | VIEW | 242 | Aggregated Code V totals |
+| `codevasket` | VIEW | 239 | Code V basket analysis |
+| `codevrepurchase` | VIEW | 236 | Code V repurchase behavior |
+
+---
+
+## Low-Usage Objects
+
+<Warning>
+These objects have minimal usage in the past 180 days. Consider reviewing whether they are still needed.
+</Warning>
+
+| Object | Type | Usage (180d) | Last Used | Description |
+|--------|------|--------------|-----------|-------------|
+| `xeanalysis` | VIEW | 636 | 2025-12-10 | XE analysis |
+| `xeanalysis2` | VIEW | 133 | 2025-12-10 | XE analysis v2 |
+| `aovanalysis` | VIEW | 72 | 2025-11-04 | AOV analysis |
+| `ccretention` | VIEW | 38 | 2025-10-20 | CC retention analysis |
+| `chesspartnership_daily_customers` | VIEW | 26 | 2025-10-24 | Chess partnership daily |
+| `chesspartnership` | VIEW | 26 | 2025-10-24 | Chess partnership |
+| `neuroeventpartnership_daily_customers` | VIEW | 21 | 2025-10-24 | Neuro event partnership daily |
+| `neuroeventpartnership` | VIEW | 20 | 2025-10-24 | Neuro event partnership |
+| `tiktok_nb` | VIEW | 18 | 2025-09-19 | TikTok Northbeam view |
+| `rpt_marketing_customized` | VIEW | 13 | 2026-01-21 | Customized marketing report |
+| `sku_sales_summary_tt` | VIEW | 5 | 2025-09-16 | TikTok SKU sales summary |
+| `orders_summary` | VIEW | 2 | 2025-09-04 | Orders summary (legacy) |
+
+---
+
+## Experimental Objects
+
+| Object | Dataset | Type | Usage (180d) | Description |
+|--------|---------|------|--------------|-------------|
+| `obt_tiktok_shop_orders` | `sm_experimental` | BASE TABLE | 33 | TikTok Shop orders integration |
+| `revised_obt_order_lines` | `sm_transformed_v2` | BASE TABLE | 8 | Modified order lines model |
+
+---
+
+## RFM Analysis
+
+<Accordion title="rfm_table">
+**Dataset:** `customized_views`
+**Type:** BASE TABLE
+**Usage (180d):** 635 queries
+**Last Used:** 2026-02-03
+
+**Purpose:** RFM (Recency, Frequency, Monetary) segmentation table for customer analysis.
+</Accordion>
+
+---
+
+## Objects by Dataset
+
+<Info>
+This section lists **all active** custom objects grouped by dataset, ordered by 180-day usage.
+</Info>
+
+### customized_views
+
+| Object | Type | Usage (180d) | Last Used |
+|--------|------|--------------|-----------|
+| `orders_and_ads_summary` | BASE TABLE | 53,783 | 2026-02-04 |
+| `rpt_ad_performance_daily_with_sleep_core_campaign` | VIEW | 35,409 | 2026-02-04 |
+| `dsp_native` | BASE TABLE | 29,721 | 2026-02-04 |
+| `sku_sales_summary` | VIEW | 20,467 | 2026-02-03 |
+| `obt_order_lines_with_sleep_or_core` | VIEW | 8,443 | 2026-02-04 |
+| `podscribe_native` | BASE TABLE | 4,724 | 2026-02-04 |
+| `obt_orders_with_product_line` | VIEW | 4,424 | 2026-02-04 |
+| `dsp` | EXTERNAL | 4,356 | 2026-02-04 |
+| `customer_lifetime_aggregates` | BASE TABLE | 3,413 | 2026-02-03 |
+| `cohort_existing_to_target` | BASE TABLE | 2,488 | 2026-02-04 |
+| `cohort_new_to_target` | BASE TABLE | 2,443 | 2026-02-04 |
+| `customer_lifetime_retention` | VIEW | 2,193 | 2026-01-19 |
+| `week_on_week_mtd` | VIEW | 2,113 | 2026-02-03 |
+| `week_on_week_performance` | VIEW | 1,632 | 2026-02-03 |
+| `weeklydata_visuals` | VIEW | 957 | 2026-02-03 |
+| `xeanalysis` | VIEW | 636 | 2025-12-10 |
+| `rfm_table` | BASE TABLE | 635 | 2026-02-03 |
+| `monthly_ecomm_summary` | VIEW | 467 | 2025-12-19 |
+| `sm_wg_analysis` | VIEW | 419 | 2025-10-01 |
+| `codev_sku_metrics` | VIEW | 368 | 2026-02-03 |
+| `customertypecodev` | VIEW | 330 | 2025-12-10 |
+| `core_metrics` | VIEW | 244 | 2026-02-03 |
+| `codev_total_metrics` | VIEW | 242 | 2026-01-30 |
+| `codevasket` | VIEW | 239 | 2025-12-03 |
+| `codevrepurchase` | VIEW | 236 | 2025-12-15 |
+| `cohort_ef_first_time` | VIEW | 215 | 2025-12-10 |
+| `xeanalysis2` | VIEW | 133 | 2025-12-10 |
+| `aovanalysis` | VIEW | 72 | 2025-11-04 |
+| `ccretention` | VIEW | 38 | 2025-10-20 |
+| `chesspartnership` | VIEW | 26 | 2025-10-24 |
+| `chesspartnership_daily_customers` | VIEW | 26 | 2025-10-24 |
+| `customer_metrics` | BASE TABLE | 24 | 2026-02-03 |
+| `neuroeventpartnership_daily_customers` | VIEW | 21 | 2025-10-24 |
+| `neuroeventpartnership` | VIEW | 20 | 2025-10-24 |
+| `tiktok_nb` | VIEW | 18 | 2025-09-19 |
+| `rpt_marketing_customized` | VIEW | 13 | 2026-01-21 |
+| `podscribe` | EXTERNAL | 9 | 2026-02-02 |
+| `sku_sales_summary_tt` | VIEW | 5 | 2025-09-16 |
+| `orders_summary` | VIEW | 2 | 2025-09-04 |
+
+### klaviyo
+
+| Object | Type | Usage (180d) | Last Used |
+|--------|------|--------------|-----------|
+| `klaviyo_event` | BASE TABLE | 4,530 | 2026-02-02 |
+| `klaviyo_profile` | BASE TABLE | 2,830 | 2026-02-02 |
+| `klaviyo_metric` | BASE TABLE | 1,234 | 2026-02-02 |
+
+### northbeam_data
+
+| Object | Type | Usage (180d) | Last Used |
+|--------|------|--------------|-----------|
+| `ttorders_to_nb` | BASE TABLE | 33 | 2026-02-02 |
+| `orders_to_send` | BASE TABLE | 13 | 2026-02-02 |
+
+### sm_experimental
+
+| Object | Type | Usage (180d) | Last Used |
+|--------|------|--------------|-----------|
+| `obt_tiktok_shop_orders` | BASE TABLE | 33 | 2026-02-02 |
+
+### sm_transformed_v2
+
+| Object | Type | Usage (180d) | Last Used |
+|--------|------|--------------|-----------|
+| `revised_obt_order_lines` | BASE TABLE | 8 | 2026-02-02 |
+
+---
+
+## Your Data Warehouse
+
+| Property | Value |
+|----------|-------|
+| **Project ID** | `sm-neurogum` |
+| **Standard Dataset** | `sm_transformed_v2` |
+| **Tenant ID** | `neurogum` |
+
+
+## Notes
+
+- **Usage counts** reflect BigQuery job executions, including scheduled queries, dashboard refreshes, and ad-hoc queries.
+- **External tables** connect to external data sources and may have different performance characteristics.
+- Objects in `sm_transformed_v2` or `sm_experimental` are modifications to standard SourceMedium models and should be used with caution.
+
+<Info>
+For questions about these custom objects or to request modifications, please contact your SourceMedium representative.
+</Info>
