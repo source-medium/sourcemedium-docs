@@ -26,15 +26,97 @@ This page documents active custom BigQuery tables and views (those queried at le
 
 ### customized_views
 
-| Object | Type | Usage (180d) | Last Used |
-|--------|------|--------------|-----------|
-| `sales_by_flavor` | VIEW | 996 | 2026-01-29 |
-| `sku_categorization` | EXTERNAL | 996 | 2026-02-02 |
-| `cogs_opex_by_month` | EXTERNAL | 471 | 2026-02-02 |
-| `profit_and_loss` | VIEW | 471 | 2025-12-11 |
-| `dma_zip_codes` | BASE TABLE | 13 | 2026-02-02 |
-| `dma_zip_codes_sm` | VIEW | 13 | 2025-11-20 |
-| `spins_all_cat_markets_mulo_trended_csv` | BASE TABLE | 13 | 2026-02-02 |
+<Accordion title="sales_by_flavor">
+**Type:** VIEW | **Usage (180d):** 996 queries | **Last Used:** 2026-01-29
+
+Custom data.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-catalinacrunch&ws=!1m5!1m4!4m3!1ssm-catalinacrunch!2scustomized_views!3ssales_by_flavor" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-catalinacrunch.customized_views.sales_by_flavor` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="sku_categorization">
+**Type:** EXTERNAL | **Usage (180d):** 996 queries | **Last Used:** 2026-02-02
+
+Product/SKU-level data.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-catalinacrunch&ws=!1m5!1m4!4m3!1ssm-catalinacrunch!2scustomized_views!3ssku_categorization" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-catalinacrunch.customized_views.sku_categorization` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="cogs_opex_by_month">
+**Type:** EXTERNAL | **Usage (180d):** 471 queries | **Last Used:** 2026-02-02
+
+Custom data. Key columns: `start_date, end_date, amz_dtc_spend_allocation`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-catalinacrunch&ws=!1m5!1m4!4m3!1ssm-catalinacrunch!2scustomized_views!3scogs_opex_by_month" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-catalinacrunch.customized_views.cogs_opex_by_month` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="profit_and_loss">
+**Type:** VIEW | **Usage (180d):** 471 queries | **Last Used:** 2025-12-11
+
+Custom data.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-catalinacrunch&ws=!1m5!1m4!4m3!1ssm-catalinacrunch!2scustomized_views!3sprofit_and_loss" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-catalinacrunch.customized_views.profit_and_loss` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="dma_zip_codes">
+**Type:** BASE TABLE | **Usage (180d):** 13 queries | **Last Used:** 2026-02-02
+
+Custom data.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-catalinacrunch&ws=!1m5!1m4!4m3!1ssm-catalinacrunch!2scustomized_views!3sdma_zip_codes" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-catalinacrunch.customized_views.dma_zip_codes` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="dma_zip_codes_sm">
+**Type:** VIEW | **Usage (180d):** 13 queries | **Last Used:** 2025-11-20
+
+Custom data.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-catalinacrunch&ws=!1m5!1m4!4m3!1ssm-catalinacrunch!2scustomized_views!3sdma_zip_codes_sm" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-catalinacrunch.customized_views.dma_zip_codes_sm` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="spins_all_cat_markets_mulo_trended_csv">
+**Type:** BASE TABLE | **Usage (180d):** 13 queries | **Last Used:** 2026-02-02
+
+Custom data. Key columns: `sm_channel, time_period_end_date`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-catalinacrunch&ws=!1m5!1m4!4m3!1ssm-catalinacrunch!2scustomized_views!3sspins_all_cat_markets_mulo_trended_csv" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-catalinacrunch.customized_views.spins_all_cat_markets_mulo_trended_csv` LIMIT 10;
+```
+</Accordion>
+
 
 ---
 
@@ -52,6 +134,7 @@ This page documents active custom BigQuery tables and views (those queried at le
 
 - **Usage counts** reflect BigQuery job executions, including scheduled queries, dashboard refreshes, and ad-hoc queries.
 - Objects with low usage may be candidates for cleanup.
+- Click "Open in BigQuery Console" to view the table schema and run queries.
 
 <Info>
 For questions about these custom objects or to request modifications, please contact your SourceMedium representative.

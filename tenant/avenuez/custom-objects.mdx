@@ -26,13 +26,71 @@ This page documents active custom BigQuery tables and views (those queried at le
 
 ### customized_views
 
-| Object | Type | Usage (180d) | Last Used |
-|--------|------|--------------|-----------|
-| `rpt_executive_summary_daily_customized` | VIEW | 16,131 | 2025-11-10 |
-| `avez_exec_custom` | BASE TABLE | 13,420 | 2026-02-03 |
-| `rpt_ad_performance_daily_customized` | VIEW | 10,726 | 2026-02-03 |
-| `avez_orders_custom` | BASE TABLE | 4,336 | 2026-02-03 |
-| `avez_marketing_custom` | BASE TABLE | 2,321 | 2026-02-03 |
+<Accordion title="rpt_executive_summary_daily_customized">
+**Type:** VIEW | **Usage (180d):** 16,131 queries | **Last Used:** 2025-11-10
+
+Aggregated summary.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-avenuez&ws=!1m5!1m4!4m3!1ssm-avenuez!2scustomized_views!3srpt_executive_summary_daily_customized" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-avenuez.customized_views.rpt_executive_summary_daily_customized` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="avez_exec_custom">
+**Type:** BASE TABLE | **Usage (180d):** 13,420 queries | **Last Used:** 2026-02-03
+
+Custom data. Key columns: `date, sm_store_id, sm_channel, sm_sub_channel`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-avenuez&ws=!1m5!1m4!4m3!1ssm-avenuez!2scustomized_views!3savez_exec_custom" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-avenuez.customized_views.avez_exec_custom` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="rpt_ad_performance_daily_customized">
+**Type:** VIEW | **Usage (180d):** 10,726 queries | **Last Used:** 2026-02-03
+
+Daily aggregation.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-avenuez&ws=!1m5!1m4!4m3!1ssm-avenuez!2scustomized_views!3srpt_ad_performance_daily_customized" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-avenuez.customized_views.rpt_ad_performance_daily_customized` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="avez_orders_custom">
+**Type:** BASE TABLE | **Usage (180d):** 4,336 queries | **Last Used:** 2026-02-03
+
+Order-level data. Key columns: `sm_store_id, sm_order_key, sm_customer_key, source_system, order_id`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-avenuez&ws=!1m5!1m4!4m3!1ssm-avenuez!2scustomized_views!3savez_orders_custom" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-avenuez.customized_views.avez_orders_custom` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="avez_marketing_custom">
+**Type:** BASE TABLE | **Usage (180d):** 2,321 queries | **Last Used:** 2026-02-03
+
+Marketing/advertising data. Key columns: `sm_store_id, source_system, sub_channel, date, ad_platform_reported_revenue`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-avenuez&ws=!1m5!1m4!4m3!1ssm-avenuez!2scustomized_views!3savez_marketing_custom" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-avenuez.customized_views.avez_marketing_custom` LIMIT 10;
+```
+</Accordion>
+
 
 ---
 
@@ -50,6 +108,7 @@ This page documents active custom BigQuery tables and views (those queried at le
 
 - **Usage counts** reflect BigQuery job executions, including scheduled queries, dashboard refreshes, and ad-hoc queries.
 - Objects with low usage may be candidates for cleanup.
+- Click "Open in BigQuery Console" to view the table schema and run queries.
 
 <Info>
 For questions about these custom objects or to request modifications, please contact your SourceMedium representative.

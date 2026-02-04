@@ -28,33 +28,207 @@ This page documents active custom BigQuery tables and views (those queried at le
 
 ### customized_views
 
-| Object | Type | Usage (180d) | Last Used |
-|--------|------|--------------|-----------|
-| `obt_orders_customized` | BASE TABLE | 20,889 | 2026-02-04 |
-| `rpt_executive_summary_daily_custom` | VIEW | 1,882 | 2026-02-04 |
-| `catch_co_target_array` | BASE TABLE | 1,092 | 2026-02-03 |
-| `obt_summary_with_forecasting` | BASE TABLE | 999 | 2026-02-02 |
-| `rpt_yoy_executive_summary` | BASE TABLE | 852 | 2026-02-02 |
-| `weekly_business_review` | BASE TABLE | 656 | 2026-02-03 |
-| `obt_forecasting_amortized` | BASE TABLE | 498 | 2026-02-04 |
-| `rpt_exec_ad_performance` | BASE TABLE | 453 | 2026-02-02 |
-| `forecasting_sheet_src` | BASE TABLE | 243 | 2026-02-04 |
-| `orders_logic_aggregation` | BASE TABLE | 225 | 2026-02-03 |
-| `rpt_yoy_non_recurringong_product_comparison` | BASE TABLE | 154 | 2026-02-02 |
-| `rpt_contribution_margin_summary` | BASE TABLE | 137 | 2026-02-02 |
-| `obt_orders_aggregated` | BASE TABLE | 5 | 2026-02-02 |
+<Accordion title="obt_orders_customized">
+**Type:** BASE TABLE | **Usage (180d):** 20,889 queries | **Last Used:** 2026-02-04
+
+Order-level data. Key columns: `sm_store_id, sm_order_key, sm_customer_key, source_system, order_id`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-catchco&ws=!1m5!1m4!4m3!1ssm-catchco!2scustomized_views!3sobt_orders_customized" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-catchco.customized_views.obt_orders_customized` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="rpt_executive_summary_daily_custom">
+**Type:** VIEW | **Usage (180d):** 1,882 queries | **Last Used:** 2026-02-04
+
+Aggregated summary.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-catchco&ws=!1m5!1m4!4m3!1ssm-catchco!2scustomized_views!3srpt_executive_summary_daily_custom" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-catchco.customized_views.rpt_executive_summary_daily_custom` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="catch_co_target_array">
+**Type:** BASE TABLE | **Usage (180d):** 1,092 queries | **Last Used:** 2026-02-03
+
+Custom data. Key columns: `channel, date`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-catchco&ws=!1m5!1m4!4m3!1ssm-catchco!2scustomized_views!3scatch_co_target_array" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-catchco.customized_views.catch_co_target_array` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="obt_summary_with_forecasting">
+**Type:** BASE TABLE | **Usage (180d):** 999 queries | **Last Used:** 2026-02-02
+
+Aggregated summary. Key columns: `order_date, sm_channel, sm_store_id, new_subscription_orders, new_subscription_net_revenue`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-catchco&ws=!1m5!1m4!4m3!1ssm-catchco!2scustomized_views!3sobt_summary_with_forecasting" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-catchco.customized_views.obt_summary_with_forecasting` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="rpt_yoy_executive_summary">
+**Type:** BASE TABLE | **Usage (180d):** 852 queries | **Last Used:** 2026-02-02
+
+Aggregated summary. Key columns: `order_date, order_date_last_year, sm_channel, sm_store_id, new_orders`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-catchco&ws=!1m5!1m4!4m3!1ssm-catchco!2scustomized_views!3srpt_yoy_executive_summary" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-catchco.customized_views.rpt_yoy_executive_summary` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="weekly_business_review">
+**Type:** BASE TABLE | **Usage (180d):** 656 queries | **Last Used:** 2026-02-03
+
+Weekly aggregation. Key columns: `date, week_start_date, month_start_date, rebill_net_revenue, non_rebill_net_revenue`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-catchco&ws=!1m5!1m4!4m3!1ssm-catchco!2scustomized_views!3sweekly_business_review" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-catchco.customized_views.weekly_business_review` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="obt_forecasting_amortized">
+**Type:** BASE TABLE | **Usage (180d):** 498 queries | **Last Used:** 2026-02-04
+
+One Big Table (denormalized). Key columns: `sm_channel, date, forecasted_total_gross_revenue, forecasted_total_net_revenue, forecasted_total_orders`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-catchco&ws=!1m5!1m4!4m3!1ssm-catchco!2scustomized_views!3sobt_forecasting_amortized" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-catchco.customized_views.obt_forecasting_amortized` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="rpt_exec_ad_performance">
+**Type:** BASE TABLE | **Usage (180d):** 453 queries | **Last Used:** 2026-02-02
+
+Marketing/advertising data. Key columns: `date, sm_channel, source_system, sm_store_id, ad_spend`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-catchco&ws=!1m5!1m4!4m3!1ssm-catchco!2scustomized_views!3srpt_exec_ad_performance" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-catchco.customized_views.rpt_exec_ad_performance` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="forecasting_sheet_src">
+**Type:** BASE TABLE | **Usage (180d):** 243 queries | **Last Used:** 2026-02-04
+
+Custom data. Key columns: `channel, date_start, date_end, total_gross_revenue, total_net_revenue`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-catchco&ws=!1m5!1m4!4m3!1ssm-catchco!2scustomized_views!3sforecasting_sheet_src" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-catchco.customized_views.forecasting_sheet_src` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="orders_logic_aggregation">
+**Type:** BASE TABLE | **Usage (180d):** 225 queries | **Last Used:** 2026-02-03
+
+Order-level data. Key columns: `order_date, sm_channel, prepaid_count, prepaid_revenue, gift_redemption_revenue`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-catchco&ws=!1m5!1m4!4m3!1ssm-catchco!2scustomized_views!3sorders_logic_aggregation" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-catchco.customized_views.orders_logic_aggregation` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="rpt_yoy_non_recurringong_product_comparison">
+**Type:** BASE TABLE | **Usage (180d):** 154 queries | **Last Used:** 2026-02-02
+
+Product/SKU-level data. Key columns: `order_date, order_date_last_year, sm_channel, sm_store_id, new_subscription_orders`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-catchco&ws=!1m5!1m4!4m3!1ssm-catchco!2scustomized_views!3srpt_yoy_non_recurringong_product_comparison" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-catchco.customized_views.rpt_yoy_non_recurringong_product_comparison` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="rpt_contribution_margin_summary">
+**Type:** BASE TABLE | **Usage (180d):** 137 queries | **Last Used:** 2026-02-02
+
+Aggregated summary. Key columns: `date, sm_channel, sm_store_id, new_orders, new_net_revenue`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-catchco&ws=!1m5!1m4!4m3!1ssm-catchco!2scustomized_views!3srpt_contribution_margin_summary" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-catchco.customized_views.rpt_contribution_margin_summary` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="obt_orders_aggregated">
+**Type:** BASE TABLE | **Usage (180d):** 5 queries | **Last Used:** 2026-02-02
+
+Order-level data. Key columns: `order_date, prepaid_count`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-catchco&ws=!1m5!1m4!4m3!1ssm-catchco!2scustomized_views!3sobt_orders_aggregated" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-catchco.customized_views.obt_orders_aggregated` LIMIT 10;
+```
+</Accordion>
+
 
 ### sm_sources
 
-| Object | Type | Usage (180d) | Last Used |
-|--------|------|--------------|-----------|
-| `mtb_fairing_responses` | BASE TABLE | 1,102 | 2026-02-04 |
+<Accordion title="mtb_fairing_responses">
+**Type:** BASE TABLE | **Usage (180d):** 1,102 queries | **Last Used:** 2026-02-04
+
+Custom data. Key columns: `_airbyte_raw_id, _airbyte_generation_id, id, order_id`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-catchco&ws=!1m5!1m4!4m3!1ssm-catchco!2ssm_sources!3smtb_fairing_responses" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-catchco.sm_sources.mtb_fairing_responses` LIMIT 10;
+```
+</Accordion>
+
 
 ### sm_utils
 
-| Object | Type | Usage (180d) | Last Used |
-|--------|------|--------------|-----------|
-| `forecasting_sheet_ext` | EXTERNAL | 243 | 2026-02-04 |
+<Accordion title="forecasting_sheet_ext">
+**Type:** EXTERNAL | **Usage (180d):** 243 queries | **Last Used:** 2026-02-04
+
+Custom data.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-catchco&ws=!1m5!1m4!4m3!1ssm-catchco!2ssm_utils!3sforecasting_sheet_ext" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-catchco.sm_utils.forecasting_sheet_ext` LIMIT 10;
+```
+</Accordion>
+
 
 ---
 
@@ -72,6 +246,7 @@ This page documents active custom BigQuery tables and views (those queried at le
 
 - **Usage counts** reflect BigQuery job executions, including scheduled queries, dashboard refreshes, and ad-hoc queries.
 - Objects with low usage may be candidates for cleanup.
+- Click "Open in BigQuery Console" to view the table schema and run queries.
 
 <Info>
 For questions about these custom objects or to request modifications, please contact your SourceMedium representative.

@@ -26,9 +26,19 @@ This page documents active custom BigQuery tables and views (those queried at le
 
 ### customized_views
 
-| Object | Type | Usage (180d) | Last Used |
-|--------|------|--------------|-----------|
-| `rpt_customers_1st_last_with_sku_history` | VIEW | 31 | 2025-11-20 |
+<Accordion title="rpt_customers_1st_last_with_sku_history">
+**Type:** VIEW | **Usage (180d):** 31 queries | **Last Used:** 2025-11-20
+
+Customer-level data.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-elixhealing&ws=!1m5!1m4!4m3!1ssm-elixhealing!2scustomized_views!3srpt_customers_1st_last_with_sku_history" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-elixhealing.customized_views.rpt_customers_1st_last_with_sku_history` LIMIT 10;
+```
+</Accordion>
+
 
 ---
 
@@ -46,6 +56,7 @@ This page documents active custom BigQuery tables and views (those queried at le
 
 - **Usage counts** reflect BigQuery job executions, including scheduled queries, dashboard refreshes, and ad-hoc queries.
 - Objects with low usage may be candidates for cleanup.
+- Click "Open in BigQuery Console" to view the table schema and run queries.
 
 <Info>
 For questions about these custom objects or to request modifications, please contact your SourceMedium representative.

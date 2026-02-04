@@ -16,310 +16,515 @@ This page documents active custom BigQuery tables and views (those queried at le
 
 ## Summary
 
-| Dataset | Object Count | Description |
-|---------|--------------|-------------|
-| `customized_views` | 39 | Custom views and tables for reporting |
-| `klaviyo` | 3 | Klaviyo email/SMS marketing data |
-| `northbeam_data` | 2 | Northbeam attribution integration |
-| `sm_experimental` | 1 | Experimental SourceMedium models |
-| `sm_transformed_v2` | 1 | Custom modifications to standard models |
-
----
-
-## High-Usage Objects
-
-These objects are queried most frequently and are critical to your reporting infrastructure.
-
-### orders_and_ads_summary
-
-<Accordion title="Table Details">
-**Dataset:** `customized_views`
-**Type:** BASE TABLE
-**Usage (180d):** 53,783 queries
-**Last Used:** 2026-02-04
-
-**Purpose:** Consolidated daily summary combining order metrics with advertising performance by channel and product line.
-
-**Schema:**
-```sql
-CREATE TABLE `sm-neurogum.customized_views.orders_and_ads_summary`
-(
-  date DATE,
-  sm_channel STRING,
-  product_line STRING,
-  new_customers NUMERIC,
-  new_user_revenue NUMERIC,
-  existing_user_orders NUMERIC,
-  existing_user_revenue NUMERIC,
-  total_orders NUMERIC,
-  total_revenue NUMERIC,
-  gross_revenue NUMERIC,
-  total_gross_margin FLOAT64,
-  total_shipping_cost NUMERIC,
-  total_discounts NUMERIC,
-  total_refunds NUMERIC,
-  avg_shipping_cost NUMERIC,
-  first_time_subscribers INT64,
-  returning_customers INT64,
-  ad_revenue FLOAT64,
-  ad_spend FLOAT64
-);
-```
-</Accordion>
-
-### rpt_ad_performance_daily_with_sleep_core_campaign
-
-<Accordion title="View Details">
-**Dataset:** `customized_views`
-**Type:** VIEW
-**Usage (180d):** 35,409 queries
-**Last Used:** 2026-02-04
-
-**Purpose:** Extended ad performance report that incorporates DSP, Podscribe, and standard ad platforms with Sleep/Core product line classification.
-
-**Key Features:**
-- Combines multiple data sources (DSP, Podscribe, standard ad platforms)
-- Adds `product_line` classification based on campaign naming conventions
-- Supports Twitch campaign identification
-</Accordion>
-
-### dsp_native
-
-<Accordion title="Table Details">
-**Dataset:** `customized_views`
-**Type:** BASE TABLE
-**Usage (180d):** 29,721 queries
-**Last Used:** 2026-02-04
-
-**Purpose:** Native Amazon DSP data for programmatic advertising metrics.
-</Accordion>
-
-### sku_sales_summary
-
-<Accordion title="View Details">
-**Dataset:** `customized_views`
-**Type:** VIEW
-**Usage (180d):** 20,467 queries
-**Last Used:** 2026-02-03
-
-**Purpose:** SKU-level sales aggregation for product performance analysis.
-</Accordion>
-
----
-
-## Product Line Analysis Objects
-
-Objects specifically designed for Sleep vs Core product segmentation.
-
-| Object | Type | Usage (180d) | Description |
-|--------|------|--------------|-------------|
-| `obt_order_lines_with_sleep_or_core` | VIEW | 8,443 | Order lines with product line classification |
-| `obt_orders_with_product_line` | VIEW | 4,424 | Orders aggregated by product line |
-
----
-
-## Cohort Analysis Objects
-
-Objects for customer cohort and retention analysis.
-
-| Object | Type | Usage (180d) | Description |
-|--------|------|--------------|-------------|
-| `customer_lifetime_aggregates` | BASE TABLE | 3,413 | Aggregated customer lifetime metrics |
-| `cohort_existing_to_target` | BASE TABLE | 2,488 | Existing customer cohort targeting |
-| `cohort_new_to_target` | BASE TABLE | 2,443 | New customer cohort targeting |
-| `customer_lifetime_retention` | VIEW | 2,193 | Customer retention metrics |
-| `cohort_ef_first_time` | VIEW | 215 | First-time customer cohorts |
-
----
-
-## External Data Integrations
-
-### Klaviyo Dataset
-
-Raw Klaviyo data for email/SMS marketing analysis.
-
-| Object | Type | Usage (180d) | Description |
-|--------|------|--------------|-------------|
-| `klaviyo_event` | BASE TABLE | 4,530 | Raw event data from Klaviyo |
-| `klaviyo_profile` | BASE TABLE | 2,830 | Customer profile data from Klaviyo |
-| `klaviyo_metric` | BASE TABLE | 1,234 | Metric definitions from Klaviyo |
-
-### Podscribe Integration
-
-<Accordion title="podscribe_native">
-**Dataset:** `customized_views`
-**Type:** BASE TABLE
-**Usage (180d):** 4,724 queries
-
-**Purpose:** Native Podscribe podcast attribution data.
-</Accordion>
-
-### DSP Integration
-
-<Accordion title="dsp (External Table)">
-**Dataset:** `customized_views`
-**Type:** EXTERNAL
-**Usage (180d):** 4,356 queries
-
-**Purpose:** External table connection to Amazon DSP data source.
-</Accordion>
-
-### Northbeam Integration
-
-| Object | Type | Usage (180d) | Description |
-|--------|------|--------------|-------------|
-| `ttorders_to_nb` | BASE TABLE | 33 | TikTok orders export for Northbeam |
-| `orders_to_send` | BASE TABLE | 13 | General orders export for Northbeam |
-
----
-
-## Weekly/Monthly Reporting Objects
-
-| Object | Type | Usage (180d) | Description |
-|--------|------|--------------|-------------|
-| `week_on_week_mtd` | VIEW | 2,113 | Month-to-date week-over-week comparison |
-| `week_on_week_performance` | VIEW | 1,632 | Weekly performance trends |
-| `weeklydata_visuals` | VIEW | 957 | Weekly data formatted for visualizations |
-| `monthly_ecomm_summary` | VIEW | 467 | Monthly e-commerce summary |
-
----
-
-## Code V Analysis Objects
-
-Objects for Code V promotional campaign analysis.
-
-| Object | Type | Usage (180d) | Description |
-|--------|------|--------------|-------------|
-| `codev_sku_metrics` | VIEW | 368 | SKU metrics for Code V campaigns |
-| `customertypecodev` | VIEW | 330 | Customer type segmentation for Code V |
-| `core_metrics` | VIEW | 244 | Core performance metrics |
-| `codev_total_metrics` | VIEW | 242 | Aggregated Code V totals |
-| `codevasket` | VIEW | 239 | Code V basket analysis |
-| `codevrepurchase` | VIEW | 236 | Code V repurchase behavior |
-
----
-
-## Low-Usage Objects
-
-<Warning>
-These objects have minimal usage in the past 180 days. Consider reviewing whether they are still needed.
-</Warning>
-
-| Object | Type | Usage (180d) | Last Used | Description |
-|--------|------|--------------|-----------|-------------|
-| `xeanalysis` | VIEW | 636 | 2025-12-10 | XE analysis |
-| `xeanalysis2` | VIEW | 133 | 2025-12-10 | XE analysis v2 |
-| `aovanalysis` | VIEW | 72 | 2025-11-04 | AOV analysis |
-| `ccretention` | VIEW | 38 | 2025-10-20 | CC retention analysis |
-| `chesspartnership_daily_customers` | VIEW | 26 | 2025-10-24 | Chess partnership daily |
-| `chesspartnership` | VIEW | 26 | 2025-10-24 | Chess partnership |
-| `neuroeventpartnership_daily_customers` | VIEW | 21 | 2025-10-24 | Neuro event partnership daily |
-| `neuroeventpartnership` | VIEW | 20 | 2025-10-24 | Neuro event partnership |
-| `tiktok_nb` | VIEW | 18 | 2025-09-19 | TikTok Northbeam view |
-| `rpt_marketing_customized` | VIEW | 13 | 2026-01-21 | Customized marketing report |
-| `sku_sales_summary_tt` | VIEW | 5 | 2025-09-16 | TikTok SKU sales summary |
-| `orders_summary` | VIEW | 2 | 2025-09-04 | Orders summary (legacy) |
-
----
-
-## Experimental Objects
-
-| Object | Dataset | Type | Usage (180d) | Description |
-|--------|---------|------|--------------|-------------|
-| `obt_tiktok_shop_orders` | `sm_experimental` | BASE TABLE | 33 | TikTok Shop orders integration |
-| `revised_obt_order_lines` | `sm_transformed_v2` | BASE TABLE | 8 | Modified order lines model |
-
----
-
-## RFM Analysis
-
-<Accordion title="rfm_table">
-**Dataset:** `customized_views`
-**Type:** BASE TABLE
-**Usage (180d):** 635 queries
-**Last Used:** 2026-02-03
-
-**Purpose:** RFM (Recency, Frequency, Monetary) segmentation table for customer analysis.
-</Accordion>
+| Dataset | Object Count | Total Jobs (180d) |
+|---------|--------------|-------------------|
+| `customized_views` | 39 | 181,004 |
+| `klaviyo` | 3 | 8,594 |
+| `northbeam_data` | 2 | 46 |
+| `sm_experimental` | 1 | 33 |
+| `sm_transformed_v2` | 1 | 8 |
 
 ---
 
 ## Objects by Dataset
 
-<Info>
-This section lists **all active** custom objects grouped by dataset, ordered by 180-day usage.
-</Info>
-
 ### customized_views
 
-| Object | Type | Usage (180d) | Last Used |
-|--------|------|--------------|-----------|
-| `orders_and_ads_summary` | BASE TABLE | 53,783 | 2026-02-04 |
-| `rpt_ad_performance_daily_with_sleep_core_campaign` | VIEW | 35,409 | 2026-02-04 |
-| `dsp_native` | BASE TABLE | 29,721 | 2026-02-04 |
-| `sku_sales_summary` | VIEW | 20,467 | 2026-02-03 |
-| `obt_order_lines_with_sleep_or_core` | VIEW | 8,443 | 2026-02-04 |
-| `podscribe_native` | BASE TABLE | 4,724 | 2026-02-04 |
-| `obt_orders_with_product_line` | VIEW | 4,424 | 2026-02-04 |
-| `dsp` | EXTERNAL | 4,356 | 2026-02-04 |
-| `customer_lifetime_aggregates` | BASE TABLE | 3,413 | 2026-02-03 |
-| `cohort_existing_to_target` | BASE TABLE | 2,488 | 2026-02-04 |
-| `cohort_new_to_target` | BASE TABLE | 2,443 | 2026-02-04 |
-| `customer_lifetime_retention` | VIEW | 2,193 | 2026-01-19 |
-| `week_on_week_mtd` | VIEW | 2,113 | 2026-02-03 |
-| `week_on_week_performance` | VIEW | 1,632 | 2026-02-03 |
-| `weeklydata_visuals` | VIEW | 957 | 2026-02-03 |
-| `xeanalysis` | VIEW | 636 | 2025-12-10 |
-| `rfm_table` | BASE TABLE | 635 | 2026-02-03 |
-| `monthly_ecomm_summary` | VIEW | 467 | 2025-12-19 |
-| `sm_wg_analysis` | VIEW | 419 | 2025-10-01 |
-| `codev_sku_metrics` | VIEW | 368 | 2026-02-03 |
-| `customertypecodev` | VIEW | 330 | 2025-12-10 |
-| `core_metrics` | VIEW | 244 | 2026-02-03 |
-| `codev_total_metrics` | VIEW | 242 | 2026-01-30 |
-| `codevasket` | VIEW | 239 | 2025-12-03 |
-| `codevrepurchase` | VIEW | 236 | 2025-12-15 |
-| `cohort_ef_first_time` | VIEW | 215 | 2025-12-10 |
-| `xeanalysis2` | VIEW | 133 | 2025-12-10 |
-| `aovanalysis` | VIEW | 72 | 2025-11-04 |
-| `ccretention` | VIEW | 38 | 2025-10-20 |
-| `chesspartnership` | VIEW | 26 | 2025-10-24 |
-| `chesspartnership_daily_customers` | VIEW | 26 | 2025-10-24 |
-| `customer_metrics` | BASE TABLE | 24 | 2026-02-03 |
-| `neuroeventpartnership_daily_customers` | VIEW | 21 | 2025-10-24 |
-| `neuroeventpartnership` | VIEW | 20 | 2025-10-24 |
-| `tiktok_nb` | VIEW | 18 | 2025-09-19 |
-| `rpt_marketing_customized` | VIEW | 13 | 2026-01-21 |
-| `podscribe` | EXTERNAL | 9 | 2026-02-02 |
-| `sku_sales_summary_tt` | VIEW | 5 | 2025-09-16 |
-| `orders_summary` | VIEW | 2 | 2025-09-04 |
+<Accordion title="orders_and_ads_summary">
+**Type:** BASE TABLE | **Usage (180d):** 53,783 queries | **Last Used:** 2026-02-04
+
+Aggregated summary. Key columns: `date, sm_channel, new_customers, new_user_revenue, existing_user_orders`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-neurogum&ws=!1m5!1m4!4m3!1ssm-neurogum!2scustomized_views!3sorders_and_ads_summary" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-neurogum.customized_views.orders_and_ads_summary` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="rpt_ad_performance_daily_with_sleep_core_campaign">
+**Type:** VIEW | **Usage (180d):** 35,409 queries | **Last Used:** 2026-02-04
+
+Daily aggregation.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-neurogum&ws=!1m5!1m4!4m3!1ssm-neurogum!2scustomized_views!3srpt_ad_performance_daily_with_sleep_core_campaign" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-neurogum.customized_views.rpt_ad_performance_daily_with_sleep_core_campaign` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="dsp_native">
+**Type:** BASE TABLE | **Usage (180d):** 29,721 queries | **Last Used:** 2026-02-04
+
+Custom data from Amazon. Key columns: `Date, Campaign_ID, Spend`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-neurogum&ws=!1m5!1m4!4m3!1ssm-neurogum!2scustomized_views!3sdsp_native" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-neurogum.customized_views.dsp_native` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="sku_sales_summary">
+**Type:** VIEW | **Usage (180d):** 20,467 queries | **Last Used:** 2026-02-03
+
+Aggregated summary.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-neurogum&ws=!1m5!1m4!4m3!1ssm-neurogum!2scustomized_views!3ssku_sales_summary" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-neurogum.customized_views.sku_sales_summary` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="obt_order_lines_with_sleep_or_core">
+**Type:** VIEW | **Usage (180d):** 8,443 queries | **Last Used:** 2026-02-04
+
+Order-level data.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-neurogum&ws=!1m5!1m4!4m3!1ssm-neurogum!2scustomized_views!3sobt_order_lines_with_sleep_or_core" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-neurogum.customized_views.obt_order_lines_with_sleep_or_core` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="podscribe_native">
+**Type:** BASE TABLE | **Usage (180d):** 4,724 queries | **Last Used:** 2026-02-04
+
+Custom data from Podscribe. Key columns: `DATE, CAMPAIGN_ID, SPEND, REVENUE`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-neurogum&ws=!1m5!1m4!4m3!1ssm-neurogum!2scustomized_views!3spodscribe_native" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-neurogum.customized_views.podscribe_native` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="obt_orders_with_product_line">
+**Type:** VIEW | **Usage (180d):** 4,424 queries | **Last Used:** 2026-02-04
+
+Order-level data.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-neurogum&ws=!1m5!1m4!4m3!1ssm-neurogum!2scustomized_views!3sobt_orders_with_product_line" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-neurogum.customized_views.obt_orders_with_product_line` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="dsp">
+**Type:** EXTERNAL | **Usage (180d):** 4,356 queries | **Last Used:** 2026-02-04
+
+Custom data from Amazon. Key columns: `Date, Campaign_ID, Spend`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-neurogum&ws=!1m5!1m4!4m3!1ssm-neurogum!2scustomized_views!3sdsp" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-neurogum.customized_views.dsp` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="customer_lifetime_aggregates">
+**Type:** BASE TABLE | **Usage (180d):** 3,413 queries | **Last Used:** 2026-02-03
+
+Lifetime value analysis. Key columns: `sm_channel, unique_customers, total_net_revenue, total_ad_spend`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-neurogum&ws=!1m5!1m4!4m3!1ssm-neurogum!2scustomized_views!3scustomer_lifetime_aggregates" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-neurogum.customized_views.customer_lifetime_aggregates` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="cohort_existing_to_target">
+**Type:** BASE TABLE | **Usage (180d):** 2,488 queries | **Last Used:** 2026-02-04
+
+Cohort analysis. Key columns: `sm_channel, returned_customers, cumulative_customers, cumulative_orders`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-neurogum&ws=!1m5!1m4!4m3!1ssm-neurogum!2scustomized_views!3scohort_existing_to_target" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-neurogum.customized_views.cohort_existing_to_target` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="cohort_new_to_target">
+**Type:** BASE TABLE | **Usage (180d):** 2,443 queries | **Last Used:** 2026-02-04
+
+Cohort analysis. Key columns: `sm_channel, returned_customers, cumulative_customers, cumulative_orders`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-neurogum&ws=!1m5!1m4!4m3!1ssm-neurogum!2scustomized_views!3scohort_new_to_target" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-neurogum.customized_views.cohort_new_to_target` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="customer_lifetime_retention">
+**Type:** VIEW | **Usage (180d):** 2,193 queries | **Last Used:** 2026-01-19
+
+Retention metrics.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-neurogum&ws=!1m5!1m4!4m3!1ssm-neurogum!2scustomized_views!3scustomer_lifetime_retention" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-neurogum.customized_views.customer_lifetime_retention` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="week_on_week_mtd">
+**Type:** VIEW | **Usage (180d):** 2,113 queries | **Last Used:** 2026-02-03
+
+Custom data.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-neurogum&ws=!1m5!1m4!4m3!1ssm-neurogum!2scustomized_views!3sweek_on_week_mtd" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-neurogum.customized_views.week_on_week_mtd` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="week_on_week_performance">
+**Type:** VIEW | **Usage (180d):** 1,632 queries | **Last Used:** 2026-02-03
+
+Custom data.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-neurogum&ws=!1m5!1m4!4m3!1ssm-neurogum!2scustomized_views!3sweek_on_week_performance" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-neurogum.customized_views.week_on_week_performance` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="weeklydata_visuals">
+**Type:** VIEW | **Usage (180d):** 957 queries | **Last Used:** 2026-02-03
+
+Weekly aggregation.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-neurogum&ws=!1m5!1m4!4m3!1ssm-neurogum!2scustomized_views!3sweeklydata_visuals" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-neurogum.customized_views.weeklydata_visuals` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="xeanalysis">
+**Type:** VIEW | **Usage (180d):** 636 queries | **Last Used:** 2025-12-10
+
+Custom data.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-neurogum&ws=!1m5!1m4!4m3!1ssm-neurogum!2scustomized_views!3sxeanalysis" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-neurogum.customized_views.xeanalysis` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="rfm_table">
+**Type:** BASE TABLE | **Usage (180d):** 635 queries | **Last Used:** 2026-02-03
+
+RFM (Recency, Frequency, Monetary) segmentation. Key columns: `customer_id`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-neurogum&ws=!1m5!1m4!4m3!1ssm-neurogum!2scustomized_views!3srfm_table" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-neurogum.customized_views.rfm_table` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="monthly_ecomm_summary">
+**Type:** VIEW | **Usage (180d):** 467 queries | **Last Used:** 2025-12-19
+
+Aggregated summary.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-neurogum&ws=!1m5!1m4!4m3!1ssm-neurogum!2scustomized_views!3smonthly_ecomm_summary" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-neurogum.customized_views.monthly_ecomm_summary` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="sm_wg_analysis">
+**Type:** VIEW | **Usage (180d):** 419 queries | **Last Used:** 2025-10-01
+
+Custom data.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-neurogum&ws=!1m5!1m4!4m3!1ssm-neurogum!2scustomized_views!3ssm_wg_analysis" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-neurogum.customized_views.sm_wg_analysis` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="codev_sku_metrics">
+**Type:** VIEW | **Usage (180d):** 368 queries | **Last Used:** 2026-02-03
+
+Product/SKU-level data.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-neurogum&ws=!1m5!1m4!4m3!1ssm-neurogum!2scustomized_views!3scodev_sku_metrics" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-neurogum.customized_views.codev_sku_metrics` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="customertypecodev">
+**Type:** VIEW | **Usage (180d):** 330 queries | **Last Used:** 2025-12-10
+
+Customer-level data.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-neurogum&ws=!1m5!1m4!4m3!1ssm-neurogum!2scustomized_views!3scustomertypecodev" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-neurogum.customized_views.customertypecodev` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="core_metrics">
+**Type:** VIEW | **Usage (180d):** 244 queries | **Last Used:** 2026-02-03
+
+Metrics definitions.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-neurogum&ws=!1m5!1m4!4m3!1ssm-neurogum!2scustomized_views!3score_metrics" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-neurogum.customized_views.core_metrics` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="codev_total_metrics">
+**Type:** VIEW | **Usage (180d):** 242 queries | **Last Used:** 2026-01-30
+
+Metrics definitions.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-neurogum&ws=!1m5!1m4!4m3!1ssm-neurogum!2scustomized_views!3scodev_total_metrics" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-neurogum.customized_views.codev_total_metrics` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="codevasket">
+**Type:** VIEW | **Usage (180d):** 239 queries | **Last Used:** 2025-12-03
+
+Custom data.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-neurogum&ws=!1m5!1m4!4m3!1ssm-neurogum!2scustomized_views!3scodevasket" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-neurogum.customized_views.codevasket` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="codevrepurchase">
+**Type:** VIEW | **Usage (180d):** 236 queries | **Last Used:** 2025-12-15
+
+Custom data.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-neurogum&ws=!1m5!1m4!4m3!1ssm-neurogum!2scustomized_views!3scodevrepurchase" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-neurogum.customized_views.codevrepurchase` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="cohort_ef_first_time">
+**Type:** VIEW | **Usage (180d):** 215 queries | **Last Used:** 2025-12-10
+
+Cohort analysis.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-neurogum&ws=!1m5!1m4!4m3!1ssm-neurogum!2scustomized_views!3scohort_ef_first_time" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-neurogum.customized_views.cohort_ef_first_time` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="xeanalysis2">
+**Type:** VIEW | **Usage (180d):** 133 queries | **Last Used:** 2025-12-10
+
+Custom data.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-neurogum&ws=!1m5!1m4!4m3!1ssm-neurogum!2scustomized_views!3sxeanalysis2" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-neurogum.customized_views.xeanalysis2` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="aovanalysis">
+**Type:** VIEW | **Usage (180d):** 72 queries | **Last Used:** 2025-11-04
+
+Custom data.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-neurogum&ws=!1m5!1m4!4m3!1ssm-neurogum!2scustomized_views!3saovanalysis" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-neurogum.customized_views.aovanalysis` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="ccretention">
+**Type:** VIEW | **Usage (180d):** 38 queries | **Last Used:** 2025-10-20
+
+Retention metrics.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-neurogum&ws=!1m5!1m4!4m3!1ssm-neurogum!2scustomized_views!3sccretention" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-neurogum.customized_views.ccretention` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="chesspartnership_daily_customers">
+**Type:** VIEW | **Usage (180d):** 26 queries | **Last Used:** 2025-10-24
+
+Daily aggregation.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-neurogum&ws=!1m5!1m4!4m3!1ssm-neurogum!2scustomized_views!3schesspartnership_daily_customers" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-neurogum.customized_views.chesspartnership_daily_customers` LIMIT 10;
+```
+</Accordion>
+
+<Note>Showing top 30 of 39 objects in this dataset.</Note>
+
 
 ### klaviyo
 
-| Object | Type | Usage (180d) | Last Used |
-|--------|------|--------------|-----------|
-| `klaviyo_event` | BASE TABLE | 4,530 | 2026-02-02 |
-| `klaviyo_profile` | BASE TABLE | 2,830 | 2026-02-02 |
-| `klaviyo_metric` | BASE TABLE | 1,234 | 2026-02-02 |
+<Accordion title="klaviyo_event">
+**Type:** BASE TABLE | **Usage (180d):** 4,530 queries | **Last Used:** 2026-02-02
+
+Event tracking data from Klaviyo. Key columns: `id`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-neurogum&ws=!1m5!1m4!4m3!1ssm-neurogum!2sklaviyo!3sklaviyo_event" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-neurogum.klaviyo.klaviyo_event` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="klaviyo_profile">
+**Type:** BASE TABLE | **Usage (180d):** 2,830 queries | **Last Used:** 2026-02-02
+
+Profile/customer data from Klaviyo. Key columns: `id`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-neurogum&ws=!1m5!1m4!4m3!1ssm-neurogum!2sklaviyo!3sklaviyo_profile" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-neurogum.klaviyo.klaviyo_profile` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="klaviyo_metric">
+**Type:** BASE TABLE | **Usage (180d):** 1,234 queries | **Last Used:** 2026-02-02
+
+Metrics definitions from Klaviyo. Key columns: `id`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-neurogum&ws=!1m5!1m4!4m3!1ssm-neurogum!2sklaviyo!3sklaviyo_metric" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-neurogum.klaviyo.klaviyo_metric` LIMIT 10;
+```
+</Accordion>
+
 
 ### northbeam_data
 
-| Object | Type | Usage (180d) | Last Used |
-|--------|------|--------------|-----------|
-| `ttorders_to_nb` | BASE TABLE | 33 | 2026-02-02 |
-| `orders_to_send` | BASE TABLE | 13 | 2026-02-02 |
+<Accordion title="ttorders_to_nb">
+**Type:** BASE TABLE | **Usage (180d):** 33 queries | **Last Used:** 2026-02-02
+
+Order-level data from TikTok, Northbeam. Key columns: `product_id, order_id, customer_id`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-neurogum&ws=!1m5!1m4!4m3!1ssm-neurogum!2snorthbeam_data!3sttorders_to_nb" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-neurogum.northbeam_data.ttorders_to_nb` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="orders_to_send">
+**Type:** BASE TABLE | **Usage (180d):** 13 queries | **Last Used:** 2026-02-02
+
+Order-level data. Key columns: `order_id, customer_id`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-neurogum&ws=!1m5!1m4!4m3!1ssm-neurogum!2snorthbeam_data!3sorders_to_send" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-neurogum.northbeam_data.orders_to_send` LIMIT 10;
+```
+</Accordion>
+
 
 ### sm_experimental
 
-| Object | Type | Usage (180d) | Last Used |
-|--------|------|--------------|-----------|
-| `obt_tiktok_shop_orders` | BASE TABLE | 33 | 2026-02-02 |
+<Accordion title="obt_tiktok_shop_orders">
+**Type:** BASE TABLE | **Usage (180d):** 33 queries | **Last Used:** 2026-02-02
+
+Order-level data from TikTok. Key columns: `smcid, sm_order_key, sm_customer_key, source_system, order_id`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-neurogum&ws=!1m5!1m4!4m3!1ssm-neurogum!2ssm_experimental!3sobt_tiktok_shop_orders" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-neurogum.sm_experimental.obt_tiktok_shop_orders` LIMIT 10;
+```
+</Accordion>
+
 
 ### sm_transformed_v2
 
-| Object | Type | Usage (180d) | Last Used |
-|--------|------|--------------|-----------|
-| `revised_obt_order_lines` | BASE TABLE | 8 | 2026-02-02 |
+<Accordion title="revised_obt_order_lines">
+**Type:** BASE TABLE | **Usage (180d):** 8 queries | **Last Used:** 2026-02-02
+
+Order-level data. Key columns: `sm_store_id, sm_order_line_key, sm_order_key, sm_customer_key, sm_product_variant_key`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-neurogum&ws=!1m5!1m4!4m3!1ssm-neurogum!2ssm_transformed_v2!3srevised_obt_order_lines" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-neurogum.sm_transformed_v2.revised_obt_order_lines` LIMIT 10;
+```
+</Accordion>
+
 
 ---
 
@@ -331,12 +536,13 @@ This section lists **all active** custom objects grouped by dataset, ordered by 
 | **Standard Dataset** | `sm_transformed_v2` |
 | **Tenant ID** | `neurogum` |
 
+---
 
 ## Notes
 
 - **Usage counts** reflect BigQuery job executions, including scheduled queries, dashboard refreshes, and ad-hoc queries.
-- **External tables** connect to external data sources and may have different performance characteristics.
-- Objects in `sm_transformed_v2` or `sm_experimental` are modifications to standard SourceMedium models and should be used with caution.
+- Objects with low usage may be candidates for cleanup.
+- Click "Open in BigQuery Console" to view the table schema and run queries.
 
 <Info>
 For questions about these custom objects or to request modifications, please contact your SourceMedium representative.

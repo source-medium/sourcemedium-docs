@@ -27,22 +27,126 @@ This page documents active custom BigQuery tables and views (those queried at le
 
 ### customized_views
 
-| Object | Type | Usage (180d) | Last Used |
-|--------|------|--------------|-----------|
-| `sessions_rev_by_country` | VIEW | 15 | 2025-11-20 |
-| `josh_module_logic1` | VIEW | 13 | 2025-11-20 |
-| `josh_module_logic_2` | VIEW | 9 | 2025-11-20 |
-| `shirt_unbundler_v2` | VIEW | 6 | 2025-11-20 |
-| `shirt_unbundler_v1` | VIEW | 4 | 2025-11-20 |
-| `order_by_types_week` | VIEW | 3 | 2025-11-20 |
-| `types_per_order` | VIEW | 2 | 2025-11-20 |
-| `types_per_order_month` | VIEW | 2 | 2025-11-20 |
+<Accordion title="sessions_rev_by_country">
+**Type:** VIEW | **Usage (180d):** 15 queries | **Last Used:** 2025-11-20
+
+Custom data.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-theperfectjean&ws=!1m5!1m4!4m3!1ssm-theperfectjean!2scustomized_views!3ssessions_rev_by_country" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-theperfectjean.customized_views.sessions_rev_by_country` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="josh_module_logic1">
+**Type:** VIEW | **Usage (180d):** 13 queries | **Last Used:** 2025-11-20
+
+Custom data.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-theperfectjean&ws=!1m5!1m4!4m3!1ssm-theperfectjean!2scustomized_views!3sjosh_module_logic1" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-theperfectjean.customized_views.josh_module_logic1` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="josh_module_logic_2">
+**Type:** VIEW | **Usage (180d):** 9 queries | **Last Used:** 2025-11-20
+
+Custom data.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-theperfectjean&ws=!1m5!1m4!4m3!1ssm-theperfectjean!2scustomized_views!3sjosh_module_logic_2" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-theperfectjean.customized_views.josh_module_logic_2` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="shirt_unbundler_v2">
+**Type:** VIEW | **Usage (180d):** 6 queries | **Last Used:** 2025-11-20
+
+Custom data from Northbeam.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-theperfectjean&ws=!1m5!1m4!4m3!1ssm-theperfectjean!2scustomized_views!3sshirt_unbundler_v2" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-theperfectjean.customized_views.shirt_unbundler_v2` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="shirt_unbundler_v1">
+**Type:** VIEW | **Usage (180d):** 4 queries | **Last Used:** 2025-11-20
+
+Custom data from Northbeam.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-theperfectjean&ws=!1m5!1m4!4m3!1ssm-theperfectjean!2scustomized_views!3sshirt_unbundler_v1" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-theperfectjean.customized_views.shirt_unbundler_v1` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="order_by_types_week">
+**Type:** VIEW | **Usage (180d):** 3 queries | **Last Used:** 2025-11-20
+
+Order-level data.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-theperfectjean&ws=!1m5!1m4!4m3!1ssm-theperfectjean!2scustomized_views!3sorder_by_types_week" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-theperfectjean.customized_views.order_by_types_week` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="types_per_order">
+**Type:** VIEW | **Usage (180d):** 2 queries | **Last Used:** 2025-11-20
+
+Order-level data.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-theperfectjean&ws=!1m5!1m4!4m3!1ssm-theperfectjean!2scustomized_views!3stypes_per_order" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-theperfectjean.customized_views.types_per_order` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="types_per_order_month">
+**Type:** VIEW | **Usage (180d):** 2 queries | **Last Used:** 2025-11-20
+
+Order-level data.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-theperfectjean&ws=!1m5!1m4!4m3!1ssm-theperfectjean!2scustomized_views!3stypes_per_order_month" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-theperfectjean.customized_views.types_per_order_month` LIMIT 10;
+```
+</Accordion>
+
 
 ### sm_views
 
-| Object | Type | Usage (180d) | Last Used |
-|--------|------|--------------|-----------|
-| `okendo_data` | BASE TABLE | 13 | 2026-02-02 |
+<Accordion title="okendo_data">
+**Type:** BASE TABLE | **Usage (180d):** 13 queries | **Last Used:** 2026-02-02
+
+Custom data. Key columns: `date, reviewId, productId`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-theperfectjean&ws=!1m5!1m4!4m3!1ssm-theperfectjean!2ssm_views!3sokendo_data" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-theperfectjean.sm_views.okendo_data` LIMIT 10;
+```
+</Accordion>
+
 
 ---
 
@@ -60,6 +164,7 @@ This page documents active custom BigQuery tables and views (those queried at le
 
 - **Usage counts** reflect BigQuery job executions, including scheduled queries, dashboard refreshes, and ad-hoc queries.
 - Objects with low usage may be candidates for cleanup.
+- Click "Open in BigQuery Console" to view the table schema and run queries.
 
 <Info>
 For questions about these custom objects or to request modifications, please contact your SourceMedium representative.

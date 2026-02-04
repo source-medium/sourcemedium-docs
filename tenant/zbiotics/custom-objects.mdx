@@ -38,368 +38,1335 @@ This page documents active custom BigQuery tables and views (those queried at le
 
 ## Objects by Dataset
 
-<Info>
-This section lists **all active** custom objects grouped by dataset, ordered by 180-day usage.
-</Info>
-
-### cin7core
-
-| Object | Type | Usage (180d) | Last Used |
-|--------|------|--------------|-----------|
-| `sale` | BASE TABLE | 3,440 | 2026-02-04 |
-| `customer` | BASE TABLE | 2,604 | 2026-02-04 |
-| `sale_order_line` | BASE TABLE | 2,310 | 2026-02-04 |
-| `sale_fullfillment_ship_line` | BASE TABLE | 1,679 | 2026-02-03 |
-| `sale_fullfillment_pack_line` | BASE TABLE | 1,677 | 2026-02-03 |
-| `sale_fullfillment_pick_line` | BASE TABLE | 1,595 | 2026-02-03 |
-| `sale_credit_note_refund` | BASE TABLE | 1,321 | 2026-02-03 |
-| `sale_credit_note_line` | BASE TABLE | 1,308 | 2026-02-03 |
-| `product` | BASE TABLE | 1,215 | 2026-02-04 |
-| `sale_inventory_movement` | BASE TABLE | 1,213 | 2026-02-03 |
-| `product_attachment` | BASE TABLE | 1,195 | 2026-02-03 |
-| `bill_of_material_service` | BASE TABLE | 1,177 | 2026-02-03 |
-| `bill_of_material_product` | BASE TABLE | 1,167 | 2026-02-03 |
-| `sale_transaction` | BASE TABLE | 1,129 | 2026-02-03 |
-| `sale_invoice_line` | BASE TABLE | 1,120 | 2026-02-03 |
-| `sale_credit_note` | BASE TABLE | 1,118 | 2026-02-03 |
-| `sale_fullfillment` | BASE TABLE | 1,114 | 2026-02-03 |
-| `sale_invoice` | BASE TABLE | 1,113 | 2026-02-03 |
-| `sale_attachment` | BASE TABLE | 1,023 | 2026-02-03 |
-| `sale_credit_note_restock` | BASE TABLE | 990 | 2026-02-03 |
-| `product_movement` | BASE TABLE | 949 | 2026-02-03 |
-| `product_markup_price` | BASE TABLE | 889 | 2026-02-03 |
-| `customer_contacts` | BASE TABLE | 560 | 2026-02-03 |
-| `sale_invoice_additional_charge` | BASE TABLE | 538 | 2026-02-03 |
-| `sale_order_additional_charge` | BASE TABLE | 537 | 2026-02-03 |
-| `sale_credit_note_additional_charge` | BASE TABLE | 463 | 2026-02-03 |
-| `customer_address` | BASE TABLE | 424 | 2026-02-03 |
-| `customer_product_price` | BASE TABLE | 404 | 2026-02-03 |
-| `product_custom_price` | BASE TABLE | 344 | 2026-02-03 |
-| `product_availability` | BASE TABLE | 121 | 2026-02-03 |
-
 ### dbt
 
-| Object | Type | Usage (180d) | Last Used |
-|--------|------|--------------|-----------|
-| `orders` | BASE TABLE | 28,813 | 2026-02-04 |
-| `order_lines` | BASE TABLE | 9,775 | 2026-02-04 |
-| `int_manual_wholesale_orders` | BASE TABLE | 4,258 | 2026-02-04 |
-| `fulfillments` | BASE TABLE | 4,038 | 2026-02-04 |
-| `marketing_spend` | BASE TABLE | 3,439 | 2026-02-04 |
-| `int_wholesale_doors` | BASE TABLE | 2,913 | 2026-02-04 |
-| `int_sticker_matching` | BASE TABLE | 2,801 | 2026-02-04 |
-| `int_order_lines` | BASE TABLE | 2,408 | 2026-02-04 |
-| `customers` | BASE TABLE | 2,401 | 2026-02-04 |
-| `retail_velocity_denominator` | BASE TABLE | 2,048 | 2026-02-04 |
-| `retailers` | BASE TABLE | 1,948 | 2026-02-04 |
-| `int_downweights` | BASE TABLE | 1,941 | 2026-02-04 |
-| `int_orders` | BASE TABLE | 1,802 | 2026-02-04 |
-| `int_tickets` | BASE TABLE | 1,668 | 2026-02-04 |
-| `subscriptions` | BASE TABLE | 1,567 | 2026-02-04 |
-| `int_subscription_lines` | BASE TABLE | 1,552 | 2026-02-04 |
-| `tickets` | BASE TABLE | 1,500 | 2026-02-04 |
-| `survey_responses` | BASE TABLE | 1,446 | 2026-02-04 |
-| `int_wholesale_customers` | BASE TABLE | 1,421 | 2026-02-04 |
-| `metricflow_time_spine` | BASE TABLE | 1,393 | 2026-02-04 |
-| `int_ticket_tags` | BASE TABLE | 1,390 | 2026-02-04 |
-| `int_survey_responses` | BASE TABLE | 1,164 | 2026-02-04 |
-| `int_sm_orders` | BASE TABLE | 1,011 | 2026-02-04 |
-| `int_manual_wholesale_order_lines` | BASE TABLE | 828 | 2026-02-04 |
-| `int_subscriptions` | BASE TABLE | 776 | 2026-02-04 |
-| `int_wholesale_retailers` | BASE TABLE | 648 | 2026-02-04 |
-| `int_fulfillments` | BASE TABLE | 390 | 2026-02-04 |
-| `int_ticket_messages` | BASE TABLE | 388 | 2026-02-04 |
-| `int_customers` | BASE TABLE | 370 | 2026-02-04 |
-| `gsh_historical_cartograph_survey_responses` | BASE TABLE | 356 | 2026-02-04 |
-| `gsh_intelligems_experiments` | BASE TABLE | 337 | 2026-02-02 |
-| `retail_velocity` | BASE TABLE | 300 | 2026-02-02 |
-| `cin7_sale` | VIEW | 124 | 2026-02-03 |
-| `cin7_customer` | VIEW | 116 | 2026-02-03 |
-| `cin7_ecomm_aggregated_sale_order_line` | BASE TABLE | 116 | 2026-02-04 |
-| `retail_velocity_numerator` | VIEW | 114 | 2026-02-03 |
-| `int_daily_sku_cost` | BASE TABLE | 68 | 2026-02-04 |
-| `hubspot_company` | VIEW | 44 | 2025-08-21 |
-| `int_accounting_sales_lines_order_lines_lkup` | BASE TABLE | 43 | 2026-02-02 |
-| `int_accounting_sales_orders_lkup` | BASE TABLE | 43 | 2026-02-02 |
-| `pipe17_fulfillment` | VIEW | 16 | 2025-10-24 |
-| `pipe17_location` | VIEW | 12 | 2025-10-24 |
-| `gsh_balance_sheet` | BASE TABLE | 11 | 2026-02-02 |
-| `hubspot_company_contact` | VIEW | 6 | 2025-08-19 |
-| `cin7_sale_order_line` | VIEW | 5 | 2025-11-05 |
-| `cin7_wholesale_sale` | VIEW | 2 | 2026-01-08 |
-| `gsh_marketing_spend_monthly` | VIEW | 2 | 2025-12-02 |
-| `cin7_wholesale_sale_order_line` | VIEW | 1 | 2026-01-08 |
-| `twilio_survey_responses` | VIEW | 1 | 2025-08-09 |
+<Accordion title="orders">
+**Type:** BASE TABLE | **Usage (180d):** 28,813 queries | **Last Used:** 2026-02-04
 
-### dbt_jkeane
+Order-level data. Key columns: `sm_order_key, sm_customer_key, source_system, channel, sub_channel`.
 
-| Object | Type | Usage (180d) | Last Used |
-|--------|------|--------------|-----------|
-| `int_manual_wholesale_orders` | BASE TABLE | 194 | 2026-02-02 |
-| `int_sticker_matching` | BASE TABLE | 126 | 2026-02-02 |
-| `int_wholesale_doors` | BASE TABLE | 108 | 2026-02-02 |
-| `int_order_lines` | BASE TABLE | 107 | 2026-02-02 |
-| `marketing_spend` | BASE TABLE | 105 | 2026-02-02 |
-| `int_tickets` | BASE TABLE | 100 | 2026-02-02 |
-| `int_downweights` | BASE TABLE | 91 | 2026-02-02 |
-| `int_subscription_lines` | BASE TABLE | 88 | 2026-02-02 |
-| `int_wholesale_customers` | BASE TABLE | 68 | 2026-02-02 |
-| `subscriptions` | BASE TABLE | 68 | 2026-02-02 |
-| `int_survey_responses` | BASE TABLE | 66 | 2026-02-02 |
-| `tickets` | BASE TABLE | 66 | 2026-02-02 |
-| `orders` | BASE TABLE | 65 | 2026-02-02 |
-| `survey_responses` | BASE TABLE | 60 | 2026-02-02 |
-| `retailers` | BASE TABLE | 54 | 2026-02-02 |
-| `int_orders` | BASE TABLE | 52 | 2026-02-02 |
-| `int_manual_wholesale_order_lines` | BASE TABLE | 44 | 2026-02-02 |
-| `int_subscriptions` | BASE TABLE | 44 | 2026-02-02 |
-| `retail_velocity_denominator` | BASE TABLE | 42 | 2026-02-02 |
-| `customers` | BASE TABLE | 40 | 2026-02-02 |
-| `retail_velocity` | BASE TABLE | 39 | 2026-02-02 |
-| `order_lines` | BASE TABLE | 31 | 2026-02-02 |
-| `gsh_historical_cartograph_survey_responses` | BASE TABLE | 29 | 2026-02-02 |
-| `int_fulfillments` | BASE TABLE | 29 | 2026-02-02 |
-| `int_wholesale_retailers` | BASE TABLE | 27 | 2026-02-02 |
-| `int_ticket_tags` | BASE TABLE | 26 | 2026-02-02 |
-| `int_sm_orders` | BASE TABLE | 23 | 2026-02-02 |
-| `int_ticket_messages` | BASE TABLE | 22 | 2026-02-02 |
-| `int_customers` | BASE TABLE | 18 | 2026-02-02 |
-| `metricflow_time_spine` | BASE TABLE | 17 | 2026-02-02 |
-| `fulfillments` | BASE TABLE | 11 | 2026-02-02 |
-| `gsh_balance_sheet` | BASE TABLE | 11 | 2026-02-02 |
-| `gsh_mcf_estimated_fees` | VIEW | 1 | 2025-08-11 |
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2sdbt!3sorders" target="_blank">Open in BigQuery Console →</a>
 
-### dbt_smathur
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.dbt.orders` LIMIT 10;
+```
+</Accordion>
 
-| Object | Type | Usage (180d) | Last Used |
-|--------|------|--------------|-----------|
-| `orders` | BASE TABLE | 744 | 2026-02-03 |
-| `int_manual_wholesale_orders` | BASE TABLE | 598 | 2026-02-02 |
-| `int_subscription_lines` | BASE TABLE | 461 | 2026-02-04 |
-| `int_subscriptions` | BASE TABLE | 461 | 2026-02-04 |
-| `order_lines` | BASE TABLE | 390 | 2026-02-02 |
-| `int_wholesale_doors` | BASE TABLE | 376 | 2026-02-02 |
-| `int_order_lines` | BASE TABLE | 362 | 2026-02-02 |
-| `retail_velocity_denominator` | BASE TABLE | 361 | 2026-02-02 |
-| `int_sticker_matching` | BASE TABLE | 351 | 2026-02-02 |
-| `int_downweights` | BASE TABLE | 297 | 2026-02-02 |
-| `int_sm_orders` | BASE TABLE | 278 | 2026-02-03 |
-| `retailers` | BASE TABLE | 266 | 2026-02-02 |
-| `metricflow_time_spine` | BASE TABLE | 213 | 2026-02-02 |
-| `marketing_spend` | BASE TABLE | 197 | 2026-02-02 |
-| `int_wholesale_customers` | BASE TABLE | 191 | 2026-02-02 |
-| `subscriptions` | BASE TABLE | 185 | 2026-02-02 |
-| `int_orders` | BASE TABLE | 167 | 2026-02-02 |
-| `retail_velocity` | BASE TABLE | 150 | 2026-02-02 |
-| `customers` | BASE TABLE | 147 | 2026-02-02 |
-| `int_survey_responses` | BASE TABLE | 147 | 2026-02-02 |
-| `survey_responses` | BASE TABLE | 141 | 2026-02-02 |
-| `int_tickets` | BASE TABLE | 124 | 2026-02-02 |
-| `tickets` | BASE TABLE | 120 | 2026-02-02 |
-| `int_manual_wholesale_order_lines` | BASE TABLE | 112 | 2026-02-02 |
-| `int_wholesale_retailers` | BASE TABLE | 106 | 2026-02-02 |
-| `cin7_ecomm_aggregated_sale_order_line` | BASE TABLE | 55 | 2026-02-02 |
-| `int_customers` | BASE TABLE | 55 | 2026-02-02 |
-| `gsh_historical_cartograph_survey_responses` | BASE TABLE | 43 | 2026-02-02 |
-| `int_daily_sku_cost` | BASE TABLE | 41 | 2026-02-02 |
-| `int_fulfillments` | BASE TABLE | 34 | 2026-02-02 |
-| `int_ticket_messages` | BASE TABLE | 31 | 2026-02-02 |
-| `int_ticket_tags` | BASE TABLE | 31 | 2026-02-02 |
-| `fulfillments` | BASE TABLE | 25 | 2026-02-02 |
-| `int_accounting_sales_orders_lkup` | BASE TABLE | 15 | 2026-02-02 |
-| `int_accounting_sales_lines_order_lines_lkup` | BASE TABLE | 14 | 2026-02-02 |
-| `int_sku_cost_scd` | BASE TABLE | 12 | 2026-02-02 |
-| `int_daily_source_sku_cost_observations` | BASE TABLE | 11 | 2026-02-02 |
-| `retail_velocity_numerator` | VIEW | 11 | 2025-08-29 |
-| `hubspot_company_contact` | VIEW | 7 | 2025-08-19 |
-| `hubspot_company` | VIEW | 5 | 2025-08-20 |
-| `obt_customers` | VIEW | 2 | 2025-09-02 |
-| `cin7_customer` | VIEW | 1 | 2026-01-27 |
+<Accordion title="order_lines">
+**Type:** BASE TABLE | **Usage (180d):** 9,775 queries | **Last Used:** 2026-02-04
 
-### fivetran_metadata
+Order-level data. Key columns: `_dbt_source_relation, sm_order_line_key, sm_order_key, sm_customer_key, source_system`.
 
-| Object | Type | Usage (180d) | Last Used |
-|--------|------|--------------|-----------|
-| `resource_membership` | BASE TABLE | 708 | 2026-02-03 |
-| `role_permission` | BASE TABLE | 708 | 2026-02-03 |
-| `transformation_runs` | BASE TABLE | 701 | 2026-02-03 |
-| `incremental_mar` | BASE TABLE | 688 | 2026-02-03 |
-| `connection` | BASE TABLE | 535 | 2026-02-03 |
-| `log` | BASE TABLE | 535 | 2026-02-03 |
-| `user` | BASE TABLE | 535 | 2026-02-03 |
-| `role` | BASE TABLE | 531 | 2026-02-03 |
-| `account` | BASE TABLE | 356 | 2026-02-03 |
-| `connector_type` | BASE TABLE | 356 | 2026-02-03 |
-| `destination` | BASE TABLE | 356 | 2026-02-03 |
-| `usage_cost` | BASE TABLE | 190 | 2026-02-03 |
-| `connector` | BASE TABLE | 165 | 2026-02-02 |
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2sdbt!3sorder_lines" target="_blank">Open in BigQuery Console →</a>
 
-### hubspot
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.dbt.order_lines` LIMIT 10;
+```
+</Accordion>
 
-| Object | Type | Usage (180d) | Last Used |
-|--------|------|--------------|-----------|
-| `company` | BASE TABLE | 4,615 | 2026-02-04 |
-| `contact_company` | BASE TABLE | 2,642 | 2026-02-04 |
-| `contact` | BASE TABLE | 2,442 | 2026-02-04 |
-| `contact_list` | BASE TABLE | 2,309 | 2026-02-03 |
-| `association_type` | BASE TABLE | 2,307 | 2026-02-03 |
-| `users` | BASE TABLE | 2,307 | 2026-02-03 |
-| `sessions_analytics_monthly_report` | BASE TABLE | 1,599 | 2026-02-03 |
-| `deal_pipeline` | BASE TABLE | 1,597 | 2026-02-03 |
-| `deal_pipeline_stage` | BASE TABLE | 1,597 | 2026-02-03 |
-| `email_subscription` | BASE TABLE | 1,597 | 2026-02-03 |
-| `form` | BASE TABLE | 1,597 | 2026-02-03 |
-| `geolocation_analytics_daily_report` | BASE TABLE | 1,597 | 2026-02-03 |
-| `geolocation_analytics_monthly_report` | BASE TABLE | 1,597 | 2026-02-03 |
-| `geolocation_analytics_weekly_report` | BASE TABLE | 1,597 | 2026-02-03 |
-| `owner` | BASE TABLE | 1,597 | 2026-02-03 |
-| `sources_analytics_daily_report` | BASE TABLE | 1,597 | 2026-02-03 |
-| `sources_analytics_monthly_report` | BASE TABLE | 1,597 | 2026-02-03 |
-| `sources_analytics_weekly_report` | BASE TABLE | 1,597 | 2026-02-03 |
-| `ticket_pipeline` | BASE TABLE | 1,597 | 2026-02-03 |
-| `ticket_pipeline_stage` | BASE TABLE | 1,597 | 2026-02-03 |
-| `totals_analytics_daily_report` | BASE TABLE | 1,597 | 2026-02-03 |
-| `totals_analytics_monthly_report` | BASE TABLE | 1,597 | 2026-02-03 |
-| `totals_analytics_weekly_report` | BASE TABLE | 1,597 | 2026-02-03 |
-| `sessions_analytics_daily_report` | BASE TABLE | 1,564 | 2026-02-03 |
-| `sessions_analytics_weekly_report` | BASE TABLE | 1,564 | 2026-02-03 |
-| `marketing_email_campaign` | BASE TABLE | 1,051 | 2026-02-03 |
-| `property` | BASE TABLE | 890 | 2026-02-03 |
-| `property_option` | BASE TABLE | 890 | 2026-02-03 |
-| `sessions_analytics_overall_report` | BASE TABLE | 889 | 2026-02-03 |
-| `geolocation_analytics_overall_report` | BASE TABLE | 887 | 2026-02-03 |
-| `sources_analytics_overall_report` | BASE TABLE | 887 | 2026-02-03 |
-| `utm_analytics_overall_report` | BASE TABLE | 887 | 2026-02-03 |
-| `company_property_history` | BASE TABLE | 800 | 2026-02-03 |
-| `contact_property_history` | BASE TABLE | 772 | 2026-02-03 |
-| `company_company` | BASE TABLE | 752 | 2026-02-03 |
-| `engagement_company` | BASE TABLE | 602 | 2026-02-03 |
-| `engagement_property_history` | BASE TABLE | 589 | 2026-02-03 |
-| `contact_contact` | BASE TABLE | 550 | 2026-02-03 |
-| `engagement` | BASE TABLE | 488 | 2026-02-03 |
-| `marketing_email` | BASE TABLE | 434 | 2026-02-02 |
-| `engagement_meeting` | BASE TABLE | 413 | 2026-02-03 |
-| `contact_form_submission` | BASE TABLE | 372 | 2026-02-03 |
-| `event` | BASE TABLE | 289 | 2026-02-03 |
-| `engagement_contact` | BASE TABLE | 232 | 2026-02-03 |
-| `engagement_email` | BASE TABLE | 170 | 2026-02-02 |
-| `submission_response` | BASE TABLE | 150 | 2026-02-03 |
-| `engagement_task` | BASE TABLE | 129 | 2026-02-03 |
-| `contact_list_member` | BASE TABLE | 112 | 2026-02-02 |
-| `engagement_note` | BASE TABLE | 23 | 2026-02-02 |
+<Accordion title="int_manual_wholesale_orders">
+**Type:** BASE TABLE | **Usage (180d):** 4,258 queries | **Last Used:** 2026-02-04
 
-### pipe17
+Order-level data. Key columns: `sm_order_key, sm_customer_key, order_id, hubspot_company_id, hubspot_retailer_id`.
 
-| Object | Type | Usage (180d) | Last Used |
-|--------|------|--------------|-----------|
-| `fulfillment_line_item` | BASE TABLE | 2,429 | 2026-02-04 |
-| `order_discount` | BASE TABLE | 2,330 | 2026-02-03 |
-| `fulfillment` | BASE TABLE | 1,889 | 2026-02-04 |
-| `order_line_item` | BASE TABLE | 1,628 | 2026-02-03 |
-| `shipment_line_item` | BASE TABLE | 1,628 | 2026-02-03 |
-| `order_tag` | BASE TABLE | 1,623 | 2026-02-03 |
-| `order_payment` | BASE TABLE | 1,621 | 2026-02-03 |
-| `shipment_tag` | BASE TABLE | 1,621 | 2026-02-03 |
-| `orders` | BASE TABLE | 1,484 | 2026-02-04 |
-| `shipment` | BASE TABLE | 1,482 | 2026-02-04 |
-| `location` | BASE TABLE | 928 | 2026-02-04 |
-| `inventory` | BASE TABLE | 913 | 2026-02-03 |
-| `product_tag` | BASE TABLE | 249 | 2026-02-02 |
-| `product_variant_option` | BASE TABLE | 241 | 2026-02-02 |
-| `product_price` | BASE TABLE | 226 | 2026-02-02 |
-| `product_published` | BASE TABLE | 226 | 2026-02-02 |
-| `product_type` | BASE TABLE | 226 | 2026-02-02 |
-| `inventory_rule` | BASE TABLE | 195 | 2026-02-02 |
-| `product` | BASE TABLE | 157 | 2026-02-02 |
-| `shipping_method` | BASE TABLE | 18 | 2026-02-02 |
-| `shipping_method_mapped_method` | BASE TABLE | 18 | 2026-02-02 |
-| `location_external_system` | BASE TABLE | 7 | 2026-02-02 |
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2sdbt!3sint_manual_wholesale_orders" target="_blank">Open in BigQuery Console →</a>
 
-### skio
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.dbt.int_manual_wholesale_orders` LIMIT 10;
+```
+</Accordion>
 
-| Object | Type | Usage (180d) | Last Used |
-|--------|------|--------------|-----------|
-| `StorefrontUser` | BASE TABLE | 2,312 | 2026-02-04 |
-| `ProductVariant` | BASE TABLE | 1,357 | 2026-02-04 |
-| `Subscription` | BASE TABLE | 910 | 2026-02-04 |
-| `SubscriptionLine` | BASE TABLE | 906 | 2026-02-04 |
+<Accordion title="fulfillments">
+**Type:** BASE TABLE | **Usage (180d):** 4,038 queries | **Last Used:** 2026-02-04
 
-### sm_sources
+Custom data. Key columns: `sm_order_key, fulfillment_id, shopify_order_id, fulfillment_updated_at, third_party_logistics_provider`.
 
-| Object | Type | Usage (180d) | Last Used |
-|--------|------|--------------|-----------|
-| `zbiotics_gorgias_tickets_raw` | BASE TABLE | 911 | 2026-02-04 |
-| `zbiotics_ticket_message_data` | BASE TABLE | 911 | 2026-02-04 |
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2sdbt!3sfulfillments" target="_blank">Open in BigQuery Console →</a>
 
-### twilio
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.dbt.fulfillments` LIMIT 10;
+```
+</Accordion>
 
-| Object | Type | Usage (180d) | Last Used |
-|--------|------|--------------|-----------|
-| `usage_record` | BASE TABLE | 3,770 | 2026-02-03 |
-| `account_history` | BASE TABLE | 3,039 | 2026-02-03 |
-| `messaging_service` | BASE TABLE | 3,014 | 2026-02-03 |
-| `role_permission` | BASE TABLE | 2,295 | 2026-02-03 |
-| `message` | BASE TABLE | 2,278 | 2026-02-03 |
-| `flow_history` | BASE TABLE | 1,639 | 2026-02-03 |
-| `role` | BASE TABLE | 1,589 | 2026-02-03 |
-| `service` | BASE TABLE | 1,589 | 2026-02-03 |
-| `address` | BASE TABLE | 908 | 2026-02-03 |
-| `incoming_phone_number` | BASE TABLE | 908 | 2026-02-03 |
-| `outgoing_caller_id` | BASE TABLE | 908 | 2026-02-03 |
-| `execution` | BASE TABLE | 823 | 2026-02-03 |
-| `execution_step` | BASE TABLE | 823 | 2026-02-03 |
+<Accordion title="marketing_spend">
+**Type:** BASE TABLE | **Usage (180d):** 3,439 queries | **Last Used:** 2026-02-04
 
-### twilio_twilio
+Marketing/advertising data. Key columns: `acquisition_spend, core_acquisition_spend, brand_spend, retention_spend, optimization_spend`.
 
-| Object | Type | Usage (180d) | Last Used |
-|--------|------|--------------|-----------|
-| `int_twilio__messages` | BASE TABLE | 2,100 | 2026-02-03 |
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2sdbt!3smarketing_spend" target="_blank">Open in BigQuery Console →</a>
 
-### twilio_twilio_source
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.dbt.marketing_spend` LIMIT 10;
+```
+</Accordion>
 
-| Object | Type | Usage (180d) | Last Used |
-|--------|------|--------------|-----------|
-| `stg_twilio__account_history` | BASE TABLE | 700 | 2026-02-03 |
-| `stg_twilio__message` | BASE TABLE | 700 | 2026-02-03 |
-| `stg_twilio__messaging_service` | BASE TABLE | 700 | 2026-02-03 |
-| `stg_twilio__usage_record` | BASE TABLE | 700 | 2026-02-03 |
+<Accordion title="int_wholesale_doors">
+**Type:** BASE TABLE | **Usage (180d):** 2,913 queries | **Last Used:** 2026-02-04
+
+Intermediate transformation. Key columns: `door_id, hubspot_company_id, hubspot_retailer_id, hubspot_parent_company_id, hubspot_door_open_date`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2sdbt!3sint_wholesale_doors" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.dbt.int_wholesale_doors` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="int_sticker_matching">
+**Type:** BASE TABLE | **Usage (180d):** 2,801 queries | **Last Used:** 2026-02-04
+
+Intermediate transformation. Key columns: `sticker_response_date, customer_id`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2sdbt!3sint_sticker_matching" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.dbt.int_sticker_matching` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="int_order_lines">
+**Type:** BASE TABLE | **Usage (180d):** 2,408 queries | **Last Used:** 2026-02-04
+
+Order-level data. Key columns: `sm_store_id, sm_order_line_key, sm_order_key, sm_customer_key, sm_product_variant_key`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2sdbt!3sint_order_lines" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.dbt.int_order_lines` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="customers">
+**Type:** BASE TABLE | **Usage (180d):** 2,401 queries | **Last Used:** 2026-02-04
+
+Customer-level data. Key columns: `sm_customer_key, source_system`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2sdbt!3scustomers" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.dbt.customers` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="retail_velocity_denominator">
+**Type:** BASE TABLE | **Usage (180d):** 2,048 queries | **Last Used:** 2026-02-04
+
+Custom data. Key columns: `denominator_id, hubspot_retailer_id`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2sdbt!3sretail_velocity_denominator" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.dbt.retail_velocity_denominator` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="retailers">
+**Type:** BASE TABLE | **Usage (180d):** 1,948 queries | **Last Used:** 2026-02-04
+
+Custom data. Key columns: `hubspot_retailer_id, source_system, wholesale_channels, sm_customer_keys, source_customer_id`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2sdbt!3sretailers" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.dbt.retailers` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="int_downweights">
+**Type:** BASE TABLE | **Usage (180d):** 1,941 queries | **Last Used:** 2026-02-04
+
+Intermediate transformation.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2sdbt!3sint_downweights" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.dbt.int_downweights` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="int_orders">
+**Type:** BASE TABLE | **Usage (180d):** 1,802 queries | **Last Used:** 2026-02-04
+
+Order-level data. Key columns: `_dbt_source_relation, sm_order_key, sm_customer_key, source_system, customer_id`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2sdbt!3sint_orders" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.dbt.int_orders` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="int_tickets">
+**Type:** BASE TABLE | **Usage (180d):** 1,668 queries | **Last Used:** 2026-02-04
+
+Intermediate transformation. Key columns: `ticket_id, ticket_updated_at, external_id, channel`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2sdbt!3sint_tickets" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.dbt.int_tickets` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="subscriptions">
+**Type:** BASE TABLE | **Usage (180d):** 1,567 queries | **Last Used:** 2026-02-04
+
+Custom data. Key columns: `subscription_id, storefront_user_id, subscription_line_ids, origin_order_id`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2sdbt!3ssubscriptions" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.dbt.subscriptions` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="int_subscription_lines">
+**Type:** BASE TABLE | **Usage (180d):** 1,552 queries | **Last Used:** 2026-02-04
+
+Intermediate transformation. Key columns: `subscription_line_id, subscription_id, updated_at, source_system`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2sdbt!3sint_subscription_lines" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.dbt.int_subscription_lines` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="tickets">
+**Type:** BASE TABLE | **Usage (180d):** 1,500 queries | **Last Used:** 2026-02-04
+
+Custom data. Key columns: `ticket_id, ticket_updated_at, external_id`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2sdbt!3stickets" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.dbt.tickets` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="survey_responses">
+**Type:** BASE TABLE | **Usage (180d):** 1,446 queries | **Last Used:** 2026-02-04
+
+Custom data. Key columns: `session_id, source`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2sdbt!3ssurvey_responses" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.dbt.survey_responses` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="int_wholesale_customers">
+**Type:** BASE TABLE | **Usage (180d):** 1,421 queries | **Last Used:** 2026-02-04
+
+Customer-level data. Key columns: `sm_customer_key, source_system, customer_id, wholesale_channel, hubspot_company_id`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2sdbt!3sint_wholesale_customers" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.dbt.int_wholesale_customers` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="metricflow_time_spine">
+**Type:** BASE TABLE | **Usage (180d):** 1,393 queries | **Last Used:** 2026-02-04
+
+Metrics definitions. Key columns: `date_day`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2sdbt!3smetricflow_time_spine" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.dbt.metricflow_time_spine` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="int_ticket_tags">
+**Type:** BASE TABLE | **Usage (180d):** 1,390 queries | **Last Used:** 2026-02-04
+
+Intermediate transformation. Key columns: `ticket_id`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2sdbt!3sint_ticket_tags" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.dbt.int_ticket_tags` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="int_survey_responses">
+**Type:** BASE TABLE | **Usage (180d):** 1,164 queries | **Last Used:** 2026-02-04
+
+Intermediate transformation. Key columns: `session_id, source`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2sdbt!3sint_survey_responses" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.dbt.int_survey_responses` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="int_sm_orders">
+**Type:** BASE TABLE | **Usage (180d):** 1,011 queries | **Last Used:** 2026-02-04
+
+Order-level data. Key columns: `sm_order_key, sm_customer_key, source_system, order_id, customer_id`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2sdbt!3sint_sm_orders" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.dbt.int_sm_orders` LIMIT 10;
+```
+</Accordion>
+
 
 ### zb_sources
 
-| Object | Type | Usage (180d) | Last Used |
-|--------|------|--------------|-----------|
-| `marketing_spend_tracker` | EXTERNAL | 5,769 | 2026-02-04 |
-| `raw_amazon_sticker_responses` | EXTERNAL | 2,665 | 2026-02-04 |
-| `marketing_spend_monthly` | BASE TABLE | 2,167 | 2026-02-03 |
-| `sku_lookup` | EXTERNAL | 1,624 | 2026-02-04 |
-| `mcf_estimated_fees` | EXTERNAL | 775 | 2026-02-04 |
-| `historical_cartograph_survey_responses` | EXTERNAL | 460 | 2026-02-04 |
-| `zb_employees` | EXTERNAL | 455 | 2026-02-04 |
-| `holidays` | EXTERNAL | 451 | 2026-02-04 |
-| `intelligems_experiment_data` | EXTERNAL | 451 | 2026-02-04 |
-| `quickbooks_balance_sheet` | EXTERNAL | 450 | 2026-02-04 |
-| `quickbooks_profit_loss` | EXTERNAL | 450 | 2026-02-04 |
-| `zip_code_coords` | BASE TABLE | 43 | 2026-02-02 |
+<Accordion title="marketing_spend_tracker">
+**Type:** EXTERNAL | **Usage (180d):** 5,769 queries | **Last Used:** 2026-02-04
 
-### zb_static
+Marketing/advertising data. Key columns: `acquisition_spend, brand_spend, retention_spend, optimization_spend, total_spend`.
 
-| Object | Type | Usage (180d) | Last Used |
-|--------|------|--------------|-----------|
-| `jan26_orders_asof_20260202` | BASE TABLE | 1 | 2026-02-02 |
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2szb_sources!3smarketing_spend_tracker" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.zb_sources.marketing_spend_tracker` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="raw_amazon_sticker_responses">
+**Type:** EXTERNAL | **Usage (180d):** 2,665 queries | **Last Used:** 2026-02-04
+
+Custom data from Amazon. Key columns: `sticker_response_date`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2szb_sources!3sraw_amazon_sticker_responses" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.zb_sources.raw_amazon_sticker_responses` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="marketing_spend_monthly">
+**Type:** BASE TABLE | **Usage (180d):** 2,167 queries | **Last Used:** 2026-02-03
+
+Monthly aggregation. Key columns: `acquisition_spend, core_acquisition_spend, brand_spend, retention_spend, optimization_spend`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2szb_sources!3smarketing_spend_monthly" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.zb_sources.marketing_spend_monthly` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="sku_lookup">
+**Type:** EXTERNAL | **Usage (180d):** 1,624 queries | **Last Used:** 2026-02-04
+
+Product/SKU-level data.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2szb_sources!3ssku_lookup" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.zb_sources.sku_lookup` LIMIT 10;
+```
+</Accordion>
+
+
+### hubspot
+
+<Accordion title="company">
+**Type:** BASE TABLE | **Usage (180d):** 4,615 queries | **Last Used:** 2026-02-04
+
+Custom data. Key columns: `property_hs_avatar_filemanager_key, property_notes_last_updated, property_hs_lastmodifieddate, property_hs_date_entered_1358513856, property_hs_date_entered_1358513857`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2shubspot!3scompany" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.hubspot.company` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="contact_company">
+**Type:** BASE TABLE | **Usage (180d):** 2,642 queries | **Last Used:** 2026-02-04
+
+Custom data. Key columns: `contact_id, company_id, type_id`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2shubspot!3scontact_company" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.hubspot.contact_company` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="contact">
+**Type:** BASE TABLE | **Usage (180d):** 2,442 queries | **Last Used:** 2026-02-04
+
+Custom data. Key columns: `property_hs_first_outreach_date, property_notes_last_updated, property_hs_sa_first_engagement_date, id`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2shubspot!3scontact" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.hubspot.contact` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="contact_list">
+**Type:** BASE TABLE | **Usage (180d):** 2,309 queries | **Last Used:** 2026-02-03
+
+Custom data. Key columns: `id, created_by_id, object_type_id, updated_at, filters_updated_at`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2shubspot!3scontact_list" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.hubspot.contact_list` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="users">
+**Type:** BASE TABLE | **Usage (180d):** 2,307 queries | **Last Used:** 2026-02-03
+
+Custom data. Key columns: `id, role_id, primary_team_id`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2shubspot!3susers" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.hubspot.users` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="association_type">
+**Type:** BASE TABLE | **Usage (180d):** 2,307 queries | **Last Used:** 2026-02-03
+
+Custom data. Key columns: `id`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2shubspot!3sassociation_type" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.hubspot.association_type` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="sessions_analytics_monthly_report">
+**Type:** BASE TABLE | **Usage (180d):** 1,599 queries | **Last Used:** 2026-02-03
+
+Monthly aggregation. Key columns: `date, paid_search`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2shubspot!3ssessions_analytics_monthly_report" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.hubspot.sessions_analytics_monthly_report` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="totals_analytics_weekly_report">
+**Type:** BASE TABLE | **Usage (180d):** 1,597 queries | **Last Used:** 2026-02-03
+
+Weekly aggregation. Key columns: `date`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2shubspot!3stotals_analytics_weekly_report" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.hubspot.totals_analytics_weekly_report` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="totals_analytics_monthly_report">
+**Type:** BASE TABLE | **Usage (180d):** 1,597 queries | **Last Used:** 2026-02-03
+
+Monthly aggregation. Key columns: `date`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2shubspot!3stotals_analytics_monthly_report" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.hubspot.totals_analytics_monthly_report` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="geolocation_analytics_monthly_report">
+**Type:** BASE TABLE | **Usage (180d):** 1,597 queries | **Last Used:** 2026-02-03
+
+Monthly aggregation. Key columns: `date`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2shubspot!3sgeolocation_analytics_monthly_report" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.hubspot.geolocation_analytics_monthly_report` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="totals_analytics_daily_report">
+**Type:** BASE TABLE | **Usage (180d):** 1,597 queries | **Last Used:** 2026-02-03
+
+Daily aggregation. Key columns: `date`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2shubspot!3stotals_analytics_daily_report" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.hubspot.totals_analytics_daily_report` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="deal_pipeline">
+**Type:** BASE TABLE | **Usage (180d):** 1,597 queries | **Last Used:** 2026-02-03
+
+Custom data. Key columns: `pipeline_id, updated_at`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2shubspot!3sdeal_pipeline" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.hubspot.deal_pipeline` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="deal_pipeline_stage">
+**Type:** BASE TABLE | **Usage (180d):** 1,597 queries | **Last Used:** 2026-02-03
+
+Custom data. Key columns: `stage_id, pipeline_id, updated_at`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2shubspot!3sdeal_pipeline_stage" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.hubspot.deal_pipeline_stage` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="geolocation_analytics_weekly_report">
+**Type:** BASE TABLE | **Usage (180d):** 1,597 queries | **Last Used:** 2026-02-03
+
+Weekly aggregation. Key columns: `date`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2shubspot!3sgeolocation_analytics_weekly_report" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.hubspot.geolocation_analytics_weekly_report` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="sources_analytics_weekly_report">
+**Type:** BASE TABLE | **Usage (180d):** 1,597 queries | **Last Used:** 2026-02-03
+
+Weekly aggregation. Key columns: `date, customers`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2shubspot!3ssources_analytics_weekly_report" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.hubspot.sources_analytics_weekly_report` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="geolocation_analytics_daily_report">
+**Type:** BASE TABLE | **Usage (180d):** 1,597 queries | **Last Used:** 2026-02-03
+
+Daily aggregation. Key columns: `date`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2shubspot!3sgeolocation_analytics_daily_report" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.hubspot.geolocation_analytics_daily_report` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="sources_analytics_monthly_report">
+**Type:** BASE TABLE | **Usage (180d):** 1,597 queries | **Last Used:** 2026-02-03
+
+Monthly aggregation. Key columns: `date, customers`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2shubspot!3ssources_analytics_monthly_report" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.hubspot.sources_analytics_monthly_report` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="form">
+**Type:** BASE TABLE | **Usage (180d):** 1,597 queries | **Last Used:** 2026-02-03
+
+Custom data. Key columns: `guid, portal_id, follow_up_id`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2shubspot!3sform" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.hubspot.form` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="sources_analytics_daily_report">
+**Type:** BASE TABLE | **Usage (180d):** 1,597 queries | **Last Used:** 2026-02-03
+
+Daily aggregation. Key columns: `date, customers`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2shubspot!3ssources_analytics_daily_report" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.hubspot.sources_analytics_daily_report` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="email_subscription">
+**Type:** BASE TABLE | **Usage (180d):** 1,597 queries | **Last Used:** 2026-02-03
+
+Custom data. Key columns: `id, portal_id`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2shubspot!3semail_subscription" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.hubspot.email_subscription` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="ticket_pipeline_stage">
+**Type:** BASE TABLE | **Usage (180d):** 1,597 queries | **Last Used:** 2026-02-03
+
+Custom data. Key columns: `stage_id, pipeline_id, updated_at`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2shubspot!3sticket_pipeline_stage" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.hubspot.ticket_pipeline_stage` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="owner">
+**Type:** BASE TABLE | **Usage (180d):** 1,597 queries | **Last Used:** 2026-02-03
+
+Custom data. Key columns: `owner_id, updated_at, user_id_including_inactive, active_user_id`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2shubspot!3sowner" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.hubspot.owner` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="ticket_pipeline">
+**Type:** BASE TABLE | **Usage (180d):** 1,597 queries | **Last Used:** 2026-02-03
+
+Custom data. Key columns: `pipeline_id, updated_at`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2shubspot!3sticket_pipeline" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.hubspot.ticket_pipeline` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="sessions_analytics_daily_report">
+**Type:** BASE TABLE | **Usage (180d):** 1,564 queries | **Last Used:** 2026-02-03
+
+Daily aggregation. Key columns: `date, paid_search`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2shubspot!3ssessions_analytics_daily_report" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.hubspot.sessions_analytics_daily_report` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="sessions_analytics_weekly_report">
+**Type:** BASE TABLE | **Usage (180d):** 1,564 queries | **Last Used:** 2026-02-03
+
+Weekly aggregation. Key columns: `date, paid_search`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2shubspot!3ssessions_analytics_weekly_report" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.hubspot.sessions_analytics_weekly_report` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="marketing_email_campaign">
+**Type:** BASE TABLE | **Usage (180d):** 1,051 queries | **Last Used:** 2026-02-03
+
+Marketing/advertising data. Key columns: `campaign_id, marketing_email_id`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2shubspot!3smarketing_email_campaign" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.hubspot.marketing_email_campaign` LIMIT 10;
+```
+</Accordion>
+
+
+### twilio
+
+<Accordion title="usage_record">
+**Type:** BASE TABLE | **Usage (180d):** 3,770 queries | **Last Used:** 2026-02-03
+
+Custom data. Key columns: `account_id, end_date, start_date`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2stwilio!3susage_record" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.twilio.usage_record` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="account_history">
+**Type:** BASE TABLE | **Usage (180d):** 3,039 queries | **Last Used:** 2026-02-03
+
+Custom data. Key columns: `id, updated_at, owner_account_id`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2stwilio!3saccount_history" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.twilio.account_history` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="messaging_service">
+**Type:** BASE TABLE | **Usage (180d):** 3,014 queries | **Last Used:** 2026-02-03
+
+Custom data. Key columns: `id, validity_period, synchronous_validation`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2stwilio!3smessaging_service" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.twilio.messaging_service` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="role_permission">
+**Type:** BASE TABLE | **Usage (180d):** 2,295 queries | **Last Used:** 2026-02-03
+
+Custom data. Key columns: `role_id`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2stwilio!3srole_permission" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.twilio.role_permission` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="message">
+**Type:** BASE TABLE | **Usage (180d):** 2,278 queries | **Last Used:** 2026-02-03
+
+Custom data. Key columns: `id, date_sent`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2stwilio!3smessage" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.twilio.message` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="flow_history">
+**Type:** BASE TABLE | **Usage (180d):** 1,639 queries | **Last Used:** 2026-02-03
+
+Custom data. Key columns: `id, updated_at, account_id`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2stwilio!3sflow_history" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.twilio.flow_history` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="service">
+**Type:** BASE TABLE | **Usage (180d):** 1,589 queries | **Last Used:** 2026-02-03
+
+Custom data. Key columns: `id, account_id, updated_at`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2stwilio!3sservice" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.twilio.service` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="role">
+**Type:** BASE TABLE | **Usage (180d):** 1,589 queries | **Last Used:** 2026-02-03
+
+Custom data. Key columns: `id, account_id, updated_at, chat_service_id`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2stwilio!3srole" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.twilio.role` LIMIT 10;
+```
+</Accordion>
+
+
+### cin7core
+
+<Accordion title="sale">
+**Type:** BASE TABLE | **Usage (180d):** 3,440 queries | **Last Used:** 2026-02-04
+
+Custom data. Key columns: `id, customer_id`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2scin7core!3ssale" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.cin7core.sale` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="customer">
+**Type:** BASE TABLE | **Usage (180d):** 2,604 queries | **Last Used:** 2026-02-04
+
+Customer-level data. Key columns: `id, revenue_account`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2scin7core!3scustomer" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.cin7core.customer` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="sale_order_line">
+**Type:** BASE TABLE | **Usage (180d):** 2,310 queries | **Last Used:** 2026-02-04
+
+Order-level data. Key columns: `sale_id, product_id`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2scin7core!3ssale_order_line" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.cin7core.sale_order_line` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="sale_fullfillment_ship_line">
+**Type:** BASE TABLE | **Usage (180d):** 1,679 queries | **Last Used:** 2026-02-03
+
+Custom data. Key columns: `sale_id, id, shipment_date`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2scin7core!3ssale_fullfillment_ship_line" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.cin7core.sale_fullfillment_ship_line` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="sale_fullfillment_pack_line">
+**Type:** BASE TABLE | **Usage (180d):** 1,677 queries | **Last Used:** 2026-02-03
+
+Custom data. Key columns: `sale_id, product_id, location_id`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2scin7core!3ssale_fullfillment_pack_line" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.cin7core.sale_fullfillment_pack_line` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="sale_fullfillment_pick_line">
+**Type:** BASE TABLE | **Usage (180d):** 1,595 queries | **Last Used:** 2026-02-03
+
+Custom data. Key columns: `sale_id, product_id`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2scin7core!3ssale_fullfillment_pick_line" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.cin7core.sale_fullfillment_pick_line` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="sale_credit_note_refund">
+**Type:** BASE TABLE | **Usage (180d):** 1,321 queries | **Last Used:** 2026-02-03
+
+Custom data. Key columns: `sale_credit_note_task_id, sale_id, id`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2scin7core!3ssale_credit_note_refund" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.cin7core.sale_credit_note_refund` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="sale_credit_note_line">
+**Type:** BASE TABLE | **Usage (180d):** 1,308 queries | **Last Used:** 2026-02-03
+
+Custom data. Key columns: `sale_credit_note_task_id, sale_id, product_id`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2scin7core!3ssale_credit_note_line" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.cin7core.sale_credit_note_line` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="product">
+**Type:** BASE TABLE | **Usage (180d):** 1,215 queries | **Last Used:** 2026-02-04
+
+Product/SKU-level data. Key columns: `id, category_id, revenue_account`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2scin7core!3sproduct" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.cin7core.product` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="sale_inventory_movement">
+**Type:** BASE TABLE | **Usage (180d):** 1,213 queries | **Last Used:** 2026-02-03
+
+Custom data. Key columns: `sale_id, product_id, date, task_id`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2scin7core!3ssale_inventory_movement" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.cin7core.sale_inventory_movement` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="product_attachment">
+**Type:** BASE TABLE | **Usage (180d):** 1,195 queries | **Last Used:** 2026-02-03
+
+Product/SKU-level data from TikTok. Key columns: `product_id, id`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2scin7core!3sproduct_attachment" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.cin7core.product_attachment` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="bill_of_material_service">
+**Type:** BASE TABLE | **Usage (180d):** 1,177 queries | **Last Used:** 2026-02-03
+
+Custom data. Key columns: `product_id, component_product_id`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2scin7core!3sbill_of_material_service" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.cin7core.bill_of_material_service` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="bill_of_material_product">
+**Type:** BASE TABLE | **Usage (180d):** 1,167 queries | **Last Used:** 2026-02-03
+
+Product/SKU-level data. Key columns: `product_id, component_product_id`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2scin7core!3sbill_of_material_product" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.cin7core.bill_of_material_product` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="sale_transaction">
+**Type:** BASE TABLE | **Usage (180d):** 1,129 queries | **Last Used:** 2026-02-03
+
+Custom data. Key columns: `sale_id, transaction_id, task_id`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2scin7core!3ssale_transaction" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.cin7core.sale_transaction` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="sale_invoice_line">
+**Type:** BASE TABLE | **Usage (180d):** 1,120 queries | **Last Used:** 2026-02-03
+
+Custom data. Key columns: `sale_id, sale_invoice_task_id, product_id`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2scin7core!3ssale_invoice_line" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.cin7core.sale_invoice_line` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="sale_credit_note">
+**Type:** BASE TABLE | **Usage (180d):** 1,118 queries | **Last Used:** 2026-02-03
+
+Custom data. Key columns: `sale_id, task_id`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2scin7core!3ssale_credit_note" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.cin7core.sale_credit_note` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="sale_fullfillment">
+**Type:** BASE TABLE | **Usage (180d):** 1,114 queries | **Last Used:** 2026-02-03
+
+Custom data. Key columns: `sale_id, task_id`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2scin7core!3ssale_fullfillment" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.cin7core.sale_fullfillment` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="sale_invoice">
+**Type:** BASE TABLE | **Usage (180d):** 1,113 queries | **Last Used:** 2026-02-03
+
+Custom data. Key columns: `sale_id, task_id, invoice_date, invoice_due_date`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2scin7core!3ssale_invoice" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.cin7core.sale_invoice` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="sale_attachment">
+**Type:** BASE TABLE | **Usage (180d):** 1,023 queries | **Last Used:** 2026-02-03
+
+Custom data from TikTok. Key columns: `sale_id, id`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2scin7core!3ssale_attachment" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.cin7core.sale_attachment` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="sale_credit_note_restock">
+**Type:** BASE TABLE | **Usage (180d):** 990 queries | **Last Used:** 2026-02-03
+
+Custom data. Key columns: `sale_credit_note_task_id, sale_id, product_id`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2scin7core!3ssale_credit_note_restock" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.cin7core.sale_credit_note_restock` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="product_movement">
+**Type:** BASE TABLE | **Usage (180d):** 949 queries | **Last Used:** 2026-02-03
+
+Product/SKU-level data. Key columns: `product_id`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2scin7core!3sproduct_movement" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.cin7core.product_movement` LIMIT 10;
+```
+</Accordion>
+
 
 ### zb_transforms
 
-| Object | Type | Usage (180d) | Last Used |
-|--------|------|--------------|-----------|
-| `rpt_executive_summary_daily` | BASE TABLE | 3,242 | 2026-02-03 |
-| `fct_amazon_sticker_response_matches` | BASE TABLE | 2,644 | 2026-02-04 |
-| `fct_amazon_new_downweights` | BASE TABLE | 2,168 | 2026-02-03 |
-| `obt_orders` | BASE TABLE | 2,168 | 2026-02-03 |
-| `dim_order_lines` | BASE TABLE | 2,167 | 2026-02-04 |
-| `rpt_executive_summary_monthly` | BASE TABLE | 484 | 2026-02-03 |
-| `cogs_per_order` | BASE TABLE | 36 | 2026-02-02 |
-| `cogs_per_order_db` | BASE TABLE | 26 | 2026-02-02 |
-| `order_number_map` | BASE TABLE | 20 | 2026-02-02 |
+<Accordion title="rpt_executive_summary_daily">
+**Type:** BASE TABLE | **Usage (180d):** 3,242 queries | **Last Used:** 2026-02-03
+
+Aggregated summary. Key columns: `rpt_date, sm_channel, order_net_revenue, new_customer_order_net_revenue, repeat_customer_order_net_revenue`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2szb_transforms!3srpt_executive_summary_daily" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.zb_transforms.rpt_executive_summary_daily` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="fct_amazon_sticker_response_matches">
+**Type:** BASE TABLE | **Usage (180d):** 2,644 queries | **Last Used:** 2026-02-04
+
+Fact table from Amazon. Key columns: `sticker_response_date, customer_id`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2szb_transforms!3sfct_amazon_sticker_response_matches" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.zb_transforms.fct_amazon_sticker_response_matches` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="fct_amazon_new_downweights">
+**Type:** BASE TABLE | **Usage (180d):** 2,168 queries | **Last Used:** 2026-02-03
+
+Fact table from Amazon.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2szb_transforms!3sfct_amazon_new_downweights" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.zb_transforms.fct_amazon_new_downweights` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="obt_orders">
+**Type:** BASE TABLE | **Usage (180d):** 2,168 queries | **Last Used:** 2026-02-03
+
+Order-level data. Key columns: `sm_store_id, sm_order_key, sm_customer_key, source_system, order_id`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2szb_transforms!3sobt_orders" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.zb_transforms.obt_orders` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="dim_order_lines">
+**Type:** BASE TABLE | **Usage (180d):** 2,167 queries | **Last Used:** 2026-02-04
+
+Order-level data. Key columns: `order_line_id, sm_order_key, sm_order_line_key, sm_product_key, source_system`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2szb_transforms!3sdim_order_lines" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.zb_transforms.dim_order_lines` LIMIT 10;
+```
+</Accordion>
+
+
+### pipe17
+
+<Accordion title="fulfillment_line_item">
+**Type:** BASE TABLE | **Usage (180d):** 2,429 queries | **Last Used:** 2026-02-04
+
+Custom data. Key columns: `id, fulfillment_id`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2spipe17!3sfulfillment_line_item" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.pipe17.fulfillment_line_item` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="order_discount">
+**Type:** BASE TABLE | **Usage (180d):** 2,330 queries | **Last Used:** 2026-02-03
+
+Order-level data. Key columns: `orders_id, line_item_id`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2spipe17!3sorder_discount" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.pipe17.order_discount` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="fulfillment">
+**Type:** BASE TABLE | **Usage (180d):** 1,889 queries | **Last Used:** 2026-02-04
+
+Custom data. Key columns: `id, actual_ship_date, external_fulfillment_id, external_order_id, updated_at`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2spipe17!3sfulfillment" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.pipe17.fulfillment` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="order_line_item">
+**Type:** BASE TABLE | **Usage (180d):** 1,628 queries | **Last Used:** 2026-02-03
+
+Order-level data. Key columns: `custom_var_auto_merge_billing_sub_id, orders_id, custom_var_source, location_id`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2spipe17!3sorder_line_item" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.pipe17.order_line_item` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="shipment_line_item">
+**Type:** BASE TABLE | **Usage (180d):** 1,628 queries | **Last Used:** 2026-02-03
+
+Custom data. Key columns: `custom_var_auto_merge_billing_sub_id, custom_var_source, custom_var_widget_id, custom_var_upsell_provider, custom_var_swap_back_variant_id`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2spipe17!3sshipment_line_item" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.pipe17.shipment_line_item` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="order_tag">
+**Type:** BASE TABLE | **Usage (180d):** 1,623 queries | **Last Used:** 2026-02-03
+
+Order-level data. Key columns: `orders_id`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2spipe17!3sorder_tag" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.pipe17.order_tag` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="order_payment">
+**Type:** BASE TABLE | **Usage (180d):** 1,621 queries | **Last Used:** 2026-02-03
+
+Order-level data. Key columns: `orders_id`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2spipe17!3sorder_payment" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.pipe17.order_payment` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="shipment_tag">
+**Type:** BASE TABLE | **Usage (180d):** 1,621 queries | **Last Used:** 2026-02-03
+
+Custom data. Key columns: `shipment_id`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2spipe17!3sshipment_tag" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.pipe17.shipment_tag` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="orders">
+**Type:** BASE TABLE | **Usage (180d):** 1,484 queries | **Last Used:** 2026-02-04
+
+Order-level data. Key columns: `id, external_order_api_id`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2spipe17!3sorders" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.pipe17.orders` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="shipment">
+**Type:** BASE TABLE | **Usage (180d):** 1,482 queries | **Last Used:** 2026-02-04
+
+Custom data. Key columns: `id, external_shipment_id, ship_after_date, external_order_id`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2spipe17!3sshipment" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.pipe17.shipment` LIMIT 10;
+```
+</Accordion>
+
+
+### skio
+
+<Accordion title="StorefrontUser">
+**Type:** BASE TABLE | **Usage (180d):** 2,312 queries | **Last Used:** 2026-02-04
+
+Custom data. Key columns: `id, updatedAt, siteId, platformId`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2sskio!3sStorefrontUser" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.skio.StorefrontUser` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="ProductVariant">
+**Type:** BASE TABLE | **Usage (180d):** 1,357 queries | **Last Used:** 2026-02-04
+
+Product/SKU-level data. Key columns: `id, updatedAt, platformId, productId`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2sskio!3sProductVariant" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.skio.ProductVariant` LIMIT 10;
+```
+</Accordion>
+
+
+### twilio_twilio
+
+<Accordion title="int_twilio__messages">
+**Type:** BASE TABLE | **Usage (180d):** 2,100 queries | **Last Used:** 2026-02-03
+
+Intermediate transformation from Twilio. Key columns: `account_id`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-zbiotics&ws=!1m5!1m4!4m3!1ssm-zbiotics!2stwilio_twilio!3sint_twilio__messages" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-zbiotics.twilio_twilio.int_twilio__messages` LIMIT 10;
+```
+</Accordion>
+
+
+---
+
 ## Your Data Warehouse
 
 | Property | Value |
@@ -414,6 +1381,7 @@ This section lists **all active** custom objects grouped by dataset, ordered by 
 
 - **Usage counts** reflect BigQuery job executions, including scheduled queries, dashboard refreshes, and ad-hoc queries.
 - Objects with low usage may be candidates for cleanup.
+- Click "Open in BigQuery Console" to view the table schema and run queries.
 
 <Info>
 For questions about these custom objects or to request modifications, please contact your SourceMedium representative.

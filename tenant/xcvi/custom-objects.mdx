@@ -37,189 +37,1347 @@ This page documents active custom BigQuery tables and views (those queried at le
 
 ## Objects by Dataset
 
-<Info>
-This section lists **all active** custom objects grouped by dataset, ordered by 180-day usage.
-</Info>
+### sell_through_data
 
-### customized_views
+<Accordion title="xcvi_final_table">
+**Type:** BASE TABLE | **Usage (180d):** 12,059 queries | **Last Used:** 2026-02-03
 
-| Object | Type | Usage (180d) | Last Used |
-|--------|------|--------------|-----------|
-| `SKU_RAW_N41` | BASE TABLE | 3,822 | 2026-02-03 |
-| `SKU_master_BQ` | BASE TABLE | 769 | 2026-02-03 |
-| `N41_Last_PO_Price` | VIEW | 377 | 2026-02-03 |
-| `executive_sheet_source` | VIEW | 232 | 2026-02-03 |
-| `N41_product_detail_wringerwear` | VIEW | 186 | 2025-12-13 |
-| `PO_Register_Detail-open-WIP` | BASE TABLE | 174 | 2026-01-30 |
-| `core_trend_dataset` | VIEW | 52 | 2026-02-02 |
-| `latest_product_cost_by_sku` | BASE TABLE | 7 | 2026-02-02 |
+Custom data. Key columns: `sm_store_id, transaction_date, order_revenue, refund_revenue`.
 
-### DL_XCVI
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2ssell_through_data!3sxcvi_final_table" target="_blank">Open in BigQuery Console →</a>
 
-| Object | Type | Usage (180d) | Last Used |
-|--------|------|--------------|-----------|
-| `XCVI_Shopify_Inv_Not_snowflake` | VIEW | 10 | 2025-11-20 |
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.sell_through_data.xcvi_final_table` LIMIT 10;
+```
+</Accordion>
 
-### N41_created_reports
+<Accordion title="inventory_spine_v3">
+**Type:** BASE TABLE | **Usage (180d):** 1,733 queries | **Last Used:** 2026-02-03
 
-| Object | Type | Usage (180d) | Last Used |
-|--------|------|--------------|-----------|
-| `N41_Inventory_Vertical` | BASE TABLE | 1,208 | 2026-02-03 |
-| `v_so_detail_by_wh` | BASE TABLE | 391 | 2026-02-03 |
-| `v_po_detail_by_wh` | BASE TABLE | 387 | 2026-02-03 |
-| `v_cm_inventory_wh` | BASE TABLE | 375 | 2026-02-03 |
-| `v_inv_inventory_wh` | BASE TABLE | 375 | 2026-02-03 |
-| `v_inventory_position_by_wh` | BASE TABLE | 367 | 2026-02-03 |
-| `v_sales_by_quarter_sotype_division_alldetail` | BASE TABLE | 192 | 2026-02-03 |
-| `v_alloc_stylecolor_wh` | BASE TABLE | 181 | 2026-02-03 |
-| `v_pick_stylecolor_wh` | BASE TABLE | 181 | 2026-02-03 |
-| `v_sos_stylecolor_wh` | BASE TABLE | 181 | 2026-02-03 |
-| `Aida_SeasondateV2` | BASE TABLE | 57 | 2026-02-02 |
-| `v_inv_detail_2_4NORDDROP` | VIEW | 3 | 2025-09-18 |
+Custom data. Key columns: `date_index, inventory_item_id, updated_at`.
 
-### n41_data
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2ssell_through_data!3sinventory_spine_v3" target="_blank">Open in BigQuery Console →</a>
 
-| Object | Type | Usage (180d) | Last Used |
-|--------|------|--------------|-----------|
-| `_sdc_primary_keys` | BASE TABLE | 4,997 | 2026-02-03 |
-| `NVLT_styleColor` | BASE TABLE | 2,014 | 2026-02-03 |
-| `v_size_vertical` | BASE TABLE | 675 | 2026-02-03 |
-| `NVLT_color` | BASE TABLE | 612 | 2026-02-03 |
-| `NVLT_UPC` | BASE TABLE | 582 | 2026-02-03 |
-| `NVLT_division` | BASE TABLE | 538 | 2026-02-03 |
-| `NVLT_size` | BASE TABLE | 366 | 2026-02-03 |
-| `NVLT_season` | BASE TABLE | 328 | 2026-02-03 |
-| `NVLT_POD` | BASE TABLE | 300 | 2026-02-03 |
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.sell_through_data.inventory_spine_v3` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="ecom_so_qty_latest">
+**Type:** BASE TABLE | **Usage (180d):** 478 queries | **Last Used:** 2026-02-03
+
+Custom data. Key columns: `Order_Date`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2ssell_through_data!3secom_so_qty_latest" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.sell_through_data.ecom_so_qty_latest` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="sku_date_combinations">
+**Type:** BASE TABLE | **Usage (180d):** 386 queries | **Last Used:** 2026-02-03
+
+Product/SKU-level data. Key columns: `date_index, inventory_item_id`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2ssell_through_data!3ssku_date_combinations" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.sell_through_data.sku_date_combinations` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="transaction_union">
+**Type:** BASE TABLE | **Usage (180d):** 218 queries | **Last Used:** 2026-02-03
+
+Custom data. Key columns: `sm_store_id, transaction_date, order_revenue, refund_revenue`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2ssell_through_data!3stransaction_union" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.sell_through_data.transaction_union` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="drop_date_catalog_flag_processing">
+**Type:** BASE TABLE | **Usage (180d):** 211 queries | **Last Used:** 2026-02-03
+
+Custom data. Key columns: `dropdate`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2ssell_through_data!3sdrop_date_catalog_flag_processing" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.sell_through_data.drop_date_catalog_flag_processing` LIMIT 10;
+```
+</Accordion>
+
 
 ### n41_mssql_data2
 
-| Object | Type | Usage (180d) | Last Used |
-|--------|------|--------------|-----------|
-| `_sdc_primary_keys` | BASE TABLE | 6,215 | 2026-02-03 |
-| `NVLT_POD` | BASE TABLE | 1,856 | 2026-02-03 |
-| `NVLT_INVD` | BASE TABLE | 1,588 | 2026-02-03 |
-| `NVLT_SOD` | BASE TABLE | 1,425 | 2026-02-03 |
-| `NVLT_inventory` | BASE TABLE | 1,377 | 2026-02-03 |
-| `NVLT_SOH` | BASE TABLE | 1,119 | 2026-02-03 |
-| `NVLT_customer` | BASE TABLE | 941 | 2026-02-03 |
-| `NVLT_INV` | BASE TABLE | 820 | 2026-02-03 |
-| `NVLT_pickD` | BASE TABLE | 817 | 2026-02-03 |
-| `NVLT_SOSD` | BASE TABLE | 772 | 2026-02-03 |
-| `NVLT_size` | BASE TABLE | 760 | 2026-02-03 |
-| `NVLT_cancelReason` | BASE TABLE | 365 | 2026-02-03 |
-| `NVLT_AllocateD` | BASE TABLE | 186 | 2026-02-03 |
+<Accordion title="_sdc_primary_keys">
+**Type:** BASE TABLE | **Usage (180d):** 6,215 queries | **Last Used:** 2026-02-03
 
-### n41_mssql_data3
+Custom data.
 
-| Object | Type | Usage (180d) | Last Used |
-|--------|------|--------------|-----------|
-| `_sdc_primary_keys` | BASE TABLE | 2,511 | 2026-02-03 |
-| `NVLT_POH` | BASE TABLE | 1,013 | 2026-02-03 |
-| `NVLT_INVENTORY_BY_WH` | BASE TABLE | 789 | 2026-02-03 |
-| `NVLT_pickH` | BASE TABLE | 603 | 2026-02-03 |
-| `NVLT_SOD_LOG` | BASE TABLE | 366 | 2026-02-03 |
-| `NVLT_AllocateD` | BASE TABLE | 350 | 2026-02-03 |
-| `NVLT_customer_div` | BASE TABLE | 40 | 2026-02-03 |
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sn41_mssql_data2!3s_sdc_primary_keys" target="_blank">Open in BigQuery Console →</a>
 
-### n41_transfer_data
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.n41_mssql_data2._sdc_primary_keys` LIMIT 10;
+```
+</Accordion>
 
-| Object | Type | Usage (180d) | Last Used |
-|--------|------|--------------|-----------|
-| `v_sales_by_quarter_sotype_division_alldetail_v4` | BASE TABLE | 91 | 2026-02-02 |
+<Accordion title="NVLT_POD">
+**Type:** BASE TABLE | **Usage (180d):** 1,856 queries | **Last Used:** 2026-02-03
 
-### sell_through_data
+Custom data.
 
-| Object | Type | Usage (180d) | Last Used |
-|--------|------|--------------|-----------|
-| `xcvi_final_table` | BASE TABLE | 12,059 | 2026-02-03 |
-| `inventory_spine_v3` | BASE TABLE | 1,733 | 2026-02-03 |
-| `ecom_so_qty_latest` | BASE TABLE | 478 | 2026-02-03 |
-| `sku_date_combinations` | BASE TABLE | 386 | 2026-02-03 |
-| `transaction_union` | BASE TABLE | 218 | 2026-02-03 |
-| `drop_date_catalog_flag_processing` | BASE TABLE | 211 | 2026-02-03 |
-| `final_table_style_aggregate` | BASE TABLE | 47 | 2026-02-02 |
-| `ecom_inventory_spine` | BASE TABLE | 11 | 2026-02-02 |
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sn41_mssql_data2!3sNVLT_POD" target="_blank">Open in BigQuery Console →</a>
 
-### sell_through_pipeline
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.n41_mssql_data2.NVLT_POD` LIMIT 10;
+```
+</Accordion>
 
-| Object | Type | Usage (180d) | Last Used |
-|--------|------|--------------|-----------|
-| `sell_through_pipeline_final_table` | BASE TABLE | 912 | 2026-02-03 |
-| `sku_master_BQ_pipeline` | BASE TABLE | 568 | 2026-02-03 |
-| `ecom_inventory_spine` | BASE TABLE | 518 | 2026-02-03 |
-| `sku_date_combinations` | BASE TABLE | 429 | 2026-02-03 |
-| `pipeline_transaction_union` | BASE TABLE | 405 | 2026-02-03 |
-| `drop_date_catalog_processing` | BASE TABLE | 275 | 2026-02-03 |
-| `NVLT_UPC_deduped` | BASE TABLE | 263 | 2026-02-03 |
-| `NVLT_season_deduped` | BASE TABLE | 260 | 2026-02-03 |
-| `nvlt_division_deduped` | BASE TABLE | 260 | 2026-02-03 |
-| `sku_raw_n41` | BASE TABLE | 260 | 2026-02-03 |
-| `v_size_vertical_deduped` | BASE TABLE | 260 | 2026-02-03 |
-| `sku_master_BQ_st_pipeline` | BASE TABLE | 7 | 2026-02-02 |
+<Accordion title="NVLT_INVD">
+**Type:** BASE TABLE | **Usage (180d):** 1,588 queries | **Last Used:** 2026-02-03
 
-### sm_experimental
+Custom data. Key columns: `radid`.
 
-| Object | Type | Usage (180d) | Last Used |
-|--------|------|--------------|-----------|
-| `shipbob_inventory_data` | BASE TABLE | 96 | 2026-02-04 |
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sn41_mssql_data2!3sNVLT_INVD" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.n41_mssql_data2.NVLT_INVD` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="NVLT_SOD">
+**Type:** BASE TABLE | **Usage (180d):** 1,425 queries | **Last Used:** 2026-02-03
+
+Custom data. Key columns: `canceldate`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sn41_mssql_data2!3sNVLT_SOD" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.n41_mssql_data2.NVLT_SOD` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="NVLT_inventory">
+**Type:** BASE TABLE | **Usage (180d):** 1,377 queries | **Last Used:** 2026-02-03
+
+Custom data. Key columns: `inventoryid`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sn41_mssql_data2!3sNVLT_inventory" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.n41_mssql_data2.NVLT_inventory` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="NVLT_SOH">
+**Type:** BASE TABLE | **Usage (180d):** 1,119 queries | **Last Used:** 2026-02-03
+
+Custom data. Key columns: `canceldate`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sn41_mssql_data2!3sNVLT_SOH" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.n41_mssql_data2.NVLT_SOH` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="NVLT_customer">
+**Type:** BASE TABLE | **Usage (180d):** 941 queries | **Last Used:** 2026-02-03
+
+Customer-level data.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sn41_mssql_data2!3sNVLT_customer" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.n41_mssql_data2.NVLT_customer` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="NVLT_INV">
+**Type:** BASE TABLE | **Usage (180d):** 820 queries | **Last Used:** 2026-02-03
+
+Custom data. Key columns: `canceldate, currency_id`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sn41_mssql_data2!3sNVLT_INV" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.n41_mssql_data2.NVLT_INV` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="NVLT_pickD">
+**Type:** BASE TABLE | **Usage (180d):** 817 queries | **Last Used:** 2026-02-03
+
+Custom data. Key columns: `sodid`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sn41_mssql_data2!3sNVLT_pickD" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.n41_mssql_data2.NVLT_pickD` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="NVLT_SOSD">
+**Type:** BASE TABLE | **Usage (180d):** 772 queries | **Last Used:** 2026-02-03
+
+Custom data. Key columns: `canceldate, inventoryid, sodid`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sn41_mssql_data2!3sNVLT_SOSD" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.n41_mssql_data2.NVLT_SOSD` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="NVLT_size">
+**Type:** BASE TABLE | **Usage (180d):** 760 queries | **Last Used:** 2026-02-03
+
+Custom data.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sn41_mssql_data2!3sNVLT_size" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.n41_mssql_data2.NVLT_size` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="NVLT_cancelReason">
+**Type:** BASE TABLE | **Usage (180d):** 365 queries | **Last Used:** 2026-02-03
+
+Custom data.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sn41_mssql_data2!3sNVLT_cancelReason" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.n41_mssql_data2.NVLT_cancelReason` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="NVLT_AllocateD">
+**Type:** BASE TABLE | **Usage (180d):** 186 queries | **Last Used:** 2026-02-03
+
+Custom data. Key columns: `sodid`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sn41_mssql_data2!3sNVLT_AllocateD" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.n41_mssql_data2.NVLT_AllocateD` LIMIT 10;
+```
+</Accordion>
+
+
+### n41_data
+
+<Accordion title="_sdc_primary_keys">
+**Type:** BASE TABLE | **Usage (180d):** 4,997 queries | **Last Used:** 2026-02-03
+
+Custom data.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sn41_data!3s_sdc_primary_keys" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.n41_data._sdc_primary_keys` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="NVLT_styleColor">
+**Type:** BASE TABLE | **Usage (180d):** 2,014 queries | **Last Used:** 2026-02-03
+
+Custom data.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sn41_data!3sNVLT_styleColor" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.n41_data.NVLT_styleColor` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="v_size_vertical">
+**Type:** BASE TABLE | **Usage (180d):** 675 queries | **Last Used:** 2026-02-03
+
+Custom data. Key columns: `__sdc_primary_key`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sn41_data!3sv_size_vertical" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.n41_data.v_size_vertical` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="NVLT_color">
+**Type:** BASE TABLE | **Usage (180d):** 612 queries | **Last Used:** 2026-02-03
+
+Custom data.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sn41_data!3sNVLT_color" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.n41_data.NVLT_color` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="NVLT_UPC">
+**Type:** BASE TABLE | **Usage (180d):** 582 queries | **Last Used:** 2026-02-03
+
+Custom data. Key columns: `id, updateuser`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sn41_data!3sNVLT_UPC" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.n41_data.NVLT_UPC` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="NVLT_division">
+**Type:** BASE TABLE | **Usage (180d):** 538 queries | **Last Used:** 2026-02-03
+
+Custom data.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sn41_data!3sNVLT_division" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.n41_data.NVLT_division` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="NVLT_size">
+**Type:** BASE TABLE | **Usage (180d):** 366 queries | **Last Used:** 2026-02-03
+
+Custom data.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sn41_data!3sNVLT_size" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.n41_data.NVLT_size` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="NVLT_season">
+**Type:** BASE TABLE | **Usage (180d):** 328 queries | **Last Used:** 2026-02-03
+
+Custom data. Key columns: `todate, fromdate`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sn41_data!3sNVLT_season" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.n41_data.NVLT_season` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="NVLT_POD">
+**Type:** BASE TABLE | **Usage (180d):** 300 queries | **Last Used:** 2026-02-03
+
+Custom data. Key columns: `sto_invdid, sodid`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sn41_data!3sNVLT_POD" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.n41_data.NVLT_POD` LIMIT 10;
+```
+</Accordion>
+
+
+### customized_views
+
+<Accordion title="SKU_RAW_N41">
+**Type:** BASE TABLE | **Usage (180d):** 3,822 queries | **Last Used:** 2026-02-03
+
+Product/SKU-level data. Key columns: `availabledate`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2scustomized_views!3sSKU_RAW_N41" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.customized_views.SKU_RAW_N41` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="SKU_master_BQ">
+**Type:** BASE TABLE | **Usage (180d):** 769 queries | **Last Used:** 2026-02-03
+
+Product/SKU-level data. Key columns: `AVAILABLEDATE`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2scustomized_views!3sSKU_master_BQ" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.customized_views.SKU_master_BQ` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="N41_Last_PO_Price">
+**Type:** VIEW | **Usage (180d):** 377 queries | **Last Used:** 2026-02-03
+
+Custom data.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2scustomized_views!3sN41_Last_PO_Price" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.customized_views.N41_Last_PO_Price` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="executive_sheet_source">
+**Type:** VIEW | **Usage (180d):** 232 queries | **Last Used:** 2026-02-03
+
+Custom data.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2scustomized_views!3sexecutive_sheet_source" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.customized_views.executive_sheet_source` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="N41_product_detail_wringerwear">
+**Type:** VIEW | **Usage (180d):** 186 queries | **Last Used:** 2025-12-13
+
+Product/SKU-level data.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2scustomized_views!3sN41_product_detail_wringerwear" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.customized_views.N41_product_detail_wringerwear` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="PO_Register_Detail-open-WIP">
+**Type:** BASE TABLE | **Usage (180d):** 174 queries | **Last Used:** 2026-01-30
+
+Custom data. Key columns: `row_uid, orderdate`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2scustomized_views!3sPO_Register_Detail-open-WIP" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.customized_views.PO_Register_Detail-open-WIP` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="core_trend_dataset">
+**Type:** VIEW | **Usage (180d):** 52 queries | **Last Used:** 2026-02-02
+
+Custom data.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2scustomized_views!3score_trend_dataset" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.customized_views.core_trend_dataset` LIMIT 10;
+```
+</Accordion>
+
 
 ### sm_sources
 
-| Object | Type | Usage (180d) | Last Used |
-|--------|------|--------------|-----------|
-| `xcvi_product_images` | BASE TABLE | 2,564 | 2026-02-03 |
-| `sm_inventory_tables` | BASE TABLE | 417 | 2026-02-03 |
+<Accordion title="xcvi_product_images">
+**Type:** BASE TABLE | **Usage (180d):** 2,564 queries | **Last Used:** 2026-02-03
+
+Product/SKU-level data. Key columns: `sm_store_id`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2ssm_sources!3sxcvi_product_images" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.sm_sources.xcvi_product_images` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="sm_inventory_tables">
+**Type:** BASE TABLE | **Usage (180d):** 417 queries | **Last Used:** 2026-02-03
+
+Custom data. Key columns: `smcid, sm_inventory_level_history_id, sm_inventory_level_hash_id, sm_channel, source_system`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2ssm_sources!3ssm_inventory_tables" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.sm_sources.sm_inventory_tables` LIMIT 10;
+```
+</Accordion>
+
+
+### n41_mssql_data3
+
+<Accordion title="_sdc_primary_keys">
+**Type:** BASE TABLE | **Usage (180d):** 2,511 queries | **Last Used:** 2026-02-03
+
+Custom data.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sn41_mssql_data3!3s_sdc_primary_keys" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.n41_mssql_data3._sdc_primary_keys` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="NVLT_POH">
+**Type:** BASE TABLE | **Usage (180d):** 1,013 queries | **Last Used:** 2026-02-03
+
+Custom data. Key columns: `bldate, onboarddate, canceldate`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sn41_mssql_data3!3sNVLT_POH" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.n41_mssql_data3.NVLT_POH` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="NVLT_INVENTORY_BY_WH">
+**Type:** BASE TABLE | **Usage (180d):** 789 queries | **Last Used:** 2026-02-03
+
+Custom data.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sn41_mssql_data3!3sNVLT_INVENTORY_BY_WH" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.n41_mssql_data3.NVLT_INVENTORY_BY_WH` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="NVLT_pickH">
+**Type:** BASE TABLE | **Usage (180d):** 603 queries | **Last Used:** 2026-02-03
+
+Custom data. Key columns: `canceldate, lastprintdate`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sn41_mssql_data3!3sNVLT_pickH" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.n41_mssql_data3.NVLT_pickH` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="NVLT_SOD_LOG">
+**Type:** BASE TABLE | **Usage (180d):** 366 queries | **Last Used:** 2026-02-03
+
+Custom data. Key columns: `canceldate`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sn41_mssql_data3!3sNVLT_SOD_LOG" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.n41_mssql_data3.NVLT_SOD_LOG` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="NVLT_AllocateD">
+**Type:** BASE TABLE | **Usage (180d):** 350 queries | **Last Used:** 2026-02-03
+
+Custom data. Key columns: `sodid`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sn41_mssql_data3!3sNVLT_AllocateD" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.n41_mssql_data3.NVLT_AllocateD` LIMIT 10;
+```
+</Accordion>
+
 
 ### snowflake_data
 
-| Object | Type | Usage (180d) | Last Used |
-|--------|------|--------------|-----------|
-| `SKU_MASTER1` | BASE TABLE | 1,299 | 2026-02-03 |
-| `TFT_SKU` | BASE TABLE | 233 | 2026-02-03 |
-| `XC_SHOPIFY_SKU1` | BASE TABLE | 233 | 2026-02-03 |
-| `N41_ECOM_SO` | BASE TABLE | 73 | 2026-02-02 |
-| `N41_INV_VERTICAL` | BASE TABLE | 52 | 2026-02-02 |
-| `SKU_MASTER` | BASE TABLE | 52 | 2026-02-02 |
-| `N41_SKU_RAW` | BASE TABLE | 30 | 2026-02-02 |
+<Accordion title="SKU_MASTER1">
+**Type:** BASE TABLE | **Usage (180d):** 1,299 queries | **Last Used:** 2026-02-03
+
+Product/SKU-level data. Key columns: `AVAILABLEDATE`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2ssnowflake_data!3sSKU_MASTER1" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.snowflake_data.SKU_MASTER1` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="TFT_SKU">
+**Type:** BASE TABLE | **Usage (180d):** 233 queries | **Last Used:** 2026-02-03
+
+Product/SKU-level data. Key columns: `ID, PRODUCT_ID, INV_ID`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2ssnowflake_data!3sTFT_SKU" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.snowflake_data.TFT_SKU` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="XC_SHOPIFY_SKU1">
+**Type:** BASE TABLE | **Usage (180d):** 233 queries | **Last Used:** 2026-02-03
+
+Product/SKU-level data from Shopify. Key columns: `ID, PRODUCT_ID, INV_ID`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2ssnowflake_data!3sXC_SHOPIFY_SKU1" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.snowflake_data.XC_SHOPIFY_SKU1` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="N41_ECOM_SO">
+**Type:** BASE TABLE | **Usage (180d):** 73 queries | **Last Used:** 2026-02-02
+
+Custom data. Key columns: `ORDERDATE`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2ssnowflake_data!3sN41_ECOM_SO" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.snowflake_data.N41_ECOM_SO` LIMIT 10;
+```
+</Accordion>
+
+
+### N41_created_reports
+
+<Accordion title="N41_Inventory_Vertical">
+**Type:** BASE TABLE | **Usage (180d):** 1,208 queries | **Last Used:** 2026-02-03
+
+Custom data.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sN41_created_reports!3sN41_Inventory_Vertical" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.N41_created_reports.N41_Inventory_Vertical` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="v_so_detail_by_wh">
+**Type:** BASE TABLE | **Usage (180d):** 391 queries | **Last Used:** 2026-02-03
+
+Custom data.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sN41_created_reports!3sv_so_detail_by_wh" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.N41_created_reports.v_so_detail_by_wh` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="v_po_detail_by_wh">
+**Type:** BASE TABLE | **Usage (180d):** 387 queries | **Last Used:** 2026-02-03
+
+Custom data.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sN41_created_reports!3sv_po_detail_by_wh" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.N41_created_reports.v_po_detail_by_wh` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="v_cm_inventory_wh">
+**Type:** BASE TABLE | **Usage (180d):** 375 queries | **Last Used:** 2026-02-03
+
+Custom data.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sN41_created_reports!3sv_cm_inventory_wh" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.N41_created_reports.v_cm_inventory_wh` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="v_inv_inventory_wh">
+**Type:** BASE TABLE | **Usage (180d):** 375 queries | **Last Used:** 2026-02-03
+
+Custom data.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sN41_created_reports!3sv_inv_inventory_wh" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.N41_created_reports.v_inv_inventory_wh` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="v_inventory_position_by_wh">
+**Type:** BASE TABLE | **Usage (180d):** 367 queries | **Last Used:** 2026-02-03
+
+Custom data.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sN41_created_reports!3sv_inventory_position_by_wh" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.N41_created_reports.v_inventory_position_by_wh` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="v_sales_by_quarter_sotype_division_alldetail">
+**Type:** BASE TABLE | **Usage (180d):** 192 queries | **Last Used:** 2026-02-03
+
+Custom data.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sN41_created_reports!3sv_sales_by_quarter_sotype_division_alldetail" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.N41_created_reports.v_sales_by_quarter_sotype_division_alldetail` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="v_sos_stylecolor_wh">
+**Type:** BASE TABLE | **Usage (180d):** 181 queries | **Last Used:** 2026-02-03
+
+Custom data.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sN41_created_reports!3sv_sos_stylecolor_wh" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.N41_created_reports.v_sos_stylecolor_wh` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="v_pick_stylecolor_wh">
+**Type:** BASE TABLE | **Usage (180d):** 181 queries | **Last Used:** 2026-02-03
+
+Custom data.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sN41_created_reports!3sv_pick_stylecolor_wh" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.N41_created_reports.v_pick_stylecolor_wh` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="v_alloc_stylecolor_wh">
+**Type:** BASE TABLE | **Usage (180d):** 181 queries | **Last Used:** 2026-02-03
+
+Custom data.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sN41_created_reports!3sv_alloc_stylecolor_wh" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.N41_created_reports.v_alloc_stylecolor_wh` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="Aida_SeasondateV2">
+**Type:** BASE TABLE | **Usage (180d):** 57 queries | **Last Used:** 2026-02-02
+
+Custom data.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sN41_created_reports!3sAida_SeasondateV2" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.N41_created_reports.Aida_SeasondateV2` LIMIT 10;
+```
+</Accordion>
+
 
 ### so_detail_pipeline
 
-| Object | Type | Usage (180d) | Last Used |
-|--------|------|--------------|-----------|
-| `invd` | BASE TABLE | 916 | 2026-02-03 |
-| `sosd` | BASE TABLE | 623 | 2026-02-03 |
-| `inv` | BASE TABLE | 619 | 2026-02-03 |
-| `allocated` | BASE TABLE | 613 | 2026-02-03 |
-| `sod` | BASE TABLE | 472 | 2026-02-03 |
-| `soh` | BASE TABLE | 469 | 2026-02-03 |
-| `stylecolor` | BASE TABLE | 467 | 2026-02-03 |
-| `customer` | BASE TABLE | 463 | 2026-02-03 |
-| `pickh` | BASE TABLE | 463 | 2026-02-03 |
-| `size_dedup` | BASE TABLE | 463 | 2026-02-03 |
-| `agg_po_metrics` | BASE TABLE | 460 | 2026-02-03 |
-| `so_detail_final` | BASE TABLE | 460 | 2026-02-04 |
-| `agg_alloc` | BASE TABLE | 459 | 2026-02-03 |
-| `agg_inv_hdr` | BASE TABLE | 459 | 2026-02-03 |
-| `agg_invd_by_sod` | BASE TABLE | 459 | 2026-02-03 |
-| `agg_invd_by_sono_sod` | BASE TABLE | 459 | 2026-02-03 |
-| `agg_last_received` | BASE TABLE | 459 | 2026-02-03 |
-| `agg_pick` | BASE TABLE | 459 | 2026-02-03 |
-| `agg_po_eta` | BASE TABLE | 459 | 2026-02-03 |
-| `agg_ship` | BASE TABLE | 459 | 2026-02-03 |
+<Accordion title="invd">
+**Type:** BASE TABLE | **Usage (180d):** 916 queries | **Last Used:** 2026-02-03
+
+Custom data. Key columns: `radid`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sso_detail_pipeline!3sinvd" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.so_detail_pipeline.invd` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="sosd">
+**Type:** BASE TABLE | **Usage (180d):** 623 queries | **Last Used:** 2026-02-03
+
+Custom data. Key columns: `canceldate, inventoryid, sodid`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sso_detail_pipeline!3ssosd" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.so_detail_pipeline.sosd` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="inv">
+**Type:** BASE TABLE | **Usage (180d):** 619 queries | **Last Used:** 2026-02-03
+
+Custom data. Key columns: `canceldate, currency_id`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sso_detail_pipeline!3sinv" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.so_detail_pipeline.inv` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="allocated">
+**Type:** BASE TABLE | **Usage (180d):** 613 queries | **Last Used:** 2026-02-03
+
+Custom data. Key columns: `sodid`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sso_detail_pipeline!3sallocated" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.so_detail_pipeline.allocated` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="sod">
+**Type:** BASE TABLE | **Usage (180d):** 472 queries | **Last Used:** 2026-02-03
+
+Custom data. Key columns: `canceldate`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sso_detail_pipeline!3ssod" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.so_detail_pipeline.sod` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="soh">
+**Type:** BASE TABLE | **Usage (180d):** 469 queries | **Last Used:** 2026-02-03
+
+Custom data. Key columns: `canceldate`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sso_detail_pipeline!3ssoh" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.so_detail_pipeline.soh` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="stylecolor">
+**Type:** BASE TABLE | **Usage (180d):** 467 queries | **Last Used:** 2026-02-03
+
+Custom data.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sso_detail_pipeline!3sstylecolor" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.so_detail_pipeline.stylecolor` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="pickh">
+**Type:** BASE TABLE | **Usage (180d):** 463 queries | **Last Used:** 2026-02-03
+
+Custom data. Key columns: `canceldate, lastprintdate`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sso_detail_pipeline!3spickh" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.so_detail_pipeline.pickh` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="size_dedup">
+**Type:** BASE TABLE | **Usage (180d):** 463 queries | **Last Used:** 2026-02-03
+
+Custom data.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sso_detail_pipeline!3ssize_dedup" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.so_detail_pipeline.size_dedup` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="customer">
+**Type:** BASE TABLE | **Usage (180d):** 463 queries | **Last Used:** 2026-02-03
+
+Customer-level data.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sso_detail_pipeline!3scustomer" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.so_detail_pipeline.customer` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="so_detail_final">
+**Type:** BASE TABLE | **Usage (180d):** 460 queries | **Last Used:** 2026-02-04
+
+Custom data. Key columns: `orderdate, shipdate, canceldate`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sso_detail_pipeline!3sso_detail_final" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.so_detail_pipeline.so_detail_final` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="agg_po_metrics">
+**Type:** BASE TABLE | **Usage (180d):** 460 queries | **Last Used:** 2026-02-03
+
+Metrics definitions.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sso_detail_pipeline!3sagg_po_metrics" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.so_detail_pipeline.agg_po_metrics` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="agg_invd_by_sod">
+**Type:** BASE TABLE | **Usage (180d):** 459 queries | **Last Used:** 2026-02-03
+
+Custom data. Key columns: `sodid`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sso_detail_pipeline!3sagg_invd_by_sod" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.so_detail_pipeline.agg_invd_by_sod` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="agg_inv_hdr">
+**Type:** BASE TABLE | **Usage (180d):** 459 queries | **Last Used:** 2026-02-03
+
+Custom data. Key columns: `invoicedate`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sso_detail_pipeline!3sagg_inv_hdr" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.so_detail_pipeline.agg_inv_hdr` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="agg_alloc">
+**Type:** BASE TABLE | **Usage (180d):** 459 queries | **Last Used:** 2026-02-03
+
+Custom data. Key columns: `sodid`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sso_detail_pipeline!3sagg_alloc" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.so_detail_pipeline.agg_alloc` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="agg_ship">
+**Type:** BASE TABLE | **Usage (180d):** 459 queries | **Last Used:** 2026-02-03
+
+Custom data. Key columns: `sodid`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sso_detail_pipeline!3sagg_ship" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.so_detail_pipeline.agg_ship` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="agg_po_eta">
+**Type:** BASE TABLE | **Usage (180d):** 459 queries | **Last Used:** 2026-02-03
+
+Custom data.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sso_detail_pipeline!3sagg_po_eta" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.so_detail_pipeline.agg_po_eta` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="agg_invd_by_sono_sod">
+**Type:** BASE TABLE | **Usage (180d):** 459 queries | **Last Used:** 2026-02-03
+
+Custom data. Key columns: `sodid`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sso_detail_pipeline!3sagg_invd_by_sono_sod" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.so_detail_pipeline.agg_invd_by_sono_sod` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="agg_pick">
+**Type:** BASE TABLE | **Usage (180d):** 459 queries | **Last Used:** 2026-02-03
+
+Custom data. Key columns: `sodid`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sso_detail_pipeline!3sagg_pick" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.so_detail_pipeline.agg_pick` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="agg_last_received">
+**Type:** BASE TABLE | **Usage (180d):** 459 queries | **Last Used:** 2026-02-03
+
+Custom data. Key columns: `last_received_date`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sso_detail_pipeline!3sagg_last_received" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.so_detail_pipeline.agg_last_received` LIMIT 10;
+```
+</Accordion>
+
+
+### sell_through_pipeline
+
+<Accordion title="sell_through_pipeline_final_table">
+**Type:** BASE TABLE | **Usage (180d):** 912 queries | **Last Used:** 2026-02-03
+
+Custom data. Key columns: `transaction_date, sm_store_id, order_revenue, refund_revenue`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2ssell_through_pipeline!3ssell_through_pipeline_final_table" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.sell_through_pipeline.sell_through_pipeline_final_table` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="sku_master_BQ_pipeline">
+**Type:** BASE TABLE | **Usage (180d):** 568 queries | **Last Used:** 2026-02-03
+
+Product/SKU-level data. Key columns: `AVAILABLEDATE`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2ssell_through_pipeline!3ssku_master_BQ_pipeline" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.sell_through_pipeline.sku_master_BQ_pipeline` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="ecom_inventory_spine">
+**Type:** BASE TABLE | **Usage (180d):** 518 queries | **Last Used:** 2026-02-03
+
+Custom data. Key columns: `date_index, inventory_item_id, updated_at`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2ssell_through_pipeline!3secom_inventory_spine" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.sell_through_pipeline.ecom_inventory_spine` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="sku_date_combinations">
+**Type:** BASE TABLE | **Usage (180d):** 429 queries | **Last Used:** 2026-02-03
+
+Product/SKU-level data. Key columns: `date_index, inventory_item_id`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2ssell_through_pipeline!3ssku_date_combinations" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.sell_through_pipeline.sku_date_combinations` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="pipeline_transaction_union">
+**Type:** BASE TABLE | **Usage (180d):** 405 queries | **Last Used:** 2026-02-03
+
+Custom data. Key columns: `sm_store_id, transaction_date, order_revenue, refund_revenue`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2ssell_through_pipeline!3spipeline_transaction_union" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.sell_through_pipeline.pipeline_transaction_union` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="drop_date_catalog_processing">
+**Type:** BASE TABLE | **Usage (180d):** 275 queries | **Last Used:** 2026-02-03
+
+Custom data. Key columns: `dropdate`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2ssell_through_pipeline!3sdrop_date_catalog_processing" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.sell_through_pipeline.drop_date_catalog_processing` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="NVLT_UPC_deduped">
+**Type:** BASE TABLE | **Usage (180d):** 263 queries | **Last Used:** 2026-02-03
+
+Custom data. Key columns: `id, updateuser`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2ssell_through_pipeline!3sNVLT_UPC_deduped" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.sell_through_pipeline.NVLT_UPC_deduped` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="NVLT_season_deduped">
+**Type:** BASE TABLE | **Usage (180d):** 260 queries | **Last Used:** 2026-02-03
+
+Custom data. Key columns: `todate, fromdate`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2ssell_through_pipeline!3sNVLT_season_deduped" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.sell_through_pipeline.NVLT_season_deduped` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="nvlt_division_deduped">
+**Type:** BASE TABLE | **Usage (180d):** 260 queries | **Last Used:** 2026-02-03
+
+Custom data.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2ssell_through_pipeline!3snvlt_division_deduped" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.sell_through_pipeline.nvlt_division_deduped` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="sku_raw_n41">
+**Type:** BASE TABLE | **Usage (180d):** 260 queries | **Last Used:** 2026-02-03
+
+Product/SKU-level data. Key columns: `availabledate`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2ssell_through_pipeline!3ssku_raw_n41" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.sell_through_pipeline.sku_raw_n41` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="v_size_vertical_deduped">
+**Type:** BASE TABLE | **Usage (180d):** 260 queries | **Last Used:** 2026-02-03
+
+Custom data. Key columns: `__sdc_primary_key`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2ssell_through_pipeline!3sv_size_vertical_deduped" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.sell_through_pipeline.v_size_vertical_deduped` LIMIT 10;
+```
+</Accordion>
+
 
 ### v_inventory_pos_by_wh
 
-| Object | Type | Usage (180d) | Last Used |
-|--------|------|--------------|-----------|
-| `v_deduped_stylecolor` | BASE TABLE | 528 | 2026-02-03 |
-| `v_deduped_color` | BASE TABLE | 523 | 2026-02-03 |
-| `v_deduped_inventory_wh` | BASE TABLE | 395 | 2026-02-03 |
-| `v_deduped_size` | BASE TABLE | 395 | 2026-02-03 |
-| `v_invoice_by_wh` | BASE TABLE | 394 | 2026-02-03 |
-| `v_cm_by_wh` | BASE TABLE | 393 | 2026-02-03 |
-| `v_first_eta` | BASE TABLE | 393 | 2026-02-03 |
-| `v_deduped_pod` | BASE TABLE | 383 | 2026-02-03 |
-| `v_inventory_pos_by_wh` | BASE TABLE | 338 | 2026-02-03 |
+<Accordion title="v_deduped_stylecolor">
+**Type:** BASE TABLE | **Usage (180d):** 528 queries | **Last Used:** 2026-02-03
+
+Custom data.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sv_inventory_pos_by_wh!3sv_deduped_stylecolor" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.v_inventory_pos_by_wh.v_deduped_stylecolor` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="v_deduped_color">
+**Type:** BASE TABLE | **Usage (180d):** 523 queries | **Last Used:** 2026-02-03
+
+Custom data.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sv_inventory_pos_by_wh!3sv_deduped_color" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.v_inventory_pos_by_wh.v_deduped_color` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="v_deduped_inventory_wh">
+**Type:** BASE TABLE | **Usage (180d):** 395 queries | **Last Used:** 2026-02-03
+
+Custom data.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sv_inventory_pos_by_wh!3sv_deduped_inventory_wh" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.v_inventory_pos_by_wh.v_deduped_inventory_wh` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="v_deduped_size">
+**Type:** BASE TABLE | **Usage (180d):** 395 queries | **Last Used:** 2026-02-03
+
+Custom data.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sv_inventory_pos_by_wh!3sv_deduped_size" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.v_inventory_pos_by_wh.v_deduped_size` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="v_invoice_by_wh">
+**Type:** BASE TABLE | **Usage (180d):** 394 queries | **Last Used:** 2026-02-03
+
+Custom data.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sv_inventory_pos_by_wh!3sv_invoice_by_wh" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.v_inventory_pos_by_wh.v_invoice_by_wh` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="v_first_eta">
+**Type:** BASE TABLE | **Usage (180d):** 393 queries | **Last Used:** 2026-02-03
+
+Custom data.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sv_inventory_pos_by_wh!3sv_first_eta" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.v_inventory_pos_by_wh.v_first_eta` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="v_cm_by_wh">
+**Type:** BASE TABLE | **Usage (180d):** 393 queries | **Last Used:** 2026-02-03
+
+Custom data.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sv_inventory_pos_by_wh!3sv_cm_by_wh" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.v_inventory_pos_by_wh.v_cm_by_wh` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="v_deduped_pod">
+**Type:** BASE TABLE | **Usage (180d):** 383 queries | **Last Used:** 2026-02-03
+
+Custom data.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sv_inventory_pos_by_wh!3sv_deduped_pod" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.v_inventory_pos_by_wh.v_deduped_pod` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="v_inventory_pos_by_wh">
+**Type:** BASE TABLE | **Usage (180d):** 338 queries | **Last Used:** 2026-02-03
+
+Custom data.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sv_inventory_pos_by_wh!3sv_inventory_pos_by_wh" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.v_inventory_pos_by_wh.v_inventory_pos_by_wh` LIMIT 10;
+```
+</Accordion>
+
+
+### sm_experimental
+
+<Accordion title="shipbob_inventory_data">
+**Type:** BASE TABLE | **Usage (180d):** 96 queries | **Last Used:** 2026-02-04
+
+Custom data.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2ssm_experimental!3sshipbob_inventory_data" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.sm_experimental.shipbob_inventory_data` LIMIT 10;
+```
+</Accordion>
+
+
+### n41_transfer_data
+
+<Accordion title="v_sales_by_quarter_sotype_division_alldetail_v4">
+**Type:** BASE TABLE | **Usage (180d):** 91 queries | **Last Used:** 2026-02-02
+
+Custom data.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-xcvi&ws=!1m5!1m4!4m3!1ssm-xcvi!2sn41_transfer_data!3sv_sales_by_quarter_sotype_division_alldetail_v4" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-xcvi.n41_transfer_data.v_sales_by_quarter_sotype_division_alldetail_v4` LIMIT 10;
+```
+</Accordion>
+
+
+---
+
 ## Your Data Warehouse
 
 | Property | Value |
@@ -234,6 +1392,7 @@ This section lists **all active** custom objects grouped by dataset, ordered by 
 
 - **Usage counts** reflect BigQuery job executions, including scheduled queries, dashboard refreshes, and ad-hoc queries.
 - Objects with low usage may be candidates for cleanup.
+- Click "Open in BigQuery Console" to view the table schema and run queries.
 
 <Info>
 For questions about these custom objects or to request modifications, please contact your SourceMedium representative.

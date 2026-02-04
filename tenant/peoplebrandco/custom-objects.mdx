@@ -27,21 +27,113 @@ This page documents active custom BigQuery tables and views (those queried at le
 
 ### customized_views
 
-| Object | Type | Usage (180d) | Last Used |
-|--------|------|--------------|-----------|
-| `rpt_ad_performance_daily_customized` | BASE TABLE | 4,444 | 2026-02-04 |
-| `rpt_executive_summary_daily_customized` | BASE TABLE | 4,296 | 2026-02-04 |
-| `custom_orders_table` | BASE TABLE | 1,928 | 2026-02-03 |
-| `rpt_klaviyo_customer_orders` | BASE TABLE | 1,585 | 2026-02-03 |
-| `beta_rpt_klaviyo_customer_orders` | BASE TABLE | 474 | 2026-02-02 |
-| `rpt_avez_executive_summary_daily_customized` | BASE TABLE | 111 | 2026-02-02 |
+<Accordion title="rpt_ad_performance_daily_customized">
+**Type:** BASE TABLE | **Usage (180d):** 4,444 queries | **Last Used:** 2026-02-04
+
+Daily aggregation. Key columns: `sm_store_id, source_system, sub_channel, date, ad_spend`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-peoplebrandco&ws=!1m5!1m4!4m3!1ssm-peoplebrandco!2scustomized_views!3srpt_ad_performance_daily_customized" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-peoplebrandco.customized_views.rpt_ad_performance_daily_customized` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="rpt_executive_summary_daily_customized">
+**Type:** BASE TABLE | **Usage (180d):** 4,296 queries | **Last Used:** 2026-02-04
+
+Aggregated summary. Key columns: `sm_store_id, sm_channel, sm_sub_channel, date, order_gross_revenue`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-peoplebrandco&ws=!1m5!1m4!4m3!1ssm-peoplebrandco!2scustomized_views!3srpt_executive_summary_daily_customized" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-peoplebrandco.customized_views.rpt_executive_summary_daily_customized` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="custom_orders_table">
+**Type:** BASE TABLE | **Usage (180d):** 1,928 queries | **Last Used:** 2026-02-03
+
+Order-level data. Key columns: `date, sm_store_id, sm_channel, order_id, repeat_cust_orders`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-peoplebrandco&ws=!1m5!1m4!4m3!1ssm-peoplebrandco!2scustomized_views!3scustom_orders_table" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-peoplebrandco.customized_views.custom_orders_table` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="rpt_klaviyo_customer_orders">
+**Type:** BASE TABLE | **Usage (180d):** 1,585 queries | **Last Used:** 2026-02-03
+
+Customer-level data from Klaviyo. Key columns: `date, sm_store_id, sm_channel, repeat_cust_orders, new_cust_orders`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-peoplebrandco&ws=!1m5!1m4!4m3!1ssm-peoplebrandco!2scustomized_views!3srpt_klaviyo_customer_orders" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-peoplebrandco.customized_views.rpt_klaviyo_customer_orders` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="beta_rpt_klaviyo_customer_orders">
+**Type:** BASE TABLE | **Usage (180d):** 474 queries | **Last Used:** 2026-02-02
+
+Customer-level data from Klaviyo. Key columns: `date, sm_store_id, sm_channel, repeat_cust_orders, new_cust_orders`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-peoplebrandco&ws=!1m5!1m4!4m3!1ssm-peoplebrandco!2scustomized_views!3sbeta_rpt_klaviyo_customer_orders" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-peoplebrandco.customized_views.beta_rpt_klaviyo_customer_orders` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="rpt_avez_executive_summary_daily_customized">
+**Type:** BASE TABLE | **Usage (180d):** 111 queries | **Last Used:** 2026-02-02
+
+Aggregated summary. Key columns: `date, sm_store_id, sm_channel, total_order_gross_revenue, total_order_net_revenue`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-peoplebrandco&ws=!1m5!1m4!4m3!1ssm-peoplebrandco!2scustomized_views!3srpt_avez_executive_summary_daily_customized" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-peoplebrandco.customized_views.rpt_avez_executive_summary_daily_customized` LIMIT 10;
+```
+</Accordion>
+
 
 ### sm_sources
 
-| Object | Type | Usage (180d) | Last Used |
-|--------|------|--------------|-----------|
-| `obt_klaviyo_subs_custs_orders` | VIEW | 4,291 | 2026-02-04 |
-| `src_klaviyo__subscribe_list` | CLONE | 4,291 | 2026-02-04 |
+<Accordion title="obt_klaviyo_subs_custs_orders">
+**Type:** VIEW | **Usage (180d):** 4,291 queries | **Last Used:** 2026-02-04
+
+Order-level data from Klaviyo.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-peoplebrandco&ws=!1m5!1m4!4m3!1ssm-peoplebrandco!2ssm_sources!3sobt_klaviyo_subs_custs_orders" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-peoplebrandco.sm_sources.obt_klaviyo_subs_custs_orders` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="src_klaviyo__subscribe_list">
+**Type:** CLONE | **Usage (180d):** 4,291 queries | **Last Used:** 2026-02-04
+
+Custom data from Klaviyo. Key columns: `id, uuid, datetime`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-peoplebrandco&ws=!1m5!1m4!4m3!1ssm-peoplebrandco!2ssm_sources!3ssrc_klaviyo__subscribe_list" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-peoplebrandco.sm_sources.src_klaviyo__subscribe_list` LIMIT 10;
+```
+</Accordion>
+
 
 ---
 
@@ -59,6 +151,7 @@ This page documents active custom BigQuery tables and views (those queried at le
 
 - **Usage counts** reflect BigQuery job executions, including scheduled queries, dashboard refreshes, and ad-hoc queries.
 - Objects with low usage may be candidates for cleanup.
+- Click "Open in BigQuery Console" to view the table schema and run queries.
 
 <Info>
 For questions about these custom objects or to request modifications, please contact your SourceMedium representative.

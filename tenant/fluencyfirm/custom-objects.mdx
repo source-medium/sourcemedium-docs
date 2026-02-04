@@ -26,18 +26,136 @@ This page documents active custom BigQuery tables and views (those queried at le
 
 ### customized_views
 
-| Object | Type | Usage (180d) | Last Used |
-|--------|------|--------------|-----------|
-| `rpt_executive_summary_converted` | BASE TABLE | 172,835 | 2026-02-04 |
-| `rpt_ad_performance_daily_corrected` | BASE TABLE | 103,625 | 2026-02-04 |
-| `obt_order_lines_converted` | BASE TABLE | 42,308 | 2026-02-04 |
-| `obt_orders_converted` | BASE TABLE | 40,895 | 2026-02-04 |
-| `custom_blended_kpi_view` | BASE TABLE | 15,496 | 2026-02-04 |
-| `custom_blended_kpi_view_refunds_changed` | BASE TABLE | 3,275 | 2026-02-02 |
-| `rpt_customers_first_and_last_order_summary_converted` | BASE TABLE | 2,875 | 2026-02-03 |
-| `ff_config_sheet_links` | EXTERNAL | 2,144 | 2026-02-03 |
-| `order_indexes_corrected` | BASE TABLE | 145 | 2026-02-04 |
-| `obt_config_sheet_links` | BASE TABLE | 67 | 2026-02-03 |
+<Accordion title="rpt_executive_summary_converted">
+**Type:** BASE TABLE | **Usage (180d):** 172,835 queries | **Last Used:** 2026-02-04
+
+Aggregated summary. Key columns: `sm_store_id, sm_channel, sm_sub_channel, date, order_gross_revenue`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-fluencyfirm&ws=!1m5!1m4!4m3!1ssm-fluencyfirm!2scustomized_views!3srpt_executive_summary_converted" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-fluencyfirm.customized_views.rpt_executive_summary_converted` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="rpt_ad_performance_daily_corrected">
+**Type:** BASE TABLE | **Usage (180d):** 103,625 queries | **Last Used:** 2026-02-04
+
+Daily aggregation. Key columns: `sm_store_id, ad_platform_reported_revenue, source_system, sm_channel, sub_channel`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-fluencyfirm&ws=!1m5!1m4!4m3!1ssm-fluencyfirm!2scustomized_views!3srpt_ad_performance_daily_corrected" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-fluencyfirm.customized_views.rpt_ad_performance_daily_corrected` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="obt_order_lines_converted">
+**Type:** BASE TABLE | **Usage (180d):** 42,308 queries | **Last Used:** 2026-02-04
+
+Order-level data. Key columns: `sm_store_id, sm_order_line_key, sm_order_key, sm_customer_key, sm_product_variant_key`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-fluencyfirm&ws=!1m5!1m4!4m3!1ssm-fluencyfirm!2scustomized_views!3sobt_order_lines_converted" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-fluencyfirm.customized_views.obt_order_lines_converted` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="obt_orders_converted">
+**Type:** BASE TABLE | **Usage (180d):** 40,895 queries | **Last Used:** 2026-02-04
+
+Order-level data. Key columns: `sm_store_id, sm_order_key, sm_customer_key, source_system, order_id`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-fluencyfirm&ws=!1m5!1m4!4m3!1ssm-fluencyfirm!2scustomized_views!3sobt_orders_converted" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-fluencyfirm.customized_views.obt_orders_converted` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="custom_blended_kpi_view">
+**Type:** BASE TABLE | **Usage (180d):** 15,496 queries | **Last Used:** 2026-02-04
+
+Custom data. Key columns: `date, spend, last_week_spend, new_customer_orders, last_week_new_customer_orders`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-fluencyfirm&ws=!1m5!1m4!4m3!1ssm-fluencyfirm!2scustomized_views!3scustom_blended_kpi_view" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-fluencyfirm.customized_views.custom_blended_kpi_view` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="custom_blended_kpi_view_refunds_changed">
+**Type:** BASE TABLE | **Usage (180d):** 3,275 queries | **Last Used:** 2026-02-02
+
+Custom data. Key columns: `date, spend, last_week_spend, ly_spend, ly_lw_spend`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-fluencyfirm&ws=!1m5!1m4!4m3!1ssm-fluencyfirm!2scustomized_views!3scustom_blended_kpi_view_refunds_changed" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-fluencyfirm.customized_views.custom_blended_kpi_view_refunds_changed` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="rpt_customers_first_and_last_order_summary_converted">
+**Type:** BASE TABLE | **Usage (180d):** 2,875 queries | **Last Used:** 2026-02-03
+
+Aggregated summary. Key columns: `customer_id, customer_first_order_id, customer_last_order_id, customer_updated_at`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-fluencyfirm&ws=!1m5!1m4!4m3!1ssm-fluencyfirm!2scustomized_views!3srpt_customers_first_and_last_order_summary_converted" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-fluencyfirm.customized_views.rpt_customers_first_and_last_order_summary_converted` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="ff_config_sheet_links">
+**Type:** EXTERNAL | **Usage (180d):** 2,144 queries | **Last Used:** 2026-02-03
+
+Custom data. Key columns: `Store_ID`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-fluencyfirm&ws=!1m5!1m4!4m3!1ssm-fluencyfirm!2scustomized_views!3sff_config_sheet_links" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-fluencyfirm.customized_views.ff_config_sheet_links` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="order_indexes_corrected">
+**Type:** BASE TABLE | **Usage (180d):** 145 queries | **Last Used:** 2026-02-04
+
+Order-level data. Key columns: `sm_store_id, order_id, customer_id`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-fluencyfirm&ws=!1m5!1m4!4m3!1ssm-fluencyfirm!2scustomized_views!3sorder_indexes_corrected" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-fluencyfirm.customized_views.order_indexes_corrected` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="obt_config_sheet_links">
+**Type:** BASE TABLE | **Usage (180d):** 67 queries | **Last Used:** 2026-02-03
+
+One Big Table (denormalized). Key columns: `sm_store_id`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-fluencyfirm&ws=!1m5!1m4!4m3!1ssm-fluencyfirm!2scustomized_views!3sobt_config_sheet_links" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-fluencyfirm.customized_views.obt_config_sheet_links` LIMIT 10;
+```
+</Accordion>
+
 
 ---
 
@@ -55,6 +173,7 @@ This page documents active custom BigQuery tables and views (those queried at le
 
 - **Usage counts** reflect BigQuery job executions, including scheduled queries, dashboard refreshes, and ad-hoc queries.
 - Objects with low usage may be candidates for cleanup.
+- Click "Open in BigQuery Console" to view the table schema and run queries.
 
 <Info>
 For questions about these custom objects or to request modifications, please contact your SourceMedium representative.

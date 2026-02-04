@@ -26,85 +26,461 @@ This page documents active custom BigQuery tables and views (those queried at le
 
 ## Objects by Dataset
 
-<Info>
-This section lists **all active** custom objects grouped by dataset, ordered by 180-day usage.
-</Info>
-
-### analytics_311213792
-
-| Object | Type | Usage (180d) | Last Used |
-|--------|------|--------------|-----------|
-| `events_20251022` | BASE TABLE | 11 | 2026-02-02 |
-| `events_20250930` | BASE TABLE | 10 | 2026-02-02 |
-| `events_20260120` | BASE TABLE | 7 | 2026-02-02 |
-
 ### customized_views
 
-| Object | Type | Usage (180d) | Last Used |
-|--------|------|--------------|-----------|
-| `obt_orders_device_type_updated` | BASE TABLE | 62,128 | 2026-02-04 |
-| `refersion_fivetran_replacement` | EXTERNAL | 24,152 | 2026-02-04 |
-| `impact_daily_automation` | EXTERNAL | 7,907 | 2026-02-04 |
-| `refersion_orders_rev` | VIEW | 7,882 | 2026-02-04 |
-| `refersion_commission` | VIEW | 7,874 | 2026-02-04 |
-| `sc_sku_breakdown_v4` | VIEW | 7,163 | 2026-02-03 |
-| `daily_data_v5_online_dtc_slice` | VIEW | 4,575 | 2026-02-03 |
-| `refersion_impact_table` | EXTERNAL | 4,233 | 2026-02-04 |
-| `seven_day_cancels_revision5` | VIEW | 4,067 | 2026-02-03 |
-| `refersion_partner_final_v3_0522` | EXTERNAL | 3,940 | 2026-02-02 |
-| `daily_data_v4_line_spend_slice` | VIEW | 3,737 | 2026-02-03 |
-| `daily_data_v5_amazon_slice` | VIEW | 3,735 | 2026-02-03 |
-| `refersion_partner_final` | EXTERNAL | 3,553 | 2026-02-02 |
-| `nick_import_v1` | EXTERNAL | 3,404 | 2026-02-02 |
-| `rylie_import_v1` | EXTERNAL | 3,398 | 2026-02-02 |
-| `klaviyo_attentive_reporting` | VIEW | 3,106 | 2026-02-03 |
-| `refersion_sessions_temp` | EXTERNAL | 2,273 | 2026-02-02 |
-| `rpt_exec_to_order_test` | VIEW | 1,908 | 2026-02-04 |
-| `all_parnterships_refersion_sessions_temp_v1` | EXTERNAL | 1,842 | 2026-02-02 |
-| `refersion_partner_spend_podonly_v1` | VIEW | 1,783 | 2026-01-28 |
-| `all_partnerships_refersion_sessions_performanceoverview` | VIEW | 1,739 | 2026-01-28 |
-| `all_channel_partnerships_data_v4` | VIEW | 1,644 | 2025-12-29 |
-| `Rylie_Refersion_Daily_Partner_Level_V2` | VIEW | 1,265 | 2025-09-12 |
-| `refersion_partner_final_v2_0516` | EXTERNAL | 1,180 | 2026-02-02 |
-| `Rylie_Partnerships_Sessions_Temp` | VIEW | 1,151 | 2025-09-12 |
-| `partener_ltv_view_v5_automate_sidetable` | VIEW | 1,077 | 2026-02-03 |
-| `affiliate_id_mapping_v1` | VIEW | 893 | 2025-09-12 |
-| `churn_export_v2` | EXTERNAL | 343 | 2026-02-03 |
-| `referral_program_v1` | EXTERNAL | 326 | 2026-02-03 |
-| `partnerships_ltv_v5` | VIEW | 307 | 2026-02-04 |
-| `superfiliate_base_orders_rev` | VIEW | 300 | 2026-02-04 |
-| `superfiliate_recurring_subs_orders_rev` | VIEW | 294 | 2026-02-04 |
-| `referral_program_v2` | VIEW | 277 | 2026-02-03 |
-| `seven_day_cancellation_channel_revised` | VIEW | 173 | 2026-01-12 |
-| `loyaltylion_referrals` | EXTERNAL | 107 | 2026-02-02 |
-| `seven_day_cancels_revision_two` | VIEW | 103 | 2026-01-12 |
-| `churn_export_v1` | EXTERNAL | 101 | 2026-02-03 |
-| `gwp_obt_orders_v2` | VIEW | 97 | 2026-01-12 |
-| `all_partnerships_channel_sessions_v2` | VIEW | 91 | 2025-09-10 |
-| `product_tax_codes` | BASE TABLE | 84 | 2026-02-02 |
-| `superfiliate_go_live_spend` | EXTERNAL | 63 | 2026-02-02 |
-| `recurring_subs_over100` | VIEW | 57 | 2026-01-12 |
-| `attentive_table_v1` | EXTERNAL | 52 | 2026-02-03 |
-| `pique_referral_summary` | EXTERNAL | 43 | 2026-02-02 |
-| `attentive_data_sync_draft` | BASE TABLE | 38 | 2026-02-03 |
-| `seven_day_cancels` | VIEW | 36 | 2026-01-12 |
-| `obt_orders_gwp_updates_v2` | VIEW | 35 | 2025-09-04 |
-| `partnership_ltv_v3` | VIEW | 35 | 2026-02-04 |
-| `seven_day_cancels_revision3` | VIEW | 34 | 2026-01-12 |
-| `LTV_Retention_AOV_View` | VIEW | 31 | 2026-01-12 |
-| `obt_orders_gwp_updates` | VIEW | 30 | 2025-09-03 |
-| `retention_rate_by_product_noncancelled` | VIEW | 23 | 2026-01-12 |
-| `ga4_events_raw` | BASE TABLE | 12 | 2026-02-02 |
-| `adhoc_zach-012626` | BASE TABLE | 11 | 2026-01-26 |
-| `traffic_partnerships_adhoc` | BASE TABLE | 9 | 2026-02-02 |
-| `gwp_obt_orders_totals_v2` | VIEW | 2 | 2025-09-04 |
-| `obt_orders_previous_subscriber_updated` | VIEW | 2 | 2025-09-03 |
+<Accordion title="obt_orders_device_type_updated">
+**Type:** BASE TABLE | **Usage (180d):** 62,128 queries | **Last Used:** 2026-02-04
+
+Order-level data. Key columns: `sm_store_id, sm_order_key, sm_customer_key, source_system, order_id`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m5!1m4!4m3!1ssm-piquetea!2scustomized_views!3sobt_orders_device_type_updated" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-piquetea.customized_views.obt_orders_device_type_updated` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="refersion_fivetran_replacement">
+**Type:** EXTERNAL | **Usage (180d):** 24,152 queries | **Last Used:** 2026-02-04
+
+Custom data. Key columns: `id_key, conversion_date, conversion_id, affiliate_id, offer_id`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m5!1m4!4m3!1ssm-piquetea!2scustomized_views!3srefersion_fivetran_replacement" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-piquetea.customized_views.refersion_fivetran_replacement` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="impact_daily_automation">
+**Type:** EXTERNAL | **Usage (180d):** 7,907 queries | **Last Used:** 2026-02-04
+
+Daily aggregation. Key columns: `date, revenue, order_id`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m5!1m4!4m3!1ssm-piquetea!2scustomized_views!3simpact_daily_automation" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-piquetea.customized_views.impact_daily_automation` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="refersion_orders_rev">
+**Type:** VIEW | **Usage (180d):** 7,882 queries | **Last Used:** 2026-02-04
+
+Order-level data.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m5!1m4!4m3!1ssm-piquetea!2scustomized_views!3srefersion_orders_rev" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-piquetea.customized_views.refersion_orders_rev` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="refersion_commission">
+**Type:** VIEW | **Usage (180d):** 7,874 queries | **Last Used:** 2026-02-04
+
+Custom data.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m5!1m4!4m3!1ssm-piquetea!2scustomized_views!3srefersion_commission" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-piquetea.customized_views.refersion_commission` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="sc_sku_breakdown_v4">
+**Type:** VIEW | **Usage (180d):** 7,163 queries | **Last Used:** 2026-02-03
+
+Product/SKU-level data.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m5!1m4!4m3!1ssm-piquetea!2scustomized_views!3ssc_sku_breakdown_v4" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-piquetea.customized_views.sc_sku_breakdown_v4` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="daily_data_v5_online_dtc_slice">
+**Type:** VIEW | **Usage (180d):** 4,575 queries | **Last Used:** 2026-02-03
+
+Daily aggregation.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m5!1m4!4m3!1ssm-piquetea!2scustomized_views!3sdaily_data_v5_online_dtc_slice" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-piquetea.customized_views.daily_data_v5_online_dtc_slice` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="refersion_impact_table">
+**Type:** EXTERNAL | **Usage (180d):** 4,233 queries | **Last Used:** 2026-02-04
+
+Custom data. Key columns: `Date, YT_Spend, Email_Spend, Podcast_Spend, IG_Spend`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m5!1m4!4m3!1ssm-piquetea!2scustomized_views!3srefersion_impact_table" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-piquetea.customized_views.refersion_impact_table` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="seven_day_cancels_revision5">
+**Type:** VIEW | **Usage (180d):** 4,067 queries | **Last Used:** 2026-02-03
+
+Custom data.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m5!1m4!4m3!1ssm-piquetea!2scustomized_views!3sseven_day_cancels_revision5" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-piquetea.customized_views.seven_day_cancels_revision5` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="refersion_partner_final_v3_0522">
+**Type:** EXTERNAL | **Usage (180d):** 3,940 queries | **Last Used:** 2026-02-02
+
+Custom data. Key columns: `AFFILIATE_ID, ORDER_DATE, NEW_ORDERS, RETURNING_ORDERS, CHANNEL_TAG`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m5!1m4!4m3!1ssm-piquetea!2scustomized_views!3srefersion_partner_final_v3_0522" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-piquetea.customized_views.refersion_partner_final_v3_0522` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="daily_data_v4_line_spend_slice">
+**Type:** VIEW | **Usage (180d):** 3,737 queries | **Last Used:** 2026-02-03
+
+Daily aggregation.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m5!1m4!4m3!1ssm-piquetea!2scustomized_views!3sdaily_data_v4_line_spend_slice" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-piquetea.customized_views.daily_data_v4_line_spend_slice` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="daily_data_v5_amazon_slice">
+**Type:** VIEW | **Usage (180d):** 3,735 queries | **Last Used:** 2026-02-03
+
+Daily aggregation from Amazon.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m5!1m4!4m3!1ssm-piquetea!2scustomized_views!3sdaily_data_v5_amazon_slice" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-piquetea.customized_views.daily_data_v5_amazon_slice` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="refersion_partner_final">
+**Type:** EXTERNAL | **Usage (180d):** 3,553 queries | **Last Used:** 2026-02-02
+
+Custom data. Key columns: `AFFILIATE_ID, ORDER_DATE, NEW_ORDERS, RETURNING_ORDERS, CHANNEL_TAG`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m5!1m4!4m3!1ssm-piquetea!2scustomized_views!3srefersion_partner_final" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-piquetea.customized_views.refersion_partner_final` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="nick_import_v1">
+**Type:** EXTERNAL | **Usage (180d):** 3,404 queries | **Last Used:** 2026-02-02
+
+Custom data. Key columns: `channel, date`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m5!1m4!4m3!1ssm-piquetea!2scustomized_views!3snick_import_v1" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-piquetea.customized_views.nick_import_v1` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="rylie_import_v1">
+**Type:** EXTERNAL | **Usage (180d):** 3,398 queries | **Last Used:** 2026-02-02
+
+Custom data. Key columns: `channel, affiliate_id`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m5!1m4!4m3!1ssm-piquetea!2scustomized_views!3srylie_import_v1" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-piquetea.customized_views.rylie_import_v1` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="klaviyo_attentive_reporting">
+**Type:** VIEW | **Usage (180d):** 3,106 queries | **Last Used:** 2026-02-03
+
+Reporting view from Klaviyo, TikTok.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m5!1m4!4m3!1ssm-piquetea!2scustomized_views!3sklaviyo_attentive_reporting" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-piquetea.customized_views.klaviyo_attentive_reporting` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="refersion_sessions_temp">
+**Type:** EXTERNAL | **Usage (180d):** 2,273 queries | **Last Used:** 2026-02-02
+
+Custom data. Key columns: `DATE`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m5!1m4!4m3!1ssm-piquetea!2scustomized_views!3srefersion_sessions_temp" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-piquetea.customized_views.refersion_sessions_temp` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="rpt_exec_to_order_test">
+**Type:** VIEW | **Usage (180d):** 1,908 queries | **Last Used:** 2026-02-04
+
+Order-level data.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m5!1m4!4m3!1ssm-piquetea!2scustomized_views!3srpt_exec_to_order_test" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-piquetea.customized_views.rpt_exec_to_order_test` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="all_parnterships_refersion_sessions_temp_v1">
+**Type:** EXTERNAL | **Usage (180d):** 1,842 queries | **Last Used:** 2026-02-02
+
+Custom data.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m5!1m4!4m3!1ssm-piquetea!2scustomized_views!3sall_parnterships_refersion_sessions_temp_v1" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-piquetea.customized_views.all_parnterships_refersion_sessions_temp_v1` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="refersion_partner_spend_podonly_v1">
+**Type:** VIEW | **Usage (180d):** 1,783 queries | **Last Used:** 2026-01-28
+
+Custom data.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m5!1m4!4m3!1ssm-piquetea!2scustomized_views!3srefersion_partner_spend_podonly_v1" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-piquetea.customized_views.refersion_partner_spend_podonly_v1` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="all_partnerships_refersion_sessions_performanceoverview">
+**Type:** VIEW | **Usage (180d):** 1,739 queries | **Last Used:** 2026-01-28
+
+Custom data.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m5!1m4!4m3!1ssm-piquetea!2scustomized_views!3sall_partnerships_refersion_sessions_performanceoverview" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-piquetea.customized_views.all_partnerships_refersion_sessions_performanceoverview` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="all_channel_partnerships_data_v4">
+**Type:** VIEW | **Usage (180d):** 1,644 queries | **Last Used:** 2025-12-29
+
+Custom data.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m5!1m4!4m3!1ssm-piquetea!2scustomized_views!3sall_channel_partnerships_data_v4" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-piquetea.customized_views.all_channel_partnerships_data_v4` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="Rylie_Refersion_Daily_Partner_Level_V2">
+**Type:** VIEW | **Usage (180d):** 1,265 queries | **Last Used:** 2025-09-12
+
+Daily aggregation.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m5!1m4!4m3!1ssm-piquetea!2scustomized_views!3sRylie_Refersion_Daily_Partner_Level_V2" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-piquetea.customized_views.Rylie_Refersion_Daily_Partner_Level_V2` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="refersion_partner_final_v2_0516">
+**Type:** EXTERNAL | **Usage (180d):** 1,180 queries | **Last Used:** 2026-02-02
+
+Custom data. Key columns: `AFFILIATE_ID, ORDER_DATE, NEW_ORDERS, RETURNING_ORDERS, CHANNEL_TAG`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m5!1m4!4m3!1ssm-piquetea!2scustomized_views!3srefersion_partner_final_v2_0516" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-piquetea.customized_views.refersion_partner_final_v2_0516` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="Rylie_Partnerships_Sessions_Temp">
+**Type:** VIEW | **Usage (180d):** 1,151 queries | **Last Used:** 2025-09-12
+
+Custom data.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m5!1m4!4m3!1ssm-piquetea!2scustomized_views!3sRylie_Partnerships_Sessions_Temp" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-piquetea.customized_views.Rylie_Partnerships_Sessions_Temp` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="partener_ltv_view_v5_automate_sidetable">
+**Type:** VIEW | **Usage (180d):** 1,077 queries | **Last Used:** 2026-02-03
+
+Lifetime value analysis.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m5!1m4!4m3!1ssm-piquetea!2scustomized_views!3spartener_ltv_view_v5_automate_sidetable" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-piquetea.customized_views.partener_ltv_view_v5_automate_sidetable` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="affiliate_id_mapping_v1">
+**Type:** VIEW | **Usage (180d):** 893 queries | **Last Used:** 2025-09-12
+
+Custom data.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m5!1m4!4m3!1ssm-piquetea!2scustomized_views!3saffiliate_id_mapping_v1" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-piquetea.customized_views.affiliate_id_mapping_v1` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="churn_export_v2">
+**Type:** EXTERNAL | **Usage (180d):** 343 queries | **Last Used:** 2026-02-03
+
+Custom data. Key columns: `date, subscription_orders`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m5!1m4!4m3!1ssm-piquetea!2scustomized_views!3schurn_export_v2" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-piquetea.customized_views.churn_export_v2` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="referral_program_v1">
+**Type:** EXTERNAL | **Usage (180d):** 326 queries | **Last Used:** 2026-02-03
+
+Custom data. Key columns: `date, total_referral_orders, total_ft_referral_orders, total_recurring_referral_orders, total_revenue_rewarded_advocates`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m5!1m4!4m3!1ssm-piquetea!2scustomized_views!3sreferral_program_v1" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-piquetea.customized_views.referral_program_v1` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="partnerships_ltv_v5">
+**Type:** VIEW | **Usage (180d):** 307 queries | **Last Used:** 2026-02-04
+
+Lifetime value analysis.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m5!1m4!4m3!1ssm-piquetea!2scustomized_views!3spartnerships_ltv_v5" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-piquetea.customized_views.partnerships_ltv_v5` LIMIT 10;
+```
+</Accordion>
+
+<Note>Showing top 30 of 57 objects in this dataset.</Note>
+
 
 ### sm_transformed_v2
 
-| Object | Type | Usage (180d) | Last Used |
-|--------|------|--------------|-----------|
-| `rpt_cohort_ltv_by_first_valid_purchase_attribute_no_product_filters_v1` | BASE TABLE | 103 | 2026-02-02 |
+<Accordion title="rpt_cohort_ltv_by_first_valid_purchase_attribute_no_product_filters_v1">
+**Type:** BASE TABLE | **Usage (180d):** 103 queries | **Last Used:** 2026-02-02
+
+Cohort analysis from TikTok. Key columns: `sm_store_id, cohort_filter_name_filter_value_month_id, cohort_filter_name_filter_value_id, sm_channel`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m5!1m4!4m3!1ssm-piquetea!2ssm_transformed_v2!3srpt_cohort_ltv_by_first_valid_purchase_attribute_no_product_filters_v1" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-piquetea.sm_transformed_v2.rpt_cohort_ltv_by_first_valid_purchase_attribute_no_product_filters_v1` LIMIT 10;
+```
+</Accordion>
+
+
+### analytics_311213792
+
+<Accordion title="events_20251022">
+**Type:** BASE TABLE | **Usage (180d):** 11 queries | **Last Used:** 2026-02-02
+
+Event tracking data. Key columns: `event_date, event_bundle_sequence_id, user_id, user_pseudo_id`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m5!1m4!4m3!1ssm-piquetea!2sanalytics_311213792!3sevents_20251022" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-piquetea.analytics_311213792.events_20251022` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="events_20250930">
+**Type:** BASE TABLE | **Usage (180d):** 10 queries | **Last Used:** 2026-02-02
+
+Event tracking data. Key columns: `event_date, event_bundle_sequence_id, user_id, user_pseudo_id`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m5!1m4!4m3!1ssm-piquetea!2sanalytics_311213792!3sevents_20250930" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-piquetea.analytics_311213792.events_20250930` LIMIT 10;
+```
+</Accordion>
+
+<Accordion title="events_20260120">
+**Type:** BASE TABLE | **Usage (180d):** 7 queries | **Last Used:** 2026-02-02
+
+Event tracking data. Key columns: `event_date, event_bundle_sequence_id, user_id, user_pseudo_id`.
+
+<a href="https://console.cloud.google.com/bigquery?project=sm-piquetea&ws=!1m5!1m4!4m3!1ssm-piquetea!2sanalytics_311213792!3sevents_20260120" target="_blank">Open in BigQuery Console →</a>
+
+```sql
+-- Preview data
+SELECT * FROM `sm-piquetea.analytics_311213792.events_20260120` LIMIT 10;
+```
+</Accordion>
+
+
+---
+
 ## Your Data Warehouse
 
 | Property | Value |
@@ -119,6 +495,7 @@ This section lists **all active** custom objects grouped by dataset, ordered by 
 
 - **Usage counts** reflect BigQuery job executions, including scheduled queries, dashboard refreshes, and ad-hoc queries.
 - Objects with low usage may be candidates for cleanup.
+- Click "Open in BigQuery Console" to view the table schema and run queries.
 
 <Info>
 For questions about these custom objects or to request modifications, please contact your SourceMedium representative.
