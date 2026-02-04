@@ -30,7 +30,7 @@ DOCS_JSON = REPO_ROOT / "docs.json"
 PAGE_DIR_EXCLUDES = {"snippets", "yaml-files"}
 ALLOW_ORPHAN_PATTERNS = [
     r"/hidden-",  # hidden utility pages
-    r"^tenant/",  # hidden tenant-specific pages
+    r"^tenants/",  # hidden tenant-specific pages
     r"template",  # authoring templates
 ]
 
