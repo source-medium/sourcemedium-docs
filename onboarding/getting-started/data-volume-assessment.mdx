@@ -43,11 +43,12 @@ Copy this entire query and paste it into the ShopifyQL Editor:
 FROM sales
 SHOW
   orders AS "Order Count",
-  units_sold AS "Units Sold",
+  quantity_ordered AS "Units Sold",
   customers AS "Customer Count"
-TIMESERIES year
+TIMESERIES year WITH TOTALS
 SINCE 2010-01-01
 UNTIL today
+ORDER BY year DESC
 ```
 
 <Note>
@@ -75,7 +76,7 @@ You'll see a table with one row per year showing:
 | ... | ... | ... | ... |
 | Current year (YTD) | 85,000 | 190,000 | 60,000 |
 
-Sum up the Order Count column to get your total.
+The **Totals** row at the bottom gives you the overall numbers across all years.
 
 </Step>
 
