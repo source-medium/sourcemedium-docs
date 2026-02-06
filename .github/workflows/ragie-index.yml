@@ -1,0 +1,81 @@
+name: Ragie Docs Sync
+
+on:
+  push:
+    branches:
+      - master
+      - main
+    paths:
+      - '**/*.mdx'
+      - '**/*.md'
+      - 'docs.json'
+      - 'scripts/ragie_sync.py'
+  workflow_dispatch:
+    inputs:
+      partition:
+        description: 'Ragie partition to sync (e.g. shared_docs, tenant_acme)'
+        required: false
+        default: 'shared_docs'
+      mode:
+        description: 'Sync mode'
+        required: false
+        default: 'incremental'
+        type: choice
+        options:
+          - incremental
+          - full
+      doc_ref:
+        description: 'Optional single docs ref from docs.json'
+        required: false
+        default: ''
+
+jobs:
+  ragie-sync:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Validate RAGIE_API_KEY is configured
+        env:
+          RAGIE_API_KEY: ${{ secrets.RAGIE_API_KEY }}
+        run: |
+          if [ -z "$RAGIE_API_KEY" ]; then
+            echo "::error::Missing required secret RAGIE_API_KEY"
+            exit 1
+          fi
+
+      - name: Sync docs to Ragie
+        env:
+          RAGIE_API_KEY: ${{ secrets.RAGIE_API_KEY }}
+          GITHUB_SHA: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+
+          PARTITION='${{ github.event.inputs.partition }}'
+          MODE='${{ github.event.inputs.mode }}'
+          DOC_REF='${{ github.event.inputs.doc_ref }}'
+
+          if [ -z "$PARTITION" ]; then
+            PARTITION='${{ vars.RAGIE_PARTITION }}'
+          fi
+          if [ -z "$PARTITION" ]; then
+            PARTITION='shared_docs'
+          fi
+          if [ -z "$MODE" ]; then
+            MODE='incremental'
+          fi
+
+          ARGS=(--partition "$PARTITION" --mode "$MODE" --commit-sha "$GITHUB_SHA")
+          if [ -n "$DOC_REF" ]; then
+            ARGS+=(--doc-ref "$DOC_REF")
+          fi
+
+          python3 scripts/ragie_sync.py "${ARGS[@]}"
