@@ -59,6 +59,176 @@ MANAGED_METADATA_KEYS = {
 
 TERMINAL_FAILURE_STATUSES = {"failed"}
 
+SURFACE_ENUM = [
+    "query_snippets",
+    "looker_studio",
+    "bigquery",
+    "managed_warehouse",
+    "dashboard",
+    "mta",
+    "configuration_sheet",
+    "general",
+]
+
+CONTENT_TYPE_ENUM = [
+    "query_snippet_library",
+    "data_table_reference",
+    "template_resource",
+    "dashboard_module_reference",
+    "managed_bi_guide",
+    "managed_warehouse_guide",
+    "faq",
+    "core_concept",
+    "analytics_tool_guide",
+    "onboarding_guide",
+    "integration_guide",
+    "mta_guide",
+    "general_doc",
+]
+
+DEFAULT_ENTITY_INSTRUCTION_PROMPT = (
+    "Extract analytics support entities from this SourceMedium documentation page. "
+    "Return a JSON object with: "
+    "surfaces (subset of allowed surfaces), "
+    "keywords (short lowercase topic tags), "
+    "table_names (BigQuery tables like obt_orders), "
+    "column_names (notable field names), "
+    "dashboard_modules (dashboard/module names), "
+    "integration_platforms (platform/vendor names). "
+    "Use empty arrays when unavailable."
+)
+
+
+def build_partition_metadata_schema() -> dict[str, Any]:
+    return {
+        "type": "object",
+        "additionalProperties": True,
+        "properties": {
+            "source": {
+                "type": "string",
+                "description": "Source marker for managed docs in this repository.",
+            },
+            "repo": {
+                "type": "string",
+                "description": "Repository identifier for managed docs.",
+            },
+            "docs_ref": {
+                "type": "string",
+                "description": "Canonical docs route/path without extension.",
+            },
+            "title": {
+                "type": "string",
+                "description": "Document title from frontmatter.",
+            },
+            "description": {
+                "type": "string",
+                "description": "Short document summary from frontmatter.",
+            },
+            "visibility": {
+                "type": "string",
+                "description": "Whether the doc is in a shared or tenant partition.",
+                "enum": ["shared", "tenant"],
+            },
+            "tenant_id": {
+                "type": "string",
+                "description": "Tenant identifier for tenant partitions.",
+            },
+            "content_type": {
+                "type": "string",
+                "description": "High-level document class derived from docs path.",
+                "enum": CONTENT_TYPE_ENUM,
+            },
+            "primary_surface": {
+                "type": "string",
+                "description": "Primary analytics surface for the doc.",
+                "enum": SURFACE_ENUM,
+            },
+            "surfaces": {
+                "type": "array",
+                "description": "All relevant analytics surfaces for the doc.",
+                "items": {"type": "string", "enum": SURFACE_ENUM},
+                "uniqueItems": True,
+            },
+            "topic_tags": {
+                "type": "array",
+                "description": "Normalized topic tags used for retrieval filtering.",
+                "items": {"type": "string"},
+                "uniqueItems": True,
+            },
+            "frontmatter_tags": {
+                "type": "array",
+                "description": "Optional frontmatter tags from markdown.",
+                "items": {"type": "string"},
+                "uniqueItems": True,
+            },
+        },
+    }
+
+
+def build_entity_schema() -> dict[str, Any]:
+    return {
+        "type": "object",
+        "additionalProperties": False,
+        "properties": {
+            "surfaces": {
+                "type": "array",
+                "items": {"type": "string", "enum": SURFACE_ENUM},
+                "uniqueItems": True,
+            },
+            "keywords": {
+                "type": "array",
+                "items": {"type": "string"},
+                "uniqueItems": True,
+            },
+            "table_names": {
+                "type": "array",
+                "items": {"type": "string"},
+                "uniqueItems": True,
+            },
+            "column_names": {
+                "type": "array",
+                "items": {"type": "string"},
+                "uniqueItems": True,
+            },
+            "dashboard_modules": {
+                "type": "array",
+                "items": {"type": "string"},
+                "uniqueItems": True,
+            },
+            "integration_platforms": {
+                "type": "array",
+                "items": {"type": "string"},
+                "uniqueItems": True,
+            },
+        },
+        "required": [
+            "surfaces",
+            "keywords",
+            "table_names",
+            "column_names",
+            "dashboard_modules",
+            "integration_platforms",
+        ],
+    }
+
+
+def default_partition_description(partition: str) -> str:
+    if partition == "shared_docs":
+        return (
+            "SourceMedium public documentation covering onboarding, integrations, "
+            "data transformations, managed BI/Looker Studio dashboards, BigQuery table "
+            "references, SQL query snippets, and help-center FAQs."
+        )
+    tenant_id = partition.removeprefix("tenant_")
+    return (
+        f"SourceMedium tenant documentation partition for '{tenant_id}'. Contains tenant-"
+        "scoped docs and the same core product documentation categories used for support retrieval."
+    )
+
+
+def default_entity_instruction_name(partition: str) -> str:
+    return f"sourcemedium-doc-entities-v1-{partition}"
+
 
 class SyncError(RuntimeError):
     """Raised for sync/runtime failures."""
@@ -143,6 +313,80 @@ def resolve_ref_path(ref: str) -> Path | None:
         if candidate.exists():
             return candidate
     return None
+
+
+def extract_tenant_slug_from_ref(ref: str) -> str | None:
+    normalized = ref.lstrip("/")
+    if not normalized.startswith("tenants/"):
+        return None
+
+    parts = normalized.split("/")
+    if len(parts) < 2:
+        return None
+
+    tenant_slug = parts[1].strip().lower()
+    if not re.fullmatch(r"[a-z0-9_-]+", tenant_slug):
+        return None
+    return tenant_slug
+
+
+def tenant_slug_from_partition(partition: str) -> str | None:
+    if not partition.startswith("tenant_"):
+        return None
+    tenant_slug = partition.removeprefix("tenant_").strip().lower()
+    if not tenant_slug:
+        return None
+    if not re.fullmatch(r"[a-z0-9_-]+", tenant_slug):
+        raise SyncError(
+            f"Invalid tenant partition '{partition}'. Expected tenant_<tenant_slug> with slug matching ^[a-z0-9_-]+$."
+        )
+    return tenant_slug
+
+
+def discover_tenant_refs(tenant_slug: str) -> list[str]:
+    refs: set[str] = set()
+
+    top_level_candidates = [
+        REPO_ROOT / "tenants" / f"{tenant_slug}.mdx",
+        REPO_ROOT / "tenants" / f"{tenant_slug}.md",
+    ]
+    for path in top_level_candidates:
+        if path.exists():
+            rel = path.relative_to(REPO_ROOT).with_suffix("")
+            refs.add(str(rel).replace(os.sep, "/"))
+
+    tenant_dir = REPO_ROOT / "tenants" / tenant_slug
+    if tenant_dir.exists():
+        for path in tenant_dir.rglob("*"):
+            if not path.is_file():
+                continue
+            if path.suffix.lower() not in {".md", ".mdx"}:
+                continue
+            rel = path.relative_to(REPO_ROOT).with_suffix("")
+            refs.add(str(rel).replace(os.sep, "/"))
+
+    return sorted(refs)
+
+
+def scope_refs_for_partition(
+    *,
+    refs: list[str],
+    partition: str,
+) -> list[str]:
+    tenant_slug = tenant_slug_from_partition(partition)
+
+    if tenant_slug:
+        tenant_refs = discover_tenant_refs(tenant_slug)
+        if not tenant_refs:
+            log(f"[WARN] No tenant docs found under /tenants for tenant slug '{tenant_slug}'")
+        return tenant_refs
+
+    # Shared/non-tenant partitions must never include /tenants docs.
+    scoped = [ref for ref in refs if extract_tenant_slug_from_ref(ref) is None]
+    excluded = len(refs) - len(scoped)
+    if excluded:
+        log(f"[INFO] Excluded tenant docs from partition '{partition}': {excluded}")
+    return scoped
 
 
 def _strip_wrapping_quotes(value: str) -> str:
@@ -582,6 +826,92 @@ class RagieClient:
             query={"async": str(async_delete).lower()},
         )
 
+    def list_partitions(self) -> list[dict[str, Any]]:
+        partitions: list[dict[str, Any]] = []
+        cursor: str | None = None
+        while True:
+            response = self._request(
+                "GET",
+                "/partitions",
+                query={"page_size": 100, "cursor": cursor},
+            )
+            page = response.get("partitions", [])
+            if not isinstance(page, list):
+                raise SyncError("Unexpected /partitions response shape: missing partitions[]")
+            partitions.extend(page)
+            pagination = response.get("pagination", {}) or {}
+            cursor = pagination.get("next_cursor")
+            if not cursor:
+                break
+        return partitions
+
+    def create_partition(
+        self,
+        *,
+        name: str,
+        description: str | None,
+        metadata_schema: dict[str, Any] | None,
+    ) -> dict[str, Any]:
+        payload: dict[str, Any] = {"name": name}
+        if description is not None:
+            payload["description"] = description
+        if metadata_schema is not None:
+            payload["metadata_schema"] = metadata_schema
+        return self._request("POST", "/partitions", json_body=payload)
+
+    def get_partition(self, *, partition_id: str) -> dict[str, Any]:
+        return self._request("GET", f"/partitions/{partition_id}")
+
+    def update_partition(
+        self,
+        *,
+        partition_id: str,
+        context_aware: bool | None = None,
+        description: str | None = None,
+        metadata_schema: dict[str, Any] | None = None,
+    ) -> dict[str, Any]:
+        payload: dict[str, Any] = {}
+        if context_aware is not None:
+            payload["context_aware"] = context_aware
+        if description is not None:
+            payload["description"] = description
+        if metadata_schema is not None:
+            payload["metadata_schema"] = metadata_schema
+        if not payload:
+            return self.get_partition(partition_id=partition_id)
+        return self._request("PATCH", f"/partitions/{partition_id}", json_body=payload)
+
+    def list_instructions(self) -> list[dict[str, Any]]:
+        response = self._request("GET", "/instructions")
+        if not isinstance(response, list):
+            raise SyncError("Unexpected /instructions response shape: expected list")
+        return response
+
+    def create_instruction(self, *, payload: dict[str, Any]) -> dict[str, Any]:
+        return self._request("POST", "/instructions", json_body=payload)
+
+    def update_instruction_active(self, *, instruction_id: str, active: bool) -> dict[str, Any]:
+        return self._request(
+            "PUT",
+            f"/instructions/{instruction_id}",
+            json_body={"active": active},
+        )
+
+    def list_entities_by_document(
+        self,
+        *,
+        partition: str,
+        document_id: str,
+        cursor: str | None = None,
+        page_size: int = 100,
+    ) -> dict[str, Any]:
+        return self._request(
+            "GET",
+            f"/documents/{document_id}/entities",
+            partition=partition,
+            query={"cursor": cursor, "page_size": page_size},
+        )
+
 
 def build_local_docs(
     *,
@@ -735,6 +1065,155 @@ def poll_changed_documents(
         raise SyncError(f"One or more Ragie documents failed indexing: {details}")
 
 
+def _json_equal(left: Any, right: Any) -> bool:
+    return json.dumps(left, sort_keys=True, separators=(",", ":"), ensure_ascii=True) == json.dumps(
+        right,
+        sort_keys=True,
+        separators=(",", ":"),
+        ensure_ascii=True,
+    )
+
+
+def ensure_partition_configuration(
+    *,
+    client: RagieClient,
+    partition: str,
+    description: str,
+    metadata_schema: dict[str, Any],
+    dry_run: bool,
+) -> None:
+    partitions = client.list_partitions()
+    exists = any(str(item.get("name") or "") == partition for item in partitions)
+
+    if not exists:
+        if dry_run:
+            log(f"[DRY-RUN] CREATE_PARTITION {partition}")
+        else:
+            client.create_partition(
+                name=partition,
+                description=description,
+                metadata_schema=metadata_schema,
+            )
+            log(f"[PARTITION_CREATE] {partition}")
+
+    if dry_run and not exists:
+        log(f"[DRY-RUN] PATCH_PARTITION {partition} keys=[context_aware,description,metadata_schema]")
+        return
+
+    detail = client.get_partition(partition_id=partition)
+    patch: dict[str, Any] = {}
+
+    if detail.get("context_aware") is not True:
+        patch["context_aware"] = True
+    if description and str(detail.get("description") or "") != description:
+        patch["description"] = description
+    if not _json_equal(detail.get("metadata_schema"), metadata_schema):
+        patch["metadata_schema"] = metadata_schema
+
+    if not patch:
+        log(f"[INFO] Partition '{partition}' already configured for context-aware retrieval")
+        return
+
+    if dry_run:
+        keys = ",".join(sorted(patch.keys()))
+        log(f"[DRY-RUN] PATCH_PARTITION {partition} keys=[{keys}]")
+        return
+
+    # Ragie currently rejects context_aware + description in the same PATCH payload.
+    # Apply in two steps when both are needed.
+    non_context_patch = {
+        key: patch[key]
+        for key in ("description", "metadata_schema")
+        if key in patch
+    }
+    if non_context_patch:
+        client.update_partition(
+            partition_id=partition,
+            description=non_context_patch.get("description"),
+            metadata_schema=non_context_patch.get("metadata_schema"),
+        )
+        keys = ",".join(sorted(non_context_patch.keys()))
+        log(f"[PARTITION_PATCH] {partition} keys=[{keys}]")
+
+    if "context_aware" in patch:
+        client.update_partition(
+            partition_id=partition,
+            context_aware=bool(patch["context_aware"]),
+        )
+        log(f"[PARTITION_PATCH] {partition} keys=[context_aware]")
+
+
+def ensure_entity_instruction(
+    *,
+    client: RagieClient,
+    partition: str,
+    source: str,
+    repo_name: str,
+    instruction_name: str,
+    scope: str,
+    dry_run: bool,
+) -> bool:
+    expected_payload: dict[str, Any] = {
+        "name": instruction_name,
+        "active": True,
+        "scope": scope,
+        "prompt": DEFAULT_ENTITY_INSTRUCTION_PROMPT,
+        "entity_schema": build_entity_schema(),
+        "filter": {
+            "source": {"$eq": source},
+            "repo": {"$eq": repo_name},
+        },
+        "partition": partition,
+    }
+
+    instructions = client.list_instructions()
+    matches = [inst for inst in instructions if str(inst.get("name") or "") == instruction_name]
+
+    if not matches:
+        if dry_run:
+            log(f"[DRY-RUN] CREATE_INSTRUCTION {instruction_name} partition={partition}")
+            return False
+        created = client.create_instruction(payload=expected_payload)
+        log(f"[INSTRUCTION_CREATE] {instruction_name} id={created.get('id')}")
+        return True
+
+    instruction = matches[0]
+    if len(matches) > 1:
+        log(f"[WARN] Multiple instructions found for name '{instruction_name}', using newest by API order")
+
+    instruction_id = str(instruction.get("id") or "")
+    if not bool(instruction.get("active")):
+        if dry_run:
+            log(f"[DRY-RUN] ACTIVATE_INSTRUCTION {instruction_name} id={instruction_id}")
+        elif instruction_id:
+            client.update_instruction_active(instruction_id=instruction_id, active=True)
+            log(f"[INSTRUCTION_ACTIVATE] {instruction_name} id={instruction_id}")
+
+    drift_fields: list[str] = []
+    if str(instruction.get("partition") or "") != partition:
+        drift_fields.append("partition")
+    if str(instruction.get("scope") or "") != scope:
+        drift_fields.append("scope")
+    if str(instruction.get("prompt") or "") != DEFAULT_ENTITY_INSTRUCTION_PROMPT:
+        drift_fields.append("prompt")
+    if not _json_equal(instruction.get("entity_schema"), expected_payload["entity_schema"]):
+        drift_fields.append("entity_schema")
+    if not _json_equal(instruction.get("filter"), expected_payload["filter"]):
+        drift_fields.append("filter")
+
+    if drift_fields:
+        joined = ",".join(sorted(drift_fields))
+        log(
+            "[WARN] Instruction config drift detected for "
+            f"'{instruction_name}' (fields: {joined}). Ragie only supports active-state updates; "
+            "delete/recreate instruction to apply config changes."
+        )
+    else:
+        log(f"[INFO] Instruction '{instruction_name}' already configured")
+
+    return False
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Sync SourceMedium docs into Ragie")
     parser.add_argument("--partition", required=True, help="Ragie partition (e.g. shared_docs, tenant_acme)")
@@ -755,6 +1234,32 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--docs-base-url", default="https://docs.sourcemedium.com", help="Base URL for url_full metadata")
     parser.add_argument("--base-url", default="https://api.ragie.ai", help="Ragie API base URL")
     parser.add_argument("--commit-sha", default="", help="Commit SHA to stamp in metadata")
+    parser.add_argument(
+        "--ensure-partition-context-aware",
+        action="store_true",
+        help="Ensure partition has context-aware retrieval enabled with description + metadata schema",
+    )
+    parser.add_argument(
+        "--partition-description",
+        default="",
+        help="Optional partition description override used with --ensure-partition-context-aware",
+    )
+    parser.add_argument(
+        "--ensure-entity-instruction",
+        action="store_true",
+        help="Ensure a partition-scoped entity extraction instruction exists",
+    )
+    parser.add_argument(
+        "--entity-instruction-name",
+        default="",
+        help="Optional instruction name override (default: sourcemedium-doc-entities-v1-<partition>)",
+    )
+    parser.add_argument(
+        "--entity-instruction-scope",
+        choices=["document", "chunk"],
+        default="document",
+        help="Instruction scope for entity extraction",
+    )
     parser.add_argument("--dry-run", action="store_true", help="Compute and print actions without writing to Ragie")
     parser.add_argument("--allow-indexed", action="store_true", help="Treat indexed/summary_indexed/keyword_indexed as success")
     parser.add_argument("--timeout", type=int, default=30, help="HTTP timeout seconds")
@@ -780,6 +1285,7 @@ def main() -> int:
     commit_sha = args.commit_sha.strip() or os.environ.get("GITHUB_SHA", "").strip()
 
     refs = load_docs_refs()
+    refs = scope_refs_for_partition(refs=refs, partition=partition)
     requested_doc_refs = [r.lstrip("/") for r in args.doc_ref if str(r).strip()]
     partial_sync = bool(requested_doc_refs)
     if requested_doc_refs:
@@ -787,7 +1293,9 @@ def main() -> int:
         refs = [r for r in refs if r in wanted]
         missing = sorted(wanted - set(refs))
         if missing:
-            raise SyncError(f"doc_ref(s) not found in docs.json navigation: {', '.join(missing)}")
+            raise SyncError(
+                f"doc_ref(s) not available for partition '{partition}': {', '.join(missing)}"
+            )
 
     local_docs = build_local_docs(
         refs=refs,
@@ -821,6 +1329,29 @@ def main() -> int:
         max_retries=args.max_retries,
         retry_base_delay=args.retry_base_delay,
     )
+
+    created_instruction = False
+    if args.ensure_partition_context_aware:
+        desired_description = args.partition_description.strip() or default_partition_description(partition)
+        ensure_partition_configuration(
+            client=client,
+            partition=partition,
+            description=desired_description,
+            metadata_schema=build_partition_metadata_schema(),
+            dry_run=args.dry_run,
+        )
+
+    if args.ensure_entity_instruction:
+        instruction_name = args.entity_instruction_name.strip() or default_entity_instruction_name(partition)
+        created_instruction = ensure_entity_instruction(
+            client=client,
+            partition=partition,
+            source=args.source,
+            repo_name=args.repo_name,
+            instruction_name=instruction_name,
+            scope=args.entity_instruction_scope,
+            dry_run=args.dry_run,
+        )
 
     remote_docs_all = client.list_documents(partition=partition)
     managed_remote_docs = [
@@ -997,6 +1528,11 @@ def main() -> int:
         f"created={len(create_docs)} updated={len(update_raw_docs)} "
         f"patched={len(patch_metadata_docs)} deleted={len(stale_docs) + len(duplicate_docs) + len(stale_no_external_docs)}"
     )
+    if created_instruction and not changed_document_ids:
+        log(
+            "[WARN] Entity instruction was created but no documents changed in this run. "
+            "Run a full sync to backfill extracted entities on existing docs."
+        )
     return 0
 
 

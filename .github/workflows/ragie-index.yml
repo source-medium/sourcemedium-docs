@@ -28,6 +28,14 @@ on:
         description: 'Optional single docs ref from docs.json'
         required: false
         default: ''
+      ensure_partition_context_aware:
+        description: 'Enable partition context-aware config'
+        required: false
+        default: 'true'
+      ensure_entity_instruction:
+        description: 'Ensure partition-scoped entity extraction instruction'
+        required: false
+        default: 'true'
 
 jobs:
   ragie-sync:
@@ -62,6 +70,8 @@ jobs:
           PARTITION='${{ github.event.inputs.partition }}'
           MODE='${{ github.event.inputs.mode }}'
           DOC_REF='${{ github.event.inputs.doc_ref }}'
+          ENSURE_PARTITION_CONTEXT_AWARE='${{ github.event.inputs.ensure_partition_context_aware }}'
+          ENSURE_ENTITY_INSTRUCTION='${{ github.event.inputs.ensure_entity_instruction }}'
 
           if [ -z "$PARTITION" ]; then
             PARTITION='${{ vars.RAGIE_PARTITION }}'
@@ -72,10 +82,80 @@ jobs:
           if [ -z "$MODE" ]; then
             MODE='incremental'
           fi
+          if [ -z "$ENSURE_PARTITION_CONTEXT_AWARE" ]; then
+            ENSURE_PARTITION_CONTEXT_AWARE='${{ vars.RAGIE_ENSURE_PARTITION_CONTEXT_AWARE }}'
+          fi
+          if [ -z "$ENSURE_ENTITY_INSTRUCTION" ]; then
+            ENSURE_ENTITY_INSTRUCTION='${{ vars.RAGIE_ENSURE_ENTITY_INSTRUCTION }}'
+          fi
+          if [ -z "$ENSURE_PARTITION_CONTEXT_AWARE" ]; then
+            ENSURE_PARTITION_CONTEXT_AWARE='true'
+          fi
+          if [ -z "$ENSURE_ENTITY_INSTRUCTION" ]; then
+            ENSURE_ENTITY_INSTRUCTION='true'
+          fi
 
           ARGS=(--partition "$PARTITION" --mode "$MODE" --commit-sha "$GITHUB_SHA")
           if [ -n "$DOC_REF" ]; then
             ARGS+=(--doc-ref "$DOC_REF")
           fi
+          case "${ENSURE_PARTITION_CONTEXT_AWARE,,}" in
+            1|true|yes|y|on) ARGS+=(--ensure-partition-context-aware) ;;
+          esac
+          case "${ENSURE_ENTITY_INSTRUCTION,,}" in
+            1|true|yes|y|on) ARGS+=(--ensure-entity-instruction) ;;
+          esac
 
           python3 scripts/ragie_sync.py "${ARGS[@]}"
+
+      - name: Sync changed tenant partitions
+        if: github.event_name == 'push'
+        env:
+          RAGIE_API_KEY: ${{ secrets.RAGIE_API_KEY }}
+          GITHUB_SHA: ${{ github.sha }}
+          GITHUB_BEFORE: ${{ github.event.before }}
+        run: |
+          set -euo pipefail
+
+          BEFORE="${GITHUB_BEFORE:-}"
+          AFTER="${GITHUB_SHA}"
+
+          if [ -z "$BEFORE" ] || [ "$BEFORE" = "0000000000000000000000000000000000000000" ]; then
+            CHANGED="$(git ls-files 'tenants/*.md' 'tenants/*.mdx' 'tenants/**/*.md' 'tenants/**/*.mdx' || true)"
+          else
+            CHANGED="$(git diff --name-only "$BEFORE" "$AFTER" -- 'tenants/*.md' 'tenants/*.mdx' 'tenants/**/*.md' 'tenants/**/*.mdx' || true)"
+          fi
+
+          TENANTS="$(
+            printf '%s\n' "$CHANGED" |
+            awk -F/ '
+              /^tenants\// {
+                if (NF >= 3) {
+                  print tolower($2)
+                } else if (NF == 2) {
+                  base=$2
+                  sub(/\.[^.]+$/, "", base)
+                  base=tolower(base)
+                  if (base != "readme" && base != "review") print base
+                }
+              }
+            ' |
+            grep -E '^[a-z0-9_-]+$' |
+            sort -u || true
+          )"
+
+          if [ -z "$TENANTS" ]; then
+            echo "No tenant docs changed; skipping tenant partition sync."
+            exit 0
+          fi
+
+          for TENANT in $TENANTS; do
+            PARTITION="tenant_${TENANT}"
+            echo "Syncing tenant partition ${PARTITION}"
+            python3 scripts/ragie_sync.py \
+              --partition "$PARTITION" \
+              --mode incremental \
+              --commit-sha "$GITHUB_SHA" \
+              --ensure-partition-context-aware \
+              --ensure-entity-instruction
+          done

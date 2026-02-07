@@ -20,6 +20,8 @@ Create a production-ready Ragie indexing and retrieval pipeline for SourceMedium
 - Index published docs from this repo into Ragie.
 - Use Ragie REST API directly (no CLI dependency in v1).
 - Add tenant-partition retrieval contract (`partition = tenant_id mapping`).
+- Enable partition context-aware retrieval metadata (`description`, `context_aware`, `metadata_schema`).
+- Enable partition-scoped entity extraction instructions for docs.
 - Define automation workflow and acceptance tests.
 
 ### Out of scope (v1)
@@ -46,6 +48,9 @@ OpenAPI confirms:
 - `DELETE /documents/{document_id}`
 - `POST /retrievals`
 - `GET/POST /partitions`, `GET/PATCH/DELETE /partitions/{partition_id}`
+- `GET/POST /instructions`, `PUT/DELETE /instructions/{instruction_id}`
+- `GET /documents/{document_id}/entities`
+- `GET /instructions/{instruction_id}/entities`
 
 Document lifecycle states (from endpoint docs):
 
@@ -80,6 +85,9 @@ This avoids extension mismatch risk and gives deterministic content shaping.
 - Every retrieval MUST include `partition`.
 - The partition MUST be server-derived from authenticated tenant context.
 - Never trust client-provided partition directly.
+- Any docs under `/tenants/` MUST be hard partitioned:
+  - `tenants/<slug>...` docs are only indexed into `tenant_<slug>`
+  - shared/non-tenant partitions must never contain `/tenants/` docs
 
 OpenAPI behavior note:
 
@@ -199,17 +207,22 @@ Store `content_hash` of final normalized text in metadata.
 
 Per partition sync run:
 
-1. Load local docs set from `docs.json`.
-2. Normalize each local doc to text.
-3. Build local map by `external_id`.
-4. Fetch all remote docs in partition via `GET /documents` pagination.
-5. Build remote map by `external_id` (client-side filter `metadata.source == sourcemedium-docs`).
-6. For each local doc:
+1. Optionally ensure partition config with `PATCH /partitions/{partition_id}`:
+   - `context_aware = true`
+   - `description` (partition summary)
+   - `metadata_schema` (filter-friendly schema for our metadata keys)
+2. Optionally ensure entity instruction exists (`POST /instructions`) scoped to partition.
+3. Load local docs set from `docs.json`.
+4. Normalize each local doc to text.
+5. Build local map by `external_id`.
+6. Fetch all remote docs in partition via `GET /documents` pagination.
+7. Build remote map by `external_id` (client-side filter `metadata.source == sourcemedium-docs`).
+8. For each local doc:
    - Not in remote -> `POST /documents/raw`.
    - In remote and hash changed -> `PUT /documents/{id}/raw`.
    - In remote and metadata changed -> `PATCH /documents/{id}/metadata`.
-7. For each remote doc absent locally -> `DELETE /documents/{id}?async=true`.
-8. Poll changed docs (`GET /documents/{id}`) until terminal:
+9. For each remote doc absent locally -> `DELETE /documents/{id}?async=true`.
+10. Poll changed docs (`GET /documents/{id}`) until terminal:
    - success: `ready` (or optionally `indexed` for faster CI)
    - failure: `failed` -> fail job with doc id + errors.
 
@@ -222,20 +235,26 @@ Triggers:
 - `push` to `main`/`master` when docs files or `docs.json` change.
 - `workflow_dispatch` with inputs:
   - `partition` (default `shared_docs`)
-  - `full_sync` (`true/false`)
+  - `mode` (`incremental`/`full`)
+  - `doc_ref` (optional single page)
+  - `ensure_partition_context_aware` (`true/false`)
+  - `ensure_entity_instruction` (`true/false`)
 
 Secrets and vars:
 
 - Secret: `RAGIE_API_KEY`
 - Variable (or workflow input): `RAGIE_PARTITION`
+- Optional vars: `RAGIE_ENSURE_PARTITION_CONTEXT_AWARE`, `RAGIE_ENSURE_ENTITY_INSTRUCTION`
 
 Execution steps:
 
 1. Checkout repo.
 2. Set up Python runtime.
 3. Install script deps (minimal stdlib + `requests` + frontmatter parser).
-4. Run sync script:
-   - `python scripts/ragie_sync.py --partition "$RAGIE_PARTITION" --mode incremental`
+4. Run shared (or input-selected) partition sync:
+   - `python scripts/ragie_sync.py --partition "$RAGIE_PARTITION" --mode incremental --ensure-partition-context-aware --ensure-entity-instruction`
+5. On push, detect changed tenant slugs from `tenants/**` paths and run:
+   - `python scripts/ragie_sync.py --partition "tenant_<slug>" --mode incremental --ensure-partition-context-aware --ensure-entity-instruction`
 
 For tenant-specific sync jobs (if we run them in CI):
 
@@ -272,6 +291,28 @@ Our server wrapper MUST:
 2. Reject requests with missing tenant context.
 3. Never allow arbitrary partition override from client payload.
 4. Log request id, tenant id, partition, top_k, latency, chunk count.
+
+### Context-aware partition requirements
+
+For each active partition, keep these fields set:
+
+- `context_aware = true`
+- `description` with concise scope summary
+- `metadata_schema` describing filterable metadata keys (`content_type`, `primary_surface`, `surfaces`, `topic_tags`, etc.)
+
+This improves Ragie’s dynamic filter-generation quality when using metadata-driven retrieval.
+
+### Entity extraction requirements
+
+- Create one partition-scoped instruction:
+  - `name`: deterministic (`sourcemedium-doc-entities-v1-<partition>`)
+  - `scope`: `document`
+  - `partition`: target partition
+  - `filter`: `{source == sourcemedium-docs, repo == sourcemedium-docs}`
+  - `entity_schema`: arrays for `surfaces`, `keywords`, `table_names`, `column_names`, `dashboard_modules`, `integration_platforms`
+- Read extracted entities via:
+  - `GET /documents/{document_id}/entities`
+  - `GET /instructions/{instruction_id}/entities`
 
 ### Expected response fields from Ragie
 
@@ -319,7 +360,7 @@ Track metrics:
 
 Operational playbooks:
 
-- Backfill: run `workflow_dispatch` with `full_sync=true`.
+- Backfill: run `workflow_dispatch` with `mode=full`.
 - Reindex single doc: script flag `--doc-ref <ref>`.
 - Partition cleanup: `DELETE /partitions/{partition_id}` only by admin workflow.
 
@@ -337,6 +378,18 @@ Operational playbooks:
 1. Doc ingested into `tenant_a` is not retrievable from `tenant_b`.
 2. Retrieval requests without partition are rejected by our wrapper.
 3. Tenant partition names always satisfy `^[a-z0-9_-]+$`.
+4. Docs under `/tenants/<slug>` never appear in `shared_docs`.
+
+### Partition intelligence
+
+1. Partition has `context_aware=true` after sync bootstrap.
+2. Partition description and metadata schema match expected template.
+3. Partition-scoped instruction exists and is active.
+
+### Entity extraction
+
+1. New/updated docs in partition produce entities for the configured instruction.
+2. Entity payload validates against configured `entity_schema`.
 
 ### Retrieval quality
 
@@ -431,6 +484,59 @@ curl --request DELETE \
   --header "partition: tenant_acme"
 ```
 
+### Enable context-aware partition settings
+
+```bash
+curl --request PATCH \
+  --url "https://api.ragie.ai/partitions/tenant_acme" \
+  --header "Authorization: Bearer $RAGIE_API_KEY" \
+  --header 'Content-Type: application/json' \
+  --data @- <<'JSON'
+{
+  "context_aware": true,
+  "description": "SourceMedium tenant documentation partition for acme.",
+  "metadata_schema": {
+    "type": "object",
+    "properties": {
+      "content_type": {"type": "string"},
+      "primary_surface": {"type": "string"},
+      "surfaces": {"type": "array", "items": {"type": "string"}},
+      "topic_tags": {"type": "array", "items": {"type": "string"}}
+    }
+  }
+}
+JSON
+```
+
+### Create partition-scoped entity extraction instruction
+
+```bash
+curl --request POST \
+  --url https://api.ragie.ai/instructions \
+  --header "Authorization: Bearer $RAGIE_API_KEY" \
+  --header 'Content-Type: application/json' \
+  --data @- <<'JSON'
+{
+  "name": "sourcemedium-doc-entities-v1-tenant_acme",
+  "active": true,
+  "scope": "document",
+  "partition": "tenant_acme",
+  "filter": {
+    "source": {"$eq": "sourcemedium-docs"},
+    "repo": {"$eq": "sourcemedium-docs"}
+  },
+  "prompt": "Extract analytics support entities...",
+  "entity_schema": {
+    "type": "object",
+    "properties": {
+      "surfaces": {"type": "array", "items": {"type": "string"}},
+      "keywords": {"type": "array", "items": {"type": "string"}}
+    }
+  }
+}
+JSON
+```
+
 ## 18) Risks and Mitigations
 
 1. MDX component noise hurts retrieval quality.
@@ -456,4 +562,6 @@ curl --request DELETE \
 - Ragie Create Document reference: `https://docs.ragie.ai/reference/createdocument`
 - Ragie Retrieve reference: `https://docs.ragie.ai/reference/retrieve`
 - Ragie Partitions guide: `https://docs.ragie.ai/docs/partitions`
+- Ragie Context-Aware Descriptions: `https://docs.ragie.ai/docs/context-aware-descriptions`
+- Ragie Entity Extraction guide: `https://docs.ragie.ai/docs/entity-extraction`
 - Ragie OpenAPI schema used for endpoint/field validation: `https://api.ragie.ai/openapi.json`
