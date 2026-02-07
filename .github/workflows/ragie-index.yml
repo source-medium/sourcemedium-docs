@@ -6,8 +6,18 @@ on:
       - master
       - main
     paths:
+      # Include any markdown/mdx so new docs sections are auto-covered.
       - '**/*.mdx'
       - '**/*.md'
+      # Exclude non-published/non-doc sources to avoid noisy sync runs.
+      - '!uni/**'
+      - '!specs/**'
+      - '!snippets/**'
+      - '!.claude/**'
+      - '!.pytest_cache/**'
+      - '!AGENTS.md'
+      - '!CLAUDE.md'
+      - '!README.md'
       - 'docs.json'
       - 'scripts/ragie_sync.py'
   workflow_dispatch:
@@ -33,9 +43,9 @@ on:
         required: false
         default: 'true'
       ensure_entity_instruction:
-        description: 'Ensure partition-scoped entity extraction instruction'
+        description: 'Ensure partition-scoped entity extraction instruction (no consumer yet; enable when retrieval uses entities)'
         required: false
-        default: 'true'
+        default: 'false'
 
 jobs:
   ragie-sync:
@@ -92,7 +102,7 @@ jobs:
             ENSURE_PARTITION_CONTEXT_AWARE='true'
           fi
           if [ -z "$ENSURE_ENTITY_INSTRUCTION" ]; then
-            ENSURE_ENTITY_INSTRUCTION='true'
+            ENSURE_ENTITY_INSTRUCTION='false'
           fi
 
           ARGS=(--partition "$PARTITION" --mode "$MODE" --commit-sha "$GITHUB_SHA")
@@ -156,6 +166,5 @@ jobs:
               --partition "$PARTITION" \
               --mode incremental \
               --commit-sha "$GITHUB_SHA" \
-              --ensure-partition-context-aware \
-              --ensure-entity-instruction
+              --ensure-partition-context-aware
           done
