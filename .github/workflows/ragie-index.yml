@@ -7,9 +7,12 @@ on:
       - main
     paths:
       # Include any markdown/mdx so new docs sections are auto-covered.
+      - '*.mdx'
+      - '*.md'
       - '**/*.mdx'
       - '**/*.md'
       # Exclude non-published/non-doc sources to avoid noisy sync runs.
+      - '!.github/**'
       - '!uni/**'
       - '!specs/**'
       - '!snippets/**'
