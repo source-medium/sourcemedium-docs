@@ -1103,10 +1103,18 @@ def ensure_partition_configuration(
     detail = client.get_partition(partition_id=partition)
     patch: dict[str, Any] = {}
 
-    if detail.get("context_aware") is not True:
+    is_context_aware = detail.get("context_aware") is True
+
+    if not is_context_aware:
         patch["context_aware"] = True
     if description and str(detail.get("description") or "") != description:
-        patch["description"] = description
+        if is_context_aware:
+            log(
+                f"[WARN] Skipping description update for partition '{partition}' "
+                "because Ragie rejects description changes after context-aware is enabled"
+            )
+        else:
+            patch["description"] = description
     if not _json_equal(detail.get("metadata_schema"), metadata_schema):
         patch["metadata_schema"] = metadata_schema
 
@@ -1119,8 +1127,9 @@ def ensure_partition_configuration(
         log(f"[DRY-RUN] PATCH_PARTITION {partition} keys=[{keys}]")
         return
 
-    # Ragie currently rejects context_aware + description in the same PATCH payload.
-    # Apply in two steps when both are needed.
+    # Ragie rejects context_aware + description in the same PATCH payload.
+    # Description updates are skipped once context-aware is already enabled.
+    # Apply non-context fields first, then enable context-aware.
     non_context_patch = {
         key: patch[key]
         for key in ("description", "metadata_schema")
