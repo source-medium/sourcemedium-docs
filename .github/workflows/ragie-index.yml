@@ -1,25 +1,6 @@
 name: Ragie Docs Sync
 
 on:
-  push:
-    branches:
-      - master
-      - main
-    paths:
-      # Include any markdown/mdx so new docs sections are auto-covered.
-      - '**/*.mdx'
-      - '**/*.md'
-      # Exclude non-published/non-doc sources to avoid noisy sync runs.
-      - '!uni/**'
-      - '!specs/**'
-      - '!snippets/**'
-      - '!.claude/**'
-      - '!.pytest_cache/**'
-      - '!AGENTS.md'
-      - '!CLAUDE.md'
-      - '!README.md'
-      - 'docs.json'
-      - 'scripts/ragie_sync.py'
   workflow_dispatch:
     inputs:
       partition:
