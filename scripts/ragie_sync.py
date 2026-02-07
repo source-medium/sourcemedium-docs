@@ -46,6 +46,15 @@ MANAGED_METADATA_KEYS = {
     "commit_sha",
     "visibility",
     "tenant_id",
+    "taxonomy_version",
+    "doc_domain",
+    "doc_subdomain",
+    "content_type",
+    "primary_surface",
+    "surfaces",
+    "topic_tags",
+    "frontmatter_tags",
+    "taxonomy_source",
 }
 
 TERMINAL_FAILURE_STATUSES = {"failed"}
@@ -136,7 +145,39 @@ def resolve_ref_path(ref: str) -> Path | None:
     return None
 
 
-def parse_frontmatter(text: str) -> tuple[dict[str, str], str]:
+def _strip_wrapping_quotes(value: str) -> str:
+    raw = value.strip()
+    if (raw.startswith('"') and raw.endswith('"')) or (raw.startswith("'") and raw.endswith("'")):
+        return raw[1:-1].strip()
+    return raw
+
+
+def _parse_inline_tags(raw_value: str) -> list[str]:
+    value = _strip_wrapping_quotes(raw_value)
+    if not value:
+        return []
+
+    if value.startswith("[") and value.endswith("]"):
+        inside = value[1:-1].strip()
+        if not inside:
+            return []
+        return [
+            _strip_wrapping_quotes(item).strip()
+            for item in inside.split(",")
+            if _strip_wrapping_quotes(item).strip()
+        ]
+
+    if "," in value:
+        return [
+            _strip_wrapping_quotes(item).strip()
+            for item in value.split(",")
+            if _strip_wrapping_quotes(item).strip()
+        ]
+
+    return [value]
+
+
+def parse_frontmatter(text: str) -> tuple[dict[str, Any], str]:
     if not text.startswith("---"):
         return {}, text
 
@@ -147,18 +188,36 @@ def parse_frontmatter(text: str) -> tuple[dict[str, str], str]:
     fm_raw = match.group(1)
     body = text[match.end() :]
 
-    fm: dict[str, str] = {}
-    for line in fm_raw.splitlines():
+    fm: dict[str, Any] = {}
+    lines = fm_raw.splitlines()
+    idx = 0
+    while idx < len(lines):
+        line = lines[idx]
         m = re.match(r"^([A-Za-z0-9_]+):\s*(.*)$", line)
         if not m:
+            idx += 1
             continue
+
         key = m.group(1).strip()
         value = m.group(2).strip()
-        if (value.startswith('"') and value.endswith('"')) or (
-            value.startswith("'") and value.endswith("'")
-        ):
-            value = value[1:-1].strip()
-        fm[key] = value
+
+        if key == "tags":
+            tags = _parse_inline_tags(value)
+            j = idx + 1
+            while j < len(lines):
+                tag_match = re.match(r"^\s*-\s+(.+)$", lines[j])
+                if not tag_match:
+                    break
+                tag_value = _strip_wrapping_quotes(tag_match.group(1)).strip()
+                if tag_value:
+                    tags.append(tag_value)
+                j += 1
+            fm[key] = tags
+            idx = j
+            continue
+
+        fm[key] = _strip_wrapping_quotes(value)
+        idx += 1
 
     return fm, body
 
@@ -176,7 +235,7 @@ def _collapse_spaces(text: str) -> str:
     return text.strip()
 
 
-def normalize_doc_text(raw_text: str, fallback_title: str) -> tuple[str, dict[str, str]]:
+def normalize_doc_text(raw_text: str, fallback_title: str) -> tuple[str, dict[str, Any]]:
     frontmatter, body = parse_frontmatter(raw_text)
 
     title = frontmatter.get("title") or fallback_title
@@ -229,12 +288,130 @@ def normalize_doc_text(raw_text: str, fallback_title: str) -> tuple[str, dict[st
     normalized_fm = {
         "title": title,
         "description": description,
+        "tags": frontmatter.get("tags", []),
     }
     return full_text, normalized_fm
 
 
 def sha256_text(text: str) -> str:
     return hashlib.sha256(text.encode("utf-8")).hexdigest()
+
+
+def _normalize_tag_value(tag: str) -> str:
+    return re.sub(r"\s+", "_", tag.strip().lower())
+
+
+def derive_taxonomy(
+    *,
+    ref: str,
+    title: str,
+    description: str,
+    frontmatter_tags: list[str] | None = None,
+) -> dict[str, Any]:
+    parts = ref.split("/")
+    doc_domain = parts[0] if parts else "unknown"
+    doc_subdomain = "/".join(parts[:2]) if len(parts) >= 2 else doc_domain
+
+    ref_lower = ref.lower()
+    text = f"{ref} {title} {description}".lower()
+
+    content_type = "general_doc"
+    if ref_lower == "data-activation/template-resources/sql-query-library":
+        content_type = "query_snippet_library"
+    elif ref_lower.startswith("data-activation/data-tables/"):
+        content_type = "data_table_reference"
+    elif ref_lower.startswith("data-activation/template-resources/"):
+        content_type = "template_resource"
+    elif ref_lower.startswith("data-activation/managed-bi-v1/modules/"):
+        content_type = "dashboard_module_reference"
+    elif ref_lower.startswith("data-activation/managed-bi-v1/"):
+        content_type = "managed_bi_guide"
+    elif ref_lower.startswith("data-activation/managed-data-warehouse/"):
+        content_type = "managed_warehouse_guide"
+    elif ref_lower.startswith("help-center/faq/"):
+        content_type = "faq"
+    elif ref_lower.startswith("help-center/core-concepts/"):
+        content_type = "core_concept"
+    elif ref_lower.startswith("onboarding/analytics-tools/"):
+        content_type = "analytics_tool_guide"
+    elif ref_lower.startswith("onboarding/getting-started/"):
+        content_type = "onboarding_guide"
+    elif ref_lower.startswith("data-inputs/platform-integration-instructions/"):
+        content_type = "integration_guide"
+    elif ref_lower.startswith("mta/"):
+        content_type = "mta_guide"
+
+    surfaces: set[str] = set()
+    if "looker studio" in text or "looker-studio" in text or "looker" in text:
+        surfaces.add("looker_studio")
+    if "bigquery" in text or "sql" in text or ref_lower.startswith("data-activation/data-tables/"):
+        surfaces.add("bigquery")
+    if "dashboard" in text:
+        surfaces.add("dashboard")
+    if "warehouse" in text or ref_lower.startswith("data-activation/managed-data-warehouse/"):
+        surfaces.add("managed_warehouse")
+    if ref_lower.startswith("mta/"):
+        surfaces.add("mta")
+    if "configuration-sheet" in ref_lower:
+        surfaces.add("configuration_sheet")
+
+    if not surfaces:
+        surfaces.add("general")
+
+    primary_surface_priority = [
+        "query_snippets",
+        "looker_studio",
+        "bigquery",
+        "managed_warehouse",
+        "dashboard",
+        "mta",
+        "configuration_sheet",
+        "general",
+    ]
+    primary_surface = "general"
+    for candidate in primary_surface_priority:
+        if candidate in surfaces:
+            primary_surface = candidate
+            break
+
+    frontmatter_tags = frontmatter_tags or []
+    normalized_frontmatter_tags = sorted(
+        {_normalize_tag_value(tag) for tag in frontmatter_tags if str(tag).strip()}
+    )
+
+    topic_tags: set[str] = {
+        f"domain:{doc_domain}",
+        f"subdomain:{doc_subdomain}",
+        f"content_type:{content_type}",
+    }
+    topic_tags.update(f"surface:{surface}" for surface in surfaces)
+    topic_tags.update(normalized_frontmatter_tags)
+
+    if ref_lower == "data-activation/template-resources/sql-query-library":
+        topic_tags.update({"query_snippets", "sql_examples", "analytics_queries"})
+        surfaces.add("query_snippets")
+        primary_surface = "query_snippets"
+
+    topic_tags.add(f"surface:{primary_surface}")
+
+    if "template" in ref_lower:
+        topic_tags.add("templates")
+    if content_type == "faq":
+        topic_tags.add("support")
+    if content_type.endswith("_guide"):
+        topic_tags.add("how_to")
+
+    return {
+        "taxonomy_version": "v1",
+        "doc_domain": doc_domain,
+        "doc_subdomain": doc_subdomain,
+        "content_type": content_type,
+        "primary_surface": primary_surface,
+        "surfaces": sorted(surfaces),
+        "topic_tags": sorted(topic_tags),
+        "frontmatter_tags": normalized_frontmatter_tags,
+        "taxonomy_source": "derived+frontmatter",
+    }
 
 
 class RagieClient:
@@ -434,6 +611,13 @@ def build_local_docs(
         url_path = "/" + ref.lstrip("/")
         url_full = docs_base_url.rstrip("/") + url_path
 
+        taxonomy = derive_taxonomy(
+            ref=ref,
+            title=fm.get("title", fallback_title),
+            description=fm.get("description", ""),
+            frontmatter_tags=fm.get("tags", []),
+        )
+
         metadata: dict[str, Any] = {
             "source": source,
             "repo": repo_name,
@@ -446,6 +630,7 @@ def build_local_docs(
             "visibility": visibility,
             "tenant_id": tenant_id,
         }
+        metadata.update(taxonomy)
         if commit_sha:
             metadata["commit_sha"] = commit_sha
 
@@ -554,7 +739,12 @@ def parse_args() -> argparse.Namespace:
         default="incremental",
         help="Sync mode (currently both modes use full diff-based reconciliation)",
     )
-    parser.add_argument("--doc-ref", default="", help="Optional single docs ref to sync")
+    parser.add_argument(
+        "--doc-ref",
+        action="append",
+        default=[],
+        help="Optional docs ref to sync. Repeatable for multiple refs.",
+    )
     parser.add_argument("--source", default="sourcemedium-docs", help="Managed metadata source marker")
     parser.add_argument("--repo-name", default="sourcemedium-docs", help="Repo name for metadata/external_id")
     parser.add_argument("--docs-base-url", default="https://docs.sourcemedium.com", help="Base URL for url_full metadata")
@@ -585,11 +775,14 @@ def main() -> int:
     commit_sha = args.commit_sha.strip() or os.environ.get("GITHUB_SHA", "").strip()
 
     refs = load_docs_refs()
-    if args.doc_ref:
-        ref = args.doc_ref.lstrip("/")
-        refs = [r for r in refs if r == ref]
-        if not refs:
-            raise SyncError(f"doc_ref '{args.doc_ref}' not found in docs.json navigation")
+    requested_doc_refs = [r.lstrip("/") for r in args.doc_ref if str(r).strip()]
+    partial_sync = bool(requested_doc_refs)
+    if requested_doc_refs:
+        wanted = set(requested_doc_refs)
+        refs = [r for r in refs if r in wanted]
+        missing = sorted(wanted - set(refs))
+        if missing:
+            raise SyncError(f"doc_ref(s) not found in docs.json navigation: {', '.join(missing)}")
 
     local_docs = build_local_docs(
         refs=refs,
@@ -674,18 +867,26 @@ def main() -> int:
         if metadata_patch:
             patch_metadata_docs.append((local, remote, metadata_patch))
 
-    stale_external_ids = sorted(set(remote_by_external.keys()) - set(local_by_external.keys()))
-    stale_docs = [remote_by_external[eid] for eid in stale_external_ids]
-
+    stale_docs: list[dict[str, Any]] = []
     stale_no_external_docs: list[dict[str, Any]] = []
     skipped_no_external = 0
-    for doc in remote_without_external:
-        metadata = doc.get("metadata") or {}
-        docs_ref = str(metadata.get("docs_ref") or "").strip()
-        if docs_ref and docs_ref not in local_refs:
-            stale_no_external_docs.append(doc)
-        else:
-            skipped_no_external += 1
+
+    if not partial_sync:
+        stale_external_ids = sorted(set(remote_by_external.keys()) - set(local_by_external.keys()))
+        stale_docs = [remote_by_external[eid] for eid in stale_external_ids]
+
+        for doc in remote_without_external:
+            metadata = doc.get("metadata") or {}
+            docs_ref = str(metadata.get("docs_ref") or "").strip()
+            if docs_ref and docs_ref not in local_refs:
+                stale_no_external_docs.append(doc)
+            else:
+                skipped_no_external += 1
+    else:
+        # In partial mode, only clean duplicates for targeted external_ids.
+        duplicate_docs = [
+            doc for doc in duplicate_docs if str(doc.get("external_id") or "") in set(local_by_external.keys())
+        ]
 
     log(
         "[INFO] Plan: "
@@ -696,6 +897,8 @@ def main() -> int:
         f"delete_duplicates={len(duplicate_docs)} "
         f"delete_stale_no_external={len(stale_no_external_docs)}"
     )
+    if partial_sync:
+        log("[INFO] Partial sync mode enabled via --doc-ref (stale deletion disabled)")
     if skipped_no_external:
         log(f"[WARN] Managed docs without external_id kept (no safe delete signal): {skipped_no_external}")
 
