@@ -342,6 +342,11 @@ def derive_taxonomy(
         content_type = "mta_guide"
 
     surfaces: set[str] = set()
+    if ref_lower.startswith("data-activation/managed-bi-v1/modules/"):
+        # Managed BI modules are dashboard-facing docs and should be routed as such.
+        surfaces.update({"dashboard", "looker_studio"})
+    elif ref_lower.startswith("data-activation/managed-bi-v1/"):
+        surfaces.add("dashboard")
     if "looker studio" in text or "looker-studio" in text or "looker" in text:
         surfaces.add("looker_studio")
     if "bigquery" in text or "sql" in text or ref_lower.startswith("data-activation/data-tables/"):
