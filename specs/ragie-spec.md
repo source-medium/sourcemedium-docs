@@ -565,3 +565,5 @@ JSON
 - Ragie Context-Aware Descriptions: `https://docs.ragie.ai/docs/context-aware-descriptions`
 - Ragie Entity Extraction guide: `https://docs.ragie.ai/docs/entity-extraction`
 - Ragie OpenAPI schema used for endpoint/field validation: `https://api.ragie.ai/openapi.json`
+
+<!-- qa-path-filter-excluded-test 2026-02-07T17:16:38Z -->
