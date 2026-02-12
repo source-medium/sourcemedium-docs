@@ -8,7 +8,7 @@ description: SourceMedium AI Analyst capabilities for BigQuery analysis. Install
 Install the full skill package for your coding agent:
 
 ```bash
-npx skills add source-medium/skills@v1.0.0
+npx skills add source-medium/skills@v1.0.1
 ```
 
 ## Quick Start (Copy/Paste)
@@ -18,7 +18,7 @@ Copy this prompt and give it to your coding agent:
 ```
 Install the SourceMedium BigQuery analyst skill and help me verify my setup:
 
-1. Run: npx skills add source-medium/skills@v1.0.0
+1. Run: npx skills add source-medium/skills@v1.0.1
 2. Run the setup verification commands from the skill
 3. Confirm my BigQuery access is working
 
