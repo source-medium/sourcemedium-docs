@@ -5,3 +5,7 @@ package-lock.json
 package.json
 desktop.ini
 .env
+
+# Nested repos (sibling projects)
+/reporting_queries/
+/uni/

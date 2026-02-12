@@ -49,9 +49,8 @@ Optional (if needed for MTA/experimental analysis):
 - roles/bigquery.dataViewer on <PROJECT_ID>.sm_experimental
 
 Success criteria after grant:
-- `bq ls --project_id=<PROJECT_ID>` succeeds
-- `bq query --use_legacy_sql=false 'SELECT 1 AS ok'` succeeds
-- user can query `<PROJECT_ID>.sm_transformed_v2.obt_orders`
+- `bq query --use_legacy_sql=false --dry_run 'SELECT 1 AS ok'` succeeds
+- `bq query --use_legacy_sql=false "SELECT 1 FROM \`<PROJECT_ID>.sm_transformed_v2.obt_orders\` LIMIT 1"` succeeds
 
 Thanks.
 ```

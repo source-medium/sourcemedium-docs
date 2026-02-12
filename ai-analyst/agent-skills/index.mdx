@@ -1,29 +1,51 @@
 ---
 title: "Agent Skills"
 sidebarTitle: "Agent Skills"
-description: "Copy/paste skills for coding agents that work with SourceMedium data"
+description: "Installable skills for coding agents that work with SourceMedium data"
 icon: "wand-magic-sparkles"
 ---
 
 Agent Skills package repeatable workflows that help coding agents assist with SourceMedium data analysis.
 
+## Install
+
+```bash
+npx skills add https://docs.sourcemedium.com
+```
+
+The CLI detects your installed agents (Claude Code, Cursor, Windsurf, etc.) and installs the skills.
+
 ## Available Skills
 
 <CardGroup cols={1}>
   <Card title="SM BigQuery Analyst" icon="database" href="/ai-analyst/agent-skills/sm-bigquery-analyst">
-    Setup + access verification + auditable SQL analysis against SourceMedium BigQuery datasets.
+    Query SourceMedium BigQuery safely with SQL receipts. SELECT-only, cost-guarded.
   </Card>
 </CardGroup>
+
+## Two Versions
+
+Each skill has two variants:
+
+| Version | When to use |
+|---------|-------------|
+| `sm-bigquery-analyst` | Auto-loaded by agents when relevant |
+| `sm-bigquery-analyst-manual` | Requires explicit `/sm-bigquery-analyst-manual` invocation |
+
+Choose the manual version if you want full control over when queries run.
+
+## Manual Install (Copy/Paste)
+
+If you prefer to copy files manually:
+
+1. Click on a skill above
+2. Copy the `SKILL.md` content from the page
+3. Paste it into your coding agent's skills folder (e.g., `.claude/skills/sm-bigquery-analyst/SKILL.md` for Claude Code)
+
+## Related
 
 <CardGroup cols={1}>
   <Card title="BigQuery Access Request Template" icon="key" href="/ai-analyst/agent-skills/bigquery-access-request-template">
     Copy/paste request for internal admins when users do not have BigQuery access yet.
   </Card>
 </CardGroup>
-
-## How to use
-
-1. Click on a skill above
-2. Copy the `SKILL.md` content from the page
-3. Paste it into your coding agent's skills folder (e.g., `.claude/skills/<skill-name>/SKILL.md` for Claude Code)
-4. Ask your coding agent questions about your SourceMedium data
