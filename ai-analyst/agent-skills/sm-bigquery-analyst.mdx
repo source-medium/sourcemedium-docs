@@ -227,7 +227,7 @@ SELECT
   SUM(order_net_revenue) AS revenue
 FROM `your_project.sm_transformed_v2.obt_orders`
 WHERE is_order_sm_valid = TRUE
-  AND is_first_purchase_order = TRUE
+  AND order_sequence = '1st_order'
 GROUP BY 1, 2
 ORDER BY 1 DESC
 ~~~
@@ -236,7 +236,7 @@ ORDER BY 1 DESC
 
 ~~~sql
 SELECT
-  first_order_month,
+  cohort_month,
   months_since_first_order,
   AVG(SAFE_DIVIDE(cumulative_order_net_revenue, cohort_size)) AS avg_ltv
 FROM `your_project.sm_transformed_v2.rpt_cohort_ltv_by_first_valid_purchase_attribute_no_product_filters`
