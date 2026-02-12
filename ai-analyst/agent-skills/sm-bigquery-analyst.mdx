@@ -215,7 +215,8 @@ SELECT
   DATE(order_processed_at_local_datetime) AS order_date,
   sm_utm_source_medium,
   COUNT(DISTINCT sm_customer_key) AS new_customers,
-  SUM(order_net_revenue) AS revenue
+  SUM(order_net_revenue) AS revenue,
+  SAFE_DIVIDE(SUM(order_net_revenue), COUNT(DISTINCT sm_customer_key)) AS avg_first_order_value
 FROM `your_project.sm_transformed_v2.obt_orders`
 WHERE is_order_sm_valid = TRUE
   AND order_sequence = '1st_order'
@@ -232,11 +233,11 @@ SELECT
   AVG(SAFE_DIVIDE(cumulative_order_net_revenue, cohort_size)) AS avg_ltv
 FROM `your_project.sm_transformed_v2.rpt_cohort_ltv_by_first_valid_purchase_attribute_no_product_filters`
 WHERE sm_order_line_type = 'all_orders'
+  AND acquisition_order_filter_dimension = 'source/medium'
   AND months_since_first_order <= 12
 GROUP BY 1, 2
 ORDER BY 1, 2
 ~~~
-```
 
 ---
 
