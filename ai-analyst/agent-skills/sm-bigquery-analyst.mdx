@@ -239,6 +239,23 @@ GROUP BY 1, 2
 ORDER BY 1, 2
 ~~~
 
+### Discover available metrics
+
+Query `sm_metadata.dim_semantic_metric_catalog` to find 180+ pre-defined metrics:
+
+~~~sql
+-- Find all revenue metrics
+SELECT metric_name, metric_label, calculation
+FROM `your_project.sm_metadata.dim_semantic_metric_catalog`
+WHERE metric_category = 'revenue'
+ORDER BY metric_name
+
+-- Resolve abbreviated names (aov, mer, cac, roas)
+SELECT metric_name, preferred_metric_name, metric_description
+FROM `your_project.sm_metadata.dim_semantic_metric_catalog`
+WHERE metric_name IN ('aov', 'mer', 'cac', 'roas')
+~~~
+
 ---
 
 ## No access yet?
@@ -256,6 +273,12 @@ If you cannot run queries due to permissions, see [BigQuery Access Request Templ
   </Card>
   <Card title="Table Docs" icon="table" href="/data-activation/data-tables/sm_transformed_v2/index">
     Schema-level documentation for core tables.
+  </Card>
+  <Card title="Metric Catalog" icon="book-open" href="/data-activation/data-tables/sm_metadata/dim_semantic_metric_catalog">
+    180+ pre-defined metrics with calculations.
+  </Card>
+  <Card title="Data Dictionary" icon="info" href="/data-activation/data-tables/sm_metadata/dim_data_dictionary">
+    Table availability, freshness, and column stats.
   </Card>
   <Card title="Multi-Touch Attribution" icon="chart-network" href="/mta/mta-overview">
     MTA models and experimental tables.
