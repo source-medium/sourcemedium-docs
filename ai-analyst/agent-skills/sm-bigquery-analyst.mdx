@@ -1,0 +1,74 @@
+---
+title: "SM BigQuery Analyst"
+sidebarTitle: "SM BigQuery Analyst"
+description: "User-facing skill for SourceMedium BigQuery setup, access checks, and SQL-receipt analysis"
+icon: "database"
+---
+
+## What this skill does
+
+This skill helps end users:
+
+1. Set up `gcloud` + `bq`.
+2. Verify project and dataset/table access.
+3. Answer analysis questions with auditable SQL receipts.
+4. Route to canonical SourceMedium docs when definitions/setup guidance is needed.
+
+## Install
+
+```bash
+npx skills add sourcemedium/skills --skill sm-bigquery-analyst
+```
+
+See [github.com/sourcemedium/skills](https://github.com/sourcemedium/skills) for the canonical skill source.
+
+## No access yet?
+
+If the user cannot run queries because of permissions, use:
+
+- `/ai-analyst/agent-skills/bigquery-access-request-template`
+
+That page includes minimum IAM roles, a copy/paste admin request, and official Google links.
+
+## Required response format
+
+For analytical questions, this skill returns:
+
+1. Answer
+2. SQL (copy/paste)
+3. Notes/assumptions
+4. Verify command
+
+## Guardrails used
+
+1. Fully-qualified table references
+2. `is_order_sm_valid = TRUE` default for order analyses
+3. `sm_store_id` naming convention
+4. `SAFE_DIVIDE` for ratios
+5. Discovery-first handling for categorical values
+
+## Related docs
+
+<CardGroup cols={2}>
+  <Card title="BigQuery Essentials" icon="database" href="/onboarding/analytics-tools/bigquery-essentials">
+    Setup and first-query fundamentals.
+  </Card>
+  <Card title="SQL Query Library" icon="code" href="/data-activation/template-resources/sql-query-library">
+    SourceMedium SQL templates and patterns.
+  </Card>
+  <Card title="Table Docs" icon="table" href="/data-activation/data-tables/sm_transformed_v2/index">
+    Schema-level documentation for core tables.
+  </Card>
+  <Card title="Orders Table" icon="receipt" href="/data-activation/data-tables/sm_transformed_v2/obt_orders">
+    Column reference for the core orders table.
+  </Card>
+  <Card title="Multi-Touch Attribution" icon="chart-network" href="/mta/mta-overview">
+    MTA models, methodology, and experimental tables.
+  </Card>
+  <Card title="Access Management" icon="lock" href="/onboarding/getting-started/how-to-manage-user-access">
+    User access roles and permissions guidance.
+  </Card>
+  <Card title="Access Request Template" icon="key" href="/ai-analyst/agent-skills/bigquery-access-request-template">
+    Copy/paste request users can send to internal admins.
+  </Card>
+</CardGroup>

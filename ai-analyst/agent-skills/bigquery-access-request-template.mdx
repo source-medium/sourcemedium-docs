@@ -1,0 +1,84 @@
+---
+title: "BigQuery Access Request Template"
+sidebarTitle: "Access Request Template"
+description: "Copy/paste template and minimum IAM roles to request BigQuery access"
+icon: "key"
+---
+
+If you can’t run queries yet, use this page to request the exact access your internal Google Cloud admin should grant.
+
+## Minimum required roles
+
+For a read-only analyst workflow, request:
+
+1. **Project-level role**
+   - `roles/bigquery.jobUser`
+2. **Dataset-level roles**
+   - `roles/bigquery.dataViewer` on `sm_transformed_v2`
+   - `roles/bigquery.dataViewer` on `sm_metadata`
+
+Optional:
+
+1. `roles/bigquery.dataViewer` on `sm_experimental` (if querying MTA/experimental tables)
+2. `roles/bigquery.dataViewer` on any custom tenant datasets you need
+
+<Info>
+`roles/bigquery.jobUser` lets users create query jobs. `roles/bigquery.dataViewer` lets users read/query dataset data.
+</Info>
+
+## Copy/paste message to send your admin
+
+```text
+Subject: BigQuery access request for SourceMedium analysis
+
+Hi Admin Team,
+
+Please grant BigQuery access for:
+- Principal: <user-or-group-email>
+- Project: <PROJECT_ID>
+
+Required permissions:
+1) Project-level role:
+   - roles/bigquery.jobUser
+
+2) Dataset-level roles:
+   - roles/bigquery.dataViewer on <PROJECT_ID>.sm_transformed_v2
+   - roles/bigquery.dataViewer on <PROJECT_ID>.sm_metadata
+
+Optional (if needed for MTA/experimental analysis):
+- roles/bigquery.dataViewer on <PROJECT_ID>.sm_experimental
+
+Success criteria after grant:
+- `bq ls --project_id=<PROJECT_ID>` succeeds
+- `bq query --use_legacy_sql=false 'SELECT 1 AS ok'` succeeds
+- user can query `<PROJECT_ID>.sm_transformed_v2.obt_orders`
+
+Thanks.
+```
+
+## How admins grant this access
+
+1. Project role (`bigquery.jobUser`):
+   - Go to IAM for the project and grant the role to the user/group.
+2. Dataset roles (`bigquery.dataViewer`):
+   - In BigQuery, open dataset sharing/permissions and grant role on each required dataset.
+
+## Official references
+
+1. BigQuery IAM roles:
+   - https://cloud.google.com/bigquery/docs/access-control
+2. Dataset/table/view IAM in BigQuery:
+   - https://cloud.google.com/bigquery/docs/control-access-to-resources-iam
+3. Project IAM role management:
+   - https://cloud.google.com/iam/docs/granting-changing-revoking-access
+
+## Related pages
+
+<CardGroup cols={2}>
+  <Card title="SM BigQuery Analyst" icon="database" href="/ai-analyst/agent-skills/sm-bigquery-analyst">
+    Skill overview and install path.
+  </Card>
+  <Card title="BigQuery Essentials" icon="book" href="/onboarding/analytics-tools/bigquery-essentials">
+    First queries and SourceMedium table usage.
+  </Card>
+</CardGroup>

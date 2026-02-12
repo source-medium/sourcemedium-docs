@@ -1,0 +1,33 @@
+---
+title: "Agent Skills"
+sidebarTitle: "Agent Skills"
+description: "Installable skills for coding agents that work with SourceMedium data"
+icon: "wand-magic-sparkles"
+---
+
+Agent Skills package repeatable workflows that help coding agents assist with SourceMedium data analysis.
+
+## Available Skills
+
+<CardGroup cols={1}>
+  <Card title="SM BigQuery Analyst" icon="database" href="/ai-analyst/agent-skills/sm-bigquery-analyst">
+    Setup + access verification + auditable SQL analysis against SourceMedium BigQuery datasets.
+  </Card>
+</CardGroup>
+
+<CardGroup cols={1}>
+  <Card title="BigQuery Access Request Template" icon="key" href="/ai-analyst/agent-skills/bigquery-access-request-template">
+    Copy/paste request for internal admins when users do not have BigQuery access yet.
+  </Card>
+</CardGroup>
+
+## Install via skills.sh
+
+```bash
+# Install this skill
+npx skills add sourcemedium/skills --skill sm-bigquery-analyst
+```
+
+<Info>
+Canonical skill files live in [github.com/sourcemedium/skills](https://github.com/sourcemedium/skills). This docs section is human-facing guidance.
+</Info>

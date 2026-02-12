@@ -700,6 +700,14 @@
             ]
           },
           {
+            "group": "Agent Skills",
+            "pages": [
+              "ai-analyst/agent-skills/index",
+              "ai-analyst/agent-skills/sm-bigquery-analyst",
+              "ai-analyst/agent-skills/bigquery-access-request-template"
+            ]
+          },
+          {
             "group": "Reference",
             "pages": [
               "ai-analyst/troubleshooting",

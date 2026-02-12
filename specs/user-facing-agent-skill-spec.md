@@ -35,8 +35,9 @@ The skill must work across **Codex** and **Claude Code**.
 1. User setup flow (`gcloud`/`bq`, auth, project selection, access checks).
 2. Querying and analysis workflow with strict output contract.
 3. Docs-first guidance using canonical SourceMedium pages.
-4. Internal grounding via generated references from `reporting_queries` and `uni`.
-5. Packaging for Codex + Claude compatibility.
+4. Access-escalation workflow with exact copy/paste admin request template.
+5. Internal grounding via generated references from `reporting_queries` and `uni`.
+6. Packaging for Codex + Claude compatibility.
 
 ### Out of scope (v1)
 
@@ -151,6 +152,7 @@ Docs requirement for adoption:
 4. `/data-activation/data-tables/sm_metadata/dim_data_dictionary`
 5. `/help-center/core-concepts/data-definitions/is-order-sm-valid`
 6. `/onboarding/getting-started/how-to-manage-user-access`
+7. `/ai-analyst/agent-skills/bigquery-access-request-template`
 
 ## 8) Skill UX Contract (Non-Negotiable)
 
@@ -165,7 +167,8 @@ If blocked by setup/access:
 
 1. State exact failing step.
 2. State exact permissions ask (project/dataset + role-level guidance).
-3. Never fabricate numbers.
+3. Include copy/paste request text the user can send to their internal admin.
+4. Never fabricate numbers.
 
 ## 9) Query Guardrails (SourceMedium conventions)
 
@@ -245,7 +248,8 @@ Run prompt matrix in Codex and Claude:
 4. Every analytical response includes SQL receipt + assumptions + verification command.
 5. SQL output follows SourceMedium naming/filter conventions.
 6. Internal grounding references are generated from both `reporting_queries` and `uni`.
-7. No fabricated outputs when setup/access fails.
+7. Dedicated docs article exists with minimum roles + admin request template.
+8. No fabricated outputs when setup/access fails.
 
 ## 14) References
 
@@ -264,6 +268,7 @@ Internal:
 11. `sourcemedium-docs/data-activation/data-tables/sm_metadata/dim_data_dictionary.mdx`
 12. `sourcemedium-docs/help-center/core-concepts/data-definitions/is-order-sm-valid.mdx`
 13. `sourcemedium-docs/onboarding/getting-started/how-to-manage-user-access.mdx`
+14. `sourcemedium-docs/ai-analyst/agent-skills/bigquery-access-request-template.mdx`
 
 External:
 
@@ -272,3 +277,6 @@ External:
 3. https://agentskills.io/home
 4. https://skills.sh/docs/cli
 5. https://skills.sh/docs/faq
+6. https://cloud.google.com/bigquery/docs/access-control
+7. https://cloud.google.com/bigquery/docs/control-access-to-resources-iam
+8. https://cloud.google.com/iam/docs/granting-changing-revoking-access
