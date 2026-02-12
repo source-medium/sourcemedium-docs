@@ -30,7 +30,6 @@ My BigQuery project ID is: [YOUR_PROJECT_ID]
 | Skill | Description |
 |-------|-------------|
 | `sm-bigquery-analyst` | Query SourceMedium BigQuery safely. Emits SQL receipts. SELECT-only, cost-guarded. |
-| `sm-bigquery-analyst-manual` | Manual-only version. Requires explicit invocation. |
 
 ## Features
 
