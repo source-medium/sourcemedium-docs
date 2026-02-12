@@ -1,51 +1,155 @@
 ---
 title: "SM BigQuery Analyst"
 sidebarTitle: "SM BigQuery Analyst"
-description: "User-facing skill for SourceMedium BigQuery setup, access checks, and SQL-receipt analysis"
+description: "Copy/paste skill for coding agents to work with SourceMedium BigQuery data"
 icon: "database"
 ---
 
-## What this skill does
+Copy the skill below into your coding agent's skills folder to help it query SourceMedium BigQuery data correctly.
 
-This skill helps end users:
+## How to use
 
-1. Set up `gcloud` + `bq`.
-2. Verify project and dataset/table access.
-3. Answer analysis questions with auditable SQL receipts.
-4. Route to canonical SourceMedium docs when definitions/setup guidance is needed.
+1. Create a skill folder in your coding agent's skills directory (e.g., `.claude/skills/sm-bigquery-analyst/` for Claude Code)
+2. Save the content below as `SKILL.md` in that folder
+3. Ask your coding agent questions about your SourceMedium data
 
-## Install
+## SKILL.md
 
-```bash
-npx skills add sourcemedium/skills --skill sm-bigquery-analyst
+Copy everything below the horizontal rule into `SKILL.md`:
+
+---
+
+```markdown
+---
+name: sm-bigquery-analyst
+description: Guide end users through SourceMedium BigQuery setup, access verification, schema-aware SQL analysis, and auditable SQL receipts. Use when users need help from first-run gcloud/bq configuration through answering analytical questions against SourceMedium datasets.
+compatibility: Requires gcloud CLI, bq CLI, and network access to BigQuery.
+---
+
+# SourceMedium BigQuery Analyst
+
+Use this skill to help end users work with SourceMedium BigQuery data from setup to analysis.
+
+## Workflow
+
+1. Validate local tooling (`gcloud`, `bq`) and authentication state.
+2. Confirm active project and dataset/table visibility before writing analysis SQL.
+3. Use docs-first guidance for setup, definitions, and table discovery.
+4. Answer analytical questions with reproducible SQL receipts.
+5. Call out assumptions and caveats explicitly.
+
+## Required Output Format
+
+For analytical questions, always return:
+
+1. `Answer`: concise plain-English conclusion.
+2. `SQL (copy/paste)`: BigQuery Standard SQL used for the result.
+3. `Notes`: timeframe, metric definitions, grain, scope, timezone, attribution lens.
+4. `Verify`: `bq query --use_legacy_sql=false '<SQL>'` command.
+
+If access/setup fails, do not fabricate results. Return:
+
+1. Exact failing step.
+2. Exact project/dataset that failed.
+3. Direct user to request access from their internal admin.
+
+## Query Guardrails
+
+1. Fully qualify tables as `` `project.dataset.table` ``.
+2. For order analyses, default to `WHERE is_order_sm_valid = TRUE`.
+3. Use `sm_store_id` (not `smcid` — that name does not exist in customer tables).
+4. Use `SAFE_DIVIDE` for ratio math.
+5. Handle DATE/TIMESTAMP typing explicitly (`DATE(ts_col)` when comparing to dates).
+6. Use `order_net_revenue` for revenue metrics (not `order_gross_revenue` unless explicitly asked).
+7. Use `*_local_datetime` columns for date-based reporting (not UTC `*_at` columns).
+8. Avoid `LIKE`/`REGEXP` on low-cardinality fields (`sm_channel`, `utm_source`, `utm_medium`, `source_system`); discover values first with a `SELECT DISTINCT` query, then use exact match.
+9. `LIKE` is fine for free-text fields (`utm_campaign`, `product_title`, `page_path`).
+10. Keep exploration bounded (`LIMIT`, date filters, partition filters). Max 100 rows returned.
+11. **LTV tables (`rpt_cohort_ltv_*`)**: always filter `sm_order_line_type` to exactly ONE value (`'all_orders'`, `'subscription_orders_only'`, or `'one_time_orders_only'`). Without this, metrics inflate 3x.
+12. For multi-touch attribution questions, use `sm_experimental` dataset. For standard analysis, use `sm_transformed_v2`.
+
+## Datasets
+
+| Dataset | What's in it |
+|---------|-------------|
+| `sm_transformed_v2` | Core tables — orders, customers, order lines, dimensions, reports |
+| `sm_metadata` | Data dictionary, metric catalog, data quality results |
+| `sm_experimental` | MTA / attribution models |
+
+## Core Tables
+
+| Table | Grain | Use case |
+|-------|-------|----------|
+| `obt_orders` | 1 row per order | Revenue, profitability, channel analysis |
+| `obt_order_lines` | 1 row per line item | Product performance, margins, COGS |
+| `obt_customers` | 1 row per customer | Acquisition, retention, subscription status |
+| `rpt_ad_performance_daily` | 1 row per channel/date | Ad spend, impressions, clicks, conversions |
+| `rpt_cohort_ltv_*` | 1 row per cohort x month | LTV analysis (see LTV query rules above) |
+
+## Key Column Conventions
+
+| Column | Notes |
+|--------|-------|
+| `sm_store_id` | Store identifier. One value per project. |
+| `sm_channel` | Sales channel: `online_dtc`, `amazon`, `tiktok_shop`, etc. |
+| `is_order_sm_valid` | Always filter to `TRUE` for order analyses |
+| `order_processed_at_local_datetime` | Use for date-based reporting (localized to store timezone) |
+| `order_net_revenue` | Net revenue (gross - discounts - refunds). Most common revenue metric. |
+
+## Example Queries
+
+### Daily revenue by channel
+
+```sql
+SELECT
+  DATE(order_processed_at_local_datetime) AS order_date,
+  sm_channel,
+  COUNT(sm_order_key) AS order_count,
+  SUM(order_net_revenue) AS revenue
+FROM `your_project.sm_transformed_v2.obt_orders`
+WHERE is_order_sm_valid = TRUE
+  AND DATE(order_processed_at_local_datetime) >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)
+GROUP BY 1, 2
+ORDER BY 1 DESC
 ```
 
-See [github.com/sourcemedium/skills](https://github.com/sourcemedium/skills) for the canonical skill source.
+### New customer acquisition
+
+```sql
+SELECT
+  DATE(order_processed_at_local_datetime) AS order_date,
+  sm_utm_source_medium,
+  COUNT(DISTINCT sm_customer_key) AS new_customers,
+  SUM(order_net_revenue) AS revenue
+FROM `your_project.sm_transformed_v2.obt_orders`
+WHERE is_order_sm_valid = TRUE
+  AND is_first_purchase_order = TRUE
+GROUP BY 1, 2
+ORDER BY 1 DESC
+```
+
+### Product performance
+
+```sql
+SELECT
+  product_title,
+  sku,
+  SUM(order_line_quantity) AS units_sold,
+  SUM(order_line_net_revenue) AS revenue,
+  SAFE_DIVIDE(SUM(order_line_gross_profit), SUM(order_line_net_revenue)) AS profit_margin
+FROM `your_project.sm_transformed_v2.obt_order_lines`
+WHERE is_order_sm_valid = TRUE
+GROUP BY 1, 2
+ORDER BY revenue DESC
+LIMIT 20
+```
+```
+
+---
 
 ## No access yet?
 
-If the user cannot run queries because of permissions, use:
-
-- `/ai-analyst/agent-skills/bigquery-access-request-template`
-
-That page includes minimum IAM roles, a copy/paste admin request, and official Google links.
-
-## Required response format
-
-For analytical questions, this skill returns:
-
-1. Answer
-2. SQL (copy/paste)
-3. Notes/assumptions
-4. Verify command
-
-## Guardrails used
-
-1. Fully-qualified table references
-2. `is_order_sm_valid = TRUE` default for order analyses
-3. `sm_store_id` naming convention
-4. `SAFE_DIVIDE` for ratios
-5. Discovery-first handling for categorical values
+If you cannot run queries due to permissions, see [BigQuery Access Request Template](/ai-analyst/agent-skills/bigquery-access-request-template) for a copy/paste request you can send to your internal admin.
 
 ## Related docs
 
@@ -67,8 +171,5 @@ For analytical questions, this skill returns:
   </Card>
   <Card title="Access Management" icon="lock" href="/onboarding/getting-started/how-to-manage-user-access">
     User access roles and permissions guidance.
-  </Card>
-  <Card title="Access Request Template" icon="key" href="/ai-analyst/agent-skills/bigquery-access-request-template">
-    Copy/paste request users can send to internal admins.
   </Card>
 </CardGroup>

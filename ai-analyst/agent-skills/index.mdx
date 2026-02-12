@@ -1,7 +1,7 @@
 ---
 title: "Agent Skills"
 sidebarTitle: "Agent Skills"
-description: "Installable skills for coding agents that work with SourceMedium data"
+description: "Copy/paste skills for coding agents that work with SourceMedium data"
 icon: "wand-magic-sparkles"
 ---
 
@@ -21,13 +21,9 @@ Agent Skills package repeatable workflows that help coding agents assist with So
   </Card>
 </CardGroup>
 
-## Install via skills.sh
+## How to use
 
-```bash
-# Install this skill
-npx skills add sourcemedium/skills --skill sm-bigquery-analyst
-```
-
-<Info>
-Canonical skill files live in [github.com/sourcemedium/skills](https://github.com/sourcemedium/skills). This docs section is human-facing guidance.
-</Info>
+1. Click on a skill above
+2. Copy the `SKILL.md` content from the page
+3. Paste it into your coding agent's skills folder (e.g., `.claude/skills/<skill-name>/SKILL.md` for Claude Code)
+4. Ask your coding agent questions about your SourceMedium data
