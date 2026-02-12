@@ -7,13 +7,47 @@ icon: "wand-magic-sparkles"
 
 Agent Skills package repeatable workflows that help coding agents assist with SourceMedium data analysis.
 
-## Install
+## Quick Start (Copy/Paste)
 
-```bash
-npx skills add source-medium/skills
+Give this prompt to your coding agent to install everything automatically:
+
+<Tip>
+Copy the block below and paste it into Claude Code, Cursor, Windsurf, or any skills-compatible agent.
+</Tip>
+
+```
+Install the SourceMedium BigQuery analyst skill and help me verify my setup:
+
+1. Run: npx skills add source-medium/skills
+2. Run the setup verification commands from the skill
+3. Confirm my BigQuery access is working
+
+My BigQuery project ID is: [YOUR_PROJECT_ID]
 ```
 
-The CLI detects your installed agents (Claude Code, Cursor, Windsurf, etc.) and installs the skills.
+---
+
+## Install Options
+
+### Option 1: CLI Install (Recommended)
+
+```bash
+# Install all skills
+npx skills add source-medium/skills
+
+# Install specific skill
+npx skills add source-medium/skills --skill sm-bigquery-analyst
+```
+
+The CLI detects your installed agents (Claude Code, Cursor, Windsurf, etc.) and installs to all of them.
+
+### Option 2: Manual Copy/Paste
+
+1. Go to [SM BigQuery Analyst](/ai-analyst/agent-skills/sm-bigquery-analyst)
+2. Copy the `SKILL.md` content
+3. Create `.claude/skills/sm-bigquery-analyst/SKILL.md` in your project
+
+---
 
 ## Available Skills
 
@@ -25,22 +59,37 @@ The CLI detects your installed agents (Claude Code, Cursor, Windsurf, etc.) and 
 
 ## Two Versions
 
-Each skill has two variants:
-
-| Version | When to use |
-|---------|-------------|
-| `sm-bigquery-analyst` | Auto-loaded by agents when relevant |
-| `sm-bigquery-analyst-manual` | Requires explicit `/sm-bigquery-analyst-manual` invocation |
+| Version | Install Command | When to use |
+|---------|-----------------|-------------|
+| `sm-bigquery-analyst` | `--skill sm-bigquery-analyst` | Auto-loaded by agents when relevant |
+| `sm-bigquery-analyst-manual` | `--skill sm-bigquery-analyst-manual` | Requires explicit `/sm-bigquery-analyst-manual` invocation |
 
 Choose the manual version if you want full control over when queries run.
 
-## Manual Install (Copy/Paste)
+---
 
-If you prefer to copy files manually:
+## After Installing
 
-1. Click on a skill above
-2. Copy the `SKILL.md` content from the page
-3. Paste it into your coding agent's skills folder (e.g., `.claude/skills/sm-bigquery-analyst/SKILL.md` for Claude Code)
+Once installed, ask your coding agent questions like:
+
+```
+What was my revenue by channel last month?
+```
+
+```
+Show me new customer acquisition by source over the past 30 days
+```
+
+```
+What's my customer LTV by cohort?
+```
+
+Your agent will:
+1. Verify your BigQuery access
+2. Generate the correct SQL
+3. Return an auditable "SQL receipt" you can verify
+
+---
 
 ## Related
 

@@ -11,6 +11,20 @@ Install the full skill package for your coding agent:
 npx skills add source-medium/skills
 ```
 
+## Quick Start (Copy/Paste)
+
+Copy this prompt and give it to your coding agent:
+
+```
+Install the SourceMedium BigQuery analyst skill and help me verify my setup:
+
+1. Run: npx skills add source-medium/skills
+2. Run the setup verification commands from the skill
+3. Confirm my BigQuery access is working
+
+My BigQuery project ID is: [YOUR_PROJECT_ID]
+```
+
 ## What you get
 
 | Skill | Description |

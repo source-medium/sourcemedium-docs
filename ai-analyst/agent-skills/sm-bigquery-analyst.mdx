@@ -7,6 +7,24 @@ icon: "database"
 
 Query SourceMedium-hosted BigQuery data safely with auditable SQL receipts.
 
+## Quick Start (Copy/Paste)
+
+<Tip>
+Copy the block below and paste it into your coding agent to install and verify setup automatically.
+</Tip>
+
+```
+Install the SourceMedium BigQuery analyst skill:
+
+1. Run: npx skills add source-medium/skills --skill sm-bigquery-analyst
+2. Read the installed SKILL.md to understand the workflow
+3. Run the setup verification commands to check my BigQuery access
+
+My BigQuery project ID is: [YOUR_PROJECT_ID]
+```
+
+---
+
 ## Install
 
 ```bash
@@ -30,6 +48,26 @@ Or copy the SKILL.md content below into your coding agent's skills folder.
 | `sm-bigquery-analyst-manual` | Requires explicit `/sm-bigquery-analyst-manual` invocation |
 
 Install the manual version if you want full control over when queries run.
+
+---
+
+## Example Questions
+
+After installing, ask your coding agent:
+
+```
+What was my revenue by channel last month?
+```
+
+```
+Show me new customer acquisition by source over the past 30 days
+```
+
+```
+What's my customer LTV by acquisition cohort? Use sm_order_line_type = 'all_orders'
+```
+
+Your agent will verify access, generate SQL, and return an auditable receipt.
 
 ---
 
