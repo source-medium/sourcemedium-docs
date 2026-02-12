@@ -191,6 +191,17 @@ If access/setup fails, do not fabricate results. Return:
 | `rpt_ad_performance_daily` | 1 row per channel/date | Ad spend, impressions, clicks |
 | `rpt_cohort_ltv_*` | 1 row per cohort x month | LTV analysis (filter sm_order_line_type!) |
 
+## Project & Filtering
+
+**Project naming:** Customer projects are named `sm-{{tenant_id}}`. Example: `sm-acme-corp`.
+
+**Multi-store filtering:** If you have multiple stores, filter by `sm_store_id` to analyze a single store. Without this filter, all stores' data is combined.
+
+**Sales channels:** Always filter or group by `sm_channel` for segmentation:
+- `online_dtc` — Direct-to-consumer website
+- `amazon` — Amazon marketplace
+- `tiktok_shop` — TikTok Shop
+
 ## Example Queries
 
 ### Daily revenue by channel
