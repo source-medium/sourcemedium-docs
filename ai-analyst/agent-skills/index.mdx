@@ -18,7 +18,7 @@ Copy the block below and paste it into Claude Code, Cursor, Windsurf, or any ski
 ```
 Install the SourceMedium BigQuery analyst skill and help me verify my setup:
 
-1. Run: npx skills add source-medium/skills@v1.0.1
+1. Run: npx skills add source-medium/skills --skill sm-bigquery-analyst
 2. Run the setup verification commands from the skill
 3. Confirm my BigQuery access is working
 
@@ -27,29 +27,17 @@ My BigQuery project ID is: [YOUR_PROJECT_ID]
 
 ---
 
-## Install Options
-
-### Option 1: CLI Install (Recommended)
+## Install
 
 ```bash
-# Install all skills (pinned version)
-npx skills add source-medium/skills@v1.0.1
-
-# Install specific skill
-npx skills add source-medium/skills@v1.0.1 --skill sm-bigquery-analyst
+npx skills add source-medium/skills --skill sm-bigquery-analyst
 ```
-
-<Note>
-We recommend pinning to a specific version (`@v1.0.0`) to avoid surprise behavior changes. See [github.com/source-medium/skills/releases](https://github.com/source-medium/skills/releases) for available versions.
-</Note>
 
 The CLI detects your installed agents (Claude Code, Cursor, Windsurf, etc.) and installs to all of them.
 
-### Option 2: Manual Copy/Paste
-
-1. Go to [SM BigQuery Analyst](/ai-analyst/agent-skills/sm-bigquery-analyst)
-2. Copy the `SKILL.md` content
-3. Create `.claude/skills/sm-bigquery-analyst/SKILL.md` in your project
+<Note>
+To pin to a specific version, add `@v1.0.1`: `npx skills add source-medium/skills@v1.0.1 --skill sm-bigquery-analyst`. See [github.com/source-medium/skills/releases](https://github.com/source-medium/skills/releases) for available versions.
+</Note>
 
 ---
 
