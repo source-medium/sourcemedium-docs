@@ -819,7 +819,8 @@
   },
   "logo": {
     "light": "/logo/light.png",
-    "dark": "/logo/dark.png"
+    "dark": "/logo/dark.png",
+    "href": "https://sourcemedium.com"
   },
   "appearance": {
     "default": "light",
