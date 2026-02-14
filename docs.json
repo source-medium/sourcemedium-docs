@@ -262,13 +262,13 @@
                 "group": "Site Analytics & Attribution",
                 "pages": [
                   {
-                "group": "Google Analytics - 4 (GA4)",
-                "pages": [
-                  "data-inputs/platform-integration-instructions/ga4-integration",
-                  "data-inputs/platform-supporting-resources/ga4/google-analytics-common-failures",
-                  "data-inputs/platform-supporting-resources/ga4/improving-last-click-attribution"
-                ]
-              },
+                    "group": "Google Analytics - 4 (GA4)",
+                    "pages": [
+                      "data-inputs/platform-integration-instructions/ga4-integration",
+                      "data-inputs/platform-supporting-resources/ga4/google-analytics-common-failures",
+                      "data-inputs/platform-supporting-resources/ga4/improving-last-click-attribution"
+                    ]
+                  },
                   {
                     "group": "(Legacy) Google Analytics - Universal",
                     "pages": [
@@ -648,11 +648,11 @@
               {
                 "group": "Configuration Sheet",
                 "pages": [
-                      "help-center/raw-data-source-overviews/configuration-sheet/configuration-sheet-overview",
-                      "help-center/raw-data-source-overviews/configuration-sheet/schema",
-                      "help-center/raw-data-source-overviews/configuration-sheet/sales-tab",
-                      "help-center/raw-data-source-overviews/configuration-sheet/channel-mapping-tab",
-                      "help-center/raw-data-source-overviews/configuration-sheet/targets-tab",
+                  "help-center/raw-data-source-overviews/configuration-sheet/configuration-sheet-overview",
+                  "help-center/raw-data-source-overviews/configuration-sheet/schema",
+                  "help-center/raw-data-source-overviews/configuration-sheet/sales-tab",
+                  "help-center/raw-data-source-overviews/configuration-sheet/channel-mapping-tab",
+                  "help-center/raw-data-source-overviews/configuration-sheet/targets-tab",
                   {
                     "group": "Costs",
                     "pages": [
@@ -739,20 +739,20 @@
           }
         ]
       },
-	      {
-	        "tab": "FAQs",
-	        "groups": [
-	          {
-	            "group": "Getting Help",
-	            "pages": [
-	              "faq",
-	              "help-center/faq/cold-start-guide-home",
-	              "onboarding/data-docs/data-hygeine/importance-of-good-data-hygeine"
-	            ]
-	          },
-	          {
-	            "group": "FAQs",
-	            "pages": [
+      {
+        "tab": "FAQs",
+        "groups": [
+          {
+            "group": "Getting Help",
+            "pages": [
+              "faq",
+              "help-center/faq/cold-start-guide-home",
+              "onboarding/data-docs/data-hygeine/importance-of-good-data-hygeine"
+            ]
+          },
+          {
+            "group": "FAQs",
+            "pages": [
               {
                 "group": "Dashboard Functionality",
                 "pages": [
@@ -825,21 +825,26 @@
     "default": "light",
     "strict": false
   },
+  "seo": {
+    "metatags": {
+      "canonical": "https://sourcemedium.com/docs"
+    }
+  },
   "navbar": {
     "links": [
       {
-        "label": "Customer Case Studies",
-        "href": "https://www.sourcemedium.com/case-study"
+        "label": "Customer stories",
+        "href": "/case-study/"
       },
       {
-        "label": "Blog",
-        "href": "https://www.sourcemedium.com/blog"
+        "label": "Integrations",
+        "href": "/integrations/"
       }
     ],
     "primary": {
       "type": "button",
-      "label": "Request a Demo",
-      "href": "https://www.sourcemedium.com/book-demo-web"
+      "label": "Get started",
+      "href": "/request-demo"
     }
   },
   "footer": {
@@ -851,6 +856,11 @@
   "integrations": {
     "ga4": {
       "measurementId": "G-LKSGE9NY1B"
+    },
+    "posthog": {
+      "apiKey": "phc_yEZthPWGFIyJz42b7EPyqO7lPFRzjvDBJaw21cDcRmX",
+      "apiHost": "https://us.i.posthog.com",
+      "sessionRecording": true
     }
   },
   "redirects": [
