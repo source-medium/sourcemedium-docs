@@ -834,17 +834,17 @@
     "links": [
       {
         "label": "Customer stories",
-        "href": "/case-study/"
+        "href": "https://sourcemedium.com/case-study/"
       },
       {
         "label": "Integrations",
-        "href": "/integrations/"
+        "href": "https://sourcemedium.com/integrations/"
       }
     ],
     "primary": {
       "type": "button",
       "label": "Get started",
-      "href": "/request-demo"
+      "href": "https://sourcemedium.com/request-demo"
     }
   },
   "footer": {
