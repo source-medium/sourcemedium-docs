@@ -4,7 +4,7 @@ description: "How SourceMedium decides which UTM data source wins when multiple 
 icon: "layer-group"
 ---
 
-When SourceMedium receives an order, we often have attribution data from multiple First-Party Inputs—Shopify visits, order custom attributes, existing GA4 tracking, and post-purchase surveys.
+When SourceMedium receives an order, we often have attribution data from multiple first-party inputs, including Shopify visits, order custom attributes, website events, and Google Analytics transaction data.
 
 The **Attribution Source Hierarchy** is our **Resolution Strategy**. It determines how we intelligently resolve conflicts when data is available from multiple places, ensuring we always use the most granular and reliable signal available for every single order.
 
@@ -24,10 +24,14 @@ The order attribution system evaluates data sources in this specific priority or
 | 4 | Shopify Order Notes (Legacy) | UTM data written to order notes / note attributes by tracking tools (Elevar, Blotout, etc.) |
 | 5 | Website Event Tracking | First-party event pixels from GA4, Elevar, or other website analytics |
 | 6 | Shopify First Customer Visit | The customer's first tracked visit, captured by Shopify's customer visit tracking |
-| 7 | GA4 | Transaction data from Google Analytics 4 |
+| 7 | Google Analytics (GA4 primary) | Transaction data tied from Google Analytics. GA4 is the primary ongoing source; retained UA exports are treated as historical-only if present. |
 | 8 | Shopify Order Referring Site UTMs | UTM parameters parsed from the order's `referring_site` URL |
 
 If data is missing at priority 1, the system "falls" to priority 2, and so on until it finds valid UTM data.
+
+<Note>
+Final source ranking is deterministic and tenant-scoped at the order level.
+</Note>
 
 ```mermaid
 flowchart TB
@@ -50,9 +54,20 @@ Universal Analytics (UA) has been sunset by Google. If your organization already
 Because we're building a last-click attribution model. The most recent touchpoint before purchase (last visit) is more relevant for understanding what drove the conversion than the first touchpoint (which may have been weeks earlier).
 </Tip>
 
+## Google Analytics Transaction Tie Rules (Priority 7)
+
+Google Analytics transaction records are considered tie-eligible for order matching when the transaction ID can be safely parsed into an order-like numeric key using the following logic:
+
+1. `transaction_id` matches `^#[0-9]{4,}$` (for example `#6589`), or
+2. `transaction_id` has a trailing numeric suffix with length `>= 5`.
+
+Short non-hashtag numeric IDs remain blocked to reduce accidental collisions.
+
+For a valid tie, the transaction-to-order window is bounded to **-1..90 days** relative to the order processed date. If a valid tie exists, this source participates at priority 7 in the hierarchy.
+
 ## Website Event Tracking Details
 
-For website event tracking sources (priority 5), the system uses qualifying events within a **90-day lookback window** before the order.
+For website event tracking sources (priority 5), the system uses qualifying events in a **0..90 day window** relative to the order.
 
 When multiple events exist, they're ranked by:
 1. Days between event and order (closer to order = higher priority)
@@ -233,6 +248,11 @@ After the primary source is determined, the system "collapses" supplementary UTM
 - `utm_campaign=summer_sale` (from priority 3)
 
 This only happens when the `utm_source` grouped channel is the **same** across sources—we don't mix data from different channels.
+
+## Implementation Notes (Advanced)
+
+- For Shopify order notes, if note-level `utm_source` is missing, note `channel` may be used as a fallback source value.
+- Final `sm_utm_*` fields can be completed by downstream override logic when hierarchy output is null or direct/non-actionable.
 
 ## Related Resources
 
