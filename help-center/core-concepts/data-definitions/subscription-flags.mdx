@@ -21,6 +21,20 @@ Common subscription-related fields in `your_project.sm_transformed_v2.obt_orders
 These fields are most reliable when you have a direct subscription-platform integration (or consistent subscription tagging in Shopify).
 </Note>
 
+## Shopify behavior update (February 20, 2026)
+
+For Shopify order lines, SourceMedium now uses expanded line-item metadata signals when setting subscription flags.
+
+What this means in practice:
+- More Shopify subscription metadata keys are recognized (including common selling-plan/prepaid/app-emitted keys).
+- Explicit one-time line signals take precedence over explicit subscription line signals.
+- Placeholder-only `subscription_id = '1'` no longer counts as a subscription signal by itself.
+- Post-cutover, single-line order-source fallback includes ReCharge app id `294517`.
+
+Expected impact for existing users:
+- You may see some historical Shopify orders reclassified between one-time and subscription after refresh/backfill cycles.
+- Field definitions and column names do not change.
+
 ## Recommended query pattern
 
 ```sql
@@ -41,4 +55,3 @@ ORDER BY month_start DESC, subscription_order_sequence;
 
 - [Order Type (sm_order_type)](/data-transformations/order-segmentation/order-type)
 - [`obt_orders` column docs](/data-activation/data-tables/sm_transformed_v2/obt_orders)
-

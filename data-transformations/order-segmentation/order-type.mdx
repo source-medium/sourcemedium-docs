@@ -23,13 +23,39 @@ Order type classification uses a multi-signal approach evaluated at the **line i
 
 | Priority | Signal | Result |
 |----------|--------|--------|
-| 1 | Amazon Subscribe & Save line item match | `Subscription` |
-| 2 | `prepaid` + subscription tag in order tags | `Subscription - Prepaid` |
-| 3 | Subscription platform line item type (ReCharge, Retextion) | Per platform classification |
-| 4 | Shopify Subscription Contract app ID | `Subscription` |
-| 5 | Order tags matching subscription patterns | `Subscription` |
-| 6 | Line item `is_from_subscription` flag | `Subscription` |
-| 7 | **Default** | `One-time` |
+| 1 | Shopify explicit one-time line signal | `One-time` |
+| 2 | Shopify explicit subscription line signal | `Subscription` |
+| 3 | Amazon Subscribe & Save line item match | `Subscription` |
+| 4 | Subscription platform line item type (ReCharge, Retextion) | Per platform classification |
+| 5 | Legacy tag/order-source fallback logic | `Subscription` / `One-time` |
+| 6 | **Default** | `One-time` |
+
+## Shopify Metadata Update (February 20, 2026)
+
+For Shopify, order-line classification now uses a broader set of line-item metadata keys from `stg_stitch__shopify__order_line_properties`.
+
+### What changed
+
+- Added more subscription-indicator keys (e.g., selling plan, prepaid, bundle, and app-emitted subscription metadata keys).
+- Added explicit one-time keys used by common subscription apps.
+- Added guardrail for placeholder values:
+  - `subscription_id = '1'` by itself is treated as a placeholder and **does not** create a subscription signal.
+- Added Shopify app-id fallback coverage for single-line orders:
+  - Includes ReCharge app id `294517` in the post-cutover order-source fallback list.
+
+### Signal precedence (Shopify)
+
+1. Explicit one-time signal wins.
+2. Explicit subscription signal is used when explicit one-time is absent.
+3. Exact/fuzzy subscription platform line-item matches are used next.
+4. Legacy/tag-based fallback logic applies.
+5. Otherwise classify as one-time.
+
+### What existing users should expect
+
+- Some Shopify lines/orders may move from `One-time` to `Subscription` where subscription metadata was previously under-detected.
+- A smaller set of Shopify lines/orders may move from `Subscription` to `One-time` when the only signal was placeholder `subscription_id = '1'`.
+- No schema change: field names like `sm_order_type`, `is_subscription_order`, and `subscription_order_sequence` are unchanged.
 
 ### Subscription Tag Patterns
 
