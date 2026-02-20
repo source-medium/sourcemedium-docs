@@ -7,6 +7,10 @@ icon: "question-mark"
 
 It’s common for subscription reporting to differ across tools. ReCharge and SourceMedium may be answering slightly different questions, using different timestamps, or applying different rules for refunds, cancellations, and attribution.
 
+<Note>
+As of **February 20, 2026**, Shopify line-item subscription classification in SourceMedium was updated to use expanded metadata signals (including ReCharge app-id fallback coverage for `294517`) and to ignore placeholder-only `subscription_id = '1'`.
+</Note>
+
 ## Start by aligning on definitions
 
 Before troubleshooting, confirm which definition you’re using in each tool:
@@ -39,6 +43,14 @@ Subscription checkouts can reduce UTM coverage depending on your storefront/chec
 ### 4) Multi-store / multi-channel scoping
 
 Confirm you’re comparing the same store(s), channel(s), and date range in both tools.
+
+### 5) Shopify metadata signal changes (for existing users)
+
+If your subscription/non-subscription split changed recently, this can be expected after the Shopify signal update:
+
+- Some lines previously marked one-time may now be classified as subscription due to newly recognized metadata keys.
+- Some lines previously marked subscription may now be one-time if the only prior signal was placeholder `subscription_id = '1'`.
+- In post-cutover Shopify data, single-line orders with `order_source_name = '294517'` can now classify as subscription via fallback logic.
 
 ## What to do next
 
