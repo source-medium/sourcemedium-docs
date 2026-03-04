@@ -16,6 +16,14 @@ For the full priority order, see [Attribution Source Hierarchy](/data-transforma
 
 This enrichment can fill in gaps in both data sources — SourceMedium can regularly provide attribution for 10-30% more orders than Google Analytics on its own.
 
+### Technical matching note
+
+For GA transaction-to-order matching, Shopify-style transaction IDs like `#1234` are now tie-eligible alongside longer numeric-suffix IDs.
+
+Matching is still bounded by attribution windows and overall data quality, so discrepancies can remain when upstream tracking is missing, delayed, or inconsistent.
+
+For full matching and source-priority mechanics, see [Attribution Source Hierarchy](/data-transformations/attribution-source-hierarchy).
+
 ### Why doesn't Shopify/SourceMedium match Google Analytics?
 
 Google Analytics has some common failure points that can cause data sources to diverge:
