@@ -1,0 +1,124 @@
+---
+title: "Customers & Retention"
+description: "Customer mix, repeat behavior, and retention trend queries."
+icon: "code"
+---
+
+<Tip>
+Use the same query standards from the [SQL Query Library overview](/data-activation/template-resources/sql-query-library): `is_order_sm_valid = TRUE` for order analyses, `sm_store_id` scoping for multi-store setups, and `your_project` placeholders.
+</Tip>
+
+<AccordionGroup>
+  <Accordion title="First valid vs repeat orders (last 30 days)">
+    **What you'll learn:** The split between customers’ **first valid order** vs repeat valid orders in terms of order count, unique customers, and net revenue. Track this over time to understand how much revenue comes from retention vs new customer acquisition.
+
+    ```sql
+    -- Assumptions: timeframe=last_30_days | metric=orders+customers+net_revenue | grain=first_vs_repeat | scope=valid_orders_only
+    SELECT
+      CASE WHEN sm_valid_order_index = 1 THEN 'first_valid_order' ELSE 'repeat_valid_order' END AS order_type,
+      COUNT(DISTINCT sm_order_key) AS orders,
+      COUNT(DISTINCT sm_customer_key) AS customers,
+      SUM(order_net_revenue) AS order_net_revenue
+    FROM `your_project.sm_transformed_v2.obt_orders`
+    WHERE is_order_sm_valid = TRUE
+      AND order_cancelled_at IS NULL
+      AND DATE(order_processed_at_local_datetime) >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)
+    GROUP BY 1
+    ORDER BY orders DESC;
+    ```
+  </Accordion>
+
+  <Accordion title="Which source/mediums drive repeat purchases? (cohorted on first order in last 12 months)">
+    **What you'll learn:** Which acquisition channels bring in customers who come back to buy again. Identify your best sources for long-term customer value versus one-time buyers.
+
+    ```sql
+    -- Assumptions: timeframe=first_orders_last_12_months | metric=repeat_rate=customers_with_2+_orders/customers | grain=first_order_source_medium | scope=valid_orders_only
+    WITH valid_orders AS (
+      SELECT
+        sm_customer_key,
+        sm_order_key,
+        order_processed_at_local_datetime,
+        COALESCE(NULLIF(LOWER(TRIM(sm_utm_source_medium)), ''), '(none) / (none)') AS source_medium,
+        ROW_NUMBER() OVER (
+          PARTITION BY sm_customer_key
+          ORDER BY order_processed_at_local_datetime
+        ) AS rn
+      FROM `your_project.sm_transformed_v2.obt_orders`
+      WHERE is_order_sm_valid = TRUE
+        AND order_cancelled_at IS NULL
+        AND sm_customer_key IS NOT NULL
+    ),
+    customer_summary AS (
+      SELECT
+        sm_customer_key,
+        MAX(CASE WHEN rn = 1 THEN source_medium END) AS first_order_source_medium,
+        MIN(CASE WHEN rn = 1 THEN DATE(order_processed_at_local_datetime) END) AS first_order_date,
+        COUNT(DISTINCT sm_order_key) AS valid_order_count
+      FROM valid_orders
+      GROUP BY 1
+    )
+    SELECT
+      first_order_source_medium AS source_medium,
+      COUNT(*) AS customers,
+      COUNTIF(valid_order_count >= 2) AS repeat_customers,
+      SAFE_DIVIDE(COUNTIF(valid_order_count >= 2), COUNT(*)) AS repeat_rate,
+      AVG(valid_order_count - 1) AS avg_subsequent_orders
+    FROM customer_summary
+    WHERE first_order_date >= DATE_SUB(CURRENT_DATE(), INTERVAL 365 DAY)
+    GROUP BY 1
+    HAVING customers >= 100
+    ORDER BY repeat_rate DESC
+    LIMIT 25;
+    ```
+  </Accordion>
+
+  <Accordion title="New vs repeat customer ratio trend (weekly, YTD)">
+    **What you'll learn:** How your balance between new and returning customers has shifted week-over-week this year. Use this to see whether acquisition is outpacing repeat purchasing (or vice versa), and to spot meaningful shifts after campaigns or seasonality.
+
+    ```sql
+    -- Assumptions: timeframe=year_to_date | metric=new_to_repeat_ratio=new_customer_count/repeat_customer_count | grain=week | scope=all_channels
+    WITH weekly AS (
+      SELECT
+        DATE_TRUNC(date, WEEK(MONDAY)) AS week_start,
+        SUM(new_customer_count) AS new_customers,
+        SUM(repeat_customer_count) AS repeat_customers
+      FROM `your_project.sm_transformed_v2.rpt_executive_summary_daily`
+      WHERE date >= DATE_TRUNC(CURRENT_DATE(), YEAR)
+      GROUP BY 1
+    )
+    SELECT
+      week_start,
+      new_customers,
+      repeat_customers,
+      SAFE_DIVIDE(new_customers, NULLIF(repeat_customers, 0)) AS new_to_repeat_ratio
+    FROM weekly
+    ORDER BY week_start;
+    ```
+  </Accordion>
+
+  <Accordion title="Customer acquisition trend (monthly new customers, last 12 months)">
+    **What you'll learn:** Your month-over-month new customer growth including order count, revenue, and average order value from first-time buyers. Use this to track whether your acquisition efforts are scaling.
+
+    ```sql
+    -- Assumptions: timeframe=last_12_months | metric=new_customers | grain=month | scope=all_channels
+    WITH monthly AS (
+      SELECT
+        DATE_TRUNC(date, MONTH) AS month_start,
+        SUM(new_customer_count) AS new_customers,
+        SUM(new_customer_order_count) AS new_customer_orders,
+        SUM(new_customer_order_net_revenue) AS new_customer_order_net_revenue
+      FROM `your_project.sm_transformed_v2.rpt_executive_summary_daily`
+      WHERE date >= DATE_SUB(DATE_TRUNC(CURRENT_DATE(), MONTH), INTERVAL 12 MONTH)
+      GROUP BY 1
+    )
+    SELECT
+      month_start,
+      new_customers,
+      new_customer_orders,
+      new_customer_order_net_revenue,
+      SAFE_DIVIDE(new_customer_order_net_revenue, NULLIF(new_customer_orders, 0)) AS new_customer_aov
+    FROM monthly
+    ORDER BY month_start;
+    ```
+  </Accordion>
+</AccordionGroup>

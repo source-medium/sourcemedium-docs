@@ -1,0 +1,194 @@
+---
+title: "Messaging"
+description: "Email and SMS performance, flow vs campaign, and subscriber trend queries."
+icon: "code"
+---
+
+<Tip>
+Use the same query standards from the [SQL Query Library overview](/data-activation/template-resources/sql-query-library): `is_order_sm_valid = TRUE` for order analyses, `sm_store_id` scoping for multi-store setups, and `your_project` placeholders.
+</Tip>
+
+<AccordionGroup>
+  <Accordion title="Messaging performance by channel + message type (last 30 days)">
+    **What you'll learn:** How email/SMS/push performance differs between **campaigns** and **flows**, including deliverability, engagement, list growth, and platform-attributed orders/revenue. Use this to quickly identify which message types are driving the most value (and where engagement or unsubscribes are trending poorly).
+
+    ```sql
+    -- Assumptions: timeframe=last_30_days | metric=engagement+platform_attributed_orders_revenue | grain=channel+message_type | scope=all_messages
+    SELECT
+      COALESCE(NULLIF(LOWER(TRIM(sm_message_channel)), ''), '(unknown)') AS sm_message_channel,
+      COALESCE(NULLIF(LOWER(TRIM(message_type)), ''), '(unknown)') AS message_type,
+      SUM(message_unique_receives) AS receives,
+      SUM(message_unique_opens) AS opens,
+      SUM(message_unique_clicks) AS clicks,
+      SUM(message_unique_bounces) AS bounces,
+      SUM(message_unique_drops) AS drops,
+      SUM(list_subscribes) AS list_subscribes,
+      SUM(list_unsubscribes) AS list_unsubscribes,
+      SUM(platform_reported_orders) AS platform_reported_orders,
+      SUM(platform_reported_order_revenue) AS platform_reported_order_revenue,
+      SAFE_DIVIDE(SUM(message_unique_opens), NULLIF(SUM(message_unique_receives), 0)) AS open_rate,
+      SAFE_DIVIDE(SUM(message_unique_clicks), NULLIF(SUM(message_unique_receives), 0)) AS click_rate,
+      SAFE_DIVIDE(SUM(list_unsubscribes), NULLIF(SUM(message_unique_receives), 0)) AS unsubscribe_rate_per_receive
+    FROM `your_project.sm_transformed_v2.rpt_outbound_message_performance_daily`
+    WHERE date >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)
+    GROUP BY 1, 2
+    ORDER BY platform_reported_order_revenue DESC;
+    ```
+
+    <Info>
+    `platform_reported_*` metrics are **platform-attributed**, not incremental lift. Use them for directional comparisons and monitoring, not causal claims.
+    </Info>
+  </Accordion>
+
+  <Accordion title="Top campaigns by platform-attributed order revenue (last 30 days)">
+    **What you'll learn:** Which **campaigns** are driving the most platform-attributed revenue and orders in the last 30 days. Use this to spot your best-performing sends and quickly triage underperformers.
+
+    ```sql
+    -- Assumptions: timeframe=last_30_days | metric=platform_attributed_orders_revenue | grain=campaign | scope=campaigns_only
+    SELECT
+      COALESCE(NULLIF(LOWER(TRIM(sm_message_channel)), ''), '(unknown)') AS sm_message_channel,
+      COALESCE(NULLIF(LOWER(TRIM(source_system)), ''), '(unknown)') AS source_system,
+      campaign_id,
+      ANY_VALUE(campaign_name) AS campaign_name,
+      SUM(message_unique_receives) AS receives,
+      SUM(message_unique_opens) AS opens,
+      SUM(message_unique_clicks) AS clicks,
+      SUM(platform_reported_orders) AS platform_reported_orders,
+      SUM(platform_reported_order_revenue) AS platform_reported_order_revenue,
+      SAFE_DIVIDE(SUM(message_unique_opens), NULLIF(SUM(message_unique_receives), 0)) AS open_rate,
+      SAFE_DIVIDE(SUM(message_unique_clicks), NULLIF(SUM(message_unique_receives), 0)) AS click_rate
+    FROM `your_project.sm_transformed_v2.rpt_outbound_message_performance_daily`
+    WHERE date >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)
+      AND LOWER(message_type) = 'campaign'
+    GROUP BY 1, 2, 3
+    ORDER BY platform_reported_order_revenue DESC
+    LIMIT 25;
+    ```
+  </Accordion>
+
+  <Accordion title="List subscribes vs unsubscribes trend by channel (weekly, last 12 weeks)">
+    **What you'll learn:** How list growth is trending week-over-week by channel using message-attributed subscribes and unsubscribes. Use this to detect periods of churn (high unsubscribes) and measure whether list acquisition is keeping up.
+
+    ```sql
+    -- Assumptions: timeframe=last_12_weeks | metric=list_subscribes_unsubscribes_net | grain=week+channel | scope=all_messages
+    SELECT
+      DATE_TRUNC(date, WEEK(MONDAY)) AS week_start,
+      COALESCE(NULLIF(LOWER(TRIM(sm_message_channel)), ''), '(unknown)') AS sm_message_channel,
+      SUM(list_subscribes) AS list_subscribes,
+      SUM(list_unsubscribes) AS list_unsubscribes,
+      SUM(list_subscribes) - SUM(list_unsubscribes) AS net_list_growth,
+      SAFE_DIVIDE(SUM(list_unsubscribes), NULLIF(SUM(list_subscribes), 0)) AS unsubscribe_per_subscribe
+    FROM `your_project.sm_transformed_v2.rpt_outbound_message_performance_daily`
+    WHERE date >= DATE_SUB(CURRENT_DATE(), INTERVAL 84 DAY)
+    GROUP BY 1, 2
+    ORDER BY week_start, sm_message_channel;
+    ```
+  </Accordion>
+
+  <Accordion title="Messaging performance by provider + channel + message type (last 30 days)">
+    **What you'll learn:** Which messaging providers (Klaviyo, Postscript, Attentive, etc.) are driving the best engagement and platform-attributed outcomes, broken out by channel and message type. Useful when you run multiple providers or want to audit performance differences across tools.
+
+    ```sql
+    -- Assumptions: timeframe=last_30_days | metric=engagement+platform_attributed_orders_revenue | grain=provider+channel+message_type | scope=message_sends_only
+    SELECT
+      COALESCE(NULLIF(LOWER(TRIM(source_system)), ''), '(unknown)') AS source_system,
+      COALESCE(NULLIF(LOWER(TRIM(sm_message_channel)), ''), '(unknown)') AS sm_message_channel,
+      COALESCE(NULLIF(LOWER(TRIM(message_type)), ''), '(unknown)') AS message_type,
+      SUM(message_unique_receives) AS receives,
+      SUM(message_unique_opens) AS opens,
+      SUM(message_unique_clicks) AS clicks,
+      SUM(platform_reported_orders) AS platform_reported_orders,
+      SUM(platform_reported_order_revenue) AS platform_reported_order_revenue,
+      SAFE_DIVIDE(SUM(message_unique_opens), NULLIF(SUM(message_unique_receives), 0)) AS open_rate,
+      SAFE_DIVIDE(SUM(message_unique_clicks), NULLIF(SUM(message_unique_receives), 0)) AS click_rate
+    FROM `your_project.sm_transformed_v2.rpt_outbound_message_performance_daily`
+    WHERE date >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)
+      AND message_type IS NOT NULL
+    GROUP BY 1, 2, 3
+    ORDER BY platform_reported_order_revenue DESC
+    LIMIT 50;
+    ```
+  </Accordion>
+
+  <Accordion title="Flow vs campaign performance trend (weekly, last 12 weeks)">
+    **What you'll learn:** Whether your weekly performance is being driven by flows or campaigns, including engagement and unsubscribes per receive. Helpful for diagnosing list fatigue or “campaign heavy” weeks that spike churn.
+
+    ```sql
+    -- Assumptions: timeframe=last_12_weeks | metric=engagement+platform_attributed_revenue+unsubscribe_rate | grain=week+message_type | scope=flow_vs_campaign_only
+    SELECT
+      DATE_TRUNC(date, WEEK(MONDAY)) AS week_start,
+      LOWER(message_type) AS message_type,
+      SUM(message_unique_receives) AS receives,
+      SUM(message_unique_opens) AS opens,
+      SUM(message_unique_clicks) AS clicks,
+      SUM(list_unsubscribes) AS list_unsubscribes,
+      SUM(platform_reported_order_revenue) AS platform_reported_order_revenue,
+      SAFE_DIVIDE(SUM(message_unique_opens), NULLIF(SUM(message_unique_receives), 0)) AS open_rate,
+      SAFE_DIVIDE(SUM(message_unique_clicks), NULLIF(SUM(message_unique_receives), 0)) AS click_rate,
+      SAFE_DIVIDE(SUM(list_unsubscribes), NULLIF(SUM(message_unique_receives), 0)) AS unsubscribe_rate_per_receive
+    FROM `your_project.sm_transformed_v2.rpt_outbound_message_performance_daily`
+    WHERE date >= DATE_SUB(CURRENT_DATE(), INTERVAL 84 DAY)
+      AND LOWER(message_type) IN ('flow', 'campaign')
+    GROUP BY 1, 2
+    ORDER BY week_start, message_type;
+    ```
+
+    <Info>
+    This is a directional trend view. If your providers attribute list subscribes/unsubscribes separately from message sends, keep using the dedicated “List subscribes vs unsubscribes” template for net list growth.
+    </Info>
+  </Accordion>
+
+  <Accordion title="Deliverability health (bounce + drop rates) by provider and channel (weekly, last 12 weeks)">
+    **What you'll learn:** Whether bounces or suppressed sends (“drops”) are trending up for a specific provider/channel/message type. Useful for deliverability monitoring and troubleshooting.
+
+    ```sql
+    -- Assumptions: timeframe=last_12_weeks | metric=bounce_rate+drop_rate | grain=week+provider+channel+message_type | scope=message_sends_only
+    SELECT
+      DATE_TRUNC(date, WEEK(MONDAY)) AS week_start,
+      COALESCE(NULLIF(LOWER(TRIM(source_system)), ''), '(unknown)') AS source_system,
+      COALESCE(NULLIF(LOWER(TRIM(sm_message_channel)), ''), '(unknown)') AS sm_message_channel,
+      COALESCE(NULLIF(LOWER(TRIM(message_type)), ''), '(unknown)') AS message_type,
+      SUM(message_unique_receives) AS receives,
+      SUM(message_unique_bounces) AS bounces,
+      SUM(message_unique_drops) AS drops,
+      SAFE_DIVIDE(SUM(message_unique_bounces), NULLIF(SUM(message_unique_receives), 0)) AS bounce_rate_per_receive,
+      SAFE_DIVIDE(SUM(message_unique_drops), NULLIF(SUM(message_unique_receives), 0)) AS drop_rate_per_receive
+    FROM `your_project.sm_transformed_v2.rpt_outbound_message_performance_daily`
+    WHERE date >= DATE_SUB(CURRENT_DATE(), INTERVAL 84 DAY)
+      AND message_type IS NOT NULL
+    GROUP BY 1, 2, 3, 4
+    HAVING receives >= 1000
+    ORDER BY week_start, source_system, sm_message_channel, message_type;
+    ```
+  </Accordion>
+
+  <Accordion title="Highest click-rate messages (last 30 days, minimum receives threshold)">
+    **What you'll learn:** Which messages have unusually high click rates, after applying a minimum receives threshold to avoid small-sample noise. Useful for creative analysis and identifying “winner” templates to reuse.
+
+    ```sql
+    -- Assumptions: timeframe=last_30_days | metric=click_rate+platform_attributed_outcomes | grain=message | scope=min_receives_threshold
+    SELECT
+      COALESCE(NULLIF(LOWER(TRIM(source_system)), ''), '(unknown)') AS source_system,
+      COALESCE(NULLIF(LOWER(TRIM(sm_message_channel)), ''), '(unknown)') AS sm_message_channel,
+      COALESCE(NULLIF(LOWER(TRIM(message_type)), ''), '(unknown)') AS message_type,
+      message_id,
+      ANY_VALUE(message_name) AS message_name,
+      ANY_VALUE(message_subject) AS message_subject,
+      campaign_id,
+      ANY_VALUE(campaign_name) AS campaign_name,
+      SUM(message_unique_receives) AS receives,
+      SUM(message_unique_opens) AS opens,
+      SUM(message_unique_clicks) AS clicks,
+      SUM(platform_reported_orders) AS platform_reported_orders,
+      SUM(platform_reported_order_revenue) AS platform_reported_order_revenue,
+      SAFE_DIVIDE(SUM(message_unique_clicks), NULLIF(SUM(message_unique_receives), 0)) AS click_rate
+    FROM `your_project.sm_transformed_v2.rpt_outbound_message_performance_daily`
+    WHERE date >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)
+      AND message_id IS NOT NULL
+    GROUP BY 1, 2, 3, 4, 7
+    HAVING receives >= 10000
+    ORDER BY click_rate DESC, receives DESC
+    LIMIT 25;
+    ```
+  </Accordion>
+</AccordionGroup>

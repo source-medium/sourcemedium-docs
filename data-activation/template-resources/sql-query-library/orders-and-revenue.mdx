@@ -1,0 +1,131 @@
+---
+title: "Orders & Revenue"
+description: "Order, revenue, refunds, and channel mix analysis queries."
+icon: "code"
+---
+
+<Tip>
+Use the same query standards from the [SQL Query Library overview](/data-activation/template-resources/sql-query-library): `is_order_sm_valid = TRUE` for order analyses, `sm_store_id` scoping for multi-store setups, and `your_project` placeholders.
+</Tip>
+
+<AccordionGroup>
+  <Accordion title="Average order value (AOV) by marketing channel (last 30 days)">
+    **What you'll learn:** Which marketing channels drive higher-value orders. Channels with high AOV may warrant more budget even if volume is lower; low-AOV channels might need different offer strategies.
+
+    ```sql
+    -- Assumptions: timeframe=last_30_days | metric=AOV=SUM(order_net_revenue)/orders | grain=sm_utm_source_medium | scope=valid_orders_only
+    WITH base AS (
+      SELECT
+        COALESCE(NULLIF(LOWER(TRIM(sm_utm_source_medium)), ''), '(none) / (none)') AS marketing_channel,
+        sm_order_key,
+        sm_customer_key,
+        order_net_revenue
+      FROM `your_project.sm_transformed_v2.obt_orders`
+      WHERE is_order_sm_valid = TRUE
+        AND order_cancelled_at IS NULL
+        AND DATE(order_processed_at_local_datetime) >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)
+    )
+    SELECT
+      marketing_channel,
+      COUNT(DISTINCT sm_order_key) AS orders,
+      COUNT(DISTINCT sm_customer_key) AS customers,
+      SUM(order_net_revenue) AS order_net_revenue,
+      SAFE_DIVIDE(SUM(order_net_revenue), NULLIF(COUNT(DISTINCT sm_order_key), 0)) AS aov
+    FROM base
+    GROUP BY 1
+    HAVING orders >= 50
+    ORDER BY aov DESC
+    LIMIT 50;
+    ```
+  </Accordion>
+
+  <Accordion title="Revenue in the last 30 days from customers who have ever had a subscription">
+    **What you'll learn:** How much of your recent revenue comes from customers with subscription history (even if they're not currently subscribed). Helps quantify the long-term value of your subscription program.
+
+    ```sql
+    -- Assumptions: timeframe=last_30_days | metric=net_revenue=SUM(order_net_revenue) | grain=overall | scope=customers_with_any_subscription_history
+    WITH subscription_customers AS (
+      SELECT DISTINCT
+        sm_customer_key
+      FROM `your_project.sm_transformed_v2.obt_orders`
+      WHERE is_order_sm_valid = TRUE
+        AND order_cancelled_at IS NULL
+        AND is_subscription_order = TRUE
+        AND sm_customer_key IS NOT NULL
+    ),
+    last_30_valid_orders AS (
+      SELECT
+        sm_order_key,
+        sm_customer_key,
+        order_net_revenue
+      FROM `your_project.sm_transformed_v2.obt_orders`
+      WHERE is_order_sm_valid = TRUE
+        AND order_cancelled_at IS NULL
+        AND DATE(order_processed_at_local_datetime) >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)
+        AND sm_customer_key IS NOT NULL
+    )
+    SELECT
+      SUM(CASE WHEN sc.sm_customer_key IS NOT NULL THEN o.order_net_revenue ELSE 0 END) AS revenue_from_customers_with_subscription_history,
+      SUM(o.order_net_revenue) AS total_revenue_last_30_days,
+      SAFE_DIVIDE(
+        SUM(CASE WHEN sc.sm_customer_key IS NOT NULL THEN o.order_net_revenue ELSE 0 END),
+        NULLIF(SUM(o.order_net_revenue), 0)
+      ) AS pct_of_revenue_from_subscription_history_customers
+    FROM last_30_valid_orders o
+    LEFT JOIN subscription_customers sc
+      ON o.sm_customer_key = sc.sm_customer_key;
+    ```
+  </Accordion>
+
+  <Accordion title="Refund rate by marketing channel (last 90 days)">
+    **What you'll learn:** Which marketing channels have higher refund rates—by order count and by revenue. High refund rates may indicate mismatched expectations from certain ad campaigns or audiences.
+
+    ```sql
+    -- Assumptions: timeframe=last_90_days | metric=refund_rate | grain=sm_utm_source_medium | scope=valid_orders_only
+    WITH base AS (
+      SELECT
+        COALESCE(NULLIF(LOWER(TRIM(sm_utm_source_medium)), ''), '(none) / (none)') AS marketing_channel,
+        order_total_refunds,
+        order_net_revenue_before_refunds,
+        sm_order_key
+      FROM `your_project.sm_transformed_v2.obt_orders`
+      WHERE is_order_sm_valid = TRUE
+        AND order_cancelled_at IS NULL
+        AND DATE(order_processed_at_local_datetime) >= DATE_SUB(CURRENT_DATE(), INTERVAL 90 DAY)
+    )
+    SELECT
+      marketing_channel,
+      COUNT(DISTINCT sm_order_key) AS orders,
+      COUNTIF(ABS(order_total_refunds) > 0) AS refunded_orders,
+      SAFE_DIVIDE(COUNTIF(ABS(order_total_refunds) > 0), NULLIF(COUNT(DISTINCT sm_order_key), 0)) AS refund_rate_orders,
+      ABS(SUM(order_total_refunds)) AS refund_amount,
+      SUM(order_net_revenue_before_refunds) AS revenue_before_refunds,
+      SAFE_DIVIDE(ABS(SUM(order_total_refunds)), NULLIF(SUM(order_net_revenue_before_refunds), 0)) AS refund_rate_revenue
+    FROM base
+    GROUP BY 1
+    HAVING orders >= 50
+    ORDER BY refund_rate_revenue DESC
+    LIMIT 50;
+    ```
+  </Accordion>
+
+  <Accordion title="Distribution of orders and revenue by sales channel (last 30 days)">
+    **What you'll learn:** How your orders and revenue are distributed across different sales channels (online, POS, wholesale, etc.). Useful for understanding channel mix and identifying growth opportunities.
+
+    ```sql
+    -- Assumptions: timeframe=last_30_days | metric=orders+net_revenue+share | grain=sm_channel | scope=valid_orders_only
+    SELECT
+      COALESCE(NULLIF(LOWER(TRIM(sm_channel)), ''), '(unknown)') AS sm_channel,
+      COUNT(*) AS orders,
+      SUM(order_net_revenue) AS order_net_revenue,
+      SAFE_DIVIDE(COUNT(*), NULLIF(SUM(COUNT(*)) OVER (), 0)) AS pct_orders,
+      SAFE_DIVIDE(SUM(order_net_revenue), NULLIF(SUM(SUM(order_net_revenue)) OVER (), 0)) AS pct_revenue
+    FROM `your_project.sm_transformed_v2.obt_orders`
+    WHERE is_order_sm_valid = TRUE
+      AND order_cancelled_at IS NULL
+      AND DATE(order_processed_at_local_datetime) >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)
+    GROUP BY 1
+    ORDER BY orders DESC;
+    ```
+  </Accordion>
+</AccordionGroup>

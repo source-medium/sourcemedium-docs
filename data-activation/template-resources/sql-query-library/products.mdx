@@ -1,0 +1,137 @@
+---
+title: "Products"
+description: "Product performance, mix, bundling, and contribution analysis queries."
+icon: "code"
+---
+
+<Tip>
+Use the same query standards from the [SQL Query Library overview](/data-activation/template-resources/sql-query-library): `is_order_sm_valid = TRUE` for order analyses, `sm_store_id` scoping for multi-store setups, and `your_project` placeholders.
+</Tip>
+
+<AccordionGroup>
+  <Accordion title="Top 10 products by net revenue (last 30 days)">
+    **What you'll learn:** Your highest revenue-generating products with units sold and order counts. Use this to identify your cash cows and prioritize inventory, marketing, and merchandising decisions.
+
+    ```sql
+    -- Assumptions: timeframe=last_30_days | metric=net_revenue=SUM(order_line_net_revenue) | grain=sku | scope=valid_orders_only
+    SELECT
+      sku,
+      ANY_VALUE(product_title) AS product_title,
+      SUM(order_line_net_revenue) AS order_line_net_revenue,
+      SUM(order_line_quantity) AS units_sold,
+      COUNT(DISTINCT sm_order_key) AS orders
+    FROM `your_project.sm_transformed_v2.obt_order_lines`
+    WHERE is_order_sm_valid = TRUE
+      AND DATE(order_processed_at_local_datetime) >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)
+      AND sku IS NOT NULL
+      AND NOT REGEXP_CONTAINS(product_title, r'(?i)(shipping protection|not a product|service fee|processing fee)')
+    GROUP BY 1
+    ORDER BY order_line_net_revenue DESC
+    LIMIT 10;
+    ```
+  </Accordion>
+
+  <Accordion title="Top products by units sold (last 30 days)">
+    **What you'll learn:** Your most popular products by volume, which may differ from your top revenue generators. Useful for forecasting demand, managing inventory levels, and identifying viral or gateway products.
+
+    ```sql
+    -- Assumptions: timeframe=last_30_days | metric=units_sold=SUM(order_line_quantity) | grain=sku | scope=valid_orders_only
+    SELECT
+      sku,
+      ANY_VALUE(product_title) AS product_title,
+      SUM(order_line_quantity) AS units_sold,
+      SUM(order_line_net_revenue) AS order_line_net_revenue,
+      COUNT(DISTINCT sm_order_key) AS orders
+    FROM `your_project.sm_transformed_v2.obt_order_lines`
+    WHERE is_order_sm_valid = TRUE
+      AND DATE(order_processed_at_local_datetime) >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)
+      AND sku IS NOT NULL
+      AND NOT REGEXP_CONTAINS(product_title, r'(?i)(shipping protection|not a product|service fee|processing fee)')
+    GROUP BY 1
+    ORDER BY units_sold DESC
+    LIMIT 20;
+    ```
+  </Accordion>
+
+  <Accordion title="Products most common with new customers (first valid orders, last 90 days)">
+    **What you'll learn:** Which products are most often the entry point for new customers. These "gateway products" are key to acquisition strategy—consider featuring them in ads, bundles, or welcome offers.
+
+    ```sql
+    -- Assumptions: timeframe=first_valid_orders_last_90_days | metric=units_sold=SUM(order_line_quantity) | grain=product_title | scope=new_customers_valid_orders_only
+    WITH first_valid_orders AS (
+      SELECT
+        sm_order_key
+      FROM `your_project.sm_transformed_v2.obt_orders`
+      WHERE is_order_sm_valid = TRUE
+        AND order_cancelled_at IS NULL
+        AND sm_valid_order_index = 1
+        AND DATE(order_processed_at_local_datetime) >= DATE_SUB(CURRENT_DATE(), INTERVAL 90 DAY)
+    )
+    SELECT
+      ol.product_title,
+      SUM(ol.order_line_quantity) AS units_sold,
+      COUNT(DISTINCT ol.sm_order_key) AS orders,
+      COUNT(DISTINCT ol.sku) AS skus
+    FROM `your_project.sm_transformed_v2.obt_order_lines` ol
+    INNER JOIN first_valid_orders fvo
+      ON ol.sm_order_key = fvo.sm_order_key
+    WHERE ol.is_order_sm_valid = TRUE
+      AND ol.sku IS NOT NULL
+      AND NOT REGEXP_CONTAINS(ol.product_title, r'(?i)(shipping protection|not a product|service fee|processing fee)')
+    GROUP BY 1
+    ORDER BY units_sold DESC
+    LIMIT 25;
+    ```
+  </Accordion>
+
+  <Accordion title="Most commonly ordered product combinations">
+    **What you'll learn:** Which products are frequently purchased together in the same order. Use this for bundle recommendations, cross-sell strategies, and merchandising decisions.
+
+    ```sql
+    -- Assumptions: timeframe=all_time | metric=order_frequency | grain=product_combination | scope=valid_orders_only
+    WITH RECURSIVE product_combos AS (
+        -- Anchor: Start with individual products per order
+        SELECT
+            ol.sm_store_id,
+            ol.sm_order_key,
+            1 AS combo_length,
+            CONCAT(ol.product_title, ' - ', ol.product_variant_title) AS combo,
+            CONCAT(ol.product_title, ' - ', ol.product_variant_title) AS last_item
+        FROM `your_project.sm_transformed_v2.obt_order_lines` AS ol
+        WHERE ol.sm_store_id = 'your-sm_store_id'
+          AND ol.is_order_sm_valid = TRUE
+          AND ol.sku IS NOT NULL
+          AND NOT REGEXP_CONTAINS(ol.product_title, r'(?i)(shipping protection|not a product|service fee|processing fee|order specific)')
+
+        UNION ALL
+
+        -- Recursive: Build combinations up to 5 products
+        SELECT
+            ol.sm_store_id,
+            ol.sm_order_key,
+            pc.combo_length + 1,
+            CONCAT(pc.combo, ', ', CONCAT(ol.product_title, ' - ', ol.product_variant_title)),
+            CONCAT(ol.product_title, ' - ', ol.product_variant_title)
+        FROM product_combos AS pc
+        INNER JOIN `your_project.sm_transformed_v2.obt_order_lines` AS ol
+            ON ol.sm_order_key = pc.sm_order_key
+            AND CONCAT(ol.product_title, ' - ', ol.product_variant_title) > pc.last_item
+        WHERE pc.combo_length < 5
+          AND ol.is_order_sm_valid = TRUE
+          AND ol.sku IS NOT NULL
+          AND NOT REGEXP_CONTAINS(ol.product_title, r'(?i)(shipping protection|not a product|service fee|processing fee|order specific)')
+    )
+
+    SELECT
+        combo AS product_combinations,
+        COUNT(DISTINCT sm_order_key) AS order_frequency,
+        combo_length AS num_products
+    FROM product_combos
+    WHERE combo_length >= 2
+    GROUP BY combo, combo_length
+    HAVING order_frequency >= 100
+    ORDER BY order_frequency DESC, combo ASC
+    LIMIT 100;
+    ```
+  </Accordion>
+</AccordionGroup>

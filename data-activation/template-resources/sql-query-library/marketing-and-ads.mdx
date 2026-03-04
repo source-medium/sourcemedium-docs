@@ -1,0 +1,107 @@
+---
+title: "Marketing & Ads"
+description: "CAC, ROAS by platform, and advertising efficiency analysis queries."
+icon: "code"
+---
+
+<Tip>
+Use the same query standards from the [SQL Query Library overview](/data-activation/template-resources/sql-query-library): `is_order_sm_valid = TRUE` for order analyses, `sm_store_id` scoping for multi-store setups, and `your_project` placeholders.
+</Tip>
+
+<AccordionGroup>
+  <Accordion title="Average CAC (last 30 days)">
+    **What you'll learn:** How much you're spending to acquire each new customer, broken down by channel. Use this to identify which channels are most cost-efficient and where you might be overspending on acquisition.
+
+    ```sql
+    -- Assumptions: timeframe=last_30_days | metric=CAC=ad_spend/new_customer_count | grain=sm_channel | scope=all_channels
+    WITH channel_rollup AS (
+      SELECT
+        COALESCE(NULLIF(LOWER(TRIM(sm_channel)), ''), '(unknown)') AS sm_channel,
+        SUM(ABS(ad_spend)) AS ad_spend,
+        SUM(new_customer_count) AS new_customers
+      FROM `your_project.sm_transformed_v2.rpt_executive_summary_daily`
+      WHERE date >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)
+        AND ad_spend IS NOT NULL
+        AND new_customer_count IS NOT NULL
+      GROUP BY 1
+    ),
+    overall AS (
+      SELECT
+        '(all_channels)' AS sm_channel,
+        SUM(ABS(ad_spend)) AS ad_spend,
+        SUM(new_customer_count) AS new_customers
+      FROM `your_project.sm_transformed_v2.rpt_executive_summary_daily`
+      WHERE date >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)
+        AND ad_spend IS NOT NULL
+        AND new_customer_count IS NOT NULL
+    )
+    SELECT
+      sm_channel,
+      ad_spend,
+      new_customers,
+      SAFE_DIVIDE(ad_spend, NULLIF(new_customers, 0)) AS cac
+    FROM channel_rollup
+    WHERE ad_spend > 0
+
+    UNION ALL
+
+    SELECT
+      sm_channel,
+      ad_spend,
+      new_customers,
+      SAFE_DIVIDE(ad_spend, NULLIF(new_customers, 0)) AS cac
+    FROM overall
+    WHERE ad_spend > 0
+    ORDER BY cac ASC;
+    ```
+  </Accordion>
+
+  <Accordion title="Highest ROAS by platform + campaign type (last 30 days)">
+    **What you'll learn:** Which ad platform and campaign type combinations are generating the best return on ad spend. Helps you decide where to allocate more budget and which underperforming campaigns to optimize or cut.
+
+    ```sql
+    -- Assumptions: timeframe=last_30_days | metric=ROAS=platform_reported_revenue/ad_spend | grain=platform+campaign_type | scope=all_stores
+    SELECT
+      sm_store_id,
+      COALESCE(NULLIF(LOWER(TRIM(source_system)), ''), '(unknown)') AS platform,
+      COALESCE(NULLIF(LOWER(TRIM(ad_campaign_type)), ''), '(unknown)') AS campaign_type,
+      SUM(ad_platform_reported_revenue) AS platform_reported_revenue,
+      SUM(ad_spend) AS ad_spend,
+      SAFE_DIVIDE(SUM(ad_platform_reported_revenue), NULLIF(SUM(ad_spend), 0)) AS roas
+    FROM `your_project.sm_transformed_v2.rpt_ad_performance_daily`
+    WHERE date >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)
+      AND ad_spend > 0
+    GROUP BY 1, 2, 3
+    ORDER BY roas DESC
+    LIMIT 20;
+    ```
+  </Accordion>
+
+  <Accordion title="ROAS trends over time (monthly, last 6 months)">
+    **What you'll learn:** How your ad efficiency has changed month-over-month by platform. Spot seasonal patterns, detect declining performance early, or confirm that recent optimizations are working.
+
+    ```sql
+    -- Assumptions: timeframe=last_6_months | metric=ROAS=platform_reported_revenue/ad_spend | grain=month+platform | scope=all_stores
+    WITH monthly AS (
+      SELECT
+        DATE_TRUNC(date, MONTH) AS month_start,
+        COALESCE(NULLIF(LOWER(TRIM(source_system)), ''), '(unknown)') AS platform,
+        SUM(ad_platform_reported_revenue) AS platform_reported_revenue,
+        SUM(ad_spend) AS ad_spend
+      FROM `your_project.sm_transformed_v2.rpt_ad_performance_daily`
+      WHERE date >= DATE_SUB(DATE_TRUNC(CURRENT_DATE(), MONTH), INTERVAL 6 MONTH)
+        AND date < DATE_ADD(DATE_TRUNC(CURRENT_DATE(), MONTH), INTERVAL 1 MONTH)
+        AND ad_spend > 0
+      GROUP BY 1, 2
+    )
+    SELECT
+      platform,
+      month_start,
+      ad_spend,
+      platform_reported_revenue,
+      SAFE_DIVIDE(platform_reported_revenue, NULLIF(ad_spend, 0)) AS roas
+    FROM monthly
+    ORDER BY platform, month_start;
+    ```
+  </Accordion>
+</AccordionGroup>
