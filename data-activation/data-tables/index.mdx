@@ -1,24 +1,50 @@
 ---
 title: "Data Dictionary"
 sidebarTitle: "Overview"
-description: "Complete reference for SourceMedium metrics, dimensions, and table schemas"
+description: "Your complete reference for working with SourceMedium data — from metrics to schemas to SQL"
 icon: "book"
 ---
 
-Your complete reference for understanding SourceMedium data — from metric definitions to table schemas.
+Welcome to the Data Dictionary. Whether you're looking up a metric, writing SQL, or understanding table structure, this is your hub for all things data at SourceMedium.
+
+---
+
+## I want to...
+
+<CardGroup cols={2}>
+  <Card title="Look up a metric" icon="chart-line" href="/onboarding/data-docs/metrics">
+    Find definitions for AOV, ROAS, LTV, CAC, and 180+ other metrics
+  </Card>
+  <Card title="Understand a column" icon="database" href="/data-activation/data-tables/sm_transformed_v2/index">
+    Browse table schemas with column descriptions and data types
+  </Card>
+  <Card title="Write SQL queries" icon="code" href="/data-activation/template-resources/sql-query-library">
+    Copy proven SQL templates for common analyses
+  </Card>
+  <Card title="Access BigQuery" icon="key" href="/onboarding/analytics-tools/bigquery-essentials">
+    Learn how to connect and run your first queries
+  </Card>
+  <Card title="Understand data structure" icon="sitemap" href="/data-transformations/philosophy">
+    Learn about facts, dimensions, OBTs, and SourceMedium's modeling approach
+  </Card>
+  <Card title="Look up a term" icon="book-open" href="/help-center/glossary">
+    Get definitions for channels, valid orders, and common SourceMedium concepts
+  </Card>
+</CardGroup>
 
 ---
 
 ## Quick Reference
 
-Start here for fast lookups of common metrics and dimensions.
-
-<CardGroup cols={2}>
+<CardGroup cols={3}>
   <Card title="Metrics" icon="chart-line" href="/onboarding/data-docs/metrics">
-    180+ metric definitions — AOV, ROAS, LTV, CAC, and more
+    Metric catalog and definitions
   </Card>
   <Card title="Dimensions" icon="filter" href="/onboarding/data-docs/dimensions">
-    Common attributes for filtering and grouping your data
+    Attributes for filtering and grouping
+  </Card>
+  <Card title="Glossary" icon="book-open" href="/help-center/glossary">
+    Common terms and concepts
   </Card>
 </CardGroup>
 
@@ -26,17 +52,38 @@ Start here for fast lookups of common metrics and dimensions.
 
 ## Table Documentation
 
-Detailed schema documentation for all customer-facing tables.
-
 <CardGroup cols={2}>
-  <Card title="sm_transformed_v2 Tables" icon="table" href="/data-activation/data-tables/sm_transformed_v2/index">
-    **Primary analytics tables** — dimensions, facts, one-big-tables, and reports
+  <Card title="sm_transformed_v2" icon="table" href="/data-activation/data-tables/sm_transformed_v2/index">
+    **Recommended for most use cases** — cleaned, enriched analytics tables (facts, dimensions, OBTs, reports)
   </Card>
   <Card title="Metadata Tables" icon="database" href="/data-activation/data-tables/sm_metadata/dim_data_dictionary">
-    Semantic layer catalog and automated data dictionary
+    Semantic layer catalog and automated data dictionary for programmatic lookups
   </Card>
   <Card title="Experimental Tables" icon="flask" href="/data-activation/data-tables/sm_experimental/index">
-    Beta features — MTA models and advanced attribution tables
+    Beta features including multi-touch attribution models and advanced attribution tables
+  </Card>
+</CardGroup>
+
+<Tip>
+New to SourceMedium's data model? Start with [Modeling Philosophy](/data-transformations/philosophy) to understand how we structure data (facts, dimensions, OBTs, reports).
+</Tip>
+
+---
+
+## Working with Data
+
+<CardGroup cols={2}>
+  <Card title="BigQuery Essentials" icon="circle-play" href="/onboarding/analytics-tools/bigquery-essentials">
+    How to access your warehouse and run queries
+  </Card>
+  <Card title="SQL Query Library" icon="code" href="/data-activation/template-resources/sql-query-library">
+    Copy-paste SQL for cohort analysis, retention, product performance, and more
+  </Card>
+  <Card title="Common Analyses" icon="lightbulb" href="/help-center/common-analyses/common-analysis-template">
+    Proven patterns for top products, ROAS, retention, LTV, and profitability
+  </Card>
+  <Card title="Connect BI Tools" icon="plug" href="/onboarding/analytics-tools/connect-bigquery-to-looker-studio">
+    Link BigQuery to Looker Studio, Tableau, or other visualization tools
   </Card>
 </CardGroup>
 
@@ -44,20 +91,26 @@ Detailed schema documentation for all customer-facing tables.
 
 ## Schema Standards
 
-Understanding how SourceMedium names and structures data.
-
 <Card title="Naming Conventions" icon="tags" href="/data-transformations/naming-conventions/key-concepts">
-  Learn the patterns behind table names, column prefixes, and metric calculations
+  Learn the patterns behind table prefixes (fct_, dim_, obt_, rpt_), column naming, and metric calculations
 </Card>
 
 ---
 
-## Platform Raw Data
+## Advanced Resources
 
+<Accordion title="Platform Raw Data">
 Browse raw source schemas for integrated platforms (Shopify, Klaviyo, Meta Ads, Google Ads, etc.).
 
-<Tip>
-Most users should work with the **sm_transformed_v2** tables above. Raw platform data is useful for debugging integrations or understanding what SourceMedium transforms.
-</Tip>
+**When to use:** Debugging integrations, understanding what SourceMedium transforms, or accessing platform-specific fields not yet in sm_transformed_v2.
 
-[View Raw Data Source Overviews →](/help-center/raw-data-source-overviews/meta-ads-overview)
+**For most analyses:** Use [sm_transformed_v2 tables](/data-activation/data-tables/sm_transformed_v2/index) instead — they're cleaned, enriched, and easier to work with.
+
+[View Platform Raw Data →](/help-center/raw-data-source-overviews/meta-ads-overview)
+</Accordion>
+
+<Accordion title="Custom Modeling in Your Warehouse">
+Need custom tables or logic beyond SourceMedium's out-of-the-box models? Learn how to extend the data warehouse with your own dbt models.
+
+[Managed Data Warehouse Modeling Guide →](/data-activation/managed-data-warehouse/modeling)
+</Accordion>
