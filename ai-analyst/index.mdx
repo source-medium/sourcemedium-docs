@@ -94,9 +94,13 @@ The AI Analyst uses different workflows depending on your question type:
 | Open-ended/strategic | [Deep Analysis](/ai-analyst/workflows/deep-analysis) |
 | Definitions & schema | [Knowledge Retrieval](/ai-analyst/workflows/knowledge) |
 
-<Card title="Learn about Workflows" icon="diagram-project" href="/ai-analyst/workflows">
+<Card title="Learn about Workflows" icon="diagram-project" href="/ai-analyst/workflows/index">
   Understand how different question types are routed and processed.
 </Card>
+
+<Note>
+Follow-ups work within the same Slack thread. The AI carries context in that thread, not across different threads. Start a new thread to reset context.
+</Note>
 
 ### Deep Analysis
 
@@ -106,6 +110,10 @@ In this mode, the AI breaks your question into multiple analytical perspectives,
 
 <Card title="Deep Analysis Details" icon="brain" href="/ai-analyst/workflows/deep-analysis">
   Learn how Deep Analysis works, when it activates, and how to get the best results.
+</Card>
+
+<Card title="Thread continuity and follow-ups" icon="message-lines" href="/ai-analyst/thread-continuity-follow-ups">
+  Learn what carries forward in the same thread and how to reset context cleanly.
 </Card>
 
 ---
@@ -168,7 +176,7 @@ Support for custom tables and user-defined schemas is planned for a future updat
 The AI Analyst operates at the **tenant level**. This means:
 
 - **Full Tenant Visibility**: Anyone within your Slack workspace who has access to the bot can query any data available in the SourceMedium tables for your tenant.
-- **Multi-Store Organizations**: If your tenant includes multiple stores, the bot can query data across all of them.
+- **Multi-Store Organizations**: If your tenant includes multiple stores, analysis is scoped by thread after store confirmation. Start a new thread to switch stores.
 
 <Warning>
 Granular access control (limiting specific users to specific stores or tables) is not yet available but is on our roadmap.

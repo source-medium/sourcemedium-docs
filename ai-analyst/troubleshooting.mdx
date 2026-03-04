@@ -116,9 +116,32 @@ For questions about SourceMedium concepts or definitions, the AI can still help 
 
 <AccordionGroup>
   <Accordion title="Can I ask follow-up questions?">
-    Not yet. Each message starts a fresh session — the AI doesn't remember previous questions in the thread. If you want to drill down, include full context in your follow-up: "Show me revenue by channel for the last 30 days" rather than "Break that down by channel."
+    Yes. Follow-up questions are supported in Slack threads.
 
-    Conversation follow-ups are on our [roadmap](/ai-analyst/roadmap).
+    - In **DM**, you can ask follow-ups naturally.
+    - In **channels**, mention the bot with `@SourceMedium` for follow-up analysis (for example, `@SourceMedium what were sales yesterday?`).
+
+    For multi-store tenants, if a thread is waiting for store confirmation, a typed reply can confirm the selected store and then run the question you already asked.
+  </Accordion>
+  <Accordion title="Why can’t I switch stores in the same thread?">
+    In multi-store tenants, once a store is confirmed, that thread stays on that store. This prevents mixed-store analysis in the same thread. Start a new thread to switch stores.
+
+    You can view your available stores in **Data Availability Report**. The list is shown by `sm_store_id` (see the [Glossary](/help-center/glossary)).
+  </Accordion>
+  <Accordion title="Why did my typed reply confirm the store?">
+    If a thread is waiting for store confirmation, any reply in the thread (for example, "yes" or typing a follow-up question) is treated as confirmation so analysis can continue. After confirmation, the question you already asked runs automatically.
+  </Accordion>
+  <Accordion title="Why didn’t the bot answer my channel thread reply without @mention?">
+    In channels and private channel threads, follow-up analysis requires mentioning the bot with `@SourceMedium`. If you reply without that mention, the bot won’t run a new analysis turn.
+  </Accordion>
+  <Accordion title="Why did it ask me to run analysis first before summarizing?">
+    Summary and recommendation prompts depend on prior analysis in the same thread. If that thread does not have enough prior analysis context, the AI asks you to run analysis first.
+  </Accordion>
+  <Accordion title="Why did it miss an older detail from this thread?">
+    Continuity in a thread is condensed so follow-ups stay fast and reliable. In long threads, some older details may be compressed. If an older detail matters, restate it directly in your next prompt.
+  </Accordion>
+  <Accordion title="How do I reset context?">
+    Start a new thread to reset context.
   </Accordion>
   <Accordion title="How often does data refresh?">
     Most tables refresh daily. Our SLA guarantees fresh data through yesterday based on your reporting timezone. Today's data is not guaranteed. See [Data Health](/ai-analyst/diagnostics/data-health) for details.
@@ -136,6 +159,15 @@ For questions about SourceMedium concepts or definitions, the AI can still help 
     - Did the data refresh between queries?
   </Accordion>
 </AccordionGroup>
+
+<CardGroup cols={2}>
+<Card title="Multi-store thread scoping" icon="store" href="/ai-analyst/multi-store-thread-scoping">
+  Learn selector prompts, confirmation, lock rules, and channel mention requirements.
+</Card>
+  <Card title="Thread continuity and follow-ups" icon="message-lines" href="/ai-analyst/thread-continuity-follow-ups">
+    See what the AI remembers in the same thread and how to reset context.
+  </Card>
+</CardGroup>
 
 ---
 

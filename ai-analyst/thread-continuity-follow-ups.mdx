@@ -1,0 +1,134 @@
+---
+title: "Thread continuity and follow-ups"
+sidebarTitle: "Thread continuity"
+description: "How follow-ups, summaries, and recommendations work in the same Slack thread"
+icon: "message-lines"
+---
+
+The AI Analyst keeps context within the **same thread** so your follow-up questions stay connected.
+
+---
+
+## Who this applies to
+
+This applies to anyone using AI Analyst in Slack:
+
+- Direct messages (DMs)
+- Channels and private channel threads
+
+If you start a new thread, the AI starts fresh context for that new thread.
+
+---
+
+## What continuity remembers in a thread
+
+In the same thread, the AI carries forward recent analysis context so you can ask natural follow-ups like:
+
+- “Break that down by channel.”
+- “Summarize what we just found.”
+- “What should we do next?”
+
+Context is intentionally condensed, so very long threads may not preserve every detail word-for-word.
+
+---
+
+## DM vs channel behavior
+
+| Context | Follow-up behavior |
+|--------|--------------------|
+| **DM** | Ask follow-ups naturally in the same thread. |
+| **Channel/private channel thread** | Mention the bot with `@SourceMedium` for follow-ups (for example, `@SourceMedium break that down by channel`). |
+
+---
+
+## Follow-up, summary, and recommendation prompts
+
+Use the same thread for all of these:
+
+- Follow-up analysis: “Show this by week.”
+- Summary: “Summarize the findings.”
+- Recommendation: “What should we do next?”
+
+If you ask for a summary or recommendation before there is prior analysis in that thread, the AI will ask you to run analysis first.
+
+If you ask a follow-up-style analysis question before prior context exists, the AI treats it as a fresh analysis request and runs it.
+
+---
+
+## What continuity does not do
+
+Thread continuity does not:
+
+- Carry context across different threads
+- Carry context between separate channel threads
+- Guarantee that every old detail in a long thread is retained exactly
+
+For a clean reset, start a new thread.
+
+---
+
+## How to reset context (start a new thread)
+
+When you want to reset or switch topics:
+
+1. Start a new thread.
+2. Ask your next question there.
+
+This gives you a clean slate for that new analysis.
+
+---
+
+## Multi-store interaction note
+
+For multi-store tenants, both continuity and store scope are thread-based:
+
+- Store selection is locked to the same thread after confirmation.
+- Follow-up continuity stays in that same thread.
+- To switch stores and reset continuity together, start a new thread.
+
+See [Using AI Analyst with multiple stores](/ai-analyst/multi-store-thread-scoping).
+
+---
+
+## Quick examples
+
+### DM flow
+
+<Steps>
+  <Step title="Ask your first question">
+    Example: “What was revenue last month?”
+  </Step>
+  <Step title="Ask a follow-up in the same thread">
+    Example: “Break that down by channel.”
+  </Step>
+  <Step title="Ask for a summary or recommendation">
+    Example: “Summarize the findings and tell me what to do next.”
+  </Step>
+</Steps>
+
+### Channel flow
+
+<Steps>
+  <Step title="Start in a thread with a mention">
+    Example: `@SourceMedium what was revenue last month?`
+  </Step>
+  <Step title="Ask follow-ups with a mention">
+    Example: `@SourceMedium break that down by channel`
+  </Step>
+  <Step title="Stay in the same thread for continuity">
+    Start a new thread only when you want a clean reset.
+  </Step>
+</Steps>
+
+---
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="Analysis workflows" icon="diagram-project" href="/ai-analyst/workflows/index">
+    See how questions are routed across Standard Analysis, Deep Analysis, and Knowledge Retrieval.
+  </Card>
+  <Card title="Troubleshooting" icon="wrench" href="/ai-analyst/troubleshooting">
+    See common follow-up and continuity issues.
+  </Card>
+</CardGroup>

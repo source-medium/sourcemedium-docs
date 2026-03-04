@@ -6,6 +6,16 @@ icon: "book"
 
 This page defines common terms you’ll see throughout SourceMedium documentation. If you’re reconciling numbers across tools, start by aligning on these definitions.
 
+## sm_store_id
+
+`sm_store_id` is SourceMedium’s unique identifier for each store in your tenant.
+
+- **In AI Analyst:** It scopes analysis to one store (for multi-store tenants).
+- **In SQL:** It filters results to one store in SourceMedium tables.
+- **Where to find it:** Your store IDs are listed in **Data Availability Report** inside AI Analyst.
+
+If you have a single-store tenant, this is handled automatically and you usually won’t need to reference `sm_store_id` directly.
+
 ## Channel
 
 A **channel** is a standardized classification used to group orders and performance (e.g., Online DTC, Amazon). Channel values can be influenced by configuration sheet mapping rules.

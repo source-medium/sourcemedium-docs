@@ -23,6 +23,8 @@ Today, the AI Analyst handles **on-demand questions** — you ask, it answers. T
 - **Complex analysis**: Open-ended questions that benefit from multiple analytical perspectives
 - **Definitions & schema**: "What is LTV?" or "Which table has order data?"
 - **Diagnostics**: Data Health and Attribution Health checks
+- **Thread follow-ups in Slack**: Continue analysis in the same thread. In channels, mention the bot with `@SourceMedium`. Start a new thread to reset context.
+- **Multi-store thread scoping**: For multi-store tenants, each thread is scoped to one store after confirmation.
 
 <Info>
 For complex questions, the AI Analyst automatically engages **Deep Analysis Mode**, exploring your question from multiple angles before synthesizing a comprehensive answer.
@@ -78,7 +80,7 @@ For complex questions, the AI Analyst automatically engages **Deep Analysis Mode
   <Card title="Cross-Session Context" icon="brain">
     **Status: Planned**
 
-    The AI Analyst will remember insights from previous conversations, building context over time to provide more relevant answers.
+    The AI Analyst will remember insights from previous conversations, building context over time to provide more relevant answers. Today, context is limited to the same Slack thread.
   </Card>
   <Card title="Custom Table Support" icon="table">
     **Status: Planned**
@@ -89,16 +91,6 @@ For complex questions, the AI Analyst automatically engages **Deep Analysis Mode
     **Status: Planned**
 
     Fine-grained permissions to control who can query what. Limit access by store, specific tables, or analytical domains at the user level.
-  </Card>
-  <Card title="Multi-Store Filtering" icon="store">
-    **Status: Planned**
-
-    For organizations with multiple stores, scope questions to a specific store. "What was revenue for Store A last week?"
-  </Card>
-  <Card title="Conversation Follow-ups" icon="messages">
-    **Status: Planned**
-
-    Ask follow-up questions within a thread that build on previous answers. "Break that down by channel" after an initial revenue question.
   </Card>
 </CardGroup>
 
@@ -118,8 +110,8 @@ For complex questions, the AI Analyst automatically engages **Deep Analysis Mode
 | Proactive background agents | Planned | Slack, Email |
 | Custom table support | Planned | All |
 | Granular access control | Planned | All |
-| Multi-store filtering | Planned | All |
-| Conversation follow-ups | Planned | All |
+| Multi-store thread scoping | **Available (multi-store tenants only)** | Slack |
+| Conversation follow-ups | **Available (Slack threads)** | Slack |
 | Email delivery | Planned | Email |
 | SMS & iMessage | Planned | SMS |
 | Voice interface | Future | Phone |

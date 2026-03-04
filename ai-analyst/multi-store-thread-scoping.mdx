@@ -1,0 +1,138 @@
+---
+title: "Using AI Analyst with multiple stores"
+sidebarTitle: "Multiple stores"
+description: "How store selection works in Slack when your tenant has more than one store"
+icon: "store"
+---
+
+If your company has multiple stores, the AI Analyst asks you to confirm which store a thread should use.
+
+<Info>
+This only applies when your tenant has more than one available `sm_store_id`. If you have one store, you will not see this flow.
+</Info>
+
+---
+
+## When you’ll see this
+
+You are in the multi-store flow when:
+
+- Your tenant has `>1` `sm_store_id` values
+- The AI Analyst shows a store selector before analysis runs
+
+If only one store exists, analysis runs normally without a selector.
+
+---
+
+## How it works
+
+Store selection is set **per thread**:
+
+1. You start a question.
+2. You confirm a store (button or typed reply, depending on context).
+3. The thread is locked to that store.
+4. Everything in that thread stays on that store.
+
+To switch stores, **start a new thread**.
+
+---
+
+## DM vs channel behavior
+
+| Context | Behavior |
+|--------|----------|
+| **Direct message (DM)** | If needed, you’ll see store confirmation. Typing can confirm the selected store when confirmation is waiting. |
+| **Channel or private channel thread** | Start by mentioning the bot. If store confirmation is waiting, use the button or type a reply. After the store is locked, mention the bot for follow-up analysis (for example, `@SourceMedium`). |
+
+<Tip>
+In channels, use `@SourceMedium` for follow-up analysis in the thread.
+</Tip>
+
+---
+
+## What happens after store confirmation in channels
+
+If a channel thread is waiting for store confirmation:
+
+- Your original question is held.
+- As soon as you confirm the store, that question runs automatically.
+- A typed confirmation reply is treated as confirmation, not as a brand-new question.
+
+---
+
+## Where to see your available stores
+
+You can check your available stores directly in Slack at the start of a new DM thread:
+
+1. Start a new DM thread with SourceMedium.
+2. Click **Data Availability Report** in the opening message.
+3. In the modal, find the section listing stores by `sm_store_id`.
+
+If you’re not sure what `sm_store_id` means, see the [Glossary](/help-center/glossary).
+
+---
+
+## Common pitfalls
+
+<AccordionGroup>
+  <Accordion title="I clicked an older selector message and nothing changed">
+    Older selector messages can expire. Use the latest selector shown in the thread, or start a new thread.
+  </Accordion>
+  <Accordion title="I asked in a channel thread and got no response">
+    In channels, follow-up analysis requires mentioning the bot with `@SourceMedium`. Ask again with `@SourceMedium`.
+  </Accordion>
+  <Accordion title="I need to switch to a different store in this thread">
+    Once confirmed, the thread is locked to that store. Start a new thread to switch stores.
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Quick examples
+
+### Channel flow
+
+<Steps>
+  <Step title="Start with a mention">
+    In a channel thread, ask a question with `@SourceMedium`.
+  </Step>
+  <Step title="Confirm store scope">
+    If prompted, click **Use this store** or type a reply.
+  </Step>
+  <Step title="Continue with mentions">
+    Ask follow-ups in that thread with `@SourceMedium`.
+  </Step>
+</Steps>
+
+### DM flow
+
+<Steps>
+  <Step title="Ask your question in DM">
+    Message the bot directly in DM.
+  </Step>
+  <Step title="Confirm store if prompted">
+    Use the selector/confirmation prompt if shown.
+  </Step>
+  <Step title="Keep going in the same DM">
+    Ask follow-up questions naturally in DM.
+  </Step>
+</Steps>
+
+---
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="Setup & Installation" icon="gear" href="/ai-analyst/setup">
+    Installation, permissions, and workspace access basics.
+  </Card>
+  <Card title="Troubleshooting" icon="wrench" href="/ai-analyst/troubleshooting">
+    Common issues and fixes for Slack interaction patterns.
+  </Card>
+  <Card title="Standard Analysis" icon="bolt" href="/ai-analyst/workflows/standard">
+    How specific questions are processed.
+  </Card>
+  <Card title="Deep Analysis" icon="brain" href="/ai-analyst/workflows/deep-analysis">
+    How open-ended questions are handled.
+  </Card>
+</CardGroup>

@@ -161,11 +161,17 @@ Granular access control (limiting specific users to specific data) is not yet av
 
 ### Multi-Store Organizations
 
-If your organization has multiple stores connected to SourceMedium, the AI Analyst can query data across all of them. Currently, queries return combined results across all stores in your tenant.
+If your organization has multiple stores connected to SourceMedium, the AI Analyst sets store scope **per thread**.
 
 <Note>
-Per-store filtering is on our [roadmap](/ai-analyst/roadmap). For now, include the store name in your question and the AI will attempt to filter appropriately if the data supports it.
+When more than one `sm_store_id` is available, the AI Analyst prompts you to confirm a store before running analysis. Once confirmed, the thread is locked to that store. Start a new thread to switch stores.
+
+`sm_store_id` is the store identifier SourceMedium uses to keep each store’s data separate. See the [Glossary](/help-center/glossary).
 </Note>
+
+<Card title="Multi-store thread scoping" icon="store" href="/ai-analyst/multi-store-thread-scoping">
+  Learn how store selection works in DMs and channels.
+</Card>
 
 ---
 

@@ -711,6 +711,8 @@
             "group": "Reference",
             "pages": [
               "ai-analyst/troubleshooting",
+              "ai-analyst/multi-store-thread-scoping",
+              "ai-analyst/thread-continuity-follow-ups",
               "ai-analyst/roadmap"
             ]
           }
