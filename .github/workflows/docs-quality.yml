@@ -85,6 +85,26 @@ jobs:
       - name: Reject Placeholder Language
         run: python3 scripts/docs_placeholder_lint.py
 
+      # Internal docs links + local images (changed files in PR for low noise)
+      - name: Validate Internal Links and Images
+        run: |
+          changed_files=()
+
+          if [ -n "${{ github.base_ref }}" ]; then
+            git fetch --no-tags --prune --depth=1 origin "${{ github.base_ref }}:refs/remotes/origin/${{ github.base_ref }}"
+            while IFS= read -r file; do
+              [ -n "$file" ] && changed_files+=("$file")
+            done < <(git diff --name-only --diff-filter=ACMR "origin/${{ github.base_ref }}...HEAD" -- '*.mdx' '*.md' || true)
+          fi
+
+          if [ "${#changed_files[@]}" -eq 0 ]; then
+            echo "No changed docs files detected; running full link integrity check."
+            python3 scripts/docs_link_integrity.py
+          else
+            echo "Running link integrity check for ${#changed_files[@]} changed docs file(s)."
+            python3 scripts/docs_link_integrity.py "${changed_files[@]}"
+          fi
+
       # dbt-backed column accuracy (via schema docs yaml blocks)
       - name: Validate Column References
         run: python3 scripts/docs_column_accuracy.py
