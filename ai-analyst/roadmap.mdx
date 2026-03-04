@@ -13,61 +13,123 @@ Upcoming features are subject to change based on customer feedback and prioritie
 
 ---
 
-## Recently Shipped
+## Roadmap at a Glance
 
-Recent releases that are now available to all customers:
-
-- **Improved Visualizations** - Clearer charts with better labels and smarter formatting
-- **Thread Continuity** - Follow-up questions maintain context within the same Slack thread
-- **Multi-Store Scoping** - Each thread is scoped to one store for multi-store tenants
-
----
-
-## Available Now
-
-Ask the AI Analyst questions in Slack and get instant answers backed by your SourceMedium data.
-
-**Core Capabilities:**
-
-- **Ad-hoc questions** - From simple queries ("What was revenue last week?") to complex multi-angle analysis
-- **Deep Analysis Mode** - Automatically engages for complex questions, exploring multiple perspectives before synthesizing a comprehensive answer
-- **Definitions & schema** - Ask "What is LTV?" or "Which table has order data?"
-- **Data diagnostics** - Run Data Health and Attribution Health checks on demand
-- **Thread follow-ups** - Continue analysis in the same Slack thread (mention `@SourceMedium` in channels to keep context)
-
----
-
-## Coming Next
-
-Features currently in development:
-
-<CardGroup cols={2}>
-  <Card title="Advanced Attribution Health & Diagnostics" icon="heart-pulse">
-    Deeper attribution analysis with actionable recommendations to improve tracking and data quality.
+<CardGroup cols={4}>
+  <Card title="Recently Shipped" icon="chart-line">
+    New releases now live.
   </Card>
-  <Card title="User Preferences" icon="sliders">
-    Set your analysis preferences once and get consistent answers tailored to your needs.
+  <Card title="Available Now" icon="message-bot">
+    Current capabilities you can use today.
   </Card>
-  <Card title="Long-Term Memory" icon="brain">
-    Get more relevant answers over time as the AI builds context from your past conversations.
+  <Card title="Coming Next" icon="calendar-check">
+    Features in active development.
   </Card>
-  <Card title="Recurring Reports" icon="calendar-check">
-    Schedule automatic daily, weekly, or monthly analyses delivered straight to Slack.
-  </Card>
-  <Card title="MCP Protocol Support" icon="plug">
-    Query your SourceMedium data from ChatGPT, Claude, Cursor, or any MCP-compatible tool.
+  <Card title="On the Horizon" icon="road">
+    Longer-term planned capabilities.
   </Card>
 </CardGroup>
 
 ---
 
-## On the Horizon
+## Explore the Roadmap
 
-Longer-term capabilities in the pipeline:
+<Tabs>
+  <Tab title="By Timeframe">
+    <Steps>
+      <Step title="Recently Shipped">
+        <CardGroup cols={3}>
+          <Card title="Improved Visualizations" icon="chart-line">
+            Clearer charts with better labels and smarter formatting.
+          </Card>
+          <Card title="Thread Continuity" icon="message-lines">
+            Follow-up questions maintain context within the same Slack thread.
+          </Card>
+          <Card title="Multi-Store Scoping" icon="table">
+            Each thread is scoped to one store for multi-store tenants.
+          </Card>
+        </CardGroup>
+      </Step>
+      <Step title="Available Now">
+        Ask the AI Analyst questions in Slack and get instant answers backed by your SourceMedium data.
 
-- **Proactive Monitoring** - Get alerted to significant changes without asking ("Your Meta ROAS dropped 15% this week")
-- **Custom Table Support** - Connect your own BigQuery tables and custom logic alongside SourceMedium data
-- **Granular Access Control** - Set permissions to control who can query specific data or stores
+        <CardGroup cols={2}>
+          <Card title="Ad-hoc Questions" icon="message-bot" href="/ai-analyst/what-you-can-ask">
+            From straightforward metric checks to complex multi-angle analysis.
+          </Card>
+          <Card title="Deep Analysis Mode" icon="brain" href="/ai-analyst/workflows/deep-analysis">
+            Automatically engages for complex questions and synthesizes insights across multiple perspectives.
+          </Card>
+          <Card title="Definitions & Schema" icon="book-open" href="/ai-analyst/workflows/knowledge">
+            Ask what a metric means, how it is calculated, or where specific data lives.
+          </Card>
+          <Card title="Data Diagnostics" icon="stethoscope" href="/ai-analyst/diagnostics/index">
+            Run Data Health and Attribution Health checks on demand.
+          </Card>
+          <Card title="Thread Follow-ups" icon="message-lines" href="/ai-analyst/thread-continuity-follow-ups">
+            Continue analysis in the same thread. In channels, mention `@SourceMedium` to keep context.
+          </Card>
+        </CardGroup>
+      </Step>
+      <Step title="Coming Next">
+        <CardGroup cols={2}>
+          <Card title="Advanced Attribution Health & Diagnostics" icon="heart-pulse">
+            Deeper attribution analysis with actionable recommendations to improve tracking and data quality.
+          </Card>
+          <Card title="User Preferences" icon="sliders">
+            Set your analysis preferences once and get consistent answers tailored to your needs.
+          </Card>
+          <Card title="Long-Term Memory" icon="brain">
+            Get more relevant answers over time as the AI builds context from your past conversations.
+          </Card>
+          <Card title="Recurring Reports" icon="calendar-check">
+            Schedule automatic daily, weekly, or monthly analyses delivered straight to Slack.
+          </Card>
+          <Card title="MCP Protocol Support" icon="plug">
+            Query your SourceMedium data from ChatGPT, Claude, Cursor, or any MCP-compatible tool.
+          </Card>
+        </CardGroup>
+      </Step>
+      <Step title="On the Horizon">
+        <CardGroup cols={3}>
+          <Card title="Proactive Monitoring" icon="heart-pulse">
+            Get alerted to significant changes without asking (for example, "Meta ROAS dropped 15% this week").
+          </Card>
+          <Card title="Custom Table Support" icon="table">
+            Connect your own BigQuery tables and custom logic alongside SourceMedium data.
+          </Card>
+          <Card title="Granular Access Control" icon="user-lock">
+            Set permissions to control who can query specific data or stores.
+          </Card>
+        </CardGroup>
+      </Step>
+    </Steps>
+  </Tab>
+  <Tab title="By Capability">
+    <CardGroup cols={2}>
+      <Card title="Analysis & Diagnostics" icon="heart-pulse">
+        **Available now:** Ad-hoc Questions, Deep Analysis Mode, Data Diagnostics
+
+        **Coming next:** Advanced Attribution Health & Diagnostics
+
+        **On the horizon:** Proactive Monitoring
+      </Card>
+      <Card title="Workflow & Personalization" icon="brain">
+        **Available now:** Thread Continuity, Multi-Store Scoping
+
+        **Coming next:** User Preferences, Long-Term Memory, Recurring Reports
+      </Card>
+      <Card title="Integrations & Interfaces" icon="plug">
+        **Available now:** Slack interface for natural-language analysis
+
+        **Coming next:** MCP Protocol Support for ChatGPT, Claude, Cursor, and other MCP clients
+      </Card>
+      <Card title="Data & Access Control" icon="user-lock">
+        **On the horizon:** Custom Table Support and Granular Access Control
+      </Card>
+    </CardGroup>
+  </Tab>
+</Tabs>
 
 ---
 
