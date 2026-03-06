@@ -401,7 +401,7 @@ models:
 
       - name: sm_order_type
         description: >
-          Order classification (subscription vs one-time) derived from order attributes, tags, or subscription platforms (Shopify Subscription Contract, ReCharge, Skio, Loop, Retextion).
+          Order classification (subscription vs one-time) derived from line-level subscription signals first, then rolled up to the order. Signal sources can include direct subscription-platform mappings, explicit Shopify line metadata, and limited legacy fallback signals such as order tags or subscription app/source markers.
 
       - name: sm_store_id
         description: >
@@ -465,10 +465,10 @@ models:
 
       - name: subscription_order_index
         description: >
-          Ordered index identifying the sequential position of a subscription order in a customer's subscription order history.
+          Ordered index identifying the sequential position of a subscription order in a customer's subscription order history when a reliable subscription identifier or line-level subscription mapping is available.
 
       - name: subscription_order_sequence
         description: >
-          Subscription lifecycle classification: 'First Subscription Order' for initial subscription purchase, 'Repeat Subscription Order' for renewals. Based on subscription order index when available, otherwise inferred from order tags. Use for subscription cohort analysis.
+          Subscription lifecycle classification for subscription behavior. Based on subscription order index when available, otherwise inferred from the best available subscription signal. Use for subscription cohort analysis. For mixed carts or product-level questions, use the obt_order_lines subscription fields instead of assuming the order rollup tells the full story.
 
 ```

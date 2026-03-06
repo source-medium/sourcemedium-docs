@@ -1,27 +1,78 @@
 ---
 title: "Subscription Flags"
-description: "How SourceMedium classifies subscription orders and how to use first vs recurring subscription fields."
+description: "How SourceMedium classifies subscription orders and order lines, and how to use first vs recurring subscription fields."
 sidebarTitle: "Subscription Flags"
 icon: "repeat"
 ---
 
-Subscription reporting depends on consistent classification at the order (and sometimes line) level. SourceMedium provides several fields that work together:
+Subscription reporting depends on consistent classification at the order level and, in many cases, the order-line level. SourceMedium provides several fields that work together.
 
-## Core fields
+## Order-level fields
 
 Common subscription-related fields in `your_project.sm_transformed_v2.obt_orders` and `your_project.sm_transformed_v2.dim_orders`:
+
 - `sm_order_type`: order classification (subscription vs one-time)
 - `is_subscription_order`: boolean convenience field
 - `subscription_order_sequence`: first vs recurring subscription classification
-- `subscription_order_index`: sequential index of subscription orders per customer (when available)
+- `subscription_order_index`: sequential index of subscription orders per customer when available
 - `is_first_subscription_order`: convenience flag derived from `subscription_order_sequence`
 - `is_order_recurring_subscription`: convenience flag derived from `subscription_order_sequence`
 
+## Line-level fields
+
+When you need product-level precision, use `your_project.sm_transformed_v2.obt_order_lines`:
+
+- `order_line_type`: line-level subscription classification
+- `is_order_line_subscription`: boolean convenience field for subscription lines
+- `subscription_order_index`: sequential index for the subscription when available from line-level subscription data
+- `subscription_order_sequence`: first vs recurring subscription classification at the line level
+- `subscription_id`: subscription identifier when a reliable one is available
+
 <Note>
-These fields are most reliable when you have a direct subscription-platform integration (or consistent subscription tagging in Shopify).
+These fields are most reliable when you have a direct subscription-platform integration or Shopify line-item metadata that clearly identifies subscription vs one-time behavior.
 </Note>
 
-## Recommended query pattern
+For direct subscription-platform integrations, SourceMedium can use exact line-item matching first and fallback matching when platform data is incomplete. That improves line-level classification without changing the recommended query patterns in these docs.
+
+## When to use orders vs order lines
+
+Use `obt_orders` when your business question is about:
+
+- customer retention
+- subscription-order counts
+- order-level LTV or cohort analysis
+
+Use `obt_order_lines` when your business question is about:
+
+- mixed carts with subscription and one-time items
+- product-level subscription performance
+- free gifts, bundles, or add-ons within a cart
+- line-specific debugging when an order contains conflicting signals
+
+## Shopify nuance
+
+For Shopify, SourceMedium now prefers direct subscription-platform mappings and explicit line-level metadata over older order-tag-only heuristics.
+
+That means:
+
+- explicit one-time line metadata can prevent false subscription classification
+- explicit subscription line metadata is stronger than tag-only heuristics
+- placeholder metadata such as `subscription_id = 1` is ignored as a true subscription signal
+- free-gift metadata is not treated as a subscription signal by itself
+
+## Line-level sequence alignment
+
+At the line level, SourceMedium now keeps `subscription_order_sequence` aligned with `is_order_line_subscription`:
+
+- subscription lines should not carry the non-subscription sequence value
+- non-subscription lines should carry the non-subscription sequence value
+- when a line is clearly subscription but no trustworthy first-vs-recurring index is available, SourceMedium can default the line to the recurring subscription sequence instead of the non-subscription sequence
+
+Use line-level fields to answer line-level questions, and order-level fields to answer order-level questions.
+
+## Recommended query patterns
+
+### Order-level subscription trend
 
 ```sql
 SELECT
@@ -37,8 +88,41 @@ GROUP BY 1, 2
 ORDER BY month_start DESC, subscription_order_sequence;
 ```
 
+### Line-level subscription mix
+
+```sql
+SELECT
+  order_line_type,
+  subscription_order_sequence,
+  COUNT(*) AS line_count,
+  SUM(order_line_net_revenue) AS net_revenue
+FROM `your_project.sm_transformed_v2.obt_order_lines`
+WHERE is_order_sm_valid = TRUE
+  AND order_processed_at_local_datetime >= TIMESTAMP_SUB(CURRENT_TIMESTAMP(), INTERVAL 180 DAY)
+GROUP BY 1, 2
+ORDER BY net_revenue DESC;
+```
+
+### Mixed-cart debugging
+
+```sql
+SELECT
+  order_id,
+  sm_order_key,
+  order_line_id,
+  order_line_type,
+  is_order_line_subscription,
+  subscription_order_sequence,
+  subscription_id,
+  order_line_net_revenue
+FROM `your_project.sm_transformed_v2.obt_order_lines`
+WHERE is_order_sm_valid = TRUE
+  AND order_id = 'replace_with_order_id';
+```
+
 ## Related resources
 
 - [Order Type (sm_order_type)](/data-transformations/order-segmentation/order-type)
 - [`obt_orders` column docs](/data-activation/data-tables/sm_transformed_v2/obt_orders)
-
+- [`obt_order_lines` column docs](/data-activation/data-tables/sm_transformed_v2/obt_order_lines)
+- [Subscription program retention analysis](/help-center/common-analyses/subscription-program-retention)

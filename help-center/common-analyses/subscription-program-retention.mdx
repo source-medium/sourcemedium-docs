@@ -5,24 +5,66 @@ sidebarTitle: "Subscription retention"
 icon: "magnifying-glass-location"
 ---
 
-Use this guide to assess subscription retention/churn and how subscription customers behave compared to one-time customers.
+Use this guide to assess subscription retention or churn and how subscription customers behave compared to one-time customers.
 
 ## Recommended tables
 
 - Orders: [`obt_orders`](/data-activation/data-tables/sm_transformed_v2/obt_orders)
+- Order lines: [`obt_order_lines`](/data-activation/data-tables/sm_transformed_v2/obt_order_lines)
 - Customers: [`obt_customers`](/data-activation/data-tables/sm_transformed_v2/obt_customers)
 
 ## Key concepts
 
-- Subscription orders can be flagged in `obt_orders` (e.g., `is_subscription_order`, `is_order_recurring_subscription`).
-- If you’re validating against your subscription platform, start by aligning the definition of “active”, “new”, and “cancelled”.
+- Subscription orders can be flagged in `obt_orders` through fields such as `is_subscription_order` and `is_order_recurring_subscription`.
+- Subscription lines can be flagged in `obt_order_lines` through fields such as `is_order_line_subscription`, `order_line_type`, and `subscription_order_sequence`.
+- If you’re validating against your subscription platform, start by aligning the definition of `active`, `new`, and `cancelled`.
+- If the cart can mix subscription and one-time items, line-level analysis is usually more accurate for product questions.
 
 ## Suggested workflow
 
 1. Filter to valid orders: `is_order_sm_valid = TRUE`.
-2. Segment subscription vs non-subscription customers.
+2. Choose the right grain:
+   - use `obt_orders` for customer retention and order-level subscription reporting
+   - use `obt_order_lines` for mixed carts, bundles, free gifts, and product-level subscription questions
 3. Analyze:
-   - Subscription order frequency
-   - Time between subscription orders
-   - Churn proxy (no subscription orders in X days)
+   - subscription order frequency
+   - time between subscription orders
+   - churn proxy (no subscription orders in X days)
+   - product mix inside subscription carts
 4. If you have a direct integration, reconcile key counts to the source platform.
+
+## Example: order-level subscription retention trend
+
+```sql
+SELECT
+  DATE_TRUNC(DATE(order_processed_at_local_datetime), MONTH) AS month_start,
+  subscription_order_sequence,
+  COUNT(*) AS order_count,
+  SUM(order_net_revenue) AS net_revenue
+FROM `your_project.sm_transformed_v2.obt_orders`
+WHERE is_order_sm_valid = TRUE
+  AND is_subscription_order = TRUE
+GROUP BY 1, 2
+ORDER BY month_start DESC, subscription_order_sequence;
+```
+
+## Example: line-level subscription mix
+
+```sql
+SELECT
+  order_line_type,
+  subscription_order_sequence,
+  COUNT(*) AS line_count,
+  SUM(order_line_net_revenue) AS net_revenue
+FROM `your_project.sm_transformed_v2.obt_order_lines`
+WHERE is_order_sm_valid = TRUE
+  AND order_processed_at_local_datetime >= TIMESTAMP_SUB(CURRENT_TIMESTAMP(), INTERVAL 180 DAY)
+GROUP BY 1, 2
+ORDER BY net_revenue DESC;
+```
+
+## Related resources
+
+- [Subscription Flags](/help-center/core-concepts/data-definitions/subscription-flags)
+- [Order Type (sm_order_type)](/data-transformations/order-segmentation/order-type)
+- [Why doesn't ReCharge subscription data match SourceMedium reports?](/help-center/faq/data-faqs/why-doesnt-recharge-match-sourcemedium)

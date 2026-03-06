@@ -5,7 +5,7 @@ sidebarTitle: "Why ReCharge doesn't match"
 icon: "question-mark"
 ---
 
-It’s common for subscription reporting to differ across tools. ReCharge and SourceMedium may be answering slightly different questions, using different timestamps, or applying different rules for refunds, cancellations, and attribution.
+It’s common for subscription reporting to differ across tools. ReCharge and SourceMedium may be answering slightly different questions, using different timestamps, or applying different rules for refunds, cancellations, attribution, and line-level classification.
 
 ## Start by aligning on definitions
 
@@ -14,12 +14,13 @@ Before troubleshooting, confirm which definition you’re using in each tool:
 - **New subscriptions:** created date vs first successful charge vs first fulfilled order
 - **Cancelled subscriptions:** cancelled timestamp vs churn proxy (no recurring orders in X days)
 - **Subscription order revenue:** gross vs net revenue, and how refunds are handled
+- **Subscription scope:** order-level subscription rollup vs line-level subscription behavior inside mixed carts
 
 ## Common causes of mismatches
 
 ### 1) Different time fields
 
-ReCharge often reports on subscription lifecycle timestamps, while SourceMedium reporting typically uses order-based timestamps (e.g., processed/created at) for revenue and order metrics.
+ReCharge often reports on subscription lifecycle timestamps, while SourceMedium reporting typically uses order-based timestamps (for example, processed or created time) for revenue and order metrics.
 
 ### 2) Refund and cancellation handling
 
@@ -31,12 +32,25 @@ If an order is refunded or cancelled, different tools may:
 
 ### 3) Attribution differences (UTM + checkout)
 
-Subscription checkouts can reduce UTM coverage depending on your storefront/checkout setup. If you’re validating “source/medium” or channel attribution, start with:
+Subscription checkouts can reduce UTM coverage depending on your storefront or checkout setup. If you’re validating `source / medium` or channel attribution, start with:
 
 - [UTM Setup](/help-center/core-concepts/attribution/utm-setup)
 - [Google Analytics common failures](/data-inputs/platform-supporting-resources/ga4/google-analytics-common-failures)
 
-### 4) Multi-store / multi-channel scoping
+### 4) Line-level vs subscription-lifecycle classification
+
+ReCharge is often closest to the subscription lifecycle itself. SourceMedium is often closest to what happened on the order and order lines that actually processed.
+
+That difference matters when:
+
+- an order contains both subscription and one-time lines
+- a Shopify line has explicit one-time metadata that overrides weaker subscription-like signals
+- line-level metadata is stronger than legacy order-tag heuristics
+- a placeholder value or free-gift marker is present in Shopify metadata
+
+If you are reconciling product-level or mixed-cart behavior, compare `obt_order_lines` rather than only `obt_orders`.
+
+### 5) Multi-store or multi-channel scoping
 
 Confirm you’re comparing the same store(s), channel(s), and date range in both tools.
 
@@ -45,5 +59,12 @@ Confirm you’re comparing the same store(s), channel(s), and date range in both
 If you’re still seeing unexplained differences, share the following with your SourceMedium team:
 
 - The ReCharge report you’re using (name + filters + date field)
-- The SourceMedium module/table you’re comparing against
+- The SourceMedium module or table you’re comparing against
 - A handful of example subscription IDs or order IDs that illustrate the mismatch
+- If the issue is line-specific, include both `order_line_id` and `sm_order_line_key` for the fastest debugging path
+
+## Related resources
+
+- [Order Type (sm_order_type)](/data-transformations/order-segmentation/order-type)
+- [Subscription Flags](/help-center/core-concepts/data-definitions/subscription-flags)
+- [`obt_order_lines` column docs](/data-activation/data-tables/sm_transformed_v2/obt_order_lines)
