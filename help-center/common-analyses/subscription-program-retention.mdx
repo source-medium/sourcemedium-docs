@@ -15,7 +15,7 @@ Use this guide to assess subscription retention or churn and how subscription cu
 
 ## Key concepts
 
-- Subscription orders can be flagged in `obt_orders` through fields such as `is_subscription_order` and `is_order_recurring_subscription`.
+- Subscription orders can be flagged in `obt_orders` through fields such as `is_subscription_order` and `is_recurring_subscription_order`.
 - Subscription lines can be flagged in `obt_order_lines` through fields such as `is_order_line_subscription`, `order_line_type`, and `subscription_order_sequence`.
 - If you’re validating against your subscription platform, start by aligning the definition of `active`, `new`, and `cancelled`.
 - If the cart can mix subscription and one-time items, line-level analysis is usually more accurate for product questions.
@@ -44,6 +44,7 @@ SELECT
 FROM `your_project.sm_transformed_v2.obt_orders`
 WHERE is_order_sm_valid = TRUE
   AND is_subscription_order = TRUE
+  AND order_processed_at_local_datetime >= TIMESTAMP_SUB(CURRENT_TIMESTAMP(), INTERVAL 365 DAY)
 GROUP BY 1, 2
 ORDER BY month_start DESC, subscription_order_sequence;
 ```

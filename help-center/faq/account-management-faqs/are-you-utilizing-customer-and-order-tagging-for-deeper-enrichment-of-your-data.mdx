@@ -4,34 +4,67 @@ description: "How to use Shopify customer and order tags to enrich your SourceMe
 sidebarTitle: "Customer & Order Tagging"
 icon: 'question-mark'
 ---
- **Customer and order tagging is a critical tool for enriching your data and gaining deeper insight into your customers and their purchasing behaviors. By tagging customers and orders, you can categorize and organize them based on a wide range of criteria, including demographics, purchase history, and behavior patterns.**
+Customer and order tags are a practical way to enrich your SourceMedium data with additional business context. They can help you segment customers, classify orders, and support more detailed analysis in BI tools and ad hoc queries.
 
-### Customer Tagging
+## What tags are good for
 
-By tagging customers based on their behavior or attributes, you can gain insights into their preferences and create personalized marketing campaigns to increase their loyalty and lifetime value.
+Tags are useful when you want to add merchant-defined context that may not exist as a standard field yet.
 
-For instance, you can tag customers who frequently purchase a specific product or category, those who have made a large purchase, or those who have abandoned their cart before completing their purchase. With this information, you can create targeted email campaigns, offers, or product recommendations to engage and retain these customers.
+Common examples include:
 
-### Order Tagging
+- customer VIP tiers or loyalty status
+- product category or merchandising group
+- order characteristics such as bundle, gift, or promo order
+- operational attributes such as fulfillment flow or shipping destination
 
-By tagging orders based on their characteristics, you can gain insights into the effectiveness of your marketing campaigns, identify trends, and optimize your inventory and pricing strategies.
+## Customer tagging
 
-For example, you can tag orders based on the type of order (for example, one time or subscription), the product category, the shipping destination, or the payment method used. With this information, you can identify the most effective marketing channels and campaigns, optimize your pricing and inventory strategies to align with customer preferences, and identify areas for improvement in your fulfillment process.
+Customer tags help you group customers by traits or behaviors so you can analyze retention, LTV, and campaign response more effectively.
 
-Tags are still valuable enrichment signals, but for subscription classification SourceMedium increasingly relies on direct subscription-platform integrations and explicit line-level metadata where available. Tags should be treated as helpful context and legacy fallback support, not the only source of truth for subscription behavior.
+Examples:
 
-It's possible to use both customer and order tagging simultaneously. For instance, you can apply tags to customers and orders based on demographic data received from a service such as Klaviyo. This would enable you to gain a better understanding of customer profiles and order patterns, tracking factors such as age, gender, and behavioral information.
+- customers who repeatedly buy a certain category
+- customers with a high average order value
+- customers who reached a loyalty milestone
 
-Overall, utilizing customer and order tagging is an essential component of any data-driven marketing or sales strategy. By taking advantage of this powerful tool, you can gain a deeper understanding of your customers and their needs, and use that knowledge to drive growth and success for your business.
+## Order tagging
 
-<Accordion title = "Follow these links for more info on tagging for your specific e-commerce platforms">
-    - [Shopify](https://help.shopify.com/en/manual/shopify-admin/productivity-tools/using-tags)
-        - [Shopify Flow - Automatic Tagging](https://shopify.dev/docs/apps/flow)
-    - [Stripe](https://stripe.com/docs/api/metadata)
-    - [Chargebee](https://www.chargebee.com/docs/2.0/custom_fields.html)
-    - [Salesforce Commerce Cloud](https://documentation.b2c.commercecloud.salesforce.com/DOC3/index.jsp?topic=%2Fcom.demandware.dochelp%2Fcontent%2Fb2c_commerce%2Ftopics%2Fsearch_engine_optimization%2Fb2c_creating_page_meta_tag_rules.html)
-    - [Recharge](https://support.rechargepayments.com/hc/en-us/articles/360008829873-Using-Shopify-order-and-customer-tags)
-    - [Skio](https://integrate.skio.com/skio/extras/subscription-tags)
-    - [Stay AI](https://stay.ai/features-subscription-basics/)
-    - [SPINS](https://www.spins.com/tag/shelf-tags/)
-</Accordion>
+Order tags help you add context to purchases so you can analyze order mix, operational workflows, and campaign outcomes.
+
+Examples:
+
+- one-time vs subscription context
+- product family or product category
+- shipping or fulfillment exception handling
+- payment or promotional workflows
+
+## Important limitation for subscription reporting
+
+Tags are still valuable enrichment signals, but for subscription classification SourceMedium increasingly relies on direct subscription-platform integrations and explicit line-level metadata where available.
+
+That means:
+
+- tags are helpful context
+- tags can still act as fallback support in some scenarios
+- tags should not be treated as the only source of truth for subscription behavior
+
+If your subscription app emits explicit line-item subscription metadata, that is generally a stronger signal than tag-only logic.
+
+## Best practices
+
+- Keep tag naming consistent over time.
+- Use tags for business context, not as a substitute for primary platform integrations.
+- When possible, automate tags through your ecommerce platform or app workflows.
+- Document internally what your important tags mean so analysts interpret them consistently.
+
+## Platform resources
+
+- [Shopify tagging](https://help.shopify.com/en/manual/shopify-admin/productivity-tools/using-tags)
+- [Shopify Flow - Automatic Tagging](https://shopify.dev/docs/apps/flow)
+- [Stripe metadata](https://stripe.com/docs/api/metadata)
+- [Chargebee custom fields](https://www.chargebee.com/docs/2.0/custom_fields.html)
+- [Salesforce Commerce Cloud metadata](https://documentation.b2c.commercecloud.salesforce.com/DOC3/index.jsp?topic=%2Fcom.demandware.dochelp%2Fcontent%2Fb2c_commerce%2Ftopics%2Fsearch_engine_optimization%2Fb2c_creating_page_meta_tag_rules.html)
+- [Recharge order and customer tags](https://support.rechargepayments.com/hc/en-us/articles/360008829873-Using-Shopify-order-and-customer-tags)
+- [Skio subscription tags](https://integrate.skio.com/skio/extras/subscription-tags)
+- [Stay AI subscription basics](https://stay.ai/features-subscription-basics/)
+- [SPINS shelf tags](https://www.spins.com/tag/shelf-tags/)
