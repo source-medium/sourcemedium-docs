@@ -19,7 +19,7 @@ This is the central model for multi-touch attribution, containing complete custo
 #### Key Columns
 
 - **Identifiers**
-  - `sm_store_id`: SourceMedium store identifier (brand/workspace; formerly `smcid`)
+  - `sm_store_id`: SourceMedium store identifier (brand/workspace)
   - `source_system`: Original tracking source (Elevar, Blotout, etc.)
   - `sm_touch_id`: Unique identifier for each touch point
   - `purchase_order_id`: Associated order ID for purchase events
@@ -105,6 +105,39 @@ GROUP BY 1
 ORDER BY 2 DESC
 ```
 
+### Order Attribution Audit (`fct_order_attribution_audit`)
+
+This is the customer-facing row-level audit companion to the MTA models. Use it when you need to inspect how a specific order's attribution evidence was evaluated before you move up to journey- or report-level analysis.
+
+#### What it adds
+
+- A row for each evidence record SourceMedium kept on the order.
+- The winning primary traffic source via `sm_utm_final_source_priority = 1`.
+- Raw captured values next to canonicalized `sm_utm_*` fields.
+- Zero-party and discount-code context that helps explain attribution outside the primary traffic winner.
+
+#### Key Columns
+
+- `evidence_type`: Separates traffic candidates from zero-party and discount-code context.
+- `evidence_source`: Identifies where the evidence came from, such as Shopify custom attributes, website event tracking, Google Analytics transactions, or MTA touch context.
+- `sm_utm_final_source_priority`: Per-order traffic rank. `1` means the winning primary traffic source for the order.
+- `sm_attribution_inference_method`: Explains whether the canonicalized fields came from raw UTMs, click-id inference, referrer fallback, MTA touch context, or a non-traffic row.
+- `sm_marketing_channel`: Final SourceMedium marketing-channel mapping for traffic evidence rows.
+
+#### How to use it with MTA
+
+- Start in `fct_order_attribution_audit` when a specific order looks wrong.
+- Use `sm_store_id` + `order_id` to isolate the order and inspect the winning traffic row.
+- Then move to `obt_purchase_journeys_with_mta_models` if you need session-level or model-level context for that same order, joining audit `order_id` to MTA `purchase_order_id` alongside `sm_store_id`.
+
+<Info>
+`mta_first_touch` and `mta_last_touch` can appear inside `fct_order_attribution_audit`, but they are audit-context rows. They do not replace the primary traffic winner chosen by `sm_utm_final_source_priority`.
+</Info>
+
+<Card title="Order Attribution Audit Reference" icon="table" href="/data-activation/data-tables/sm_transformed_v2/fct_order_attribution_audit">
+  See the full schema and the customer-safe BigQuery workflows for tracing a single order, investigating `(none)` or `(other)`, and inspecting zero-party or discount-code evidence.
+</Card>
+
 ### Ad Attribution Performance Daily (`rpt_ad_attribution_performance_daily`)
 
 This report model combines ad performance data with attribution metrics at both ad and channel levels, providing a comprehensive view of marketing performance.
@@ -112,7 +145,7 @@ This report model combines ad performance data with attribution metrics at both 
 #### Key Columns
 
 - **Identifiers & Dimensions**
-  - `sm_store_id`: SourceMedium store identifier (brand/workspace; formerly `smcid`)
+  - `sm_store_id`: SourceMedium store identifier (brand/workspace)
   - `source_system`: Ad platform source
   - `date`: Performance date
   - `sm_marketing_channel`: Marketing channel (only for channel-level rows)
@@ -178,7 +211,7 @@ This model provides daily performance metrics for email and SMS campaigns, which
 #### Key Columns
 
 - **Identifiers**
-  - `sm_store_id`: SourceMedium store identifier (brand/workspace; formerly `smcid`)
+  - `sm_store_id`: SourceMedium store identifier (brand/workspace)
   - `date`: Performance date
   - `sm_message_channel`: Channel (email or SMS)
   - `message_id`: Unique identifier for the message

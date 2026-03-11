@@ -1,0 +1,359 @@
+---
+title: 'fct_order_attribution_audit'
+description: 'Row-level attribution audit table for tracing how SourceMedium evaluated each order''s attribution evidence.'
+icon: "table"
+---
+```yaml
+version: 2
+
+models:
+  - name: fct_order_attribution_audit
+    description: >
+      Row-level attribution audit table for order debugging. Grain: One row per (sm_store_id, sm_order_key, evidence_type, evidence_source, evidence_row_id). Date field: order_processed_at_local_datetime. Critical filters: sm_store_id for tenant scoping; order_processed_at_local_datetime for recency; evidence_type and evidence_source for isolating traffic, zero-party, or discount evidence; sm_utm_final_source_priority = 1 for the primary traffic winner. Key joins: dim_orders via sm_order_key (many:1); obt_purchase_journeys_with_mta_models via (sm_store_id, order_id = purchase_order_id) for MTA context when needed.
+    columns:
+      - name: sm_order_attribution_audit_key
+        description: >
+          Stable surrogate key for the audit row. Unique per evidence record.
+
+      - name: sm_store_id
+        description: >
+          SourceMedium's unique store identifier. Use this first when scoping any customer-facing query.
+
+      - name: source_system
+        description: >
+          Commerce platform that produced the order record, such as Shopify. This is the order system, not the attribution source.
+
+      - name: sm_order_key
+        description: >
+          Stable SourceMedium order key. Use this to join back to dim_orders and other order-grain tables.
+
+      - name: order_id
+        description: >
+          Platform-native order identifier. Not globally unique across stores; pair with sm_store_id when needed.
+
+      - name: order_processed_at
+        description: >
+          UTC timestamp for when the order was processed.
+
+      - name: order_processed_at_local_datetime
+        description: >
+          Order processed timestamp converted to the reporting timezone used in customer-facing analysis.
+
+      - name: evidence_type
+        description: >
+          High-level class of evidence on the row. Current values are traffic_source_candidate, zero_party_candidate, and order_discount_code. Note that traffic_source_candidate includes both primary traffic candidates and MTA audit-context rows.
+
+      - name: evidence_source
+        description: >
+          Specific source that produced the evidence row, such as shopify_custom_attribute_override, website_event_tracking_purchase, pps_response, or order_discount_code.
+
+      - name: evidence_row_id
+        description: >
+          Source-specific identifier for the evidence record within an order. Examples include shopify_landing_site:1, ga4:2, segment_website_event_tracking:evt_123, an MTA touch id, or a normalized discount code such as welcome10.
+
+      - name: sm_utm_source
+        description: >
+          Canonicalized source value for traffic evidence after SourceMedium inference and normalization. Null for non-traffic rows.
+
+      - name: sm_utm_medium
+        description: >
+          Canonicalized medium value for traffic evidence after SourceMedium inference and normalization. Null for non-traffic rows.
+
+      - name: sm_utm_campaign
+        description: >
+          Canonicalized campaign value for the traffic evidence row. Null for non-traffic rows.
+
+      - name: sm_utm_content
+        description: >
+          Canonicalized content value for the traffic evidence row. Null for non-traffic rows.
+
+      - name: sm_utm_term
+        description: >
+          Canonicalized term value for the traffic evidence row. Null for non-traffic rows.
+
+      - name: sm_utm_id
+        description: >
+          Canonicalized utm_id value for the traffic evidence row. Null for non-traffic rows.
+
+      - name: sm_utm_source_medium
+        description: >
+          Combined canonical source / medium pair used by SourceMedium channel mapping and attribution debugging.
+
+      - name: raw_utm_source
+        description: >
+          Raw source value captured from the underlying evidence before inference and normalization.
+
+      - name: raw_utm_medium
+        description: >
+          Raw medium value captured from the underlying evidence before inference and normalization.
+
+      - name: raw_utm_campaign
+        description: >
+          Raw campaign value captured from the underlying evidence before inference and normalization.
+
+      - name: raw_utm_content
+        description: >
+          Raw content value captured from the underlying evidence before inference and normalization.
+
+      - name: raw_utm_term
+        description: >
+          Raw term value captured from the underlying evidence before inference and normalization.
+
+      - name: raw_utm_id
+        description: >
+          Raw utm_id value captured from the underlying evidence before inference and normalization.
+
+      - name: raw_referrer
+        description: >
+          Raw referrer value captured with the evidence row before canonicalization.
+
+      - name: raw_landing_page_url
+        description: >
+          Raw landing page URL captured with the evidence row when available.
+
+      - name: raw_referring_site
+        description: >
+          Raw referring-site URL captured from the order record when available.
+
+      - name: sm_attribution_inference_method
+        description: >
+          How SourceMedium produced the canonicalized attribution fields on the row. Current values include raw_utm, referrer_domain_inferred, gclid_inferred, fbclid_inferred, fbclid_inferred_both_present, mta_touch, and not_applicable.
+
+      - name: sm_utm_final_source_priority
+        description: >
+          Per-order rank among traffic_source_candidate rows. A value of 1 means this row is the winning primary traffic source for the order. Higher values are lower-ranked fallbacks. Null means the row is not part of the primary traffic ranking. Values can be sparse, such as 1, 3, 4, 5, 7, 8.
+
+      - name: attribution_signal_raw
+        description: >
+          Raw non-UTM attribution signal captured on the row, such as a post-purchase survey answer, zero-party tag, or discount code. Null for standard traffic rows.
+
+      - name: attribution_signal_parsed
+        description: >
+          Parsed or normalized version of attribution_signal_raw used for grouped analysis. Null for standard traffic rows.
+
+      - name: attribution_signal_type
+        description: >
+          Type of non-traffic signal on the row. Current values are zero_party and discount_code.
+
+      - name: sm_marketing_channel
+        description: >
+          Standardized SourceMedium marketing channel mapping for traffic evidence after canonicalization. See the Channel Mapping documentation for mapping rules. Null for non-traffic rows.
+
+```
+
+`fct_order_attribution_audit` is the customer-facing row-level table for understanding why a specific order was attributed the way it was. It keeps the winning traffic source and the supporting evidence rows side by side so you can debug source hierarchy, zero-party answers, and order discount context without dropping into raw staging models.
+
+<Info>
+Use this table when you need to answer "why did this order end up attributed this way?" rather than "how much revenue did a channel get?" For aggregated attribution reporting, stay in the report and MTA tables.
+</Info>
+
+## What this table is for
+
+- Trace every evidence row that SourceMedium considered for a single order.
+- See the difference between raw captured values and canonicalized `sm_utm_*` values.
+- Identify which traffic source won the primary ranking for each order.
+- Inspect zero-party and discount-code context without leaving the order-grain workflow.
+
+## Current evidence model
+
+`evidence_type` tells you what class of evidence you are looking at:
+
+| `evidence_type` | What it means | Typical sources |
+|---|---|---|
+| `traffic_source_candidate` | Marketing-source evidence that can contribute to the primary traffic winner or provide traffic context. | `shopify_custom_attribute_override`, `shopify_landing_site`, `shopify_note`, `website_event_tracking_purchase`, `google_analytics_transaction`, `shopify_order_referring_site_utms`, `mta_first_touch`, `mta_last_touch` |
+| `zero_party_candidate` | Self-reported or tagged attribution context. | `pps_response`, `order_tags_zero_party`, `customer_tags_zero_party` |
+| `order_discount_code` | Order-level discount-code evidence. | `order_discount_code` |
+
+<Note>
+`mta_first_touch` and `mta_last_touch` use `evidence_type = traffic_source_candidate`, but they are audit-context rows. They always have `sm_utm_final_source_priority = NULL`, and an order can have at most one row of each type when that order appears in MTA journey data.
+</Note>
+
+## How primary traffic ranking works
+
+SourceMedium keeps multiple traffic candidates on the order, then assigns a per-order rank in `sm_utm_final_source_priority`.
+
+- `1` means "this was the winning primary traffic source for the order."
+- Higher numbers are lower-ranked fallbacks kept for debugging.
+- `NULL` means the row is contextual rather than part of the primary traffic ranking.
+
+For the current customer-facing evidence sources, the preferred traffic-source order is:
+
+1. `shopify_custom_attribute_override`
+2. `shopify_landing_site`
+3. `shopify_note`
+4. `website_event_tracking_purchase`
+5. `google_analytics_transaction`
+6. `shopify_order_referring_site_utms`
+
+<Note>
+The numeric priority values in the table are ordering signals, not a reusable source code system. Some numbers are skipped, so you might see values such as 1, 3, 4, 5, 7, and 8 instead of a compact 1..6 sequence. The relative ordering matters, not the specific numeric values.
+</Note>
+
+<Tip>
+`mta_first_touch` and `mta_last_touch` rows are kept in the audit table as traffic context, but they do not compete for the primary traffic winner. They always have `sm_utm_final_source_priority = NULL`, and an order will have at most one of each when the order appears in MTA journey data.
+</Tip>
+
+## Column guide
+
+### Identifiers
+
+- `sm_order_attribution_audit_key`: Stable key for the evidence row.
+- `sm_store_id`: Customer-facing store identifier for tenant scoping.
+- `source_system`: Commerce platform that produced the order record.
+- `sm_order_key`: Stable SourceMedium order key for joins back to order-grain tables.
+- `order_id`: Platform-native order id for stakeholder-friendly lookups.
+
+### Timestamps
+
+- `order_processed_at`: UTC order processed timestamp.
+- `order_processed_at_local_datetime`: Reporting-timezone datetime for customer-facing analysis and date filters.
+
+### Evidence classification
+
+- `evidence_type`: Broad class of evidence, such as `traffic_source_candidate`, `zero_party_candidate`, or `order_discount_code`.
+- `evidence_source`: The specific capture mechanism or upstream source.
+- `evidence_row_id`: Source-specific identifier that distinguishes one evidence record from another on the same order. Examples include `shopify_landing_site:1`, `ga4:2`, `segment_website_event_tracking:evt_123`, an MTA touch id, or a normalized discount code such as `welcome10`.
+
+### Canonicalized attribution fields
+
+- `sm_utm_source`, `sm_utm_medium`, `sm_utm_campaign`, `sm_utm_content`, `sm_utm_term`, `sm_utm_id`: Final normalized traffic fields for the row.
+- `sm_utm_source_medium`: Canonical source / medium pair that usually makes debugging faster.
+- `sm_marketing_channel`: Final channel grouping for traffic rows after normalization. See [Channel Mapping](/data-inputs/configuration-sheet/how_does_channel_mapping_work) if the final grouped value is what you need to debug.
+
+### Raw captured fields
+
+- `raw_utm_source`, `raw_utm_medium`, `raw_utm_campaign`, `raw_utm_content`, `raw_utm_term`, `raw_utm_id`: Values captured before inference or cleaning.
+- `raw_referrer`, `raw_landing_page_url`, `raw_referring_site`: Supporting raw URL context that often explains `(none)` and `(other)` outcomes.
+
+### Inference metadata
+
+- `sm_attribution_inference_method`: Explains how SourceMedium derived the canonicalized values.
+- `sm_utm_final_source_priority`: Per-order ordering among traffic candidates. `1` is the winner for that order.
+
+### Zero-party and discount signals
+
+- `attribution_signal_raw`: Raw non-traffic signal captured on the row.
+- `attribution_signal_parsed`: Parsed or normalized version of that non-traffic signal.
+- `attribution_signal_type`: Non-traffic signal category, currently `zero_party` or `discount_code`.
+
+## Inference methods you will see
+
+`sm_attribution_inference_method` explains how SourceMedium produced the canonicalized fields on the row.
+
+| Method | What it means |
+|---|---|
+| `raw_utm` | Source and medium were taken directly from captured UTM values. |
+| `referrer_domain_inferred` | The source came from a referrer-domain fallback when direct UTM source was missing. |
+| `gclid_inferred` | Google click-id logic inferred a paid Google source / medium. |
+| `fbclid_inferred` | Meta click-id logic inferred a paid Meta source / medium. |
+| `fbclid_inferred_both_present` | Both Meta and Google click ids were present, and Meta won the inference rule. |
+| `mta_touch` | The row came from MTA touch context rather than the primary UTM ranking workflow. |
+| `not_applicable` | The row is non-traffic evidence such as zero-party or discount-code context. |
+
+## Common debugging workflows
+
+### Trace a single order
+
+Use this when a stakeholder asks "show me everything SourceMedium knew about this order."
+
+```sql
+SELECT
+  order_id,
+  evidence_type,
+  evidence_source,
+  evidence_row_id,
+  sm_utm_final_source_priority,
+  sm_attribution_inference_method,
+  sm_utm_source_medium,
+  sm_marketing_channel,
+  attribution_signal_type
+FROM `your_project.sm_transformed_v2.fct_order_attribution_audit`
+WHERE sm_store_id = 'your-sm_store_id'
+  AND order_id = 'ORDER_ID_HERE'
+ORDER BY
+  evidence_type,
+  CASE WHEN sm_utm_final_source_priority IS NULL THEN 1 ELSE 0 END,
+  sm_utm_final_source_priority,
+  evidence_source,
+  evidence_row_id;
+```
+
+### Why did this order become `(none)` or `(other)`?
+
+Start with the priority-1 traffic row, then compare the raw captured fields against the canonicalized fields and the final channel mapping.
+
+```sql
+SELECT
+  evidence_source,
+  sm_utm_final_source_priority,
+  sm_attribution_inference_method,
+  raw_utm_source,
+  raw_utm_medium,
+  raw_referrer,
+  raw_landing_page_url,
+  sm_utm_source,
+  sm_utm_medium,
+  sm_utm_source_medium,
+  sm_marketing_channel
+FROM `your_project.sm_transformed_v2.fct_order_attribution_audit`
+WHERE sm_store_id = 'your-sm_store_id'
+  AND order_id = 'ORDER_ID_HERE'
+  AND evidence_type = 'traffic_source_candidate'
+ORDER BY
+  CASE WHEN sm_utm_final_source_priority IS NULL THEN 1 ELSE 0 END,
+  sm_utm_final_source_priority,
+  evidence_source;
+```
+
+### Which evidence source usually wins?
+
+This is the fastest way to understand which capture mechanism is actually driving the primary traffic winner for a store.
+
+```sql
+SELECT
+  evidence_source,
+  COUNT(DISTINCT sm_order_key) AS winning_orders
+FROM `your_project.sm_transformed_v2.fct_order_attribution_audit`
+WHERE sm_store_id = 'your-sm_store_id'
+  AND evidence_type = 'traffic_source_candidate'
+  AND sm_utm_final_source_priority = 1
+  AND DATE(order_processed_at_local_datetime) >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)
+GROUP BY 1
+ORDER BY 2 DESC;
+```
+
+### What non-traffic signals exist for this order?
+
+Use this to separate survey, tag, and discount-code context from the primary traffic ranking.
+
+```sql
+SELECT
+  evidence_type,
+  evidence_source,
+  evidence_row_id,
+  attribution_signal_type,
+  attribution_signal_raw,
+  attribution_signal_parsed
+FROM `your_project.sm_transformed_v2.fct_order_attribution_audit`
+WHERE sm_store_id = 'your-sm_store_id'
+  AND order_id = 'ORDER_ID_HERE'
+  AND evidence_type IN ('zero_party_candidate', 'order_discount_code')
+ORDER BY evidence_type, evidence_source, evidence_row_id;
+```
+
+## Related workflows
+
+<CardGroup cols={2}>
+  <Card title="Attribution Source Hierarchy" icon="layer-group" href="/data-transformations/attribution-source-hierarchy">
+    Learn how SourceMedium orders the traffic candidates that feed this audit table.
+  </Card>
+  <Card title="MTA Models Reference" icon="database" href="/mta/mta-models">
+    See how row-level order auditing complements purchase-journey and MTA reporting.
+  </Card>
+  <Card title="Attribution Health" icon="heart-pulse" href="/data-inputs/attribution-health/index">
+    Move from a store-level attribution-health alert into order-level debugging.
+  </Card>
+  <Card title="dim_orders" icon="table" href="/data-activation/data-tables/sm_transformed_v2/dim_orders">
+    Join back to order-level attributes once you identify the evidence row you care about.
+  </Card>
+</CardGroup>

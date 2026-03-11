@@ -4,7 +4,7 @@ description: "How SourceMedium decides which UTM data source wins when multiple 
 icon: "layer-group"
 ---
 
-When SourceMedium receives an order, we often have attribution data from multiple first-party inputs, including Shopify visits, order custom attributes, website events, and Google Analytics transaction data.
+When SourceMedium receives an order, we often have attribution data from multiple first-party inputs, including Shopify order custom attributes, landing-site URL tags, order notes, website events, Google Analytics transactions, and referring-site UTMs.
 
 The **Attribution Source Hierarchy** is our **Resolution Strategy**. It determines how we intelligently resolve conflicts when data is available from multiple places, ensuring we always use the most granular and reliable signal available for every single order.
 
@@ -12,36 +12,36 @@ The **Attribution Source Hierarchy** is our **Resolution Strategy**. It determin
 This is a **last-click (UTM-based) attribution** system. We prioritize data sources that capture the customer's most recent measurable marketing touch before purchase.
 </Info>
 
+<Note>
+The hierarchy below ranks **primary traffic sources** only. MTA touches (`mta_first_touch`, `mta_last_touch`), zero-party survey responses, and discount-code rows can appear in the audit table as supporting context, but they do not participate in the primary traffic winner ranking.
+</Note>
+
 ## Primary Attribution Source Hierarchy
 
-The order attribution system evaluates data sources in this specific priority order:
+The current customer-facing audit model keeps these traffic sources in preferred order:
 
-| Priority | Source Type | Description |
+| Preferred order | Evidence source | Description |
 |----------|-------------|-------------|
 | 1 | Shopify Custom Attributes Override | Order-level attribution set via Shopify `customAttributes` (Checkout / Admin GraphQL API). Treated as an explicit override (`shopify_custom_attribute_override`). |
-| 2 | Shopify Last Customer Visit | The final tracked visit before order placement, captured by Shopify's customer visit tracking |
-| 3 | Shopify Landing Site | UTM parameters extracted from the order's landing page URL |
-| 4 | Shopify Order Notes (Legacy) | UTM data written to order notes / note attributes by tracking tools (Elevar, Blotout, etc.) |
-| 5 | Website Event Tracking | First-party event pixels from GA4, Elevar, or other website analytics |
-| 6 | Shopify First Customer Visit | The customer's first tracked visit, captured by Shopify's customer visit tracking |
-| 7 | Google Analytics (GA4 primary) | Transaction data tied from Google Analytics. GA4 is the primary ongoing source; retained UA exports are treated as historical-only if present. |
-| 8 | Shopify Order Referring Site UTMs | UTM parameters parsed from the order's `referring_site` URL |
+| 2 | Shopify Landing Site | UTM parameters extracted from the order's landing page URL and related Shopify order URL tags (`shopify_landing_site`). |
+| 3 | Shopify Order Notes (Legacy) | UTM data written to order notes / note attributes by tracking tools such as Elevar or Blotout (`shopify_note`). |
+| 4 | Website Event Tracking | First-party website events tied back to the order (`website_event_tracking_purchase`). |
+| 5 | Google Analytics Transaction | GA4 or retained historical UA transaction data tied back to the order (`google_analytics_transaction`). |
+| 6 | Shopify Order Referring Site UTMs | UTM parameters parsed from the order's `referring_site` URL (`shopify_order_referring_site_utms`). |
 
-If data is missing at priority 1, the system "falls" to priority 2, and so on until it finds valid UTM data.
+If data is missing at the highest-ranked source, the system falls to the next available source until it finds valid traffic evidence.
 
 <Note>
-Final source ranking is deterministic and tenant-scoped at the order level.
+Final source ranking is deterministic and tenant-scoped at the order level. In `fct_order_attribution_audit`, the numeric field `sm_utm_final_source_priority` is an ordering signal, not a reusable source code system. `1` means "winner for this order," and you may see sparse values such as 1, 3, 4, 5, 7, and 8 instead of a compact 1..6 sequence.
 </Note>
 
 ```mermaid
 flowchart TB
-  A[1. Shopify customAttributes override] --> B[2. Shopify last customer visit]
-  B --> C[3. Shopify landing site]
-  C --> D[4. Shopify order notes (legacy)]
-  D --> E[5. Website event tracking]
-  E --> F[6. Shopify first customer visit]
-  F --> G[7. GA4]
-  G --> H[8. Shopify referring_site UTMs]
+  A[1. Shopify customAttributes override] --> B[2. Shopify landing site]
+  B --> C[3. Shopify order notes]
+  C --> D[4. Website event tracking]
+  D --> E[5. Google Analytics transaction]
+  E --> F[6. Shopify referring_site UTMs]
 ```
 
 <Note>
@@ -49,12 +49,19 @@ Universal Analytics (UA) has been sunset by Google. If your organization already
 </Note>
 
 <Tip>
-**Why does "Last Customer Visit" beat "First Customer Visit"?**
-
-Because we're building a last-click attribution model. The most recent touchpoint before purchase (last visit) is more relevant for understanding what drove the conversion than the first touchpoint (which may have been weeks earlier).
+`fct_order_attribution_audit` keeps more than just the winning traffic source. You will also see contextual rows such as `mta_first_touch`, `mta_last_touch`, zero-party signals, and discount-code evidence. Those rows help with debugging, but they are not the primary traffic winner.
 </Tip>
 
-## Google Analytics Transaction Tie Rules (Priority 7)
+## Debug with `fct_order_attribution_audit`
+
+When you need to understand why a specific order resolved the way it did, use [`fct_order_attribution_audit`](/data-activation/data-tables/sm_transformed_v2/fct_order_attribution_audit). It exposes:
+
+- every evidence row SourceMedium kept for the order
+- the per-order traffic winner via `sm_utm_final_source_priority = 1`
+- raw captured fields next to the canonicalized `sm_utm_*` fields
+- zero-party and discount-code rows that provide audit context
+
+## Google Analytics Transaction Tie Rules
 
 Google Analytics transaction records are considered tie-eligible for order matching when the transaction ID can be safely parsed into an order-like numeric key using the following logic:
 
@@ -63,11 +70,11 @@ Google Analytics transaction records are considered tie-eligible for order match
 
 Short non-hashtag numeric IDs remain blocked to reduce accidental collisions.
 
-For a valid tie, the transaction-to-order window is bounded to **-1..90 days** relative to the order processed date. If a valid tie exists, this source participates at priority 7 in the hierarchy.
+For a valid tie, the transaction-to-order window is bounded to **-1..90 days** relative to the order processed date. If a valid tie exists, this source participates in the traffic-source hierarchy.
 
 ## Website Event Tracking Details
 
-For website event tracking sources (priority 5), the system uses qualifying events in a **0..90 day window** relative to the order.
+For website event tracking sources, the system uses qualifying events in a **0..90 day window** relative to the order.
 
 When multiple events exist, they're ranked by:
 1. Days between event and order (closer to order = higher priority)
@@ -76,9 +83,9 @@ When multiple events exist, they're ranked by:
 
 If a website event has a UTM source, that's used directly. If only a referrer domain is available, the source is inferred from the domain and the medium defaults to `referral`.
 
-## Shopify Custom Attributes Override (Priority 1)
+## Shopify Custom Attributes Override
 
-If your Shopify order has attribution data written to `customAttributes` (Shopify Admin GraphQL API / Checkout attributes), SourceMedium treats it as an **explicit override** and prioritizes it ahead of the default Shopify attribution sources (visits, landing site, website events, GA4).
+If your Shopify order has attribution data written to `customAttributes` (Shopify Admin GraphQL API / Checkout attributes), SourceMedium treats it as an **explicit override** and prioritizes it ahead of the default Shopify attribution sources surfaced in the audit model (landing site, order notes, website events, and Google Analytics transactions).
 
 This is the recommended mechanism for:
 - Backfilling attribution onto historical orders
@@ -225,12 +232,12 @@ Checkout UI extensions are sandboxed and can't access the browser DOM (e.g., `do
 Custom attributes may be used by other apps. To reduce collisions, prefer `sm_utm_*` / `sm_utmParams` keys for explicit overrides (matching is normalized, but canonical keys reduce ambiguity).
 </Note>
 
-## Shopify Order Notes (Priority 4)
+## Shopify Order Notes
 
 Order notes are a key attribution source written by server-side tracking tools like **Elevar** and **Blotout**. These tools capture UTMs at checkout and write them to Shopify order notes / note attributes.
 
 <Info>
-If you have control over implementation, prefer **customAttributes override (priority 1)** instead of writing attribution into notes. Notes are shared and can be overwritten by apps; custom attributes are clearer and explicitly prioritized.
+If you have control over implementation, prefer **customAttributes override** instead of writing attribution into notes. Notes are shared and can be overwritten by apps; custom attributes are clearer and explicitly prioritized.
 </Info>
 
 ### Note Attributes (Legacy)
@@ -243,9 +250,9 @@ The system supports extracting attribution from legacy `note_attributes` pattern
 
 After the primary source is determined, the system "collapses" supplementary UTM fields from lower-priority sources.
 
-**Example:** If priority 2 (Last Customer Visit) provides `utm_source=google` but no `utm_campaign`, and priority 3 (Landing Site) has `utm_campaign=summer_sale`, the final attribution will combine:
-- `utm_source=google` (from priority 2)
-- `utm_campaign=summer_sale` (from priority 3)
+**Example:** If `shopify_custom_attribute_override` provides `utm_source=google` but no `utm_campaign`, and `shopify_landing_site` has `utm_campaign=summer_sale`, the final attribution can combine:
+- `utm_source=google` (from `shopify_custom_attribute_override`)
+- `utm_campaign=summer_sale` (from `shopify_landing_site`)
 
 This only happens when the `utm_source` grouped channel is the **same** across sources—we don't mix data from different channels.
 
