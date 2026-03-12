@@ -105,9 +105,9 @@ GROUP BY 1
 ORDER BY 2 DESC
 ```
 
-### Order Attribution Audit (`fct_order_attribution_audit`)
+### Order Attribution Signals (`fct_order_attribution_signals`)
 
-This is the customer-facing row-level audit companion to the MTA models. Use it when you need to inspect how a specific order's attribution evidence was evaluated before you move up to journey- or report-level analysis.
+This is the customer-facing row-level signals companion to the MTA models. Use it when you need to inspect how a specific order's attribution inputs were evaluated before you move up to journey- or report-level analysis.
 
 #### What it adds
 
@@ -126,15 +126,15 @@ This is the customer-facing row-level audit companion to the MTA models. Use it 
 
 #### How to use it with MTA
 
-- Start in `fct_order_attribution_audit` when a specific order looks wrong.
+- Start in `fct_order_attribution_signals` when a specific order looks wrong.
 - Use `sm_store_id` + `order_id` to isolate the order and inspect the winning traffic row.
-- Then move to `obt_purchase_journeys_with_mta_models` if you need session-level or model-level context for that same order, joining audit `order_id` to MTA `purchase_order_id` alongside `sm_store_id`.
+- Then move to `obt_purchase_journeys_with_mta_models` if you need session-level or model-level context for that same order, joining signals `order_id` to MTA `purchase_order_id` alongside `sm_store_id`.
 
 <Info>
-`mta_first_touch` and `mta_last_touch` can appear inside `fct_order_attribution_audit`, but they are audit-context rows. They do not replace the primary traffic winner chosen by `sm_utm_final_source_priority`.
+`mta_first_touch` and `mta_last_touch` can appear inside `fct_order_attribution_signals`, but they are supporting-context rows. They do not replace the primary traffic winner chosen by `sm_utm_final_source_priority`.
 </Info>
 
-<Card title="Order Attribution Audit Reference" icon="table" href="/data-activation/data-tables/sm_transformed_v2/fct_order_attribution_audit">
+<Card title="Order Attribution Signals Reference" icon="table" href="/data-activation/data-tables/sm_transformed_v2/fct_order_attribution_signals">
   See the full schema and the customer-safe BigQuery workflows for tracing a single order, investigating `(none)` or `(other)`, and inspecting zero-party or discount-code evidence.
 </Card>
 

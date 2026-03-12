@@ -1,19 +1,19 @@
 ---
-title: 'fct_order_attribution_audit'
-description: 'Row-level attribution audit table for tracing how SourceMedium evaluated each order''s attribution evidence.'
+title: 'fct_order_attribution_signals'
+description: 'Row-level attribution signals table for tracing the inputs SourceMedium evaluated for each order''s attribution.'
 icon: "table"
 ---
 ```yaml
 version: 2
 
 models:
-  - name: fct_order_attribution_audit
+  - name: fct_order_attribution_signals
     description: >
-      Row-level attribution audit table for order debugging. Grain: One row per (sm_store_id, sm_order_key, evidence_type, evidence_source, evidence_row_id). Date field: order_processed_at_local_datetime. Critical filters: sm_store_id for tenant scoping; order_processed_at_local_datetime for recency; evidence_type and evidence_source for isolating traffic, zero-party, or discount evidence; sm_utm_final_source_priority = 1 for the primary traffic winner. Key joins: dim_orders via sm_order_key (many:1); obt_purchase_journeys_with_mta_models via (sm_store_id, order_id = purchase_order_id) for MTA context when needed.
+      Row-level attribution signals table for custom modeling, debugging, and traceability. Grain: One row per (sm_store_id, sm_order_key, evidence_type, evidence_source, evidence_row_id). Date field: order_processed_at_local_datetime. Critical filters: sm_store_id for tenant scoping; order_processed_at_local_datetime for recency; evidence_type and evidence_source for isolating traffic, zero-party, or discount evidence; sm_utm_final_source_priority = 1 for the primary traffic winner. Key joins: dim_orders via sm_order_key (many:1); obt_purchase_journeys_with_mta_models via (sm_store_id, order_id = purchase_order_id) for MTA context when needed.
     columns:
-      - name: sm_order_attribution_audit_key
+      - name: sm_order_attribution_signal_key
         description: >
-          Stable surrogate key for the audit row. Unique per evidence record.
+          Stable surrogate key for the signal row. Unique per evidence record.
 
       - name: sm_store_id
         description: >
@@ -41,7 +41,7 @@ models:
 
       - name: evidence_type
         description: >
-          High-level class of evidence on the row. Current values are traffic_source_candidate, zero_party_candidate, and order_discount_code. Note that traffic_source_candidate includes both primary traffic candidates and MTA audit-context rows.
+          High-level class of evidence on the row. Current values are traffic_source_candidate, zero_party_candidate, and order_discount_code. Note that traffic_source_candidate includes both primary traffic candidates and MTA supporting-context rows.
 
       - name: evidence_source
         description: >
@@ -77,7 +77,7 @@ models:
 
       - name: sm_utm_source_medium
         description: >
-          Combined canonical source / medium pair used by SourceMedium channel mapping and attribution debugging.
+          Combined canonical source / medium pair used by SourceMedium channel mapping and attribution analysis.
 
       - name: raw_utm_source
         description: >
@@ -141,7 +141,7 @@ models:
 
 ```
 
-`fct_order_attribution_audit` is the customer-facing row-level table for understanding why a specific order was attributed the way it was. It keeps the winning traffic source and the supporting evidence rows side by side so you can debug source hierarchy, zero-party answers, and order discount context without dropping into raw staging models.
+`fct_order_attribution_signals` is the customer-facing row-level table for custom attribution modeling, order-level traceability, and debugging. It keeps the winning traffic source and the supporting signal rows side by side so you can rebuild SourceMedium's rules, inspect explicit overrides, and trace source hierarchy without dropping into raw staging models.
 
 <Info>
 Use this table when you need to answer "why did this order end up attributed this way?" rather than "how much revenue did a channel get?" For aggregated attribution reporting, stay in the report and MTA tables.
@@ -165,7 +165,7 @@ Use this table when you need to answer "why did this order end up attributed thi
 | `order_discount_code` | Order-level discount-code evidence. | `order_discount_code` |
 
 <Note>
-`mta_first_touch` and `mta_last_touch` use `evidence_type = traffic_source_candidate`, but they are audit-context rows. They always have `sm_utm_final_source_priority = NULL`, and an order can have at most one row of each type when that order appears in MTA journey data.
+`mta_first_touch` and `mta_last_touch` use `evidence_type = traffic_source_candidate`, but they are supporting-context rows. They always have `sm_utm_final_source_priority = NULL`, and an order can have at most one row of each type when that order appears in MTA journey data.
 </Note>
 
 ## How primary traffic ranking works
@@ -190,14 +190,14 @@ The numeric priority values in the table are ordering signals, not a reusable so
 </Note>
 
 <Tip>
-`mta_first_touch` and `mta_last_touch` rows are kept in the audit table as traffic context, but they do not compete for the primary traffic winner. They always have `sm_utm_final_source_priority = NULL`, and an order will have at most one of each when the order appears in MTA journey data.
+`mta_first_touch` and `mta_last_touch` rows are kept in the signals table as traffic context, but they do not compete for the primary traffic winner. They always have `sm_utm_final_source_priority = NULL`, and an order will have at most one of each when the order appears in MTA journey data.
 </Tip>
 
 ## Column guide
 
 ### Identifiers
 
-- `sm_order_attribution_audit_key`: Stable key for the evidence row.
+- `sm_order_attribution_signal_key`: Stable key for the evidence row.
 - `sm_store_id`: Customer-facing store identifier for tenant scoping.
 - `source_system`: Commerce platform that produced the order record.
 - `sm_order_key`: Stable SourceMedium order key for joins back to order-grain tables.
@@ -267,7 +267,7 @@ SELECT
   sm_utm_source_medium,
   sm_marketing_channel,
   attribution_signal_type
-FROM `your_project.sm_transformed_v2.fct_order_attribution_audit`
+FROM `your_project.sm_transformed_v2.fct_order_attribution_signals`
 WHERE sm_store_id = 'your-sm_store_id'
   AND order_id = 'ORDER_ID_HERE'
 ORDER BY
@@ -295,7 +295,7 @@ SELECT
   sm_utm_medium,
   sm_utm_source_medium,
   sm_marketing_channel
-FROM `your_project.sm_transformed_v2.fct_order_attribution_audit`
+FROM `your_project.sm_transformed_v2.fct_order_attribution_signals`
 WHERE sm_store_id = 'your-sm_store_id'
   AND order_id = 'ORDER_ID_HERE'
   AND evidence_type = 'traffic_source_candidate'
@@ -313,7 +313,7 @@ This is the fastest way to understand which capture mechanism is actually drivin
 SELECT
   evidence_source,
   COUNT(DISTINCT sm_order_key) AS winning_orders
-FROM `your_project.sm_transformed_v2.fct_order_attribution_audit`
+FROM `your_project.sm_transformed_v2.fct_order_attribution_signals`
 WHERE sm_store_id = 'your-sm_store_id'
   AND evidence_type = 'traffic_source_candidate'
   AND sm_utm_final_source_priority = 1
@@ -334,7 +334,7 @@ SELECT
   attribution_signal_type,
   attribution_signal_raw,
   attribution_signal_parsed
-FROM `your_project.sm_transformed_v2.fct_order_attribution_audit`
+FROM `your_project.sm_transformed_v2.fct_order_attribution_signals`
 WHERE sm_store_id = 'your-sm_store_id'
   AND order_id = 'ORDER_ID_HERE'
   AND evidence_type IN ('zero_party_candidate', 'order_discount_code')
@@ -345,7 +345,7 @@ ORDER BY evidence_type, evidence_source, evidence_row_id;
 
 <CardGroup cols={2}>
   <Card title="Attribution Source Hierarchy" icon="layer-group" href="/data-transformations/attribution-source-hierarchy">
-    Learn how SourceMedium orders the traffic candidates that feed this audit table.
+    Learn how SourceMedium orders the traffic candidates that feed this signals table.
   </Card>
   <Card title="MTA Models Reference" icon="database" href="/mta/mta-models">
     See how row-level order auditing complements purchase-journey and MTA reporting.

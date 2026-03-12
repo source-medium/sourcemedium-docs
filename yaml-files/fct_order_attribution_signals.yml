@@ -1,13 +1,13 @@
 version: 2
 
 models:
-  - name: fct_order_attribution_audit
+  - name: fct_order_attribution_signals
     description: >
-      Row-level attribution audit table for order debugging. Grain: One row per (sm_store_id, sm_order_key, evidence_type, evidence_source, evidence_row_id). Date field: order_processed_at_local_datetime. Critical filters: sm_store_id for tenant scoping; order_processed_at_local_datetime for recency; evidence_type and evidence_source for isolating traffic, zero-party, or discount evidence; sm_utm_final_source_priority = 1 for the primary traffic winner. Key joins: dim_orders via sm_order_key (many:1); obt_purchase_journeys_with_mta_models via (sm_store_id, order_id = purchase_order_id) for MTA context when needed.
+      Row-level attribution signals table for custom modeling, debugging, and traceability. Grain: One row per (sm_store_id, sm_order_key, evidence_type, evidence_source, evidence_row_id). Date field: order_processed_at_local_datetime. Critical filters: sm_store_id for tenant scoping; order_processed_at_local_datetime for recency; evidence_type and evidence_source for isolating traffic, zero-party, or discount evidence; sm_utm_final_source_priority = 1 for the primary traffic winner. Key joins: dim_orders via sm_order_key (many:1); obt_purchase_journeys_with_mta_models via (sm_store_id, order_id = purchase_order_id) for MTA context when needed.
     columns:
-      - name: sm_order_attribution_audit_key
+      - name: sm_order_attribution_signal_key
         description: >
-          Stable surrogate key for the audit row. Unique per evidence record.
+          Stable surrogate key for the signal row. Unique per evidence record.
 
       - name: sm_store_id
         description: >
@@ -35,7 +35,7 @@ models:
 
       - name: evidence_type
         description: >
-          High-level class of evidence on the row. Current values are traffic_source_candidate, zero_party_candidate, and order_discount_code. Note that traffic_source_candidate includes both primary traffic candidates and MTA audit-context rows.
+          High-level class of evidence on the row. Current values are traffic_source_candidate, zero_party_candidate, and order_discount_code. Note that traffic_source_candidate includes both primary traffic candidates and MTA supporting-context rows.
 
       - name: evidence_source
         description: >
@@ -71,7 +71,7 @@ models:
 
       - name: sm_utm_source_medium
         description: >
-          Combined canonical source / medium pair used by SourceMedium channel mapping and attribution debugging.
+          Combined canonical source / medium pair used by SourceMedium channel mapping and attribution analysis.
 
       - name: raw_utm_source
         description: >

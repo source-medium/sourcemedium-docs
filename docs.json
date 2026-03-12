@@ -597,7 +597,7 @@
                   "data-activation/data-tables/sm_transformed_v2/dim_order_taxes",
                   "data-activation/data-tables/sm_transformed_v2/dim_orders",
                   "data-activation/data-tables/sm_transformed_v2/dim_product_variants",
-                  "data-activation/data-tables/sm_transformed_v2/fct_order_attribution_audit",
+                  "data-activation/data-tables/sm_transformed_v2/fct_order_attribution_signals",
                   "data-activation/data-tables/sm_transformed_v2/fct_orders_placed",
                   "data-activation/data-tables/sm_transformed_v2/fct_refunds_processed",
                   "data-activation/data-tables/sm_transformed_v2/obt_customer_support_tickets",

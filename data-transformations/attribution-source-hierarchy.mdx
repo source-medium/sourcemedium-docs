@@ -13,12 +13,12 @@ This is a **last-click (UTM-based) attribution** system. We prioritize data sour
 </Info>
 
 <Note>
-The hierarchy below ranks **primary traffic sources** only. MTA touches (`mta_first_touch`, `mta_last_touch`), zero-party survey responses, and discount-code rows can appear in the audit table as supporting context, but they do not participate in the primary traffic winner ranking.
+The hierarchy below ranks **primary traffic sources** only. MTA touches (`mta_first_touch`, `mta_last_touch`), zero-party survey responses, and discount-code rows can appear in the signals table as supporting context, but they do not participate in the primary traffic winner ranking.
 </Note>
 
 ## Primary Attribution Source Hierarchy
 
-The current customer-facing audit model keeps these traffic sources in preferred order:
+The current customer-facing signals table keeps these traffic sources in preferred order:
 
 | Preferred order | Evidence source | Description |
 |----------|-------------|-------------|
@@ -32,7 +32,7 @@ The current customer-facing audit model keeps these traffic sources in preferred
 If data is missing at the highest-ranked source, the system falls to the next available source until it finds valid traffic evidence.
 
 <Note>
-Final source ranking is deterministic and tenant-scoped at the order level. In `fct_order_attribution_audit`, the numeric field `sm_utm_final_source_priority` is an ordering signal, not a reusable source code system. `1` means "winner for this order," and you may see sparse values such as 1, 3, 4, 5, 7, and 8 instead of a compact 1..6 sequence.
+Final source ranking is deterministic and tenant-scoped at the order level. In `fct_order_attribution_signals`, the numeric field `sm_utm_final_source_priority` is an ordering signal, not a reusable source code system. `1` means "winner for this order," and you may see sparse values such as 1, 3, 4, 5, 7, and 8 instead of a compact 1..6 sequence.
 </Note>
 
 ```mermaid
@@ -49,17 +49,17 @@ Universal Analytics (UA) has been sunset by Google. If your organization already
 </Note>
 
 <Tip>
-`fct_order_attribution_audit` keeps more than just the winning traffic source. You will also see contextual rows such as `mta_first_touch`, `mta_last_touch`, zero-party signals, and discount-code evidence. Those rows help with debugging, but they are not the primary traffic winner.
+`fct_order_attribution_signals` keeps more than just the winning traffic source. You will also see contextual rows such as `mta_first_touch`, `mta_last_touch`, zero-party signals, and discount-code evidence. Those rows help with debugging, but they are not the primary traffic winner.
 </Tip>
 
-## Debug with `fct_order_attribution_audit`
+## Use `fct_order_attribution_signals`
 
-When you need to understand why a specific order resolved the way it did, use [`fct_order_attribution_audit`](/data-activation/data-tables/sm_transformed_v2/fct_order_attribution_audit). It exposes:
+When you need to understand why a specific order resolved the way it did or build custom order-level attribution logic, use [`fct_order_attribution_signals`](/data-activation/data-tables/sm_transformed_v2/fct_order_attribution_signals). It exposes:
 
 - every evidence row SourceMedium kept for the order
 - the per-order traffic winner via `sm_utm_final_source_priority = 1`
 - raw captured fields next to the canonicalized `sm_utm_*` fields
-- zero-party and discount-code rows that provide audit context
+- zero-party and discount-code rows that provide supporting context
 
 ## Google Analytics Transaction Tie Rules
 
@@ -85,7 +85,7 @@ If a website event has a UTM source, that's used directly. If only a referrer do
 
 ## Shopify Custom Attributes Override
 
-If your Shopify order has attribution data written to `customAttributes` (Shopify Admin GraphQL API / Checkout attributes), SourceMedium treats it as an **explicit override** and prioritizes it ahead of the default Shopify attribution sources surfaced in the audit model (landing site, order notes, website events, and Google Analytics transactions).
+If your Shopify order has attribution data written to `customAttributes` (Shopify Admin GraphQL API / Checkout attributes), SourceMedium treats it as an **explicit override** and prioritizes it ahead of the default Shopify attribution sources surfaced in the signals table (landing site, order notes, website events, and Google Analytics transactions).
 
 This is the recommended mechanism for:
 - Backfilling attribution onto historical orders
