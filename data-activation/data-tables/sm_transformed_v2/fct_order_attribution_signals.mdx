@@ -9,7 +9,12 @@ version: 2
 models:
   - name: fct_order_attribution_signals
     description: >
-      Row-level attribution signals table for custom modeling, debugging, and traceability. Grain: One row per (sm_store_id, sm_order_key, evidence_type, evidence_source, evidence_row_id). Date field: order_processed_at_local_datetime. Critical filters: sm_store_id for tenant scoping; order_processed_at_local_datetime for recency; evidence_type and evidence_source for isolating traffic, zero-party, or discount evidence; sm_utm_final_source_priority = 1 for the primary traffic winner. Key joins: dim_orders via sm_order_key (many:1); obt_purchase_journeys_with_mta_models via (sm_store_id, order_id = purchase_order_id) for MTA context when needed.
+      Row-level order attribution signals table for custom modeling, debugging, and
+      traceability. Grain: one row per (sm_store_id, sm_order_key, evidence_type,
+      evidence_source, evidence_row_id). Date field: order_processed_at_local_datetime.
+      Critical filters: evidence_type and evidence_source for isolating traffic,
+      zero-party, or discount signals; sm_utm_final_source_priority = 1 for the
+      primary traffic winner. Key joins: dim_orders via sm_order_key (many:1).
     columns:
       - name: sm_order_attribution_signal_key
         description: >
@@ -17,91 +22,116 @@ models:
 
       - name: sm_store_id
         description: >
-          SourceMedium's unique store identifier. Use this first when scoping any customer-facing query.
+          SourceMedium's unique store identifier. For Shopify stores, derived from the
+          myshopify.com domain; for other platforms (Amazon, TikTok Shop, Walmart.com),
+          uses platform-specific identifiers.
 
       - name: source_system
         description: >
-          Commerce platform that produced the order record, such as Shopify. This is the order system, not the attribution source.
+          Originating platform for the record (e.g., Shopify, Amazon, TikTok Shop,
+          Chargebee). Used for platform‑specific behavior and coverage.
 
       - name: sm_order_key
         description: >
-          Stable SourceMedium order key. Use this to join back to dim_orders and other order-grain tables.
+          Stable SourceMedium order key. Unique per order. Key joins:
+          `obt_order_lines` (1:many via `sm_order_key`); `dim_customers` (many:1 via
+          `sm_customer_key`). Platform caveat: TikTok Shop coverage may be limited.
+          Multiple rows per order are expected in this model because each order can
+          keep several attribution signals.
 
       - name: order_id
         description: >
-          Platform-native order identifier. Not globally unique across stores; pair with sm_store_id when needed.
+          Platform order identifier. Not globally unique across stores; pair with
+          `sm_store_id` and `source_system` when needed for scoping.
 
       - name: order_processed_at
         description: >
-          UTC timestamp for when the order was processed.
+          UTC timestamp when the order was processed.
 
       - name: order_processed_at_local_datetime
         description: >
-          Order processed timestamp converted to the reporting timezone used in customer-facing analysis.
+          Order processed timestamp converted to reporting timezone (from
+          order_processed_at UTC). Primary date field for order analytics and
+          time-based filtering.
 
       - name: evidence_type
         description: >
-          High-level class of evidence on the row. Current values are traffic_source_candidate, zero_party_candidate, and order_discount_code. Note that traffic_source_candidate includes both primary traffic candidates and MTA supporting-context rows.
+          High-level class of evidence on the row. Current values are
+          `traffic_source_candidate`, `zero_party_candidate`, and
+          `order_discount_code`. `traffic_source_candidate` includes both primary
+          traffic candidates and MTA supporting-context rows.
 
       - name: evidence_source
         description: >
-          Specific source that produced the evidence row, such as shopify_custom_attribute_override, website_event_tracking_purchase, pps_response, or order_discount_code.
+          Specific source that produced the evidence row, such as
+          `shopify_custom_attribute_override`, `website_event_tracking_purchase`,
+          `pps_response`, or `order_discount_code`.
 
       - name: evidence_row_id
         description: >
-          Source-specific identifier for the evidence record within an order. Examples include shopify_landing_site:1, ga4:2, segment_website_event_tracking:evt_123, an MTA touch id, or a normalized discount code such as welcome10.
+          Source-specific identifier for the evidence record within an order. Examples
+          include `shopify_landing_site:1`, `ga4:2`,
+          `segment_website_event_tracking:evt_123`, an MTA touch id, or a normalized
+          discount code such as `welcome10`.
 
       - name: sm_utm_source
         description: >
-          Canonicalized source value for traffic evidence after SourceMedium inference and normalization. Null for non-traffic rows.
+          Canonicalized source value for traffic evidence after SourceMedium inference
+          and normalization. Null for non-traffic rows.
 
       - name: sm_utm_medium
         description: >
-          Canonicalized medium value for traffic evidence after SourceMedium inference and normalization. Null for non-traffic rows.
+          Canonicalized medium value for traffic evidence after SourceMedium inference
+          and normalization. Null for non-traffic rows.
 
       - name: sm_utm_campaign
         description: >
-          Canonicalized campaign value for the traffic evidence row. Null for non-traffic rows.
+          Canonicalized campaign value for the traffic evidence row. Null for
+          non-traffic rows.
 
       - name: sm_utm_content
         description: >
-          Canonicalized content value for the traffic evidence row. Null for non-traffic rows.
+          Canonicalized content value for the traffic evidence row. Null for
+          non-traffic rows.
 
       - name: sm_utm_term
         description: >
-          Canonicalized term value for the traffic evidence row. Null for non-traffic rows.
+          Canonicalized term value for the traffic evidence row. Null for non-traffic
+          rows.
 
       - name: sm_utm_id
         description: >
-          Canonicalized utm_id value for the traffic evidence row. Null for non-traffic rows.
+          Canonicalized `utm_id` value for the traffic evidence row. Null for
+          non-traffic rows.
 
       - name: sm_utm_source_medium
         description: >
-          Combined canonical source / medium pair used by SourceMedium channel mapping and attribution analysis.
+          Combined canonical source / medium pair used by SourceMedium channel mapping
+          and attribution analysis.
 
       - name: raw_utm_source
         description: >
-          Raw source value captured from the underlying evidence before inference and normalization.
+          Raw source captured on the evidence row before inference and normalization.
 
       - name: raw_utm_medium
         description: >
-          Raw medium value captured from the underlying evidence before inference and normalization.
+          Raw medium captured on the evidence row before inference and normalization.
 
       - name: raw_utm_campaign
         description: >
-          Raw campaign value captured from the underlying evidence before inference and normalization.
+          Raw campaign captured on the evidence row before inference and normalization.
 
       - name: raw_utm_content
         description: >
-          Raw content value captured from the underlying evidence before inference and normalization.
+          Raw content captured on the evidence row before inference and normalization.
 
       - name: raw_utm_term
         description: >
-          Raw term value captured from the underlying evidence before inference and normalization.
+          Raw term captured on the evidence row before inference and normalization.
 
       - name: raw_utm_id
         description: >
-          Raw utm_id value captured from the underlying evidence before inference and normalization.
+          Raw `utm_id` captured on the evidence row before inference and normalization.
 
       - name: raw_referrer
         description: >
@@ -117,27 +147,44 @@ models:
 
       - name: sm_attribution_inference_method
         description: >
-          How SourceMedium produced the canonicalized attribution fields on the row. Current values include raw_utm, referrer_domain_inferred, gclid_inferred, fbclid_inferred, fbclid_inferred_both_present, mta_touch, and not_applicable.
+          How SourceMedium produced the canonicalized attribution fields on the row.
+          Current values include `raw_utm`, `referrer_domain_inferred`,
+          `gclid_inferred`, `fbclid_inferred`, `fbclid_inferred_both_present`,
+          `mta_touch`, and `not_applicable`.
 
       - name: sm_utm_final_source_priority
         description: >
-          Per-order rank among traffic_source_candidate rows. A value of 1 means this row is the winning primary traffic source for the order. Higher values are lower-ranked fallbacks. Null means the row is not part of the primary traffic ranking. Values can be sparse, such as 1, 3, 4, 5, 7, 8.
+          Per-order rank among `traffic_source_candidate` rows. A value of `1` means
+          this row is the winning primary traffic source for the order. Higher values
+          are lower-ranked fallbacks. Null means the row is not part of the primary
+          traffic ranking. Values can be sparse, such as `1`, `3`, `4`, `5`, `7`, and
+          `8`.
 
       - name: attribution_signal_raw
         description: >
-          Raw non-UTM attribution signal captured on the row, such as a post-purchase survey answer, zero-party tag, or discount code. Null for standard traffic rows.
+          Raw non-UTM attribution signal captured on the row, such as a post-purchase
+          survey answer, zero-party tag, or discount code. Null for standard traffic
+          rows.
 
       - name: attribution_signal_parsed
         description: >
-          Parsed or normalized version of attribution_signal_raw used for grouped analysis. Null for standard traffic rows.
+          Parsed or normalized version of `attribution_signal_raw` used for grouped
+          analysis. Null for standard traffic rows.
 
       - name: attribution_signal_type
         description: >
-          Type of non-traffic signal on the row. Current values are zero_party and discount_code.
+          Type of non-traffic signal on the row. Current values are `zero_party` and
+          `discount_code`.
 
       - name: sm_marketing_channel
         description: >
-          Standardized SourceMedium marketing channel mapping for traffic evidence after canonicalization. See the Channel Mapping documentation for mapping rules. Null for non-traffic rows.
+          Standardized SourceMedium marketing channel mapping for traffic evidence after
+          canonicalization. Null for non-traffic rows.
+
+      - name: _shard_id
+        description: >
+          Internal shard identifier used for sharded model execution and debugging. Not
+          intended for customer-facing analysis.
 
 ```
 
